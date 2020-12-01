@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>709377944686-mh2c07ki4ru29ktknqua70bgvtb9n6h9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.709377944686-mh2c07ki4ru29ktknqua70bgvtb9n6h9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB593dWGfQjqE8ap8d5f7s49s1y_DMGELg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>709377944686</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.thepcosnutritionist.app.dev</string>
+	<key>PROJECT_ID</key>
+	<string>the-pcos-protocol---dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>the-pcos-protocol---dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:709377944686:ios:10d1be9e815125f9da8a7f</string>
+	<key>DATABASE_URL</key>
+	<string>https://the-pcos-protocol---dev.firebaseio.com</string>
+</dict>
+</plist>

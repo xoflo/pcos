@@ -24,10 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # If running on an M1 based Macbook, you will need to do pod install manually in Terminal with this command:
+  # arch -x86_64 pod install  (also the first time run this to fix ffi: sudo arch -x86_64 gem install ffi
   cupertino_icons: ^1.0.0
+  firebase_analytics: ^6.2.0
 
 dev_dependencies:
   flutter_test:

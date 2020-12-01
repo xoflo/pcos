@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "709377944686",
+    "firebase_url": "https://the-pcos-protocol---dev.firebaseio.com",
+    "project_id": "the-pcos-protocol---dev",
+    "storage_bucket": "the-pcos-protocol---dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709377944686:android:49caa4f17db5ae76da8a7f",
+        "android_client_info": {
+          "package_name": "com.thepcosnutritionist.app.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "709377944686-q9u0bhp7qqbuc14lq7lb543t1b7h7rg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzu1Nb8vrpzU_WGtz8iiovHHePJRjqGRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "709377944686-q9u0bhp7qqbuc14lq7lb543t1b7h7rg3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "709377944686-mh2c07ki4ru29ktknqua70bgvtb9n6h9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thepcosnutritionist.app.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
