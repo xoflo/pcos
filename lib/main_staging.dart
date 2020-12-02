@@ -1,12 +1,25 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:thepcosprotocol_app/app.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 
 void main() {
-  FlavorConfig(flavor: Flavor.STAGING,
-      color: Colors.green,
-      values: FlavorValues(baseUrl: "")
-  );
+  FlavorConfig(
+      flavor: Flavor.STAGING,
+      color: Colors.deepPurpleAccent,
+      values: FlavorValues(baseUrl: ""));
 
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(
+    () {
+      runApp(
+        MyApp(),
+      );
+    },
+    (error, stackTrace) {
+      debugPrint('runZonedGuarded: Caught error in my root zone.');
+      FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    },
+  );
 }
