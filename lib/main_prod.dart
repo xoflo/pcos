@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 void main() {
   FlavorConfig(
       flavor: Flavor.PROD,
-      color: Colors.green,
+      color: Colors.blue,
       values: FlavorValues(baseUrl: ""));
 
   WidgetsFlutterBinding.ensureInitialized();

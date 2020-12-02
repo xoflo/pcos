@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 void main() {
   FlavorConfig(
       flavor: Flavor.STAGING,
-      color: Colors.green,
+      color: Colors.deepPurpleAccent,
       values: FlavorValues(baseUrl: ""));
 
   WidgetsFlutterBinding.ensureInitialized();
