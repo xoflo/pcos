@@ -6,9 +6,13 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 
 void main() {
   FlavorConfig(
-      flavor: Flavor.STAGING,
-      color: Colors.deepPurpleAccent,
-      values: FlavorValues(baseUrl: ""));
+    flavor: Flavor.STAGING,
+    color: Colors.deepPurpleAccent,
+    values: FlavorValues(
+      baseUrl: "",
+      oneSignalAppID: "74c753f5-23cf-4819-b732-f4bc41f06c92",
+    ),
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
   runZonedGuarded(

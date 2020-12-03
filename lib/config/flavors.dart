@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/utils/string_utils.dart';
 
-enum Flavor {
-  DEV,
-  STAGING,
-  PROD
-}
+enum Flavor { DEV, STAGING, PROD }
 
 class FlavorValues {
-  FlavorValues({@required this.baseUrl});
+  FlavorValues({@required this.baseUrl, @required this.oneSignalAppID});
   final String baseUrl;
-//Add other flavor specific values, e.g database name
+  final String oneSignalAppID;
+  //Add other flavor specific values, e.g database name
 }
 
 class FlavorConfig {
@@ -20,17 +17,20 @@ class FlavorConfig {
   final FlavorValues values;
   static FlavorConfig _instance;
 
-  factory FlavorConfig({
-    @required Flavor flavor,
-    Color color: Colors.blue,
-    @required FlavorValues values}) {
+  factory FlavorConfig(
+      {@required Flavor flavor,
+      Color color: Colors.blue,
+      @required FlavorValues values}) {
     _instance ??= FlavorConfig._internal(
         flavor, StringUtils.enumName(flavor.toString()), color, values);
     return _instance;
   }
 
   FlavorConfig._internal(this.flavor, this.name, this.color, this.values);
-  static FlavorConfig get instance { return _instance;}
+  static FlavorConfig get instance {
+    return _instance;
+  }
+
   static bool isDev() => _instance.flavor == Flavor.DEV;
   static bool isStaging() => _instance.flavor == Flavor.STAGING;
   static bool isProd() => _instance.flavor == Flavor.PROD;
