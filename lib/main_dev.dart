@@ -6,9 +6,13 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 
 void main() {
   FlavorConfig(
-      flavor: Flavor.DEV,
-      color: Colors.green,
-      values: FlavorValues(baseUrl: ""));
+    flavor: Flavor.DEV,
+    color: Colors.green,
+    values: FlavorValues(
+      baseUrl: "",
+      oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
+    ),
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
   runZonedGuarded(
