@@ -85,6 +85,10 @@ PODS:
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
+  - OneSignal (2.15.2)
+  - onesignal_flutter (2.6.1):
+    - Flutter
+    - OneSignal (= 2.15.2)
   - PromisesObjC (1.2.11)
 
 DEPENDENCIES:
@@ -93,6 +97,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
+  - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
 
 SPEC REPOS:
   trunk:
@@ -106,6 +111,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - nanopb
+    - OneSignal
     - PromisesObjC
 
 EXTERNAL SOURCES:
@@ -119,6 +125,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
   Flutter:
     :path: Flutter
+  onesignal_flutter:
+    :path: ".symlinks/plugins/onesignal_flutter/ios"
 
 SPEC CHECKSUMS:
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
@@ -136,6 +144,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
+  OneSignal: 9531e385388565f4d31797ddadbe0fcc786430ec
+  onesignal_flutter: b4412973eac419ccce07363e43e0d6057c583a96
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
