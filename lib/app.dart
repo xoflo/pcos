@@ -96,16 +96,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Should we show error message if initialization failed?
+    // Should we show error message if initialization failed or record issue somewhere?
     //if (_error) {
     //  return SomethingWentWrong();
     //}
 
-    // Show a loader until FlutterFire is initialized
-    if (!_initialized) {
-      return AppLoading();
-    }
-
-    return PCOSProtocolApp();
+    return PCOSProtocolApp(initialised: _initialized);
   }
 }
