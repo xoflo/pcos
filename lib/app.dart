@@ -4,6 +4,9 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:thepcosprotocol_app/pcos_protocol_app.dart';
 import 'package:thepcosprotocol_app/widgets/app_loading.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -101,6 +104,17 @@ class _MyAppState extends State<MyApp> {
     //  return SomethingWentWrong();
     //}
 
-    return PCOSProtocolApp(initialised: _initialized);
+    return MaterialApp(
+      title: 'The PCOS Protocol',
+      theme: appThemeData(),
+      home: FlavorBanner(
+        child: _initialized
+            ? PCOSProtocolApp()
+            : AppLoading(
+                backgroundColor: backgroundColor,
+                valueColor: primaryColorDark,
+              ),
+      ),
+    );
   }
 }
