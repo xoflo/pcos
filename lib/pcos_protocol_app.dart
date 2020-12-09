@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/widgets/flavor_banner.dart';
+
+import 'package:thepcosprotocol_app/widgets/app_body.dart';
+import 'package:thepcosprotocol_app/widgets/app_body_large.dart';
 
 class PCOSProtocolApp extends StatelessWidget {
-  //This is where we check device size and show relevant layout widget
-
+  //NB: By setting this number high, will always show tabbed layout
+  //    If we choose to have a different menu approach for iPads reduce
+  //    number to say 600/700
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'The PCOS Protocol',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: FlavorBanner(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("App Title"),
-          ),
-          body: Text("This is the app"),
-        ),
-      ),
-    );
+    Size screenSize = MediaQuery.of(context).size;
+    return screenSize.width < 10000 ? AppBody() : AppBodyLarge();
   }
 }
