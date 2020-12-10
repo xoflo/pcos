@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # If running on an M1 based Macbook, you will need to do pod install manually in Terminal with this command:
   # arch -x86_64 pod install  (also the first time run this to fix ffi: sudo arch -x86_64 gem install ffi
@@ -67,3 +69,5 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true
