@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int currentIndex;
@@ -8,23 +9,23 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(60);
 
-  String getHeaderText(int currentIndex) {
+  String getHeaderText(BuildContext context, int currentIndex) {
     switch (currentIndex) {
       case 1:
-        return "Knowledge Base";
+        return S.of(context).knowledgeBaseTitle;
       case 2:
-        return "Recipes";
+        return S.of(context).recipesTitle;
       case 3:
-        return "Favourites";
+        return S.of(context).favouritesTitle;
       default:
-        return "Dashboard";
+        return S.of(context).dashboardTitle;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(getHeaderText(currentIndex),
+      title: Text(getHeaderText(context, currentIndex),
           style: TextStyle(
             fontSize: 24.0,
             color: Colors.white,

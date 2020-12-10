@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class MenuLeft extends StatefulWidget {
@@ -47,7 +48,7 @@ class _MenuLeftState extends State<MenuLeft> {
             color: primaryColor,
             child: Center(
               child: Text(
-                "The PCOS Protocol",
+                S.of(context).appTitle,
                 style: Theme.of(context).textTheme.headline5.copyWith(
                       color: Colors.white,
                       fontSize: 22.0,
@@ -68,7 +69,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               0,
-              "Dashboard",
+              S.of(context).dashboardTitle,
               widget.currentIndex,
               Icons.home,
               true,
@@ -87,7 +88,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               1,
-              "Knowledge Base",
+              S.of(context).knowledgeBaseTitle,
               widget.currentIndex,
               Icons.batch_prediction,
               true,
@@ -106,7 +107,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               2,
-              "Recipes",
+              S.of(context).recipesTitle,
               widget.currentIndex,
               Icons.local_dining,
               true,
@@ -125,7 +126,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               3,
-              "Favourites",
+              S.of(context).favouritesTitle,
               widget.currentIndex,
               Icons.favorite_outline,
               true,
@@ -154,7 +155,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               4,
-              "Profile",
+              S.of(context).profileTitle,
               widget.currentIndex,
               Icons.arrow_right_outlined,
               false,
@@ -173,7 +174,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               5,
-              "Change Password",
+              S.of(context).changePasswordTitle,
               widget.currentIndex,
               Icons.arrow_right_outlined,
               false,
@@ -192,7 +193,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               6,
-              "Request Data",
+              S.of(context).requestDataTitle,
               widget.currentIndex,
               Icons.arrow_right_outlined,
               false,
@@ -211,7 +212,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               7,
-              "Help",
+              S.of(context).helpTitle,
               widget.currentIndex,
               Icons.arrow_right_outlined,
               false,
@@ -230,7 +231,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               8,
-              "Support",
+              S.of(context).supportTitle,
               widget.currentIndex,
               Icons.arrow_right_outlined,
               false,
@@ -249,7 +250,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               9,
-              "Privacy",
+              S.of(context).privacyTitle,
               widget.currentIndex,
               Icons.arrow_right_outlined,
               false,
@@ -268,7 +269,7 @@ class _MenuLeftState extends State<MenuLeft> {
             },
             child: Item(
               10,
-              "Terms of Use",
+              S.of(context).termsOfUseTitle,
               widget.currentIndex,
               Icons.arrow_right_outlined,
               false,
@@ -280,7 +281,7 @@ class _MenuLeftState extends State<MenuLeft> {
               top: 10.0,
             ),
             child: Text(
-              "The PCOS Protocol v$_appVersion (build: $_appBuildNumber)",
+              "${S.of(context).appTitle} v$_appVersion (build: $_appBuildNumber)",
               style: footerStyle,
             ),
           ),
@@ -290,7 +291,7 @@ class _MenuLeftState extends State<MenuLeft> {
               top: 3.0,
             ),
             child: Text(
-              "${today.year} \u00a9 The PCOS Nutritionist",
+              "${today.year} \u00a9 ${S.of(context).companyTitle}",
               style: footerStyle,
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:package_info/package_info.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -45,14 +46,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
             height: Platform.isIOS ? 150.0 : 100.0,
             child: DrawerHeader(
               child: Text(
-                "The PCOS Protocol",
+                S.of(context).appTitle,
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
           ),
           ListTile(
             title: Text(
-              "Profile",
+              S.of(context).profileTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -61,7 +62,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              "Change Password",
+              S.of(context).changePasswordTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -70,7 +71,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              "Request Data",
+              S.of(context).requestDataTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -79,7 +80,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              "Help",
+              S.of(context).helpTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -88,7 +89,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              "Support",
+              S.of(context).supportTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -97,7 +98,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              "Privacy",
+              S.of(context).privacyTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -106,7 +107,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              "Terms of use",
+              S.of(context).termsOfUseTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -116,13 +117,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
           SizedBox(height: 30.0),
           ListTile(
             title: Text(
-              "The PCOS Protocol v$_appVersion (build: $_appBuildNumber)",
+              "${S.of(context).appTitle} v$_appVersion (build: $_appBuildNumber)",
               style: footerStyle,
             ),
           ),
           ListTile(
             title: Text(
-              "${today.year} \u00a9 The PCOS Nutritionist",
+              "${today.year} \u00a9 ${S.of(context).companyTitle}",
               style: footerStyle,
             ),
           ),
