@@ -164,6 +164,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Sign In`
+  String get signInTitle {
+    return Intl.message(
+      'Sign In',
+      name: 'signInTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUpTitle {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUpTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get emailLabel {
+    return Intl.message(
+      'Email',
+      name: 'emailLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get passwordLabel {
+    return Intl.message(
+      'Password',
+      name: 'passwordLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme.`
+  String get goto_signup_text {
+    return Intl.message(
+      'To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme.',
+      name: 'goto_signup_text',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

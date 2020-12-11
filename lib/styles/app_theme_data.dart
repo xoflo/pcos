@@ -22,40 +22,61 @@ ThemeData appThemeData() {
     textTheme: TextTheme(
       headline1: TextStyle(
         color: primaryColorDark,
-        fontSize: 48.0,
+        fontSize: 40.0,
         fontWeight: FontWeight.bold,
       ),
       headline2: TextStyle(
         color: primaryColorDark,
-        fontSize: 36.0,
+        fontSize: 32.0,
         fontWeight: FontWeight.bold,
       ),
       headline3: TextStyle(
         color: primaryColor,
-        fontSize: 32.0,
+        fontSize: 28.0,
         fontWeight: FontWeight.bold,
       ),
       headline4: TextStyle(
         color: primaryColor,
-        fontSize: 28.0,
+        fontSize: 24.0,
       ),
       headline5: TextStyle(
         color: primaryColorLight,
-        fontSize: 26.0,
+        fontSize: 22.0,
       ),
       headline6: TextStyle(
         color: primaryColorLight,
-        fontSize: 24.0,
-        fontWeight: FontWeight.bold,
+        fontSize: 20.0,
       ),
       bodyText1: TextStyle(
         color: textColor,
-        fontSize: 20.0,
+        fontSize: 16.0,
         fontWeight: FontWeight.normal,
       ),
       bodyText2: TextStyle(
         color: textColorAlt,
-        fontSize: 20.0,
+        fontSize: 16.0,
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+        side: BorderSide(
+          color: primaryColorDark,
+        ),
+        padding: EdgeInsets.all(8),
+        textStyle: TextStyle(
+          fontSize: 16,
+        ),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: primaryColorDark,
+        ),
+      ),
+      labelStyle: TextStyle(
+        color: primaryColorDark,
       ),
     ),
   );
