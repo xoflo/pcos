@@ -164,6 +164,156 @@ class S {
       args: [],
     );
   }
+
+  /// `Sign In`
+  String get signInTitle {
+    return Intl.message(
+      'Sign In',
+      name: 'signInTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUpTitle {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUpTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get emailLabel {
+    return Intl.message(
+      'Email',
+      name: 'emailLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get passwordLabel {
+    return Intl.message(
+      'Password',
+      name: 'passwordLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme.`
+  String get gotoSignupText {
+    return Intl.message(
+      'To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme.',
+      name: 'gotoSignupText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have an account for The PCOS Protocol?`
+  String get gotoSigninText {
+    return Intl.message(
+      'Already have an account for The PCOS Protocol?',
+      name: 'gotoSigninText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Return to Sign In`
+  String get returnToSignInTitle {
+    return Intl.message(
+      'Return to Sign In',
+      name: 'returnToSignInTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email Link`
+  String get emailLinkTitle {
+    return Intl.message(
+      'Email Link',
+      name: 'emailLinkTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Or we can send a link to your email so you can visit the website on another device.`
+  String get emailLinkText {
+    return Intl.message(
+      'Or we can send a link to your email so you can visit the website on another device.',
+      name: 'emailLinkText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Website`
+  String get openWebsiteTitle {
+    return Intl.message(
+      'Open Website',
+      name: 'openWebsiteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To register now on your device click the button below to visit the PCOS Questionnaire website.`
+  String get openWebsiteText {
+    return Intl.message(
+      'To register now on your device click the button below to visit the PCOS Questionnaire website.',
+      name: 'openWebsiteText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In Failed`
+  String get signinErrorTitle {
+    return Intl.message(
+      'Sign In Failed',
+      name: 'signinErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your email or password are incorrect, please try again.`
+  String get signinErrorText {
+    return Intl.message(
+      'Your email or password are incorrect, please try again.',
+      name: 'signinErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not open browser`
+  String get questionnaireWebsiteErrorTitle {
+    return Intl.message(
+      'Could not open browser',
+      name: 'questionnaireWebsiteErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open a browser and visit [url]`
+  String get questionnaireWebsiteErrorText {
+    return Intl.message(
+      'Open a browser and visit [url]',
+      name: 'questionnaireWebsiteErrorText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

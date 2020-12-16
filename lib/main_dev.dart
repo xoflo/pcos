@@ -9,8 +9,9 @@ void main() {
     flavor: Flavor.DEV,
     color: Colors.green,
     values: FlavorValues(
-      baseUrl: "",
+      baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
       oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
+      questionnaireUrl: "https://www.thepcosnutritionist.com/",
     ),
   );
 

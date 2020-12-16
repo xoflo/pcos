@@ -1,13 +1,8 @@
 import 'package:device_info/device_info.dart';
 
-enum BuildMode {
-  DEBUG,
-  PROFILE,
-  RELEASE
-}
+enum BuildMode { DEBUG, PROFILE, RELEASE }
 
 class DeviceUtils {
-
   static BuildMode currentBuildMode() {
     if (const bool.fromEnvironment('dart.vm.product')) {
       return BuildMode.RELEASE;
@@ -32,4 +27,10 @@ class DeviceUtils {
     return plugin.iosInfo;
   }
 
+  static bool isHorizontalWideScreen(double width, double height) {
+    if (width > height && width > 700) {
+      return true;
+    }
+    return false;
+  }
 }

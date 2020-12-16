@@ -9,8 +9,9 @@ void main() {
     flavor: Flavor.STAGING,
     color: Colors.deepPurpleAccent,
     values: FlavorValues(
-      baseUrl: "",
+      baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
       oneSignalAppID: "74c753f5-23cf-4819-b732-f4bc41f06c92",
+      questionnaireUrl: "https://www.thepcosnutritionist.com/",
     ),
   );
 
