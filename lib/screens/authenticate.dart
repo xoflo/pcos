@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
-import 'package:thepcosprotocol_app/widgets/auth/signin.dart';
+import 'package:thepcosprotocol_app/widgets/auth/sign_in.dart';
 import 'package:thepcosprotocol_app/widgets/auth/goto_register.dart';
 import 'package:thepcosprotocol_app/widgets/auth/authenticate_layout.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/controllers/authentication.dart';
+import 'package:thepcosprotocol_app/utils/error_utils.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class Authenticate extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -17,30 +20,37 @@ class Authenticate extends StatefulWidget {
 
 class _AuthenticateState extends State<Authenticate> {
   bool isSigningIn = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  void authenticateUser(
-    final String emailAddress,
-    final String password,
-  ) async {
+  void authenticateUser() async {
     setState(() {
       isSigningIn = true;
     });
 
+    final String emailAddress = emailController.text.trim();
+    final String password = passwordController.text.trim();
+    // perform the authentication
     final bool signedIn = await Authentication().signIn(emailAddress, password);
 
-    debugPrint("SIGNED IN=$signedIn");
+    debugPrint("EMAIL=$emailAddress SIGNED IN=$signedIn");
     if (signedIn) {
-      //this hides the login screen and shows the app
+      //success - this hides the login screen and shows the app
       widget.updateAppState(AppState.APP);
     } else {
       setState(() {
         isSigningIn = false;
       });
+
+      showFlushBar(context, S.of(context).signinErrorTitle,
+          S.of(context).signinErrorText,
+          backgroundColor: Colors.white,
+          borderColor: primaryColorLight,
+          primaryColor: primaryColorDark);
     }
   }
 
   void navigateToRegister() {
-    debugPrint("register");
     widget.updateAppState(AppState.REGISTER);
   }
 
@@ -48,18 +58,20 @@ class _AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColorDark,
-      body: SafeArea(
-          child: AuthenticateLayout(
+    return SafeArea(
+      child: AuthenticateLayout(
         isHorizontal: DeviceUtils.isHorizontalWideScreen(
             screenSize.width, screenSize.height),
         screenSize: screenSize,
         signIn: SignIn(
-            isSigningIn: isSigningIn, authenticateUser: authenticateUser),
+          isSigningIn: isSigningIn,
+          authenticateUser: authenticateUser,
+          emailController: emailController,
+          passwordController: passwordController,
+        ),
         gotoRegister: GotoRegister(
             isSigningIn: isSigningIn, navigateToRegister: navigateToRegister),
-      )),
+      ),
     );
   }
 }

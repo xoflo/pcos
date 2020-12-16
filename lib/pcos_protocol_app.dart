@@ -25,20 +25,24 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp> {
     });
   }
 
+  Scaffold getAuthenticationScreen(AppState appState) {
+    return Scaffold(
+        backgroundColor: Theme.of(context).primaryColorDark,
+        body: appState == AppState.SIGNIN
+            ? Authenticate(updateAppState: updateAppState)
+            : Register(updateAppState: updateAppState));
+  }
+
   @override
   Widget build(BuildContext context) {
     debugPrint("APPSTATE ON BUILD=$appState");
     //this controls whether the signin, register or app are displayed using AppState
-    switch (appState) {
-      case AppState.APP:
-        debugPrint("APP");
-        return AppBody();
-      case AppState.SIGNIN:
-        debugPrint("SIGNIN");
-        return Authenticate(updateAppState: updateAppState);
-      case AppState.REGISTER:
-        debugPrint("REGISTER");
-        return Register(updateAppState: updateAppState);
+    if (appState == AppState.APP) {
+      debugPrint("APP");
+      return AppBody();
+    } else {
+      debugPrint("Authenticate or Register = $appState");
+      return getAuthenticationScreen(appState);
     }
   }
 }

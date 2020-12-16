@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-class GotoRegister extends StatelessWidget {
-  final bool isSigningIn;
-  final Function navigateToRegister;
+class EmailSignIn extends StatelessWidget {
+  final Function emailWebsiteLink;
+  final TextEditingController emailController;
 
-  GotoRegister({this.isSigningIn, this.navigateToRegister});
+  EmailSignIn({this.emailWebsiteLink, this.emailController});
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +23,17 @@ class GotoRegister extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).signUpTitle,
-                style: Theme.of(context).textTheme.headline6,
+                S.of(context).emailLinkText,
+                textAlign: TextAlign.center,
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 8.0,
-                ),
-                child: Text(
-                  S.of(context).gotoSignupText,
-                  textAlign: TextAlign.center,
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: S.of(context).emailLabel,
+                  ),
                 ),
               ),
               Padding(
@@ -44,12 +45,10 @@ class GotoRegister extends StatelessWidget {
                   height: 40.0,
                   child: OutlinedButton(
                     onPressed: () {
-                      if (!isSigningIn) {
-                        navigateToRegister();
-                      }
+                      emailWebsiteLink();
                     },
                     child: Text(
-                      S.of(context).signUpTitle,
+                      S.of(context).emailLinkTitle,
                       style: TextStyle(
                         color: primaryColorDark,
                       ),

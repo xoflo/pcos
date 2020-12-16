@@ -36,6 +36,8 @@ dependencies:
   package_info: ^0.4.3+2
   http: ^0.12.2
   flutter_secure_storage: ^3.3.5
+  flushbar: ^1.10.4
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

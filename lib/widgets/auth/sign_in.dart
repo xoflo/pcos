@@ -6,12 +6,19 @@ import 'package:thepcosprotocol_app/widgets/other/spinner_button.dart';
 
 class SignIn extends StatelessWidget {
   final bool isSigningIn;
-  final Function(String, String) authenticateUser;
+  final Function() authenticateUser;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
-  SignIn({this.isSigningIn, this.authenticateUser});
+  SignIn({
+    this.isSigningIn,
+    this.authenticateUser,
+    this.emailController,
+    this.passwordController,
+  });
 
   void attemptSignIn() async {
-    authenticateUser("andyfrost50", "test123");
+    authenticateUser();
   }
 
   @override
@@ -35,14 +42,17 @@ class SignIn extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                    decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: S.of(context).emailLabel,
-                )),
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: S.of(context).emailLabel,
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),

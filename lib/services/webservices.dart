@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/models/token_response.dart';
 import 'package:thepcosprotocol_app/models/token.dart';
+import 'package:thepcosprotocol_app/constants/exceptions.dart';
 
 class WebServices {
   final String baseUrl = FlavorConfig.instance.values.baseUrl;
@@ -34,7 +35,7 @@ class WebServices {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('signIn failed');
+      throw Exception(SIGN_IN_FAILED);
     }
   }
 }

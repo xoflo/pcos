@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-class GotoRegister extends StatelessWidget {
-  final bool isSigningIn;
-  final Function navigateToRegister;
+class GotoSignIn extends StatelessWidget {
+  final Function navigateToSignIn;
 
-  GotoRegister({this.isSigningIn, this.navigateToRegister});
+  GotoSignIn({this.navigateToSignIn});
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +22,8 @@ class GotoRegister extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).signUpTitle,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 8.0,
-                ),
-                child: Text(
-                  S.of(context).gotoSignupText,
-                  textAlign: TextAlign.center,
-                ),
+                S.of(context).gotoSigninText,
+                textAlign: TextAlign.center,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -44,12 +34,10 @@ class GotoRegister extends StatelessWidget {
                   height: 40.0,
                   child: OutlinedButton(
                     onPressed: () {
-                      if (!isSigningIn) {
-                        navigateToRegister();
-                      }
+                      navigateToSignIn();
                     },
                     child: Text(
-                      S.of(context).signUpTitle,
+                      S.of(context).returnToSignInTitle,
                       style: TextStyle(
                         color: primaryColorDark,
                       ),
