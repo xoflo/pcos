@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
     var settings = {
-      OSiOSSettings.autoPrompt: false,
+      OSiOSSettings.autoPrompt: true,
       OSiOSSettings.promptBeforeOpeningPushUrl: true
     };
 
@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
     //TODO: ask for permission on iOS somewhere else later
-    //bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
+    bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
   }
 
   @override
