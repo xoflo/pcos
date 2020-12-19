@@ -314,6 +314,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Clear`
+  String get clearButton {
+    return Intl.message(
+      'Clear',
+      name: 'clearButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PIN Correct`
+  String get pinCorrectTitle {
+    return Intl.message(
+      'PIN Correct',
+      name: 'pinCorrectTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

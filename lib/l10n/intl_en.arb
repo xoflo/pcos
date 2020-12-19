@@ -27,5 +27,7 @@
     "signinErrorTitle": "Sign In Failed",
     "signinErrorText": "Your email or password are incorrect, please try again.",
     "questionnaireWebsiteErrorTitle": "Could not open browser",
-    "questionnaireWebsiteErrorText": "Open a browser and visit [url]"
+    "questionnaireWebsiteErrorText": "Open a browser and visit [url]",
+    "clearButton": "Clear",
+    "pinCorrectTitle": "PIN Correct"
 }

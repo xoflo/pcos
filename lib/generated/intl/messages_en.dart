@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "appTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
     "changePasswordTitle" : MessageLookupByLibrary.simpleMessage("Change Password"),
+    "clearButton" : MessageLookupByLibrary.simpleMessage("Clear"),
     "companyTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Nutritionist"),
     "dashboardTitle" : MessageLookupByLibrary.simpleMessage("Dashboard"),
     "emailLabel" : MessageLookupByLibrary.simpleMessage("Email"),
@@ -36,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register now on your device click the button below to visit the PCOS Questionnaire website."),
     "openWebsiteTitle" : MessageLookupByLibrary.simpleMessage("Open Website"),
     "passwordLabel" : MessageLookupByLibrary.simpleMessage("Password"),
+    "pinCorrectTitle" : MessageLookupByLibrary.simpleMessage("PIN Correct"),
     "privacyTitle" : MessageLookupByLibrary.simpleMessage("Privacy"),
     "profileTitle" : MessageLookupByLibrary.simpleMessage("Profile"),
     "questionnaireWebsiteErrorText" : MessageLookupByLibrary.simpleMessage("Open a browser and visit [url]"),

@@ -10,7 +10,7 @@ class GotoSignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         left: 30.0,
         right: 30.0,
         bottom: 30.0,
