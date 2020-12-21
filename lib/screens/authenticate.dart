@@ -35,8 +35,8 @@ class _AuthenticateState extends State<Authenticate> {
 
     debugPrint("EMAIL=$emailAddress SIGNED IN=$signedIn");
     if (signedIn) {
-      //success - this hides the login screen and shows the app
-      widget.updateAppState(AppState.APP);
+      //success - this hides the login screen and shows the pin setup screen
+      widget.updateAppState(AppState.PIN_SET);
     } else {
       setState(() {
         isSigningIn = false;

@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
+import 'package:thepcosprotocol_app/controllers/authentication.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  String _refreshToken = "";
+  String _backgroundTimestamp = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getRefreshToken();
+  }
+
+  void getRefreshToken() async {
+    final String token = await Authentication().getRefreshToken();
+    final int timeStamp = await Authentication().getBackgroundedTimestamp();
+
+    setState(() {
+      _refreshToken = token;
+      _backgroundTimestamp = timeStamp.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
-    DateTime today = DateTime.now();
     return Column(
       children: [
-        Text(DateTimeUtils.shortDate(myLocale.countryCode, today)),
-        Text(DateTimeUtils.mediumDate(today)),
-        Text(DateTimeUtils.longDate(today)),
-        Text(DateTimeUtils.shortDay(today)),
-        Text(DateTimeUtils.longDay(today)),
-        Text(DateTimeUtils.shortDayMonth(today)),
-        Text(DateTimeUtils.longDayMonth(today)),
-        Text(DateTimeUtils.shortMonth(today)),
-        Text(DateTimeUtils.longMonth(today)),
-        Text(DateTimeUtils.year(today)),
+        Text("RefreshToken=$_refreshToken"),
+        Text("BackgroundTimestamp=$_backgroundTimestamp")
       ],
     );
   }

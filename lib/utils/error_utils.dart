@@ -6,7 +6,8 @@ void showFlushBar(final BuildContext scaffoldContext, final String title,
     {final IconData icon = Icons.warning_outlined,
     final Color backgroundColor = Colors.white,
     final Color borderColor = Colors.black38,
-    final Color primaryColor = Colors.black87}) {
+    final Color primaryColor = Colors.black87,
+    final int displayDuration = 5}) {
   Flushbar(
     margin: EdgeInsets.all(10),
     padding: EdgeInsets.all(10),
@@ -32,7 +33,7 @@ void showFlushBar(final BuildContext scaffoldContext, final String title,
       message,
       style: TextStyle(color: primaryColor),
     ),
-    duration: Duration(seconds: 5),
+    duration: Duration(seconds: displayDuration),
     flushbarPosition: FlushbarPosition.TOP,
   )..show(scaffoldContext);
 }

@@ -334,6 +334,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Please set your unlock PIN`
+  String get pinSetTitle {
+    return Intl.message(
+      'Please set your unlock PIN',
+      name: 'pinSetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please confirm your unlock PIN`
+  String get pinConfirmTitle {
+    return Intl.message(
+      'Please confirm your unlock PIN',
+      name: 'pinConfirmTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PIN Entry Successful`
+  String get pinCompleteTitle {
+    return Intl.message(
+      'PIN Entry Successful',
+      name: 'pinCompleteTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try again`
+  String get pinEntryErrorTitle {
+    return Intl.message(
+      'Please try again',
+      name: 'pinEntryErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your PINs do not match, please try again`
+  String get pinEntryErrorText {
+    return Intl.message(
+      'Your PINs do not match, please try again',
+      name: 'pinEntryErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ooops`
+  String get pinSaveErrorTitle {
+    return Intl.message(
+      'Ooops',
+      name: 'pinSaveErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not save your pin to your device, please try again next time you sign in.`
+  String get pinSaveErrorText {
+    return Intl.message(
+      'We could not save your pin to your device, please try again next time you sign in.',
+      name: 'pinSaveErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your PIN to unlock`
+  String get pinUnlockTitle {
+    return Intl.message(
+      'Enter your PIN to unlock',
+      name: 'pinUnlockTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try again`
+  String get pinUnlockErrorTitle {
+    return Intl.message(
+      'Please try again',
+      name: 'pinUnlockErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your PIN is incorrect, please try again`
+  String get pinUnlockErrorText {
+    return Intl.message(
+      'Your PIN is incorrect, please try again',
+      name: 'pinUnlockErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unsuccessful Pin Entry`
+  String get pinUnlockAttemptsErrorTitle {
+    return Intl.message(
+      'Unsuccessful Pin Entry',
+      name: 'pinUnlockAttemptsErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have incorrect entered your PIN five times, please sign-in using your email and password.`
+  String get pinUnlockAttemptsErrorText {
+    return Intl.message(
+      'You have incorrect entered your PIN five times, please sign-in using your email and password.',
+      name: 'pinUnlockAttemptsErrorText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

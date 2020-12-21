@@ -53,7 +53,7 @@ class _RegisterState extends State<Register> {
 
   void navigateToSignIn() {
     debugPrint("signin");
-    widget.updateAppState(AppState.SIGNIN);
+    widget.updateAppState(AppState.SIGN_IN);
   }
 
   @override
