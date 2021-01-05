@@ -27,5 +27,20 @@
     "signinErrorTitle": "Sign In Failed",
     "signinErrorText": "Your email or password are incorrect, please try again.",
     "questionnaireWebsiteErrorTitle": "Could not open browser",
-    "questionnaireWebsiteErrorText": "Open a browser and visit [url]"
+    "questionnaireWebsiteErrorText": "Open a browser and visit [url]",
+    "clearButton": "Clear",
+    "pinCorrectTitle": "PIN Correct",
+    "pinSetTitle": "Please set your unlock PIN",
+    "pinConfirmTitle": "Please confirm your unlock PIN",
+    "pinEnteredSuccessfulTitle": "PIN successful",
+    "pinSetSuccessfulTitle": "Your PIN has been set",
+    "pinEntryErrorTitle": "Please try again",
+    "pinEntryErrorText": "Your PINs do not match, please try again",
+    "pinSaveErrorTitle": "Ooops",
+    "pinSaveErrorText": "We could not save your pin to your device, please try again next time you sign in.",
+    "pinUnlockTitle": "Enter your PIN to unlock",
+    "pinUnlockErrorTitle": "Incorrect PIN",
+    "pinUnlockErrorText": "Your PIN is incorrect, please try again",
+    "pinUnlockAttemptsErrorTitle": "Unsuccessful Pin Entry",
+    "pinUnlockAttemptsErrorText": "You have incorrectly entered your PIN five times, please sign-in using your email and password."
 }

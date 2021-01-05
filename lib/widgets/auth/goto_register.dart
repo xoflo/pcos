@@ -36,7 +36,7 @@ class GotoRegister extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
+                padding: EdgeInsets.only(
                   top: 8.0,
                 ),
                 child: Container(

@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:package_info/package_info.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/constants/app_state.dart';
 
 class DrawerMenu extends StatefulWidget {
+  final Function(AppState) updateAppState;
+
+  DrawerMenu({this.updateAppState});
+
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
 }
@@ -43,11 +49,37 @@ class _DrawerMenuState extends State<DrawerMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            height: Platform.isIOS ? 150.0 : 100.0,
+            height: Platform.isIOS ? 120.0 : 115.0,
             child: DrawerHeader(
-              child: Text(
-                S.of(context).appTitle,
-                style: Theme.of(context).textTheme.headline4,
+              child: Column(
+                children: [
+                  Text(
+                    S.of(context).appTitle,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        widget.updateAppState(AppState.LOCKED);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text("Lock App",
+                              style: TextStyle(
+                                color: primaryColor,
+                              )),
+                          Icon(
+                            Icons.lock_outline,
+                            size: 24.0,
+                            color: primaryColor,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           ),
