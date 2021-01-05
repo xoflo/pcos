@@ -32,7 +32,8 @@
     "pinCorrectTitle": "PIN Correct",
     "pinSetTitle": "Please set your unlock PIN",
     "pinConfirmTitle": "Please confirm your unlock PIN",
-    "pinCompleteTitle": "PIN Entry Successful",
+    "pinEnteredSuccessfulTitle": "PIN successful",
+    "pinSetSuccessfulTitle": "Your PIN has been set",
     "pinEntryErrorTitle": "Please try again",
     "pinEntryErrorText": "Your PINs do not match, please try again",
     "pinSaveErrorTitle": "Ooops",
@@ -41,5 +42,5 @@
     "pinUnlockErrorTitle": "Incorrect PIN",
     "pinUnlockErrorText": "Your PIN is incorrect, please try again",
     "pinUnlockAttemptsErrorTitle": "Unsuccessful Pin Entry",
-    "pinUnlockAttemptsErrorText": "You have incorrect entered your PIN five times, please sign-in using your email and password."
+    "pinUnlockAttemptsErrorText": "You have incorrectly entered your PIN five times, please sign-in using your email and password."
 }

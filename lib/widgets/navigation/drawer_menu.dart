@@ -49,7 +49,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            height: Platform.isIOS ? 120.0 : 100.0,
+            height: Platform.isIOS ? 120.0 : 115.0,
             child: DrawerHeader(
               child: Column(
                 children: [

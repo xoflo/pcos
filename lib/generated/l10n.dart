@@ -355,11 +355,21 @@ class S {
     );
   }
 
-  /// `PIN Entry Successful`
-  String get pinCompleteTitle {
+  /// `PIN successful`
+  String get pinEnteredSuccessfulTitle {
     return Intl.message(
-      'PIN Entry Successful',
-      name: 'pinCompleteTitle',
+      'PIN successful',
+      name: 'pinEnteredSuccessfulTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your PIN has been set`
+  String get pinSetSuccessfulTitle {
+    return Intl.message(
+      'Your PIN has been set',
+      name: 'pinSetSuccessfulTitle',
       desc: '',
       args: [],
     );
@@ -445,10 +455,10 @@ class S {
     );
   }
 
-  /// `You have incorrect entered your PIN five times, please sign-in using your email and password.`
+  /// `You have incorrectly entered your PIN five times, please sign-in using your email and password.`
   String get pinUnlockAttemptsErrorText {
     return Intl.message(
-      'You have incorrect entered your PIN five times, please sign-in using your email and password.',
+      'You have incorrectly entered your PIN five times, please sign-in using your email and password.',
       name: 'pinUnlockAttemptsErrorText',
       desc: '',
       args: [],

@@ -44,14 +44,15 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
       debugPrint(
           "*******************PRESTATE$_appLifecycleState **********************CURRSTATE=$state");
       debugPrint("*******************BACKGROUNDED");
-      if (appState == AppState.APP) {
+      if (appState == AppState.APP || appState == AppState.PIN_SET) {
         Authentication()
             .saveBackgroundedTimestamp(DateTime.now().millisecondsSinceEpoch);
       }
     }
 
     //foregrounded - app was inactive and is now active (resumed)
-    if (_appLifecycleState == AppLifecycleState.inactive &&
+    if ((_appLifecycleState == AppLifecycleState.inactive ||
+            _appLifecycleState == AppLifecycleState.paused) &&
         state == AppLifecycleState.resumed) {
       debugPrint(
           "*******************PRESTATE$_appLifecycleState **********************CURRSTATE=$state");
@@ -72,40 +73,43 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
 
     if (isUserLoggedIn) {
       final bool isUserPinSet = await Authentication().isUserPinSet();
+      debugPrint("PINSET=$isUserPinSet");
       if (isUserPinSet) {
         updateAppState(AppState.LOCKED);
-      } else {
-        updateAppState(AppState.PIN_SET);
+        return;
       }
-    } else {
-      updateAppState(AppState.SIGN_IN);
     }
+    updateAppState(AppState.SIGN_IN);
   }
 
   // This function controls which screen the users sees when they foreground the app
   void appForegroundingCheck() async {
-    debugPrint("**********************appForegroundingCheck");
+    debugPrint(
+        "**********************appForegroundingCheck appState=$appState");
     final bool isUserLoggedIn = await Authentication().isUserLoggedIn();
 
     if (isUserLoggedIn) {
       final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
       final int backgroundedTimestamp =
           await Authentication().getBackgroundedTimestamp();
-
+      debugPrint("backgroundTimestamp=$backgroundedTimestamp");
+      debugPrint("currentTimestamp=$currentTimestamp");
       //need to check whether authenticated and has pin set?
       //check if app was backgrounded over five minutes (300,000 milliseconds) ago, and display lock screen if necessary
-      if (backgroundedTimestamp != null &&
-          currentTimestamp - backgroundedTimestamp > 300000) {
-        final bool isUserPinSet = await Authentication().isUserPinSet();
-        if (isUserPinSet) {
+
+      final bool isUserPinSet = await Authentication().isUserPinSet();
+      if (isUserPinSet) {
+        if (backgroundedTimestamp != null &&
+            currentTimestamp - backgroundedTimestamp > 3000) {
+          debugPrint("PINSET=$isUserPinSet");
           updateAppState(AppState.LOCKED);
         } else {
-          updateAppState(AppState.PIN_SET);
+          updateAppState(AppState.APP);
         }
       } else {
-        updateAppState(AppState.APP);
+        updateAppState(AppState.SIGN_IN);
       }
-    } else {
+    } else if (appState != AppState.REGISTER) {
       updateAppState(AppState.SIGN_IN);
     }
   }

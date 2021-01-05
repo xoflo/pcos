@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thepcosprotocol_app/widgets/auth/header_image.dart';
 import 'package:thepcosprotocol_app/widgets/auth/pin_pad.dart';
 import 'package:thepcosprotocol_app/widgets/auth/pin_correct.dart';
@@ -26,6 +27,7 @@ class _PinUnlockState extends State<PinUnlock> {
   int _pinAttempts = 0;
 
   void pinButtonPressed(final String pinNumber) async {
+    HapticFeedback.lightImpact();
     debugPrint("Current Pos=$_currentPosition");
     updatePin(pinNumber);
     if (_currentPosition > 3) {
@@ -145,7 +147,7 @@ class _PinUnlockState extends State<PinUnlock> {
                   },
                   resetPinPad: resetPinPad,
                 )
-              : PinCorrect(),
+              : PinCorrect(message: S.of(context).pinEnteredSuccessfulTitle),
         ],
       ),
     );

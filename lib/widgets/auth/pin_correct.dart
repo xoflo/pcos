@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class PinCorrect extends StatelessWidget {
+  final String message;
+
+  PinCorrect({this.message});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -11,7 +14,7 @@ class PinCorrect extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Text(
-              S.of(context).pinCompleteTitle,
+              message,
               style: Theme.of(context).textTheme.headline4.copyWith(
                     color: Colors.white,
                   ),
