@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/widgets/auth/header_image.dart';
 import 'package:thepcosprotocol_app/widgets/auth/pin_pad.dart';
+import 'package:thepcosprotocol_app/widgets/auth/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
 import 'package:thepcosprotocol_app/utils/error_utils.dart';
@@ -24,11 +25,11 @@ class _PinSetState extends State<PinSet> {
   String _pinConfirmed = "";
   PinEntry _pinEntry = PinEntry.NONE;
 
-  void pinButtonPressed(final String pinNumber) {
+  void pinButtonPressed(final String pinNumber) async {
     debugPrint("Current Pos=$_currentPosition");
-    if (_currentPosition < 3) {
-      updatePin(pinNumber);
-    } else {
+    updatePin(pinNumber);
+    if (_currentPosition > 3) {
+      await Future.delayed(const Duration(milliseconds: 200), () {});
       updatePinEntryState();
       if (_pinEntry == PinEntry.ENTERED) {
         resetPinPad();
@@ -156,29 +157,7 @@ class _PinSetState extends State<PinSet> {
                   },
                   resetPinPad: resetPinPad,
                 )
-              : Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Text(
-                          S.of(context).pinCompleteTitle,
-                          style: Theme.of(context).textTheme.headline3.copyWith(
-                                color: Colors.white,
-                              ),
-                        ),
-                      ),
-                      SizedBox(
-                        child: Icon(
-                          Icons.thumb_up_rounded,
-                          size: 70.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+              : PinCorrect(),
         ],
       ),
     );

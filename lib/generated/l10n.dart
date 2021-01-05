@@ -415,10 +415,10 @@ class S {
     );
   }
 
-  /// `Please try again`
+  /// `Incorrect PIN`
   String get pinUnlockErrorTitle {
     return Intl.message(
-      'Please try again',
+      'Incorrect PIN',
       name: 'pinUnlockErrorTitle',
       desc: '',
       args: [],

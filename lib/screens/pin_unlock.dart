@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/widgets/auth/header_image.dart';
 import 'package:thepcosprotocol_app/widgets/auth/pin_pad.dart';
+import 'package:thepcosprotocol_app/widgets/auth/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/controllers/authentication.dart';
@@ -24,11 +25,11 @@ class _PinUnlockState extends State<PinUnlock> {
   PinEntry _pinEntry = PinEntry.NONE;
   int _pinAttempts = 0;
 
-  void pinButtonPressed(final String pinNumber) {
+  void pinButtonPressed(final String pinNumber) async {
     debugPrint("Current Pos=$_currentPosition");
-    if (_currentPosition < 3) {
-      updatePin(pinNumber);
-    } else {
+    updatePin(pinNumber);
+    if (_currentPosition > 3) {
+      await Future.delayed(const Duration(milliseconds: 200), () {});
       updatePinEntryState();
       if (_pinEntry == PinEntry.ENTERED) {
         checkPin(_pinEntered);
@@ -55,6 +56,7 @@ class _PinUnlockState extends State<PinUnlock> {
   }
 
   Future<bool> checkPin(final String pinEntered) async {
+    debugPrint("PIN ENtered=$_pinEntered");
     _pinAttempts++;
     if (await Authentication().checkPin(pinEntered)) {
       pinEntryComplete();
@@ -143,29 +145,7 @@ class _PinUnlockState extends State<PinUnlock> {
                   },
                   resetPinPad: resetPinPad,
                 )
-              : Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Text(
-                          S.of(context).pinCorrectTitle,
-                          style: Theme.of(context).textTheme.headline3.copyWith(
-                                color: Colors.white,
-                              ),
-                        ),
-                      ),
-                      SizedBox(
-                        child: Icon(
-                          Icons.thumb_up_rounded,
-                          size: 100.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+              : PinCorrect(),
         ],
       ),
     );

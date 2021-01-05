@@ -48,7 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pinUnlockAttemptsErrorText" : MessageLookupByLibrary.simpleMessage("You have incorrect entered your PIN five times, please sign-in using your email and password."),
     "pinUnlockAttemptsErrorTitle" : MessageLookupByLibrary.simpleMessage("Unsuccessful Pin Entry"),
     "pinUnlockErrorText" : MessageLookupByLibrary.simpleMessage("Your PIN is incorrect, please try again"),
-    "pinUnlockErrorTitle" : MessageLookupByLibrary.simpleMessage("Please try again"),
+    "pinUnlockErrorTitle" : MessageLookupByLibrary.simpleMessage("Incorrect PIN"),
     "pinUnlockTitle" : MessageLookupByLibrary.simpleMessage("Enter your PIN to unlock"),
     "privacyTitle" : MessageLookupByLibrary.simpleMessage("Privacy"),
     "profileTitle" : MessageLookupByLibrary.simpleMessage("Profile"),

@@ -4,7 +4,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/pcos_protocol_app.dart';
-import 'package:thepcosprotocol_app/widgets/app_loading.dart';
+import 'package:thepcosprotocol_app/widgets/other/app_loading.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';

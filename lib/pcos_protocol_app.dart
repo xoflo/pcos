@@ -8,15 +8,10 @@ import 'package:thepcosprotocol_app/screens/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/pin_unlock.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/controllers/authentication.dart';
-import 'package:thepcosprotocol_app/widgets/app_loading.dart';
+import 'package:thepcosprotocol_app/widgets/other/app_loading.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class PCOSProtocolApp extends StatefulWidget {
-  //NB: By setting this number high, will always show tabbed layout
-  //    If we choose to have a different menu approach for iPads reduce
-  //    number to say 600/700
-  //Size screenSize = MediaQuery.of(context).size;
-  //return screenSize.width < 10000 ? AppBody() : AppBodyLarge();
   @override
   _PCOSProtocolAppState createState() => _PCOSProtocolAppState();
 }
@@ -100,7 +95,7 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
       //need to check whether authenticated and has pin set?
       //check if app was backgrounded over five minutes (300,000 milliseconds) ago, and display lock screen if necessary
       if (backgroundedTimestamp != null &&
-          currentTimestamp - backgroundedTimestamp > 5000) {
+          currentTimestamp - backgroundedTimestamp > 300000) {
         final bool isUserPinSet = await Authentication().isUserPinSet();
         if (isUserPinSet) {
           updateAppState(AppState.LOCKED);
@@ -147,6 +142,11 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
     } else if (appState == AppState.APP) {
       debugPrint("APP");
       return AppBody(updateAppState: updateAppState);
+      //NB: By setting this number high, will always show tabbed layout
+      //    If we choose to have a different menu approach for iPads reduce
+      //    number to say 600/700
+      //Size screenSize = MediaQuery.of(context).size;
+      //return screenSize.width < 10000 ? AppBody() : AppBodyLarge();
     } else {
       debugPrint("Authenticate or Register = $appState");
       return Scaffold(
