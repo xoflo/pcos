@@ -16,6 +16,21 @@ ThemeData appThemeData() {
     primaryIconTheme: IconThemeData(color: Colors.white),
     iconTheme: IconThemeData(color: Colors.white),
     accentIconTheme: IconThemeData(color: Colors.white),
+    canvasColor: backgroundColor,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: primaryColorDark,
+      selectedIconTheme: IconThemeData(
+        color: Colors.white,
+        size: 34.0,
+      ),
+      unselectedIconTheme: IconThemeData(
+        color: backgroundColor,
+        size: 30.0,
+      ),
+    ),
+    appBarTheme: AppBarTheme(
+      color: primaryColorDark,
+    ),
 
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.

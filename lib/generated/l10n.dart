@@ -95,6 +95,26 @@ class S {
     );
   }
 
+  /// `Coach Chat`
+  String get coachChatTitle {
+    return Intl.message(
+      'Coach Chat',
+      name: 'coachChatTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Messages`
+  String get messagesTitle {
+    return Intl.message(
+      'Messages',
+      name: 'messagesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Profile`
   String get profileTitle {
     return Intl.message(
