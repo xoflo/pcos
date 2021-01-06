@@ -41,7 +41,7 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
             size: 28.0,
           ),
           onPressed: () {
-            debugPrint("display coach chat");
+            debugPrint("display favourites");
           },
         ),
         IconButton(

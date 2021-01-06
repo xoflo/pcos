@@ -24,12 +24,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "appTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
     "changePasswordTitle" : MessageLookupByLibrary.simpleMessage("Change Password"),
     "clearButton" : MessageLookupByLibrary.simpleMessage("Clear"),
+    "coachChatHeading" : MessageLookupByLibrary.simpleMessage("Chat to your Coach"),
     "coachChatTitle" : MessageLookupByLibrary.simpleMessage("Coach Chat"),
     "companyTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Nutritionist"),
     "dashboardTitle" : MessageLookupByLibrary.simpleMessage("Dashboard"),
     "emailLabel" : MessageLookupByLibrary.simpleMessage("Email"),
     "emailLinkText" : MessageLookupByLibrary.simpleMessage("Or we can send a link to your email so you can visit the website on another device."),
     "emailLinkTitle" : MessageLookupByLibrary.simpleMessage("Email Link"),
+    "enterMessageText" : MessageLookupByLibrary.simpleMessage("Enter your message"),
     "favouritesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "gotoSigninText" : MessageLookupByLibrary.simpleMessage("Already have an account for The PCOS Protocol?"),
     "gotoSignupText" : MessageLookupByLibrary.simpleMessage("To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme."),
@@ -60,11 +62,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "recipesTitle" : MessageLookupByLibrary.simpleMessage("Recipes"),
     "requestDataTitle" : MessageLookupByLibrary.simpleMessage("Request Data"),
     "returnToSignInTitle" : MessageLookupByLibrary.simpleMessage("Return to Sign In"),
+    "sendButtonText" : MessageLookupByLibrary.simpleMessage("Send"),
     "signInTitle" : MessageLookupByLibrary.simpleMessage("Sign In"),
     "signUpTitle" : MessageLookupByLibrary.simpleMessage("Sign Up"),
     "signinErrorText" : MessageLookupByLibrary.simpleMessage("Your email or password are incorrect, please try again."),
     "signinErrorTitle" : MessageLookupByLibrary.simpleMessage("Sign In Failed"),
     "supportTitle" : MessageLookupByLibrary.simpleMessage("Support"),
-    "termsOfUseTitle" : MessageLookupByLibrary.simpleMessage("Terms of use")
+    "termsOfUseTitle" : MessageLookupByLibrary.simpleMessage("Terms of use"),
+    "validateEmailMessage" : MessageLookupByLibrary.simpleMessage("Please enter your email"),
+    "validateMessageText" : MessageLookupByLibrary.simpleMessage("Please enter your message text"),
+    "validatePasswordMessage" : MessageLookupByLibrary.simpleMessage("Please enter your password")
   };
 }

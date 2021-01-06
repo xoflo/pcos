@@ -315,6 +315,26 @@ class S {
     );
   }
 
+  /// `Please enter your email`
+  String get validateEmailMessage {
+    return Intl.message(
+      'Please enter your email',
+      name: 'validateEmailMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your password`
+  String get validatePasswordMessage {
+    return Intl.message(
+      'Please enter your password',
+      name: 'validatePasswordMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Could not open browser`
   String get questionnaireWebsiteErrorTitle {
     return Intl.message(
@@ -480,6 +500,46 @@ class S {
     return Intl.message(
       'You have incorrectly entered your PIN five times, please sign-in using your email and password.',
       name: 'pinUnlockAttemptsErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chat to your Coach`
+  String get coachChatHeading {
+    return Intl.message(
+      'Chat to your Coach',
+      name: 'coachChatHeading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get sendButtonText {
+    return Intl.message(
+      'Send',
+      name: 'sendButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your message`
+  String get enterMessageText {
+    return Intl.message(
+      'Enter your message',
+      name: 'enterMessageText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your message text`
+  String get validateMessageText {
+    return Intl.message(
+      'Please enter your message text',
+      name: 'validateMessageText',
       desc: '',
       args: [],
     );

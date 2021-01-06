@@ -28,6 +28,8 @@
     "openWebsiteText": "To register now on your device click the button below to visit the PCOS Questionnaire website.",
     "signinErrorTitle": "Sign In Failed",
     "signinErrorText": "Your email or password are incorrect, please try again.",
+    "validateEmailMessage": "Please enter your email",
+    "validatePasswordMessage": "Please enter your password",
     "questionnaireWebsiteErrorTitle": "Could not open browser",
     "questionnaireWebsiteErrorText": "Open a browser and visit [url]",
     "clearButton": "Clear",
@@ -44,5 +46,9 @@
     "pinUnlockErrorTitle": "Incorrect PIN",
     "pinUnlockErrorText": "Your PIN is incorrect, please try again",
     "pinUnlockAttemptsErrorTitle": "Unsuccessful Pin Entry",
-    "pinUnlockAttemptsErrorText": "You have incorrectly entered your PIN five times, please sign-in using your email and password."
+    "pinUnlockAttemptsErrorText": "You have incorrectly entered your PIN five times, please sign-in using your email and password.",
+    "coachChatHeading": "Chat to your Coach",
+    "sendButtonText": "Send",
+    "enterMessageText": "Enter your message",
+    "validateMessageText": "Please enter your message text"
 }

@@ -28,11 +28,21 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text("RefreshToken=$_refreshToken"),
-        Text("BackgroundTimestamp=$_backgroundTimestamp")
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizedBox.expand(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Column(
+              children: [
+                Text("RefreshToken=$_refreshToken"),
+                Text("BackgroundTimestamp=$_backgroundTimestamp")
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
