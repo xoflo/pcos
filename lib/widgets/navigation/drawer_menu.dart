@@ -39,9 +39,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
   @override
   Widget build(BuildContext context) {
     final TextStyle drawerItemStyle =
-        Theme.of(context).textTheme.headline4.copyWith(fontSize: 20.0);
+        Theme.of(context).textTheme.headline4.copyWith(
+              fontSize: 20.0,
+              color: primaryColorDark,
+            );
     final TextStyle footerStyle =
-        Theme.of(context).textTheme.headline4.copyWith(fontSize: 14.0);
+        Theme.of(context).textTheme.headline4.copyWith(
+              fontSize: 14.0,
+              color: primaryColorDark,
+            );
     final DateTime today = DateTime.now();
 
     return Drawer(
@@ -55,7 +61,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 children: [
                   Text(
                     S.of(context).appTitle,
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Theme.of(context).textTheme.headline4.copyWith(
+                          color: primaryColorDark,
+                        ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
@@ -68,7 +76,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                         children: [
                           Text("Lock App",
                               style: TextStyle(
-                                color: primaryColor,
+                                color: primaryColorDark,
                               )),
                           Icon(
                             Icons.lock_outline,

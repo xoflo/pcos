@@ -10,6 +10,8 @@ class SignIn extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
+  final _formKey = GlobalKey<FormState>();
+
   SignIn({
     this.isSigningIn,
     this.authenticateUser,
@@ -18,7 +20,9 @@ class SignIn extends StatelessWidget {
   });
 
   void attemptSignIn() async {
-    authenticateUser();
+    if (_formKey.currentState.validate()) {
+      authenticateUser();
+    }
   }
 
   @override
@@ -32,57 +36,72 @@ class SignIn extends StatelessWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.of(context).signInTitle,
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: S.of(context).emailLabel,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  S.of(context).signInTitle,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: S.of(context).emailLabel,
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return S.of(context).validateEmailMessage;
+                      }
+                      return null;
+                    },
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: S.of(context).passwordLabel,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: S.of(context).passwordLabel,
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return S.of(context).validatePasswordMessage;
+                      }
+                      return null;
+                    },
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 8.0,
-                ),
-                child: Container(
-                  width: 150.0,
-                  height: 40,
-                  child: isSigningIn
-                      ? SpinnerButton()
-                      : OutlinedButton(
-                          onPressed: () {
-                            attemptSignIn();
-                          },
-                          child: Text(
-                            S.of(context).signInTitle,
-                            style: TextStyle(
-                              color: primaryColorDark,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8.0,
+                  ),
+                  child: Container(
+                    width: 150.0,
+                    height: 40,
+                    child: isSigningIn
+                        ? SpinnerButton()
+                        : OutlinedButton(
+                            onPressed: () {
+                              attemptSignIn();
+                            },
+                            child: Text(
+                              S.of(context).signInTitle,
+                              style: TextStyle(
+                                color: primaryColorDark,
+                              ),
                             ),
                           ),
-                        ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

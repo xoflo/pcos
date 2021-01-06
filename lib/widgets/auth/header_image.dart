@@ -19,7 +19,7 @@ class HeaderImage extends StatelessWidget {
         ),
       );
     } else {
-      //vertical
+      //iPad vertical
       if (screenSize.width > 700) {
         //ipad vertical
         return Padding(
@@ -30,11 +30,12 @@ class HeaderImage extends StatelessWidget {
           ),
         );
       } else {
-        //a phone
+        //a mobile phone
         return Padding(
           padding: const EdgeInsets.all(30.0),
           child: Image(
             image: AssetImage('assets/images/pcos_protocol.png'),
+            height: 65.0,
           ),
         );
       }

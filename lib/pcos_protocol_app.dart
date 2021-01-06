@@ -100,7 +100,7 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
       final bool isUserPinSet = await Authentication().isUserPinSet();
       if (isUserPinSet) {
         if (backgroundedTimestamp != null &&
-            currentTimestamp - backgroundedTimestamp > 3000) {
+            currentTimestamp - backgroundedTimestamp > 300000) {
           debugPrint("PINSET=$isUserPinSet");
           updateAppState(AppState.LOCKED);
         } else {

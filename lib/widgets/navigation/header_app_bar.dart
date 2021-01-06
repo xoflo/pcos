@@ -16,7 +16,7 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
       case 2:
         return S.of(context).recipesTitle;
       case 3:
-        return S.of(context).favouritesTitle;
+        return S.of(context).coachChatTitle;
       default:
         return S.of(context).dashboardTitle;
     }
@@ -25,17 +25,30 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(getHeaderText(context, currentIndex),
-          style: TextStyle(
-            fontSize: 24.0,
-            color: Colors.white,
-          )),
+      centerTitle: true,
+      title: Text(
+        getHeaderText(context, currentIndex),
+        style: TextStyle(
+          fontSize: 20.0,
+          color: Colors.white,
+        ),
+      ),
       actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.favorite_outline,
+            color: Colors.white,
+            size: 28.0,
+          ),
+          onPressed: () {
+            debugPrint("display favourites");
+          },
+        ),
         IconButton(
           icon: Icon(
             Icons.notifications_none,
             color: Colors.white,
-            size: 30.0,
+            size: 28.0,
           ),
           onPressed: () {
             debugPrint("display messages");
