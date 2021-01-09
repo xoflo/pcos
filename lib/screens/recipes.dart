@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/view_models/recipe_list_view_model.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipes_layout.dart';
+import 'package:provider/provider.dart';
 
 class Recipes extends StatelessWidget {
   @override
@@ -9,7 +12,10 @@ class Recipes extends StatelessWidget {
         child: Card(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 4.0),
-            child: Text("Recipes"),
+            child: ChangeNotifierProvider(
+              create: (context) => RecipeListViewModel(),
+              child: RecipesLayout(),
+            ),
           ),
         ),
       ),
