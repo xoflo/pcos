@@ -3,7 +3,7 @@ class Recipe {
   final String title;
   final String description;
   final String slug;
-  final String thrumbnail;
+  final String thumbnail;
   final String ingredients;
   final String method;
   final String tips;
@@ -18,7 +18,7 @@ class Recipe {
     this.title,
     this.description,
     this.slug,
-    this.thrumbnail,
+    this.thumbnail,
     this.ingredients,
     this.method,
     this.tips,
@@ -33,9 +33,9 @@ class Recipe {
     return Recipe(
       recipeId: json['recipeId'],
       title: json['title'],
-      description: json['title'],
+      description: json['description'],
       slug: json['slug'],
-      thrumbnail: json['thrumbnail'],
+      thumbnail: json['thumbnail'],
       ingredients: json['ingredients'],
       method: json['method'],
       tips: json['tips'],

@@ -5,11 +5,19 @@ class RecipeViewModel {
 
   RecipeViewModel({this.recipe});
 
+  int get recipeId {
+    return this.recipe.recipeId;
+  }
+
   String get title {
     return this.recipe.title;
   }
 
   String get description {
     return this.recipe.description;
+  }
+
+  String get thumbnail {
+    return "https://pcosprotocolstorage.blob.core.windows.net/media/${this.recipe.thumbnail}";
   }
 }

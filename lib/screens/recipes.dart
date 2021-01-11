@@ -8,16 +8,9 @@ class Recipes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(2.0),
-      child: SizedBox.expand(
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
-            child: ChangeNotifierProvider(
-              create: (context) => RecipeListViewModel(),
-              child: RecipesLayout(),
-            ),
-          ),
-        ),
+      child: ChangeNotifierProvider(
+        create: (context) => RecipeListViewModel(),
+        child: RecipesLayout(),
       ),
     );
   }
