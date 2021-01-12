@@ -33,7 +33,6 @@ class _AuthenticateState extends State<Authenticate> {
     // perform the authentication
     final bool signedIn = await Authentication().signIn(emailAddress, password);
 
-    debugPrint("EMAIL=$emailAddress SIGNED IN=$signedIn");
     if (signedIn) {
       //success - this hides the login screen and shows the pin setup screen
       widget.updateAppState(AppState.PIN_SET);

@@ -17,7 +17,7 @@ class ChatSpeechBubble extends StatelessWidget {
       children: [
         SpeechBubble(
           width: width,
-          color: isUser ? primaryColor : primaryColorDark,
+          color: isUser ? secondaryColorLight : primaryColorDark,
           nipLocation: isUser ? NipLocation.RIGHT : NipLocation.LEFT,
           child: Text(
             messageText,
@@ -29,7 +29,7 @@ class ChatSpeechBubble extends StatelessWidget {
               isUser ? EdgeInsets.only(left: 8.0) : EdgeInsets.only(right: 8.0),
           child: Icon(
             isUser ? Icons.sentiment_neutral : Icons.face,
-            color: primaryColor,
+            color: isUser ? secondaryColorLight : primaryColorDark,
             size: 28.0,
           ),
         ),

@@ -28,7 +28,6 @@ class _PinSetState extends State<PinSet> {
 
   void pinButtonPressed(final String pinNumber) async {
     HapticFeedback.lightImpact();
-    debugPrint("Current Pos=$_currentPosition");
     updatePin(pinNumber);
     if (_currentPosition > 3) {
       await Future.delayed(const Duration(milliseconds: 200), () {});

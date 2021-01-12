@@ -4,13 +4,16 @@ import 'package:thepcosprotocol_app/utils/string_utils.dart';
 enum Flavor { DEV, STAGING, PROD }
 
 class FlavorValues {
-  FlavorValues(
-      {@required this.baseUrl,
-      @required this.oneSignalAppID,
-      @required this.questionnaireUrl});
+  FlavorValues({
+    @required this.baseUrl,
+    @required this.oneSignalAppID,
+    @required this.questionnaireUrl,
+    @required this.blobStorageUrl,
+  });
   final String baseUrl;
   final String oneSignalAppID;
   final String questionnaireUrl;
+  final String blobStorageUrl;
   //Add other flavor specific values, e.g database name
 }
 
