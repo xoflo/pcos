@@ -11,14 +11,27 @@ class RecipesLayout extends StatefulWidget {
   _RecipesLayoutState createState() => _RecipesLayoutState();
 }
 
-class _RecipesLayoutState extends State<RecipesLayout> {
-  bool _showRecipeDetails = false;
+class _RecipesLayoutState extends State<RecipesLayout>
+    with SingleTickerProviderStateMixin {
   RecipeViewModel _recipeDetails;
+  AnimationController _controller;
+  Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
     super.initState();
     _populateAllRecipes();
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _offsetAnimation =
+        Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+            .animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   void _populateAllRecipes() {
@@ -26,17 +39,21 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     Provider.of<RecipeListViewModel>(context, listen: false).getAllRecipes();
   }
 
-  void _openRecipeDetails(RecipeViewModel recipe) {
+  void _openRecipeDetails(RecipeViewModel recipe) async {
     setState(() {
       _recipeDetails = recipe;
-      _showRecipeDetails = true;
+    });
+    await Future.delayed(const Duration(milliseconds: 300), () {
+      _controller.forward();
     });
   }
 
-  void _closeRecipeDetails() {
-    setState(() {
-      _recipeDetails = null;
-      _showRecipeDetails = false;
+  void _closeRecipeDetails() async {
+    _controller.reverse();
+    await Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        _recipeDetails = null;
+      });
     });
   }
 
@@ -45,29 +62,38 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   Widget _displayUI(Size screenSize, RecipeListViewModel vm) {
-    if (_showRecipeDetails) {
-      return RecipeDetails(
-        recipe: _recipeDetails,
-        closeRecipeDetails: _closeRecipeDetails,
-        addToFavourites: _addToFavourites,
-      );
-    } else {
-      switch (vm.status) {
-        case Status.loading:
-          return Align(child: CircularProgressIndicator());
-        case Status.empty:
-          return Text("No recipes found!");
-        case Status.success:
-          return Column(
-            children: [
-              RecipeFilter(),
-              RecipesList(
-                  screenSize: screenSize,
-                  recipes: vm.recipes,
-                  openRecipeDetails: _openRecipeDetails)
-            ],
-          );
-      }
+    return Stack(children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: _getRecipesList(screenSize, vm),
+      ),
+      SlideTransition(
+        position: _offsetAnimation,
+        child: RecipeDetails(
+          recipe: _recipeDetails,
+          closeRecipeDetails: _closeRecipeDetails,
+          addToFavourites: _addToFavourites,
+        ),
+      ),
+    ]);
+  }
+
+  Widget _getRecipesList(Size screenSize, RecipeListViewModel vm) {
+    switch (vm.status) {
+      case Status.loading:
+        return Align(child: CircularProgressIndicator());
+      case Status.empty:
+        return Text("No recipes found!");
+      case Status.success:
+        return Column(
+          children: [
+            RecipeFilter(),
+            RecipesList(
+                screenSize: screenSize,
+                recipes: vm.recipes,
+                openRecipeDetails: _openRecipeDetails)
+          ],
+        );
     }
   }
 

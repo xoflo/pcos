@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
@@ -92,11 +93,18 @@ class RecipeDetailsSummary extends StatelessWidget {
             children: _getSummaryIcons(context),
           ),
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(5.0),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 500, maxHeight: 670),
-            child: Image.network(recipe.thumbnail),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 500),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5.0),
+            child: FadeInImage.memoryNetwork(
+              alignment: Alignment.center,
+              placeholder: kTransparentImage,
+              image: recipe.thumbnail,
+              fit: BoxFit.fitWidth,
+              width: double.maxFinite,
+              height: 300,
+            ),
           ),
         ),
       ],

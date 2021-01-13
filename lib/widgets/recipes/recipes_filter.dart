@@ -20,9 +20,10 @@ class RecipeFilter extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: size.width * 0.6,
+                  width: size.width - 160,
                   height: 40,
                   child: TextFormField(
                     controller: searchController,
@@ -35,7 +36,7 @@ class RecipeFilter extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Container(
-                    width: size.width * 0.3,
+                    width: 120,
                     height: 40,
                     child: isSearching
                         ? SpinnerButton()

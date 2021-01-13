@@ -61,8 +61,7 @@ class RecipeDetails extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               //Add this to give height
-              height: MediaQuery.of(context).size.height -
-                  (kToolbarHeight + kBottomNavigationBarHeight),
+              height: _getTabBarHeight(context, isHorizontal),
               child: TabBarView(
                 children: _getRecipeDetailTabViews(context, isHorizontal),
               ),
@@ -73,6 +72,12 @@ class RecipeDetails extends StatelessWidget {
     );
   }
 
+  double _getTabBarHeight(BuildContext context, bool isHorizontal) {
+    final int adjustmentAmount = isHorizontal ? 0 : 150;
+    return MediaQuery.of(context).size.height -
+        (kToolbarHeight + kBottomNavigationBarHeight + adjustmentAmount);
+  }
+
   List<Tab> _getRecipeDetailTabs(BuildContext context, bool isHorizontal) {
     List<Tab> tabs = List<Tab>();
     if (!isHorizontal) {
@@ -81,7 +86,6 @@ class RecipeDetails extends StatelessWidget {
     tabs.add(Tab(text: S.of(context).recipeDetailsIngredientsTab));
     tabs.add(Tab(text: S.of(context).recipeDetailsMethodTab));
     tabs.add(Tab(text: S.of(context).recipeDetailsTipsTab));
-    debugPrint("**************************TABS LENGTH=${tabs.length}");
     return tabs;
   }
 
@@ -102,7 +106,6 @@ class RecipeDetails extends StatelessWidget {
     tabViews.add(Html(
       data: recipe.tips,
     ));
-    debugPrint("**************************TABVIEWS LENGTH=${tabViews.length}");
     return tabViews;
   }
 
@@ -111,55 +114,65 @@ class RecipeDetails extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+    if (recipe == null) {
+      return Container();
+    }
 
-    return SizedBox.expand(
-      child: Card(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        addToFavourites();
-                      },
-                      child: Icon(
-                        recipe.isFavourite
-                            ? Icons.favorite
-                            : Icons.favorite_outline,
-                        color: primaryColorDark,
-                        size: 35,
-                      ),
-                    ),
-                    Text(
-                      recipe.title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        closeRecipeDetails();
-                      },
-                      child: SizedBox(
-                        width: 35,
-                        height: 35,
-                        child: Container(
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 1.0,
+        top: 1.0,
+        right: 1.0,
+      ),
+      child: SizedBox.expand(
+        child: Card(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          addToFavourites();
+                        },
+                        child: Icon(
+                          recipe.isFavourite
+                              ? Icons.favorite
+                              : Icons.favorite_outline,
                           color: primaryColorDark,
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 30,
+                          size: 35,
+                        ),
+                      ),
+                      Text(
+                        recipe.title,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          closeRecipeDetails();
+                        },
+                        child: SizedBox(
+                          width: 35,
+                          height: 35,
+                          child: Container(
+                            color: primaryColorDark,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              _getRecipeDetails(context, isHorizontal, screenSize),
-            ],
+                _getRecipeDetails(context, isHorizontal, screenSize),
+              ],
+            ),
           ),
         ),
       ),

@@ -14,17 +14,18 @@ class RecipesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
+    final bool isHorizontal =
+        DeviceUtils.isHorizontalWideScreen(size.width, size.height);
 
     /*24 is for notification bar on Android*/
     //final double itemHeight = (size.height - kToolbarHeight) / 2;
     //final double itemWidth = size.width / 2;
-    final double aspectRatio =
-        DeviceUtils.isHorizontalWideScreen(size.width, size.height)
-            ? 1.24
-            : Platform.isIOS
-                ? 1.36
-                : 1.49;
+    final double aspectRatio = isHorizontal
+        ? 1.24
+        : Platform.isIOS
+            ? 1.36
+            : 1.49;
 
     return Expanded(
       child: GridView.count(
