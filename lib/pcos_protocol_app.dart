@@ -36,14 +36,9 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    debugPrint("**********************APPLIFECYCLESTATE=$state");
-
     //backgrounded - app was active (resumed) and is now inactive
     if (_appLifecycleState == AppLifecycleState.resumed &&
         state == AppLifecycleState.inactive) {
-      debugPrint(
-          "*******************PRESTATE$_appLifecycleState **********************CURRSTATE=$state");
-      debugPrint("*******************BACKGROUNDED");
       if (appState == AppState.APP || appState == AppState.PIN_SET) {
         Authentication()
             .saveBackgroundedTimestamp(DateTime.now().millisecondsSinceEpoch);
@@ -54,9 +49,6 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
     if ((_appLifecycleState == AppLifecycleState.inactive ||
             _appLifecycleState == AppLifecycleState.paused) &&
         state == AppLifecycleState.resumed) {
-      debugPrint(
-          "*******************PRESTATE$_appLifecycleState **********************CURRSTATE=$state");
-      debugPrint("*******************FOREGROUNDED");
       if (appState != AppState.LOCKED) {
         appForegroundingCheck();
       }
@@ -68,12 +60,10 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
   }
 
   void appOpeningCheck() async {
-    debugPrint("**********************appOpeningCheck");
     final bool isUserLoggedIn = await Authentication().isUserLoggedIn();
 
     if (isUserLoggedIn) {
       final bool isUserPinSet = await Authentication().isUserPinSet();
-      debugPrint("PINSET=$isUserPinSet");
       if (isUserPinSet) {
         updateAppState(AppState.LOCKED);
         return;
@@ -84,16 +74,13 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
 
   // This function controls which screen the users sees when they foreground the app
   void appForegroundingCheck() async {
-    debugPrint(
-        "**********************appForegroundingCheck appState=$appState");
     final bool isUserLoggedIn = await Authentication().isUserLoggedIn();
 
     if (isUserLoggedIn) {
       final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
       final int backgroundedTimestamp =
           await Authentication().getBackgroundedTimestamp();
-      debugPrint("backgroundTimestamp=$backgroundedTimestamp");
-      debugPrint("currentTimestamp=$currentTimestamp");
+
       //need to check whether authenticated and has pin set?
       //check if app was backgrounded over five minutes (300,000 milliseconds) ago, and display lock screen if necessary
 
@@ -101,7 +88,6 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
       if (isUserPinSet) {
         if (backgroundedTimestamp != null &&
             currentTimestamp - backgroundedTimestamp > 300000) {
-          debugPrint("PINSET=$isUserPinSet");
           updateAppState(AppState.LOCKED);
         } else {
           updateAppState(AppState.APP);
@@ -115,7 +101,6 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
   }
 
   void updateAppState(AppState newAppState) {
-    debugPrint("appstate=$newAppState");
     setState(() {
       appState = newAppState;
     });
@@ -136,7 +121,6 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("APPSTATE ON BUILD=$appState");
     //this controls whether the signin, register or app are displayed using AppState
     if (appState == AppState.LOADING) {
       return AppLoading(
@@ -144,7 +128,6 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
         valueColor: primaryColorDark,
       );
     } else if (appState == AppState.APP) {
-      debugPrint("APP");
       return AppBody(updateAppState: updateAppState);
       //NB: By setting this number high, will always show tabbed layout
       //    If we choose to have a different menu approach for iPads reduce
@@ -152,7 +135,6 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
       //Size screenSize = MediaQuery.of(context).size;
       //return screenSize.width < 10000 ? AppBody() : AppBodyLarge();
     } else {
-      debugPrint("Authenticate or Register = $appState");
       return Scaffold(
         backgroundColor: Theme.of(context).primaryColorDark,
         body: getAuthenticationScreen(appState),

@@ -544,6 +544,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Search`
+  String get searchInputText {
+    return Intl.message(
+      'Search',
+      name: 'searchInputText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summary`
+  String get recipeDetailsSummaryTab {
+    return Intl.message(
+      'Summary',
+      name: 'recipeDetailsSummaryTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ingredients`
+  String get recipeDetailsIngredientsTab {
+    return Intl.message(
+      'Ingredients',
+      name: 'recipeDetailsIngredientsTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Method`
+  String get recipeDetailsMethodTab {
+    return Intl.message(
+      'Method',
+      name: 'recipeDetailsMethodTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tips`
+  String get recipeDetailsTipsTab {
+    return Intl.message(
+      'Tips',
+      name: 'recipeDetailsTipsTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `mins`
+  String get minutesShort {
+    return Intl.message(
+      'mins',
+      name: 'minutesShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Easy`
+  String get recipeDifficultyEasy {
+    return Intl.message(
+      'Easy',
+      name: 'recipeDifficultyEasy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Medium`
+  String get recipeDifficultyMedium {
+    return Intl.message(
+      'Medium',
+      name: 'recipeDifficultyMedium',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hard`
+  String get recipeDifficultyHard {
+    return Intl.message(
+      'Hard',
+      name: 'recipeDifficultyHard',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

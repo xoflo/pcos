@@ -24,7 +24,6 @@ class _RegisterState extends State<Register> {
   final emailController = TextEditingController();
 
   void openQuestionnaireWebsite() async {
-    debugPrint("open website");
     final urlQuestionnaireWebsite =
         FlavorConfig.instance.values.questionnaireUrl;
     if (await canLaunch(urlQuestionnaireWebsite)) {
@@ -52,7 +51,6 @@ class _RegisterState extends State<Register> {
   }
 
   void navigateToSignIn() {
-    debugPrint("signin");
     widget.updateAppState(AppState.SIGN_IN);
   }
 

@@ -30,6 +30,16 @@ class Authentication {
     return false;
   }
 
+  Future<String> getAccessToken() async {
+    try {
+      final String token =
+          await secureStorage.read(key: SecureStorageKeys.ACCESS_TOKEN);
+      return token;
+    } catch (ex) {
+      return "";
+    }
+  }
+
   Future<String> getRefreshToken() async {
     try {
       final String refreshToken =

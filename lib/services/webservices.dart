@@ -1,17 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/models/standard_response.dart';
 import 'package:thepcosprotocol_app/models/token_response.dart';
 import 'package:thepcosprotocol_app/models/token.dart';
+import 'package:thepcosprotocol_app/models/recipe_response.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
+import 'package:thepcosprotocol_app/controllers/authentication.dart';
 
 class WebServices {
-  final String baseUrl = FlavorConfig.instance.values.baseUrl;
+  final String _baseUrl = FlavorConfig.instance.values.baseUrl;
 
   Future<Token> signIn(String emailAddress, String password) async {
-    final url = baseUrl + "token";
+    final url = _baseUrl + "token";
     final response = await http.post(
       url,
       headers: <String, String>{
@@ -23,19 +25,29 @@ class WebServices {
     );
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      debugPrint("BODY=${response.body}");
       final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
-      debugPrint("accessToken=${tokenResponse.token.accessToken}");
-      //final token = Token.fromJson(jsonDecode(apiResponse.payload));
-      //debugPrint("TOKEN=${token.accessToken}");
-      //final myToken = Token.fromJson(apiResponse.payload);
       return tokenResponse.token;
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
       throw Exception(SIGN_IN_FAILED);
+    }
+  }
+
+  Future<List<Recipe>> getAllRecipes() async {
+    final url = _baseUrl + "recipe/all";
+    final String token = await Authentication().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    if (response.statusCode == 200) {
+      return RecipeResponse.fromJson(
+              StandardResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw Exception(GET_RECIPES_FAILED);
     }
   }
 }

@@ -12,6 +12,8 @@ void main() {
       baseUrl: "",
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl: "https://www.thepcosnutritionist.com/",
+      blobStorageUrl:
+          "https://pcosprotocolstorage.blob.core.windows.net/media/",
     ),
   );
 

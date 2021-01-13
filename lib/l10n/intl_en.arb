@@ -50,5 +50,14 @@
     "coachChatHeading": "Chat to your Coach",
     "sendButtonText": "Send",
     "enterMessageText": "Enter your message",
-    "validateMessageText": "Please enter your message text"
+    "validateMessageText": "Please enter your message text",
+    "searchInputText": "Search",
+    "recipeDetailsSummaryTab": "Summary",
+    "recipeDetailsIngredientsTab": "Ingredients",
+    "recipeDetailsMethodTab": "Method",
+    "recipeDetailsTipsTab": "Tips",
+    "minutesShort": "mins",
+    "recipeDifficultyEasy": "Easy",
+    "recipeDifficultyMedium": "Medium",
+    "recipeDifficultyHard": "Hard"
 }

@@ -33,4 +33,15 @@ class DeviceUtils {
     }
     return false;
   }
+
+  static int getItemsPerRow(double width, double height) {
+    if (width > 700) {
+      if (width > height) {
+        return 3;
+      } else {
+        return 2;
+      }
+    }
+    return 1;
+  }
 }

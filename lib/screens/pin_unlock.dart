@@ -28,7 +28,6 @@ class _PinUnlockState extends State<PinUnlock> {
 
   void pinButtonPressed(final String pinNumber) async {
     HapticFeedback.lightImpact();
-    debugPrint("Current Pos=$_currentPosition");
     updatePin(pinNumber);
     if (_currentPosition > 3) {
       await Future.delayed(const Duration(milliseconds: 200), () {});
@@ -58,7 +57,6 @@ class _PinUnlockState extends State<PinUnlock> {
   }
 
   Future<bool> checkPin(final String pinEntered) async {
-    debugPrint("PIN ENtered=$_pinEntered");
     _pinAttempts++;
     if (await Authentication().checkPin(pinEntered)) {
       pinEntryComplete();
@@ -74,14 +72,7 @@ class _PinUnlockState extends State<PinUnlock> {
 
   void pinEntryComplete() async {
     //Pin entry is complete now show the app
-    debugPrint("GOTHERE 0");
-    updatePinEntryState();
-    debugPrint("GOTHERE 1");
-
-    await Future.delayed(Duration(seconds: 2), () {
-      debugPrint("GOTHERE 2");
-      widget.updateAppState(AppState.APP);
-    });
+    widget.updateAppState(AppState.APP);
   }
 
   void startPinAgain() {
