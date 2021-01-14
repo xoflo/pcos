@@ -43,6 +43,8 @@ dependencies:
   provider: ^4.3.2+3
   flutter_html: ^1.1.0
   transparent_image: ^1.0.0
+  video_player: ^1.0.1
+  chewie: ^0.12.1+1
 
 dev_dependencies:
   flutter_test:

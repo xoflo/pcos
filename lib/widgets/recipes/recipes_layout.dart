@@ -14,24 +14,24 @@ class RecipesLayout extends StatefulWidget {
 class _RecipesLayoutState extends State<RecipesLayout>
     with SingleTickerProviderStateMixin {
   RecipeViewModel _recipeDetails;
-  AnimationController _controller;
+  AnimationController _animationController;
   Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
     super.initState();
     _populateAllRecipes();
-    _controller =
+    _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _offsetAnimation =
         Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-            .animate(_controller);
+            .animate(_animationController);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _animationController.dispose();
   }
 
   void _populateAllRecipes() {
@@ -44,12 +44,12 @@ class _RecipesLayoutState extends State<RecipesLayout>
       _recipeDetails = recipe;
     });
     await Future.delayed(const Duration(milliseconds: 300), () {
-      _controller.forward();
+      _animationController.forward();
     });
   }
 
   void _closeRecipeDetails() async {
-    _controller.reverse();
+    _animationController.reverse();
     await Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         _recipeDetails = null;
@@ -57,32 +57,13 @@ class _RecipesLayoutState extends State<RecipesLayout>
     });
   }
 
-  void _addToFavourites() {
-    debugPrint("Add to favourites");
-  }
-
-  Widget _displayUI(Size screenSize, RecipeListViewModel vm) {
-    return Stack(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: _getRecipesList(screenSize, vm),
-      ),
-      SlideTransition(
-        position: _offsetAnimation,
-        child: RecipeDetails(
-          recipe: _recipeDetails,
-          closeRecipeDetails: _closeRecipeDetails,
-          addToFavourites: _addToFavourites,
-        ),
-      ),
-    ]);
-  }
-
   Widget _getRecipesList(Size screenSize, RecipeListViewModel vm) {
     switch (vm.status) {
       case Status.loading:
+        // TODO: does this need wrapping in a widget with more layout?
         return Align(child: CircularProgressIndicator());
       case Status.empty:
+        // TODO: create a widget for nothing found and test how it looks
         return Text("No recipes found!");
       case Status.success:
         return Column(
@@ -102,6 +83,20 @@ class _RecipesLayoutState extends State<RecipesLayout>
     final vm = Provider.of<RecipeListViewModel>(context);
     final Size screenSize = MediaQuery.of(context).size;
 
-    return _displayUI(screenSize, vm);
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: _getRecipesList(screenSize, vm),
+        ),
+        SlideTransition(
+          position: _offsetAnimation,
+          child: RecipeDetails(
+            recipe: _recipeDetails,
+            closeRecipeDetails: _closeRecipeDetails,
+          ),
+        ),
+      ],
+    );
   }
 }
