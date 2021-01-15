@@ -5,6 +5,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class VideoPlayerChewie extends StatefulWidget {
   final String videoUrl;
@@ -91,6 +92,9 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final double loadingHeight = ((screenSize.width - 20) / 16) * 9;
+
     return Center(
       child: _chewieController != null &&
               _chewieController.videoPlayerController.value.initialized
@@ -104,20 +108,43 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
                   ),
                   child: AspectRatio(
                     aspectRatio: _videoPlayerController.value.aspectRatio,
-                    child: Chewie(
-                      controller: _chewieController,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: primaryColorDark,
+                        ),
+                      ),
+                      child: Chewie(
+                        controller: _chewieController,
+                      ),
                     ),
                   ),
                 ),
               ],
             )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(height: 20),
-                Text('Loading'),
-              ],
+          : SizedBox(
+              width: double.infinity,
+              height: loadingHeight,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: primaryColorDark,
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      backgroundColor: backgroundColor,
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(primaryColorDark),
+                    ),
+                    SizedBox(height: 20),
+                    Text(S.of(context).loadingVideo),
+                  ],
+                ),
+              ),
             ),
     );
   }

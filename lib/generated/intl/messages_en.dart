@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "gotoSignupText" : MessageLookupByLibrary.simpleMessage("To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme."),
     "helpTitle" : MessageLookupByLibrary.simpleMessage("Help"),
     "knowledgeBaseTitle" : MessageLookupByLibrary.simpleMessage("Knowledge Base"),
+    "loadingVideo" : MessageLookupByLibrary.simpleMessage("Loading Video"),
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
     "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register now on your device click the button below to visit the PCOS Questionnaire website."),
