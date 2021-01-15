@@ -59,5 +59,6 @@
     "minutesShort": "mins",
     "recipeDifficultyEasy": "Easy",
     "recipeDifficultyMedium": "Medium",
-    "recipeDifficultyHard": "Hard"
+    "recipeDifficultyHard": "Hard",
+    "loadingVideo": "Loading Video"
 }

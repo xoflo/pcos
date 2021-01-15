@@ -634,6 +634,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Loading Video`
+  String get loadingVideo {
+    return Intl.message(
+      'Loading Video',
+      name: 'loadingVideo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

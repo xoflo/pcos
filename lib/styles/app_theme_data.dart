@@ -5,17 +5,18 @@ ThemeData appThemeData() {
   return ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     // Define the default brightness and colors.
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     primaryColor: primaryColor,
     primaryColorDark: primaryColorDark,
     primaryColorLight: primaryColorLight,
     backgroundColor: backgroundColor,
+    cardColor: Colors.white,
 
     // Define the default font family.
     fontFamily: 'Roboto',
     primaryIconTheme: IconThemeData(color: Colors.white),
     iconTheme: IconThemeData(color: Colors.white),
-    accentIconTheme: IconThemeData(color: Colors.white),
+    //accentIconTheme: IconThemeData(color: Colors.white), deprecated
     canvasColor: backgroundColor,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: primaryColorDark,
