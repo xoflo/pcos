@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/widgets/auth/pin_pad.dart';
 import 'package:thepcosprotocol_app/widgets/auth/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
-import 'package:thepcosprotocol_app/controllers/authentication.dart';
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
 import 'package:thepcosprotocol_app/utils/error_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -58,7 +58,7 @@ class _PinUnlockState extends State<PinUnlock> {
 
   Future<bool> checkPin(final String pinEntered) async {
     _pinAttempts++;
-    if (await Authentication().checkPin(pinEntered)) {
+    if (await AuthenticationController().checkPin(pinEntered)) {
       pinEntryComplete();
     } else {
       if (_pinAttempts < 5) {
@@ -96,8 +96,8 @@ class _PinUnlockState extends State<PinUnlock> {
       displayDuration: 5,
     );
 
-    Authentication().deletePin();
-    Authentication().deleteCredentials();
+    AuthenticationController().deletePin();
+    AuthenticationController().deleteCredentials();
 
     await Future.delayed(Duration(seconds: 6), () {
       widget.updateAppState(AppState.SIGN_IN);

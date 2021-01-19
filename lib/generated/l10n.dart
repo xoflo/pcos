@@ -165,10 +165,10 @@ class S {
     );
   }
 
-  /// `Privacy`
+  /// `Privacy policy`
   String get privacyTitle {
     return Intl.message(
-      'Privacy',
+      'Privacy policy',
       name: 'privacyTitle',
       desc: '',
       args: [],
@@ -640,6 +640,56 @@ class S {
     return Intl.message(
       'Loading Video',
       name: 'loadingVideo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Getting started`
+  String get gettingStarted {
+    return Intl.message(
+      'Getting started',
+      name: 'gettingStarted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FAQs`
+  String get frequentlyAskedQuestions {
+    return Intl.message(
+      'FAQs',
+      name: 'frequentlyAskedQuestions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course questions`
+  String get courseQuestions {
+    return Intl.message(
+      'Course questions',
+      name: 'courseQuestions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget elit a felis vestibulum vehicula id ac ipsum. Ut venenatis augue quis interdum porttitor. Praesent rutrum feugiat porttitor. Pellentesque et dapibus nisl. Pellentesque iaculis tortor tortor, non ultrices elit ullamcorper in. Nam a mollis quam. Vestibulum lacinia mauris lacus, et ultrices nisl dictum non. Quisque gravida ex nec diam ullamcorper, nec dictum magna tincidunt. Nunc urna neque, viverra ac lacus et, ullamcorper fermentum enim. Maecenas nec urna a ex efficitur euismod. Fusce vulputate tortor eu mauris lacinia, ut malesuada tellus imperdiet. Nam ante erat, vulputate eu enim vel, interdum hendrerit turpis. Pellentesque non vulputate nulla, ut suscipit magna. Fusce a neque enim. Aenean et consequat tortor.</p>\n<p>Vivamus convallis at dolor quis efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In dui quam, pulvinar ac orci vitae, tincidunt finibus justo. Aenean scelerisque id dolor sit amet dignissim. Phasellus scelerisque aliquet vehicula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Aenean posuere maximus nunc. Nullam mollis dignissim neque, non interdum lorem laoreet vel. Praesent aliquet enim orci, non sodales nisi facilisis sed. Donec consequat massa et malesuada scelerisque. Vestibulum cursus turpis quam, in consectetur ipsum ultrices ac.</p>\n<p>Donec sagittis laoreet dictum. Fusce massa lacus, varius at varius blandit, scelerisque id justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In sit amet fringilla tortor. Vestibulum dapibus iaculis augue, ut luctus nulla dignissim in. Aliquam et sem ultricies, luctus lacus et, ornare quam. Donec et sagittis mi. Maecenas mollis iaculis leo, sit amet interdum turpis interdum eget. Donec feugiat ante sit amet pellentesque semper. Donec eu erat egestas, tempus neque non, ullamcorper massa. Praesent ac interdum lorem. Aliquam venenatis elementum mollis. Donec pharetra eleifend nulla, in vestibulum purus ullamcorper sit amet.</p>`
+  String get gettingStartedText {
+    return Intl.message(
+      '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget elit a felis vestibulum vehicula id ac ipsum. Ut venenatis augue quis interdum porttitor. Praesent rutrum feugiat porttitor. Pellentesque et dapibus nisl. Pellentesque iaculis tortor tortor, non ultrices elit ullamcorper in. Nam a mollis quam. Vestibulum lacinia mauris lacus, et ultrices nisl dictum non. Quisque gravida ex nec diam ullamcorper, nec dictum magna tincidunt. Nunc urna neque, viverra ac lacus et, ullamcorper fermentum enim. Maecenas nec urna a ex efficitur euismod. Fusce vulputate tortor eu mauris lacinia, ut malesuada tellus imperdiet. Nam ante erat, vulputate eu enim vel, interdum hendrerit turpis. Pellentesque non vulputate nulla, ut suscipit magna. Fusce a neque enim. Aenean et consequat tortor.</p>\n<p>Vivamus convallis at dolor quis efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In dui quam, pulvinar ac orci vitae, tincidunt finibus justo. Aenean scelerisque id dolor sit amet dignissim. Phasellus scelerisque aliquet vehicula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. Aenean posuere maximus nunc. Nullam mollis dignissim neque, non interdum lorem laoreet vel. Praesent aliquet enim orci, non sodales nisi facilisis sed. Donec consequat massa et malesuada scelerisque. Vestibulum cursus turpis quam, in consectetur ipsum ultrices ac.</p>\n<p>Donec sagittis laoreet dictum. Fusce massa lacus, varius at varius blandit, scelerisque id justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In sit amet fringilla tortor. Vestibulum dapibus iaculis augue, ut luctus nulla dignissim in. Aliquam et sem ultricies, luctus lacus et, ornare quam. Donec et sagittis mi. Maecenas mollis iaculis leo, sit amet interdum turpis interdum eget. Donec feugiat ante sit amet pellentesque semper. Donec eu erat egestas, tempus neque non, ullamcorper massa. Praesent ac interdum lorem. Aliquam venenatis elementum mollis. Donec pharetra eleifend nulla, in vestibulum purus ullamcorper sit amet.</p>',
+      name: 'gettingStartedText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try again later.`
+  String get tryAgain {
+    return Intl.message(
+      'Please try again later.',
+      name: 'tryAgain',
       desc: '',
       args: [],
     );

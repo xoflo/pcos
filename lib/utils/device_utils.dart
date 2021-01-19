@@ -27,7 +27,7 @@ class DeviceUtils {
     return plugin.iosInfo;
   }
 
-  static bool isHorizontalWideScreen(double width, double height) {
+  static bool isHorizontalWideScreen(final double width, final double height) {
     if (width > height && width > 700) {
       return true;
     }
@@ -43,5 +43,16 @@ class DeviceUtils {
       }
     }
     return 1;
+  }
+
+  static double getRemainingHeight(
+      final double height, final bool isTab, final bool isHorizontal) {
+    int adjustmentAmount = 0;
+
+    if (!isHorizontal) {
+      adjustmentAmount = isTab ? 170 : 120;
+    }
+
+    return height - adjustmentAmount;
   }
 }

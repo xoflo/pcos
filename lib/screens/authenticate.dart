@@ -4,7 +4,7 @@ import 'package:thepcosprotocol_app/widgets/auth/sign_in.dart';
 import 'package:thepcosprotocol_app/widgets/auth/goto_register.dart';
 import 'package:thepcosprotocol_app/widgets/auth/authenticate_layout.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/controllers/authentication.dart';
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/utils/error_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -31,7 +31,8 @@ class _AuthenticateState extends State<Authenticate> {
     final String emailAddress = emailController.text.trim();
     final String password = passwordController.text.trim();
     // perform the authentication
-    final bool signedIn = await Authentication().signIn(emailAddress, password);
+    final bool signedIn =
+        await AuthenticationController().signIn(emailAddress, password);
 
     if (signedIn) {
       //success - this hides the login screen and shows the pin setup screen

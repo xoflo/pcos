@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
-class CardHeader extends StatelessWidget {
+class Header extends StatelessWidget {
   final int itemId;
   final FavouriteType favouriteType;
   final String title;
   final bool isFavourite;
   final Function closeItem;
 
-  CardHeader(
+  Header(
       {this.itemId,
       this.favouriteType,
       this.title,
@@ -27,16 +27,18 @@ class CardHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          GestureDetector(
-            onTap: () {
-              _addToFavourites();
-            },
-            child: Icon(
-              isFavourite ? Icons.favorite : Icons.favorite_outline,
-              color: primaryColorDark,
-              size: 35,
-            ),
-          ),
+          favouriteType == FavouriteType.None
+              ? SizedBox(width: 35)
+              : GestureDetector(
+                  onTap: () {
+                    _addToFavourites();
+                  },
+                  child: Icon(
+                    isFavourite ? Icons.favorite : Icons.favorite_outline,
+                    color: primaryColorDark,
+                    size: 35,
+                  ),
+                ),
           Text(
             title,
             style: Theme.of(context).textTheme.headline6,

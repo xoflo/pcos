@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/controllers/authentication.dart';
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
 
@@ -33,8 +33,9 @@ class _DashboardLayoutState extends State<DashboardLayout>
   }
 
   void getRefreshToken() async {
-    final String token = await Authentication().getRefreshToken();
-    final int timeStamp = await Authentication().getBackgroundedTimestamp();
+    final String token = await AuthenticationController().getRefreshToken();
+    final int timeStamp =
+        await AuthenticationController().getBackgroundedTimestamp();
 
     setState(() {
       _refreshToken = token;

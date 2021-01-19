@@ -8,7 +8,7 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
-class Authentication {
+class AuthenticationController {
   Future<bool> signIn(String emailAddress, String password) async {
     try {
       final token = await WebServices().signIn(emailAddress, password);

@@ -4,11 +4,13 @@ import 'package:package_info/package_info.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
+import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 
 class DrawerMenu extends StatefulWidget {
   final Function(AppState) updateAppState;
+  final Function(DrawerMenuItem) openDrawerMenuItem;
 
-  DrawerMenu({this.updateAppState});
+  DrawerMenu({this.updateAppState, this.openDrawerMenuItem});
 
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
@@ -18,9 +20,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
   String _appVersion = "";
   String _appBuildNumber = "";
 
-  void _drawerNavigation(BuildContext context) {
+  void _drawerNavigation(BuildContext context, DrawerMenuItem drawerMenuItem) {
     debugPrint("Open drawer item");
-    Navigator.pop(context);
+    widget.openDrawerMenuItem(drawerMenuItem);
   }
 
   void _getPackageInfo() async {
@@ -97,7 +99,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: drawerItemStyle,
             ),
             onTap: () {
-              _drawerNavigation(context);
+              _drawerNavigation(context, DrawerMenuItem.PROFILE);
             },
           ),
           ListTile(
@@ -106,7 +108,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: drawerItemStyle,
             ),
             onTap: () {
-              _drawerNavigation(context);
+              _drawerNavigation(context, DrawerMenuItem.CHANGE_PASSWORD);
             },
           ),
           ListTile(
@@ -115,7 +117,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: drawerItemStyle,
             ),
             onTap: () {
-              _drawerNavigation(context);
+              _drawerNavigation(context, DrawerMenuItem.REQUEST_DATA);
             },
           ),
           ListTile(
@@ -124,16 +126,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: drawerItemStyle,
             ),
             onTap: () {
-              _drawerNavigation(context);
-            },
-          ),
-          ListTile(
-            title: Text(
-              S.of(context).supportTitle,
-              style: drawerItemStyle,
-            ),
-            onTap: () {
-              _drawerNavigation(context);
+              _drawerNavigation(context, DrawerMenuItem.HELP);
             },
           ),
           ListTile(
@@ -142,7 +135,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: drawerItemStyle,
             ),
             onTap: () {
-              _drawerNavigation(context);
+              _drawerNavigation(context, DrawerMenuItem.PRIVACY);
             },
           ),
           ListTile(
@@ -151,7 +144,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: drawerItemStyle,
             ),
             onTap: () {
-              _drawerNavigation(context);
+              _drawerNavigation(context, DrawerMenuItem.TERMS_OF_USE);
             },
           ),
           SizedBox(height: 30.0),
