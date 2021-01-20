@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/models/response/recipe_response.dart';
 import 'package:thepcosprotocol_app/models/response/cms_response.dart';
 import 'package:thepcosprotocol_app/models/token.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 
@@ -15,7 +16,7 @@ class WebServices {
   final String _baseUrl = FlavorConfig.instance.values.baseUrl;
 
   Future<Token> signIn(final String emailAddress, final String password) async {
-    final url = _baseUrl + "token";
+    final url = _baseUrl + "Token";
     final response = await http.post(
       url,
       headers: <String, String>{
@@ -31,6 +32,48 @@ class WebServices {
       return tokenResponse.token;
     } else {
       throw Exception(SIGN_IN_FAILED);
+    }
+  }
+
+  Future<Token> refreshToken() async {
+    final url = _baseUrl + "Token/refresh";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String>{token},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
+      return tokenResponse.token;
+    } else {
+      throw Exception(SIGN_IN_FAILED);
+    }
+  }
+
+  Future<Member> getMemberDetails() async {
+    final url = _baseUrl + "Member/me";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    debugPrint("***********************ALL RESPONSE ${response.body}");
+
+    if (response.statusCode == 200) {
+      return Member.fromJson(
+          StandardResponse.fromJson(jsonDecode(response.body)).payload);
+    } else {
+      throw Exception(GET_MEMBER_FAILED);
     }
   }
 

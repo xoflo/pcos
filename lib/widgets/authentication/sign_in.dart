@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/other/spinner_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/spinner_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/standard_button.dart';
 
 class SignIn extends StatelessWidget {
   final bool isSigningIn;
@@ -87,16 +86,9 @@ class SignIn extends StatelessWidget {
                     height: 40,
                     child: isSigningIn
                         ? SpinnerButton()
-                        : OutlinedButton(
-                            onPressed: () {
-                              attemptSignIn();
-                            },
-                            child: Text(
-                              S.of(context).signInTitle,
-                              style: TextStyle(
-                                color: primaryColorDark,
-                              ),
-                            ),
+                        : StandardButton(
+                            label: S.of(context).signInTitle,
+                            onTap: attemptSignIn,
                           ),
                   ),
                 ),

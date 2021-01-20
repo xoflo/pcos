@@ -205,10 +205,10 @@ class S {
     );
   }
 
-  /// `Email`
+  /// `Email or Username`
   String get emailLabel {
     return Intl.message(
-      'Email',
+      'Email or Username',
       name: 'emailLabel',
       desc: '',
       args: [],
@@ -275,10 +275,10 @@ class S {
     );
   }
 
-  /// `Open Website`
+  /// `Open Questionnaire`
   String get openWebsiteTitle {
     return Intl.message(
-      'Open Website',
+      'Open Questionnaire',
       name: 'openWebsiteTitle',
       desc: '',
       args: [],
@@ -290,6 +290,16 @@ class S {
     return Intl.message(
       'To register now on your device click the button below to visit the PCOS Questionnaire website.',
       name: 'openWebsiteText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The PCOS Protocol is a personalised programme, delivered according to your own goals.`
+  String get openWebsiteWhy {
+    return Intl.message(
+      'The PCOS Protocol is a personalised programme, delivered according to your own goals.',
+      name: 'openWebsiteWhy',
       desc: '',
       args: [],
     );
@@ -690,6 +700,116 @@ class S {
     return Intl.message(
       'Please try again later.',
       name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First name`
+  String get profileFirstNameLabel {
+    return Intl.message(
+      'First name',
+      name: 'profileFirstNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last name`
+  String get profileLastNameLabel {
+    return Intl.message(
+      'Last name',
+      name: 'profileLastNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get profileAliasLabel {
+    return Intl.message(
+      'Username',
+      name: 'profileAliasLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get profileEmailLabel {
+    return Intl.message(
+      'Email',
+      name: 'profileEmailLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit profile`
+  String get profileEditButton {
+    return Intl.message(
+      'Edit profile',
+      name: 'profileEditButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save profile`
+  String get profileSaveButton {
+    return Intl.message(
+      'Save profile',
+      name: 'profileSaveButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get profileCancelButton {
+    return Intl.message(
+      'Cancel',
+      name: 'profileCancelButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your first name.`
+  String get profileValidateFirstNameMessage {
+    return Intl.message(
+      'Please enter your first name.',
+      name: 'profileValidateFirstNameMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your last name.`
+  String get profileValidateLastNameMessage {
+    return Intl.message(
+      'Please enter your last name.',
+      name: 'profileValidateLastNameMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your email.`
+  String get profileValidateEmailMessage {
+    return Intl.message(
+      'Please enter your email.',
+      name: 'profileValidateEmailMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username cannot be updated`
+  String get userNameLocked {
+    return Intl.message(
+      'Username cannot be updated',
+      name: 'userNameLocked',
       desc: '',
       args: [],
     );

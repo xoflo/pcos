@@ -5,7 +5,7 @@ class Profile {
   final String alias;
   final String countryID;
   final bool isAdmin;
-  final dateCreatedUTC;
+  final DateTime dateCreatedUTC;
 
   Profile(
       {this.id,

@@ -113,24 +113,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).requestDataTitle,
-              style: drawerItemStyle,
-            ),
-            onTap: () {
-              _drawerNavigation(context, DrawerMenuItem.REQUEST_DATA);
-            },
-          ),
-          ListTile(
-            title: Text(
-              S.of(context).helpTitle,
-              style: drawerItemStyle,
-            ),
-            onTap: () {
-              _drawerNavigation(context, DrawerMenuItem.HELP);
-            },
-          ),
-          ListTile(
-            title: Text(
               S.of(context).privacyTitle,
               style: drawerItemStyle,
             ),

@@ -1,9 +1,6 @@
 enum DrawerMenuItem {
   PROFILE,
   CHANGE_PASSWORD,
-  REQUEST_DATA,
-  HELP,
-  SUPPORT,
   PRIVACY,
-  TERMS_OF_USE
+  TERMS_OF_USE,
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
-import 'package:thepcosprotocol_app/widgets/auth/sign_in.dart';
-import 'package:thepcosprotocol_app/widgets/auth/goto_register.dart';
-import 'package:thepcosprotocol_app/widgets/auth/authenticate_layout.dart';
+import 'package:thepcosprotocol_app/widgets/authentication/sign_in.dart';
+import 'package:thepcosprotocol_app/widgets/authentication/goto_register.dart';
+import 'package:thepcosprotocol_app/widgets/authentication/authenticate_layout.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/utils/error_utils.dart';
@@ -51,7 +51,9 @@ class _AuthenticateState extends State<Authenticate> {
   }
 
   void navigateToRegister() {
-    widget.updateAppState(AppState.REGISTER);
+    if (!isSigningIn) {
+      widget.updateAppState(AppState.REGISTER);
+    }
   }
 
   @override
@@ -69,8 +71,7 @@ class _AuthenticateState extends State<Authenticate> {
           emailController: emailController,
           passwordController: passwordController,
         ),
-        gotoRegister: GotoRegister(
-            isSigningIn: isSigningIn, navigateToRegister: navigateToRegister),
+        gotoRegister: GotoRegister(navigateToRegister: navigateToRegister),
       ),
     );
   }

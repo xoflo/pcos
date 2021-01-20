@@ -1,5 +1,3 @@
-import 'package:thepcosprotocol_app/models/recipe.dart';
-
 class CmsResponse {
   String body;
 

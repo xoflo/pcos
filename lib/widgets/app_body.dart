@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/screens/main_screens.dart';
+import 'package:thepcosprotocol_app/screens/profile.dart';
+import 'package:thepcosprotocol_app/screens/change_password.dart';
 import 'package:thepcosprotocol_app/screens/help.dart';
 import 'package:thepcosprotocol_app/screens/privacy.dart';
 import 'package:thepcosprotocol_app/screens/terms_and_conditions.dart';
@@ -30,37 +33,31 @@ class _AppBodyState extends State<AppBody> {
 
     switch (drawerMenuItem) {
       case DrawerMenuItem.PROFILE:
-        debugPrint("Profile");
-        break;
-      case DrawerMenuItem.CHANGE_PASSWORD:
-        debugPrint("Change Password");
-        break;
-      case DrawerMenuItem.REQUEST_DATA:
-        debugPrint("Request data");
-        break;
-      case DrawerMenuItem.HELP:
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Help(
-              closeMenuItem: () {
-                Navigator.pop(context);
-              },
+            builder: (context) => Profile(
+              closeMenuItem: closeMenuItem,
             ),
           ),
         );
         break;
-      case DrawerMenuItem.SUPPORT:
-        debugPrint("Support");
+      case DrawerMenuItem.CHANGE_PASSWORD:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChangePassword(
+              closeMenuItem: closeMenuItem,
+            ),
+          ),
+        );
         break;
       case DrawerMenuItem.PRIVACY:
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Privacy(
-              closeMenuItem: () {
-                Navigator.pop(context);
-              },
+              closeMenuItem: closeMenuItem,
             ),
           ),
         );
@@ -70,9 +67,7 @@ class _AppBodyState extends State<AppBody> {
           context,
           MaterialPageRoute(
             builder: (context) => TermsAndConditions(
-              closeMenuItem: () {
-                Navigator.pop(context);
-              },
+              closeMenuItem: closeMenuItem,
             ),
           ),
         );
@@ -81,6 +76,21 @@ class _AppBodyState extends State<AppBody> {
   }
 
   void closeMenuItem() {
+    Navigator.pop(context);
+  }
+
+  void openHelp() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Help(
+          closeMenuItem: closeHelp,
+        ),
+      ),
+    );
+  }
+
+  void closeHelp() {
     Navigator.pop(context);
   }
 
@@ -106,6 +116,25 @@ class _AppBodyState extends State<AppBody> {
           });
         },
       ),
+      floatingActionButton: _currentIndex == 0
+          ? Container(
+              width: 40,
+              height: 40,
+              child: FittedBox(
+                child: FloatingActionButton(
+                  heroTag: 'openHelpFab',
+                  child: Text(
+                    "?",
+                    style: TextStyle(fontSize: 36),
+                  ),
+                  backgroundColor: primaryColorDark,
+                  onPressed: () {
+                    openHelp();
+                  },
+                ),
+              ),
+            )
+          : Container(),
     );
   }
 }

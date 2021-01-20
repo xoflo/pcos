@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/other/spinner_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/spinner_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class RecipeFilter extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+
+  void _performSearch() {
+    debugPrint("implement the Search");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +44,9 @@ class RecipeFilter extends StatelessWidget {
                     height: 40,
                     child: isSearching
                         ? SpinnerButton()
-                        : FlatButton(
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(5.0),
-                            ),
-                            color: primaryColorDark,
-                            onPressed: () {
-                              debugPrint("Search");
-                            },
-                            child: Text(
-                              S.of(context).searchInputText,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
+                        : ColorButton(
+                            label: S.of(context).searchInputText,
+                            onTap: _performSearch,
                           ),
                   ),
                 ),
