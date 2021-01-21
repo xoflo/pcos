@@ -10,23 +10,20 @@ final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
 class AuthenticationController {
   Future<bool> signIn(String emailAddress, String password) async {
-    try {
-      final token = await WebServices().signIn(emailAddress, password);
+    final token = await WebServices().signIn(emailAddress, password);
 
-      if (token.accessToken.length > 0) {
-        await secureStorage.write(
-            key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
-        await secureStorage.write(
-            key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
-        await secureStorage.write(
-            key: SecureStorageKeys.USER_ID, value: token.profile.id.toString());
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
-        return true;
-      }
-    } catch (ex) {
-      return false;
+    if (token.accessToken.length > 0) {
+      await secureStorage.write(
+          key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
+      await secureStorage.write(
+          key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
+      await secureStorage.write(
+          key: SecureStorageKeys.USER_ID, value: token.profile.id.toString());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
+      return true;
     }
+
     return false;
   }
 

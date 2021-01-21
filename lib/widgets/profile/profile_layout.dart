@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_read_only.dart';
@@ -32,7 +31,6 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   }
 
   void _getMemberDetails() {
-    debugPrint("**********************GETTING RECIPES**********************");
     Provider.of<MemberViewModel>(context, listen: false).populateMember();
   }
 
@@ -45,9 +43,18 @@ class _ProfileLayoutState extends State<ProfileLayout> {
     });
   }
 
-  void _saveChanges() {
-    // TODO: save changes to api
+  void _saveChanges(MemberViewModel member) {
     if (_formKey.currentState.validate()) {
+      if (member.firstName != firstNameController.text.trim()) {
+        member.firstName = firstNameController.text.trim();
+      }
+      if (member.lastName != lastNameController.text.trim()) {
+        member.lastName = lastNameController.text.trim();
+      }
+      if (member.email != emailController.text.trim()) {
+        member.email = emailController.text.trim();
+      }
+      Provider.of<MemberViewModel>(context, listen: false).saveMemberDetails();
       setState(() {
         _isEditable = false;
       });
@@ -75,17 +82,20 @@ class _ProfileLayoutState extends State<ProfileLayout> {
                 screenSize: screenSize,
                 editMemberDetails: _editDetails,
               )
-            : ProfileEditable(
-                member: vm,
-                screenSize: screenSize,
-                formKey: _formKey,
-                firstNameController: firstNameController,
-                lastNameController: lastNameController,
-                emailController: emailController,
-                saveMemberDetails: _saveChanges,
-                cancel: _cancelChanges,
+            : Form(
+                key: _formKey,
+                child: ProfileEditable(
+                  member: vm,
+                  screenSize: screenSize,
+                  firstNameController: firstNameController,
+                  lastNameController: lastNameController,
+                  emailController: emailController,
+                  saveMemberDetails: _saveChanges,
+                  cancel: _cancelChanges,
+                ),
               );
     }
+    return Container();
   }
 
   @override

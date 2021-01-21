@@ -29,13 +29,9 @@ class GotoSignIn extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   top: 8.0,
                 ),
-                child: Container(
-                  width: 150.0,
-                  height: 40.0,
-                  child: StandardButton(
-                    label: S.of(context).returnToSignInTitle,
-                    onTap: navigateToSignIn,
-                  ),
+                child: StandardButton(
+                  label: S.of(context).returnToSignInTitle,
+                  onTap: navigateToSignIn,
                 ),
               ),
             ],

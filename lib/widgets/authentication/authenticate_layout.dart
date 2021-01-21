@@ -44,7 +44,7 @@ class AuthenticateLayout extends StatelessWidget {
               HeaderImage(screenSize: screenSize),
               signIn,
               SizedBox(
-                height: 250,
+                height: 180,
                 child: gotoRegister,
               ),
             ],

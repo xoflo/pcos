@@ -39,13 +39,9 @@ class GotoRegister extends StatelessWidget {
                 padding: EdgeInsets.only(
                   top: 8.0,
                 ),
-                child: Container(
-                  width: 150.0,
-                  height: 40.0,
-                  child: StandardButton(
-                    label: S.of(context).signUpTitle,
-                    onTap: navigateToRegister,
-                  ),
+                child: StandardButton(
+                  label: S.of(context).signUpTitle,
+                  onTap: navigateToRegister,
                 ),
               ),
             ],
