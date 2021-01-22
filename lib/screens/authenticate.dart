@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/goto_register.dart';
@@ -27,6 +28,7 @@ class _AuthenticateState extends State<Authenticate> {
   void authenticateUser() async {
     bool showErrorDialog = false;
     String errorMessage = "";
+    String errorTitle = S.of(context).signinErrorTitle;
 
     setState(() {
       isSigningIn = true;
@@ -36,15 +38,22 @@ class _AuthenticateState extends State<Authenticate> {
     final String password = passwordController.text.trim();
     // perform the authentication
     try {
-      final bool signedIn =
-          await AuthenticationController().signIn(emailAddress, password);
+      if (await WebServices().checkInternetConnectivity()) {
+        final bool signedIn =
+            await AuthenticationController().signIn(emailAddress, password);
 
-      if (signedIn) {
-        //success - this hides the login screen and shows the pin setup screen
-        widget.updateAppState(AppState.PIN_SET);
+        if (signedIn) {
+          //success - this hides the login screen and shows the pin setup screen
+          widget.updateAppState(AppState.PIN_SET);
+        } else {
+          showErrorDialog = true;
+          errorMessage = S.of(context).signinUnknownErrorText;
+        }
       } else {
+        //not connected to internet, inform user
         showErrorDialog = true;
-        errorMessage = S.of(context).signinUnknownErrorText;
+        errorTitle = S.of(context).internetConnectionTitle;
+        errorMessage = S.of(context).internetConnectionText;
       }
     } catch (ex) {
       showErrorDialog = true;
@@ -67,7 +76,7 @@ class _AuthenticateState extends State<Authenticate> {
         isSigningIn = false;
       });
 
-      showFlushBar(context, S.of(context).signinErrorTitle, errorMessage,
+      showFlushBar(context, errorTitle, errorMessage,
           backgroundColor: Colors.white,
           borderColor: primaryColorLight,
           primaryColor: primaryColorDark);

@@ -77,6 +77,7 @@ class _RecipesLayoutState extends State<RecipesLayout>
           ],
         );
     }
+    return Container();
   }
 
   @override

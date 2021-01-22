@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
 import 'package:thepcosprotocol_app/models/response/token_response.dart';
@@ -14,6 +15,17 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 
 class WebServices {
   final String _baseUrl = FlavorConfig.instance.values.baseUrl;
+
+  //Connectivity
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    }
+    return false;
+  }
 
   //Authentication
 
@@ -53,23 +65,24 @@ class WebServices {
 
   Future<Token> refreshToken() async {
     final url = _baseUrl + "Token/refresh";
-    final String token = await AuthenticationController().getAccessToken();
-
+    final String refreshToken =
+        await AuthenticationController().getRefreshToken();
+    debugPrint("REFRESHTOKEN=$refreshToken");
     final response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(
-        <String>{token},
-      ),
+      body: "'$refreshToken'",
     );
+
+    debugPrint("REPONSE=${response.body}");
 
     if (response.statusCode == 200) {
       final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
       return tokenResponse.token;
     } else {
-      throw SIGN_IN_FAILED;
+      throw TOKEN_REFRESH_FAILED;
     }
   }
 

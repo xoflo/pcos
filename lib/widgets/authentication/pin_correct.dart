@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class PinCorrect extends StatelessWidget {
   final String message;
+  final String messageWhy;
 
-  PinCorrect({this.message});
+  PinCorrect({@required this.message, this.messageWhy});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,17 @@ class PinCorrect extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
+            messageWhy != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: Text(
+                      messageWhy,
+                      style: Theme.of(context).textTheme.headline4.copyWith(
+                            color: Colors.white,
+                          ),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),
