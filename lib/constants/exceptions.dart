@@ -6,3 +6,4 @@ const String UPDATE_MEMBER_FAILED = "update_member_failed";
 const String GET_RECIPES_FAILED = "get_recipes_failed";
 const String GET_PRIVACY_STATEMENT_FAILED = "get_privacy_statement_failed";
 const String RESET_PASSWORD_FAILED = "reset_password_failed";
+const String TOKEN_REFRESH_FAILED = "token_refresh_failed";

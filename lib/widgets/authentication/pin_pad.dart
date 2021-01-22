@@ -2,22 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/drawing_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class PinPad extends StatelessWidget {
   final double pinButtonSize;
   final String headerText;
   final List<bool> progress;
   final int currentPosition;
+  final bool showForgottenPin;
   final Function(String) pinButtonPressed;
   final Function resetPinPad;
+  final Function(BuildContext) forgotPin;
 
   PinPad({
-    this.pinButtonSize,
-    this.headerText,
-    this.progress,
-    this.currentPosition,
-    this.pinButtonPressed,
-    this.resetPinPad,
+    @required this.pinButtonSize,
+    @required this.headerText,
+    @required this.progress,
+    @required this.currentPosition,
+    @required this.showForgottenPin,
+    @required this.pinButtonPressed,
+    @required this.resetPinPad,
+    this.forgotPin,
   });
 
   SizedBox pinProgress() {
@@ -71,7 +76,7 @@ class PinPad extends StatelessWidget {
   }
 
   SizedBox pinButton(final int pinNumber) {
-    final double pinButtonPadding = pinButtonSize / 5;
+    final double pinButtonPadding = pinButtonSize / 6;
 
     var pinButton = SizedBox(
       width: pinButtonSize,
@@ -113,7 +118,7 @@ class PinPad extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 20.0),
+          padding: const EdgeInsets.only(bottom: 15),
           child: Text(
             headerText,
             style: Theme.of(context).textTheme.headline6.copyWith(
@@ -127,23 +132,32 @@ class PinPad extends StatelessWidget {
         pinPadRow([7, 8, 9]),
         pinPadRow([0]),
         Padding(
-          padding: const EdgeInsets.only(bottom: 20.0),
+          padding: const EdgeInsets.only(bottom: 10.0),
           child: Container(
-            width: 150.0,
-            height: 40.0,
-            child: OutlinedButton(
-              onPressed: () {
+            width: 150,
+            child: ColorButton(
+              label: S.of(context).clearButton,
+              color: Colors.white,
+              textColor: primaryColorDark,
+              onTap: () {
                 resetPinPad();
               },
-              child: Text(
-                S.of(context).clearButton,
-                style: TextStyle(
-                  color: primaryColorDark,
-                ),
-              ),
             ),
           ),
         ),
+        showForgottenPin
+            ? GestureDetector(
+                onTap: () {
+                  forgotPin(context);
+                },
+                child: Text(
+                  "Forgotten PIN",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            : Container(),
       ],
     );
   }

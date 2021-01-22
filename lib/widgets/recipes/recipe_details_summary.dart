@@ -68,6 +68,7 @@ class RecipeDetailsSummary extends StatelessWidget {
       case 2:
         return S.of(context).recipeDifficultyHard;
     }
+    return "";
   }
 
   Color _getDifficultyColor(int difficulty) {
@@ -79,6 +80,7 @@ class RecipeDetailsSummary extends StatelessWidget {
       case 2:
         return darkAlternative;
     }
+    return primaryColorDark;
   }
 
   @override

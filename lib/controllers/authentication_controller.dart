@@ -30,6 +30,24 @@ class AuthenticationController {
     return false;
   }
 
+  Future<bool> refreshToken() async {
+    try {
+      final token = await WebServices().refreshToken();
+
+      if (token.accessToken.length > 0) {
+        //save the tokens to secure storage
+        await secureStorage.write(
+            key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
+        await secureStorage.write(
+            key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
+        return true;
+      }
+      return false;
+    } catch (ex) {
+      return false;
+    }
+  }
+
   Future<String> getAccessToken() async {
     try {
       final String token =

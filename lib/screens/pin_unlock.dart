@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/header_image.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/pin_pad.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/pin_correct.dart';
@@ -9,6 +10,7 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
 import 'package:thepcosprotocol_app/utils/error_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class PinUnlock extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -16,10 +18,10 @@ class PinUnlock extends StatefulWidget {
   PinUnlock({this.updateAppState});
 
   @override
-  _PinUnlockState createState() => _PinUnlockState();
+  PinUnlockState createState() => PinUnlockState();
 }
 
-class _PinUnlockState extends State<PinUnlock> {
+class PinUnlockState extends State<PinUnlock> {
   List<bool> _progress = [false, false, false, false];
   int _currentPosition = 0;
   String _pinEntered = "";
@@ -56,23 +58,54 @@ class _PinUnlockState extends State<PinUnlock> {
     });
   }
 
-  Future<bool> checkPin(final String pinEntered) async {
-    _pinAttempts++;
-    if (await AuthenticationController().checkPin(pinEntered)) {
-      pinEntryComplete();
-    } else {
-      if (_pinAttempts < 5) {
-        startPinAgain();
+  Future<void> checkPin(final String pinEntered) async {
+    if (await WebServices().checkInternetConnectivity()) {
+      _pinAttempts++;
+      if (await AuthenticationController().checkPin(pinEntered)) {
+        pinEntryComplete();
       } else {
-        //have tried pin five times, clear pin, and send back to sign in
-        sendToSignIn();
+        if (_pinAttempts < 5) {
+          startPinAgain();
+        } else {
+          //have tried pin five times, clear pin, and send back to sign in
+          sendToSignIn(false);
+        }
       }
+    } else {
+      //not connected to internet, inform user
+      showFlushBar(context, S.of(context).internetConnectionTitle,
+          S.of(context).internetConnectionText,
+          backgroundColor: Colors.white,
+          borderColor: primaryColorLight,
+          primaryColor: primaryColorDark);
     }
   }
 
   void pinEntryComplete() async {
-    //Pin entry is complete now show the app
-    widget.updateAppState(AppState.APP);
+    //refresh the access token so it doesn't expire during this session, if it fails, logout user
+    final bool refreshToken = await AuthenticationController().refreshToken();
+
+    if (refreshToken) {
+      //token refreshed and Pin entry is complete now show the app
+      widget.updateAppState(AppState.APP);
+    } else {
+      //couldn't refresh token, so wait a few seconds and try again
+      await Future.delayed(const Duration(seconds: 3), () {
+        tryRefreshAgain();
+      });
+    }
+  }
+
+  void tryRefreshAgain() async {
+    final bool refreshToken = await AuthenticationController().refreshToken();
+
+    if (refreshToken) {
+      //token refreshed and Pin entry is complete now show the app
+      widget.updateAppState(AppState.APP);
+    } else {
+      //couldn't refresh token, so refresh token must have expired, so logout user
+      sendToSignIn(true);
+    }
   }
 
   void startPinAgain() {
@@ -85,11 +118,18 @@ class _PinUnlockState extends State<PinUnlock> {
     resetPinPad();
   }
 
-  void sendToSignIn() async {
+  void sendToSignIn(final bool isRefreshTokenExpired) async {
+    final title = isRefreshTokenExpired
+        ? S.of(context).pinRefreshErrorTitle
+        : S.of(context).pinUnlockAttemptsErrorTitle;
+    final message = isRefreshTokenExpired
+        ? S.of(context).pinRefreshErrorText
+        : S.of(context).pinUnlockAttemptsErrorText;
+
     showFlushBar(
       context,
-      S.of(context).pinUnlockAttemptsErrorTitle,
-      S.of(context).pinUnlockAttemptsErrorText,
+      title,
+      message,
       backgroundColor: Colors.white,
       borderColor: primaryColorLight,
       primaryColor: primaryColorDark,
@@ -113,11 +153,53 @@ class _PinUnlockState extends State<PinUnlock> {
     });
   }
 
+  void forgottenPin(BuildContext context) {
+    showAlertDialog(context);
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = ColorButton(
+      label: S.of(context).pinForgottenCancel,
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget continueButton = ColorButton(
+      label: S.of(context).pinForgottenContinue,
+      onTap: () {
+        //log user out and clear credentials etc
+        AuthenticationController().deletePin();
+        AuthenticationController().deleteCredentials();
+        Navigator.of(context).pop();
+        widget.updateAppState(AppState.SIGN_IN);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(S.of(context).pinForgottenTitle),
+      content: Text(S.of(context).pinForgottenMessage),
+      actions: [
+        continueButton,
+        cancelButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double pinButtonSize =
-        screenSize.width > 600 ? 100 : screenSize.width * .25;
+        screenSize.width > 600 ? 100 : screenSize.width * .23;
     final double headerPadding = screenSize.width > 600 ? 20.0 : 0.0;
     return SafeArea(
       child: Column(
@@ -133,10 +215,12 @@ class _PinUnlockState extends State<PinUnlock> {
                   headerText: S.of(context).pinUnlockTitle,
                   progress: _progress,
                   currentPosition: _currentPosition,
+                  showForgottenPin: true,
                   pinButtonPressed: (pinNumber) {
                     pinButtonPressed(pinNumber);
                   },
                   resetPinPad: resetPinPad,
+                  forgotPin: forgottenPin,
                 )
               : PinCorrect(message: S.of(context).pinEnteredSuccessfulTitle),
         ],

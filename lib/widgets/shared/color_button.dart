@@ -5,8 +5,14 @@ class ColorButton extends StatelessWidget {
   final String label;
   final Function onTap;
   final Color color;
+  final Color textColor;
 
-  ColorButton({this.label, this.onTap, this.color = primaryColorDark});
+  ColorButton({
+    this.label,
+    this.onTap,
+    this.color = primaryColorDark,
+    this.textColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class ColorButton extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          color: Colors.white,
+          color: textColor,
         ),
       ),
     );

@@ -345,10 +345,10 @@ class S {
     );
   }
 
-  /// `Please enter your email`
+  /// `Please enter your email or username`
   String get validateEmailMessage {
     return Intl.message(
-      'Please enter your email',
+      'Please enter your email or username',
       name: 'validateEmailMessage',
       desc: '',
       args: [],
@@ -405,6 +405,46 @@ class S {
     );
   }
 
+  /// `Forgotten PIN`
+  String get pinForgottenTitle {
+    return Intl.message(
+      'Forgotten PIN',
+      name: 'pinForgottenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This will clear your credentials and PIN so you can sign in with your username/email and password. Do you want to continue?`
+  String get pinForgottenMessage {
+    return Intl.message(
+      'This will clear your credentials and PIN so you can sign in with your username/email and password. Do you want to continue?',
+      name: 'pinForgottenMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get pinForgottenContinue {
+    return Intl.message(
+      'Continue',
+      name: 'pinForgottenContinue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get pinForgottenCancel {
+    return Intl.message(
+      'Cancel',
+      name: 'pinForgottenCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please set your unlock PIN`
   String get pinSetTitle {
     return Intl.message(
@@ -440,6 +480,16 @@ class S {
     return Intl.message(
       'Your PIN has been set',
       name: 'pinSetSuccessfulTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use this to unlock the app`
+  String get pinSetSuccessfulMessage {
+    return Intl.message(
+      'Use this to unlock the app',
+      name: 'pinSetSuccessfulMessage',
       desc: '',
       args: [],
     );
@@ -530,6 +580,46 @@ class S {
     return Intl.message(
       'You have incorrectly entered your PIN five times, please sign-in using your email and password.',
       name: 'pinUnlockAttemptsErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Authentication token expired`
+  String get pinRefreshErrorTitle {
+    return Intl.message(
+      'Authentication token expired',
+      name: 'pinRefreshErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your authentication token has expired, please sign-in using your email and password.`
+  String get pinRefreshErrorText {
+    return Intl.message(
+      'Your authentication token has expired, please sign-in using your email and password.',
+      name: 'pinRefreshErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internet connection required`
+  String get internetConnectionTitle {
+    return Intl.message(
+      'Internet connection required',
+      name: 'internetConnectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please ensure you are connected to the internet. `
+  String get internetConnectionText {
+    return Intl.message(
+      'Please ensure you are connected to the internet. ',
+      name: 'internetConnectionText',
       desc: '',
       args: [],
     );

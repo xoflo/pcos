@@ -111,7 +111,7 @@ class _PinSetState extends State<PinSet> {
     //Save the Pin to secure storage
     final bool savePinSuccessful =
         await AuthenticationController().savePin(_pinEntered);
-    int openAppDelay = 2;
+    int openAppDelay = 3;
 
     if (!savePinSuccessful) {
       openAppDelay = 4;
@@ -154,12 +154,16 @@ class _PinSetState extends State<PinSet> {
                       : S.of(context).pinConfirmTitle,
                   progress: _progress,
                   currentPosition: _currentPosition,
+                  showForgottenPin: false,
                   pinButtonPressed: (pinNumber) {
                     pinButtonPressed(pinNumber);
                   },
                   resetPinPad: resetPinPad,
                 )
-              : PinCorrect(message: S.of(context).pinSetSuccessfulTitle),
+              : PinCorrect(
+                  message: S.of(context).pinSetSuccessfulTitle,
+                  messageWhy: S.of(context).pinSetSuccessfulMessage,
+                ),
         ],
       ),
     );

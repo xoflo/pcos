@@ -28,9 +28,19 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
 
   @override
   void dispose() {
-    _videoPlayerController.dispose();
-    _chewieController.dispose();
-    if (_isHorizontal(context)) {
+    try {
+      _videoPlayerController.dispose();
+      _chewieController.dispose();
+    } catch (ex) {
+      //do nothing, just handle possible chewie dispose exception
+    }
+
+    final Size screenSize = MediaQuery.of(context).size;
+    final isHorizontal =
+        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+
+    if (isHorizontal) {
+      //iPad
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
@@ -38,10 +48,12 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
         DeviceOrientation.landscapeRight,
       ]);
     } else {
+      //phone
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]);
     }
+
     super.dispose();
   }
 
