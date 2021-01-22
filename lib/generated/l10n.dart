@@ -834,6 +834,146 @@ class S {
       args: [],
     );
   }
+
+  /// `Current password`
+  String get changePasswordOldLabel {
+    return Intl.message(
+      'Current password',
+      name: 'changePasswordOldLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New password`
+  String get changePasswordNewLabel {
+    return Intl.message(
+      'New password',
+      name: 'changePasswordNewLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm password`
+  String get changePasswordConfirmLabel {
+    return Intl.message(
+      'Confirm password',
+      name: 'changePasswordConfirmLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change password`
+  String get changePasswordSaveButton {
+    return Intl.message(
+      'Change password',
+      name: 'changePasswordSaveButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your current password.`
+  String get changePasswordOldMessage {
+    return Intl.message(
+      'Please enter your current password.',
+      name: 'changePasswordOldMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters.`
+  String get changePasswordNewMessage {
+    return Intl.message(
+      'Password must be at least 6 characters.',
+      name: 'changePasswordNewMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please confirm your new password.`
+  String get changePasswordConfirmMessage {
+    return Intl.message(
+      'Please confirm your new password.',
+      name: 'changePasswordConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your new and confirm passwords do not match.`
+  String get changePasswordDifferentMessage {
+    return Intl.message(
+      'Your new and confirm passwords do not match.',
+      name: 'changePasswordDifferentMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current password incorrect`
+  String get changePasswordOldPasswordWrongTitle {
+    return Intl.message(
+      'Current password incorrect',
+      name: 'changePasswordOldPasswordWrongTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your current password is not correct, please try entering your current password again.`
+  String get changePasswordOldPasswordWrongMessage {
+    return Intl.message(
+      'Your current password is not correct, please try entering your current password again.',
+      name: 'changePasswordOldPasswordWrongMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change password failed`
+  String get changePasswordFailedTitle {
+    return Intl.message(
+      'Change password failed',
+      name: 'changePasswordFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not update your password, please try again later.`
+  String get changePasswordFailedMessage {
+    return Intl.message(
+      'We could not update your password, please try again later.',
+      name: 'changePasswordFailedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change password successful`
+  String get changePasswordSuccessTitle {
+    return Intl.message(
+      'Change password successful',
+      name: 'changePasswordSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your password has been updated.`
+  String get changePasswordSuccessMessage {
+    return Intl.message(
+      'Your password has been updated.',
+      name: 'changePasswordSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

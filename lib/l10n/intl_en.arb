@@ -79,5 +79,19 @@
     "profileValidateLastNameMessage": "Please enter your last name.",
     "profileValidateEmailMessage": "Please enter your email.",
     "profileInvalidEmailMessage": "Please enter a valid email address.",
-    "userNameLocked":  "Username cannot be updated"
+    "userNameLocked":  "Username cannot be updated",
+    "changePasswordOldLabel": "Current password",
+    "changePasswordNewLabel": "New password",
+    "changePasswordConfirmLabel": "Confirm password",
+    "changePasswordSaveButton": "Change password",
+    "changePasswordOldMessage": "Please enter your current password.",
+    "changePasswordNewMessage": "Password must be at least 6 characters.",
+    "changePasswordConfirmMessage": "Please confirm your new password.",
+    "changePasswordDifferentMessage": "Your new and confirm passwords do not match.",
+    "changePasswordOldPasswordWrongTitle": "Current password incorrect",
+    "changePasswordOldPasswordWrongMessage": "Your current password is not correct, please try entering your current password again.",
+    "changePasswordFailedTitle": "Change password failed",
+    "changePasswordFailedMessage": "We could not update your password, please try again later.",
+    "changePasswordSuccessTitle": "Change password successful",
+    "changePasswordSuccessMessage": "Your password has been updated."
 }

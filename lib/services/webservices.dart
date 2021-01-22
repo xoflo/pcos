@@ -69,7 +69,7 @@ class WebServices {
       final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
       return tokenResponse.token;
     } else {
-      throw Exception(SIGN_IN_FAILED);
+      throw SIGN_IN_FAILED;
     }
   }
 
@@ -91,7 +91,7 @@ class WebServices {
       return Member.fromJson(
           StandardResponse.fromJson(jsonDecode(response.body)).payload);
     } else {
-      throw Exception(GET_MEMBER_FAILED);
+      throw GET_MEMBER_FAILED;
     }
   }
 
@@ -112,9 +112,56 @@ class WebServices {
     if (response.statusCode == 200) {
       return true;
     } else {
-      throw Exception(UPDATE_MEMBER_FAILED);
+      throw UPDATE_MEMBER_FAILED;
     }
   }
+
+  Future<bool> resetPassword(
+      final String usernameOrEmail, final String newPassword) async {
+    final url = _baseUrl + "account_services/reset_password";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, String>{
+          'id': '0',
+          'hash': '',
+          'token': token,
+          'email': usernameOrEmail,
+          'password': newPassword,
+          'confirmPassword': newPassword
+        },
+      ),
+    );
+
+    debugPrint("response=${response.body}");
+
+    if (response.statusCode == 200) {
+      final standardResponse =
+          StandardResponse.fromJson(jsonDecode(response.body));
+      if (standardResponse.status.toLowerCase() == "fail") {
+        throw RESET_PASSWORD_FAILED;
+      }
+      return true;
+    } else {
+      throw RESET_PASSWORD_FAILED;
+    }
+  }
+
+  /*
+  {
+    "id": 0,
+    "hash": "string",
+    "token": "string",
+    "email": "string",
+    "password": "string",
+    "confirmPassword": "string"
+  }
+  */
 
   //Recipes
 

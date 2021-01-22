@@ -13,6 +13,9 @@ class AuthenticationController {
     final token = await WebServices().signIn(emailAddress, password);
 
     if (token.accessToken.length > 0) {
+      //save the username or email in secure storage so it can be used during change password process
+      await secureStorage.write(
+          key: SecureStorageKeys.USERNAME_OR_EMAIL, value: emailAddress);
       await secureStorage.write(
           key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
       await secureStorage.write(
@@ -42,6 +45,16 @@ class AuthenticationController {
       final String refreshToken =
           await secureStorage.read(key: SecureStorageKeys.REFRESH_TOKEN);
       return refreshToken;
+    } catch (ex) {
+      return "";
+    }
+  }
+
+  Future<String> getUsernameOrEmail() async {
+    try {
+      final String username =
+          await secureStorage.read(key: SecureStorageKeys.USERNAME_OR_EMAIL);
+      return username;
     } catch (ex) {
       return "";
     }
