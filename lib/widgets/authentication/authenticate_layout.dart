@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/widgets/auth/header_image.dart';
+import 'package:thepcosprotocol_app/widgets/authentication/header_image.dart';
 
-class RegisterLayout extends StatelessWidget {
+class AuthenticateLayout extends StatelessWidget {
   final bool isHorizontal;
   final Size screenSize;
-  final Widget openSignUp;
-  final Widget emailSignUp;
-  final Widget gotoSignIn;
+  final Widget signIn;
+  final Widget gotoRegister;
 
-  RegisterLayout(
-      {this.isHorizontal,
-      this.screenSize,
-      this.openSignUp,
-      this.emailSignUp,
-      this.gotoSignIn});
+  AuthenticateLayout(
+      {this.isHorizontal, this.screenSize, this.signIn, this.gotoRegister});
 
   @override
   Widget build(BuildContext context) {
-    final double boxWidth = screenSize.width * 0.33;
+    final double boxWidth = screenSize.width * 0.4;
     return isHorizontal
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -29,19 +24,14 @@ class RegisterLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 230.0,
+                    height: 330.0,
                     width: boxWidth,
-                    child: openSignUp,
+                    child: signIn,
                   ),
                   SizedBox(
-                    height: 230.0,
+                    height: 330.0,
                     width: boxWidth,
-                    child: emailSignUp,
-                  ),
-                  SizedBox(
-                    height: 230.0,
-                    width: boxWidth,
-                    child: gotoSignIn,
+                    child: gotoRegister,
                   ),
                 ],
               ),
@@ -52,17 +42,10 @@ class RegisterLayout extends StatelessWidget {
             padding: EdgeInsets.all(15.0),
             children: <Widget>[
               HeaderImage(screenSize: screenSize),
+              signIn,
               SizedBox(
                 height: 180,
-                child: openSignUp,
-              ),
-              SizedBox(
-                height: 270,
-                child: emailSignUp,
-              ),
-              SizedBox(
-                height: 160,
-                child: gotoSignIn,
+                child: gotoRegister,
               ),
             ],
           );

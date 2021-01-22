@@ -5,7 +5,7 @@ ThemeData appThemeData() {
   return ThemeData(
     visualDensity: VisualDensity.adaptivePlatformDensity,
     // Define the default brightness and colors.
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
     primaryColor: primaryColor,
     primaryColorDark: primaryColorDark,
     primaryColorLight: primaryColorLight,
@@ -98,6 +98,13 @@ ThemeData appThemeData() {
       ),
       labelStyle: TextStyle(
         color: primaryColorDark,
+      ),
+    ),
+    tabBarTheme: TabBarTheme(
+      indicator: UnderlineTabIndicator(
+        borderSide: BorderSide(
+          color: secondaryColorLight,
+        ),
       ),
     ),
   );

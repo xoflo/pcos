@@ -8,25 +8,25 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
-class Authentication {
+class AuthenticationController {
   Future<bool> signIn(String emailAddress, String password) async {
-    try {
-      final token = await WebServices().signIn(emailAddress, password);
+    final token = await WebServices().signIn(emailAddress, password);
 
-      if (token.accessToken.length > 0) {
-        await secureStorage.write(
-            key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
-        await secureStorage.write(
-            key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
-        await secureStorage.write(
-            key: SecureStorageKeys.USER_ID, value: token.profile.id.toString());
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
-        return true;
-      }
-    } catch (ex) {
-      return false;
+    if (token.accessToken.length > 0) {
+      //save the username or email in secure storage so it can be used during change password process
+      await secureStorage.write(
+          key: SecureStorageKeys.USERNAME_OR_EMAIL, value: emailAddress);
+      await secureStorage.write(
+          key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
+      await secureStorage.write(
+          key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
+      await secureStorage.write(
+          key: SecureStorageKeys.USER_ID, value: token.profile.id.toString());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
+      return true;
     }
+
     return false;
   }
 
@@ -45,6 +45,16 @@ class Authentication {
       final String refreshToken =
           await secureStorage.read(key: SecureStorageKeys.REFRESH_TOKEN);
       return refreshToken;
+    } catch (ex) {
+      return "";
+    }
+  }
+
+  Future<String> getUsernameOrEmail() async {
+    try {
+      final String username =
+          await secureStorage.read(key: SecureStorageKeys.USERNAME_OR_EMAIL);
+      return username;
     } catch (ex) {
       return "";
     }

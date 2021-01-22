@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/screens/register.dart';
 import 'package:thepcosprotocol_app/screens/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/pin_unlock.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
-import 'package:thepcosprotocol_app/controllers/authentication.dart';
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/widgets/other/app_loading.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
@@ -40,7 +40,7 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
     if (_appLifecycleState == AppLifecycleState.resumed &&
         state == AppLifecycleState.inactive) {
       if (appState == AppState.APP || appState == AppState.PIN_SET) {
-        Authentication()
+        AuthenticationController()
             .saveBackgroundedTimestamp(DateTime.now().millisecondsSinceEpoch);
       }
     }
@@ -60,10 +60,11 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
   }
 
   void appOpeningCheck() async {
-    final bool isUserLoggedIn = await Authentication().isUserLoggedIn();
+    final bool isUserLoggedIn =
+        await AuthenticationController().isUserLoggedIn();
 
     if (isUserLoggedIn) {
-      final bool isUserPinSet = await Authentication().isUserPinSet();
+      final bool isUserPinSet = await AuthenticationController().isUserPinSet();
       if (isUserPinSet) {
         updateAppState(AppState.LOCKED);
         return;
@@ -74,17 +75,18 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
 
   // This function controls which screen the users sees when they foreground the app
   void appForegroundingCheck() async {
-    final bool isUserLoggedIn = await Authentication().isUserLoggedIn();
+    final bool isUserLoggedIn =
+        await AuthenticationController().isUserLoggedIn();
 
     if (isUserLoggedIn) {
       final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
       final int backgroundedTimestamp =
-          await Authentication().getBackgroundedTimestamp();
+          await AuthenticationController().getBackgroundedTimestamp();
 
       //need to check whether authenticated and has pin set?
       //check if app was backgrounded over five minutes (300,000 milliseconds) ago, and display lock screen if necessary
 
-      final bool isUserPinSet = await Authentication().isUserPinSet();
+      final bool isUserPinSet = await AuthenticationController().isUserPinSet();
       if (isUserPinSet) {
         if (backgroundedTimestamp != null &&
             currentTimestamp - backgroundedTimestamp > 300000) {

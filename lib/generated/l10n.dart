@@ -165,10 +165,10 @@ class S {
     );
   }
 
-  /// `Privacy`
+  /// `Privacy policy`
   String get privacyTitle {
     return Intl.message(
-      'Privacy',
+      'Privacy policy',
       name: 'privacyTitle',
       desc: '',
       args: [],
@@ -205,10 +205,10 @@ class S {
     );
   }
 
-  /// `Email`
+  /// `Email or Username`
   String get emailLabel {
     return Intl.message(
-      'Email',
+      'Email or Username',
       name: 'emailLabel',
       desc: '',
       args: [],
@@ -225,10 +225,10 @@ class S {
     );
   }
 
-  /// `To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme.`
+  /// `Sign up for The PCOS Protocol.`
   String get gotoSignupText {
     return Intl.message(
-      'To use The PCOS Protocol you first need to complete our PCOS questionnaire and sign up for our programme.',
+      'Sign up for The PCOS Protocol.',
       name: 'gotoSignupText',
       desc: '',
       args: [],
@@ -275,10 +275,10 @@ class S {
     );
   }
 
-  /// `Open Website`
+  /// `Open Questionnaire`
   String get openWebsiteTitle {
     return Intl.message(
-      'Open Website',
+      'Open Questionnaire',
       name: 'openWebsiteTitle',
       desc: '',
       args: [],
@@ -290,6 +290,16 @@ class S {
     return Intl.message(
       'To register now on your device click the button below to visit the PCOS Questionnaire website.',
       name: 'openWebsiteText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The PCOS Protocol is a personalised programme, delivered according to your own goals.`
+  String get openWebsiteWhy {
+    return Intl.message(
+      'The PCOS Protocol is a personalised programme, delivered according to your own goals.',
+      name: 'openWebsiteWhy',
       desc: '',
       args: [],
     );
@@ -310,6 +320,26 @@ class S {
     return Intl.message(
       'Your email or password are incorrect, please try again.',
       name: 'signinErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your email address has not be verified, please check your inbox for a new verification email.`
+  String get signInEmailNotVerifiedErrorText {
+    return Intl.message(
+      'Your email address has not be verified, please check your inbox for a new verification email.',
+      name: 'signInEmailNotVerifiedErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not sign you in, please try again later`
+  String get signinUnknownErrorText {
+    return Intl.message(
+      'We could not sign you in, please try again later',
+      name: 'signinUnknownErrorText',
       desc: '',
       args: [],
     );
@@ -640,6 +670,306 @@ class S {
     return Intl.message(
       'Loading Video',
       name: 'loadingVideo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Getting started`
+  String get gettingStarted {
+    return Intl.message(
+      'Getting started',
+      name: 'gettingStarted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FAQs`
+  String get frequentlyAskedQuestions {
+    return Intl.message(
+      'FAQs',
+      name: 'frequentlyAskedQuestions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Course questions`
+  String get courseQuestions {
+    return Intl.message(
+      'Course questions',
+      name: 'courseQuestions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try again later.`
+  String get tryAgain {
+    return Intl.message(
+      'Please try again later.',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First name`
+  String get profileFirstNameLabel {
+    return Intl.message(
+      'First name',
+      name: 'profileFirstNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last name`
+  String get profileLastNameLabel {
+    return Intl.message(
+      'Last name',
+      name: 'profileLastNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get profileAliasLabel {
+    return Intl.message(
+      'Username',
+      name: 'profileAliasLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get profileEmailLabel {
+    return Intl.message(
+      'Email',
+      name: 'profileEmailLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit profile`
+  String get profileEditButton {
+    return Intl.message(
+      'Edit profile',
+      name: 'profileEditButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save profile`
+  String get profileSaveButton {
+    return Intl.message(
+      'Save profile',
+      name: 'profileSaveButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get profileCancelButton {
+    return Intl.message(
+      'Cancel',
+      name: 'profileCancelButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your first name.`
+  String get profileValidateFirstNameMessage {
+    return Intl.message(
+      'Please enter your first name.',
+      name: 'profileValidateFirstNameMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your last name.`
+  String get profileValidateLastNameMessage {
+    return Intl.message(
+      'Please enter your last name.',
+      name: 'profileValidateLastNameMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your email.`
+  String get profileValidateEmailMessage {
+    return Intl.message(
+      'Please enter your email.',
+      name: 'profileValidateEmailMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email address.`
+  String get profileInvalidEmailMessage {
+    return Intl.message(
+      'Please enter a valid email address.',
+      name: 'profileInvalidEmailMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username cannot be updated`
+  String get userNameLocked {
+    return Intl.message(
+      'Username cannot be updated',
+      name: 'userNameLocked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current password`
+  String get changePasswordOldLabel {
+    return Intl.message(
+      'Current password',
+      name: 'changePasswordOldLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New password`
+  String get changePasswordNewLabel {
+    return Intl.message(
+      'New password',
+      name: 'changePasswordNewLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm password`
+  String get changePasswordConfirmLabel {
+    return Intl.message(
+      'Confirm password',
+      name: 'changePasswordConfirmLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change password`
+  String get changePasswordSaveButton {
+    return Intl.message(
+      'Change password',
+      name: 'changePasswordSaveButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your current password.`
+  String get changePasswordOldMessage {
+    return Intl.message(
+      'Please enter your current password.',
+      name: 'changePasswordOldMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters.`
+  String get changePasswordNewMessage {
+    return Intl.message(
+      'Password must be at least 6 characters.',
+      name: 'changePasswordNewMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please confirm your new password.`
+  String get changePasswordConfirmMessage {
+    return Intl.message(
+      'Please confirm your new password.',
+      name: 'changePasswordConfirmMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your new and confirm passwords do not match.`
+  String get changePasswordDifferentMessage {
+    return Intl.message(
+      'Your new and confirm passwords do not match.',
+      name: 'changePasswordDifferentMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current password incorrect`
+  String get changePasswordOldPasswordWrongTitle {
+    return Intl.message(
+      'Current password incorrect',
+      name: 'changePasswordOldPasswordWrongTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your current password is not correct, please try entering your current password again.`
+  String get changePasswordOldPasswordWrongMessage {
+    return Intl.message(
+      'Your current password is not correct, please try entering your current password again.',
+      name: 'changePasswordOldPasswordWrongMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change password failed`
+  String get changePasswordFailedTitle {
+    return Intl.message(
+      'Change password failed',
+      name: 'changePasswordFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not update your password, please try again later.`
+  String get changePasswordFailedMessage {
+    return Intl.message(
+      'We could not update your password, please try again later.',
+      name: 'changePasswordFailedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change password successful`
+  String get changePasswordSuccessTitle {
+    return Intl.message(
+      'Change password successful',
+      name: 'changePasswordSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your password has been updated.`
+  String get changePasswordSuccessMessage {
+    return Intl.message(
+      'Your password has been updated.',
+      name: 'changePasswordSuccessMessage',
       desc: '',
       args: [],
     );

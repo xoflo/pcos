@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/chat_message.dart';
 import 'package:thepcosprotocol_app/widgets/chat/chat_text_input.dart';

@@ -1,5 +1,3 @@
-import 'package:thepcosprotocol_app/models/token.dart';
-
 class StandardResponse {
   final String status;
   final String message;
