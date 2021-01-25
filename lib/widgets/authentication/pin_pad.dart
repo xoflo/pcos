@@ -136,6 +136,7 @@ class PinPad extends StatelessWidget {
           child: Container(
             width: 150,
             child: ColorButton(
+              isUpdating: false,
               label: S.of(context).clearButton,
               color: Colors.white,
               textColor: primaryColorDark,

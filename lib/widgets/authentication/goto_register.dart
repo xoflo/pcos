@@ -39,6 +39,7 @@ class GotoRegister extends StatelessWidget {
                   top: 8.0,
                 ),
                 child: StandardButton(
+                  isUpdating: false,
                   label: S.of(context).signUpTitle,
                   onTap: navigateToRegister,
                 ),

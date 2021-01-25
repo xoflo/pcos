@@ -160,6 +160,7 @@ class PinUnlockState extends State<PinUnlock> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = ColorButton(
+      isUpdating: false,
       label: S.of(context).pinForgottenCancel,
       onTap: () {
         Navigator.of(context).pop();
@@ -167,6 +168,7 @@ class PinUnlockState extends State<PinUnlock> {
     );
 
     Widget continueButton = ColorButton(
+      isUpdating: false,
       label: S.of(context).pinForgottenContinue,
       onTap: () {
         //log user out and clear credentials etc

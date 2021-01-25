@@ -138,12 +138,13 @@ class WebServices {
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
       },
       body: jsonEncode(
         <String, String>{
           'id': '0',
           'hash': '',
-          'token': token,
+          'token': '',
           'email': usernameOrEmail,
           'password': newPassword,
           'confirmPassword': newPassword
@@ -151,7 +152,8 @@ class WebServices {
       ),
     );
 
-    debugPrint("response=${response.body}");
+    debugPrint(
+        "*************************reset password response=${response.body}");
 
     if (response.statusCode == 200) {
       final standardResponse =

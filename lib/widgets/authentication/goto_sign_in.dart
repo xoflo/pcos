@@ -30,6 +30,7 @@ class GotoSignIn extends StatelessWidget {
                   top: 8.0,
                 ),
                 child: StandardButton(
+                  isUpdating: false,
                   label: S.of(context).returnToSignInTitle,
                   onTap: navigateToSignIn,
                 ),

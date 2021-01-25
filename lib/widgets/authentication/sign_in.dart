@@ -85,8 +85,9 @@ class SignIn extends StatelessWidget {
                     width: 150.0,
                     height: 40,
                     child: isSigningIn
-                        ? SpinnerButton()
+                        ? SpinnerButton(width: 150, height: 40)
                         : StandardButton(
+                            isUpdating: false,
                             label: S.of(context).signInTitle,
                             onTap: attemptSignIn,
                           ),

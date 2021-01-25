@@ -30,6 +30,7 @@ class OpenSignUp extends StatelessWidget {
                   top: 8.0,
                 ),
                 child: StandardButton(
+                  isUpdating: false,
                   label: S.of(context).openWebsiteTitle,
                   onTap: openWebsite,
                 ),

@@ -43,8 +43,9 @@ class RecipeFilter extends StatelessWidget {
                     width: 120,
                     height: 40,
                     child: isSearching
-                        ? SpinnerButton()
+                        ? SpinnerButton(width: 120, height: 40)
                         : ColorButton(
+                            isUpdating: false,
                             label: S.of(context).searchInputText,
                             onTap: _performSearch,
                           ),

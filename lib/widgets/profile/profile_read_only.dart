@@ -88,6 +88,7 @@ class ProfileReadOnly extends StatelessWidget {
             false,
           ),
           ColorButton(
+            isUpdating: false,
             label: S.of(context).profileEditButton,
             onTap: () {
               editMemberDetails(member);
