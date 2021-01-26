@@ -41,7 +41,11 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
               searchController: searchController,
               isSearching: isSearching,
             ),
-            KnowledgeBaseList(screenSize: screenSize, knowledgeBases: vm.kbs)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: KnowledgeBaseList(
+                  screenSize: screenSize, knowledgeBases: vm.kbs),
+            )
           ],
         );
     }
