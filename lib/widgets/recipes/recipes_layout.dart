@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/view_models/recipe_list_view_model.dart';
-import 'package:thepcosprotocol_app/widgets/recipes/recipes_filter.dart';
+import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
 import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class RecipesLayout extends StatefulWidget {
@@ -19,6 +18,8 @@ class _RecipesLayoutState extends State<RecipesLayout>
   RecipeViewModel _recipeDetails;
   AnimationController _animationController;
   Animation<Offset> _offsetAnimation;
+  final TextEditingController searchController = TextEditingController();
+  bool isSearching = false;
 
   @override
   void initState() {
@@ -70,7 +71,10 @@ class _RecipesLayoutState extends State<RecipesLayout>
       case LoadingStatus.success:
         return Column(
           children: [
-            RecipeFilter(),
+            SearchHeader(
+              searchController: searchController,
+              isSearching: isSearching,
+            ),
             RecipesList(
                 screenSize: screenSize,
                 recipes: vm.recipes,

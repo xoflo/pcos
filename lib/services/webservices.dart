@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/models/knowledge_base.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
 import 'package:thepcosprotocol_app/models/response/token_response.dart';
 import 'package:thepcosprotocol_app/models/response/recipe_response.dart';
@@ -197,6 +198,28 @@ class WebServices {
     } else {
       throw Exception(GET_RECIPES_FAILED);
     }
+  }
+
+  Future<List<KnowledgeBase>> getAllKnowledgeBase() async {
+    return await Future.delayed(const Duration(seconds: 3), () {
+      List<KnowledgeBase> items = List<KnowledgeBase>();
+      KnowledgeBase item1 = KnowledgeBase(
+          knowledgeBaseId: 1,
+          question: "What day is it?",
+          answer: "It is Monday.");
+      KnowledgeBase item2 = KnowledgeBase(
+          knowledgeBaseId: 1,
+          question: "What is the weather like?",
+          answer: "It is very sunny today.");
+      KnowledgeBase item3 = KnowledgeBase(
+          knowledgeBaseId: 1,
+          question: "What is sweetcorn like?",
+          answer: "It is yellow, and very tasty at this time of year.");
+      items.add(item1);
+      items.add(item2);
+      items.add(item3);
+      return items;
+    });
   }
 
   //CMS
