@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/widgets/shared/standard_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class OpenSignUp extends StatelessWidget {
   final Function openWebsite;
@@ -29,7 +29,7 @@ class OpenSignUp extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   top: 8.0,
                 ),
-                child: StandardButton(
+                child: ColorButton(
                   isUpdating: false,
                   label: S.of(context).openWebsiteTitle,
                   onTap: openWebsite,

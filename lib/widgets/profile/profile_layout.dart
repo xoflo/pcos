@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_read_only.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_editable.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class ProfileLayout extends StatefulWidget {
   final Function closeMenuItem;
@@ -71,7 +72,14 @@ class _ProfileLayoutState extends State<ProfileLayout> {
     switch (vm.status) {
       case LoadingStatus.loading:
         // TODO: does this need wrapping in a widget with more layout?
-        return Align(child: CircularProgressIndicator());
+        return Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: Align(
+              child: CircularProgressIndicator(
+            backgroundColor: backgroundColor,
+            valueColor: new AlwaysStoppedAnimation<Color>(primaryColorDark),
+          )),
+        );
       case LoadingStatus.empty:
         // TODO: create a widget for nothing found and test how it looks
         return Text("Could not return Member details!");

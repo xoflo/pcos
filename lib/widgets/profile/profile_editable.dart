@@ -13,14 +13,15 @@ class ProfileEditable extends StatelessWidget {
   final Function(MemberViewModel) saveMemberDetails;
   final Function cancel;
 
-  ProfileEditable(
-      {@required this.member,
-      @required this.firstNameController,
-      @required this.lastNameController,
-      @required this.emailController,
-      @required this.screenSize,
-      @required this.saveMemberDetails,
-      @required this.cancel});
+  ProfileEditable({
+    @required this.member,
+    @required this.firstNameController,
+    @required this.lastNameController,
+    @required this.emailController,
+    @required this.screenSize,
+    @required this.saveMemberDetails,
+    @required this.cancel,
+  });
 
   @override
   Widget build(BuildContext context) {

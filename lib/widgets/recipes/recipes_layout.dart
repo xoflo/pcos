@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
 import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -62,7 +63,11 @@ class _RecipesLayoutState extends State<RecipesLayout>
     switch (vm.status) {
       case LoadingStatus.loading:
         // TODO: does this need wrapping in a widget with more layout?
-        return Align(child: CircularProgressIndicator());
+        return Align(
+            child: CircularProgressIndicator(
+          backgroundColor: backgroundColor,
+          valueColor: new AlwaysStoppedAnimation<Color>(primaryColorDark),
+        ));
       case LoadingStatus.empty:
         // TODO: create a widget for nothing found and test how it looks
         return Text("No recipes found!");

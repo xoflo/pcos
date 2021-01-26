@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/widgets/shared/standard_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class GotoSignIn extends StatelessWidget {
   final Function navigateToSignIn;
@@ -29,7 +29,7 @@ class GotoSignIn extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   top: 8.0,
                 ),
-                child: StandardButton(
+                child: ColorButton(
                   isUpdating: false,
                   label: S.of(context).returnToSignInTitle,
                   onTap: navigateToSignIn,
