@@ -17,7 +17,7 @@ class RegisterLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double boxWidth = screenSize.width * 0.33;
+    final double boxWidth = screenSize.width * 0.40;
     return isHorizontal
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +29,7 @@ class RegisterLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 230.0,
+                    height: 240.0,
                     width: boxWidth,
                     child: openSignUp,
                   ),
@@ -39,7 +39,7 @@ class RegisterLayout extends StatelessWidget {
                     child: emailSignUp,
                   ),*/
                   SizedBox(
-                    height: 230.0,
+                    height: 240.0,
                     width: boxWidth,
                     child: gotoSignIn,
                   ),

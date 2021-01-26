@@ -49,7 +49,9 @@ class DeviceUtils {
       final double height, final bool isTab, final bool isHorizontal) {
     int adjustmentAmount = 0;
 
-    if (!isHorizontal) {
+    if (isHorizontal) {
+      adjustmentAmount = isTab ? 170 : 90;
+    } else {
       adjustmentAmount = isTab ? 170 : 120;
     }
 

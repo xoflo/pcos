@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -147,11 +148,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(
-                      backgroundColor: backgroundColor,
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(primaryColorDark),
-                    ),
+                    PcosLoadingSpinner(),
                     SizedBox(height: 20),
                     Text(S.of(context).loadingVideo),
                   ],
