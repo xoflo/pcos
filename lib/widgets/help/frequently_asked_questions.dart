@@ -35,10 +35,10 @@ class _FrequentlyAskedQuestionsState extends State<FrequentlyAskedQuestions> {
   @override
   void initState() {
     super.initState();
-    _setItems();
+    setItems();
   }
 
-  void _setItems() async {
+  void setItems() async {
     List<Item> items = await createQuestions();
     setState(() {
       _questions = items;

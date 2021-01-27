@@ -13,14 +13,15 @@ class ProfileEditable extends StatelessWidget {
   final Function(MemberViewModel) saveMemberDetails;
   final Function cancel;
 
-  ProfileEditable(
-      {@required this.member,
-      @required this.firstNameController,
-      @required this.lastNameController,
-      @required this.emailController,
-      @required this.screenSize,
-      @required this.saveMemberDetails,
-      @required this.cancel});
+  ProfileEditable({
+    @required this.member,
+    @required this.firstNameController,
+    @required this.lastNameController,
+    @required this.emailController,
+    @required this.screenSize,
+    @required this.saveMemberDetails,
+    @required this.cancel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +87,7 @@ class ProfileEditable extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ColorButton(
+                isUpdating: false,
                 label: S.of(context).profileSaveButton,
                 onTap: () {
                   saveMemberDetails(member);
@@ -95,6 +97,7 @@ class ProfileEditable extends StatelessWidget {
                 width: 20,
               ),
               ColorButton(
+                isUpdating: false,
                 label: S.of(context).profileCancelButton,
                 onTap: () {
                   cancel();

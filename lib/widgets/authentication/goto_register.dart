@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/widgets/shared/standard_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class GotoRegister extends StatelessWidget {
   final Function navigateToRegister;
@@ -38,7 +38,8 @@ class GotoRegister extends StatelessWidget {
                 padding: EdgeInsets.only(
                   top: 8.0,
                 ),
-                child: StandardButton(
+                child: ColorButton(
+                  isUpdating: false,
                   label: S.of(context).signUpTitle,
                   onTap: navigateToRegister,
                 ),

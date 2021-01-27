@@ -24,12 +24,12 @@ class AuthenticateLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 330.0,
+                    height: 340.0,
                     width: boxWidth,
                     child: signIn,
                   ),
                   SizedBox(
-                    height: 330.0,
+                    height: 340.0,
                     width: boxWidth,
                     child: gotoRegister,
                   ),

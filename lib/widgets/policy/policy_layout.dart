@@ -4,6 +4,7 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/controllers/cms_controller.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class PolicyLayout extends StatefulWidget {
   final String title;
@@ -66,7 +67,7 @@ class _PolicyLayoutState extends State<PolicyLayout> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: _cmsBody.length == 0
-                    ? CircularProgressIndicator()
+                    ? PcosLoadingSpinner()
                     : Html(
                         data: _cmsBody,
                       ),

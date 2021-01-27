@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
-import 'package:thepcosprotocol_app/utils/error_utils.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 
 class ChangePasswordLayout extends StatefulWidget {
   final Function closeMenuItem;
@@ -26,9 +26,10 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
-  bool isLoading = false;
+  bool isUpdating = false;
+  bool isComplete = false;
 
-  void _savePassword() async {
+  void _savePassword(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       String oldPassword = oldPasswordController.text.trim();
       String newPassword = newPasswordController.text.trim();
@@ -44,17 +45,17 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
         if (ex == SIGN_IN_CREDENTIALS) {
           //password must have been wrong
           _displayMessage(
-            false,
+            context,
             S.of(context).changePasswordOldPasswordWrongTitle,
             S.of(context).changePasswordOldPasswordWrongMessage,
           );
         } else {
           //something else went wrong checking password
-          _displayMessage(false, S.of(context).changePasswordFailedTitle,
+          _displayMessage(context, S.of(context).changePasswordFailedTitle,
               S.of(context).changePasswordFailedMessage);
         }
         setState(() {
-          isLoading = false;
+          isUpdating = false;
         });
         return;
       }
@@ -65,18 +66,18 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
             await WebServices().resetPassword(usernameOrEmail, newPassword);
         debugPrint("resetPwd=$resetPassword");
         if (resetPassword) {
-          _displayMessage(true, S.of(context).changePasswordSuccessTitle,
-              S.of(context).changePasswordSuccessMessage);
-          widget.closeMenuItem();
+          setState(() {
+            isComplete = true;
+          });
         }
       } catch (ex) {
         //something unexpected went wrong
-        _displayMessage(false, S.of(context).changePasswordFailedTitle,
+        _displayMessage(context, S.of(context).changePasswordFailedTitle,
             S.of(context).changePasswordFailedMessage);
       }
     }
     setState(() {
-      isLoading = false;
+      isUpdating = false;
     });
   }
 
@@ -85,121 +86,149 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
   }
 
   void _displayMessage(
-      final bool isSuccess, final String title, final String message) {
-    final Color borderColor = isSuccess ? Colors.green : primaryColorLight;
-    final Color primaryColor = isSuccess ? Colors.green : primaryColorDark;
-
+      final BuildContext context, final String title, final String message) {
     showFlushBar(context, title, message,
         backgroundColor: Colors.white,
-        borderColor: borderColor,
-        primaryColor: primaryColor);
+        borderColor: primaryColorLight,
+        primaryColor: primaryColorDark);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(5.0),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Header(
-                itemId: 0,
-                favouriteType: FavouriteType.None,
-                title: S.of(context).changePasswordTitle,
-                isFavourite: false,
-                closeItem: widget.closeMenuItem,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: oldPasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: S.of(context).changePasswordOldLabel,
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).changePasswordOldMessage;
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: newPasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: S.of(context).changePasswordNewLabel,
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty || value.length < 6) {
-                      return S.of(context).changePasswordNewMessage;
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: confirmPasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: S.of(context).changePasswordConfirmLabel,
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return S.of(context).changePasswordConfirmMessage;
-                    } else {
-                      if (value != newPasswordController.text) {
-                        return S.of(context).changePasswordDifferentMessage;
-                      }
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ColorButton(
-                    label: S.of(context).changePasswordSaveButton,
-                    onTap: () {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      _savePassword();
-                    },
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  ColorButton(
-                    label: S.of(context).profileCancelButton,
-                    onTap: () {
-                      _cancel();
-                    },
-                  ),
-                ],
-              ),
-            ],
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(5.0),
           ),
         ),
-      ),
-    );
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Header(
+                  itemId: 0,
+                  favouriteType: FavouriteType.None,
+                  title: S.of(context).changePasswordTitle,
+                  isFavourite: false,
+                  closeItem: widget.closeMenuItem,
+                ),
+                !isComplete
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: oldPasswordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: S.of(context).changePasswordOldLabel,
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S.of(context).changePasswordOldMessage;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: newPasswordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: S.of(context).changePasswordNewLabel,
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty || value.length < 6) {
+                                  return S.of(context).changePasswordNewMessage;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              controller: confirmPasswordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText:
+                                    S.of(context).changePasswordConfirmLabel,
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return S
+                                      .of(context)
+                                      .changePasswordConfirmMessage;
+                                } else {
+                                  if (value != newPasswordController.text) {
+                                    return S
+                                        .of(context)
+                                        .changePasswordDifferentMessage;
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ColorButton(
+                                isUpdating: isUpdating,
+                                label: S.of(context).changePasswordSaveButton,
+                                onTap: () {
+                                  setState(() {
+                                    isUpdating = true;
+                                  });
+                                  _savePassword(context);
+                                },
+                                width: 122,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              ColorButton(
+                                isUpdating: isUpdating,
+                                label: S.of(context).profileCancelButton,
+                                onTap: () {
+                                  _cancel();
+                                },
+                                width: 56,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 30.0),
+                              child: Icon(
+                                Icons.thumb_up_rounded,
+                                color: Colors.green,
+                                size: 48.0,
+                              ),
+                            ),
+                            Text(
+                              S.of(context).changePasswordSuccessMessage,
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ]),
+              ],
+            ),
+          ),
+        ));
   }
 }

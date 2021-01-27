@@ -8,9 +8,8 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
-import 'package:thepcosprotocol_app/utils/error_utils.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class PinUnlock extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -154,45 +153,20 @@ class PinUnlockState extends State<PinUnlock> {
   }
 
   void forgottenPin(BuildContext context) {
-    showAlertDialog(context);
+    showAlertDialog(
+        context,
+        S.of(context).pinForgottenTitle,
+        S.of(context).pinForgottenMessage,
+        S.of(context).pinForgottenCancel,
+        S.of(context).pinForgottenContinue,
+        continueForgottenPin);
   }
 
-  showAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = ColorButton(
-      label: S.of(context).pinForgottenCancel,
-      onTap: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    Widget continueButton = ColorButton(
-      label: S.of(context).pinForgottenContinue,
-      onTap: () {
-        //log user out and clear credentials etc
-        AuthenticationController().deletePin();
-        AuthenticationController().deleteCredentials();
-        Navigator.of(context).pop();
-        widget.updateAppState(AppState.SIGN_IN);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(S.of(context).pinForgottenTitle),
-      content: Text(S.of(context).pinForgottenMessage),
-      actions: [
-        continueButton,
-        cancelButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+  void continueForgottenPin() {
+    AuthenticationController().deletePin();
+    AuthenticationController().deleteCredentials();
+    Navigator.of(context).pop();
+    widget.updateAppState(AppState.SIGN_IN);
   }
 
   @override
