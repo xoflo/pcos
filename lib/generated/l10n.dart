@@ -455,11 +455,21 @@ class S {
     );
   }
 
-  /// `We will send an email to your registered email address, so you can reset your password. Do you want to continue?`
+  /// `We will send an email to you ([emailAddress]), so you can reset your password. Do you want to continue?`
   String get passwordForgottenMessage {
     return Intl.message(
-      'We will send an email to your registered email address, so you can reset your password. Do you want to continue?',
+      'We will send an email to you ([emailAddress]), so you can reset your password. Do you want to continue?',
       name: 'passwordForgottenMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your registered email address in the 'Email or username' box and click 'Forgotten Password' again.`
+  String get passwordForgottenEmailMessage {
+    return Intl.message(
+      'Please enter your registered email address in the \'Email or username\' box and click \'Forgotten Password\' again.',
+      name: 'passwordForgottenEmailMessage',
       desc: '',
       args: [],
     );
@@ -485,11 +495,31 @@ class S {
     );
   }
 
+  /// `Okay`
+  String get passwordForgottenOkay {
+    return Intl.message(
+      'Okay',
+      name: 'passwordForgottenOkay',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `We have sent you a reset password email, please check your inbox and junk mail. Thank you`
   String get passwordForgottenCompleteMessage {
     return Intl.message(
       'We have sent you a reset password email, please check your inbox and junk mail. Thank you',
       name: 'passwordForgottenCompleteMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not send you an email right now, please try again later.`
+  String get passwordForgottenFailedMessage {
+    return Intl.message(
+      'We could not send you an email right now, please try again later.',
+      name: 'passwordForgottenFailedMessage',
       desc: '',
       args: [],
     );

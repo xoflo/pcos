@@ -87,6 +87,32 @@ class WebServices {
     }
   }
 
+  Future<bool> forgotPassword(final String emailAddress) async {
+    final url = _baseUrl + "account_services/forgot_password";
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: "'$emailAddress'",
+    );
+
+    debugPrint("RESPONSE=${response.body}");
+
+    if (response.statusCode == 200) {
+      final forgotResponse =
+          StandardResponse.fromJson(jsonDecode(response.body));
+      if (forgotResponse.status.toLowerCase() == "ok") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      throw FORGOT_PASSWORD_FAILED;
+    }
+  }
+
   //Member
 
   Future<Member> getMemberDetails() async {

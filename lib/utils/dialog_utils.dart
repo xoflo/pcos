@@ -64,14 +64,17 @@ showAlertDialog(
     },
   );
 
+  List<Widget> actions = List<Widget>();
+  if (continueText.length > 0) {
+    actions.add(continueButton);
+  }
+  actions.add(cancelButton);
+
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text(title),
     content: Text(message),
-    actions: [
-      continueButton,
-      cancelButton,
-    ],
+    actions: actions,
   );
   // show the dialog
   showDialog(

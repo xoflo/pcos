@@ -7,3 +7,4 @@ const String GET_RECIPES_FAILED = "get_recipes_failed";
 const String GET_PRIVACY_STATEMENT_FAILED = "get_privacy_statement_failed";
 const String RESET_PASSWORD_FAILED = "reset_password_failed";
 const String TOKEN_REFRESH_FAILED = "token_refresh_failed";
+const String FORGOT_PASSWORD_FAILED = "forgot_password_failed";

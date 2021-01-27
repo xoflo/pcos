@@ -3,6 +3,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 
 class SignIn extends StatelessWidget {
   final bool isSigningIn;
@@ -26,28 +27,62 @@ class SignIn extends StatelessWidget {
   }
 
   void forgottenPassword(BuildContext context) {
-    showAlertDialog(
-        context,
-        S.of(context).passwordForgottenTitle,
-        S.of(context).passwordForgottenMessage,
-        S.of(context).passwordForgottenCancel,
-        S.of(context).passwordForgottenContinue,
-        continueForgottenPassword);
+    if (emailController.text.length == 0) {
+      showAlertDialog(
+          context,
+          S.of(context).passwordForgottenTitle,
+          S.of(context).passwordForgottenEmailMessage,
+          S.of(context).passwordForgottenOkay,
+          "",
+          () {});
+    } else {
+      showAlertDialog(
+          context,
+          S.of(context).passwordForgottenTitle,
+          S
+              .of(context)
+              .passwordForgottenMessage
+              .replaceAll("[emailAddress]", emailController.text),
+          S.of(context).passwordForgottenCancel,
+          S.of(context).passwordForgottenContinue,
+          continueForgottenPassword);
+    }
   }
 
-  void continueForgottenPassword(BuildContext context) {
-    //send email to user
-    debugPrint("SEND EMAIL******");
+  void continueForgottenPassword(BuildContext context) async {
     Navigator.of(context).pop();
-    showFlushBar(
-      context,
-      S.of(context).passwordForgottenTitle,
-      S.of(context).passwordForgottenCompleteMessage,
-      icon: Icons.info_rounded,
-      backgroundColor: Colors.white,
-      borderColor: secondaryColor,
-      primaryColor: secondaryColor,
-    );
+    //send email to user
+    try {
+      final bool sendEmail =
+          await WebServices().forgotPassword(emailController.text.trim());
+
+      final String message = sendEmail
+          ? S.of(context).passwordForgottenCompleteMessage
+          : S.of(context).passwordForgottenFailedMessage;
+      if (sendEmail) {
+        showFlushBar(
+          context,
+          S.of(context).passwordForgottenTitle,
+          S.of(context).passwordForgottenCompleteMessage,
+          icon: Icons.info_rounded,
+          backgroundColor: Colors.white,
+          borderColor: secondaryColor,
+          primaryColor: secondaryColor,
+        );
+      } else {
+        showFlushBar(
+          context,
+          S.of(context).passwordForgottenTitle,
+          S.of(context).passwordForgottenFailedMessage,
+        );
+      }
+    } catch (ex) {
+      showFlushBar(
+        context,
+        S.of(context).passwordForgottenTitle,
+        S.of(context).passwordForgottenFailedMessage,
+      );
+    }
   }
 
   @override
