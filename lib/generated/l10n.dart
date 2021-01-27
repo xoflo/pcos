@@ -1064,6 +1064,206 @@ class S {
       args: [],
     );
   }
+
+  /// `All`
+  String get tagAll {
+    return Intl.message(
+      'All',
+      name: 'tagAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breakfast`
+  String get recipesTagBreakfast {
+    return Intl.message(
+      'Breakfast',
+      name: 'recipesTagBreakfast',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mains`
+  String get recipesTagMains {
+    return Intl.message(
+      'Mains',
+      name: 'recipesTagMains',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Snack`
+  String get recipesTagSnack {
+    return Intl.message(
+      'Snack',
+      name: 'recipesTagSnack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sweet`
+  String get recipesTagSweet {
+    return Intl.message(
+      'Sweet',
+      name: 'recipesTagSweet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Savoury`
+  String get recipesTagSavoury {
+    return Intl.message(
+      'Savoury',
+      name: 'recipesTagSavoury',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vegetarian`
+  String get recipesTagVegetarian {
+    return Intl.message(
+      'Vegetarian',
+      name: 'recipesTagVegetarian',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vegan`
+  String get recipesTagVegan {
+    return Intl.message(
+      'Vegan',
+      name: 'recipesTagVegan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Egg-free`
+  String get recipesTagEggFree {
+    return Intl.message(
+      'Egg-free',
+      name: 'recipesTagEggFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fodmap-friendly`
+  String get recipesTagFodmap {
+    return Intl.message(
+      'Fodmap-friendly',
+      name: 'recipesTagFodmap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Diet`
+  String get kbTagDiet {
+    return Intl.message(
+      'Diet',
+      name: 'kbTagDiet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Energy`
+  String get kbTagEnergy {
+    return Intl.message(
+      'Energy',
+      name: 'kbTagEnergy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exercise`
+  String get kbTagExercise {
+    return Intl.message(
+      'Exercise',
+      name: 'kbTagExercise',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fertility`
+  String get kbTagFertility {
+    return Intl.message(
+      'Fertility',
+      name: 'kbTagFertility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hair`
+  String get kbTagHair {
+    return Intl.message(
+      'Hair',
+      name: 'kbTagHair',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Insulin`
+  String get kbTagInsulin {
+    return Intl.message(
+      'Insulin',
+      name: 'kbTagInsulin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skin`
+  String get kbTagSkin {
+    return Intl.message(
+      'Skin',
+      name: 'kbTagSkin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stress`
+  String get kbTagStress {
+    return Intl.message(
+      'Stress',
+      name: 'kbTagStress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thyroid`
+  String get kbTagThyroid {
+    return Intl.message(
+      'Thyroid',
+      name: 'kbTagThyroid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter:`
+  String get searchHeaderFilterText {
+    return Intl.message(
+      'Filter:',
+      name: 'searchHeaderFilterText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

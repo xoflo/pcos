@@ -215,9 +215,14 @@ class WebServices {
           knowledgeBaseId: 1,
           question: "What is sweetcorn like?",
           answer: "It is yellow, and very tasty at this time of year.");
+      KnowledgeBase item4 = KnowledgeBase(
+          knowledgeBaseId: 1,
+          question: "What is sweetcorn like?",
+          answer: "It is yellow, and very tasty at this time of year.");
       items.add(item1);
       items.add(item2);
       items.add(item3);
+      items.add(item4);
       return items;
     });
   }

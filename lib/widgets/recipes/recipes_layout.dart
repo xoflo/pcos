@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -20,11 +21,12 @@ class _RecipesLayoutState extends State<RecipesLayout>
   Animation<Offset> _offsetAnimation;
   final TextEditingController searchController = TextEditingController();
   bool isSearching = false;
+  String tagSelectedValue = "";
 
   @override
   void initState() {
     super.initState();
-    _populateAllRecipes();
+    populateAllRecipes();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _offsetAnimation =
@@ -38,12 +40,28 @@ class _RecipesLayoutState extends State<RecipesLayout>
     _animationController.dispose();
   }
 
-  void _populateAllRecipes() {
+  List<String> getTagValues() {
+    final stringContext = S.of(context);
+    return <String>[
+      stringContext.tagAll,
+      stringContext.recipesTagBreakfast,
+      stringContext.recipesTagMains,
+      stringContext.recipesTagSnack,
+      stringContext.recipesTagSweet,
+      stringContext.recipesTagSavoury,
+      stringContext.recipesTagVegetarian,
+      stringContext.recipesTagVegan,
+      stringContext.recipesTagEggFree,
+      stringContext.recipesTagFodmap
+    ];
+  }
+
+  void populateAllRecipes() {
     debugPrint("**********************GETTING RECIPES**********************");
     Provider.of<RecipeListViewModel>(context, listen: false).getAllRecipes();
   }
 
-  void _openRecipeDetails(RecipeViewModel recipe) async {
+  void openRecipeDetails(RecipeViewModel recipe) async {
     setState(() {
       _recipeDetails = recipe;
     });
@@ -52,7 +70,7 @@ class _RecipesLayoutState extends State<RecipesLayout>
     });
   }
 
-  void _closeRecipeDetails() async {
+  void closeRecipeDetails() async {
     _animationController.reverse();
     await Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
@@ -61,7 +79,28 @@ class _RecipesLayoutState extends State<RecipesLayout>
     });
   }
 
-  Widget _getRecipesList(Size screenSize, RecipeListViewModel vm) {
+  void onTagSelected(String tagValue) {
+    setState(() {
+      tagSelectedValue = tagValue;
+    });
+  }
+
+  void onSearchClicked() async {
+    setState(() {
+      isSearching = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 3), () {});
+
+    setState(() {
+      isSearching = false;
+    });
+  }
+
+  Widget getRecipesList(Size screenSize, RecipeListViewModel vm) {
+    if (tagSelectedValue.length == 0) {
+      tagSelectedValue = S.of(context).tagAll;
+    }
     switch (vm.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -73,12 +112,16 @@ class _RecipesLayoutState extends State<RecipesLayout>
           children: [
             SearchHeader(
               searchController: searchController,
+              tagValues: getTagValues(),
+              tagValue: tagSelectedValue,
+              onTagSelected: onTagSelected,
+              onSearchClicked: onSearchClicked,
               isSearching: isSearching,
             ),
             RecipesList(
                 screenSize: screenSize,
                 recipes: vm.recipes,
-                openRecipeDetails: _openRecipeDetails)
+                openRecipeDetails: openRecipeDetails)
           ],
         );
     }
@@ -94,13 +137,13 @@ class _RecipesLayoutState extends State<RecipesLayout>
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(2.0),
-          child: _getRecipesList(screenSize, vm),
+          child: getRecipesList(screenSize, vm),
         ),
         SlideTransition(
           position: _offsetAnimation,
           child: RecipeDetails(
             recipe: _recipeDetails,
-            closeRecipeDetails: _closeRecipeDetails,
+            closeRecipeDetails: closeRecipeDetails,
           ),
         ),
       ],
