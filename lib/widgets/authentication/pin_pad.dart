@@ -152,7 +152,7 @@ class PinPad extends StatelessWidget {
                   forgotPin(context);
                 },
                 child: Text(
-                  "Forgotten PIN",
+                  S.of(context).pinForgottenTitle,
                   style: TextStyle(
                     color: Colors.white,
                   ),

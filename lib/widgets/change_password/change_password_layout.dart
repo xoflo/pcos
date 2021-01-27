@@ -5,10 +5,9 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
-import 'package:thepcosprotocol_app/widgets/shared/spinner_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
-import 'package:thepcosprotocol_app/utils/error_utils.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 
 class ChangePasswordLayout extends StatefulWidget {
   final Function closeMenuItem;

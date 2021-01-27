@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 
 class SignIn extends StatelessWidget {
   final bool isSigningIn;
@@ -21,6 +23,31 @@ class SignIn extends StatelessWidget {
     if (_formKey.currentState.validate()) {
       authenticateUser();
     }
+  }
+
+  void forgottenPassword(BuildContext context) {
+    showAlertDialog(
+        context,
+        S.of(context).passwordForgottenTitle,
+        S.of(context).passwordForgottenMessage,
+        S.of(context).passwordForgottenCancel,
+        S.of(context).passwordForgottenContinue,
+        continueForgottenPassword);
+  }
+
+  void continueForgottenPassword(BuildContext context) {
+    //send email to user
+    debugPrint("SEND EMAIL******");
+    Navigator.of(context).pop();
+    showFlushBar(
+      context,
+      S.of(context).passwordForgottenTitle,
+      S.of(context).passwordForgottenCompleteMessage,
+      icon: Icons.info_rounded,
+      backgroundColor: Colors.white,
+      borderColor: secondaryColor,
+      primaryColor: secondaryColor,
+    );
   }
 
   @override
@@ -87,6 +114,17 @@ class SignIn extends StatelessWidget {
                     width: 56,
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      forgottenPassword(context);
+                    },
+                    child: Text(
+                      S.of(context).passwordForgottenTitle,
+                    ),
+                  ),
+                )
               ],
             ),
           ),

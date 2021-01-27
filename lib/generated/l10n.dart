@@ -445,6 +445,56 @@ class S {
     );
   }
 
+  /// `Forgotten Password`
+  String get passwordForgottenTitle {
+    return Intl.message(
+      'Forgotten Password',
+      name: 'passwordForgottenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We will send an email to your registered email address, so you can reset your password. Do you want to continue?`
+  String get passwordForgottenMessage {
+    return Intl.message(
+      'We will send an email to your registered email address, so you can reset your password. Do you want to continue?',
+      name: 'passwordForgottenMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes, send email`
+  String get passwordForgottenContinue {
+    return Intl.message(
+      'Yes, send email',
+      name: 'passwordForgottenContinue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get passwordForgottenCancel {
+    return Intl.message(
+      'Cancel',
+      name: 'passwordForgottenCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We have sent you a reset password email, please check your inbox and junk mail. Thank you`
+  String get passwordForgottenCompleteMessage {
+    return Intl.message(
+      'We have sent you a reset password email, please check your inbox and junk mail. Thank you',
+      name: 'passwordForgottenCompleteMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Please set your unlock PIN`
   String get pinSetTitle {
     return Intl.message(

@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/widgets/authentication/email_sign_up.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/goto_sign_in.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
-import 'package:thepcosprotocol_app/utils/error_utils.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
