@@ -5,9 +5,10 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/help/getting_started.dart';
-import 'package:thepcosprotocol_app/widgets/help/frequently_asked_questions.dart';
+import 'package:thepcosprotocol_app/widgets/help/questions.dart';
 import 'package:thepcosprotocol_app/controllers/cms_controller.dart';
-import 'package:thepcosprotocol_app/services/webservices.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/view_models/cms_grouped_list_view_model.dart';
 
 class HelpLayout extends StatefulWidget {
   final String tryAgainText;
@@ -41,8 +42,8 @@ class _HelpLayoutState extends State<HelpLayout> {
       _gettingStartedContent = cmsResponse;
     });
 
-    final String cmsAsset = await WebServices().getFrequentlyAskedQuestions();
-    debugPrint("*********called FAQs $cmsAsset");
+    //final String cmsAsset = await WebServices().getFrequentlyAskedQuestions();
+    //debugPrint("*********called FAQs $cmsAsset");
   }
 
   @override
@@ -105,8 +106,16 @@ class _HelpLayoutState extends State<HelpLayout> {
                                 GettingStarted(
                                   gettingStartedContent: _gettingStartedContent,
                                 ),
-                                FrequentlyAskedQuestions(),
-                                Text("Course questions"),
+                                ChangeNotifierProvider(
+                                  create: (context) =>
+                                      CMSGroupedListViewModel(),
+                                  child: Questions(cmsType: "FAQ"),
+                                ),
+                                ChangeNotifierProvider(
+                                  create: (context) =>
+                                      CMSGroupedListViewModel(),
+                                  child: Questions(cmsType: "CourseQuestion"),
+                                ),
                               ],
                             ),
                           ),

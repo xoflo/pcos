@@ -33,14 +33,14 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
     if (_formKey.currentState.validate()) {
       String oldPassword = oldPasswordController.text.trim();
       String newPassword = newPasswordController.text.trim();
-      String usernameOrEmail = "";
+      String email = "";
 
       //check old password is correct, this is like logging in, so will return a new token that replaces the old one
       try {
-        usernameOrEmail = await AuthenticationController().getUsernameOrEmail();
-        final bool checkPassword = await AuthenticationController()
-            .signIn(usernameOrEmail, oldPassword);
-        debugPrint("email=$usernameOrEmail checkPwd=$checkPassword");
+        email = await AuthenticationController().getEmail();
+        final bool checkPassword =
+            await AuthenticationController().signIn(email, oldPassword);
+        debugPrint("email=$email checkPwd=$checkPassword");
       } catch (ex) {
         if (ex == SIGN_IN_CREDENTIALS) {
           //password must have been wrong
@@ -63,7 +63,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
       //current password was correct so continue to update the new password
       try {
         final bool resetPassword =
-            await WebServices().resetPassword(usernameOrEmail, newPassword);
+            await WebServices().resetPassword(email, newPassword);
         debugPrint("resetPwd=$resetPassword");
         if (resetPassword) {
           setState(() {

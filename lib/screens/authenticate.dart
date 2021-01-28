@@ -34,13 +34,13 @@ class _AuthenticateState extends State<Authenticate> {
       isSigningIn = true;
     });
 
-    final String emailAddress = emailController.text.trim();
+    final String emailOrUsername = emailController.text.trim();
     final String password = passwordController.text.trim();
     // perform the authentication
     try {
       if (await WebServices().checkInternetConnectivity()) {
         final bool signedIn =
-            await AuthenticationController().signIn(emailAddress, password);
+            await AuthenticationController().signIn(emailOrUsername, password);
 
         if (signedIn) {
           //success - this hides the login screen and shows the pin setup screen
