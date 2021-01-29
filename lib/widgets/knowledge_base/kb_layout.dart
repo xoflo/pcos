@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/view_models/kb_list_view_model.dart';
+import 'package:thepcosprotocol_app/view_models/cms_grouped_list_view_model.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/knowledge_base/kb_list.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -41,7 +41,8 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
 
   void populateKBs() {
     debugPrint("**********************GETTING KBs**********************");
-    Provider.of<KnowledgeBaseListViewModel>(context, listen: false).getAllKBs();
+    Provider.of<CMSGroupedListViewModel>(context, listen: false)
+        .getCMSGrouped("KnowledgeBase");
   }
 
   void onTagSelected(String tagValue) {
@@ -63,7 +64,7 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
     });
   }
 
-  Widget getKBList(Size screenSize, KnowledgeBaseListViewModel vm) {
+  Widget getKBList(Size screenSize, CMSGroupedListViewModel vm) {
     if (tagSelectedValue.length == 0) {
       tagSelectedValue = S.of(context).tagAll;
     }
@@ -87,7 +88,7 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: KnowledgeBaseList(
-                  screenSize: screenSize, knowledgeBases: vm.kbs),
+                  screenSize: screenSize, knowledgeBases: vm.cmsGroupedItems),
             )
           ],
         );
@@ -97,7 +98,7 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<KnowledgeBaseListViewModel>(context);
+    final vm = Provider.of<CMSGroupedListViewModel>(context);
     final Size screenSize = MediaQuery.of(context).size;
 
     return SingleChildScrollView(

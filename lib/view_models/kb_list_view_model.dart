@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/view_models/kb_view_model.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
-
+/*
 class KnowledgeBaseListViewModel extends ChangeNotifier {
   List<KnowledgeBaseViewModel> kbs = List<KnowledgeBaseViewModel>();
   LoadingStatus status = LoadingStatus.empty;
@@ -18,3 +18,4 @@ class KnowledgeBaseListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+*/
