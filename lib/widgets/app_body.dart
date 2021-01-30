@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
@@ -11,6 +12,8 @@ import 'package:thepcosprotocol_app/screens/change_password.dart';
 import 'package:thepcosprotocol_app/screens/help.dart';
 import 'package:thepcosprotocol_app/screens/privacy.dart';
 import 'package:thepcosprotocol_app/screens/terms_and_conditions.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/providers/question_provider.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -104,8 +107,18 @@ class _AppBodyState extends State<AppBody> {
       ),
       body: DefaultTextStyle(
         style: Theme.of(context).textTheme.bodyText1,
-        child: MainScreens(
-          currentIndex: _currentIndex,
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+            ChangeNotifierProxyProvider<DatabaseProvider, QuestionProvider>(
+              create: (context) => QuestionProvider(dbProvider: null),
+              update: (context, db, previous) =>
+                  QuestionProvider(dbProvider: db),
+            ),
+          ],
+          child: MainScreens(
+            currentIndex: _currentIndex,
+          ),
         ),
       ),
       bottomNavigationBar: AppNavigationTabs(

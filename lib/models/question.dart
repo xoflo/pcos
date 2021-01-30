@@ -11,7 +11,7 @@ String cmsToJson(Question data) {
 }
 
 class Question {
-  String id;
+  int id;
   String reference;
   String questionType;
   String question;
@@ -26,6 +26,16 @@ class Question {
     this.answer,
     this.tags,
   });
+
+  bool _isExpanded = false;
+
+  bool get isExpanded {
+    return this._isExpanded;
+  }
+
+  set isExpanded(final bool isExpanded) {
+    this._isExpanded = isExpanded;
+  }
 
   factory Question.fromMap(Map<String, dynamic> json) => new Question(
         reference: json["reference"],

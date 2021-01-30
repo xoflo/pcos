@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/view_models/cms_grouped_view_model.dart';
+import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class KnowledgeBaseList extends StatefulWidget {
   final Size screenSize;
-  final List<CMSGroupedViewModel> knowledgeBases;
+  final List<Question> knowledgeBases;
 
   KnowledgeBaseList({this.screenSize, this.knowledgeBases});
 
@@ -21,8 +21,7 @@ class _KnowledgeBaseListState extends State<KnowledgeBaseList> {
           widget.knowledgeBases[index].isExpanded = !isExpanded;
         });
       },
-      children:
-          widget.knowledgeBases.map<ExpansionPanel>((CMSGroupedViewModel item) {
+      children: widget.knowledgeBases.map<ExpansionPanel>((Question item) {
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
