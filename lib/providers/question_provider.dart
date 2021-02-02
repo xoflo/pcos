@@ -1,14 +1,18 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class QuestionProvider with ChangeNotifier {
   QuestionProvider({this.dbProvider}) {
-    if (dbProvider != null) fetchAndSetData("KnowledgeBase");
+    if (dbProvider != null) fetchAndSaveData("KnowledgeBase");
   }
 
   final DatabaseProvider dbProvider;
@@ -18,24 +22,20 @@ class QuestionProvider with ChangeNotifier {
 
   List<Question> get items => [..._items];
 
-  Future<void> fetchAndSetData(final String cmsType) async {
-    //TODO: think about how to check whether to get from database or from api, be good to cache for say 24 hours, or until next day?
+  Future<void> fetchAndSaveData(final String cmsType) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
     if (dbProvider.db != null) {
       status = LoadingStatus.loading;
       notifyListeners();
       //first get the data from the api if we have no data yet
-      if (_items.length == 0) {
+      if (await shouldGetDataFromAPI()) {
         final cmsItems = await WebServices().getCMSByType(cmsType);
         List<Question> questions = _convertCMSToQuestions(cmsItems, cmsType);
-        debugPrint("**************FETCH AND SET DATA CALLED");
+        debugPrint("**************FETCH DATA FROM API AND SAVE");
         //delete all old records before adding new ones
-        debugPrint("*********DELETE KBs FROM DB");
         await dbProvider.deleteAll(tableName);
         //add items to database
-        debugPrint("*********ADD KBs TO DB");
         questions.forEach((Question question) async {
-          debugPrint("*****SAVE Question=${question.reference}");
           await dbProvider.insert(tableName, {
             'reference': question.reference,
             'questionType': question.questionType,
@@ -44,20 +44,76 @@ class QuestionProvider with ChangeNotifier {
             'tags': question.tags
           });
         });
+
+        //save when we got the data
+        saveTimestamp(DateTime.now().millisecondsSinceEpoch);
       }
+
       // get items from database
       debugPrint("*********GET KBs FROM DB");
-      final dataList = await dbProvider.getData(tableName);
-      _items = dataList
-          .map((item) => Question(
-              id: item['id'],
-              reference: item['reference'],
-              questionType: item['questionType'],
-              question: item['question'],
-              answer: item['answer'],
-              tags: item['tags']))
-          .toList();
-      status = dataList.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+      await getAllData();
+    }
+
+    status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    notifyListeners();
+  }
+
+  Future<bool> shouldGetDataFromAPI() async {
+    final int rowCount = await dbProvider.getTableRowCount(tableName);
+
+    //no data in table so get data from API
+    if (rowCount == 0) return true;
+
+    final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
+    final int savedTimestamp = await getTimestamp();
+
+    //we have data, so check if the data is older than an hour (3,600,000 milliseconds)
+    if (savedTimestamp != null && currentTimestamp - savedTimestamp > 3600000) {
+      return true;
+    }
+
+    //we have data and it is under an hour old, so use the database version
+    return false;
+  }
+
+  Future<void> getAllData() async {
+    final dataList = await dbProvider.getData(tableName);
+    _items = mapDataToList(dataList);
+  }
+
+  List<Question> mapDataToList(final dataList) {
+    return dataList
+        .map<Question>((item) => Question(
+            id: item['id'],
+            reference: item['reference'],
+            questionType: item['questionType'],
+            question: item['question'],
+            answer: item['answer'],
+            tags: item['tags']))
+        .toList();
+  }
+
+  Future<void> filterAndSearch(
+      final String searchText, final String tag) async {
+    if (dbProvider.db != null) {
+      status = LoadingStatus.loading;
+      notifyListeners();
+      if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
+        String searchQuery = "";
+        if (searchText.length > 0) {
+          searchQuery = " WHERE question LIKE '%$searchText%'";
+        }
+        if (tag.length > 0 && tag != 'All') {
+          searchQuery += searchText.length > 0 ? " AND" : " WHERE";
+          searchQuery += " tags LIKE '%$tag%'";
+        }
+        final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
+        _items = mapDataToList(dataList);
+      } else {
+        getAllData();
+      }
+
+      status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
       notifyListeners();
     }
   }
@@ -86,5 +142,24 @@ class QuestionProvider with ChangeNotifier {
       questionList.add(newQuestion);
     }
     return questionList;
+  }
+
+  Future<bool> saveTimestamp(final int timestamp) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt(SharedPreferencesKeys.KB_SAVED_TIMESTAMP, timestamp);
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  Future<int> getTimestamp() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getInt(SharedPreferencesKeys.KB_SAVED_TIMESTAMP);
+    } catch (ex) {
+      return 0;
+    }
   }
 }

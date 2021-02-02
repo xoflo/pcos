@@ -31,16 +31,27 @@ class DatabaseProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> insert(String table, Map<String, Object> data) async {
+  Future<void> insert(
+      final String table, final Map<String, Object> data) async {
     await db.insert(table, data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(String table) async {
+  Future<List<Map<String, dynamic>>> getData(final String table) async {
     return await db.query(table);
   }
 
-  Future<void> deleteAll(String table) async {
+  Future<List<Map<String, dynamic>>> getDataQuery(
+      final String table, final String where) async {
+    return await db.rawQuery("SELECT * FROM $table $where");
+  }
+
+  Future<int> getTableRowCount(final String table) async {
+    return sql.Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM $table'));
+  }
+
+  Future<void> deleteAll(final String table) async {
     db.delete(table);
   }
 }

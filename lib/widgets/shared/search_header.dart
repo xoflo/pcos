@@ -39,16 +39,57 @@ class SearchHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: size.width - 140,
+                      width: size.width - 28,
                       height: 40,
                       child: TextFormField(
                         controller: searchController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: S.of(context).searchInputText,
+                          suffixIcon: IconButton(
+                            onPressed: () => searchController.clear(),
+                            icon: Icon(Icons.clear, color: secondaryColorLight),
+                          ),
                         ),
                       ),
                     ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(S.of(context).searchHeaderFilterText),
+                      ),
+                      tagValues.length > 0
+                          ? DropdownButton<String>(
+                              value: tagValue,
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                color: primaryColorDark,
+                              ),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(color: secondaryColorLight),
+                              underline: Container(
+                                height: 2,
+                                color: primaryColorDark,
+                              ),
+                              onChanged: (String newValue) {
+                                onTagSelected(newValue);
+                              },
+                              items: tagValues.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            )
+                          : Container(),
+                    ]),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: ColorButton(
@@ -59,38 +100,6 @@ class SearchHeader extends StatelessWidget {
                         },
                         width: 70,
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(S.of(context).searchHeaderFilterText),
-                    ),
-                    DropdownButton<String>(
-                      value: tagValue,
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: primaryColorDark,
-                      ),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: TextStyle(color: secondaryColorLight),
-                      underline: Container(
-                        height: 2,
-                        color: primaryColorDark,
-                      ),
-                      onChanged: (String newValue) {
-                        onTagSelected(newValue);
-                      },
-                      items: tagValues
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
                     ),
                   ],
                 )

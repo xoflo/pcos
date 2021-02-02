@@ -17,7 +17,7 @@ class KnowledgeBaseLayout extends StatefulWidget {
 class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
   final TextEditingController searchController = TextEditingController();
   bool isSearching = false;
-  String tagSelectedValue = "";
+  String tagSelectedValue = "All";
 
   @override
   void initState() {
@@ -32,21 +32,14 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
   }
 
   void onSearchClicked() async {
-    setState(() {
-      isSearching = true;
-    });
-    //TODO: call search and remove delay
-    await Future.delayed(const Duration(seconds: 3), () {});
-
-    setState(() {
-      isSearching = false;
-    });
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    questionProvider.filterAndSearch(
+        searchController.text.trim(), tagSelectedValue);
   }
 
   Widget getKBList(
       final Size screenSize, final QuestionProvider questionProvider) {
-    //questionProvider.fetchAndSetData("KnowledgeBase");
-
     if (tagSelectedValue.length == 0) {
       tagSelectedValue = S.of(context).tagAll;
     }
@@ -57,24 +50,10 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
         // TODO: create a widget for nothing found and test how it looks
         return Text("No items found!");
       case LoadingStatus.success:
-        return Column(
-          children: [
-            SearchHeader(
-              searchController: searchController,
-              tagValues:
-                  StringUtils.getTagValues(S.of(context), "knowledgebase"),
-              tagValue: tagSelectedValue,
-              onTagSelected: onTagSelected,
-              onSearchClicked: onSearchClicked,
-              isSearching: isSearching,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: KnowledgeBaseList(
-                  screenSize: screenSize,
-                  knowledgeBases: questionProvider.items),
-            )
-          ],
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: KnowledgeBaseList(
+              screenSize: screenSize, knowledgeBases: questionProvider.items),
         );
     }
     return Container();
@@ -89,7 +68,20 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
       builder: (context, model, child) => SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(2.0),
-          child: getKBList(screenSize, model),
+          child: Column(
+            children: [
+              SearchHeader(
+                searchController: searchController,
+                tagValues:
+                    StringUtils.getTagValues(S.of(context), "knowledgebase"),
+                tagValue: tagSelectedValue,
+                onTagSelected: onTagSelected,
+                onSearchClicked: onSearchClicked,
+                isSearching: isSearching,
+              ),
+              getKBList(screenSize, model),
+            ],
+          ),
         ),
       ),
     );
