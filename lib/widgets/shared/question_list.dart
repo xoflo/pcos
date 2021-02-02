@@ -2,26 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-class KnowledgeBaseList extends StatefulWidget {
+class QuestionList extends StatefulWidget {
   final Size screenSize;
-  final List<Question> knowledgeBases;
+  final List<Question> questions;
 
-  KnowledgeBaseList({this.screenSize, this.knowledgeBases});
+  QuestionList({this.screenSize, this.questions});
 
   @override
-  _KnowledgeBaseListState createState() => _KnowledgeBaseListState();
+  _QuestionListState createState() => _QuestionListState();
 }
 
-class _KnowledgeBaseListState extends State<KnowledgeBaseList> {
+class _QuestionListState extends State<QuestionList> {
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
       expansionCallback: (int index, bool isExpanded) {
         setState(() {
-          widget.knowledgeBases[index].isExpanded = !isExpanded;
+          widget.questions[index].isExpanded = !isExpanded;
         });
       },
-      children: widget.knowledgeBases.map<ExpansionPanel>((Question item) {
+      children: widget.questions.map<ExpansionPanel>((Question item) {
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(

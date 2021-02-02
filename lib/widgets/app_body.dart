@@ -13,7 +13,9 @@ import 'package:thepcosprotocol_app/screens/help.dart';
 import 'package:thepcosprotocol_app/screens/privacy.dart';
 import 'package:thepcosprotocol_app/screens/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
-import 'package:thepcosprotocol_app/providers/question_provider.dart';
+import 'package:thepcosprotocol_app/providers/faq_provider.dart';
+import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
+import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -82,7 +84,8 @@ class _AppBodyState extends State<AppBody> {
     Navigator.pop(context);
   }
 
-  void openHelp() {
+  /*
+  void openHelp(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -96,58 +99,68 @@ class _AppBodyState extends State<AppBody> {
   void closeHelp() {
     Navigator.pop(context);
   }
+  */
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: HeaderAppBar(currentIndex: _currentIndex),
-      drawer: DrawerMenu(
-        updateAppState: updateAppState,
-        openDrawerMenuItem: openDrawerMenuItem,
-      ),
-      body: DefaultTextStyle(
-        style: Theme.of(context).textTheme.bodyText1,
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => DatabaseProvider()),
-            ChangeNotifierProxyProvider<DatabaseProvider, QuestionProvider>(
-              create: (context) => QuestionProvider(dbProvider: null),
-              update: (context, db, previous) =>
-                  QuestionProvider(dbProvider: db),
-            ),
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+        ChangeNotifierProxyProvider<DatabaseProvider, KnowledgeBaseProvider>(
+          create: (context) => KnowledgeBaseProvider(dbProvider: null),
+          update: (context, db, previous) =>
+              KnowledgeBaseProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, FAQProvider>(
+          create: (context) => FAQProvider(dbProvider: null),
+          update: (context, db, previous) => FAQProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, CourseQuestionProvider>(
+          create: (context) => CourseQuestionProvider(dbProvider: null),
+          update: (context, db, previous) =>
+              CourseQuestionProvider(dbProvider: db),
+        ),
+      ],
+      child: Scaffold(
+        appBar: HeaderAppBar(currentIndex: _currentIndex),
+        drawer: DrawerMenu(
+          updateAppState: updateAppState,
+          openDrawerMenuItem: openDrawerMenuItem,
+        ),
+        body: DefaultTextStyle(
+          style: Theme.of(context).textTheme.bodyText1,
           child: MainScreens(
             currentIndex: _currentIndex,
           ),
         ),
-      ),
-      bottomNavigationBar: AppNavigationTabs(
-        currentIndex: _currentIndex,
-        onTapped: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
-      floatingActionButton: _currentIndex == 0
-          ? Container(
-              width: 40,
-              height: 40,
-              child: FittedBox(
-                child: FloatingActionButton(
-                  heroTag: 'openHelpFab',
-                  child: Text(
-                    "?",
-                    style: TextStyle(fontSize: 36),
+        bottomNavigationBar: AppNavigationTabs(
+          currentIndex: _currentIndex,
+          onTapped: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
+        /*floatingActionButton: _currentIndex == 8
+            ? Container(
+                width: 40,
+                height: 40,
+                child: FittedBox(
+                  child: FloatingActionButton(
+                    heroTag: 'openHelpFab',
+                    child: Text(
+                      "?",
+                      style: TextStyle(fontSize: 36),
+                    ),
+                    backgroundColor: primaryColorDark,
+                    onPressed: () {
+                      openHelp(context);
+                    },
                   ),
-                  backgroundColor: primaryColorDark,
-                  onPressed: () {
-                    openHelp();
-                  },
                 ),
-              ),
-            )
-          : Container(),
+              )
+            : Container(),*/
+      ),
     );
   }
 }

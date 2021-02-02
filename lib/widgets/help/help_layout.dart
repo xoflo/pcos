@@ -5,16 +5,25 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/help/getting_started.dart';
-import 'package:thepcosprotocol_app/widgets/help/questions.dart';
 import 'package:thepcosprotocol_app/controllers/cms_controller.dart';
-import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/view_models/cms_grouped_list_view_model.dart';
+import 'package:thepcosprotocol_app/providers/faq_provider.dart';
+import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 
 class HelpLayout extends StatefulWidget {
   final String tryAgainText;
   final Function closeMenuItem;
+  final FAQProvider faqProvider;
+  final CourseQuestionProvider courseQuestionProvider;
 
-  HelpLayout({this.tryAgainText, this.closeMenuItem});
+  HelpLayout({
+    this.tryAgainText,
+    this.closeMenuItem,
+    this.faqProvider,
+    this.courseQuestionProvider,
+  });
 
   @override
   _HelpLayoutState createState() => _HelpLayoutState();
@@ -41,9 +50,24 @@ class _HelpLayoutState extends State<HelpLayout> {
     setState(() {
       _gettingStartedContent = cmsResponse;
     });
+  }
 
-    //final String cmsAsset = await WebServices().getFrequentlyAskedQuestions();
-    //debugPrint("*********called FAQs $cmsAsset");
+  Widget getQuestionList(
+      final BuildContext context, final Size screenSize, final provider) {
+    switch (provider.status) {
+      case LoadingStatus.loading:
+        return PcosLoadingSpinner();
+      case LoadingStatus.empty:
+        // TODO: create a widget for nothing found and test how it looks
+        return Text("No items found!");
+      case LoadingStatus.success:
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child:
+              QuestionList(screenSize: screenSize, questions: provider.items),
+        );
+    }
+    return Container();
   }
 
   @override
@@ -106,15 +130,19 @@ class _HelpLayoutState extends State<HelpLayout> {
                                 GettingStarted(
                                   gettingStartedContent: _gettingStartedContent,
                                 ),
-                                ChangeNotifierProvider(
-                                  create: (context) =>
-                                      CMSGroupedListViewModel(),
-                                  child: Questions(cmsType: "FAQ"),
+                                SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: getQuestionList(context, screenSize,
+                                        widget.faqProvider),
+                                  ),
                                 ),
-                                ChangeNotifierProvider(
-                                  create: (context) =>
-                                      CMSGroupedListViewModel(),
-                                  child: Questions(cmsType: "CourseQuestion"),
+                                SingleChildScrollView(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: getQuestionList(context, screenSize,
+                                        widget.courseQuestionProvider),
+                                  ),
                                 ),
                               ],
                             ),

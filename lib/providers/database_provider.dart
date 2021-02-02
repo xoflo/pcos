@@ -15,10 +15,23 @@ class DatabaseProvider with ChangeNotifier {
     db = await sql.openDatabase(
       path.join(dbPath, 'ThePCOSProtocol.db'),
       onCreate: (db, version) async {
-        await db.execute("CREATE TABLE Question ("
+        await db.execute("CREATE TABLE KnowledgeBase ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
-            "questionType TEXT,"
+            "question TEXT,"
+            "answer TEXT,"
+            "tags TEXT"
+            ")");
+        await db.execute("CREATE TABLE FrequentlyAskedQuestions ("
+            "id INTEGER PRIMARY KEY,"
+            "reference TEXT,"
+            "question TEXT,"
+            "answer TEXT,"
+            "tags TEXT"
+            ")");
+        await db.execute("CREATE TABLE CourseQuestion ("
+            "id INTEGER PRIMARY KEY,"
+            "reference TEXT,"
             "question TEXT,"
             "answer TEXT,"
             "tags TEXT"

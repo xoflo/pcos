@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/providers/question_provider.dart';
+import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/widgets/knowledge_base/kb_list.dart';
+import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/utils/string_utils.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
 
 class KnowledgeBaseLayout extends StatefulWidget {
   @override
@@ -33,17 +32,17 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
 
   void onSearchClicked() async {
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+        Provider.of<KnowledgeBaseProvider>(context, listen: false);
     questionProvider.filterAndSearch(
         searchController.text.trim(), tagSelectedValue);
   }
 
   Widget getKBList(
-      final Size screenSize, final QuestionProvider questionProvider) {
+      final Size screenSize, final KnowledgeBaseProvider kbProvider) {
     if (tagSelectedValue.length == 0) {
       tagSelectedValue = S.of(context).tagAll;
     }
-    switch (questionProvider.status) {
+    switch (kbProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
@@ -52,8 +51,8 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
       case LoadingStatus.success:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: KnowledgeBaseList(
-              screenSize: screenSize, knowledgeBases: questionProvider.items),
+          child:
+              QuestionList(screenSize: screenSize, questions: kbProvider.items),
         );
     }
     return Container();
@@ -61,10 +60,9 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
 
   @override
   Widget build(BuildContext context) {
-    //final provider = Provider.of<QuestionProvider>(context);
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Consumer<QuestionProvider>(
+    return Consumer<KnowledgeBaseProvider>(
       builder: (context, model, child) => SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(2.0),

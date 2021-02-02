@@ -1,36 +1,25 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
-class QuestionProvider with ChangeNotifier {
-  QuestionProvider({this.dbProvider}) {
-    if (dbProvider != null) fetchAndSaveData("KnowledgeBase");
-  }
-
-  final DatabaseProvider dbProvider;
-  List<Question> _items = [];
-  final tableName = 'Question';
-  LoadingStatus status = LoadingStatus.empty;
-
-  List<Question> get items => [..._items];
-
-  Future<void> fetchAndSaveData(final String cmsType) async {
+// This provider is used for Knowledge Base, FAQs and Course Questions
+class QuestionHelper {
+  Future<List<Question>> fetchAndSaveData(
+    final dbProvider,
+    final String tableName,
+    final String assetType,
+  ) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
     if (dbProvider.db != null) {
-      status = LoadingStatus.loading;
-      notifyListeners();
       //first get the data from the api if we have no data yet
-      if (await shouldGetDataFromAPI()) {
-        final cmsItems = await WebServices().getCMSByType(cmsType);
-        List<Question> questions = _convertCMSToQuestions(cmsItems, cmsType);
+      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+        final cmsItems = await WebServices().getCMSByType(assetType);
+        List<Question> questions = _convertCMSToQuestions(cmsItems, assetType);
         debugPrint("**************FETCH DATA FROM API AND SAVE");
         //delete all old records before adding new ones
         await dbProvider.deleteAll(tableName);
@@ -38,7 +27,6 @@ class QuestionProvider with ChangeNotifier {
         questions.forEach((Question question) async {
           await dbProvider.insert(tableName, {
             'reference': question.reference,
-            'questionType': question.questionType,
             'question': question.question,
             'answer': question.answer,
             'tags': question.tags
@@ -50,15 +38,35 @@ class QuestionProvider with ChangeNotifier {
       }
 
       // get items from database
-      debugPrint("*********GET KBs FROM DB");
-      await getAllData();
+      debugPrint("*********GET DATA FROM DB");
+      return await _getAllData(dbProvider, tableName);
     }
-
-    status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    notifyListeners();
+    return List<Question>();
   }
 
-  Future<bool> shouldGetDataFromAPI() async {
+  Future<List<Question>> filterAndSearch(final dbProvider,
+      final String tableName, final String searchText, final String tag) async {
+    if (dbProvider.db != null) {
+      if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
+        String searchQuery = "";
+        if (searchText.length > 0) {
+          searchQuery = " WHERE question LIKE '%$searchText%'";
+        }
+        if (tag.length > 0 && tag != 'All') {
+          searchQuery += searchText.length > 0 ? " AND" : " WHERE";
+          searchQuery += " tags LIKE '%$tag%'";
+        }
+        final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
+        return mapDataToList(dataList);
+      } else {
+        return _getAllData(dbProvider, tableName);
+      }
+    }
+    return List<Question>();
+  }
+
+  Future<bool> _shouldGetDataFromAPI(
+      final dbProvider, final String tableName) async {
     final int rowCount = await dbProvider.getTableRowCount(tableName);
 
     //no data in table so get data from API
@@ -76,9 +84,10 @@ class QuestionProvider with ChangeNotifier {
     return false;
   }
 
-  Future<void> getAllData() async {
+  Future<List<Question>> _getAllData(
+      final dbProvider, final String tableName) async {
     final dataList = await dbProvider.getData(tableName);
-    _items = mapDataToList(dataList);
+    return mapDataToList(dataList);
   }
 
   List<Question> mapDataToList(final dataList) {
@@ -86,36 +95,10 @@ class QuestionProvider with ChangeNotifier {
         .map<Question>((item) => Question(
             id: item['id'],
             reference: item['reference'],
-            questionType: item['questionType'],
             question: item['question'],
             answer: item['answer'],
             tags: item['tags']))
         .toList();
-  }
-
-  Future<void> filterAndSearch(
-      final String searchText, final String tag) async {
-    if (dbProvider.db != null) {
-      status = LoadingStatus.loading;
-      notifyListeners();
-      if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
-        String searchQuery = "";
-        if (searchText.length > 0) {
-          searchQuery = " WHERE question LIKE '%$searchText%'";
-        }
-        if (tag.length > 0 && tag != 'All') {
-          searchQuery += searchText.length > 0 ? " AND" : " WHERE";
-          searchQuery += " tags LIKE '%$tag%'";
-        }
-        final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
-        _items = mapDataToList(dataList);
-      } else {
-        getAllData();
-      }
-
-      status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-      notifyListeners();
-    }
   }
 
   List<Question> _convertCMSToQuestions(
@@ -133,7 +116,6 @@ class QuestionProvider with ChangeNotifier {
 
       Question newQuestion = Question(
         reference: question.reference,
-        questionType: cmsType,
         question: question.body,
         answer: answer.body,
         tags: question.tags,
@@ -147,7 +129,8 @@ class QuestionProvider with ChangeNotifier {
   Future<bool> saveTimestamp(final int timestamp) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setInt(SharedPreferencesKeys.KB_SAVED_TIMESTAMP, timestamp);
+      prefs.setInt(
+          "tableName_${SharedPreferencesKeys.DB_SAVED_TIMESTAMP}", timestamp);
       return true;
     } catch (ex) {
       return false;
@@ -157,7 +140,8 @@ class QuestionProvider with ChangeNotifier {
   Future<int> getTimestamp() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      return prefs.getInt(SharedPreferencesKeys.KB_SAVED_TIMESTAMP);
+      return prefs
+          .getInt("tableName_${SharedPreferencesKeys.DB_SAVED_TIMESTAMP}");
     } catch (ex) {
       return 0;
     }

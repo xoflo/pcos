@@ -13,7 +13,6 @@ String cmsToJson(Question data) {
 class Question {
   int id;
   String reference;
-  String questionType;
   String question;
   String answer;
   String tags;
@@ -21,7 +20,6 @@ class Question {
   Question({
     this.id,
     this.reference,
-    this.questionType,
     this.question,
     this.answer,
     this.tags,
@@ -39,7 +37,6 @@ class Question {
 
   factory Question.fromMap(Map<String, dynamic> json) => new Question(
         reference: json["reference"],
-        questionType: json["assetyype"],
         question: json["question"],
         answer: json["answer"],
         tags: json["tags"],
@@ -48,7 +45,6 @@ class Question {
   Map<String, dynamic> toMap() => {
         "id": id,
         "reference": reference,
-        "assetType": questionType,
         "question": question,
         "answer": answer,
         "tags": tags,
