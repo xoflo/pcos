@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/view_models/recipe_list_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
-import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -16,17 +16,16 @@ class RecipesLayout extends StatefulWidget {
 
 class _RecipesLayoutState extends State<RecipesLayout>
     with SingleTickerProviderStateMixin {
-  RecipeViewModel _recipeDetails;
+  Recipe _recipeDetails;
   AnimationController _animationController;
   Animation<Offset> _offsetAnimation;
   final TextEditingController searchController = TextEditingController();
   bool isSearching = false;
-  String tagSelectedValue = "";
+  String tagSelectedValue = "All";
 
   @override
   void initState() {
     super.initState();
-    populateAllRecipes();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _offsetAnimation =
@@ -56,12 +55,7 @@ class _RecipesLayoutState extends State<RecipesLayout>
     ];
   }
 
-  void populateAllRecipes() {
-    debugPrint("**********************GETTING RECIPES**********************");
-    Provider.of<RecipeListViewModel>(context, listen: false).getAllRecipes();
-  }
-
-  void openRecipeDetails(RecipeViewModel recipe) async {
+  void openRecipeDetails(Recipe recipe) async {
     setState(() {
       _recipeDetails = recipe;
     });
@@ -80,64 +74,61 @@ class _RecipesLayoutState extends State<RecipesLayout>
   }
 
   void onTagSelected(String tagValue) {
+    debugPrint("********************tagSelected=$tagValue");
     setState(() {
       tagSelectedValue = tagValue;
     });
   }
 
   void onSearchClicked() async {
-    setState(() {
-      isSearching = true;
-    });
-
-    await Future.delayed(const Duration(seconds: 3), () {});
-
-    setState(() {
-      isSearching = false;
-    });
+    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
+    recipeProvider.filterAndSearch(
+        searchController.text.trim(), tagSelectedValue);
   }
 
-  Widget getRecipesList(Size screenSize, RecipeListViewModel vm) {
+  Widget getRecipesList(
+      final Size screenSize, final RecipesProvider recipesProvider) {
     if (tagSelectedValue.length == 0) {
       tagSelectedValue = S.of(context).tagAll;
     }
-    switch (vm.status) {
+    switch (recipesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
         // TODO: create a widget for nothing found and test how it looks
         return Text("No recipes found!");
       case LoadingStatus.success:
-        return Column(
-          children: [
-            SearchHeader(
-              searchController: searchController,
-              tagValues: getTagValues(),
-              tagValue: tagSelectedValue,
-              onTagSelected: onTagSelected,
-              onSearchClicked: onSearchClicked,
-              isSearching: isSearching,
-            ),
-            RecipesList(
-                screenSize: screenSize,
-                recipes: vm.recipes,
-                openRecipeDetails: openRecipeDetails)
-          ],
-        );
+        return RecipesList(
+            screenSize: screenSize,
+            recipes: recipesProvider.items,
+            openRecipeDetails: openRecipeDetails);
     }
     return Container();
   }
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<RecipeListViewModel>(context);
     final Size screenSize = MediaQuery.of(context).size;
 
     return Stack(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: getRecipesList(screenSize, vm),
+        Consumer<RecipesProvider>(
+          builder: (context, model, child) => Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Column(
+              children: [
+                SearchHeader(
+                  searchController: searchController,
+                  tagValues: getTagValues(),
+                  tagValue: tagSelectedValue,
+                  onTagSelected: onTagSelected,
+                  onSearchClicked: onSearchClicked,
+                  isSearching: isSearching,
+                ),
+                getRecipesList(screenSize, model),
+              ],
+            ),
+          ),
         ),
         SlideTransition(
           position: _offsetAnimation,

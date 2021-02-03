@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
@@ -9,13 +8,13 @@ import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/screens/main_screens.dart';
 import 'package:thepcosprotocol_app/screens/profile.dart';
 import 'package:thepcosprotocol_app/screens/change_password.dart';
-import 'package:thepcosprotocol_app/screens/help.dart';
 import 'package:thepcosprotocol_app/screens/privacy.dart';
 import 'package:thepcosprotocol_app/screens/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
 import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -119,6 +118,10 @@ class _AppBodyState extends State<AppBody> {
           create: (context) => CourseQuestionProvider(dbProvider: null),
           update: (context, db, previous) =>
               CourseQuestionProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
+          create: (context) => RecipesProvider(dbProvider: null),
+          update: (context, db, previous) => RecipesProvider(dbProvider: db),
         ),
       ],
       child: Scaffold(

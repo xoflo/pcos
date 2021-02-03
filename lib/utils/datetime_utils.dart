@@ -41,4 +41,8 @@ class DateTimeUtils {
   static String year(DateTime dateTime) {
     return DateFormat('yyyy').format(dateTime.toLocal());
   }
+
+  static int convertMillisecondsToMinutes(final int millSeconds) {
+    return (millSeconds / 60000000).round();
+  }
 }

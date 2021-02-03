@@ -36,6 +36,19 @@ class DatabaseProvider with ChangeNotifier {
             "answer TEXT,"
             "tags TEXT"
             ")");
+        await db.execute("CREATE TABLE Recipe ("
+            "id INTEGER PRIMARY KEY,"
+            "title TEXT,"
+            "description TEXT,"
+            "thumbnail TEXT,"
+            "ingredients TEXT,"
+            "method TEXT,"
+            "tips TEXT,"
+            "tags TEXT,"
+            "difficulty INTEGER,"
+            "servings INTEGER,"
+            "duration INTEGER"
+            ")");
       },
       version: 1,
     );

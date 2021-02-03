@@ -1,49 +1,43 @@
 class Recipe {
-  final int recipeId;
+  final int id;
   final String title;
   final String description;
-  final String slug;
   final String thumbnail;
   final String ingredients;
   final String method;
   final String tips;
+  final String tags;
   final int difficulty;
   final int servings;
   final int duration;
-  final String lastUpdatedUTC;
-  final String dateCreatedUTC;
 
   Recipe({
-    this.recipeId,
+    this.id,
     this.title,
     this.description,
-    this.slug,
     this.thumbnail,
     this.ingredients,
     this.method,
     this.tips,
+    this.tags,
     this.difficulty,
     this.servings,
     this.duration,
-    this.lastUpdatedUTC,
-    this.dateCreatedUTC,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      recipeId: json['recipeId'],
+      id: json['recipeId'],
       title: json['title'],
       description: json['description'],
-      slug: json['slug'],
       thumbnail: json['thumbnail'],
       ingredients: json['ingredients'],
       method: json['method'],
       tips: json['tips'],
+      tags: json['tags'],
       difficulty: json['difficulty'],
       servings: json['servings'],
       duration: json['duration'],
-      lastUpdatedUTC: json['lastUpdatedUTC'],
-      dateCreatedUTC: json['dateCreatedUTC'],
     );
   }
 }

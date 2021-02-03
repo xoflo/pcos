@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
-import 'package:thepcosprotocol_app/providers/question_helper.dart';
+import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 
@@ -22,8 +22,8 @@ class FAQProvider with ChangeNotifier {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
-      _items = await QuestionHelper()
-          .fetchAndSaveData(dbProvider, tableName, assetType);
+      _items = await ProviderHelper()
+          .fetchAndSaveQuestions(dbProvider, tableName, assetType);
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
