@@ -32,7 +32,7 @@ class HeaderImage extends StatelessWidget {
       } else {
         //a mobile phone
         return Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: EdgeInsets.only(top: 15, bottom: 30.0),
           child: Image(
             image: AssetImage('assets/images/pcos_protocol.png'),
             height: 65.0,

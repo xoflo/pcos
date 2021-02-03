@@ -52,7 +52,7 @@ class DeviceUtils {
     if (isHorizontal) {
       adjustmentAmount = isTab ? 170 : 90;
     } else {
-      adjustmentAmount = isTab ? 170 : 120;
+      adjustmentAmount = isTab ? 170 : 151;
     }
 
     return height - adjustmentAmount;

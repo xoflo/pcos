@@ -21,7 +21,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
   String _appBuildNumber = "";
 
   void _drawerNavigation(BuildContext context, DrawerMenuItem drawerMenuItem) {
-    debugPrint("Open drawer item");
     widget.openDrawerMenuItem(drawerMenuItem);
   }
 
@@ -57,9 +56,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            height: Platform.isIOS ? 120.0 : 115.0,
+            height: Platform.isIOS ? 132.0 : 115.0,
             child: DrawerHeader(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     S.of(context).appTitle,
@@ -67,26 +67,23 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           color: primaryColorDark,
                         ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        widget.updateAppState(AppState.LOCKED);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text("Lock App",
-                              style: TextStyle(
-                                color: primaryColorDark,
-                              )),
-                          Icon(
-                            Icons.lock_outline,
-                            size: 24.0,
-                            color: primaryColor,
-                          )
-                        ],
-                      ),
+                  GestureDetector(
+                    onTap: () {
+                      widget.updateAppState(AppState.LOCKED);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("Lock App",
+                            style: TextStyle(
+                              color: primaryColorDark,
+                            )),
+                        Icon(
+                          Icons.lock_outline,
+                          size: 24.0,
+                          color: primaryColor,
+                        )
+                      ],
                     ),
                   )
                 ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/header_image.dart';
+import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/pin_pad.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -137,17 +137,18 @@ class _PinSetState extends State<PinSet> {
     final Size screenSize = MediaQuery.of(context).size;
     final double pinButtonSize =
         screenSize.width > 600 ? 100 : screenSize.width * .25;
-    final double headerPadding = screenSize.width > 600 ? 20.0 : 0.0;
     return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(bottom: headerPadding),
-            child: HeaderImage(screenSize: screenSize),
-          ),
-          _pinEntry != PinEntry.COMPLETE
-              ? PinPad(
+      child: _pinEntry == PinEntry.COMPLETE
+          ? PinCorrect(
+              message: S.of(context).pinSetSuccessfulTitle,
+              messageWhy: S.of(context).pinSetSuccessfulMessage,
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                HeaderImage(screenSize: screenSize),
+                SizedBox(height: 10.0),
+                PinPad(
                   pinButtonSize: pinButtonSize,
                   headerText: _pinEntry == PinEntry.NONE
                       ? S.of(context).pinSetTitle
@@ -159,13 +160,9 @@ class _PinSetState extends State<PinSet> {
                     pinButtonPressed(pinNumber);
                   },
                   resetPinPad: resetPinPad,
-                )
-              : PinCorrect(
-                  message: S.of(context).pinSetSuccessfulTitle,
-                  messageWhy: S.of(context).pinSetSuccessfulMessage,
                 ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

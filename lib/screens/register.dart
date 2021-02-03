@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/register_layout.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/open_sign_up.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/email_sign_up.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/goto_sign_in.dart';
+import 'package:thepcosprotocol_app/widgets/register/register_layout.dart';
+import 'package:thepcosprotocol_app/widgets/register/open_sign_up.dart';
+import 'package:thepcosprotocol_app/widgets/register/email_sign_up.dart';
+import 'package:thepcosprotocol_app/widgets/register/goto_sign_in.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
