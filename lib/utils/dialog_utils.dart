@@ -40,12 +40,13 @@ void showFlushBar(final BuildContext scaffoldContext, final String title,
 }
 
 showAlertDialog(
-    final BuildContext context,
-    final String title,
-    final String message,
-    final String cancelText,
-    final String continueText,
-    final Function continueAction) {
+  final BuildContext context,
+  final String title,
+  final String message,
+  final String cancelText,
+  final String continueText,
+  final Function continueAction,
+) {
   // set up the buttons
   Widget cancelButton = ColorButton(
     isUpdating: false,

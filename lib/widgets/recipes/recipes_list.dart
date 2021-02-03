@@ -1,22 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_item.dart';
 
 class RecipesList extends StatelessWidget {
   final Size screenSize;
-  final List<RecipeViewModel> recipes;
-  final Function(RecipeViewModel) openRecipeDetails;
+  final List<Recipe> recipes;
+  final Function(Recipe) openRecipeDetails;
 
   RecipesList({this.screenSize, this.recipes, this.openRecipeDetails});
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     final bool isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(size.width, size.height);
+        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
     /*24 is for notification bar on Android*/
     //final double itemHeight = (size.height - kToolbarHeight) / 2;
@@ -34,7 +33,7 @@ class RecipesList extends StatelessWidget {
         crossAxisCount:
             DeviceUtils.getItemsPerRow(screenSize.width, screenSize.height),
         childAspectRatio: aspectRatio,
-        children: recipes.map((RecipeViewModel recipe) {
+        children: recipes.map((Recipe recipe) {
           return RecipeListItem(
             recipe: recipe,
             openRecipeDetails: openRecipeDetails,

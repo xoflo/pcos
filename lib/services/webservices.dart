@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
-import 'package:thepcosprotocol_app/models/knowledge_base.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
+import 'package:thepcosprotocol_app/models/response/list_response.dart';
 import 'package:thepcosprotocol_app/models/response/token_response.dart';
 import 'package:thepcosprotocol_app/models/response/recipe_response.dart';
 import 'package:thepcosprotocol_app/models/response/cms_response.dart';
+import 'package:thepcosprotocol_app/models/response/cms_multi_response.dart';
 import 'package:thepcosprotocol_app/models/token.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/models/cms.dart';
 import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -41,25 +42,19 @@ class WebServices {
         <String, String>{'alias': emailAddress, 'password': password},
       ),
     );
-    debugPrint("LOGIN RESPOMSE=${response.body}");
-    debugPrint("STATUS CODE=${response.statusCode}");
 
     if (response.statusCode == 200) {
       final String responseBody = response.body;
       if (responseBody.toLowerCase().contains("fail")) {
         if (responseBody.toLowerCase().contains("email address not verified")) {
-          debugPrint("HERE1");
           throw EMAIL_NOT_VERIFIED;
         } else {
-          debugPrint("HERE2");
           throw SIGN_IN_FAILED;
         }
       }
-      debugPrint("HERE4");
       final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
       return tokenResponse.token;
     } else {
-      debugPrint("HERE3");
       throw SIGN_IN_CREDENTIALS;
     }
   }
@@ -68,7 +63,6 @@ class WebServices {
     final url = _baseUrl + "Token/refresh";
     final String refreshToken =
         await AuthenticationController().getRefreshToken();
-    debugPrint("REFRESHTOKEN=$refreshToken");
     final response = await http.post(
       url,
       headers: <String, String>{
@@ -76,8 +70,6 @@ class WebServices {
       },
       body: "'$refreshToken'",
     );
-
-    debugPrint("REPONSE=${response.body}");
 
     if (response.statusCode == 200) {
       final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
@@ -97,8 +89,6 @@ class WebServices {
       },
       body: "'$emailAddress'",
     );
-
-    debugPrint("RESPONSE=${response.body}");
 
     if (response.statusCode == 200) {
       final forgotResponse =
@@ -125,8 +115,6 @@ class WebServices {
       'Authorization': 'Bearer $token',
     });
 
-    debugPrint("***********************ALL RESPONSE ${response.body}");
-
     if (response.statusCode == 200) {
       return Member.fromJson(
           StandardResponse.fromJson(jsonDecode(response.body)).payload);
@@ -138,7 +126,6 @@ class WebServices {
   Future<bool> updateMemberDetails(final String encodedMemberDetails) async {
     final url = _baseUrl + "account_services/update_profile";
     final String token = await AuthenticationController().getAccessToken();
-    debugPrint("**********ENCODED=$encodedMemberDetails");
 
     final response = await http.post(
       url,
@@ -179,9 +166,6 @@ class WebServices {
       ),
     );
 
-    debugPrint(
-        "*************************reset password response=${response.body}");
-
     if (response.statusCode == 200) {
       final standardResponse =
           StandardResponse.fromJson(jsonDecode(response.body));
@@ -193,17 +177,6 @@ class WebServices {
       throw RESET_PASSWORD_FAILED;
     }
   }
-
-  /*
-  {
-    "id": 0,
-    "hash": "string",
-    "token": "string",
-    "email": "string",
-    "password": "string",
-    "confirmPassword": "string"
-  }
-  */
 
   //Recipes
 
@@ -226,33 +199,6 @@ class WebServices {
     }
   }
 
-  Future<List<KnowledgeBase>> getAllKnowledgeBase() async {
-    return await Future.delayed(const Duration(seconds: 3), () {
-      List<KnowledgeBase> items = List<KnowledgeBase>();
-      KnowledgeBase item1 = KnowledgeBase(
-          knowledgeBaseId: 1,
-          question: "What day is it?",
-          answer: "It is Monday.");
-      KnowledgeBase item2 = KnowledgeBase(
-          knowledgeBaseId: 1,
-          question: "What is the weather like?",
-          answer: "It is very sunny today.");
-      KnowledgeBase item3 = KnowledgeBase(
-          knowledgeBaseId: 1,
-          question: "What is sweetcorn like?",
-          answer: "It is yellow, and very tasty at this time of year.");
-      KnowledgeBase item4 = KnowledgeBase(
-          knowledgeBaseId: 1,
-          question: "What is sweetcorn like?",
-          answer: "It is yellow, and very tasty at this time of year.");
-      items.add(item1);
-      items.add(item2);
-      items.add(item3);
-      items.add(item4);
-      return items;
-    });
-  }
-
   //CMS
 
   Future<String> getCmsAssetByReference(final String reference) async {
@@ -272,26 +218,22 @@ class WebServices {
     }
   }
 
-  Future<String> getFrequentlyAskedQuestions() async {
-    final url = _baseUrl + "CMS/all";
+  Future<List<CMS>> getCMSByType(final String cmsType) async {
+    final url = _baseUrl + "CMS/bytype/$cmsType";
     final String token = await AuthenticationController().getAccessToken();
-    debugPrint("TOKEN=$token");
+
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
 
-    debugPrint("***********************ALL RESPONSE ${response.body}");
-
     if (response.statusCode == 200) {
-      return "got all";
-      /*return CmsResponse.fromJson(
-              StandardResponse.fromJson(jsonDecode(response.body)).payload)
-          .body;*/
+      return CMSMultiResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
     } else {
-      debugPrint("*************status=${response.statusCode}");
-      return "failed";
+      throw GET_CMSBYTYPE_FAILED;
     }
   }
 }

@@ -315,10 +315,10 @@ class S {
     );
   }
 
-  /// `Your email or password are incorrect, please try again.`
+  /// `Your email/username or password are incorrect, please try again.`
   String get signinErrorText {
     return Intl.message(
-      'Your email or password are incorrect, please try again.',
+      'Your email/username or password are incorrect, please try again.',
       name: 'signinErrorText',
       desc: '',
       args: [],
@@ -455,20 +455,20 @@ class S {
     );
   }
 
-  /// `We will send an email to you ([emailAddress]), so you can reset your password. Do you want to continue?`
+  /// `We will send an email to your registered email address so you can reset your password. Do you want to continue?`
   String get passwordForgottenMessage {
     return Intl.message(
-      'We will send an email to you ([emailAddress]), so you can reset your password. Do you want to continue?',
+      'We will send an email to your registered email address so you can reset your password. Do you want to continue?',
       name: 'passwordForgottenMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter your registered email address in the 'Email or username' box and click 'Forgotten Password' again.`
+  /// `Please enter your registered email address or username in the 'Email or username' box and click 'Forgotten Password' again.`
   String get passwordForgottenEmailMessage {
     return Intl.message(
-      'Please enter your registered email address in the \'Email or username\' box and click \'Forgotten Password\' again.',
+      'Please enter your registered email address or username in the \'Email or username\' box and click \'Forgotten Password\' again.',
       name: 'passwordForgottenEmailMessage',
       desc: '',
       args: [],

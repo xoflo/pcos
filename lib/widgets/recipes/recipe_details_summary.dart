@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class RecipeDetailsSummary extends StatelessWidget {
-  final RecipeViewModel recipe;
+  final Recipe recipe;
 
   RecipeDetailsSummary({this.recipe});
 
@@ -23,7 +25,9 @@ class RecipeDetailsSummary extends StatelessWidget {
       context,
       Icons.timer,
       primaryColorDark,
-      recipe.durationMinutes.toString() + " " + S.of(context).minutesShort,
+      DateTimeUtils.convertMillisecondsToMinutes(recipe.duration).toString() +
+          " " +
+          S.of(context).minutesShort,
     ));
 
     summaryIcons.add(_iconColumn(
@@ -102,7 +106,8 @@ class RecipeDetailsSummary extends StatelessWidget {
             child: FadeInImage.memoryNetwork(
               alignment: Alignment.center,
               placeholder: kTransparentImage,
-              image: recipe.thumbnail,
+              image: FlavorConfig.instance.values.blobStorageUrl +
+                  recipe.thumbnail,
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
               height: 300,

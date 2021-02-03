@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:thepcosprotocol_app/view_models/recipe_view_model.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class RecipeListItem extends StatelessWidget {
-  final RecipeViewModel recipe;
-  final Function(RecipeViewModel) openRecipeDetails;
+  final Recipe recipe;
+  final Function(Recipe) openRecipeDetails;
 
   RecipeListItem({this.recipe, this.openRecipeDetails});
 
@@ -28,7 +29,8 @@ class RecipeListItem extends StatelessWidget {
                   child: FadeInImage.memoryNetwork(
                     alignment: Alignment.center,
                     placeholder: kTransparentImage,
-                    image: recipe.thumbnail,
+                    image: FlavorConfig.instance.values.blobStorageUrl +
+                        recipe.thumbnail,
                     fit: BoxFit.fitWidth,
                     width: double.maxFinite,
                     height: 221,

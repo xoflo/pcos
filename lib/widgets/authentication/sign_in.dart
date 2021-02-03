@@ -56,7 +56,7 @@ class SignIn extends StatelessWidget {
       final bool sendEmail =
           await WebServices().forgotPassword(emailController.text.trim());
 
-      final String message = sendEmail
+      sendEmail
           ? S.of(context).passwordForgottenCompleteMessage
           : S.of(context).passwordForgottenFailedMessage;
       if (sendEmail) {

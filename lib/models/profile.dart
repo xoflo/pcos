@@ -3,6 +3,7 @@ class Profile {
   final String firstName;
   final String lastName;
   final String alias;
+  final String email;
   final String countryID;
   final bool isAdmin;
   final DateTime dateCreatedUTC;
@@ -12,6 +13,7 @@ class Profile {
       this.firstName,
       this.lastName,
       this.alias,
+      this.email,
       this.countryID,
       this.isAdmin,
       this.dateCreatedUTC});
@@ -22,6 +24,7 @@ class Profile {
         firstName: json['firstName'],
         lastName: json['lastName'],
         alias: json['alias'],
+        email: json['email'],
         countryID: json['countryID'],
         isAdmin: json['isAdmin'],
         dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']));

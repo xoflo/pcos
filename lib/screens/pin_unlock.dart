@@ -162,7 +162,7 @@ class PinUnlockState extends State<PinUnlock> {
         continueForgottenPin);
   }
 
-  void continueForgottenPin() {
+  void continueForgottenPin(BuildContext context) {
     AuthenticationController().deletePin();
     AuthenticationController().deleteCredentials();
     Navigator.of(context).pop();
