@@ -1344,6 +1344,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Close app`
+  String get areYouSureText {
+    return Intl.message(
+      'Close app',
+      name: 'areYouSureText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to close the App?`
+  String get exitAppText {
+    return Intl.message(
+      'Are you sure you want to close the App?',
+      name: 'exitAppText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yesText {
+    return Intl.message(
+      'Yes',
+      name: 'yesText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get noText {
+    return Intl.message(
+      'No',
+      name: 'noText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

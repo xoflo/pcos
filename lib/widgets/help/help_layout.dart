@@ -104,7 +104,7 @@ class _HelpLayoutState extends State<HelpLayout> {
                   closeItem: widget.closeMenuItem,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: DefaultTabController(
                     length: 3,
                     child: Column(

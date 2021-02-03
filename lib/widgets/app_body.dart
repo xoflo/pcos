@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
@@ -15,6 +16,7 @@ import 'package:thepcosprotocol_app/providers/faq_provider.dart';
 import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -83,6 +85,37 @@ class _AppBodyState extends State<AppBody> {
     Navigator.pop(context);
   }
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text(S.of(context).areYouSureText,
+                style: TextStyle(fontSize: 20)),
+            content: new Text(S.of(context).exitAppText),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.of(context).noText,
+                      style: TextStyle(fontSize: 24)),
+                ),
+              ),
+              SizedBox(height: 16),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.of(context).yesText,
+                      style: TextStyle(fontSize: 24)),
+                ),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   /*
   void openHelp(BuildContext context) {
     Navigator.push(
@@ -132,9 +165,18 @@ class _AppBodyState extends State<AppBody> {
         ),
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText1,
-          child: MainScreens(
-            currentIndex: _currentIndex,
-          ),
+          child: Platform.isIOS
+              ? MainScreens(
+                  currentIndex: _currentIndex,
+                )
+              : WillPopScope(
+                  onWillPop: () {
+                    return _onBackPressed();
+                  },
+                  child: MainScreens(
+                    currentIndex: _currentIndex,
+                  ),
+                ),
         ),
         bottomNavigationBar: AppNavigationTabs(
           currentIndex: _currentIndex,

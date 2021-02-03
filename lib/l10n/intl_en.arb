@@ -130,5 +130,9 @@
     "kbTagSkin": "Skin",
     "kbTagStress": "Stress",
     "kbTagThyroid": "Thyroid",
-    "searchHeaderFilterText": "Filter:"
+    "searchHeaderFilterText": "Filter:",
+    "areYouSureText": "Close app",
+    "exitAppText": "Are you sure you want to close the App?",
+    "yesText": "Yes",
+    "noText": "No"
 }

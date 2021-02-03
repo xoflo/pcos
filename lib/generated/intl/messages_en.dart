@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "appTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
+    "areYouSureText" : MessageLookupByLibrary.simpleMessage("Close app"),
     "changePasswordConfirmLabel" : MessageLookupByLibrary.simpleMessage("Confirm password"),
     "changePasswordConfirmMessage" : MessageLookupByLibrary.simpleMessage("Please confirm your new password."),
     "changePasswordDifferentMessage" : MessageLookupByLibrary.simpleMessage("Your new and confirm passwords do not match."),
@@ -47,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailLinkText" : MessageLookupByLibrary.simpleMessage("Or we can send a link to your email so you can visit the website on another device."),
     "emailLinkTitle" : MessageLookupByLibrary.simpleMessage("Email Link"),
     "enterMessageText" : MessageLookupByLibrary.simpleMessage("Enter your message"),
+    "exitAppText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to close the App?"),
     "favouritesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "frequentlyAskedQuestions" : MessageLookupByLibrary.simpleMessage("FAQs"),
     "gettingStarted" : MessageLookupByLibrary.simpleMessage("Getting started"),
@@ -68,6 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loadingVideo" : MessageLookupByLibrary.simpleMessage("Loading Video"),
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
+    "noText" : MessageLookupByLibrary.simpleMessage("No"),
     "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register now on your device click the button below to visit the PCOS Questionnaire website."),
     "openWebsiteTitle" : MessageLookupByLibrary.simpleMessage("Open Questionnaire"),
     "openWebsiteWhy" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol is a personalised programme, delivered according to your own goals."),
@@ -151,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "userNameLocked" : MessageLookupByLibrary.simpleMessage("Username cannot be updated"),
     "validateEmailMessage" : MessageLookupByLibrary.simpleMessage("Please enter your email or username"),
     "validateMessageText" : MessageLookupByLibrary.simpleMessage("Please enter your message text"),
-    "validatePasswordMessage" : MessageLookupByLibrary.simpleMessage("Please enter your password")
+    "validatePasswordMessage" : MessageLookupByLibrary.simpleMessage("Please enter your password"),
+    "yesText" : MessageLookupByLibrary.simpleMessage("Yes")
   };
 }
