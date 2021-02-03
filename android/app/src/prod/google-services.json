@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "974413443291",
+    "firebase_url": "https://the-pcos-protocol.firebaseio.com",
+    "project_id": "the-pcos-protocol",
+    "storage_bucket": "the-pcos-protocol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974413443291:android:5114274847268746065cfe",
+        "android_client_info": {
+          "package_name": "com.thepcosnutritionist.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974413443291-6bkd9gup9vkl4omj49e9bqq1382lumli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV1uGRDmiwhFES-gEUyarn-tdtMxGApU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974413443291-6bkd9gup9vkl4omj49e9bqq1382lumli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

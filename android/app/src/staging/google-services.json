@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "562360415714",
+    "firebase_url": "https://the-pcos-protocol---staging.firebaseio.com",
+    "project_id": "the-pcos-protocol---staging",
+    "storage_bucket": "the-pcos-protocol---staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562360415714:android:a5e98c33b25eac5429b5bb",
+        "android_client_info": {
+          "package_name": "com.thepcosnutritionist.app.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562360415714-s73hoh1buupv8fs8e0gk5ud3hc41p1u7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBETo4BRvoLBF3AMxV-Gci2cVMHEH8UE40"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562360415714-s73hoh1buupv8fs8e0gk5ud3hc41p1u7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
