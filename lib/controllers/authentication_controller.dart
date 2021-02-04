@@ -90,6 +90,16 @@ class AuthenticationController {
     }
   }
 
+  Future<String> getUserId() async {
+    try {
+      final String email =
+          await secureStorage.read(key: SecureStorageKeys.USER_ID);
+      return email;
+    } catch (ex) {
+      return "";
+    }
+  }
+
   Future<bool> isUserLoggedIn() async {
     try {
       final String refreshToken =
@@ -188,6 +198,27 @@ class AuthenticationController {
       return prefs.getInt(SharedPreferencesKeys.BACKGROUNDED_TIMESTAMP);
     } catch (ex) {
       return 0;
+    }
+  }
+
+  Future<bool> saveIntercomRegistered() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool(SharedPreferencesKeys.INTERCOM_REGISTERED, true);
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  Future<bool> getIntercomRegistered() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final bool isRegistered =
+          prefs.getBool(SharedPreferencesKeys.INTERCOM_REGISTERED);
+      return isRegistered != null ? isRegistered : false;
+    } catch (ex) {
+      return false;
     }
   }
 }

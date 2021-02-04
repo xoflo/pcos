@@ -32,8 +32,8 @@ class AppNavigationTabs extends StatelessWidget {
           label: S.of(context).recipesTitle,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat_outlined),
-          label: S.of(context).coachChatTitle,
+          icon: Icon(Icons.favorite_outline),
+          label: S.of(context).favouritesTitle,
         ),
       ],
     );

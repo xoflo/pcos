@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
@@ -17,6 +18,8 @@ import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -29,6 +32,30 @@ class AppBody extends StatefulWidget {
 
 class _AppBodyState extends State<AppBody> {
   int _currentIndex = 0;
+  bool intercomInitialised = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeIntercom();
+  }
+
+  void initializeIntercom() async {
+    final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
+    await Intercom.initialize(
+      intercomIds[0],
+      androidApiKey: intercomIds[1],
+      iosApiKey: intercomIds[2],
+    );
+    if (!await AuthenticationController().getIntercomRegistered()) {
+      final String userId = await AuthenticationController().getUserId();
+      Intercom.registerIdentifiedUser(userId: userId);
+      await AuthenticationController().saveIntercomRegistered();
+    }
+    setState(() {
+      intercomInitialised = true;
+    });
+  }
 
   void updateAppState(final AppState appState) {
     widget.updateAppState(appState);
@@ -85,7 +112,22 @@ class _AppBodyState extends State<AppBody> {
     Navigator.pop(context);
   }
 
-  Future<bool> _onBackPressed() {
+  void openChat() {
+    debugPrint("CHAT");
+
+    if (intercomInitialised) {
+      Intercom.displayMessenger();
+    } else {
+      //TODO: Intercom didn't initialise
+      debugPrint("handle if intercom didn't initialise");
+    }
+  }
+
+  void openNotifications() {
+    debugPrint("NOTIFICATIONS");
+  }
+
+  Future<bool> onBackPressed() {
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
@@ -158,7 +200,11 @@ class _AppBodyState extends State<AppBody> {
         ),
       ],
       child: Scaffold(
-        appBar: HeaderAppBar(currentIndex: _currentIndex),
+        appBar: HeaderAppBar(
+          currentIndex: _currentIndex,
+          displayChat: openChat,
+          displayNotifications: openNotifications,
+        ),
         drawer: DrawerMenu(
           updateAppState: updateAppState,
           openDrawerMenuItem: openDrawerMenuItem,
@@ -171,7 +217,7 @@ class _AppBodyState extends State<AppBody> {
                 )
               : WillPopScope(
                   onWillPop: () {
-                    return _onBackPressed();
+                    return onBackPressed();
                   },
                   child: MainScreens(
                     currentIndex: _currentIndex,
