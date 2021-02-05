@@ -15,6 +15,11 @@ void main() {
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
       blobStorageUrl:
           "https://pcosprotocolstorage.blob.core.windows.net/media/",
+      intercomIds: [
+        "xsb9gkoh",
+        "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",
+        "ios_sdk-d3f8b263524828ea01c350105105ae48d550e129",
+      ],
     ),
   );
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/header_image.dart';
+import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 
 class RegisterLayout extends StatelessWidget {
   final bool isHorizontal;
@@ -47,24 +47,26 @@ class RegisterLayout extends StatelessWidget {
               ),
             ],
           )
-        : ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(15.0),
-            children: <Widget>[
-              HeaderImage(screenSize: screenSize),
-              SizedBox(
-                height: 270,
-                child: openSignUp,
-              ),
-              /*SizedBox(
-                height: 270,
-                child: emailSignUp,
-              ),*/
-              SizedBox(
-                height: 160,
-                child: gotoSignIn,
-              ),
-            ],
+        : Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.all(15.0),
+              children: <Widget>[
+                HeaderImage(screenSize: screenSize),
+                SizedBox(
+                  height: 360,
+                  child: openSignUp,
+                ),
+                /*SizedBox(
+                  height: 270,
+                  child: emailSignUp,
+                ),*/
+                SizedBox(
+                  height: 170,
+                  child: gotoSignIn,
+                ),
+              ],
+            ),
           );
   }
 }

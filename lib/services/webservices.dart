@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
@@ -234,6 +235,26 @@ class WebServices {
           .results;
     } else {
       throw GET_CMSBYTYPE_FAILED;
+    }
+  }
+
+  Future<bool> checkVersion(final String platform, final String version) async {
+    final url =
+        _baseUrl + "/app_services/min_supported_version/$platform/$version";
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+      final stdResponse = StandardResponse.fromJson(jsonDecode(response.body));
+      if (stdResponse.status.toLowerCase() == "ok") {
+        return true;
+      }
+      return false;
+    } else {
+      //if the call fails, let the user continue anyway
+      return true;
     }
   }
 }

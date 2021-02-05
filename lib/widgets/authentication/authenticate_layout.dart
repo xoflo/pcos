@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/header_image.dart';
+import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 
 class AuthenticateLayout extends StatelessWidget {
   final bool isHorizontal;
@@ -37,17 +37,19 @@ class AuthenticateLayout extends StatelessWidget {
               ),
             ],
           )
-        : ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(15.0),
-            children: <Widget>[
-              HeaderImage(screenSize: screenSize),
-              signIn,
-              SizedBox(
-                height: 180,
-                child: gotoRegister,
-              ),
-            ],
+        : Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.all(15.0),
+              children: <Widget>[
+                HeaderImage(screenSize: screenSize),
+                SizedBox(height: 360.0, child: signIn),
+                SizedBox(
+                  height: 170.0,
+                  child: gotoRegister,
+                ),
+              ],
+            ),
           );
   }
 }

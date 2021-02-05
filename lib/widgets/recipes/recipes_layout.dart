@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -74,7 +75,6 @@ class _RecipesLayoutState extends State<RecipesLayout>
   }
 
   void onTagSelected(String tagValue) {
-    debugPrint("********************tagSelected=$tagValue");
     setState(() {
       tagSelectedValue = tagValue;
     });
@@ -95,8 +95,7 @@ class _RecipesLayoutState extends State<RecipesLayout>
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        // TODO: create a widget for nothing found and test how it looks
-        return Text("No recipes found!");
+        return NoResults(message: S.of(context).noResultsRecipes);
       case LoadingStatus.success:
         return RecipesList(
             screenSize: screenSize,

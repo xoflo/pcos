@@ -9,11 +9,13 @@ class FlavorValues {
     @required this.oneSignalAppID,
     @required this.questionnaireUrl,
     @required this.blobStorageUrl,
+    @required this.intercomIds,
   });
   final String baseUrl;
   final String oneSignalAppID;
   final String questionnaireUrl;
   final String blobStorageUrl;
+  final List<String> intercomIds;
   //Add other flavor specific values, e.g database name
 }
 

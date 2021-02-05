@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "appTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
+    "areYouSureText" : MessageLookupByLibrary.simpleMessage("Close app"),
     "changePasswordConfirmLabel" : MessageLookupByLibrary.simpleMessage("Confirm password"),
     "changePasswordConfirmMessage" : MessageLookupByLibrary.simpleMessage("Please confirm your new password."),
     "changePasswordDifferentMessage" : MessageLookupByLibrary.simpleMessage("Your new and confirm passwords do not match."),
@@ -47,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailLinkText" : MessageLookupByLibrary.simpleMessage("Or we can send a link to your email so you can visit the website on another device."),
     "emailLinkTitle" : MessageLookupByLibrary.simpleMessage("Email Link"),
     "enterMessageText" : MessageLookupByLibrary.simpleMessage("Enter your message"),
+    "exitAppText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to close the App?"),
     "favouritesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "frequentlyAskedQuestions" : MessageLookupByLibrary.simpleMessage("FAQs"),
     "gettingStarted" : MessageLookupByLibrary.simpleMessage("Getting started"),
@@ -68,6 +70,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "loadingVideo" : MessageLookupByLibrary.simpleMessage("Loading Video"),
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
+    "noItemsFound" : MessageLookupByLibrary.simpleMessage("No items found!"),
+    "noMemberDetails" : MessageLookupByLibrary.simpleMessage("We could not display your details, please try again later."),
+    "noResultsKBs" : MessageLookupByLibrary.simpleMessage("No knowledge base items found!"),
+    "noResultsRecipes" : MessageLookupByLibrary.simpleMessage("No recipes found!"),
+    "noText" : MessageLookupByLibrary.simpleMessage("No"),
+    "okayText" : MessageLookupByLibrary.simpleMessage("Okay"),
     "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register now on your device click the button below to visit the PCOS Questionnaire website."),
     "openWebsiteTitle" : MessageLookupByLibrary.simpleMessage("Open Questionnaire"),
     "openWebsiteWhy" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol is a personalised programme, delivered according to your own goals."),
@@ -77,7 +85,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordForgottenEmailMessage" : MessageLookupByLibrary.simpleMessage("Please enter your registered email address or username in the \'Email or username\' box and click \'Forgotten Password\' again."),
     "passwordForgottenFailedMessage" : MessageLookupByLibrary.simpleMessage("We could not send you an email right now, please try again later."),
     "passwordForgottenMessage" : MessageLookupByLibrary.simpleMessage("We will send an email to your registered email address so you can reset your password. Do you want to continue?"),
-    "passwordForgottenOkay" : MessageLookupByLibrary.simpleMessage("Okay"),
     "passwordForgottenTitle" : MessageLookupByLibrary.simpleMessage("Forgotten Password"),
     "passwordLabel" : MessageLookupByLibrary.simpleMessage("Password"),
     "pinConfirmTitle" : MessageLookupByLibrary.simpleMessage("Please confirm your unlock PIN"),
@@ -151,6 +158,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "userNameLocked" : MessageLookupByLibrary.simpleMessage("Username cannot be updated"),
     "validateEmailMessage" : MessageLookupByLibrary.simpleMessage("Please enter your email or username"),
     "validateMessageText" : MessageLookupByLibrary.simpleMessage("Please enter your message text"),
-    "validatePasswordMessage" : MessageLookupByLibrary.simpleMessage("Please enter your password")
+    "validatePasswordMessage" : MessageLookupByLibrary.simpleMessage("Please enter your password"),
+    "versionDialogDesc" : MessageLookupByLibrary.simpleMessage("Please open the app store on your device, and upgrade The PCOS Protocol app."),
+    "versionDialogTitle" : MessageLookupByLibrary.simpleMessage("App Store"),
+    "versionText1" : MessageLookupByLibrary.simpleMessage("This version of The PCOS Protocol app is no longer supported."),
+    "versionText2" : MessageLookupByLibrary.simpleMessage("Please visit the app store to upgrade your app version."),
+    "yesText" : MessageLookupByLibrary.simpleMessage("Yes")
   };
 }

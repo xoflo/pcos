@@ -496,10 +496,10 @@ class S {
   }
 
   /// `Okay`
-  String get passwordForgottenOkay {
+  String get okayText {
     return Intl.message(
       'Okay',
-      name: 'passwordForgottenOkay',
+      name: 'okayText',
       desc: '',
       args: [],
     );
@@ -1340,6 +1340,126 @@ class S {
     return Intl.message(
       'Filter:',
       name: 'searchHeaderFilterText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close app`
+  String get areYouSureText {
+    return Intl.message(
+      'Close app',
+      name: 'areYouSureText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to close the App?`
+  String get exitAppText {
+    return Intl.message(
+      'Are you sure you want to close the App?',
+      name: 'exitAppText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yesText {
+    return Intl.message(
+      'Yes',
+      name: 'yesText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get noText {
+    return Intl.message(
+      'No',
+      name: 'noText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Store`
+  String get versionDialogTitle {
+    return Intl.message(
+      'App Store',
+      name: 'versionDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please open the app store on your device, and upgrade The PCOS Protocol app.`
+  String get versionDialogDesc {
+    return Intl.message(
+      'Please open the app store on your device, and upgrade The PCOS Protocol app.',
+      name: 'versionDialogDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This version of The PCOS Protocol app is no longer supported.`
+  String get versionText1 {
+    return Intl.message(
+      'This version of The PCOS Protocol app is no longer supported.',
+      name: 'versionText1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please visit the app store to upgrade your app version.`
+  String get versionText2 {
+    return Intl.message(
+      'Please visit the app store to upgrade your app version.',
+      name: 'versionText2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No recipes found!`
+  String get noResultsRecipes {
+    return Intl.message(
+      'No recipes found!',
+      name: 'noResultsRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No knowledge base items found!`
+  String get noResultsKBs {
+    return Intl.message(
+      'No knowledge base items found!',
+      name: 'noResultsKBs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not display your details, please try again later.`
+  String get noMemberDetails {
+    return Intl.message(
+      'We could not display your details, please try again later.',
+      name: 'noMemberDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No items found!`
+  String get noItemsFound {
+    return Intl.message(
+      'No items found!',
+      name: 'noItemsFound',
       desc: '',
       args: [],
     );

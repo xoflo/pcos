@@ -3,8 +3,14 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int currentIndex;
+  final Function displayChat;
+  final Function displayNotifications;
 
-  HeaderAppBar({@required this.currentIndex});
+  HeaderAppBar({
+    @required this.currentIndex,
+    @required this.displayChat,
+    @required this.displayNotifications,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
@@ -36,12 +42,12 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         IconButton(
           icon: Icon(
-            Icons.favorite_outline,
+            Icons.chat_outlined,
             color: Colors.white,
-            size: 28.0,
+            size: 26.0,
           ),
           onPressed: () {
-            debugPrint("display favourites");
+            displayChat();
           },
         ),
         IconButton(
@@ -51,7 +57,7 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
             size: 28.0,
           ),
           onPressed: () {
-            debugPrint("display messages");
+            displayNotifications();
           },
         )
       ],

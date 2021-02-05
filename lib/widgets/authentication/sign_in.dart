@@ -32,7 +32,7 @@ class SignIn extends StatelessWidget {
           context,
           S.of(context).passwordForgottenTitle,
           S.of(context).passwordForgottenEmailMessage,
-          S.of(context).passwordForgottenOkay,
+          S.of(context).okayText,
           "",
           () {});
     } else {

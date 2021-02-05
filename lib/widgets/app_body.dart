@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
@@ -15,6 +17,9 @@ import 'package:thepcosprotocol_app/providers/faq_provider.dart';
 import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -27,6 +32,30 @@ class AppBody extends StatefulWidget {
 
 class _AppBodyState extends State<AppBody> {
   int _currentIndex = 0;
+  bool intercomInitialised = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeIntercom();
+  }
+
+  void initializeIntercom() async {
+    final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
+    await Intercom.initialize(
+      intercomIds[0],
+      androidApiKey: intercomIds[1],
+      iosApiKey: intercomIds[2],
+    );
+    if (!await AuthenticationController().getIntercomRegistered()) {
+      final String userId = await AuthenticationController().getUserId();
+      Intercom.registerIdentifiedUser(userId: userId);
+      await AuthenticationController().saveIntercomRegistered();
+    }
+    setState(() {
+      intercomInitialised = true;
+    });
+  }
 
   void updateAppState(final AppState appState) {
     widget.updateAppState(appState);
@@ -83,6 +112,52 @@ class _AppBodyState extends State<AppBody> {
     Navigator.pop(context);
   }
 
+  void openChat() {
+    debugPrint("CHAT");
+
+    if (intercomInitialised) {
+      Intercom.displayMessenger();
+    } else {
+      //TODO: Intercom didn't initialise
+      debugPrint("handle if intercom didn't initialise");
+    }
+  }
+
+  void openNotifications() {
+    debugPrint("NOTIFICATIONS");
+  }
+
+  Future<bool> onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text(S.of(context).areYouSureText,
+                style: TextStyle(fontSize: 20)),
+            content: new Text(S.of(context).exitAppText),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.of(context).noText,
+                      style: TextStyle(fontSize: 24)),
+                ),
+              ),
+              SizedBox(height: 16),
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.of(context).yesText,
+                      style: TextStyle(fontSize: 24)),
+                ),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   /*
   void openHelp(BuildContext context) {
     Navigator.push(
@@ -125,16 +200,29 @@ class _AppBodyState extends State<AppBody> {
         ),
       ],
       child: Scaffold(
-        appBar: HeaderAppBar(currentIndex: _currentIndex),
+        appBar: HeaderAppBar(
+          currentIndex: _currentIndex,
+          displayChat: openChat,
+          displayNotifications: openNotifications,
+        ),
         drawer: DrawerMenu(
           updateAppState: updateAppState,
           openDrawerMenuItem: openDrawerMenuItem,
         ),
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText1,
-          child: MainScreens(
-            currentIndex: _currentIndex,
-          ),
+          child: Platform.isIOS
+              ? MainScreens(
+                  currentIndex: _currentIndex,
+                )
+              : WillPopScope(
+                  onWillPop: () {
+                    return onBackPressed();
+                  },
+                  child: MainScreens(
+                    currentIndex: _currentIndex,
+                  ),
+                ),
         ),
         bottomNavigationBar: AppNavigationTabs(
           currentIndex: _currentIndex,
