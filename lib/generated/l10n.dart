@@ -1424,6 +1424,46 @@ class S {
       args: [],
     );
   }
+
+  /// `No recipes found!`
+  String get noResultsRecipes {
+    return Intl.message(
+      'No recipes found!',
+      name: 'noResultsRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No knowledge base items found!`
+  String get noResultsKBs {
+    return Intl.message(
+      'No knowledge base items found!',
+      name: 'noResultsKBs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not display your details, please try again later.`
+  String get noMemberDetails {
+    return Intl.message(
+      'We could not display your details, please try again later.',
+      name: 'noMemberDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No items found!`
+  String get noItemsFound {
+    return Intl.message(
+      'No items found!',
+      name: 'noItemsFound',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

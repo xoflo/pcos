@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/utils/string_utils.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 class KnowledgeBaseLayout extends StatefulWidget {
   @override
@@ -24,7 +25,6 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
   }
 
   void onTagSelected(String tagValue) {
-    debugPrint("********************tagSelected=$tagValue");
     setState(() {
       tagSelectedValue = tagValue;
     });
@@ -46,8 +46,7 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        // TODO: create a widget for nothing found and test how it looks
-        return Text("No items found!");
+        return NoResults(message: S.of(context).noResultsKBs);
       case LoadingStatus.success:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),

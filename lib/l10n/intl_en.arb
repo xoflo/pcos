@@ -138,5 +138,9 @@
     "versionDialogTitle": "App Store",
     "versionDialogDesc": "Please open the app store on your device, and upgrade The PCOS Protocol app.",
     "versionText1": "This version of The PCOS Protocol app is no longer supported.",
-    "versionText2": "Please visit the app store to upgrade your app version."
+    "versionText2": "Please visit the app store to upgrade your app version.",
+    "noResultsRecipes": "No recipes found!",
+    "noResultsKBs": "No knowledge base items found!",
+    "noMemberDetails": "We could not display your details, please try again later.",
+    "noItemsFound": "No items found!"
 }

@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_read_only.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_editable.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 class ProfileLayout extends StatefulWidget {
   final Function closeMenuItem;
@@ -73,8 +74,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        // TODO: create a widget for nothing found and test how it looks
-        return Text("Could not return Member details!");
+        return NoResults(message: S.of(context).noMemberDetails);
       case LoadingStatus.success:
         return !_isEditable
             ? ProfileReadOnly(
