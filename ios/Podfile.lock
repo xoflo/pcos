@@ -92,6 +92,8 @@ PODS:
   - "intercom_flutter (2.2.0+1)":
     - Flutter
     - Intercom (~> 7.1.0)
+  - launch_review (0.0.1):
+    - Flutter
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -132,6 +134,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - intercom_flutter (from `.symlinks/plugins/intercom_flutter/ios`)
+  - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - OneSignal (< 3.0, >= 2.9.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -179,6 +182,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   intercom_flutter:
     :path: ".symlinks/plugins/intercom_flutter/ios"
+  launch_review:
+    :path: ".symlinks/plugins/launch_review/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info:
@@ -220,6 +225,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   Intercom: e44b10bbc38ccf6494c76f9bee4e2e3d7d007153
   intercom_flutter: 8b168f7cad88366708aa1972a395e6195205fc3a
+  launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OneSignal: 9531e385388565f4d31797ddadbe0fcc786430ec
   onesignal_flutter: b4412973eac419ccce07363e43e0d6057c583a96

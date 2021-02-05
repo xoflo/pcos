@@ -59,5 +59,9 @@
     </dict>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>This app requires access to the photo library.</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>itms</string>
+    </array>
 </dict>
 </plist>

@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:io';
+import 'package:package_info/package_info.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/app_body.dart';
 import 'package:thepcosprotocol_app/screens/authenticate.dart';
 import 'package:thepcosprotocol_app/screens/register.dart';
@@ -9,6 +10,7 @@ import 'package:thepcosprotocol_app/screens/pin_unlock.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/widgets/other/app_loading.dart';
+import 'package:thepcosprotocol_app/widgets/other/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class PCOSProtocolApp extends StatefulWidget {
@@ -49,9 +51,7 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
     if ((_appLifecycleState == AppLifecycleState.inactive ||
             _appLifecycleState == AppLifecycleState.paused) &&
         state == AppLifecycleState.resumed) {
-      if (appState != AppState.LOCKED) {
-        appForegroundingCheck();
-      }
+      appForegroundingCheck();
     }
 
     setState(() {
@@ -60,46 +60,65 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
   }
 
   void appOpeningCheck() async {
-    final bool isUserLoggedIn =
-        await AuthenticationController().isUserLoggedIn();
+    if (!await isVersionSupported()) {
+      updateAppState(AppState.NOT_SUPPORTED);
+    } else {
+      final bool isUserLoggedIn =
+          await AuthenticationController().isUserLoggedIn();
 
-    if (isUserLoggedIn) {
-      final bool isUserPinSet = await AuthenticationController().isUserPinSet();
-      if (isUserPinSet) {
-        updateAppState(AppState.LOCKED);
-        return;
+      if (isUserLoggedIn) {
+        final bool isUserPinSet =
+            await AuthenticationController().isUserPinSet();
+        if (isUserPinSet) {
+          updateAppState(AppState.LOCKED);
+          return;
+        }
       }
+      updateAppState(AppState.SIGN_IN);
     }
-    updateAppState(AppState.SIGN_IN);
   }
 
   // This function controls which screen the users sees when they foreground the app
   void appForegroundingCheck() async {
-    final bool isUserLoggedIn =
-        await AuthenticationController().isUserLoggedIn();
+    if (!await isVersionSupported()) {
+      updateAppState(AppState.NOT_SUPPORTED);
+    } else if (appState != AppState.LOCKED) {
+      final bool isUserLoggedIn =
+          await AuthenticationController().isUserLoggedIn();
 
-    if (isUserLoggedIn) {
-      final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-      final int backgroundedTimestamp =
-          await AuthenticationController().getBackgroundedTimestamp();
+      if (isUserLoggedIn) {
+        final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
+        final int backgroundedTimestamp =
+            await AuthenticationController().getBackgroundedTimestamp();
 
-      //need to check whether authenticated and has pin set?
-      //check if app was backgrounded over five minutes (300,000 milliseconds) ago, and display lock screen if necessary
+        //need to check whether authenticated and has pin set?
+        //check if app was backgrounded over five minutes (300,000 milliseconds) ago, and display lock screen if necessary
 
-      final bool isUserPinSet = await AuthenticationController().isUserPinSet();
-      if (isUserPinSet) {
-        if (backgroundedTimestamp != null &&
-            currentTimestamp - backgroundedTimestamp > 300000) {
-          updateAppState(AppState.LOCKED);
+        final bool isUserPinSet =
+            await AuthenticationController().isUserPinSet();
+        if (isUserPinSet) {
+          if (backgroundedTimestamp != null &&
+              currentTimestamp - backgroundedTimestamp > 300000) {
+            updateAppState(AppState.LOCKED);
+          } else {
+            updateAppState(AppState.APP);
+          }
         } else {
-          updateAppState(AppState.APP);
+          updateAppState(AppState.SIGN_IN);
         }
-      } else {
+      } else if (appState != AppState.REGISTER) {
         updateAppState(AppState.SIGN_IN);
       }
-    } else if (appState != AppState.REGISTER) {
-      updateAppState(AppState.SIGN_IN);
     }
+  }
+
+  Future<bool> isVersionSupported() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final String version = packageInfo.version;
+    final String versionForChecker =
+        version.substring(0, version.lastIndexOf("."));
+    final String platformOS = Platform.isIOS ? "ios" : "android";
+    return await WebServices().checkVersion(platformOS, versionForChecker);
   }
 
   void updateAppState(AppState newAppState) {
@@ -123,24 +142,25 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
 
   @override
   Widget build(BuildContext context) {
-    //this controls whether the signin, register or app are displayed using AppState
-    if (appState == AppState.LOADING) {
-      return AppLoading(
-        backgroundColor: backgroundColor,
-        valueColor: primaryColorDark,
-      );
-    } else if (appState == AppState.APP) {
-      return AppBody(updateAppState: updateAppState);
-      //NB: By setting this number high, will always show tabbed layout
-      //    If we choose to have a different menu approach for iPads reduce
-      //    number to say 600/700
-      //Size screenSize = MediaQuery.of(context).size;
-      //return screenSize.width < 10000 ? AppBody() : AppBodyLarge();
-    } else {
-      return Scaffold(
-        backgroundColor: Theme.of(context).primaryColorDark,
-        body: getAuthenticationScreen(appState),
-      );
+    //this controls whether the not supported, signin, register or app are displayed using AppState
+    switch (appState) {
+      case AppState.LOADING:
+        return AppLoading(
+          backgroundColor: backgroundColor,
+          valueColor: primaryColorDark,
+        );
+      case AppState.NOT_SUPPORTED:
+        return UnsupportedVersion();
+      case AppState.APP:
+        return AppBody(updateAppState: updateAppState);
+      case AppState.SIGN_IN:
+      case AppState.REGISTER:
+      case AppState.PIN_SET:
+      case AppState.LOCKED:
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColorDark,
+          body: getAuthenticationScreen(appState),
+        );
     }
   }
 }

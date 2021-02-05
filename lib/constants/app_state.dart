@@ -5,4 +5,5 @@ enum AppState {
   REGISTER,
   PIN_SET,
   LOCKED,
+  NOT_SUPPORTED,
 }
