@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
     "noText" : MessageLookupByLibrary.simpleMessage("No"),
+    "okayText" : MessageLookupByLibrary.simpleMessage("Okay"),
     "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register now on your device click the button below to visit the PCOS Questionnaire website."),
     "openWebsiteTitle" : MessageLookupByLibrary.simpleMessage("Open Questionnaire"),
     "openWebsiteWhy" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol is a personalised programme, delivered according to your own goals."),
@@ -80,7 +81,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "passwordForgottenEmailMessage" : MessageLookupByLibrary.simpleMessage("Please enter your registered email address or username in the \'Email or username\' box and click \'Forgotten Password\' again."),
     "passwordForgottenFailedMessage" : MessageLookupByLibrary.simpleMessage("We could not send you an email right now, please try again later."),
     "passwordForgottenMessage" : MessageLookupByLibrary.simpleMessage("We will send an email to your registered email address so you can reset your password. Do you want to continue?"),
-    "passwordForgottenOkay" : MessageLookupByLibrary.simpleMessage("Okay"),
     "passwordForgottenTitle" : MessageLookupByLibrary.simpleMessage("Forgotten Password"),
     "passwordLabel" : MessageLookupByLibrary.simpleMessage("Password"),
     "pinConfirmTitle" : MessageLookupByLibrary.simpleMessage("Please confirm your unlock PIN"),
@@ -155,6 +155,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "validateEmailMessage" : MessageLookupByLibrary.simpleMessage("Please enter your email or username"),
     "validateMessageText" : MessageLookupByLibrary.simpleMessage("Please enter your message text"),
     "validatePasswordMessage" : MessageLookupByLibrary.simpleMessage("Please enter your password"),
+    "versionDialogDesc" : MessageLookupByLibrary.simpleMessage("Please open the app store on your device, and upgrade The PCOS Protocol app."),
+    "versionDialogTitle" : MessageLookupByLibrary.simpleMessage("App Store"),
+    "versionText1" : MessageLookupByLibrary.simpleMessage("This version of The PCOS Protocol app is no longer supported."),
+    "versionText2" : MessageLookupByLibrary.simpleMessage("Please visit the app store to upgrade your app version."),
     "yesText" : MessageLookupByLibrary.simpleMessage("Yes")
   };
 }

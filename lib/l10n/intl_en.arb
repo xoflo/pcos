@@ -46,7 +46,7 @@
     "passwordForgottenEmailMessage": "Please enter your registered email address or username in the 'Email or username' box and click 'Forgotten Password' again.",
     "passwordForgottenContinue": "Yes, send email",
     "passwordForgottenCancel": "Cancel",
-    "passwordForgottenOkay": "Okay",
+    "okayText": "Okay",
     "passwordForgottenCompleteMessage": "We have sent you a reset password email, please check your inbox and junk mail. Thank you",
     "passwordForgottenFailedMessage": "We could not send you an email right now, please try again later.",
     "pinSetTitle": "Please set your unlock PIN",
@@ -134,5 +134,9 @@
     "areYouSureText": "Close app",
     "exitAppText": "Are you sure you want to close the App?",
     "yesText": "Yes",
-    "noText": "No"
+    "noText": "No",
+    "versionDialogTitle": "App Store",
+    "versionDialogDesc": "Please open the app store on your device, and upgrade The PCOS Protocol app.",
+    "versionText1": "This version of The PCOS Protocol app is no longer supported.",
+    "versionText2": "Please visit the app store to upgrade your app version."
 }

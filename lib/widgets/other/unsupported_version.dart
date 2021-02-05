@@ -3,16 +3,18 @@ import 'package:launch_review/launch_review.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class UnsupportedVersion extends StatelessWidget {
   void _openDialog(BuildContext context) {
     showAlertDialog(
-        context,
-        "App Store",
-        "Please open the app store on your device, and upgrade The PCOS Protocol app.",
-        "Okay",
-        "",
-        null);
+      context,
+      S.of(context).versionDialogTitle,
+      S.of(context).versionDialogDesc,
+      S.of(context).okayText,
+      "",
+      null,
+    );
   }
 
   @override
@@ -31,7 +33,7 @@ class UnsupportedVersion extends StatelessWidget {
               HeaderImage(screenSize: screenSize),
               SizedBox(height: 10.0),
               Text(
-                "This version of The PCOS Protocol app is no longer supported.",
+                S.of(context).versionText1,
                 style: Theme.of(context).textTheme.headline5.copyWith(
                       color: Colors.white,
                     ),
@@ -46,7 +48,7 @@ class UnsupportedVersion extends StatelessWidget {
                 ),
               ),
               Text(
-                "Please visit the app store to upgrade your app version.",
+                S.of(context).versionText2,
                 style: Theme.of(context).textTheme.headline5.copyWith(
                       color: Colors.white,
                     ),

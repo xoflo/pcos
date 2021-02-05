@@ -496,10 +496,10 @@ class S {
   }
 
   /// `Okay`
-  String get passwordForgottenOkay {
+  String get okayText {
     return Intl.message(
       'Okay',
-      name: 'passwordForgottenOkay',
+      name: 'okayText',
       desc: '',
       args: [],
     );
@@ -1380,6 +1380,46 @@ class S {
     return Intl.message(
       'No',
       name: 'noText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Store`
+  String get versionDialogTitle {
+    return Intl.message(
+      'App Store',
+      name: 'versionDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please open the app store on your device, and upgrade The PCOS Protocol app.`
+  String get versionDialogDesc {
+    return Intl.message(
+      'Please open the app store on your device, and upgrade The PCOS Protocol app.',
+      name: 'versionDialogDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This version of The PCOS Protocol app is no longer supported.`
+  String get versionText1 {
+    return Intl.message(
+      'This version of The PCOS Protocol app is no longer supported.',
+      name: 'versionText1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please visit the app store to upgrade your app version.`
+  String get versionText2 {
+    return Intl.message(
+      'Please visit the app store to upgrade your app version.',
+      name: 'versionText2',
       desc: '',
       args: [],
     );
