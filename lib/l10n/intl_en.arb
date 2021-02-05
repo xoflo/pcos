@@ -142,5 +142,6 @@
     "noResultsRecipes": "No recipes found!",
     "noResultsKBs": "No knowledge base items found!",
     "noMemberDetails": "We could not display your details, please try again later.",
-    "noItemsFound": "No items found!"
+    "noItemsFound": "No items found!",
+    "noNotifications": "There are no messages to display."
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
+import 'package:thepcosprotocol_app/screens/messages.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
@@ -113,8 +114,6 @@ class _AppBodyState extends State<AppBody> {
   }
 
   void openChat() {
-    debugPrint("CHAT");
-
     if (intercomInitialised) {
       Intercom.displayMessenger();
     } else {
@@ -124,7 +123,14 @@ class _AppBodyState extends State<AppBody> {
   }
 
   void openNotifications() {
-    debugPrint("NOTIFICATIONS");
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Messages(
+          closeMenuItem: closeMenuItem,
+        ),
+      ),
+    );
   }
 
   Future<bool> onBackPressed() {

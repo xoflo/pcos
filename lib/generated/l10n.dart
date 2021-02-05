@@ -1464,6 +1464,16 @@ class S {
       args: [],
     );
   }
+
+  /// `There are no messages to display.`
+  String get noNotifications {
+    return Intl.message(
+      'There are no messages to display.',
+      name: 'noNotifications',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

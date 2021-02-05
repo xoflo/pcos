@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
     "noItemsFound" : MessageLookupByLibrary.simpleMessage("No items found!"),
     "noMemberDetails" : MessageLookupByLibrary.simpleMessage("We could not display your details, please try again later."),
+    "noNotifications" : MessageLookupByLibrary.simpleMessage("There are no messages to display."),
     "noResultsKBs" : MessageLookupByLibrary.simpleMessage("No knowledge base items found!"),
     "noResultsRecipes" : MessageLookupByLibrary.simpleMessage("No recipes found!"),
     "noText" : MessageLookupByLibrary.simpleMessage("No"),

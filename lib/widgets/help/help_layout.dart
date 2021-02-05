@@ -58,9 +58,9 @@ class _HelpLayoutState extends State<HelpLayout> {
     switch (provider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
-      case LoadingStatus.success:
-        return NoResults(message: S.of(context).noItemsFound);
       case LoadingStatus.empty:
+        return NoResults(message: S.of(context).noItemsFound);
+      case LoadingStatus.success:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child:
