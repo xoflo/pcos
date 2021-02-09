@@ -58,9 +58,9 @@ class _HelpLayoutState extends State<HelpLayout> {
     switch (provider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
-      case LoadingStatus.success:
-        return NoResults(message: S.of(context).noItemsFound);
       case LoadingStatus.empty:
+        return NoResults(message: S.of(context).noItemsFound);
+      case LoadingStatus.success:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child:
@@ -82,25 +82,16 @@ class _HelpLayoutState extends State<HelpLayout> {
         child: Padding(
           padding: EdgeInsets.only(
             top: 12.0,
-            bottom: 6.0,
-            left: 6.0,
-            right: 6.0,
           ),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Header(
-                  itemId: 0,
-                  favouriteType: FavouriteType.None,
                   title: S.of(context).helpTitle,
-                  isFavourite: false,
                   closeItem: widget.closeMenuItem,
                 ),
                 Padding(

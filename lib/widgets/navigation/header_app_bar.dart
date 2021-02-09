@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/providers/messages_provider.dart';
+import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
 
 class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int currentIndex;
   final Function displayChat;
-  final Function displayNotifications;
+  final Function(MessagesProvider) displayNotifications;
 
   HeaderAppBar({
     @required this.currentIndex,
@@ -50,16 +53,16 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
             displayChat();
           },
         ),
-        IconButton(
-          icon: Icon(
-            Icons.notifications_none,
-            color: Colors.white,
-            size: 28.0,
-          ),
-          onPressed: () {
-            displayNotifications();
-          },
-        )
+        Consumer<MessagesProvider>(
+          builder: (context, model, child) => GestureDetector(
+              onTap: () {
+                displayNotifications(model);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0, right: 2.0),
+                child: MessagesBell(messagesCount: 2),
+              )),
+        ),
       ],
     );
   }

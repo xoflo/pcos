@@ -49,6 +49,13 @@ class DatabaseProvider with ChangeNotifier {
             "servings INTEGER,"
             "duration INTEGER"
             ")");
+        await db.execute("CREATE TABLE Message ("
+            "id INTEGER PRIMARY KEY,"
+            "title TEXT,"
+            "messageText TEXT,"
+            "isRead INTEGER,"
+            "action TEXT"
+            ")");
       },
       version: 1,
     );

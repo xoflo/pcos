@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player_chewie.dart';
 
@@ -27,7 +27,7 @@ class CourseLesson extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Header(
+                DialogHeader(
                   itemId: lessonId,
                   favouriteType: FavouriteType.Lesson,
                   title: "Breakfast",

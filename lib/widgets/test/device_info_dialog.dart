@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';

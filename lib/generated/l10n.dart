@@ -115,6 +115,16 @@ class S {
     );
   }
 
+  /// `Message`
+  String get messageTitle {
+    return Intl.message(
+      'Message',
+      name: 'messageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Profile`
   String get profileTitle {
     return Intl.message(
@@ -1460,6 +1470,16 @@ class S {
     return Intl.message(
       'No items found!',
       name: 'noItemsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no messages to display.`
+  String get noNotifications {
+    return Intl.message(
+      'There are no messages to display.',
+      name: 'noNotifications',
       desc: '',
       args: [],
     );

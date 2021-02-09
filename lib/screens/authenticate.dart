@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/widgets/authentication/sign_in.dart';
@@ -10,6 +11,7 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class Authenticate extends StatefulWidget {
   final Function(AppState) updateAppState;
@@ -83,9 +85,28 @@ class _AuthenticateState extends State<Authenticate> {
     }
   }
 
-  void navigateToRegister() {
+  void navigateToRegister() async {
     if (!isSigningIn) {
-      widget.updateAppState(AppState.REGISTER);
+      final urlQuestionnaireWebsite =
+          FlavorConfig.instance.values.questionnaireUrl;
+      if (await canLaunch(urlQuestionnaireWebsite)) {
+        await launch(
+          urlQuestionnaireWebsite,
+          forceSafariVC: false,
+          forceWebView: false,
+        );
+      } else {
+        showFlushBar(
+            context,
+            S.of(context).questionnaireWebsiteErrorTitle,
+            S
+                .of(context)
+                .questionnaireWebsiteErrorText
+                .replaceAll("[url]", urlQuestionnaireWebsite),
+            backgroundColor: Colors.white,
+            borderColor: primaryColorLight,
+            primaryColor: primaryColorDark);
+      }
     }
   }
 
