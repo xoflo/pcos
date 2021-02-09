@@ -15,9 +15,6 @@ class ChangePassword extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(
             top: 12.0,
-            bottom: 6.0,
-            left: 6.0,
-            right: 6.0,
           ),
           child: ChangePasswordLayout(
             closeMenuItem: closeMenuItem,

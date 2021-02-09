@@ -98,26 +98,20 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
     return Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(5.0),
-          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Header(
-                  itemId: 0,
-                  favouriteType: FavouriteType.None,
-                  title: S.of(context).changePasswordTitle,
-                  isFavourite: false,
-                  closeItem: widget.closeMenuItem,
-                ),
-                !isComplete
-                    ? Column(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Header(
+                title: S.of(context).changePasswordTitle,
+                closeItem: widget.closeMenuItem,
+              ),
+              !isComplete
+                  ? Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
@@ -208,10 +202,13 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                             ],
                           ),
                         ],
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 30.0),
@@ -226,8 +223,8 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                               style: Theme.of(context).textTheme.headline6,
                             ),
                           ]),
-              ],
-            ),
+                    ),
+            ],
           ),
         ));
   }

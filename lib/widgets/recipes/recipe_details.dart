@@ -4,7 +4,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_summary.dart';
-import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class RecipeDetails extends StatelessWidget {
@@ -129,7 +129,7 @@ class RecipeDetails extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                Header(
+                DialogHeader(
                   itemId: recipe.id,
                   favouriteType: FavouriteType.Recipe,
                   title: recipe.title,

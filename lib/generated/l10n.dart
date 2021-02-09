@@ -115,6 +115,16 @@ class S {
     );
   }
 
+  /// `Message`
+  String get messageTitle {
+    return Intl.message(
+      'Message',
+      name: 'messageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Profile`
   String get profileTitle {
     return Intl.message(

@@ -9,6 +9,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
+import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 
 class MyApp extends StatefulWidget {
   @override

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:device_info/device_info.dart';
 
 enum BuildMode { DEBUG, PROFILE, RELEASE }
@@ -52,7 +53,11 @@ class DeviceUtils {
     if (isHorizontal) {
       adjustmentAmount = isTab ? 170 : 90;
     } else {
-      adjustmentAmount = isTab ? 170 : 151;
+      if (Platform.isIOS) {
+        adjustmentAmount = isTab ? 170 : 85;
+      } else {
+        adjustmentAmount = isTab ? 170 : 151;
+      }
     }
 
     return height - adjustmentAmount;

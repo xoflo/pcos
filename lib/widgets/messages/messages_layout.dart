@@ -1,51 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/screens/message_details.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/messages/messages_list.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
+import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 
 class MessagesLayout extends StatefulWidget {
+  final MessagesProvider messagesProvider;
   final Function closeMenuItem;
 
-  MessagesLayout({this.closeMenuItem});
+  MessagesLayout({this.messagesProvider, this.closeMenuItem});
 
   @override
   _MessagesLayoutState createState() => _MessagesLayoutState();
 }
 
 class _MessagesLayoutState extends State<MessagesLayout> {
-  List<Message> getMessages() {
-    List<Message> messages = List<Message>();
-    final Message message1 = Message(
-        title: "This is a new message.",
-        text: "Hi, we sent you a message, hope you like it.",
-        isRead: false);
-    final Message message2 = Message(
-        title: "This is another message.",
-        text: "This is the second message.",
-        isRead: false);
-    messages.add(message1);
-    messages.add(message2);
-    return messages;
-  }
-
-  Widget getMessagesList(Size screenSize) {
-    final LoadingStatus tempStatus = LoadingStatus.success;
-    switch (tempStatus) {
+  Widget getMessagesList(
+      final Size screenSize, final MessagesProvider messagesProvider) {
+    switch (messagesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
         return NoResults(message: S.of(context).noNotifications);
       case LoadingStatus.success:
         return MessagesList(
-          messages: getMessages(),
+          messages: messagesProvider.items,
+          openMessage: openMessage,
+          screenSize: screenSize,
         );
     }
     return Container();
+  }
+
+  void openMessage(final Message message) {
+    debugPrint("OPEN MESSAGE ${message.title}");
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MessageDetails(
+          message: message,
+          closeMessage: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+    //TODO: mark message AsRead = true
   }
 
   @override
@@ -54,22 +60,18 @@ class _MessagesLayoutState extends State<MessagesLayout> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(5.0),
-        ),
+        color: backgroundColor,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            itemId: 0,
-            favouriteType: FavouriteType.None,
             title: S.of(context).messagesTitle,
-            isFavourite: false,
             closeItem: widget.closeMenuItem,
+            showMessagesIcon: true,
+            unreadCount: 2,
           ),
-          getMessagesList(screenSize),
+          getMessagesList(screenSize, widget.messagesProvider),
         ],
       ),
     );

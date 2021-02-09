@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -40,11 +41,12 @@ class ProviderHelper {
 
       // get items from database
       debugPrint("*********GET DATA FROM DB");
-      return await _getAllData(dbProvider, tableName);
+      return await getAllData(dbProvider, tableName);
     }
     return List<Question>();
   }
 
+  //TODO: should we move this to recipes provider, as only used by recipes
   Future<List<Recipe>> fetchAndSaveRecipes(final dbProvider) async {
     final String tableName = "Recipe";
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
@@ -77,7 +79,7 @@ class ProviderHelper {
 
       // get items from database
       debugPrint("*********GET RECIPES FROM DB");
-      return await _getAllData(dbProvider, tableName);
+      return await getAllData(dbProvider, tableName);
     }
     return List<Recipe>();
   }
@@ -99,7 +101,7 @@ class ProviderHelper {
         final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
         return mapDataToList(dataList, tableName);
       } else {
-        return _getAllData(dbProvider, tableName);
+        return getAllData(dbProvider, tableName);
       }
     }
     return List<dynamic>();
@@ -124,7 +126,7 @@ class ProviderHelper {
     return false;
   }
 
-  Future<List<dynamic>> _getAllData(
+  Future<List<dynamic>> getAllData(
       final dbProvider, final String tableName) async {
     final dataList = await dbProvider.getData(tableName);
     return mapDataToList(dataList, tableName);

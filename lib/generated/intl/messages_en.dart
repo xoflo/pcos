@@ -68,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "kbTagThyroid" : MessageLookupByLibrary.simpleMessage("Thyroid"),
     "knowledgeBaseTitle" : MessageLookupByLibrary.simpleMessage("Knowledge Base"),
     "loadingVideo" : MessageLookupByLibrary.simpleMessage("Loading Video"),
+    "messageTitle" : MessageLookupByLibrary.simpleMessage("Message"),
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
     "noItemsFound" : MessageLookupByLibrary.simpleMessage("No items found!"),

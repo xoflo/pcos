@@ -18,6 +18,8 @@ import 'package:thepcosprotocol_app/providers/faq_provider.dart';
 import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/providers/messages_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
@@ -122,11 +124,12 @@ class _AppBodyState extends State<AppBody> {
     }
   }
 
-  void openNotifications() {
+  void openNotifications(final MessagesProvider messagesProvider) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Messages(
+          messagesProvider: messagesProvider,
           closeMenuItem: closeMenuItem,
         ),
       ),
@@ -203,6 +206,14 @@ class _AppBodyState extends State<AppBody> {
         ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
           create: (context) => RecipesProvider(dbProvider: null),
           update: (context, db, previous) => RecipesProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, FavouritesProvider>(
+          create: (context) => FavouritesProvider(dbProvider: null),
+          update: (context, db, previous) => FavouritesProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, MessagesProvider>(
+          create: (context) => MessagesProvider(dbProvider: null),
+          update: (context, db, previous) => MessagesProvider(dbProvider: db),
         ),
       ],
       child: Scaffold(

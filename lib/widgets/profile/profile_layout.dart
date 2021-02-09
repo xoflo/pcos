@@ -114,10 +114,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            itemId: 0,
-            favouriteType: FavouriteType.None,
             title: S.of(context).profileTitle,
-            isFavourite: false,
             closeItem: widget.closeMenuItem,
           ),
           _memberDetails(screenSize, vm),
