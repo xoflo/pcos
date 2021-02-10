@@ -19,7 +19,11 @@ class MessagesList extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       child: Container(
         height: DeviceUtils.getRemainingHeight(
-            MediaQuery.of(context).size.height, false, isHorizontal),
+            MediaQuery.of(context).size.height,
+            false,
+            isHorizontal,
+            false,
+            false),
         child: SingleChildScrollView(
           child: Column(
             children: messages.map((Message message) {

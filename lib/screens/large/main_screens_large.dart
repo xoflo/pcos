@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/screens/dashboard.dart';
 import 'package:thepcosprotocol_app/screens/knowledge_base.dart';
 import 'package:thepcosprotocol_app/screens/recipes.dart';
-import 'package:thepcosprotocol_app/screens/coach_chat.dart';
+import 'package:thepcosprotocol_app/screens/favourites.dart';
 
 class MainScreensLarge extends StatelessWidget {
   final int currentIndex;
@@ -17,7 +17,7 @@ class MainScreensLarge extends StatelessWidget {
         Dashboard(),
         KnowledgeBase(),
         Recipes(),
-        CoachChat(),
+        Favourites(),
         Text("Profile"),
         Text("Change Password"),
         Text("Request Data"),

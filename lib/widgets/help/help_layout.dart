@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -31,11 +30,6 @@ class HelpLayout extends StatefulWidget {
 }
 
 class _HelpLayoutState extends State<HelpLayout> {
-  double _getTabBarHeight(BuildContext context, bool isHorizontal) {
-    return DeviceUtils.getRemainingHeight(
-        MediaQuery.of(context).size.height, true, isHorizontal);
-  }
-
   String _gettingStartedContent = "";
 
   @override
@@ -115,7 +109,12 @@ class _HelpLayoutState extends State<HelpLayout> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             //Add this to give height
-                            height: _getTabBarHeight(context, isHorizontal),
+                            height: DeviceUtils.getRemainingHeight(
+                                MediaQuery.of(context).size.height,
+                                true,
+                                isHorizontal,
+                                false,
+                                false),
                             child: TabBarView(
                               children: [
                                 GettingStarted(

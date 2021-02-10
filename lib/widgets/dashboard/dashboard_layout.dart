@@ -77,6 +77,8 @@ class _DashboardLayoutState extends State<DashboardLayout>
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+
     return Stack(
       children: <Widget>[
         Padding(
@@ -113,7 +115,7 @@ class _DashboardLayoutState extends State<DashboardLayout>
                                     },
                                     child: Icon(
                                       Icons.help,
-                                      color: primaryColorDark,
+                                      color: secondaryColorLight,
                                       size: 48,
                                     ),
                                   )),

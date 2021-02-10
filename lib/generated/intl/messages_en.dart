@@ -67,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "kbTagStress" : MessageLookupByLibrary.simpleMessage("Stress"),
     "kbTagThyroid" : MessageLookupByLibrary.simpleMessage("Thyroid"),
     "knowledgeBaseTitle" : MessageLookupByLibrary.simpleMessage("Knowledge Base"),
+    "lessonsTitle" : MessageLookupByLibrary.simpleMessage("Lessons"),
     "loadingVideo" : MessageLookupByLibrary.simpleMessage("Loading Video"),
     "messageTitle" : MessageLookupByLibrary.simpleMessage("Message"),
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),

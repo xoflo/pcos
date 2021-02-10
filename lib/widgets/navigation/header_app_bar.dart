@@ -25,7 +25,7 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
       case 2:
         return S.of(context).recipesTitle;
       case 3:
-        return S.of(context).coachChatTitle;
+        return S.of(context).favouritesTitle;
       default:
         return S.of(context).dashboardTitle;
     }
@@ -59,7 +59,7 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
                 displayNotifications(model);
               },
               child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, right: 2.0),
+                padding: const EdgeInsets.only(top: 8.0, right: 4.0),
                 child: MessagesBell(messagesCount: 2),
               )),
         ),

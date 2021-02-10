@@ -47,7 +47,11 @@ class DeviceUtils {
   }
 
   static double getRemainingHeight(
-      final double height, final bool isTab, final bool isHorizontal) {
+      final double height,
+      final bool isTab,
+      final bool isHorizontal,
+      final bool hasNavigationTabs,
+      final bool hasIconsOnTabs) {
     int adjustmentAmount = 0;
 
     if (isHorizontal) {
@@ -56,8 +60,16 @@ class DeviceUtils {
       if (Platform.isIOS) {
         adjustmentAmount = isTab ? 170 : 85;
       } else {
-        adjustmentAmount = isTab ? 170 : 151;
+        adjustmentAmount = isTab ? 170 : 89;
       }
+    }
+
+    if (hasNavigationTabs) {
+      adjustmentAmount = adjustmentAmount + 55;
+    }
+
+    if (hasIconsOnTabs) {
+      adjustmentAmount = adjustmentAmount + 26;
     }
 
     return height - adjustmentAmount;

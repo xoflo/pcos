@@ -11,6 +11,7 @@ class RecipeListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("thumbnail=${recipe.thumbnail}");
     return Container(
       height: 200.0,
       child: GestureDetector(

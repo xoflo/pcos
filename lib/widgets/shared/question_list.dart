@@ -1,18 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class QuestionList extends StatefulWidget {
   final Size screenSize;
   final List<Question> questions;
+  final bool showIcon;
+  final IconData iconData;
+  final Function(FavouriteType, int) iconAction;
 
-  QuestionList({this.screenSize, this.questions});
+  QuestionList({
+    @required this.screenSize,
+    @required this.questions,
+    this.showIcon = false,
+    this.iconData,
+    this.iconAction,
+  });
 
   @override
   _QuestionListState createState() => _QuestionListState();
 }
 
 class _QuestionListState extends State<QuestionList> {
+  ListTile getListTile(
+    final bool showIcon,
+    final String answerText,
+    final int itemId,
+  ) {
+    if (showIcon) {
+      return ListTile(
+        title: Text(
+          answerText,
+          style: TextStyle(color: textColor),
+        ),
+        trailing: GestureDetector(
+          onTap: () {
+            widget.iconAction(FavouriteType.KnowledgeBase, itemId);
+          },
+          child: Icon(
+            widget.iconData,
+            color: secondaryColorLight,
+            size: 24,
+          ),
+        ),
+      );
+    } else {
+      return ListTile(
+        title: Text(
+          answerText,
+          style: TextStyle(color: textColor),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
@@ -31,12 +73,7 @@ class _QuestionListState extends State<QuestionList> {
               ),
             );
           },
-          body: ListTile(
-            title: Text(
-              item.answer,
-              style: TextStyle(color: textColor),
-            ),
-          ),
+          body: getListTile(widget.showIcon, item.answer, item.id),
           isExpanded: item.isExpanded,
           canTapOnHeader: true,
         );
