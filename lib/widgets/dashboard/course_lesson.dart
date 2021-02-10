@@ -15,42 +15,35 @@ class CourseLesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 1.0,
-        top: 1.0,
-        right: 1.0,
-      ),
-      child: SizedBox.expand(
-        child: Card(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                DialogHeader(
-                  itemId: lessonId,
-                  favouriteType: FavouriteType.Lesson,
-                  title: "Breakfast",
-                  isFavourite: false,
-                  closeItem: closeLesson,
+    return SizedBox.expand(
+      child: Card(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              DialogHeader(
+                itemId: lessonId,
+                favouriteType: FavouriteType.Lesson,
+                title: "Breakfast",
+                isFavourite: false,
+                closeItem: closeLesson,
+              ),
+              Text(
+                "Changing your breakfast",
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: VideoPlayerChewie(
+                  videoUrl:
+                      "https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
+                  //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Changing_your_breakfast.mp4",
+                  //"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+                  //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Lunch__and_Dinner.mp4",
                 ),
-                Text(
-                  "Changing your breakfast",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: VideoPlayerChewie(
-                    videoUrl:
-                        "https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
-                    //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Changing_your_breakfast.mp4",
-                    //"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
-                    //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Lunch__and_Dinner.mp4",
-                  ),
-                ),
-                Html(data: staticHtmlContent),
-              ],
-            ),
+              ),
+              Html(data: staticHtmlContent),
+            ],
           ),
         ),
       ),

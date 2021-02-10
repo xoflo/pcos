@@ -55,7 +55,11 @@ class _PolicyLayoutState extends State<PolicyLayout> {
           ),
           Container(
             height: DeviceUtils.getRemainingHeight(
-                MediaQuery.of(context).size.height, false, isHorizontal),
+                MediaQuery.of(context).size.height,
+                false,
+                isHorizontal,
+                false,
+                false),
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

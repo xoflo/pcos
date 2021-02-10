@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/utils/string_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class KnowledgeBaseLayout extends StatefulWidget {
   @override
@@ -37,6 +38,10 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
         searchController.text.trim(), tagSelectedValue);
   }
 
+  void addFavourite(FavouriteType favouriteType, int id) {
+    debugPrint("********ADD FAVE = $favouriteType $id");
+  }
+
   Widget getKBList(
       final Size screenSize, final KnowledgeBaseProvider kbProvider) {
     if (tagSelectedValue.length == 0) {
@@ -50,8 +55,13 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
       case LoadingStatus.success:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child:
-              QuestionList(screenSize: screenSize, questions: kbProvider.items),
+          child: QuestionList(
+            screenSize: screenSize,
+            questions: kbProvider.items,
+            showIcon: true,
+            iconData: Icons.favorite_outline,
+            iconAction: addFavourite,
+          ),
         );
     }
     return Container();

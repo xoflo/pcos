@@ -38,7 +38,6 @@ dependencies:
   flushbar: ^1.10.4
   url_launcher: ^5.7.10
   shared_preferences: ^0.5.12+4
-  speech_bubble: ^0.0.7
   provider: ^4.3.2+3
   flutter_html: ^1.1.0
   transparent_image: ^1.0.0
