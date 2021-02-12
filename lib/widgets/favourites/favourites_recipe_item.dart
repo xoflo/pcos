@@ -40,7 +40,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                 removeFavourite(FavouriteType.Recipe, recipe.id);
               },
               child: Icon(
-                Icons.delete_forever,
+                Icons.delete,
                 size: 24.0,
                 color: secondaryColorLight,
               ),

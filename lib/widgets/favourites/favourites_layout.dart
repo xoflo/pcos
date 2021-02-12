@@ -16,10 +16,6 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 
 class FavouritesLayout extends StatefulWidget {
-  final Function(dynamic) displayFavourite;
-
-  FavouritesLayout({@required this.displayFavourite});
-
   @override
   _FavouritesLayoutState createState() => _FavouritesLayoutState();
 }
@@ -87,7 +83,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
           screenSize: screenSize,
           questions: favourites,
           showIcon: true,
-          iconData: Icons.delete_forever,
+          iconData: Icons.delete,
           iconAction: _removeFavourite,
         );
       case FavouriteType.Recipe:

@@ -35,7 +35,7 @@ class FavouritesLessonItem extends StatelessWidget {
                 removeFavourite(FavouriteType.Lesson, lesson.lessonId);
               },
               child: Icon(
-                Icons.delete_forever,
+                Icons.delete,
                 size: 24.0,
                 color: secondaryColorLight,
               ),

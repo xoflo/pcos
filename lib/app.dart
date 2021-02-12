@@ -18,8 +18,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // Crashlytics - set default `_initialized` and `_error` state to false
-  bool _initialized = false;
-  bool _error = false;
+  final appTitle = "The PCOS Protocol";
+  bool appInitialized = false;
+  bool appError = false;
+  ValueNotifier refreshMessages = ValueNotifier(false);
 
   //initialise Crashlytics for app
   void initializeFlutterFire() async {
@@ -27,12 +29,12 @@ class _MyAppState extends State<MyApp> {
       // Wait for Firebase to initialize and set `_initialized` state to true
       await Firebase.initializeApp();
       setState(() {
-        _initialized = true;
+        appInitialized = true;
       });
     } catch (e) {
       // Set `_error` state to true if Firebase initialization fails
       setState(() {
-        _error = true;
+        appError = true;
       });
     }
   }
@@ -53,6 +55,10 @@ class _MyAppState extends State<MyApp> {
         .setNotificationReceivedHandler((OSNotification notification) {
       debugPrint(
           "*** RECEIVED PN - message=${notification.jsonRepresentation().replaceAll("\\n", "\n")}");
+      setState(() {
+        refreshMessages.value = true;
+        //refreshMessages.notifyListeners();
+      });
     });
 
     OneSignal.shared
@@ -61,6 +67,7 @@ class _MyAppState extends State<MyApp> {
           "*** OPENED PN - message=${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}");
     });
 
+    /*
     OneSignal.shared
         .setInAppMessageClickedHandler((OSInAppMessageAction action) {
       debugPrint(
@@ -80,7 +87,7 @@ class _MyAppState extends State<MyApp> {
         (OSEmailSubscriptionStateChanges changes) {
       debugPrint(
           "EMAIL SUBSCRIPTION STATE CHANGED ${changes.jsonRepresentation()}");
-    });
+    });*/
 
     // NOTE: Replace with your own app ID from https://www.onesignal.com
     await OneSignal.shared.init(FlavorConfig.instance.values.oneSignalAppID,
@@ -117,8 +124,8 @@ class _MyAppState extends State<MyApp> {
       title: "The PCOS Protocol",
       theme: appThemeData(),
       home: FlavorBanner(
-        child: _initialized
-            ? PCOSProtocolApp()
+        child: appInitialized
+            ? PCOSProtocolApp(refreshMessages: refreshMessages)
             : AppLoading(
                 backgroundColor: backgroundColor,
                 valueColor: primaryColorDark,

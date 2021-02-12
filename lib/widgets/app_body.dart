@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
-import 'package:thepcosprotocol_app/screens/messages.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
@@ -23,11 +24,16 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
+import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
+  final ValueNotifier refreshMessages;
 
-  AppBody({this.updateAppState});
+  AppBody({this.updateAppState, this.refreshMessages});
 
   @override
   _AppBodyState createState() => _AppBodyState();
@@ -124,18 +130,6 @@ class _AppBodyState extends State<AppBody> {
     }
   }
 
-  void openNotifications(final MessagesProvider messagesProvider) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Messages(
-          messagesProvider: messagesProvider,
-          closeMenuItem: closeMenuItem,
-        ),
-      ),
-    );
-  }
-
   Future<bool> onBackPressed() {
     return showDialog(
           context: context,
@@ -220,7 +214,8 @@ class _AppBodyState extends State<AppBody> {
         appBar: HeaderAppBar(
           currentIndex: _currentIndex,
           displayChat: openChat,
-          displayNotifications: openNotifications,
+          refreshMessages: widget.refreshMessages,
+          closeMessages: closeMenuItem,
         ),
         drawer: DrawerMenu(
           updateAppState: updateAppState,

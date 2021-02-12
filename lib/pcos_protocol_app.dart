@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info/package_info.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/app_body.dart';
@@ -12,8 +13,15 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/widgets/other/app_loading.dart';
 import 'package:thepcosprotocol_app/widgets/other/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
+import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class PCOSProtocolApp extends StatefulWidget {
+  final ValueNotifier refreshMessages;
+
+  PCOSProtocolApp({@required this.refreshMessages});
+
   @override
   _PCOSProtocolAppState createState() => _PCOSProtocolAppState();
 }
@@ -152,7 +160,9 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
       case AppState.NOT_SUPPORTED:
         return UnsupportedVersion();
       case AppState.APP:
-        return AppBody(updateAppState: updateAppState);
+        return AppBody(
+            updateAppState: updateAppState,
+            refreshMessages: widget.refreshMessages);
       case AppState.SIGN_IN:
       case AppState.REGISTER:
       case AppState.PIN_SET:

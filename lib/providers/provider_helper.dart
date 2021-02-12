@@ -46,7 +46,6 @@ class ProviderHelper {
     return List<Question>();
   }
 
-  //TODO: should we move this to recipes provider, as only used by recipes
   Future<List<Recipe>> fetchAndSaveRecipes(final dbProvider) async {
     final String tableName = "Recipe";
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
@@ -84,6 +83,41 @@ class ProviderHelper {
     return List<Recipe>();
   }
 
+  Future<List<Message>> fetchAndSaveMessages(final dbProvider) async {
+    final String tableName = "Message";
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    if (dbProvider.db != null) {
+      //first get the data from the api if we have no data yet
+      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+        final messages = await WebServices().getAllUserNotifications();
+        debugPrint("**************FETCH MESSAGES FROM API AND SAVE");
+        //delete all old records before adding new ones
+        await dbProvider.deleteAll(tableName);
+        //add items to database
+        messages.forEach((Message message) async {
+          debugPrint("*************HELPER isREAD=${message.isRead}");
+          await dbProvider.insert(tableName, {
+            'notificationId': message.notificationId,
+            'title': message.title,
+            'message': message.message,
+            'isRead': message.isRead ? 1 : 0,
+            'action': message.action,
+            'dateReadUTC': message.dateReadUTC.toIso8601String(),
+            'dateCreatedUTC': message.dateCreatedUTC.toIso8601String(),
+          });
+        });
+
+        //save when we got the data
+        saveTimestamp(tableName);
+      }
+
+      // get items from database
+      debugPrint("*********GET MESSAGES FROM DB");
+      return await getAllData(dbProvider, tableName);
+    }
+    return List<Message>();
+  }
+
   Future<List<dynamic>> filterAndSearch(final dbProvider,
       final String tableName, final String searchText, final String tag) async {
     if (dbProvider.db != null) {
@@ -107,6 +141,22 @@ class ProviderHelper {
     return List<dynamic>();
   }
 
+  Future<void> markNotificationAsRead(
+      final dbProvider, final int notificationId) async {
+    final String tableName = "Message";
+    //update on server
+    WebServices().markNotificationAsRead(notificationId);
+    if (dbProvider.db != null) {
+      //update in sqlite
+      await dbProvider.updateQuery(
+        table: tableName,
+        setFields: "isRead = 1",
+        whereClause: "notificationId = $notificationId",
+        limitRowCount: 1,
+      );
+    }
+  }
+
   Future<bool> _shouldGetDataFromAPI(
       final dbProvider, final String tableName) async {
     final int rowCount = await dbProvider.getTableRowCount(tableName);
@@ -116,9 +166,11 @@ class ProviderHelper {
 
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     final int savedTimestamp = await getTimestamp(tableName);
-
+    final int cacheSeconds = tableName == "Message" ? 30 : 3600;
+    debugPrint("**************TABLENAME=$tableName");
     //we have data, so check if the data is older than an hour (3,600,000 milliseconds)
-    if (savedTimestamp != null && currentTimestamp - savedTimestamp > 3600000) {
+    if (savedTimestamp != null &&
+        currentTimestamp - savedTimestamp > (cacheSeconds * 1000)) {
       return true;
     }
 
@@ -135,6 +187,8 @@ class ProviderHelper {
   List<dynamic> mapDataToList(final dataList, final String tableName) {
     if (tableName == "Recipe") {
       return dataList.map<Recipe>((item) => Recipe.fromJson(item)).toList();
+    } else if (tableName == "Message") {
+      return dataList.map<Message>((item) => Message.fromJson(item)).toList();
     }
     return dataList
         .map<Question>((item) => Question(

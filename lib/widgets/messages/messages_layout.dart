@@ -21,8 +21,17 @@ class MessagesLayout extends StatefulWidget {
 }
 
 class _MessagesLayoutState extends State<MessagesLayout> {
+  int unreadCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    unreadCount = widget.messagesProvider.getUnreadCount();
+  }
+
   Widget getMessagesList(
       final Size screenSize, final MessagesProvider messagesProvider) {
+    debugPrint("*****************MESSAGES REDRAWING getMessagesList");
     switch (messagesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -30,7 +39,7 @@ class _MessagesLayoutState extends State<MessagesLayout> {
         return NoResults(message: S.of(context).noNotifications);
       case LoadingStatus.success:
         return MessagesList(
-          messages: messagesProvider.items,
+          messagesProvider: messagesProvider,
           openMessage: openMessage,
           screenSize: screenSize,
         );
@@ -38,8 +47,9 @@ class _MessagesLayoutState extends State<MessagesLayout> {
     return Container();
   }
 
-  void openMessage(final Message message) {
-    debugPrint("OPEN MESSAGE ${message.title}");
+  void openMessage(
+      final MessagesProvider messagesProvider, Message message) async {
+    debugPrint("OPEN MESSAGE AND MARK AS READ ${message.notificationId}");
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -48,10 +58,17 @@ class _MessagesLayoutState extends State<MessagesLayout> {
           closeMessage: () {
             Navigator.pop(context);
           },
+          deleteMessage: (Message message) {
+            debugPrint("DELETE");
+          },
         ),
       ),
     );
-    //TODO: mark message AsRead = true
+    //mark message AsRead = true in backend and locally
+    await messagesProvider.updateNotificationAsRead(message.notificationId);
+    setState(() {
+      unreadCount = messagesProvider.getUnreadCount();
+    });
   }
 
   @override
@@ -69,7 +86,7 @@ class _MessagesLayoutState extends State<MessagesLayout> {
             title: S.of(context).messagesTitle,
             closeItem: widget.closeMenuItem,
             showMessagesIcon: true,
-            unreadCount: 2,
+            unreadCount: unreadCount,
           ),
           getMessagesList(screenSize, widget.messagesProvider),
         ],

@@ -15,6 +15,8 @@ class MessagesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("**********MESSAGE = ${message.message} READ?${message.isRead}");
+
     return Container(
       width: width,
       height: 90.0,
@@ -70,7 +72,7 @@ class MessagesListItem extends StatelessWidget {
                     SizedBox(
                       width: width - 40,
                       child: Text(
-                        message.messageText,
+                        message.message,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

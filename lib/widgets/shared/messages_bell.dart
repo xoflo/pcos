@@ -7,6 +7,7 @@ class MessagesBell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("***************COUNT = $messagesCount");
     return Stack(
       children: [
         Padding(
@@ -17,23 +18,25 @@ class MessagesBell extends StatelessWidget {
             size: 30,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 14.0),
-          child: SizedBox(
-            width: 16,
-            height: 16,
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Text(
-                messagesCount.toString(),
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+        messagesCount == null || messagesCount == 0
+            ? Container()
+            : Padding(
+                padding: const EdgeInsets.only(left: 14.0),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      messagesCount.toString(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        )
+              )
       ],
     );
   }
