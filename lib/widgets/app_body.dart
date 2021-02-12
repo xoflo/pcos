@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:provider/provider.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
@@ -14,26 +12,17 @@ import 'package:thepcosprotocol_app/screens/profile.dart';
 import 'package:thepcosprotocol_app/screens/change_password.dart';
 import 'package:thepcosprotocol_app/screens/privacy.dart';
 import 'package:thepcosprotocol_app/screens/terms_and_conditions.dart';
-import 'package:thepcosprotocol_app/providers/database_provider.dart';
-import 'package:thepcosprotocol_app/providers/faq_provider.dart';
-import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
-import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
-import 'package:thepcosprotocol_app/providers/messages_provider.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
-import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
-import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
-  final ValueNotifier refreshMessages;
+  //final ValueNotifier refreshMessages;
 
-  AppBody({this.updateAppState, this.refreshMessages});
+  AppBody({
+    this.updateAppState,
+    //this.refreshMessages,
+  });
 
   @override
   _AppBodyState createState() => _AppBodyState();
@@ -180,71 +169,41 @@ class _AppBodyState extends State<AppBody> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
-        ChangeNotifierProxyProvider<DatabaseProvider, KnowledgeBaseProvider>(
-          create: (context) => KnowledgeBaseProvider(dbProvider: null),
-          update: (context, db, previous) =>
-              KnowledgeBaseProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, FAQProvider>(
-          create: (context) => FAQProvider(dbProvider: null),
-          update: (context, db, previous) => FAQProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, CourseQuestionProvider>(
-          create: (context) => CourseQuestionProvider(dbProvider: null),
-          update: (context, db, previous) =>
-              CourseQuestionProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
-          create: (context) => RecipesProvider(dbProvider: null),
-          update: (context, db, previous) => RecipesProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, FavouritesProvider>(
-          create: (context) => FavouritesProvider(dbProvider: null),
-          update: (context, db, previous) => FavouritesProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, MessagesProvider>(
-          create: (context) => MessagesProvider(dbProvider: null),
-          update: (context, db, previous) => MessagesProvider(dbProvider: db),
-        ),
-      ],
-      child: Scaffold(
-        appBar: HeaderAppBar(
-          currentIndex: _currentIndex,
-          displayChat: openChat,
-          refreshMessages: widget.refreshMessages,
-          closeMessages: closeMenuItem,
-        ),
-        drawer: DrawerMenu(
-          updateAppState: updateAppState,
-          openDrawerMenuItem: openDrawerMenuItem,
-        ),
-        body: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText1,
-          child: Platform.isIOS
-              ? MainScreens(
+    return Scaffold(
+      appBar: HeaderAppBar(
+        currentIndex: _currentIndex,
+        displayChat: openChat,
+        //refreshMessages: widget.refreshMessages,
+        closeMessages: closeMenuItem,
+      ),
+      drawer: DrawerMenu(
+        updateAppState: updateAppState,
+        openDrawerMenuItem: openDrawerMenuItem,
+      ),
+      body: DefaultTextStyle(
+        style: Theme.of(context).textTheme.bodyText1,
+        child: Platform.isIOS
+            ? MainScreens(
+                currentIndex: _currentIndex,
+              )
+            : WillPopScope(
+                onWillPop: () {
+                  return onBackPressed();
+                },
+                child: MainScreens(
                   currentIndex: _currentIndex,
-                )
-              : WillPopScope(
-                  onWillPop: () {
-                    return onBackPressed();
-                  },
-                  child: MainScreens(
-                    currentIndex: _currentIndex,
-                  ),
                 ),
-        ),
-        bottomNavigationBar: AppNavigationTabs(
-          currentIndex: _currentIndex,
-          onTapped: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-        ),
-        /*floatingActionButton: _currentIndex == 8
+              ),
+      ),
+      bottomNavigationBar: AppNavigationTabs(
+        currentIndex: _currentIndex,
+        onTapped: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+      /*floatingActionButton: _currentIndex == 8
             ? Container(
                 width: 40,
                 height: 40,
@@ -263,7 +222,6 @@ class _AppBodyState extends State<AppBody> {
                 ),
               )
             : Container(),*/
-      ),
     );
   }
 }

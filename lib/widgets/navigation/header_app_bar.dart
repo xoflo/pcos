@@ -9,13 +9,13 @@ class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int currentIndex;
   final Function displayChat;
   final Function closeMessages;
-  final ValueNotifier refreshMessages;
+  //final ValueNotifier refreshMessages;
 
   HeaderAppBar({
     @required this.currentIndex,
     @required this.displayChat,
     @required this.closeMessages,
-    @required this.refreshMessages,
+    //@required this.refreshMessages,
   });
 
   @override
@@ -26,7 +26,7 @@ class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HeaderAppBarState extends State<HeaderAppBar> {
-  @override
+  /*@override
   void initState() {
     widget.refreshMessages.addListener(() {
       debugPrint(
@@ -34,7 +34,7 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
     });
 
     super.initState();
-  }
+  }*/
 
   String _getHeaderText(BuildContext context, int currentIndex) {
     switch (currentIndex) {
@@ -90,7 +90,7 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
                 _openNotifications(context, model);
               },
               child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(top: 8.0, right: 28.0),
                 child: MessagesBell(messagesCount: model.getUnreadCount()),
               )),
         ),

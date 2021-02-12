@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/pcos_protocol_app.dart';
 import 'package:thepcosprotocol_app/widgets/other/app_loading.dart';
@@ -10,6 +11,13 @@ import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/providers/faq_provider.dart';
+import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
+import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/global_vars.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -21,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   final appTitle = "The PCOS Protocol";
   bool appInitialized = false;
   bool appError = false;
-  ValueNotifier refreshMessages = ValueNotifier(false);
+  GlobalVars refreshMessages = GlobalVars();
 
   //initialise Crashlytics for app
   void initializeFlutterFire() async {
@@ -55,10 +63,9 @@ class _MyAppState extends State<MyApp> {
         .setNotificationReceivedHandler((OSNotification notification) {
       debugPrint(
           "*** RECEIVED PN - message=${notification.jsonRepresentation().replaceAll("\\n", "\n")}");
-      setState(() {
-        refreshMessages.value = true;
-        //refreshMessages.notifyListeners();
-      });
+      //calling setState forces the app to get the data again so the messages refreshes, and the true in the refreshMessages global singleton means it comes from the API
+      refreshMessages.setRefreshMessagesFromAPI(true);
+      setState(() {});
     });
 
     OneSignal.shared
@@ -114,22 +121,53 @@ class _MyAppState extends State<MyApp> {
     //  return SomethingWentWrong();
     //}
 
-    return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        S.delegate
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+        ChangeNotifierProxyProvider<DatabaseProvider, KnowledgeBaseProvider>(
+          create: (context) => KnowledgeBaseProvider(dbProvider: null),
+          update: (context, db, previous) =>
+              KnowledgeBaseProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, FAQProvider>(
+          create: (context) => FAQProvider(dbProvider: null),
+          update: (context, db, previous) => FAQProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, CourseQuestionProvider>(
+          create: (context) => CourseQuestionProvider(dbProvider: null),
+          update: (context, db, previous) =>
+              CourseQuestionProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
+          create: (context) => RecipesProvider(dbProvider: null),
+          update: (context, db, previous) => RecipesProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, FavouritesProvider>(
+          create: (context) => FavouritesProvider(dbProvider: null),
+          update: (context, db, previous) => FavouritesProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, MessagesProvider>(
+          create: (context) => MessagesProvider(dbProvider: null),
+          update: (context, db, previous) => MessagesProvider(dbProvider: db),
+        ),
       ],
-      supportedLocales: S.delegate.supportedLocales,
-      title: "The PCOS Protocol",
-      theme: appThemeData(),
-      home: FlavorBanner(
-        child: appInitialized
-            ? PCOSProtocolApp(refreshMessages: refreshMessages)
-            : AppLoading(
-                backgroundColor: backgroundColor,
-                valueColor: primaryColorDark,
-              ),
+      child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          S.delegate
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        title: appTitle,
+        theme: appThemeData(),
+        home: FlavorBanner(
+          child: appInitialized
+              ? PCOSProtocolApp()
+              : AppLoading(
+                  backgroundColor: backgroundColor,
+                  valueColor: primaryColorDark,
+                ),
+        ),
       ),
     );
   }

@@ -93,7 +93,10 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
           removeFavourite: _removeFavourite,
           openFavourite: _openFavourite,
         );
+      case FavouriteType.None:
+        return Container();
     }
+    return Container();
   }
 
   void _removeFavourite(FavouriteType favouriteType, int id) {

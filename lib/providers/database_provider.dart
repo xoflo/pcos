@@ -98,7 +98,7 @@ class DatabaseProvider with ChangeNotifier {
     final int limitRowCount,
   }) async {
     String updateStatement = "UPDATE $table SET $setFields WHERE $whereClause";
-    if (limitRowCount > 0) updateStatement += " LIMIT $limitRowCount";
+    //if (limitRowCount > 0) updateStatement += " LIMIT $limitRowCount";
     debugPrint("*******UPDATE STATEMENT = $updateStatement");
     await db.rawQuery(updateStatement);
   }

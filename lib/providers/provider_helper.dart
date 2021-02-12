@@ -83,12 +83,14 @@ class ProviderHelper {
     return List<Recipe>();
   }
 
-  Future<List<Message>> fetchAndSaveMessages(final dbProvider) async {
+  Future<List<Message>> fetchAndSaveMessages(
+      final dbProvider, final bool refreshFromAPI) async {
     final String tableName = "Message";
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
-      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+      if (refreshFromAPI ||
+          await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final messages = await WebServices().getAllUserNotifications();
         debugPrint("**************FETCH MESSAGES FROM API AND SAVE");
         //delete all old records before adding new ones
@@ -166,7 +168,7 @@ class ProviderHelper {
 
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     final int savedTimestamp = await getTimestamp(tableName);
-    final int cacheSeconds = tableName == "Message" ? 30 : 3600;
+    final int cacheSeconds = tableName == "Message" ? 300 : 3600;
     debugPrint("**************TABLENAME=$tableName");
     //we have data, so check if the data is older than an hour (3,600,000 milliseconds)
     if (savedTimestamp != null &&
@@ -174,7 +176,7 @@ class ProviderHelper {
       return true;
     }
 
-    //we have data and it is under an hour old, so use the database version
+    //we have data and it is under an hour old (or 10 mins for Messages), so use the database version
     return false;
   }
 
