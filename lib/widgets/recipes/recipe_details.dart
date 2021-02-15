@@ -20,6 +20,7 @@ class RecipeDetails extends StatelessWidget {
       final summaryWidth = screenSize.width - (tabControllerWidth + 28);
       return Container(
         width: screenSize.width,
+        height: screenSize.height - 140,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,9 +74,9 @@ class RecipeDetails extends StatelessWidget {
   }
 
   double _getTabBarHeight(BuildContext context, bool isHorizontal) {
-    final int adjustmentAmount = isHorizontal ? 0 : 150;
+    final int adjustmentAmount = isHorizontal ? 148 : 150;
     return MediaQuery.of(context).size.height -
-        (kToolbarHeight + kBottomNavigationBarHeight + adjustmentAmount);
+        (kToolbarHeight + adjustmentAmount);
   }
 
   List<Tab> _getRecipeDetailTabs(BuildContext context, bool isHorizontal) {
@@ -124,21 +125,19 @@ class RecipeDetails extends StatelessWidget {
         top: 1.0,
         right: 1.0,
       ),
-      child: SizedBox.expand(
-        child: Card(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                DialogHeader(
-                  itemId: recipe.id,
-                  favouriteType: FavouriteType.Recipe,
-                  title: recipe.title,
-                  isFavourite: false,
-                  closeItem: closeRecipeDetails,
-                ),
-                _getRecipeDetails(context, isHorizontal, screenSize),
-              ],
-            ),
+      child: Card(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              DialogHeader(
+                itemId: recipe.id,
+                favouriteType: FavouriteType.Recipe,
+                title: recipe.title,
+                isFavourite: false,
+                closeItem: closeRecipeDetails,
+              ),
+              _getRecipeDetails(context, isHorizontal, screenSize),
+            ],
           ),
         ),
       ),
