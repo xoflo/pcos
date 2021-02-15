@@ -7,12 +7,12 @@ import 'package:thepcosprotocol_app/utils/device_utils.dart';
 class MessagesList extends StatelessWidget {
   final MessagesProvider messagesProvider;
   final Size screenSize;
-  final Function(MessagesProvider, Message) openMessage;
+  final Function(BuildContext, MessagesProvider, Message) openMessage;
 
   MessagesList({this.messagesProvider, this.screenSize, this.openMessage});
 
-  void _openMessage(final Message message) {
-    openMessage(messagesProvider, message);
+  void _openMessage(final BuildContext context, final Message message) {
+    openMessage(context, messagesProvider, message);
   }
 
   @override

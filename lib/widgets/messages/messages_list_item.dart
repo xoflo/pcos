@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 class MessagesListItem extends StatelessWidget {
   final Message message;
   final double width;
-  final Function(Message) openMessageDetails;
+  final Function(BuildContext, Message) openMessageDetails;
 
   MessagesListItem(
       {@required this.message,
@@ -22,7 +22,7 @@ class MessagesListItem extends StatelessWidget {
       height: 90.0,
       child: GestureDetector(
         onTap: () {
-          openMessageDetails(message);
+          openMessageDetails(context, message);
         },
         child: Card(
           child: Row(

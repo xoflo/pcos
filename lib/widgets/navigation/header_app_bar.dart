@@ -9,13 +9,11 @@ class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int currentIndex;
   final Function displayChat;
   final Function closeMessages;
-  //final ValueNotifier refreshMessages;
 
   HeaderAppBar({
     @required this.currentIndex,
     @required this.displayChat,
     @required this.closeMessages,
-    //@required this.refreshMessages,
   });
 
   @override
@@ -26,16 +24,6 @@ class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HeaderAppBarState extends State<HeaderAppBar> {
-  /*@override
-  void initState() {
-    widget.refreshMessages.addListener(() {
-      debugPrint(
-          "******************* REFRESH MESSAGES value notifier has changed");
-    });
-
-    super.initState();
-  }*/
-
   String _getHeaderText(BuildContext context, int currentIndex) {
     switch (currentIndex) {
       case 1:
@@ -49,13 +37,11 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
     }
   }
 
-  void _openNotifications(
-      final BuildContext context, final MessagesProvider messagesProvider) {
+  void _openNotifications(final BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Messages(
-          messagesProvider: messagesProvider,
           closeMenuItem: widget.closeMessages,
         ),
       ),
@@ -64,6 +50,7 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("HEADER APP BAR RE_BUILD");
     return AppBar(
       centerTitle: true,
       title: Text(
@@ -84,15 +71,17 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
             widget.displayChat();
           },
         ),
-        Consumer<MessagesProvider>(
-          builder: (context, model, child) => GestureDetector(
-              onTap: () {
-                _openNotifications(context, model);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, right: 28.0),
-                child: MessagesBell(messagesCount: model.getUnreadCount()),
-              )),
+        GestureDetector(
+          onTap: () {
+            _openNotifications(context);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 28.0),
+            child: Consumer<MessagesProvider>(
+              builder: (context, model, child) =>
+                  MessagesBell(messagesCount: model.getUnreadCount()),
+            ),
+          ),
         ),
       ],
     );

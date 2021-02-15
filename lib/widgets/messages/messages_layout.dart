@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/screens/message_details.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
@@ -10,28 +11,16 @@ import 'package:thepcosprotocol_app/widgets/messages/messages_list.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 
-class MessagesLayout extends StatefulWidget {
-  final MessagesProvider messagesProvider;
+class MessagesLayout extends StatelessWidget {
   final Function closeMenuItem;
 
-  MessagesLayout({this.messagesProvider, this.closeMenuItem});
-
-  @override
-  _MessagesLayoutState createState() => _MessagesLayoutState();
-}
-
-class _MessagesLayoutState extends State<MessagesLayout> {
-  int unreadCount = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    unreadCount = widget.messagesProvider.getUnreadCount();
-  }
+  MessagesLayout({this.closeMenuItem});
 
   Widget getMessagesList(
-      final Size screenSize, final MessagesProvider messagesProvider) {
-    debugPrint("*****************MESSAGES REDRAWING getMessagesList");
+    final BuildContext context,
+    final Size screenSize,
+    final MessagesProvider messagesProvider,
+  ) {
     switch (messagesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -48,8 +37,10 @@ class _MessagesLayoutState extends State<MessagesLayout> {
   }
 
   void openMessage(
-      final MessagesProvider messagesProvider, Message message) async {
-    debugPrint("OPEN MESSAGE AND MARK AS READ ${message.notificationId}");
+    final BuildContext context,
+    final MessagesProvider messagesProvider,
+    Message message,
+  ) async {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -66,30 +57,29 @@ class _MessagesLayoutState extends State<MessagesLayout> {
     );
     //mark message AsRead = true in backend and locally
     await messagesProvider.updateNotificationAsRead(message.notificationId);
-    setState(() {
-      unreadCount = messagesProvider.getUnreadCount();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Header(
-            title: S.of(context).messagesTitle,
-            closeItem: widget.closeMenuItem,
-            showMessagesIcon: true,
-            unreadCount: unreadCount,
-          ),
-          getMessagesList(screenSize, widget.messagesProvider),
-        ],
+    return Consumer<MessagesProvider>(
+      builder: (context, model, child) => Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Header(
+              title: S.of(context).messagesTitle,
+              closeItem: closeMenuItem,
+              showMessagesIcon: true,
+              unreadCount: model.getUnreadCount(),
+            ),
+            getMessagesList(context, screenSize, model),
+          ],
+        ),
       ),
     );
   }

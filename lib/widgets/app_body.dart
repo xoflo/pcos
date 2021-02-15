@@ -17,11 +17,9 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class AppBody extends StatefulWidget {
   final Function(AppState) updateAppState;
-  //final ValueNotifier refreshMessages;
 
   AppBody({
     this.updateAppState,
-    //this.refreshMessages,
   });
 
   @override
@@ -150,30 +148,12 @@ class _AppBodyState extends State<AppBody> {
         false;
   }
 
-  /*
-  void openHelp(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Help(
-          closeMenuItem: closeHelp,
-        ),
-      ),
-    );
-  }
-
-  void closeHelp() {
-    Navigator.pop(context);
-  }
-  */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HeaderAppBar(
         currentIndex: _currentIndex,
         displayChat: openChat,
-        //refreshMessages: widget.refreshMessages,
         closeMessages: closeMenuItem,
       ),
       drawer: DrawerMenu(
@@ -203,25 +183,6 @@ class _AppBodyState extends State<AppBody> {
           });
         },
       ),
-      /*floatingActionButton: _currentIndex == 8
-            ? Container(
-                width: 40,
-                height: 40,
-                child: FittedBox(
-                  child: FloatingActionButton(
-                    heroTag: 'openHelpFab',
-                    child: Text(
-                      "?",
-                      style: TextStyle(fontSize: 36),
-                    ),
-                    backgroundColor: primaryColorDark,
-                    onPressed: () {
-                      openHelp(context);
-                    },
-                  ),
-                ),
-              )
-            : Container(),*/
     );
   }
 }
