@@ -8,8 +8,12 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class MessageDetailsLayout extends StatelessWidget {
   final Message message;
   final Function closeMessage;
+  final Function(Message) deleteMessage;
 
-  MessageDetailsLayout({@required this.message, @required this.closeMessage});
+  MessageDetailsLayout(
+      {@required this.message,
+      @required this.closeMessage,
+      @required this.deleteMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +56,22 @@ class MessageDetailsLayout extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
-                    Text(message.messageText),
+                    Text(message.message),
                   ],
                 ),
               ),
             ),
           ),
+          GestureDetector(
+            onTap: () {
+              deleteMessage(message);
+            },
+            child: Icon(
+              Icons.delete,
+              color: secondaryColorLight,
+              size: 36,
+            ),
+          )
         ],
       ),
     );

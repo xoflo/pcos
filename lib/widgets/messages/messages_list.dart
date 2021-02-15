@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
+import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/widgets/messages/messages_list_item.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 
 class MessagesList extends StatelessWidget {
-  final List<Message> messages;
+  final MessagesProvider messagesProvider;
   final Size screenSize;
-  final Function(Message) openMessage;
+  final Function(BuildContext, MessagesProvider, Message) openMessage;
 
-  MessagesList({this.messages, this.screenSize, this.openMessage});
+  MessagesList({this.messagesProvider, this.screenSize, this.openMessage});
+
+  void _openMessage(final BuildContext context, final Message message) {
+    openMessage(context, messagesProvider, message);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +31,11 @@ class MessagesList extends StatelessWidget {
             false),
         child: SingleChildScrollView(
           child: Column(
-            children: messages.map((Message message) {
+            children: messagesProvider.items.map((Message message) {
               return MessagesListItem(
                 message: message,
                 width: screenSize.width,
-                openMessageDetails: openMessage,
+                openMessageDetails: _openMessage,
               );
             }).toList(),
           ),

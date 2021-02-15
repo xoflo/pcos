@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/screens/message_details.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
@@ -10,19 +11,16 @@ import 'package:thepcosprotocol_app/widgets/messages/messages_list.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 
-class MessagesLayout extends StatefulWidget {
-  final MessagesProvider messagesProvider;
+class MessagesLayout extends StatelessWidget {
   final Function closeMenuItem;
 
-  MessagesLayout({this.messagesProvider, this.closeMenuItem});
+  MessagesLayout({this.closeMenuItem});
 
-  @override
-  _MessagesLayoutState createState() => _MessagesLayoutState();
-}
-
-class _MessagesLayoutState extends State<MessagesLayout> {
   Widget getMessagesList(
-      final Size screenSize, final MessagesProvider messagesProvider) {
+    final BuildContext context,
+    final Size screenSize,
+    final MessagesProvider messagesProvider,
+  ) {
     switch (messagesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -30,7 +28,7 @@ class _MessagesLayoutState extends State<MessagesLayout> {
         return NoResults(message: S.of(context).noNotifications);
       case LoadingStatus.success:
         return MessagesList(
-          messages: messagesProvider.items,
+          messagesProvider: messagesProvider,
           openMessage: openMessage,
           screenSize: screenSize,
         );
@@ -38,8 +36,11 @@ class _MessagesLayoutState extends State<MessagesLayout> {
     return Container();
   }
 
-  void openMessage(final Message message) {
-    debugPrint("OPEN MESSAGE ${message.title}");
+  void openMessage(
+    final BuildContext context,
+    final MessagesProvider messagesProvider,
+    Message message,
+  ) async {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -48,31 +49,37 @@ class _MessagesLayoutState extends State<MessagesLayout> {
           closeMessage: () {
             Navigator.pop(context);
           },
+          deleteMessage: (Message message) {
+            debugPrint("DELETE");
+          },
         ),
       ),
     );
-    //TODO: mark message AsRead = true
+    //mark message AsRead = true in backend and locally
+    await messagesProvider.updateNotificationAsRead(message.notificationId);
   }
 
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Header(
-            title: S.of(context).messagesTitle,
-            closeItem: widget.closeMenuItem,
-            showMessagesIcon: true,
-            unreadCount: 2,
-          ),
-          getMessagesList(screenSize, widget.messagesProvider),
-        ],
+    return Consumer<MessagesProvider>(
+      builder: (context, model, child) => Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Header(
+              title: S.of(context).messagesTitle,
+              closeItem: closeMenuItem,
+              showMessagesIcon: true,
+              unreadCount: model.getUnreadCount(),
+            ),
+            getMessagesList(context, screenSize, model),
+          ],
+        ),
       ),
     );
   }

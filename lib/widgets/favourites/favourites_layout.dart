@@ -16,33 +16,12 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 
 class FavouritesLayout extends StatefulWidget {
-  final Function(dynamic) displayFavourite;
-
-  FavouritesLayout({@required this.displayFavourite});
-
   @override
   _FavouritesLayoutState createState() => _FavouritesLayoutState();
 }
 
-class _FavouritesLayoutState extends State<FavouritesLayout>
-    with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation<Offset> _offsetAnimation;
-  Lesson selectedLesson;
-  Recipe selectedRecipe;
-  FavouriteType selectedFavouriteType = FavouriteType.None;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _offsetAnimation =
-        Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-            .animate(_animationController);
-  }
-
-  Widget _getFavouritesList(
+class _FavouritesLayoutState extends State<FavouritesLayout> {
+  Widget getFavouritesList(
     final BuildContext context,
     final Size screenSize,
     final List<dynamic> favourites,
@@ -57,7 +36,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
       case LoadingStatus.success:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: _getContent(
+          child: getContent(
             context,
             screenSize,
             favourites,
@@ -68,7 +47,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
     return Container();
   }
 
-  Widget _getContent(
+  Widget getContent(
     final BuildContext context,
     final Size screenSize,
     final List<dynamic> favourites,
@@ -87,7 +66,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
           screenSize: screenSize,
           questions: favourites,
           showIcon: true,
-          iconData: Icons.delete_forever,
+          iconData: Icons.delete,
           iconAction: _removeFavourite,
         );
       case FavouriteType.Recipe:
@@ -97,7 +76,10 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
           removeFavourite: _removeFavourite,
           openFavourite: _openFavourite,
         );
+      case FavouriteType.None:
+        return Container();
     }
+    return Container();
   }
 
   void _removeFavourite(FavouriteType favouriteType, int id) {
@@ -106,37 +88,31 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
 
   void _openFavourite(FavouriteType favouriteType, dynamic favourite) {
     debugPrint("********OPEN FAVE = $favouriteType $favourite");
+    Widget favouriteWidget;
 
     if (favouriteType == FavouriteType.Lesson) {
-      setState(() {
-        selectedFavouriteType = favouriteType;
-        selectedLesson = favourite;
-        selectedRecipe = null;
-      });
+      Lesson lesson = favourite;
+      favouriteWidget = CourseLesson(
+        lessonId: lesson.lessonId,
+        closeLesson: closeFavourite,
+      );
     } else {
-      setState(() {
-        selectedFavouriteType = favouriteType;
-        selectedLesson = null;
-        selectedRecipe = favourite;
-      });
+      Recipe recipe = favourite;
+      favouriteWidget = RecipeDetails(
+        recipe: recipe,
+        closeRecipeDetails: closeFavourite,
+      );
     }
 
-    _openContent();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => favouriteWidget,
+    );
   }
 
-  void _openContent() async {
-    await Future.delayed(const Duration(milliseconds: 300), () {
-      _animationController.forward();
-    });
-  }
-
-  void _closeContent() async {
-    _animationController.reverse();
-    setState(() {
-      selectedFavouriteType = FavouriteType.None;
-      selectedLesson = null;
-      selectedRecipe = null;
-    });
+  void closeFavourite() {
+    Navigator.pop(context);
   }
 
   @override
@@ -145,106 +121,90 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
-    return Stack(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: DefaultTabController(
-            length: 3,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  child: TabBar(
-                    isScrollable: true,
-                    tabs: [
-                      Tab(
-                        text: S.of(context).lessonsTitle,
-                        icon: Icon(
-                          Icons.play_circle_outline,
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: DefaultTabController(
+        length: 3,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              child: TabBar(
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    text: S.of(context).lessonsTitle,
+                    icon: Icon(
+                      Icons.play_circle_outline,
+                    ),
+                  ),
+                  Tab(
+                    text: S.of(context).knowledgeBaseTitle,
+                    icon: Icon(
+                      Icons.batch_prediction,
+                    ),
+                  ),
+                  Tab(
+                    text: S.of(context).recipesTitle,
+                    icon: Icon(
+                      Icons.local_dining,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Consumer<FavouritesProvider>(
+              builder: (context, model, child) => Padding(
+                padding: const EdgeInsets.only(
+                  top: 8.0,
+                  left: 2.0,
+                  right: 2.0,
+                ),
+                child: Container(
+                  //Add this to give height
+                  height: DeviceUtils.getRemainingHeight(
+                      MediaQuery.of(context).size.height,
+                      true,
+                      isHorizontal,
+                      true,
+                      true),
+                  child: TabBarView(
+                    children: [
+                      SingleChildScrollView(
+                        child: getFavouritesList(
+                          context,
+                          screenSize,
+                          model.itemsLessons,
+                          model.statusLessons,
+                          FavouriteType.Lesson,
                         ),
                       ),
-                      Tab(
-                        text: S.of(context).knowledgeBaseTitle,
-                        icon: Icon(
-                          Icons.batch_prediction,
+                      SingleChildScrollView(
+                        child: getFavouritesList(
+                          context,
+                          screenSize,
+                          model.itemsKnowledgeBase,
+                          model.statusKnowledgeBase,
+                          FavouriteType.KnowledgeBase,
                         ),
                       ),
-                      Tab(
-                        text: S.of(context).recipesTitle,
-                        icon: Icon(
-                          Icons.local_dining,
+                      SingleChildScrollView(
+                        child: getFavouritesList(
+                          context,
+                          screenSize,
+                          model.itemsRecipes,
+                          model.statusRecipes,
+                          FavouriteType.Recipe,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Consumer<FavouritesProvider>(
-                  builder: (context, model, child) => Padding(
-                    padding: const EdgeInsets.only(
-                      top: 8.0,
-                      left: 2.0,
-                      right: 2.0,
-                    ),
-                    child: Container(
-                      //Add this to give height
-                      height: DeviceUtils.getRemainingHeight(
-                          MediaQuery.of(context).size.height,
-                          true,
-                          isHorizontal,
-                          true,
-                          true),
-                      child: TabBarView(
-                        children: [
-                          SingleChildScrollView(
-                            child: _getFavouritesList(
-                              context,
-                              screenSize,
-                              model.itemsLessons,
-                              model.statusLessons,
-                              FavouriteType.Lesson,
-                            ),
-                          ),
-                          SingleChildScrollView(
-                            child: _getFavouritesList(
-                              context,
-                              screenSize,
-                              model.itemsKnowledgeBase,
-                              model.statusKnowledgeBase,
-                              FavouriteType.KnowledgeBase,
-                            ),
-                          ),
-                          SingleChildScrollView(
-                            child: _getFavouritesList(
-                              context,
-                              screenSize,
-                              model.itemsRecipes,
-                              model.statusRecipes,
-                              FavouriteType.Recipe,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-        SlideTransition(
-          position: _offsetAnimation,
-          child: selectedFavouriteType == FavouriteType.Lesson
-              ? CourseLesson(
-                  lessonId: selectedLesson.lessonId,
-                  closeLesson: _closeContent,
-                )
-              : RecipeDetails(
-                  recipe: selectedRecipe,
-                  closeRecipeDetails: _closeContent,
-                ),
-        ),
-      ],
+      ),
     );
   }
 }

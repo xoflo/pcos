@@ -3,22 +3,28 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
+import 'package:thepcosprotocol_app/screens/messages.dart';
 
-class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
+class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int currentIndex;
   final Function displayChat;
-  final Function(MessagesProvider) displayNotifications;
+  final Function closeMessages;
 
   HeaderAppBar({
     @required this.currentIndex,
     @required this.displayChat,
-    @required this.displayNotifications,
+    @required this.closeMessages,
   });
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
 
-  String getHeaderText(BuildContext context, int currentIndex) {
+  @override
+  _HeaderAppBarState createState() => _HeaderAppBarState();
+}
+
+class _HeaderAppBarState extends State<HeaderAppBar> {
+  String _getHeaderText(BuildContext context, int currentIndex) {
     switch (currentIndex) {
       case 1:
         return S.of(context).knowledgeBaseTitle;
@@ -31,12 +37,24 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
   }
 
+  void _openNotifications(final BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Messages(
+          closeMenuItem: widget.closeMessages,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    debugPrint("HEADER APP BAR RE_BUILD");
     return AppBar(
       centerTitle: true,
       title: Text(
-        getHeaderText(context, currentIndex),
+        _getHeaderText(context, widget.currentIndex),
         style: TextStyle(
           fontSize: 20.0,
           color: Colors.white,
@@ -50,18 +68,20 @@ class HeaderAppBar extends StatelessWidget implements PreferredSizeWidget {
             size: 26.0,
           ),
           onPressed: () {
-            displayChat();
+            widget.displayChat();
           },
         ),
-        Consumer<MessagesProvider>(
-          builder: (context, model, child) => GestureDetector(
-              onTap: () {
-                displayNotifications(model);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, right: 4.0),
-                child: MessagesBell(messagesCount: 2),
-              )),
+        GestureDetector(
+          onTap: () {
+            _openNotifications(context);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 28.0),
+            child: Consumer<MessagesProvider>(
+              builder: (context, model, child) =>
+                  MessagesBell(messagesCount: model.getUnreadCount()),
+            ),
+          ),
         ),
       ],
     );

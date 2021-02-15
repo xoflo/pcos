@@ -9,9 +9,11 @@ import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class VideoPlayerChewie extends StatefulWidget {
+  final Size screenSize;
+  final bool isHorizontal;
   final String videoUrl;
 
-  VideoPlayerChewie({this.videoUrl});
+  VideoPlayerChewie({this.screenSize, this.isHorizontal, this.videoUrl});
 
   @override
   _VideoPlayerChewieState createState() => _VideoPlayerChewieState();
@@ -29,18 +31,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
 
   @override
   void dispose() {
-    try {
-      _videoPlayerController.dispose();
-      _chewieController.dispose();
-    } catch (ex) {
-      //do nothing, just handle possible chewie dispose exception
-    }
-
-    final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-
-    if (isHorizontal) {
+    if (widget.isHorizontal) {
       //iPad
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
@@ -55,13 +46,14 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
       ]);
     }
 
-    super.dispose();
-  }
+    try {
+      _videoPlayerController.dispose();
+      _chewieController.dispose();
+    } catch (ex) {
+      //do nothing, just handle possible chewie dispose exception
+    }
 
-  bool _isHorizontal(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    return DeviceUtils.isHorizontalWideScreen(
-        screenSize.width, screenSize.height);
+    super.dispose();
   }
 
   Future<void> initializePlayer() async {
@@ -74,7 +66,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
       allowFullScreen: true,
       showControlsOnInitialize: true,
       allowPlaybackSpeedChanging: false,
-      deviceOrientationsAfterFullScreen: _isHorizontal(context)
+      deviceOrientationsAfterFullScreen: widget.isHorizontal
           ? [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]
           : [DeviceOrientation.portraitUp],
       materialProgressColors: ChewieProgressColors(
@@ -105,8 +97,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final double loadingHeight = ((screenSize.width - 20) / 16) * 9;
+    final double loadingHeight = ((widget.screenSize.width - 20) / 16) * 9;
 
     return Center(
       child: _chewieController != null &&

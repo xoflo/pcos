@@ -6,8 +6,12 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 class MessageDetails extends StatelessWidget {
   final Message message;
   final Function closeMessage;
+  final Function(Message) deleteMessage;
 
-  MessageDetails({@required this.message, @required this.closeMessage});
+  MessageDetails(
+      {@required this.message,
+      @required this.closeMessage,
+      @required this.deleteMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class MessageDetails extends StatelessWidget {
           child: MessageDetailsLayout(
             message: message,
             closeMessage: closeMessage,
+            deleteMessage: deleteMessage,
           ),
         ),
       ),

@@ -8,7 +8,7 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_item.dart';
 class RecipesList extends StatelessWidget {
   final Size screenSize;
   final List<Recipe> recipes;
-  final Function(Recipe) openRecipeDetails;
+  final Function(BuildContext, Recipe) openRecipeDetails;
 
   RecipesList({this.screenSize, this.recipes, this.openRecipeDetails});
 

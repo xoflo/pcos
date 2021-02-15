@@ -15,30 +15,10 @@ class RecipesLayout extends StatefulWidget {
   _RecipesLayoutState createState() => _RecipesLayoutState();
 }
 
-class _RecipesLayoutState extends State<RecipesLayout>
-    with SingleTickerProviderStateMixin {
-  Recipe _recipeDetails;
-  AnimationController _animationController;
-  Animation<Offset> _offsetAnimation;
+class _RecipesLayoutState extends State<RecipesLayout> {
   final TextEditingController searchController = TextEditingController();
   bool isSearching = false;
   String tagSelectedValue = "All";
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _offsetAnimation =
-        Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-            .animate(_animationController);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
-  }
 
   List<String> getTagValues() {
     final stringContext = S.of(context);
@@ -56,22 +36,19 @@ class _RecipesLayoutState extends State<RecipesLayout>
     ];
   }
 
-  void openRecipeDetails(Recipe recipe) async {
-    setState(() {
-      _recipeDetails = recipe;
-    });
-    await Future.delayed(const Duration(milliseconds: 300), () {
-      _animationController.forward();
-    });
+  void openRecipeDetails(BuildContext context, Recipe recipe) async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => RecipeDetails(
+        recipe: recipe,
+        closeRecipeDetails: closeRecipeDetails,
+      ),
+    );
   }
 
-  void closeRecipeDetails() async {
-    _animationController.reverse();
-    await Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        _recipeDetails = null;
-      });
-    });
+  void closeRecipeDetails() {
+    Navigator.pop(context);
   }
 
   void onTagSelected(String tagValue) {
@@ -109,34 +86,24 @@ class _RecipesLayoutState extends State<RecipesLayout>
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Stack(
-      children: <Widget>[
-        Consumer<RecipesProvider>(
-          builder: (context, model, child) => Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Column(
-              children: [
-                SearchHeader(
-                  searchController: searchController,
-                  tagValues: getTagValues(),
-                  tagValue: tagSelectedValue,
-                  onTagSelected: onTagSelected,
-                  onSearchClicked: onSearchClicked,
-                  isSearching: isSearching,
-                ),
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Column(
+        children: [
+          SearchHeader(
+            searchController: searchController,
+            tagValues: getTagValues(),
+            tagValue: tagSelectedValue,
+            onTagSelected: onTagSelected,
+            onSearchClicked: onSearchClicked,
+            isSearching: isSearching,
+          ),
+          Consumer<RecipesProvider>(
+            builder: (context, model, child) =>
                 getRecipesList(screenSize, model),
-              ],
-            ),
           ),
-        ),
-        SlideTransition(
-          position: _offsetAnimation,
-          child: RecipeDetails(
-            recipe: _recipeDetails,
-            closeRecipeDetails: closeRecipeDetails,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -14,6 +14,10 @@ import 'package:thepcosprotocol_app/widgets/other/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class PCOSProtocolApp extends StatefulWidget {
+  //final ValueNotifier refreshMessages;
+
+  //PCOSProtocolApp({@required this.refreshMessages});
+
   @override
   _PCOSProtocolAppState createState() => _PCOSProtocolAppState();
 }
@@ -152,7 +156,10 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
       case AppState.NOT_SUPPORTED:
         return UnsupportedVersion();
       case AppState.APP:
-        return AppBody(updateAppState: updateAppState);
+        return AppBody(
+          updateAppState: updateAppState,
+          //refreshMessages: widget.refreshMessages,
+        );
       case AppState.SIGN_IN:
       case AppState.REGISTER:
       case AppState.PIN_SET:
@@ -162,5 +169,6 @@ class _PCOSProtocolAppState extends State<PCOSProtocolApp>
           body: getAuthenticationScreen(appState),
         );
     }
+    return Container();
   }
 }

@@ -12,28 +12,14 @@ class DashboardLayout extends StatefulWidget {
   _DashboardLayoutState createState() => _DashboardLayoutState();
 }
 
-class _DashboardLayoutState extends State<DashboardLayout>
-    with SingleTickerProviderStateMixin {
+class _DashboardLayoutState extends State<DashboardLayout> {
   String _refreshToken = "";
   String _backgroundTimestamp = "";
-  AnimationController _animationController;
-  Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
     super.initState();
     getRefreshToken();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _offsetAnimation =
-        Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-            .animate(_animationController);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
   }
 
   void getRefreshToken() async {
@@ -47,14 +33,19 @@ class _DashboardLayoutState extends State<DashboardLayout>
     });
   }
 
-  void _openLesson() async {
-    await Future.delayed(const Duration(milliseconds: 300), () {
-      _animationController.forward();
-    });
+  void openLesson() async {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => CourseLesson(
+        lessonId: 1,
+        closeLesson: closeLesson,
+      ),
+    );
   }
 
-  void _closeLesson() async {
-    _animationController.reverse();
+  void closeLesson() async {
+    Navigator.pop(context);
   }
 
   void _openHelp(
@@ -77,63 +68,50 @@ class _DashboardLayoutState extends State<DashboardLayout>
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
-    return Stack(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: SizedBox.expand(
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 4.0),
-                child: Column(
-                  children: [
-                    Text("RefreshToken=$_refreshToken"),
-                    Text("BackgroundTimestamp=$_backgroundTimestamp"),
-                    GestureDetector(
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizedBox.expand(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Column(
+              children: [
+                Text("RefreshToken=$_refreshToken"),
+                Text("BackgroundTimestamp=$_backgroundTimestamp"),
+                GestureDetector(
+                  onTap: () {
+                    openLesson();
+                  },
+                  child: Icon(
+                    Icons.play_arrow,
+                    color: secondaryColorLight,
+                    size: 30,
+                  ),
+                ),
+                Consumer<CourseQuestionProvider>(
+                  builder: (context, courseQuestionModel, child) =>
+                      Consumer<FAQProvider>(
+                    builder: (context, faqModel, child) => GestureDetector(
                       onTap: () {
-                        _openLesson();
+                        _openHelp(
+                          context,
+                          faqModel,
+                          courseQuestionModel,
+                        );
                       },
                       child: Icon(
-                        Icons.play_arrow,
+                        Icons.help,
                         color: secondaryColorLight,
-                        size: 30,
+                        size: 48,
                       ),
                     ),
-                    Consumer<CourseQuestionProvider>(
-                      builder: (context, courseQuestionModel, child) =>
-                          Consumer<FAQProvider>(
-                              builder: (context, faqModel, child) =>
-                                  GestureDetector(
-                                    onTap: () {
-                                      _openHelp(
-                                        context,
-                                        faqModel,
-                                        courseQuestionModel,
-                                      );
-                                    },
-                                    child: Icon(
-                                      Icons.help,
-                                      color: secondaryColorLight,
-                                      size: 48,
-                                    ),
-                                  )),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
-        SlideTransition(
-          position: _offsetAnimation,
-          child: CourseLesson(
-            lessonId: 1,
-            closeLesson: _closeLesson,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

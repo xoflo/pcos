@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
 import 'package:thepcosprotocol_app/models/response/list_response.dart';
 import 'package:thepcosprotocol_app/models/response/token_response.dart';
 import 'package:thepcosprotocol_app/models/response/recipe_response.dart';
 import 'package:thepcosprotocol_app/models/response/cms_response.dart';
 import 'package:thepcosprotocol_app/models/response/cms_multi_response.dart';
+import 'package:thepcosprotocol_app/models/response/message_response.dart';
 import 'package:thepcosprotocol_app/models/token.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
@@ -237,6 +239,49 @@ class WebServices {
       throw GET_CMSBYTYPE_FAILED;
     }
   }
+
+  //Notifications
+  Future<List<Message>> getAllUserNotifications() async {
+    final url = _baseUrl + "notification";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("*********STATUS=${response.statusCode}");
+    debugPrint("*********BODY=${response.body}");
+
+    if (response.statusCode == 200) {
+      return MessageResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw GET_MESSAGES_FAILED;
+    }
+  }
+
+  Future<bool> markNotificationAsRead(final int notificationId) async {
+    final url = _baseUrl + "notification/read/$notificationId";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("*********STATUS=${response.statusCode}");
+    debugPrint("*********BODY=${response.body}");
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw false;
+    }
+  }
+
+  //App
 
   Future<bool> checkVersion(final String platform, final String version) async {
     final url =

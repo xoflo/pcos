@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 class MessagesListItem extends StatelessWidget {
   final Message message;
   final double width;
-  final Function(Message) openMessageDetails;
+  final Function(BuildContext, Message) openMessageDetails;
 
   MessagesListItem(
       {@required this.message,
@@ -15,12 +15,14 @@ class MessagesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("**********MESSAGE = ${message.message} READ?${message.isRead}");
+
     return Container(
       width: width,
       height: 90.0,
       child: GestureDetector(
         onTap: () {
-          openMessageDetails(message);
+          openMessageDetails(context, message);
         },
         child: Card(
           child: Row(
@@ -70,7 +72,7 @@ class MessagesListItem extends StatelessWidget {
                     SizedBox(
                       width: width - 40,
                       child: Text(
-                        message.messageText,
+                        message.message,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

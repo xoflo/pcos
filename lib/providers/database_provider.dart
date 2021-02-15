@@ -51,10 +51,13 @@ class DatabaseProvider with ChangeNotifier {
             ")");
         await db.execute("CREATE TABLE Message ("
             "id INTEGER PRIMARY KEY,"
+            "notificationId INTEGER,"
             "title TEXT,"
-            "messageText TEXT,"
+            "message TEXT,"
             "isRead INTEGER,"
-            "action TEXT"
+            "action TEXT,"
+            "dateReadUTC TEXT,"
+            "dateCreatedUTC TEXT"
             ")");
       },
       version: 1,
@@ -86,5 +89,17 @@ class DatabaseProvider with ChangeNotifier {
 
   Future<void> deleteAll(final String table) async {
     db.delete(table);
+  }
+
+  Future<void> updateQuery({
+    final String table,
+    final String setFields,
+    final String whereClause,
+    final int limitRowCount,
+  }) async {
+    String updateStatement = "UPDATE $table SET $setFields WHERE $whereClause";
+    //if (limitRowCount > 0) updateStatement += " LIMIT $limitRowCount";
+    debugPrint("*******UPDATE STATEMENT = $updateStatement");
+    await db.rawQuery(updateStatement);
   }
 }

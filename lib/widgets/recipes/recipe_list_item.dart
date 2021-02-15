@@ -5,18 +5,17 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class RecipeListItem extends StatelessWidget {
   final Recipe recipe;
-  final Function(Recipe) openRecipeDetails;
+  final Function(BuildContext, Recipe) openRecipeDetails;
 
   RecipeListItem({this.recipe, this.openRecipeDetails});
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("thumbnail=${recipe.thumbnail}");
     return Container(
       height: 200.0,
       child: GestureDetector(
         onTap: () {
-          openRecipeDetails(recipe);
+          openRecipeDetails(context, recipe);
         },
         child: Card(
           child: Padding(
