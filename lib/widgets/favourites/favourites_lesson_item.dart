@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 class FavouritesLessonItem extends StatelessWidget {
   final Lesson lesson;
   final double width;
-  final Function(FavouriteType, int) removeFavourite;
+  final Function(FavouriteType, int, bool) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonItem({
@@ -32,7 +32,7 @@ class FavouritesLessonItem extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                removeFavourite(FavouriteType.Lesson, lesson.lessonId);
+                removeFavourite(FavouriteType.Lesson, lesson.lessonId, false);
               },
               child: Icon(
                 Icons.delete,

@@ -37,18 +37,28 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   void openRecipeDetails(BuildContext context, Recipe recipe) async {
+    debugPrint("RECIPEID=${recipe.recipeId}");
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => RecipeDetails(
         recipe: recipe,
         closeRecipeDetails: closeRecipeDetails,
+        addToFavourites: addToFavourites,
       ),
     );
   }
 
   void closeRecipeDetails() {
     Navigator.pop(context);
+  }
+
+  void addToFavourites(final dynamic recipe, final bool add) async {
+    debugPrint("*********ADD TO FAVE ADD=$add");
+    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
+    await recipeProvider.addToFavourites(recipe, add);
+    recipeProvider.filterAndSearch(
+        searchController.text.trim(), tagSelectedValue);
   }
 
   void onTagSelected(String tagValue) {

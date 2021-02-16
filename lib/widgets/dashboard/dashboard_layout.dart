@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
 import 'package:thepcosprotocol_app/screens/help.dart';
@@ -38,8 +39,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       context: context,
       isScrollControlled: true,
       builder: (context) => CourseLesson(
-        lessonId: 1,
+        lesson: Lesson(),
         closeLesson: closeLesson,
+        addToFavourites: addToFavourites,
       ),
     );
   }
@@ -47,6 +49,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void closeLesson() async {
     Navigator.pop(context);
   }
+
+  void addToFavourites(dynamic lesson, bool add) {}
 
   void _openHelp(
       BuildContext context, final faqProvider, final courseQuestionProvider) {

@@ -5,6 +5,7 @@ class CMS {
   final String body;
   final String tags;
   final int orderIndex;
+  final bool isFavorite;
 
   CMS({
     this.cmsId,
@@ -13,6 +14,7 @@ class CMS {
     this.body,
     this.tags,
     this.orderIndex,
+    this.isFavorite,
   });
 
   factory CMS.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class CMS {
       body: json['body'],
       tags: json['tags'],
       orderIndex: json['orderIndex'],
+      isFavorite: json['isFavorite'],
     );
   }
 }
@@ -36,6 +39,7 @@ class CMS {
   "tags": "",
   "orderIndex": 0,
   "isAuthenticated": false,
+  "isFavorite": false,
   "lastUpdatedUTC": "2021-01-18T22:35:13.183",
   "dateCreatedUTC": "2021-01-18T22:35:13.183"
 }

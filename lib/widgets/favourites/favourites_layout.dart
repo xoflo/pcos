@@ -82,8 +82,8 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     return Container();
   }
 
-  void _removeFavourite(FavouriteType favouriteType, int id) {
-    debugPrint("********REMOVE FAVE = $favouriteType $id");
+  void _removeFavourite(FavouriteType favouriteType, dynamic item, bool isAdd) {
+    debugPrint("********REMOVE FAVE = $favouriteType ${item.id}");
   }
 
   void _openFavourite(FavouriteType favouriteType, dynamic favourite) {
@@ -93,14 +93,16 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     if (favouriteType == FavouriteType.Lesson) {
       Lesson lesson = favourite;
       favouriteWidget = CourseLesson(
-        lessonId: lesson.lessonId,
+        lesson: lesson,
         closeLesson: closeFavourite,
+        addToFavourites: addLessonToFavourites,
       );
     } else {
       Recipe recipe = favourite;
       favouriteWidget = RecipeDetails(
         recipe: recipe,
         closeRecipeDetails: closeFavourite,
+        addToFavourites: addRecipeToFavourites,
       );
     }
 
@@ -113,6 +115,14 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
 
   void closeFavourite() {
     Navigator.pop(context);
+  }
+
+  void addLessonToFavourites(dynamic lesson, bool add) {
+    debugPrint("*********ADD TO FAVE");
+  }
+
+  void addRecipeToFavourites(dynamic recipe, bool add) {
+    debugPrint("*********ADD TO FAVE");
   }
 
   @override

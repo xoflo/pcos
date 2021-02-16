@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/shared/question_list_item.dart';
 
 class QuestionList extends StatefulWidget {
   final Size screenSize;
   final List<Question> questions;
   final bool showIcon;
   final IconData iconData;
-  final Function(FavouriteType, int) iconAction;
+  final IconData iconDataOn;
+  final Function(FavouriteType, Question, bool) iconAction;
 
   QuestionList({
     @required this.screenSize,
     @required this.questions,
     this.showIcon = false,
     this.iconData,
+    this.iconDataOn,
     this.iconAction,
   });
 
@@ -23,38 +26,6 @@ class QuestionList extends StatefulWidget {
 }
 
 class _QuestionListState extends State<QuestionList> {
-  ListTile getListTile(
-    final bool showIcon,
-    final String answerText,
-    final int itemId,
-  ) {
-    if (showIcon) {
-      return ListTile(
-        title: Text(
-          answerText,
-          style: TextStyle(color: textColor),
-        ),
-        trailing: GestureDetector(
-          onTap: () {
-            widget.iconAction(FavouriteType.KnowledgeBase, itemId);
-          },
-          child: Icon(
-            widget.iconData,
-            color: secondaryColorLight,
-            size: 24,
-          ),
-        ),
-      );
-    } else {
-      return ListTile(
-        title: Text(
-          answerText,
-          style: TextStyle(color: textColor),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
@@ -64,6 +35,7 @@ class _QuestionListState extends State<QuestionList> {
         });
       },
       children: widget.questions.map<ExpansionPanel>((Question item) {
+        debugPrint("ITEM FAVE=${item.isFavorite}");
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
@@ -73,7 +45,15 @@ class _QuestionListState extends State<QuestionList> {
               ),
             );
           },
-          body: getListTile(widget.showIcon, item.answer, item.id),
+          body: QuestionListItem(
+            showIcon: widget.showIcon,
+            answerText: item.answer,
+            item: item,
+            isFavorite: item.isFavorite,
+            iconData: widget.iconData,
+            iconDataOn: widget.iconDataOn,
+            iconAction: widget.iconAction,
+          ),
           isExpanded: item.isExpanded,
           canTapOnHeader: true,
         );

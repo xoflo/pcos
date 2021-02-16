@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -28,10 +30,12 @@ class ProviderHelper {
         //add items to database
         questions.forEach((Question question) async {
           await dbProvider.insert(tableName, {
+            'id': question.id,
             'reference': question.reference,
             'question': question.question,
             'answer': question.answer,
-            'tags': question.tags
+            'tags': question.tags,
+            'isFavorite': question.isFavorite,
           });
         });
 
@@ -59,6 +63,7 @@ class ProviderHelper {
         //add items to database
         recipes.forEach((Recipe recipe) async {
           await dbProvider.insert(tableName, {
+            'recipeId': recipe.recipeId,
             'title': recipe.title,
             'description': recipe.description,
             'thumbnail': recipe.thumbnail,
@@ -68,7 +73,8 @@ class ProviderHelper {
             'tags': recipe.tags,
             'difficulty': recipe.difficulty,
             'servings': recipe.servings,
-            'duration': recipe.duration
+            'duration': recipe.duration,
+            'isFavorite': recipe.isFavorite ? 1 : 0,
           });
         });
 
@@ -83,6 +89,7 @@ class ProviderHelper {
     return List<Recipe>();
   }
 
+  //TODO, store notificationId in ID field
   Future<List<Message>> fetchAndSaveMessages(
       final dbProvider, final bool refreshFromAPI) async {
     final String tableName = "Message";
@@ -97,7 +104,6 @@ class ProviderHelper {
         await dbProvider.deleteAll(tableName);
         //add items to database
         messages.forEach((Message message) async {
-          debugPrint("*************HELPER isREAD=${message.isRead}");
           await dbProvider.insert(tableName, {
             'notificationId': message.notificationId,
             'title': message.title,
@@ -159,6 +165,49 @@ class ProviderHelper {
     }
   }
 
+  Future<void> addToFavourites(
+    final bool isAdd,
+    final dbProvider,
+    final FavouriteType favouriteType,
+    final dynamic item,
+  ) async {
+    int updateId = 0;
+    String tableName = "";
+    String assetType = "";
+    String updateColumn = "";
+
+    switch (favouriteType) {
+      case FavouriteType.Recipe:
+        updateId = item.recipeId;
+        tableName = "Recipe";
+        assetType = "Recipe";
+        updateColumn = "recipeId";
+        break;
+      case FavouriteType.KnowledgeBase:
+        updateId = item.id;
+        tableName = "KnowledgeBase";
+        assetType = "CMS";
+        updateColumn = "id";
+        break;
+      case FavouriteType.Lesson:
+        break;
+      case FavouriteType.None:
+        break;
+    }
+    //update in API
+    WebServices().addToFavourites(assetType, updateId);
+    //update in sqlite
+    if (dbProvider.db != null) {
+      final int isFavorite = isAdd ? 1 : 0;
+      await dbProvider.updateQuery(
+        table: tableName,
+        setFields: "isFavorite = $isFavorite",
+        whereClause: "$updateColumn = $updateId",
+        limitRowCount: 1,
+      );
+    }
+  }
+
   Future<bool> _shouldGetDataFromAPI(
       final dbProvider, final String tableName) async {
     final int rowCount = await dbProvider.getTableRowCount(tableName);
@@ -194,11 +243,13 @@ class ProviderHelper {
     }
     return dataList
         .map<Question>((item) => Question(
-            id: item['id'],
-            reference: item['reference'],
-            question: item['question'],
-            answer: item['answer'],
-            tags: item['tags']))
+              id: item['id'],
+              reference: item['reference'],
+              question: item['question'],
+              answer: item['answer'],
+              tags: item['tags'],
+              isFavorite: item['isFavorite'] == 1 ? true : false,
+            ))
         .toList();
   }
 
@@ -216,10 +267,12 @@ class ProviderHelper {
       final answer = cmsItems[i + 1];
 
       Question newQuestion = Question(
+        id: question.cmsId,
         reference: question.reference,
         question: question.body,
         answer: answer.body,
         tags: question.tags,
+        isFavorite: question.isFavorite,
       );
 
       questionList.add(newQuestion);

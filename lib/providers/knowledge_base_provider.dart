@@ -3,6 +3,7 @@ import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class KnowledgeBaseProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
@@ -39,5 +40,12 @@ class KnowledgeBaseProvider with ChangeNotifier {
     }
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
     notifyListeners();
+  }
+
+  Future<void> addToFavourites(final dynamic question, final bool add) async {
+    if (dbProvider.db != null) {
+      await ProviderHelper().addToFavourites(
+          add, dbProvider, FavouriteType.KnowledgeBase, question);
+    }
   }
 }

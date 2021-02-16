@@ -36,6 +36,7 @@ class RecipeResponse {
         "difficulty": 0,
         "servings": 1,
         "duration": 120000000,
+        "isFavorite":false,
         "lastUpdatedUTC": "2020-11-17T04:14:36.3",
         "dateCreatedUTC": "2020-09-30T21:26:16.477"
       }

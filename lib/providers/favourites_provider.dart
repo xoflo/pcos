@@ -53,7 +53,7 @@ class FavouritesProvider with ChangeNotifier {
       tags: "Diet",
     );
     final Recipe fave3 = Recipe(
-      id: 1,
+      recipeId: 1,
       title: "This is a recipe",
       description: "This is a tasty recipe",
       thumbnail: "images/4_Ingredient_Protein_Pancakes.jpg",

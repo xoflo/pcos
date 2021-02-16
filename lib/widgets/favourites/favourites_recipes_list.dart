@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/widgets/favourites/favourites_recipe_item.da
 class FavouritesRecipesList extends StatelessWidget {
   final List<Recipe> recipes;
   final double width;
-  final Function(FavouriteType, int) removeFavourite;
+  final Function(FavouriteType, int, bool) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesRecipesList({

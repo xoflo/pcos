@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -38,5 +39,12 @@ class RecipesProvider with ChangeNotifier {
     }
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
     notifyListeners();
+  }
+
+  Future<void> addToFavourites(final dynamic recipe, final bool add) async {
+    if (dbProvider.db != null) {
+      await ProviderHelper()
+          .addToFavourites(add, dbProvider, FavouriteType.Recipe, recipe);
+    }
   }
 }
