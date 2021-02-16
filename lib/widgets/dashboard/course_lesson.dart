@@ -37,6 +37,7 @@ class CourseLesson extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               DialogHeader(
+                screenSize: screenSize,
                 item: lesson,
                 favouriteType: FavouriteType.Lesson,
                 title: "Breakfast",

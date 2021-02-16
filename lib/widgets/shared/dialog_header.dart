@@ -3,6 +3,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class DialogHeader extends StatefulWidget {
+  final Size screenSize;
   final dynamic item;
   final FavouriteType favouriteType;
   final String title;
@@ -11,6 +12,7 @@ class DialogHeader extends StatefulWidget {
   final Function(dynamic, bool) addToFavourites;
 
   DialogHeader({
+    @required this.screenSize,
     @required this.item,
     @required this.favouriteType,
     @required this.title,
@@ -59,9 +61,17 @@ class _DialogHeaderState extends State<DialogHeader> {
                     size: 35,
                   ),
                 ),
-          Text(
-            widget.title,
-            style: Theme.of(context).textTheme.headline6,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Container(
+              width: widget.screenSize.width - 108,
+              child: Text(
+                widget.title,
+                style: Theme.of(context).textTheme.headline6,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
           GestureDetector(
             onTap: () {

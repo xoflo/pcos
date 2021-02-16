@@ -131,6 +131,7 @@ class RecipeDetails extends StatelessWidget {
           child: Column(
             children: <Widget>[
               DialogHeader(
+                screenSize: screenSize,
                 item: recipe,
                 favouriteType: FavouriteType.Recipe,
                 title: recipe.title,
