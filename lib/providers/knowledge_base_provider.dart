@@ -15,6 +15,7 @@ class KnowledgeBaseProvider with ChangeNotifier {
   List<Question> _items = [];
   LoadingStatus status = LoadingStatus.empty;
   List<Question> get items => [..._items];
+  List<Question> get favourites => [..._items];
 
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;

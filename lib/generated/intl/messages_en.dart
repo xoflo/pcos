@@ -49,6 +49,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailLinkTitle" : MessageLookupByLibrary.simpleMessage("Email Link"),
     "enterMessageText" : MessageLookupByLibrary.simpleMessage("Enter your message"),
     "exitAppText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to close the App?"),
+    "favouriteRemoveText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to remove this favourite?"),
+    "favouriteRemoveTitle" : MessageLookupByLibrary.simpleMessage("Remove favourite"),
     "favouritesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "frequentlyAskedQuestions" : MessageLookupByLibrary.simpleMessage("FAQs"),
     "gettingStarted" : MessageLookupByLibrary.simpleMessage("Getting started"),
