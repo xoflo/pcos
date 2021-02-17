@@ -35,6 +35,7 @@ class _QuestionListState extends State<QuestionList> {
         });
       },
       children: widget.questions.map<ExpansionPanel>((Question item) {
+        debugPrint("SHOW LOOP ICON=${widget.showIcon}");
         debugPrint("ITEM FAVE=${item.isFavorite}");
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {

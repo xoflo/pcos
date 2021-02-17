@@ -45,7 +45,7 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
     final kbProvider =
         Provider.of<KnowledgeBaseProvider>(context, listen: false);
     await kbProvider.addToFavourites(question, add);
-    //kbProvider.filterAndSearch(searchController.text.trim(), tagSelectedValue);
+    await kbProvider.refreshFavourites(true, true);
   }
 
   Widget getKBList(

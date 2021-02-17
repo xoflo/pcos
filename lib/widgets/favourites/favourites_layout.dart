@@ -70,6 +70,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
           questions: favourites,
           showIcon: true,
           iconData: Icons.delete,
+          iconDataOn: Icons.delete,
           iconAction: _removeFavourite,
         );
       case FavouriteType.Recipe:
@@ -110,6 +111,10 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
         recipeProvider.fetchAndSaveData();
         break;
       case FavouriteType.KnowledgeBase:
+        final kbProvider =
+            Provider.of<KnowledgeBaseProvider>(context, listen: false);
+        await kbProvider.addToFavourites(item, false);
+        kbProvider.fetchAndSaveData();
         break;
       case FavouriteType.Lesson:
         break;

@@ -36,6 +36,7 @@ class _QuestionListItemState extends State<QuestionListItem> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("***********ITEM SHOW ICON=${widget.showIcon}");
     if (widget.showIcon) {
       return ListTile(
         title: Text(
