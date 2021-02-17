@@ -8,13 +8,15 @@ class FlavorValues {
     @required this.baseUrl,
     @required this.oneSignalAppID,
     @required this.questionnaireUrl,
-    @required this.blobStorageUrl,
+    @required this.imageStorageUrl,
+    @required this.videoStorageUrl,
     @required this.intercomIds,
   });
   final String baseUrl;
   final String oneSignalAppID;
   final String questionnaireUrl;
-  final String blobStorageUrl;
+  final String imageStorageUrl;
+  final String videoStorageUrl;
   final List<String> intercomIds;
   //Add other flavor specific values, e.g database name
 }

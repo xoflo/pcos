@@ -13,7 +13,9 @@ void main() {
       oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
       questionnaireUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
-      blobStorageUrl:
+      imageStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/c_scale,q_auto:good,w_500/",
+      videoStorageUrl:
           "https://pcosprotocolstorage.blob.core.windows.net/media/",
       intercomIds: [
         "xsb9gkoh",

@@ -29,7 +29,7 @@ class RecipeListItem extends StatelessWidget {
                   child: FadeInImage.memoryNetwork(
                     alignment: Alignment.center,
                     placeholder: kTransparentImage,
-                    image: FlavorConfig.instance.values.blobStorageUrl +
+                    image: FlavorConfig.instance.values.imageStorageUrl +
                         recipe.thumbnail,
                     fit: BoxFit.fitWidth,
                     width: double.maxFinite,

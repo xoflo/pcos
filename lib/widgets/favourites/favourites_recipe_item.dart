@@ -8,7 +8,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 class FavouritesRecipeItem extends StatelessWidget {
   final Recipe recipe;
   final double width;
-  final Function(FavouriteType, int) removeFavourite;
+  final Function(FavouriteType, dynamic, bool) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesRecipeItem({
@@ -37,7 +37,7 @@ class FavouritesRecipeItem extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                removeFavourite(FavouriteType.Recipe, recipe.id);
+                removeFavourite(FavouriteType.Recipe, recipe, false);
               },
               child: Icon(
                 Icons.delete,
@@ -62,7 +62,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                   child: FadeInImage.memoryNetwork(
                     alignment: Alignment.center,
                     placeholder: kTransparentImage,
-                    image: FlavorConfig.instance.values.blobStorageUrl +
+                    image: FlavorConfig.instance.values.imageStorageUrl +
                         recipe.thumbnail,
                     fit: BoxFit.fitWidth,
                     width: double.maxFinite,

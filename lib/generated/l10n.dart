@@ -1494,6 +1494,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Remove favourite`
+  String get favouriteRemoveTitle {
+    return Intl.message(
+      'Remove favourite',
+      name: 'favouriteRemoveTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove this favourite?`
+  String get favouriteRemoveText {
+    return Intl.message(
+      'Are you sure you want to remove this favourite?',
+      name: 'favouriteRemoveText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -194,6 +194,7 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
+      debugPrint("**************RECIPES=${response.body}");
       return RecipeResponse.fromJson(
               StandardResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -232,6 +233,9 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
+      //if (cmsType == "CourseQuestion") {
+      debugPrint("********CMS BY ASSETTYPE=${response.body}");
+      //}
       return CMSMultiResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -267,6 +271,56 @@ class WebServices {
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("*********STATUS=${response.statusCode}");
+    debugPrint("*********BODY=${response.body}");
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw false;
+    }
+  }
+
+  //FAVOURITES
+
+  Future<bool> addToFavourites(
+      final String assetType, final int assetId) async {
+    final url = _baseUrl + "Favorite";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        <String, String>{'assetType': assetType, 'assetId': assetId.toString()},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final standardResponse =
+          StandardResponse.fromJson(jsonDecode(response.body));
+      if (standardResponse.status.toLowerCase() == "fail") {
+        throw ADD_TO_FAVOURITE_FAILED;
+      }
+      return true;
+    } else {
+      throw ADD_TO_FAVOURITE_FAILED;
+    }
+  }
+
+  Future<bool> removeFromFavourites(
+      final String assetType, final int assetId) async {
+    final url = _baseUrl + "Favorite/$assetType/$assetId";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.delete(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',

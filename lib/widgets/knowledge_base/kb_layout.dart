@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
@@ -38,8 +39,13 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
         searchController.text.trim(), tagSelectedValue);
   }
 
-  void addFavourite(FavouriteType favouriteType, int id) {
-    debugPrint("********ADD FAVE = $favouriteType $id");
+  void addFavourite(final FavouriteType favouriteType, final Question question,
+      final bool add) async {
+    debugPrint("*********ADD TO FAVE ADD=$add");
+    final kbProvider =
+        Provider.of<KnowledgeBaseProvider>(context, listen: false);
+    await kbProvider.addToFavourites(question, add);
+    await kbProvider.refreshFavourites(true, true);
   }
 
   Widget getKBList(
@@ -60,6 +66,7 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
             questions: kbProvider.items,
             showIcon: true,
             iconData: Icons.favorite_outline,
+            iconDataOn: Icons.favorite,
             iconAction: addFavourite,
           ),
         );

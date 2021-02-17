@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
 import 'package:thepcosprotocol_app/screens/help.dart';
@@ -13,24 +14,9 @@ class DashboardLayout extends StatefulWidget {
 }
 
 class _DashboardLayoutState extends State<DashboardLayout> {
-  String _refreshToken = "";
-  String _backgroundTimestamp = "";
-
   @override
   void initState() {
     super.initState();
-    getRefreshToken();
-  }
-
-  void getRefreshToken() async {
-    final String token = await AuthenticationController().getRefreshToken();
-    final int timeStamp =
-        await AuthenticationController().getBackgroundedTimestamp();
-
-    setState(() {
-      _refreshToken = token;
-      _backgroundTimestamp = timeStamp.toString();
-    });
   }
 
   void openLesson() async {
@@ -38,8 +24,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       context: context,
       isScrollControlled: true,
       builder: (context) => CourseLesson(
-        lessonId: 1,
+        lesson: Lesson(),
         closeLesson: closeLesson,
+        addToFavourites: addToFavourites,
       ),
     );
   }
@@ -47,6 +34,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void closeLesson() async {
     Navigator.pop(context);
   }
+
+  void addToFavourites(dynamic lesson, bool add) {}
 
   void _openHelp(
       BuildContext context, final faqProvider, final courseQuestionProvider) {
@@ -73,36 +62,47 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       child: SizedBox.expand(
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
+            padding: const EdgeInsets.only(bottom: 16.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("RefreshToken=$_refreshToken"),
-                Text("BackgroundTimestamp=$_backgroundTimestamp"),
-                GestureDetector(
-                  onTap: () {
-                    openLesson();
-                  },
-                  child: Icon(
-                    Icons.play_arrow,
-                    color: secondaryColorLight,
-                    size: 30,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Watch your latest lesson now."),
+                    GestureDetector(
+                      onTap: () {
+                        openLesson();
+                      },
+                      child: Icon(
+                        Icons.play_arrow,
+                        color: secondaryColorLight,
+                        size: 48,
+                      ),
+                    ),
+                  ],
                 ),
                 Consumer<CourseQuestionProvider>(
                   builder: (context, courseQuestionModel, child) =>
                       Consumer<FAQProvider>(
-                    builder: (context, faqModel, child) => GestureDetector(
-                      onTap: () {
-                        _openHelp(
-                          context,
-                          faqModel,
-                          courseQuestionModel,
-                        );
-                      },
-                      child: Icon(
-                        Icons.help,
-                        color: secondaryColorLight,
-                        size: 48,
+                    builder: (context, faqModel, child) => Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            _openHelp(
+                              context,
+                              faqModel,
+                              courseQuestionModel,
+                            );
+                          },
+                          child: Icon(
+                            Icons.help,
+                            color: secondaryColorLight,
+                            size: 48,
+                          ),
+                        ),
                       ),
                     ),
                   ),

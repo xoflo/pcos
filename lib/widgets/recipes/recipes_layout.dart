@@ -37,18 +37,28 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   void openRecipeDetails(BuildContext context, Recipe recipe) async {
+    //removeFocus();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => RecipeDetails(
         recipe: recipe,
         closeRecipeDetails: closeRecipeDetails,
+        addToFavourites: addToFavourites,
       ),
     );
   }
 
   void closeRecipeDetails() {
     Navigator.pop(context);
+  }
+
+  void addToFavourites(final dynamic recipe, final bool add) async {
+    debugPrint("*********ADD TO FAVE ADD=$add");
+    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
+    await recipeProvider.addToFavourites(recipe, add);
+    recipeProvider.filterAndSearch(
+        searchController.text.trim(), tagSelectedValue);
   }
 
   void onTagSelected(String tagValue) {
@@ -61,6 +71,16 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     recipeProvider.filterAndSearch(
         searchController.text.trim(), tagSelectedValue);
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+    //removeFocus();
+  }
+
+  void removeFocus() {
+    //remove focus from the searchInput
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
   }
 
   Widget getRecipesList(

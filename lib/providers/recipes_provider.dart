@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -12,8 +13,10 @@ class RecipesProvider with ChangeNotifier {
   }
   final String tableName = "Recipe";
   List<Recipe> _items = [];
+  List<Recipe> _favourites = [];
   LoadingStatus status = LoadingStatus.empty;
   List<Recipe> get items => [..._items];
+  List<Recipe> get favourites => [..._favourites];
 
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;
@@ -22,6 +25,7 @@ class RecipesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       _items = await ProviderHelper().fetchAndSaveRecipes(dbProvider);
+      await _refreshFavourites();
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
@@ -35,8 +39,25 @@ class RecipesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       _items = await ProviderHelper()
           .filterAndSearch(dbProvider, tableName, searchText, tag);
+      await _refreshFavourites();
     }
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
     notifyListeners();
+  }
+
+  Future<void> _refreshFavourites() async {
+    _favourites.clear();
+    for (Recipe recipe in _items) {
+      if (recipe.isFavorite) {
+        _favourites.add(recipe);
+      }
+    }
+  }
+
+  Future<void> addToFavourites(final dynamic recipe, final bool add) async {
+    if (dbProvider.db != null) {
+      await ProviderHelper()
+          .addToFavourites(add, dbProvider, FavouriteType.Recipe, recipe);
+    }
   }
 }

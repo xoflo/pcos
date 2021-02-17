@@ -2,22 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
-class DialogHeader extends StatelessWidget {
-  final int itemId;
+class DialogHeader extends StatefulWidget {
+  final Size screenSize;
+  final dynamic item;
   final FavouriteType favouriteType;
   final String title;
   final bool isFavourite;
   final Function closeItem;
+  final Function(dynamic, bool) addToFavourites;
 
-  DialogHeader(
-      {this.itemId,
-      this.favouriteType,
-      this.title,
-      this.isFavourite,
-      this.closeItem});
+  DialogHeader({
+    @required this.screenSize,
+    @required this.item,
+    @required this.favouriteType,
+    @required this.title,
+    @required this.isFavourite,
+    @required this.closeItem,
+    @required this.addToFavourites,
+  });
 
-  void _addToFavourites() {
-    debugPrint("Add to favourites - id=$itemId type=$favouriteType");
+  @override
+  _DialogHeaderState createState() => _DialogHeaderState();
+}
+
+class _DialogHeaderState extends State<DialogHeader> {
+  bool isFavouriteOnHeader = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isFavourite) {
+      isFavouriteOnHeader = true;
+    }
   }
 
   @override
@@ -27,25 +43,39 @@ class DialogHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          favouriteType == FavouriteType.None
+          widget.favouriteType == FavouriteType.None
               ? SizedBox(width: 35)
               : GestureDetector(
                   onTap: () {
-                    _addToFavourites();
+                    final bool add = !isFavouriteOnHeader;
+                    setState(() {
+                      isFavouriteOnHeader = add;
+                    });
+                    widget.addToFavourites(widget.item, add);
                   },
                   child: Icon(
-                    isFavourite ? Icons.favorite : Icons.favorite_outline,
-                    color: primaryColorDark,
+                    isFavouriteOnHeader
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                    color: secondaryColorLight,
                     size: 35,
                   ),
                 ),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headline6,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Container(
+              width: widget.screenSize.width - 108,
+              child: Text(
+                widget.title,
+                style: Theme.of(context).textTheme.headline6,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
           GestureDetector(
             onTap: () {
-              closeItem();
+              widget.closeItem();
             },
             child: SizedBox(
               width: 35,
