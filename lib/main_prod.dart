@@ -13,7 +13,7 @@ void main() {
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl: "https://www.thepcosnutritionist.com/",
       imageStorageUrl:
-      "https://res.cloudinary.com/dpjz8zhvy/image/upload/c_scale,q_auto:good,w_500/",
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/c_scale,q_auto:good,w_500/",
       videoStorageUrl:
           "https://pcosprotocolstorage.blob.core.windows.net/media/",
       intercomIds: [
