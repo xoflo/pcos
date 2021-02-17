@@ -12,7 +12,8 @@ void main() {
       baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
       oneSignalAppID: "74c753f5-23cf-4819-b732-f4bc41f06c92",
       questionnaireUrl: "https://www.thepcosnutritionist.com/",
-      imageStorageUrl: "https://z-pcos-protocol-cdn-ae-pp.azureedge.net/media/",
+      imageStorageUrl:
+      "https://res.cloudinary.com/dpjz8zhvy/image/upload/c_scale,q_auto:good,w_500/",
       videoStorageUrl:
           "https://pcosprotocolstorage.blob.core.windows.net/media/",
       intercomIds: [

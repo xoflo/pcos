@@ -37,7 +37,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   void openRecipeDetails(BuildContext context, Recipe recipe) async {
-    debugPrint("RECIPEID=${recipe.recipeId}");
+    //removeFocus();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -71,6 +71,16 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     recipeProvider.filterAndSearch(
         searchController.text.trim(), tagSelectedValue);
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+    //removeFocus();
+  }
+
+  void removeFocus() {
+    //remove focus from the searchInput
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
   }
 
   Widget getRecipesList(

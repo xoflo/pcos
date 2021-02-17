@@ -69,7 +69,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Watch you latest lesson now."),
+                    Text("Watch your latest lesson now."),
                     GestureDetector(
                       onTap: () {
                         openLesson();
