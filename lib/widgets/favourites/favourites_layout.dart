@@ -127,7 +127,6 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
   void continueRemoveFavourite(BuildContext context) {}
 
   void _openFavourite(FavouriteType favouriteType, dynamic favourite) {
-    debugPrint("********OPEN FAVE = $favouriteType $favourite");
     Widget favouriteWidget;
 
     if (favouriteType == FavouriteType.Lesson) {
@@ -158,7 +157,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
   }
 
   void addLessonToFavourites(dynamic lesson, bool add) {
-    debugPrint("*********ADD TO FAVE");
+    debugPrint("*********ADD LESSON TO FAVE");
   }
 
   void addRecipeToFavourites(dynamic recipe, bool add) async {

@@ -7,7 +7,6 @@ class MessagesBell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("***************COUNT = $messagesCount");
     return Stack(
       children: [
         Padding(

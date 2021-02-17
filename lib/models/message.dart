@@ -19,7 +19,6 @@ class Message {
       this.dateCreatedUTC});
 
   factory Message.fromJson(Map<String, dynamic> json) {
-    debugPrint("*********************ISREAD JSON= ${json['isRead']}");
     return Message(
       notificationId: json['notificationId'],
       title: "This is the title",

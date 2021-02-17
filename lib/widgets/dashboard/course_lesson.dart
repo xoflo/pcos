@@ -55,7 +55,8 @@ class CourseLesson extends StatelessWidget {
                   screenSize: screenSize,
                   isHorizontal: isHorizontal,
                   videoUrl:
-                      "https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
+                      "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/lessons/ypdlccbrjnwe3hp812rl.mp4",
+                  //"https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
                   //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Changing_your_breakfast.mp4",
                   //"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
                   //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Lunch__and_Dinner.mp4",

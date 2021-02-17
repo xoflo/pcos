@@ -50,7 +50,6 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("HEADER APP BAR RE_BUILD");
     return AppBar(
       centerTitle: true,
       title: Text(

@@ -37,6 +37,8 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   void openRecipeDetails(BuildContext context, Recipe recipe) async {
+    //remove the focus from the searchbox if necessary, to hide the keyboard
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     //removeFocus();
     showModalBottomSheet(
       context: context,
@@ -54,7 +56,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   void addToFavourites(final dynamic recipe, final bool add) async {
-    debugPrint("*********ADD TO FAVE ADD=$add");
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     await recipeProvider.addToFavourites(recipe, add);
     recipeProvider.filterAndSearch(

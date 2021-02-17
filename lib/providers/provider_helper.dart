@@ -44,7 +44,7 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint("*********GET DATA FROM DB");
+      debugPrint("*********GET DATA FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
     return List<Question>();
@@ -83,7 +83,7 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint("*********GET RECIPES FROM DB");
+      debugPrint("*********GET RECIPES FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
     return List<Recipe>();
@@ -120,7 +120,7 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint("*********GET MESSAGES FROM DB");
+      debugPrint("*********GET MESSAGES FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
     return List<Message>();
@@ -218,7 +218,7 @@ class ProviderHelper {
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     final int savedTimestamp = await getTimestamp(tableName);
     final int cacheSeconds = tableName == "Message" ? 300 : 3600;
-    debugPrint("**************TABLENAME=$tableName");
+
     //we have data, so check if the data is older than an hour (3,600,000 milliseconds)
     if (savedTimestamp != null &&
         currentTimestamp - savedTimestamp > (cacheSeconds * 1000)) {

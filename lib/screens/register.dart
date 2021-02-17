@@ -46,9 +46,7 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  void emailQuestionnaireWebsiteLink() {
-    debugPrint("email link to ${emailController.text}");
-  }
+  void emailQuestionnaireWebsiteLink() {}
 
   void navigateToSignIn() {
     widget.updateAppState(AppState.SIGN_IN);

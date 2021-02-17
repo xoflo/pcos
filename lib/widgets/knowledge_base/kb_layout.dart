@@ -41,7 +41,6 @@ class _KnowledgeBaseLayoutState extends State<KnowledgeBaseLayout> {
 
   void addFavourite(final FavouriteType favouriteType, final Question question,
       final bool add) async {
-    debugPrint("*********ADD TO FAVE ADD=$add");
     final kbProvider =
         Provider.of<KnowledgeBaseProvider>(context, listen: false);
     await kbProvider.addToFavourites(question, add);
