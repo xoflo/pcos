@@ -194,7 +194,6 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
-      debugPrint("**************RECIPES=${response.body}");
       return RecipeResponse.fromJson(
               StandardResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -233,9 +232,6 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
-      //if (cmsType == "CourseQuestion") {
-      debugPrint("********CMS BY ASSETTYPE=${response.body}");
-      //}
       return CMSMultiResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -254,8 +250,6 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("*********STATUS=${response.statusCode}");
-    debugPrint("*********BODY=${response.body}");
 
     if (response.statusCode == 200) {
       return MessageResponse.fromList(
@@ -275,8 +269,6 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("*********STATUS=${response.statusCode}");
-    debugPrint("*********BODY=${response.body}");
 
     if (response.statusCode == 200) {
       return true;
@@ -325,8 +317,6 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("*********STATUS=${response.statusCode}");
-    debugPrint("*********BODY=${response.body}");
 
     if (response.statusCode == 200) {
       return true;

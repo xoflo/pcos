@@ -50,7 +50,7 @@ class MessagesLayout extends StatelessWidget {
             Navigator.pop(context);
           },
           deleteMessage: (Message message) {
-            debugPrint("DELETE");
+            debugPrint("DELETE THE MESSAGE");
           },
         ),
       ),

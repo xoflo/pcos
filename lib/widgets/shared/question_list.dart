@@ -30,13 +30,13 @@ class _QuestionListState extends State<QuestionList> {
   Widget build(BuildContext context) {
     return ExpansionPanelList(
       expansionCallback: (int index, bool isExpanded) {
+        //remove the focus from the searchbox if necessary, to hide the keyboard
+        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
         setState(() {
           widget.questions[index].isExpanded = !isExpanded;
         });
       },
       children: widget.questions.map<ExpansionPanel>((Question item) {
-        debugPrint("SHOW LOOP ICON=${widget.showIcon}");
-        debugPrint("ITEM FAVE=${item.isFavorite}");
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(

@@ -39,7 +39,6 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
         email = await AuthenticationController().getEmail();
         final bool checkPassword =
             await AuthenticationController().signIn(email, oldPassword);
-        debugPrint("email=$email checkPwd=$checkPassword");
       } catch (ex) {
         if (ex == SIGN_IN_CREDENTIALS) {
           //password must have been wrong
@@ -63,7 +62,6 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
       try {
         final bool resetPassword =
             await WebServices().resetPassword(email, newPassword);
-        debugPrint("resetPwd=$resetPassword");
         if (resetPassword) {
           setState(() {
             isComplete = true;

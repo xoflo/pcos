@@ -59,7 +59,6 @@ class _AuthenticateState extends State<Authenticate> {
       }
     } catch (ex) {
       showErrorDialog = true;
-      debugPrint("ERROR=$ex");
       switch (ex) {
         case EMAIL_NOT_VERIFIED:
           errorMessage = S.of(context).signInEmailNotVerifiedErrorText;
