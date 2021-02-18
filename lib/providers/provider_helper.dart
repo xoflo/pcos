@@ -165,6 +165,21 @@ class ProviderHelper {
     }
   }
 
+  Future<void> markNotificationAsDeleted(
+      final dbProvider, final int notificationId) async {
+    final String tableName = "Message";
+    //update on server
+    WebServices().markNotificationAsDeleted(notificationId);
+    if (dbProvider.db != null) {
+      //update in sqlite
+      await dbProvider.deleteQuery(
+        table: tableName,
+        whereClause: "notificationId = $notificationId",
+        limitRowCount: 1,
+      );
+    }
+  }
+
   Future<void> addToFavourites(
     final bool isAdd,
     final dbProvider,
@@ -217,7 +232,7 @@ class ProviderHelper {
 
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     final int savedTimestamp = await getTimestamp(tableName);
-    final int cacheSeconds = tableName == "Message" ? 300 : 3600;
+    final int cacheSeconds = tableName == "Message" ? 3 : 3600;
 
     //we have data, so check if the data is older than an hour (3,600,000 milliseconds)
     if (savedTimestamp != null &&

@@ -277,6 +277,23 @@ class WebServices {
     }
   }
 
+  Future<bool> markNotificationAsDeleted(final int notificationId) async {
+    final url = _baseUrl + "notification/remove/$notificationId";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw false;
+    }
+  }
+
   //FAVOURITES
 
   Future<bool> addToFavourites(

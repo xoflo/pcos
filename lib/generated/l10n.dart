@@ -1514,6 +1514,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Delete message`
+  String get deleteMessageTitle {
+    return Intl.message(
+      'Delete message',
+      name: 'deleteMessageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this message?`
+  String get deleteMessageText {
+    return Intl.message(
+      'Are you sure you want to delete this message?',
+      name: 'deleteMessageText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

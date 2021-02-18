@@ -75,7 +75,7 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
             _openNotifications(context);
           },
           child: Padding(
-            padding: const EdgeInsets.only(top: 8.0, right: 28.0),
+            padding: const EdgeInsets.only(top: 8.0, right: 8.0),
             child: Consumer<MessagesProvider>(
               builder: (context, model, child) =>
                   MessagesBell(messagesCount: model.getUnreadCount()),

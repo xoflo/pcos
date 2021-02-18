@@ -88,40 +88,36 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
 
   void _removeFavourite(
       FavouriteType favouriteType, dynamic item, bool isAdd) async {
-    showAlertDialog(
-        context,
-        S.of(context).favouriteRemoveTitle,
-        S.of(context).favouriteRemoveText,
-        S.of(context).noText,
-        S.of(context).yesText,
-        () {},
-        isRemoveFavourite: true,
-        favouriteType: favouriteType,
-        item: item,
-        removeFavouriteConfirm: _removeFavouriteConfirmed);
-  }
-
-  void _removeFavouriteConfirmed(
-      FavouriteType favouriteType, dynamic item) async {
-    switch (favouriteType) {
-      case FavouriteType.Recipe:
-        final recipeProvider =
-            Provider.of<RecipesProvider>(context, listen: false);
-        await recipeProvider.addToFavourites(item, false);
-        recipeProvider.fetchAndSaveData();
-        break;
-      case FavouriteType.KnowledgeBase:
-        final kbProvider =
-            Provider.of<KnowledgeBaseProvider>(context, listen: false);
-        await kbProvider.addToFavourites(item, false);
-        kbProvider.fetchAndSaveData();
-        break;
-      case FavouriteType.Lesson:
-        break;
-      case FavouriteType.None:
-        break;
+    void removeFavouriteConfirmed(BuildContext context) async {
+      switch (favouriteType) {
+        case FavouriteType.Recipe:
+          final recipeProvider =
+              Provider.of<RecipesProvider>(context, listen: false);
+          await recipeProvider.addToFavourites(item, false);
+          recipeProvider.fetchAndSaveData();
+          break;
+        case FavouriteType.KnowledgeBase:
+          final kbProvider =
+              Provider.of<KnowledgeBaseProvider>(context, listen: false);
+          await kbProvider.addToFavourites(item, false);
+          kbProvider.fetchAndSaveData();
+          break;
+        case FavouriteType.Lesson:
+          break;
+        case FavouriteType.None:
+          break;
+      }
+      Navigator.of(context).pop();
     }
-    Navigator.of(context).pop();
+
+    showAlertDialog(
+      context,
+      S.of(context).favouriteRemoveTitle,
+      S.of(context).favouriteRemoveText,
+      S.of(context).noText,
+      S.of(context).yesText,
+      removeFavouriteConfirmed,
+    );
   }
 
   void continueRemoveFavourite(BuildContext context) {}
