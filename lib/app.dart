@@ -2,12 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
 import 'package:thepcosprotocol_app/screens/menu/profile.dart';
 import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
+import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
+import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
+import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
+import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
+import 'package:thepcosprotocol_app/screens/app_loading.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
@@ -16,17 +24,8 @@ import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
-import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
-import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
-import 'package:thepcosprotocol_app/constants/app_state.dart';
-import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
-import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
-import 'package:thepcosprotocol_app/screens/app_loading.dart';
 
 class App extends StatefulWidget {
   @override
@@ -38,27 +37,15 @@ class _AppState extends State<App> {
   bool appError = false;
   GlobalVars refreshMessages = GlobalVars();
 
-  AppState currentAppState = AppState.LOADING;
-  //ValueNotifier<AppState> appInitialised = ValueNotifier(AppState.LOADING);
-
   @override
   void initState() {
-    debugPrint("*********APP initState");
     super.initState();
     initializeApp();
-  }
-
-  @override
-  void dispose() {
-    debugPrint("*********APP dispose");
-    //uninitialise app?
-    super.dispose();
   }
 
   void initializeApp() async {
     initializeFlutterFire();
     initializeOneSignal();
-    debugPrint("************APP FINISHED INITIALISING");
   }
 
   //initialise Crashlytics for app
@@ -126,7 +113,6 @@ class _AppState extends State<App> {
     // NOTE: Replace with your own app ID from https://www.onesignal.com
     await OneSignal.shared.init(FlavorConfig.instance.values.oneSignalAppID,
         iOSSettings: settings);
-    debugPrint("*** OneSignal initialised");
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 

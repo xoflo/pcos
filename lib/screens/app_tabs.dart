@@ -10,7 +10,6 @@ import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
-import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/widgets/app_body/main_screens.dart';
 import 'package:thepcosprotocol_app/screens/menu/profile.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
-import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/sign_in_layout.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/register_layout.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';

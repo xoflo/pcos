@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'package:package_info/package_info.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 
 class DrawerMenu extends StatefulWidget {

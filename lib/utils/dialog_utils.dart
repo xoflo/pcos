@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 void showFlushBar(final BuildContext scaffoldContext, final String title,
     final String message,

@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/lesson_type.dart';
 
