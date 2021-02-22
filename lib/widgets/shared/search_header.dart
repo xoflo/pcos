@@ -10,6 +10,7 @@ class SearchHeader extends StatelessWidget {
   final Function(String) onTagSelected;
   final Function onSearchClicked;
   final bool isSearching;
+  final int widthAdjustment;
 
   SearchHeader({
     @required this.searchController,
@@ -18,6 +19,7 @@ class SearchHeader extends StatelessWidget {
     @required this.onTagSelected,
     @required this.onSearchClicked,
     @required this.isSearching,
+    @required this.widthAdjustment,
   });
 
   final _formKey = GlobalKey<FormState>();
@@ -39,7 +41,7 @@ class SearchHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: size.width - 28,
+                      width: size.width - (28 + widthAdjustment),
                       height: 40,
                       child: TextFormField(
                         controller: searchController,
