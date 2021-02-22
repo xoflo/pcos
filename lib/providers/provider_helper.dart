@@ -133,7 +133,7 @@ class ProviderHelper {
         String searchQuery = "";
         if (searchText.length > 0) {
           searchQuery = tableName == "Recipe"
-              ? " WHERE title LIKE '%$searchText%' OR description LIKE '%$searchText%'"
+              ? " WHERE (title LIKE '%$searchText%' OR description LIKE '%$searchText%')"
               : " WHERE question LIKE '%$searchText%'";
         }
         if (tag.length > 0 && tag != 'All') {
