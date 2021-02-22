@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 void showFlushBar(final BuildContext scaffoldContext, final String title,
     final String message,
@@ -46,12 +45,8 @@ showAlertDialog(
   final String message,
   final String cancelText,
   final String continueText,
-  final Function continueAction, {
-  final bool isRemoveFavourite = false,
-  final FavouriteType favouriteType = FavouriteType.None,
-  final dynamic item,
-  final Function(FavouriteType, dynamic) removeFavouriteConfirm,
-}) {
+  final Function continueAction,
+) {
   // set up the buttons
   Widget cancelButton = ColorButton(
     isUpdating: false,
@@ -70,19 +65,8 @@ showAlertDialog(
     },
   );
 
-  Widget confirmFavouriteButton = ColorButton(
-    isUpdating: false,
-    label: continueText,
-    onTap: () {
-      //log user out and clear credentials etc
-      removeFavouriteConfirm(favouriteType, item);
-    },
-  );
-
   List<Widget> actions = List<Widget>();
-  if (isRemoveFavourite) {
-    actions.add(confirmFavouriteButton);
-  } else if (continueText.length > 0) {
+  if (continueText.length > 0) {
     actions.add(continueButton);
   }
   actions.add(cancelButton);

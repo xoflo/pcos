@@ -106,4 +106,15 @@ class DatabaseProvider with ChangeNotifier {
     debugPrint("*******UPDATE STATEMENT = $updateStatement");
     await db.rawQuery(updateStatement);
   }
+
+  Future<void> deleteQuery({
+    final String table,
+    final String whereClause,
+    final int limitRowCount,
+  }) async {
+    String deleteStatement = "DELETE FROM $table WHERE $whereClause";
+    //if (limitRowCount > 0) deleteStatement += " LIMIT $limitRowCount";
+    debugPrint("*******DELETE STATEMENT = $deleteStatement");
+    await db.rawQuery(deleteStatement);
+  }
 }

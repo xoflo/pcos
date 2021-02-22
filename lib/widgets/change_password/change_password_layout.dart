@@ -9,12 +9,6 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 
 class ChangePasswordLayout extends StatefulWidget {
-  final Function closeMenuItem;
-
-  ChangePasswordLayout({
-    @required this.closeMenuItem,
-  });
-
   @override
   _ChangePasswordLayoutState createState() => _ChangePasswordLayoutState();
 }
@@ -79,7 +73,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
   }
 
   void _cancel() {
-    widget.closeMenuItem();
+    Navigator.pop(context);
   }
 
   void _displayMessage(
@@ -103,7 +97,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
             children: [
               Header(
                 title: S.of(context).changePasswordTitle,
-                closeItem: widget.closeMenuItem,
+                closeItem: _cancel,
               ),
               !isComplete
                   ? Padding(

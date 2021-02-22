@@ -1,15 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/pcos_protocol_app.dart';
-import 'package:thepcosprotocol_app/widgets/other/app_loading.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/screens/header/messages.dart';
+import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
+import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
+import 'package:thepcosprotocol_app/screens/menu/profile.dart';
+import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
+import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
+import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
+import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
+import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
+import 'package:thepcosprotocol_app/screens/app_loading.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
@@ -17,28 +24,35 @@ import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 
-class MyApp extends StatefulWidget {
+class App extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _AppState createState() => _AppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  // Crashlytics - set default `_initialized` and `_error` state to false
+class _AppState extends State<App> {
   final appTitle = "The PCOS Protocol";
-  bool appInitialized = false;
   bool appError = false;
   GlobalVars refreshMessages = GlobalVars();
 
+  @override
+  void initState() {
+    super.initState();
+    initializeApp();
+  }
+
+  void initializeApp() async {
+    initializeFlutterFire();
+    initializeOneSignal();
+  }
+
   //initialise Crashlytics for app
-  void initializeFlutterFire() async {
+  Future<void> initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and set `_initialized` state to true
       await Firebase.initializeApp();
-      setState(() {
-        appInitialized = true;
-      });
     } catch (e) {
       // Set `_error` state to true if Firebase initialization fails
       setState(() {
@@ -99,7 +113,6 @@ class _MyAppState extends State<MyApp> {
     // NOTE: Replace with your own app ID from https://www.onesignal.com
     await OneSignal.shared.init(FlavorConfig.instance.values.oneSignalAppID,
         iOSSettings: settings);
-    debugPrint("*** OneSignal initialised");
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
@@ -108,19 +121,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    initializeFlutterFire();
-    initializeOneSignal();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // Should we show error message if initialization failed or record issue somewhere?
-    //if (_error) {
-    //  return SomethingWentWrong();
-    //}
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DatabaseProvider()),
@@ -160,14 +161,20 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: S.delegate.supportedLocales,
         title: appTitle,
         theme: appThemeData(),
-        home: FlavorBanner(
-          child: appInitialized
-              ? PCOSProtocolApp()
-              : AppLoading(
-                  backgroundColor: backgroundColor,
-                  valueColor: primaryColorDark,
-                ),
-        ),
+        initialRoute: AppLoading.id,
+        routes: {
+          AppLoading.id: (context) => AppLoading(),
+          SignIn.id: (context) => SignIn(),
+          UnsupportedVersion.id: (context) => UnsupportedVersion(),
+          PinUnlock.id: (context) => PinUnlock(),
+          PinSet.id: (context) => PinSet(),
+          AppTabs.id: (context) => AppTabs(),
+          Profile.id: (context) => Profile(),
+          ChangePassword.id: (context) => ChangePassword(),
+          Privacy.id: (context) => Privacy(),
+          TermsAndConditions.id: (context) => TermsAndConditions(),
+          Messages.id: (context) => Messages(),
+        },
       ),
     );
   }

@@ -11,7 +11,6 @@ final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 class AuthenticationController {
   Future<bool> signIn(String emailOrUsername, String password) async {
     final token = await WebServices().signIn(emailOrUsername, password);
-
     if (token.accessToken.length > 0) {
       //save the username or email in secure storage so it can be used during change password process
       await secureStorage.write(

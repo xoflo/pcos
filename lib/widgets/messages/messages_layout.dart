@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/screens/message_details.dart';
+import 'package:thepcosprotocol_app/screens/header/message_details.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -10,17 +10,15 @@ import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/messages/messages_list.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 
 class MessagesLayout extends StatelessWidget {
-  final Function closeMenuItem;
-
-  MessagesLayout({this.closeMenuItem});
-
   Widget getMessagesList(
     final BuildContext context,
     final Size screenSize,
     final MessagesProvider messagesProvider,
   ) {
+    debugPrint("MESSAGES STATUS=${messagesProvider.status}");
     switch (messagesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -50,13 +48,34 @@ class MessagesLayout extends StatelessWidget {
             Navigator.pop(context);
           },
           deleteMessage: (Message message) {
-            debugPrint("DELETE THE MESSAGE");
+            //mark message isDeleted = true in backend and delete locally
+            deleteMessage(context, messagesProvider, message.notificationId);
           },
         ),
       ),
     );
     //mark message AsRead = true in backend and locally
     await messagesProvider.updateNotificationAsRead(message.notificationId);
+  }
+
+  void deleteMessage(final BuildContext context,
+      final MessagesProvider messagesProvider, final int notificationId) async {
+    debugPrint("********DELETE THE MESSAGE $notificationId");
+
+    void continueDeleteMessage(BuildContext context) async {
+      debugPrint("*****DO THE DELETE");
+      await messagesProvider.updateNotificationAsDeleted(notificationId);
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }
+
+    showAlertDialog(
+        context,
+        S.of(context).deleteMessageTitle,
+        S.of(context).deleteMessageText,
+        S.of(context).noText,
+        S.of(context).yesText,
+        continueDeleteMessage);
   }
 
   @override
@@ -73,7 +92,9 @@ class MessagesLayout extends StatelessWidget {
           children: [
             Header(
               title: S.of(context).messagesTitle,
-              closeItem: closeMenuItem,
+              closeItem: () {
+                Navigator.pop(context);
+              },
               showMessagesIcon: true,
               unreadCount: model.getUnreadCount(),
             ),

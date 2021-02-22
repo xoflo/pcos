@@ -1,4 +1,5 @@
 enum DrawerMenuItem {
+  LOCK,
   PROFILE,
   CHANGE_PASSWORD,
   PRIVACY,

@@ -10,10 +10,6 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 class ProfileLayout extends StatefulWidget {
-  final Function closeMenuItem;
-
-  ProfileLayout({this.closeMenuItem});
-
   @override
   _ProfileLayoutState createState() => _ProfileLayoutState();
 }
@@ -114,7 +110,9 @@ class _ProfileLayoutState extends State<ProfileLayout> {
         children: [
           Header(
             title: S.of(context).profileTitle,
-            closeItem: widget.closeMenuItem,
+            closeItem: () {
+              Navigator.pop(context);
+            },
           ),
           _memberDetails(screenSize, vm),
         ],

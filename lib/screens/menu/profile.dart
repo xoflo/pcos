@@ -5,9 +5,7 @@ import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_layout.dart';
 
 class Profile extends StatelessWidget {
-  final Function closeMenuItem;
-
-  Profile({this.closeMenuItem});
+  static const String id = "profile_screen";
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +18,7 @@ class Profile extends StatelessWidget {
           ),
           child: ChangeNotifierProvider(
             create: (context) => MemberViewModel(),
-            child: ProfileLayout(
-              closeMenuItem: closeMenuItem,
-            ),
+            child: ProfileLayout(),
           ),
         ),
       ),

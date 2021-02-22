@@ -165,6 +165,21 @@ class ProviderHelper {
     }
   }
 
+  Future<void> markNotificationAsDeleted(
+      final dbProvider, final int notificationId) async {
+    final String tableName = "Message";
+    //update on server
+    WebServices().markNotificationAsDeleted(notificationId);
+    if (dbProvider.db != null) {
+      //update in sqlite
+      await dbProvider.deleteQuery(
+        table: tableName,
+        whereClause: "notificationId = $notificationId",
+        limitRowCount: 1,
+      );
+    }
+  }
+
   Future<void> addToFavourites(
     final bool isAdd,
     final dbProvider,

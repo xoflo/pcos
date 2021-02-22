@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/pin_pad.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/pin_correct.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pin_pad.dart';
+import 'package:thepcosprotocol_app/widgets/pin_set/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 
 class PinSet extends StatefulWidget {
-  final Function(AppState) updateAppState;
-
-  PinSet({this.updateAppState});
+  static const String id = "pin_set_screen";
 
   @override
   _PinSetState createState() => _PinSetState();
@@ -128,7 +126,7 @@ class _PinSetState extends State<PinSet> {
 
     //Pin entry is complete now show the app
     await Future.delayed(Duration(seconds: openAppDelay), () {
-      widget.updateAppState(AppState.APP);
+      Navigator.pushReplacementNamed(context, AppTabs.id);
     });
   }
 
@@ -137,32 +135,35 @@ class _PinSetState extends State<PinSet> {
     final Size screenSize = MediaQuery.of(context).size;
     final double pinButtonSize =
         screenSize.width > 600 ? 100 : screenSize.width * .25;
-    return SafeArea(
-      child: _pinEntry == PinEntry.COMPLETE
-          ? PinCorrect(
-              message: S.of(context).pinSetSuccessfulTitle,
-              messageWhy: S.of(context).pinSetSuccessfulMessage,
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                HeaderImage(screenSize: screenSize),
-                SizedBox(height: 10.0),
-                PinPad(
-                  pinButtonSize: pinButtonSize,
-                  headerText: _pinEntry == PinEntry.NONE
-                      ? S.of(context).pinSetTitle
-                      : S.of(context).pinConfirmTitle,
-                  progress: _progress,
-                  currentPosition: _currentPosition,
-                  showForgottenPin: false,
-                  pinButtonPressed: (pinNumber) {
-                    pinButtonPressed(pinNumber);
-                  },
-                  resetPinPad: resetPinPad,
-                ),
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: primaryColorDark,
+      body: SafeArea(
+        child: _pinEntry == PinEntry.COMPLETE
+            ? PinCorrect(
+                message: S.of(context).pinSetSuccessfulTitle,
+                messageWhy: S.of(context).pinSetSuccessfulMessage,
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  HeaderImage(screenSize: screenSize),
+                  SizedBox(height: 10.0),
+                  PinPad(
+                    pinButtonSize: pinButtonSize,
+                    headerText: _pinEntry == PinEntry.NONE
+                        ? S.of(context).pinSetTitle
+                        : S.of(context).pinConfirmTitle,
+                    progress: _progress,
+                    currentPosition: _currentPosition,
+                    showForgottenPin: false,
+                    pinButtonPressed: (pinNumber) {
+                      pinButtonPressed(pinNumber);
+                    },
+                    resetPinPad: resetPinPad,
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

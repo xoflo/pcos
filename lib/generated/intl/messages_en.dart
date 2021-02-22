@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "companyTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Nutritionist"),
     "courseQuestions" : MessageLookupByLibrary.simpleMessage("Course questions"),
     "dashboardTitle" : MessageLookupByLibrary.simpleMessage("Dashboard"),
+    "deleteMessageText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to delete this message?"),
+    "deleteMessageTitle" : MessageLookupByLibrary.simpleMessage("Delete message"),
     "emailLabel" : MessageLookupByLibrary.simpleMessage("Email or Username"),
     "emailLinkText" : MessageLookupByLibrary.simpleMessage("Or we can send a link to your email so you can visit the website on another device."),
     "emailLinkTitle" : MessageLookupByLibrary.simpleMessage("Email Link"),

@@ -5,29 +5,34 @@ import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 
-class SignIn extends StatelessWidget {
+class SignInLayout extends StatefulWidget {
   final bool isSigningIn;
   final Function() authenticateUser;
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
-  final _formKey = GlobalKey<FormState>();
-
-  SignIn({
+  SignInLayout({
     this.isSigningIn,
     this.authenticateUser,
     this.emailController,
     this.passwordController,
   });
 
+  @override
+  _SignInLayoutState createState() => _SignInLayoutState();
+}
+
+class _SignInLayoutState extends State<SignInLayout> {
+  final _formKey = GlobalKey<FormState>();
+
   void attemptSignIn() async {
     if (_formKey.currentState.validate()) {
-      authenticateUser();
+      widget.authenticateUser();
     }
   }
 
   void forgottenPassword(BuildContext context) {
-    if (emailController.text.length == 0) {
+    if (widget.emailController.text.length == 0) {
       showAlertDialog(
           context,
           S.of(context).passwordForgottenTitle,
@@ -42,7 +47,7 @@ class SignIn extends StatelessWidget {
           S
               .of(context)
               .passwordForgottenMessage
-              .replaceAll("[emailAddress]", emailController.text),
+              .replaceAll("[emailAddress]", widget.emailController.text),
           S.of(context).passwordForgottenCancel,
           S.of(context).passwordForgottenContinue,
           continueForgottenPassword);
@@ -53,8 +58,8 @@ class SignIn extends StatelessWidget {
     Navigator.of(context).pop();
     //send email to user
     try {
-      final bool sendEmail =
-          await WebServices().forgotPassword(emailController.text.trim());
+      final bool sendEmail = await WebServices()
+          .forgotPassword(widget.emailController.text.trim());
 
       sendEmail
           ? S.of(context).passwordForgottenCompleteMessage
@@ -108,7 +113,7 @@ class SignIn extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    controller: emailController,
+                    controller: widget.emailController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: S.of(context).emailLabel,
@@ -124,7 +129,7 @@ class SignIn extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    controller: passwordController,
+                    controller: widget.passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -143,7 +148,7 @@ class SignIn extends StatelessWidget {
                     top: 8.0,
                   ),
                   child: ColorButton(
-                    isUpdating: isSigningIn,
+                    isUpdating: widget.isSigningIn,
                     label: S.of(context).signInTitle,
                     onTap: attemptSignIn,
                     width: 56,

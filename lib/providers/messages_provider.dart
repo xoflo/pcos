@@ -44,6 +44,14 @@ class MessagesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateNotificationAsDeleted(final int notificationId) async {
+    await ProviderHelper()
+        .markNotificationAsDeleted(dbProvider, notificationId);
+    _items = await ProviderHelper().getAllData(dbProvider, tableName);
+    status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    notifyListeners();
+  }
+
   int getUnreadCount() {
     if (_items.isEmpty) return 0;
 
