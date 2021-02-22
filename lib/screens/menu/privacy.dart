@@ -3,10 +3,8 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/policy/policy_layout.dart';
 
-class TermsAndConditions extends StatelessWidget {
-  final Function closeMenuItem;
-
-  TermsAndConditions({this.closeMenuItem});
+class Privacy extends StatelessWidget {
+  static const String id = "privacy_screen";
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +16,9 @@ class TermsAndConditions extends StatelessWidget {
             top: 12.0,
           ),
           child: PolicyLayout(
-            title: S.of(context).termsOfUseTitle,
-            cmsAssetName: "Terms",
+            title: S.of(context).privacyTitle,
+            cmsAssetName: "Privacy",
             tryAgainText: S.of(context).tryAgain,
-            closeMenuItem: closeMenuItem,
           ),
         ),
       ),

@@ -2,8 +2,8 @@ enum AppState {
   LOADING,
   APP,
   SIGN_IN,
-  REGISTER,
-  PIN_SET,
+  SET_PIN,
   LOCKED,
   NOT_SUPPORTED,
+  EXIT,
 }

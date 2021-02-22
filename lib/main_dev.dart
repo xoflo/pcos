@@ -29,7 +29,7 @@ void main() {
   runZonedGuarded(
     () {
       runApp(
-        MyApp(),
+        App(),
       );
     },
     (error, stackTrace) {

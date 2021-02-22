@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/screens/dashboard.dart';
-import 'package:thepcosprotocol_app/screens/knowledge_base.dart';
-import 'package:thepcosprotocol_app/screens/recipes.dart';
-import 'package:thepcosprotocol_app/screens/favourites.dart';
+import 'package:thepcosprotocol_app/tabs/dashboard.dart';
+import 'package:thepcosprotocol_app/tabs/knowledge_base.dart';
+import 'package:thepcosprotocol_app/tabs/recipes.dart';
+import 'package:thepcosprotocol_app/tabs/favourites.dart';
 
 class MainScreens extends StatelessWidget {
   final int currentIndex;

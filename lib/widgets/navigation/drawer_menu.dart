@@ -7,10 +7,9 @@ import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 
 class DrawerMenu extends StatefulWidget {
-  final Function(AppState) updateAppState;
   final Function(DrawerMenuItem) openDrawerMenuItem;
 
-  DrawerMenu({this.updateAppState, this.openDrawerMenuItem});
+  DrawerMenu({@required this.openDrawerMenuItem});
 
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
@@ -69,7 +68,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      widget.updateAppState(AppState.LOCKED);
+                      _drawerNavigation(context, DrawerMenuItem.LOCK);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,

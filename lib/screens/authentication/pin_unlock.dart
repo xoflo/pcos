@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
+import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/pin_pad.dart';
-import 'package:thepcosprotocol_app/widgets/authentication/pin_correct.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pin_pad.dart';
+import 'package:thepcosprotocol_app/widgets/pin_set/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -12,20 +16,55 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class PinUnlock extends StatefulWidget {
-  final Function(AppState) updateAppState;
-
-  PinUnlock({this.updateAppState});
+  static const String id = "pin_unlock_screen";
 
   @override
   PinUnlockState createState() => PinUnlockState();
 }
 
+//TODO: Pin unlock will need to decide whether the app is open underneath
 class PinUnlockState extends State<PinUnlock> {
   List<bool> _progress = [false, false, false, false];
   int _currentPosition = 0;
   String _pinEntered = "";
   PinEntry _pinEntry = PinEntry.NONE;
   int _pinAttempts = 0;
+
+  Future<bool> onBackPressed(BuildContext context) {
+    if (Platform.isIOS) return Future.value(false);
+
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text(S.of(context).areYouSureText,
+                style: TextStyle(fontSize: 20)),
+            content: new Text(S.of(context).exitAppText),
+            actions: <Widget>[
+              new GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.of(context).noText,
+                      style: TextStyle(fontSize: 24)),
+                ),
+              ),
+              SizedBox(height: 16),
+              new GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop(true);
+                  SystemNavigator.pop();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(S.of(context).yesText,
+                      style: TextStyle(fontSize: 24)),
+                ),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
 
   void pinButtonPressed(final String pinNumber) async {
     HapticFeedback.lightImpact();
@@ -86,7 +125,7 @@ class PinUnlockState extends State<PinUnlock> {
 
     if (refreshToken) {
       //token refreshed and Pin entry is complete now show the app
-      widget.updateAppState(AppState.APP);
+      openAppTabs();
     } else {
       //couldn't refresh token, so wait a few seconds and try again
       await Future.delayed(const Duration(seconds: 3), () {
@@ -100,7 +139,7 @@ class PinUnlockState extends State<PinUnlock> {
 
     if (refreshToken) {
       //token refreshed and Pin entry is complete now show the app
-      widget.updateAppState(AppState.APP);
+      openAppTabs();
     } else {
       //couldn't refresh token, so refresh token must have expired, so logout user
       sendToSignIn(true);
@@ -115,6 +154,15 @@ class PinUnlockState extends State<PinUnlock> {
         primaryColor: primaryColorDark);
 
     resetPinPad();
+  }
+
+  void openAppTabs() {
+    final PinUnlockArguments args = ModalRoute.of(context).settings.arguments;
+    if (args.isAppTabsOpen) {
+      Navigator.pop(context);
+    } else {
+      Navigator.pushReplacementNamed(context, AppTabs.id);
+    }
   }
 
   void sendToSignIn(final bool isRefreshTokenExpired) async {
@@ -135,11 +183,8 @@ class PinUnlockState extends State<PinUnlock> {
       displayDuration: 5,
     );
 
-    AuthenticationController().deletePin();
-    AuthenticationController().deleteCredentials();
-
     await Future.delayed(Duration(seconds: 6), () {
-      widget.updateAppState(AppState.SIGN_IN);
+      deleteCredentialsAndGotoSignIn();
     });
   }
 
@@ -163,41 +208,56 @@ class PinUnlockState extends State<PinUnlock> {
   }
 
   void continueForgottenPin(BuildContext context) {
-    AuthenticationController().deletePin();
-    AuthenticationController().deleteCredentials();
     Navigator.of(context).pop();
-    widget.updateAppState(AppState.SIGN_IN);
+    deleteCredentialsAndGotoSignIn();
   }
 
+  void deleteCredentialsAndGotoSignIn() {
+    AuthenticationController().deleteCredentials();
+    AuthenticationController().deletePin();
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(SignIn.id, (Route<dynamic> route) => false);
+  }
+
+  //TODO: move the Scaffold into a layout widget, and check Platform and only add WillPop for Android
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double pinButtonSize =
         screenSize.width > 600 ? 100 : screenSize.width * .23;
     final double headerPadding = screenSize.width > 600 ? 20.0 : 0.0;
-    return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(bottom: headerPadding),
-            child: HeaderImage(screenSize: screenSize),
+    return WillPopScope(
+      onWillPop: () {
+        debugPrint("*****LOCKED - BACK CLICKED");
+        //SystemNavigator.pop();
+        //return Future.value(false);
+        return onBackPressed(context);
+      },
+      child: Scaffold(
+        backgroundColor: primaryColorDark,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: headerPadding),
+                child: HeaderImage(screenSize: screenSize),
+              ),
+              PinPad(
+                pinButtonSize: pinButtonSize,
+                headerText: S.of(context).pinUnlockTitle,
+                progress: _progress,
+                currentPosition: _currentPosition,
+                showForgottenPin: true,
+                pinButtonPressed: (pinNumber) {
+                  pinButtonPressed(pinNumber);
+                },
+                resetPinPad: resetPinPad,
+                forgotPin: forgottenPin,
+              )
+            ],
           ),
-          _pinEntry != PinEntry.COMPLETE
-              ? PinPad(
-                  pinButtonSize: pinButtonSize,
-                  headerText: S.of(context).pinUnlockTitle,
-                  progress: _progress,
-                  currentPosition: _currentPosition,
-                  showForgottenPin: true,
-                  pinButtonPressed: (pinNumber) {
-                    pinButtonPressed(pinNumber);
-                  },
-                  resetPinPad: resetPinPad,
-                  forgotPin: forgottenPin,
-                )
-              : PinCorrect(message: S.of(context).pinEnteredSuccessfulTitle),
-        ],
+        ),
       ),
     );
   }

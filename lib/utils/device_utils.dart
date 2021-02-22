@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:device_info/device_info.dart';
+import 'package:package_info/package_info.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 
 enum BuildMode { DEBUG, PROFILE, RELEASE }
 
@@ -73,5 +75,14 @@ class DeviceUtils {
     }
 
     return height - adjustmentAmount;
+  }
+
+  static Future<bool> isVersionSupported() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final String version = packageInfo.version;
+    final String versionForChecker =
+        version.substring(0, version.lastIndexOf("."));
+    final String platformOS = Platform.isIOS ? "ios" : "android";
+    return await WebServices().checkVersion(platformOS, versionForChecker);
   }
 }

@@ -3,17 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
-import 'package:thepcosprotocol_app/screens/messages.dart';
+import 'package:thepcosprotocol_app/screens/header/messages.dart';
 
 class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int currentIndex;
   final Function displayChat;
-  final Function closeMessages;
 
   HeaderAppBar({
     @required this.currentIndex,
     @required this.displayChat,
-    @required this.closeMessages,
   });
 
   @override
@@ -38,14 +36,7 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
   }
 
   void _openNotifications(final BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Messages(
-          closeMenuItem: widget.closeMessages,
-        ),
-      ),
-    );
+    Navigator.pushNamed(context, Messages.id);
   }
 
   @override

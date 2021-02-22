@@ -6,6 +6,8 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class UnsupportedVersion extends StatelessWidget {
+  static const String id = "unsupported_version_screen";
+
   void _openDialog(BuildContext context) {
     showAlertDialog(
       context,

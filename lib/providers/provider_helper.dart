@@ -232,7 +232,7 @@ class ProviderHelper {
 
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     final int savedTimestamp = await getTimestamp(tableName);
-    final int cacheSeconds = tableName == "Message" ? 3 : 3600;
+    final int cacheSeconds = tableName == "Message" ? 300 : 3600;
 
     //we have data, so check if the data is older than an hour (3,600,000 milliseconds)
     if (savedTimestamp != null &&

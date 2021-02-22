@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -11,7 +12,6 @@ final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 class AuthenticationController {
   Future<bool> signIn(String emailOrUsername, String password) async {
     final token = await WebServices().signIn(emailOrUsername, password);
-
     if (token.accessToken.length > 0) {
       //save the username or email in secure storage so it can be used during change password process
       await secureStorage.write(

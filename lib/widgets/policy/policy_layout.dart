@@ -9,10 +9,8 @@ class PolicyLayout extends StatefulWidget {
   final String title;
   final String cmsAssetName;
   final String tryAgainText;
-  final Function closeMenuItem;
 
-  PolicyLayout(
-      {this.title, this.cmsAssetName, this.tryAgainText, this.closeMenuItem});
+  PolicyLayout({this.title, this.cmsAssetName, this.tryAgainText});
 
   @override
   _PolicyLayoutState createState() => _PolicyLayoutState();
@@ -51,7 +49,9 @@ class _PolicyLayoutState extends State<PolicyLayout> {
         children: [
           Header(
             title: widget.title,
-            closeItem: widget.closeMenuItem,
+            closeItem: () {
+              Navigator.pop(context);
+            },
           ),
           Container(
             height: DeviceUtils.getRemainingHeight(
