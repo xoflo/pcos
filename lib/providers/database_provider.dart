@@ -63,6 +63,10 @@ class DatabaseProvider with ChangeNotifier {
             "dateReadUTC TEXT,"
             "dateCreatedUTC TEXT"
             ")");
+        await db.execute("CREATE TABLE CMSText ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "cmsText TEXT"
+            ")");
       },
       version: 1,
     );

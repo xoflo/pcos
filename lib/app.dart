@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
@@ -150,6 +151,10 @@ class _AppState extends State<App> {
         ChangeNotifierProxyProvider<DatabaseProvider, MessagesProvider>(
           create: (context) => MessagesProvider(dbProvider: null),
           update: (context, db, previous) => MessagesProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, CMSTextProvider>(
+          create: (context) => CMSTextProvider(dbProvider: null),
+          update: (context, db, previous) => CMSTextProvider(dbProvider: db),
         ),
       ],
       child: MaterialApp(
