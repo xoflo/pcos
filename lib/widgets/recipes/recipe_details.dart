@@ -99,14 +99,20 @@ class RecipeDetails extends StatelessWidget {
         recipe: recipe,
       ));
     }
-    tabViews.add(Html(
-      data: recipe.ingredients,
+    tabViews.add(SingleChildScrollView(
+      child: Html(
+        data: recipe.ingredients,
+      ),
     ));
-    tabViews.add(Html(
-      data: recipe.method,
+    tabViews.add(SingleChildScrollView(
+      child: Html(
+        data: recipe.method,
+      ),
     ));
-    tabViews.add(Html(
-      data: recipe.tips,
+    tabViews.add(SingleChildScrollView(
+      child: Html(
+        data: recipe.tips,
+      ),
     ));
     return tabViews;
   }
