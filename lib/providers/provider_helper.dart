@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/models/cms_text.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -124,6 +125,46 @@ class ProviderHelper {
       return await getAllData(dbProvider, tableName);
     }
     return List<Message>();
+  }
+
+  Future<List<String>> fetchAndSaveCMSText(
+      final dbProvider, final String tableName) async {
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    if (dbProvider.db != null) {
+      debugPrint("GETTING CMSTEXT");
+      //first get the data from the api if we have no data yet
+      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+        final String gettingStarted =
+            await WebServices().getCmsAssetByReference("GettingStarted");
+        final String privacyStatement =
+            await WebServices().getCmsAssetByReference("Privacy");
+        final String termsAndConditions =
+            await WebServices().getCmsAssetByReference("Terms");
+        List<String> cmsItems = [
+          gettingStarted,
+          privacyStatement,
+          termsAndConditions
+        ];
+
+        debugPrint("**************FETCH CMS FROM API AND SAVE");
+        //delete all old records before adding new ones
+        await dbProvider.deleteAll(tableName);
+        //add items to database
+        cmsItems.forEach((String cmsItem) async {
+          await dbProvider.insert(tableName, {
+            'cmsText': cmsItem,
+          });
+        });
+
+        //save when we got the data
+        saveTimestamp(tableName);
+      }
+
+      // get items from database
+      debugPrint("*********GET DATA FROM DB $tableName");
+      return await getAllData(dbProvider, tableName);
+    }
+    return List<String>();
   }
 
   Future<List<dynamic>> filterAndSearch(final dbProvider,
@@ -255,6 +296,14 @@ class ProviderHelper {
       return dataList.map<Recipe>((item) => Recipe.fromJson(item)).toList();
     } else if (tableName == "Message") {
       return dataList.map<Message>((item) => Message.fromJson(item)).toList();
+    } else if (tableName == "CMSText") {
+      List<CMSText> cmsItems =
+          dataList.map<CMSText>((item) => CMSText.fromJson(item)).toList();
+      List<String> cmsStrings = [];
+      for (CMSText cmsText in cmsItems) {
+        cmsStrings.add(cmsText.cmsText);
+      }
+      return cmsStrings;
     }
     return dataList
         .map<Question>((item) => Question(

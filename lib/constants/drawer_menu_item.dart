@@ -4,4 +4,5 @@ enum DrawerMenuItem {
   CHANGE_PASSWORD,
   PRIVACY,
   TERMS_OF_USE,
+  TUTORIAL,
 }

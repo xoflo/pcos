@@ -90,6 +90,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
+              S.of(context).tutorialTitle,
+              style: drawerItemStyle,
+            ),
+            onTap: () {
+              _drawerNavigation(context, DrawerMenuItem.TUTORIAL);
+            },
+          ),
+          ListTile(
+            title: Text(
               S.of(context).profileTitle,
               style: drawerItemStyle,
             ),

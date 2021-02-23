@@ -149,5 +149,6 @@
     "favouriteRemoveTitle": "Remove favourite",
     "favouriteRemoveText": "Are you sure you want to remove this favourite?",
     "deleteMessageTitle": "Delete message",
-    "deleteMessageText": "Are you sure you want to delete this message?"
+    "deleteMessageText": "Are you sure you want to delete this message?",
+    "tutorialTitle":"Welcome Tutorial"
 }

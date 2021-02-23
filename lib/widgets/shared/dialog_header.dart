@@ -4,21 +4,22 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class DialogHeader extends StatefulWidget {
   final Size screenSize;
-  final dynamic item;
+
   final FavouriteType favouriteType;
   final String title;
   final bool isFavourite;
   final Function closeItem;
   final Function(dynamic, bool) addToFavourites;
+  final dynamic item;
 
   DialogHeader({
     @required this.screenSize,
-    @required this.item,
     @required this.favouriteType,
     @required this.title,
     @required this.isFavourite,
     @required this.closeItem,
     @required this.addToFavourites,
+    this.item,
   });
 
   @override
