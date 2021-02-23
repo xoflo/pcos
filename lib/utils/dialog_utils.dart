@@ -21,7 +21,7 @@ void showFlushBar(final BuildContext scaffoldContext, final String title,
     borderColor: borderColor,
     backgroundColor: backgroundColor,
     dismissDirection: FlushbarDismissDirection.VERTICAL,
-    isDismissible: true,
+    isDismissible: false,
     forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
     titleText: Text(
       title,
