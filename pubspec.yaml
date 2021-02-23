@@ -49,6 +49,7 @@ dependencies:
   path_provider: ^1.6.27
   intercom_flutter: ^2.3.3
   launch_review: ^2.0.0
+  carousel_slider: ^3.0.0
 
 dev_dependencies:
   flutter_test:

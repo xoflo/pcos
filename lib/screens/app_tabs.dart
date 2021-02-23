@@ -19,6 +19,7 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 
 class AppTabs extends StatefulWidget {
   static const String id = "app_tabs_screen";
@@ -132,6 +133,17 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         break;
       case DrawerMenuItem.TERMS_OF_USE:
         Navigator.pushNamed(context, TermsAndConditions.id);
+        break;
+      case DrawerMenuItem.TUTORIAL:
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => Tutorial(
+            closeTutorial: () {
+              Navigator.pop(context);
+            },
+          ),
+        );
         break;
     }
   }
