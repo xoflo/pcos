@@ -1,26 +1,44 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
-    as SharedPreferencesKeys;
 
 class PreferencesController {
-  Future<bool> saveViewedTutorial() async {
+  Future<bool> saveBool(final String sharedPreferencesKey) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
+      prefs.setBool(sharedPreferencesKey, true);
       return true;
     } catch (ex) {
       return false;
     }
   }
 
-  Future<bool> getViewedTutorial() async {
+  Future<bool> getBool(final String sharedPreferencesKey) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      final bool isViewed =
-          prefs.getBool(SharedPreferencesKeys.VIEWED_TUTORIAL);
-      return isViewed != null ? isViewed : false;
+      final bool prefValue = prefs.getBool(sharedPreferencesKey);
+      return prefValue != null ? prefValue : false;
     } catch (ex) {
       return true;
+    }
+  }
+
+  Future<bool> saveString(
+      final String sharedPreferencesKey, final String newValue) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString(sharedPreferencesKey, newValue);
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  Future<String> getString(final String sharedPreferencesKey) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String prefValue = prefs.getString(sharedPreferencesKey);
+      return prefValue != null ? prefValue : "";
+    } catch (ex) {
+      return "";
     }
   }
 }

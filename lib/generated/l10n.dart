@@ -1395,6 +1395,26 @@ class S {
     );
   }
 
+  /// `On`
+  String get onText {
+    return Intl.message(
+      'On',
+      name: 'onText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Off`
+  String get offText {
+    return Intl.message(
+      'Off',
+      name: 'offText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `App Store`
   String get versionDialogTitle {
     return Intl.message(
@@ -1540,6 +1560,56 @@ class S {
     return Intl.message(
       'Welcome Tutorial',
       name: 'tutorialTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settingsTitle {
+    return Intl.message(
+      'Settings',
+      name: 'settingsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily Reminder`
+  String get requestDailyReminderTitle {
+    return Intl.message(
+      'Daily Reminder',
+      name: 'requestDailyReminderTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?`
+  String get requestDailyReminderText {
+    return Intl.message(
+      'To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?',
+      name: 'requestDailyReminderText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can set a daily reminder later by clicking the Settings icon in the main menu.`
+  String get requestDailyReminderNoText {
+    return Intl.message(
+      'You can set a daily reminder later by clicking the Settings icon in the main menu.',
+      name: 'requestDailyReminderNoText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily Reminder:`
+  String get settingsDailyReminderText {
+    return Intl.message(
+      'Daily Reminder:',
+      name: 'settingsDailyReminderText',
       desc: '',
       args: [],
     );

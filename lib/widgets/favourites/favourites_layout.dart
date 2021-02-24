@@ -117,10 +117,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       S.of(context).noText,
       S.of(context).yesText,
       removeFavouriteConfirmed,
+      (BuildContext context) {
+        Navigator.of(context).pop();
+      },
     );
   }
-
-  void continueRemoveFavourite(BuildContext context) {}
 
   void _openFavourite(FavouriteType favouriteType, dynamic favourite) {
     Widget favouriteWidget;

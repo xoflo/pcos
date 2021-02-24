@@ -34,23 +34,31 @@ class _SignInLayoutState extends State<SignInLayout> {
   void forgottenPassword(BuildContext context) {
     if (widget.emailController.text.length == 0) {
       showAlertDialog(
-          context,
-          S.of(context).passwordForgottenTitle,
-          S.of(context).passwordForgottenEmailMessage,
-          S.of(context).okayText,
-          "",
-          () {});
+        context,
+        S.of(context).passwordForgottenTitle,
+        S.of(context).passwordForgottenEmailMessage,
+        S.of(context).okayText,
+        "",
+        null,
+        (BuildContext context) {
+          Navigator.of(context).pop();
+        },
+      );
     } else {
       showAlertDialog(
-          context,
-          S.of(context).passwordForgottenTitle,
-          S
-              .of(context)
-              .passwordForgottenMessage
-              .replaceAll("[emailAddress]", widget.emailController.text),
-          S.of(context).passwordForgottenCancel,
-          S.of(context).passwordForgottenContinue,
-          continueForgottenPassword);
+        context,
+        S.of(context).passwordForgottenTitle,
+        S
+            .of(context)
+            .passwordForgottenMessage
+            .replaceAll("[emailAddress]", widget.emailController.text),
+        S.of(context).passwordForgottenCancel,
+        S.of(context).passwordForgottenContinue,
+        continueForgottenPassword,
+        (BuildContext context) {
+          Navigator.of(context).pop();
+        },
+      );
     }
   }
 

@@ -17,6 +17,7 @@ import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/app_loading.dart';
+import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
@@ -118,7 +119,7 @@ class _AppState extends State<App> {
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
     //TODO: ask for permission on iOS somewhere else later
-    bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
+    //bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
   }
 
   @override
@@ -174,6 +175,7 @@ class _AppState extends State<App> {
           PinUnlock.id: (context) => PinUnlock(),
           PinSet.id: (context) => PinSet(),
           AppTabs.id: (context) => AppTabs(),
+          Settings.id: (context) => Settings(),
           Profile.id: (context) => Profile(),
           ChangePassword.id: (context) => ChangePassword(),
           Privacy.id: (context) => Privacy(),

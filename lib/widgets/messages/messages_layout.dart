@@ -70,12 +70,16 @@ class MessagesLayout extends StatelessWidget {
     }
 
     showAlertDialog(
-        context,
-        S.of(context).deleteMessageTitle,
-        S.of(context).deleteMessageText,
-        S.of(context).noText,
-        S.of(context).yesText,
-        continueDeleteMessage);
+      context,
+      S.of(context).deleteMessageTitle,
+      S.of(context).deleteMessageText,
+      S.of(context).noText,
+      S.of(context).yesText,
+      continueDeleteMessage,
+      (BuildContext context) {
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   @override
