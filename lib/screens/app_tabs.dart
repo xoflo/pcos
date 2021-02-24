@@ -12,6 +12,7 @@ import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
 import 'package:thepcosprotocol_app/widgets/app_body/main_screens.dart';
 import 'package:thepcosprotocol_app/screens/menu/profile.dart';
+import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
 import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
@@ -121,6 +122,9 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
           PinUnlock.id,
           arguments: PinUnlockArguments(true),
         );
+        break;
+      case DrawerMenuItem.SETTINGS:
+        Navigator.pushNamed(context, Settings.id);
         break;
       case DrawerMenuItem.PROFILE:
         Navigator.pushNamed(context, Profile.id);

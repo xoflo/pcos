@@ -152,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchHeaderFilterText" : MessageLookupByLibrary.simpleMessage("Filter:"),
     "searchInputText" : MessageLookupByLibrary.simpleMessage("Search"),
     "sendButtonText" : MessageLookupByLibrary.simpleMessage("Send"),
+    "settingsTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
     "signInEmailNotVerifiedErrorText" : MessageLookupByLibrary.simpleMessage("Your email address has not be verified, please check your inbox for a new verification email."),
     "signInTitle" : MessageLookupByLibrary.simpleMessage("Sign In"),
     "signUpTitle" : MessageLookupByLibrary.simpleMessage("Sign Up"),

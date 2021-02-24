@@ -65,25 +65,39 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           color: primaryColorDark,
                         ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _drawerNavigation(context, DrawerMenuItem.LOCK);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text("Lock App",
-                            style: TextStyle(
-                              color: primaryColorDark,
-                            )),
-                        Icon(
-                          Icons.lock_outline,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _drawerNavigation(context, DrawerMenuItem.SETTINGS);
+                        },
+                        child: Icon(
+                          Icons.settings,
                           size: 24.0,
-                          color: primaryColor,
-                        )
-                      ],
-                    ),
-                  )
+                          color: primaryColorDark,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _drawerNavigation(context, DrawerMenuItem.LOCK);
+                        },
+                        child: Row(
+                          children: [
+                            Text("Lock App",
+                                style: TextStyle(
+                                  color: primaryColorDark,
+                                )),
+                            Icon(
+                              Icons.lock_outline,
+                              size: 24.0,
+                              color: primaryColorDark,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
