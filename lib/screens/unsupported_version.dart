@@ -16,6 +16,9 @@ class UnsupportedVersion extends StatelessWidget {
       S.of(context).okayText,
       "",
       null,
+      (BuildContext context) {
+        Navigator.of(context).pop();
+      },
     );
   }
 

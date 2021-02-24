@@ -67,6 +67,7 @@ Future<void> scheduleNotification(
 
 Future<void> scheduleNotificationPeriodically(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
+    int notificationId,
     String id,
     String body,
     RepeatInterval interval) async {
@@ -81,5 +82,11 @@ Future<void> scheduleNotificationPeriodically(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
   await flutterLocalNotificationsPlugin.periodicallyShow(
-      0, 'Reminder', body, interval, platformChannelSpecifics);
+      notificationId, 'Reminder', body, interval, platformChannelSpecifics);
+}
+
+Future<void> turnOffNotificationById(
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
+    num id) async {
+  await flutterLocalNotificationsPlugin.cancel(id);
 }

@@ -7,6 +7,11 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -26,8 +31,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   }
 
   Future<void> checkShowTutorial() async {
-    if (!await PreferencesController().getViewedTutorial()) {
-      PreferencesController().saveViewedTutorial();
+    if (!await PreferencesController()
+        .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
+      PreferencesController().saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL);
       await Future.delayed(Duration(seconds: 2), () {
         showModalBottomSheet(
           context: context,
@@ -56,40 +62,42 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   void closeLesson() async {
     Navigator.pop(context);
-  }
 
-  void addToFavourites(dynamic lesson, bool add) {}
-
-  void _scheduleNotification(final bool isPeriodic) {
-    if (!isPeriodic) {
-      if (customNotificationTime != null) {
-        var now = new DateTime.now();
-        var notificationTime = new DateTime(now.year, now.month, now.day,
-            customNotificationTime.hour, customNotificationTime.minute);
-        scheduleNotification(flutterLocalNotificationsPlugin, '4',
-            "This is a one off reminder.", notificationTime);
-        debugPrint("scheduled a one-off notification.");
+    if (!await PreferencesController()
+        .getBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER)) {
+      void openSettings(BuildContext context) {
+        Navigator.of(context).pop();
+        Navigator.pushNamed(context, Settings.id);
       }
-    } else {
-      scheduleNotificationPeriodically(
-          flutterLocalNotificationsPlugin,
-          '0',
-          "Daily reminder, don't forget to check your progress.",
-          RepeatInterval.daily);
-      debugPrint("scheduled a periodic notification.");
+
+      void displaySetupLaterMessage(BuildContext context) {
+        Navigator.of(context).pop();
+        showAlertDialog(
+          context,
+          S.of(context).requestDailyReminderTitle,
+          S.of(context).requestDailyReminderNoText,
+          S.of(context).okayText,
+          "",
+          null,
+          (BuildContext context) {
+            Navigator.of(context).pop();
+          },
+        );
+      }
+
+      showAlertDialog(
+        context,
+        S.of(context).requestDailyReminderTitle,
+        S.of(context).requestDailyReminderText,
+        S.of(context).noText,
+        S.of(context).yesText,
+        openSettings,
+        displaySetupLaterMessage,
+      );
     }
   }
 
-  Future<void> _showTimeDialog() async {
-    TimeOfDay selectedTime = await showTimePicker(
-      initialTime: TimeOfDay.now(),
-      context: context,
-    );
-
-    setState(() {
-      customNotificationTime = selectedTime;
-    });
-  }
+  void addToFavourites(dynamic lesson, bool add) {}
 
   void _requestPermission() {
     if (Platform.isIOS) {
@@ -130,22 +138,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                   },
                   child: new Text(
                     'requestPermission',
-                  ),
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    _showTimeDialog();
-                  },
-                  child: new Text(
-                    'chooseTime',
-                  ),
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    _scheduleNotification(false);
-                  },
-                  child: new Text(
-                    'scheduleNotification',
                   ),
                 ),
               ],

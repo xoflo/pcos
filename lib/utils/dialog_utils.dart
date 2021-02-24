@@ -46,13 +46,14 @@ showAlertDialog(
   final String cancelText,
   final String continueText,
   final Function continueAction,
+  final Function cancelAction,
 ) {
   // set up the buttons
   Widget cancelButton = ColorButton(
     isUpdating: false,
     label: cancelText,
     onTap: () {
-      Navigator.of(context).pop();
+      cancelAction(context);
     },
   );
 

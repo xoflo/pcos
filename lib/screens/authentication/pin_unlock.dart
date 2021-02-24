@@ -197,12 +197,16 @@ class PinUnlockState extends State<PinUnlock> {
 
   void forgottenPin(BuildContext context) {
     showAlertDialog(
-        context,
-        S.of(context).pinForgottenTitle,
-        S.of(context).pinForgottenMessage,
-        S.of(context).pinForgottenCancel,
-        S.of(context).pinForgottenContinue,
-        continueForgottenPin);
+      context,
+      S.of(context).pinForgottenTitle,
+      S.of(context).pinForgottenMessage,
+      S.of(context).pinForgottenCancel,
+      S.of(context).pinForgottenContinue,
+      continueForgottenPin,
+      (BuildContext context) {
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   void continueForgottenPin(BuildContext context) {

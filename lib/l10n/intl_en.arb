@@ -136,6 +136,8 @@
     "exitAppText": "Are you sure you want to close the App?",
     "yesText": "Yes",
     "noText": "No",
+    "onText": "On",
+    "offText": "Off",
     "versionDialogTitle": "App Store",
     "versionDialogDesc": "Please open the app store on your device, and upgrade The PCOS Protocol app.",
     "versionText1": "This version of The PCOS Protocol app is no longer supported.",
@@ -151,5 +153,9 @@
     "deleteMessageTitle": "Delete message",
     "deleteMessageText": "Are you sure you want to delete this message?",
     "tutorialTitle":"Welcome Tutorial",
-    "settingsTitle": "Settings"
+    "settingsTitle": "Settings",
+    "requestDailyReminderTitle": "Daily Reminder",
+    "requestDailyReminderText": "To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?",
+    "requestDailyReminderNoText": "You can set a daily reminder later by clicking the Settings icon in the main menu.",
+    "settingsDailyReminderText": "Daily Reminder:"
 }
