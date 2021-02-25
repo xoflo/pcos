@@ -18,7 +18,7 @@ class DialogHeader extends StatefulWidget {
     @required this.title,
     @required this.isFavourite,
     @required this.closeItem,
-    @required this.addToFavourites,
+    this.addToFavourites,
     this.item,
   });
 

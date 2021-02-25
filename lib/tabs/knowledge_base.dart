@@ -12,6 +12,5 @@ class KnowledgeBase extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
