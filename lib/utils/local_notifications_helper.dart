@@ -1,13 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:rxdart/subjects.dart';
 import 'package:thepcosprotocol_app/models/local_notification.dart';
 
+//NB: commented out sections can be put back in if need to perform action when notification opened
+
 final BehaviorSubject<LocalNotification> didReceiveLocalNotificationSubject =
     BehaviorSubject<LocalNotification>();
-
+/*
 final BehaviorSubject<String> selectNotificationSubject =
     BehaviorSubject<String>();
+*/
 
 Future<void> initNotifications(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
@@ -25,15 +28,18 @@ Future<void> initNotifications(
     android: initializationSettingsAndroid,
     iOS: initializationSettingsIOS,
   );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String payload) async {
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    /*onSelectNotification: (String payload) async {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
     selectNotificationSubject.add(payload);
-  });
+  }*/
+  );
 }
 
+/*
 void requestIOSPermissions(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
   flutterLocalNotificationsPlugin
@@ -45,48 +51,45 @@ void requestIOSPermissions(
         sound: true,
       );
 }
+*/
 
-Future<void> scheduleNotification(
+Future<void> scheduleDailyReminderNotification(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-    String id,
-    String body,
-    DateTime scheduledNotificationDateTime) async {
+    final tz.TZDateTime nextScheduledTime,
+    final String notificationTitle,
+    final String notificationBody) async {
+  final String androidPlatformId = "dly_notif_rmdr";
+  final String androidPlatformName = "daily_notification_reminder";
+  final String androidPlatformDesc = "the daily reminder notification";
+  final int dailyReminderNotificationId = 1;
+
   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    id,
-    'Reminder notifications',
-    'A scheduled notification',
-    icon: 'app_icon',
+    androidPlatformId,
+    androidPlatformName,
+    androidPlatformDesc,
   );
   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
   var platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.schedule(0, 'Reminder', body,
-      scheduledNotificationDateTime, platformChannelSpecifics);
+
+  await flutterLocalNotificationsPlugin.zonedSchedule(
+      dailyReminderNotificationId,
+      notificationTitle,
+      notificationBody,
+      nextScheduledTime,
+      platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time);
+
+  /*final List<PendingNotificationRequest> pendingNotificationRequests =
+      await flutterLocalNotificationsPlugin.pendingNotificationRequests();*/
 }
 
-Future<void> scheduleNotificationPeriodically(
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-    int notificationId,
-    String id,
-    String body,
-    RepeatInterval interval) async {
-  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    id,
-    'Reminder notifications',
-    'Daily reminder',
-    icon: 'app_icon',
-  );
-  var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-  var platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: iOSPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.periodicallyShow(
-      notificationId, 'Reminder', body, interval, platformChannelSpecifics);
-}
-
-Future<void> turnOffNotificationById(
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-    num id) async {
-  await flutterLocalNotificationsPlugin.cancel(id);
+Future<void> turnOffDailyReminderNotification(
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
+  final int dailyReminderNotificationId = 1;
+  await flutterLocalNotificationsPlugin.cancel(dailyReminderNotificationId);
 }
