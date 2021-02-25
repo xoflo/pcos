@@ -1614,6 +1614,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Your Daily Reminder`
+  String get dailyReminderTitle {
+    return Intl.message(
+      'Your Daily Reminder',
+      name: 'dailyReminderTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't forget to check your next lesson or view your progress so far.`
+  String get dailyReminderText {
+    return Intl.message(
+      'Don\'t forget to check your next lesson or view your progress so far.',
+      name: 'dailyReminderText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -43,6 +43,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "coachChatTitle" : MessageLookupByLibrary.simpleMessage("Coach Chat"),
     "companyTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Nutritionist"),
     "courseQuestions" : MessageLookupByLibrary.simpleMessage("Course questions"),
+    "dailyReminderText" : MessageLookupByLibrary.simpleMessage("Don\'t forget to check your next lesson or view your progress so far."),
+    "dailyReminderTitle" : MessageLookupByLibrary.simpleMessage("Your Daily Reminder"),
     "dashboardTitle" : MessageLookupByLibrary.simpleMessage("Dashboard"),
     "deleteMessageText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to delete this message?"),
     "deleteMessageTitle" : MessageLookupByLibrary.simpleMessage("Delete message"),
