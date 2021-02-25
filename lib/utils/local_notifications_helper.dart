@@ -39,7 +39,6 @@ Future<void> initNotifications(
   );
 }
 
-/*
 void requestIOSPermissions(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
   flutterLocalNotificationsPlugin
@@ -51,7 +50,6 @@ void requestIOSPermissions(
         sound: true,
       );
 }
-*/
 
 Future<void> scheduleDailyReminderNotification(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
