@@ -71,7 +71,7 @@ class _AppState extends State<App> {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
     var settings = {
-      OSiOSSettings.autoPrompt: true,
+      OSiOSSettings.autoPrompt: false,
       OSiOSSettings.promptBeforeOpeningPushUrl: true
     };
 

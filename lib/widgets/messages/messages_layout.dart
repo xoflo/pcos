@@ -18,7 +18,6 @@ class MessagesLayout extends StatelessWidget {
     final Size screenSize,
     final MessagesProvider messagesProvider,
   ) {
-    debugPrint("MESSAGES STATUS=${messagesProvider.status}");
     switch (messagesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -60,10 +59,7 @@ class MessagesLayout extends StatelessWidget {
 
   void deleteMessage(final BuildContext context,
       final MessagesProvider messagesProvider, final int notificationId) async {
-    debugPrint("********DELETE THE MESSAGE $notificationId");
-
     void continueDeleteMessage(BuildContext context) async {
-      debugPrint("*****DO THE DELETE");
       await messagesProvider.updateNotificationAsDeleted(notificationId);
       Navigator.pop(context);
       Navigator.pop(context);

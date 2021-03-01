@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -12,6 +13,8 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
@@ -43,6 +46,10 @@ class _SignInState extends State<SignIn> {
             await AuthenticationController().signIn(emailOrUsername, password);
 
         if (signedIn) {
+          //if the first use timestamp hasn't been saved, save it now
+          final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
+          PreferencesController().saveInt(
+              SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP, currentTimestamp);
           //success - this hides the login screen and shows the pin setup screen
           Navigator.pushReplacementNamed(context, PinSet.id);
           return;
@@ -57,7 +64,6 @@ class _SignInState extends State<SignIn> {
         errorMessage = S.of(context).internetConnectionText;
       }
     } catch (ex) {
-      debugPrint("********** EX = $ex");
       showErrorDialog = true;
       switch (ex) {
         case EMAIL_NOT_VERIFIED:

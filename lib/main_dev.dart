@@ -36,8 +36,6 @@ Future<void> main() async {
   notificationAppLaunchDetails =
       await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
   await initNotifications(flutterLocalNotificationsPlugin);
-  //TODO: replace with iOS perms process
-  requestIOSPermissions(flutterLocalNotificationsPlugin);
 
   runZonedGuarded(
     () {

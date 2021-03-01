@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/services.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -13,9 +14,8 @@ import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:thepcosprotocol_app/widgets/settings/daily_reminder.dart';
+import 'package:thepcosprotocol_app/widgets/settings/notifications_permissions.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -27,9 +27,10 @@ class SettingsLayout extends StatefulWidget {
 
 class _SettingsLayoutState extends State<SettingsLayout> {
   bool _isLoading = true;
-  bool isDailyReminderOn = false;
-  TimeOfDay dailyReminderTimeOfDay =
+  bool _isDailyReminderOn = false;
+  TimeOfDay _dailyReminderTimeOfDay =
       DateTimeUtils.stringToTimeOfDay("12:00 PM");
+  PermissionStatus _notificationPermissions = PermissionStatus.unknown;
 
   @override
   void initState() {
@@ -41,12 +42,14 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     await _configureLocalTimeZone();
     final String dailyReminderString = await PreferencesController()
         .getString(SharedPreferencesKeys.DAILY_REMINDER_TIME);
+    _notificationPermissions =
+        await NotificationPermissions.getNotificationPermissionStatus();
 
     if (dailyReminderString.length > 0) {
       setState(() {
-        dailyReminderTimeOfDay =
+        _dailyReminderTimeOfDay =
             DateTimeUtils.stringToTimeOfDay(dailyReminderString);
-        isDailyReminderOn = true;
+        _isDailyReminderOn = true;
         _isLoading = false;
       });
     } else {
@@ -82,13 +85,17 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   Future<void> _saveDailyReminder(final bool isOn) async {
+    setState(() {
+      _isDailyReminderOn = isOn;
+    });
+
     if (isOn) {
       _scheduleNotification();
       await PreferencesController().saveString(
           SharedPreferencesKeys.DAILY_REMINDER_TIME,
-          dailyReminderTimeOfDay.format(context));
+          _dailyReminderTimeOfDay.format(context));
     } else {
-      _turnoffNotification();
+      turnOffDailyReminderNotification(flutterLocalNotificationsPlugin);
       await PreferencesController()
           .saveString(SharedPreferencesKeys.DAILY_REMINDER_TIME, "");
     }
@@ -101,7 +108,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
 
     setState(() {
-      dailyReminderTimeOfDay = selectedTime;
+      _dailyReminderTimeOfDay = selectedTime;
     });
 
     _saveDailyReminder(true);
@@ -110,8 +117,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   void _scheduleNotification() {
     turnOffDailyReminderNotification(flutterLocalNotificationsPlugin);
     final tz.TZDateTime zonedSelectedTime = _nextInstanceOfSelectedTime(
-      dailyReminderTimeOfDay.hour,
-      dailyReminderTimeOfDay.minute,
+      _dailyReminderTimeOfDay.hour,
+      _dailyReminderTimeOfDay.minute,
     );
     scheduleDailyReminderNotification(
       flutterLocalNotificationsPlugin,
@@ -121,8 +128,14 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     );
   }
 
-  void _turnoffNotification() {
-    turnOffDailyReminderNotification(flutterLocalNotificationsPlugin);
+  void _requestNotificationPermission() async {
+    final newPermission =
+        await NotificationPermissions.requestNotificationPermissions(
+            iosSettings: const NotificationSettingsIos(
+                sound: true, badge: true, alert: true));
+    setState(() {
+      _notificationPermissions = newPermission;
+    });
   }
 
   @override
@@ -158,61 +171,17 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      S.of(context).settingsDailyReminderText,
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
-                                    ),
-                                    Switch(
-                                      value: isDailyReminderOn,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          isDailyReminderOn = value;
-                                          _saveDailyReminder(value);
-                                        });
-                                      },
-                                      activeTrackColor: secondaryColorLight,
-                                      activeColor: secondaryColor,
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: isDailyReminderOn
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              dailyReminderTimeOfDay != null
-                                                  ? dailyReminderTimeOfDay
-                                                      .format(context)
-                                                  : "12:00 PM",
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                _showTimeDialog();
-                                              },
-                                              child: Icon(
-                                                Icons.timer,
-                                                size: 30.0,
-                                                color: secondaryColorLight,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Container(),
-                                )
-                              ],
-                            ),
+                          NotificationsPermissions(
+                            notificationPermissions: _notificationPermissions,
+                            requestNotificationPermission:
+                                _requestNotificationPermission,
+                          ),
+                          DailyReminder(
+                            isDailyReminderOn: _isDailyReminderOn,
+                            dailyReminderTimeOfDay: _dailyReminderTimeOfDay,
+                            notificationPermissions: _notificationPermissions,
+                            saveDailyReminder: _saveDailyReminder,
+                            showTimeDialog: _showTimeDialog,
                           ),
                         ],
                       ),

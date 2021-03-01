@@ -1625,11 +1625,61 @@ class S {
     );
   }
 
-  /// `Don't forget to check your next lesson or view your progress so far.`
+  /// `Don't forget to check your latest lesson or view your progress so far.`
   String get dailyReminderText {
     return Intl.message(
-      'Don\'t forget to check your next lesson or view your progress so far.',
+      'Don\'t forget to check your latest lesson or view your progress so far.',
       name: 'dailyReminderText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow Notifications`
+  String get notificationPermissionsAllowButton {
+    return Intl.message(
+      'Allow Notifications',
+      name: 'notificationPermissionsAllowButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Allow Notifications`
+  String get notificationPermissionsNeedToAllowTitle {
+    return Intl.message(
+      'Please Allow Notifications',
+      name: 'notificationPermissionsNeedToAllowTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To set a daily reminder you will need to allow notifications on your device by clicking the button below.`
+  String get notificationPermissionsNeedToAllowText {
+    return Intl.message(
+      'To set a daily reminder you will need to allow notifications on your device by clicking the button below.',
+      name: 'notificationPermissionsNeedToAllowText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get requestNotificationPermissionTitle {
+    return Intl.message(
+      'Notifications',
+      name: 'requestNotificationPermissionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?`
+  String get requestNotificationPermissionText {
+    return Intl.message(
+      'To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?',
+      name: 'requestNotificationPermissionText',
       desc: '',
       args: [],
     );
