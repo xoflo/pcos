@@ -41,4 +41,24 @@ class PreferencesController {
       return "";
     }
   }
+
+  Future<bool> saveInt(
+      final String sharedPreferencesKey, final int value) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt(sharedPreferencesKey, value);
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  Future<int> getInt(final String sharedPreferencesKey) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getInt(sharedPreferencesKey);
+    } catch (ex) {
+      return 0;
+    }
+  }
 }

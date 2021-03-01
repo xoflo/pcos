@@ -159,5 +159,10 @@
     "requestDailyReminderNoText": "You can set a daily reminder later by clicking the Settings icon in the main menu.",
     "settingsDailyReminderText": "Daily Reminder:",
     "dailyReminderTitle": "Your Daily Reminder",
-    "dailyReminderText": "Don't forget to check your next lesson or view your progress so far."
+    "dailyReminderText": "Don't forget to check your latest lesson or view your progress so far.",
+    "notificationPermissionsAllowButton": "Allow Notifications",
+    "notificationPermissionsNeedToAllowTitle": "Please Allow Notifications",
+    "notificationPermissionsNeedToAllowText": "To set a daily reminder you will need to allow notifications on your device by clicking the button below.",
+    "requestNotificationPermissionTitle": "Notifications",
+    "requestNotificationPermissionText": "To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?"
 }
