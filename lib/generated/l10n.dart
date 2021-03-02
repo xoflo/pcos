@@ -1684,6 +1684,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Data Usage`
+  String get dataUsageWarningTitle {
+    return Intl.message(
+      'Data Usage',
+      name: 'dataUsageWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning - Please ensure you have enough data to stream videos in the app.`
+  String get dataUsageWarningText {
+    return Intl.message(
+      'Warning - Please ensure you have enough data to stream videos in the app.',
+      name: 'dataUsageWarningText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

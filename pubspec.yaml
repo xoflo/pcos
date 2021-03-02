@@ -54,6 +54,7 @@ dependencies:
   rxdart: ^0.24.0
   flutter_native_timezone: ^1.0.4
   notification_permissions: ^0.4.8
+  health: ^3.0.3
 
 dev_dependencies:
   flutter_test:

@@ -10,3 +10,4 @@ const String DAILY_REMINDER_TIME = "daily_reminder_time";
 const String APP_FIRST_USE_TIMESTAMP = "app_first_use_timestamp";
 const String REQUESTED_NOTIFICATIONS_PERMISSION =
     "requested_notifications_permission";
+const String DATA_USAGE_WARNING_DISPLAYED = "data_usage_warning_displayed";

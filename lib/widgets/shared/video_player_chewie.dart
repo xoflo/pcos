@@ -12,7 +12,11 @@ class VideoPlayerChewie extends StatefulWidget {
   final bool isHorizontal;
   final String videoUrl;
 
-  VideoPlayerChewie({this.screenSize, this.isHorizontal, this.videoUrl});
+  VideoPlayerChewie({
+    this.screenSize,
+    this.isHorizontal,
+    this.videoUrl,
+  });
 
   @override
   _VideoPlayerChewieState createState() => _VideoPlayerChewieState();

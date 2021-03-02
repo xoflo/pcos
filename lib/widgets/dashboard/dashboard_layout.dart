@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
+import 'package:thepcosprotocol_app/constants/lesson_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -27,11 +28,13 @@ class DashboardLayout extends StatefulWidget {
 class _DashboardLayoutState extends State<DashboardLayout> {
   TimeOfDay _customNotificationTime;
   bool _showTodaysTask = true;
+  bool _dataUsageWarningDisplayed = false;
 
   @override
   void initState() {
     super.initState();
     _checkShowTutorial();
+    _getDataUsageWarningDisplayed();
   }
 
   Future<void> _checkShowTutorial() async {
@@ -52,12 +55,35 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
   }
 
+  void _getDataUsageWarningDisplayed() async {
+    final bool dataUsageWarningDisplayed = await PreferencesController()
+        .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
+    setState(() {
+      _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
+    });
+  }
+
   void _openLesson() async {
+    final Lesson lesson = Lesson.fromValues(
+        1, LessonType.Video, "A Test lesson", "This is just a test lesson.");
+    bool showDataUsageWarning = false;
+
+    if (!_dataUsageWarningDisplayed && lesson.lessonType == LessonType.Video) {
+      showDataUsageWarning = true;
+      //save has seen warning so not to display again
+      PreferencesController()
+          .saveBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
+      setState(() {
+        _dataUsageWarningDisplayed = true;
+      });
+    }
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => CourseLesson(
-        lesson: Lesson(),
+        showDataUsageWarning: showDataUsageWarning,
+        lesson: lesson,
         closeLesson: _closeLesson,
         addToFavourites: _addLessonToFavourites,
       ),
@@ -81,7 +107,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         final int firstAppUseTimestamp = await PreferencesController()
             .getInt(SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP);
         try {
-          if ((currentTimestamp - firstAppUseTimestamp) / 1000 > 30) {
+          if ((currentTimestamp - firstAppUseTimestamp) / 1000 > 259200) {
             //longer than three days (259200 seconds) since app first used
             _askUserForNotificationPermission();
           }

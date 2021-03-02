@@ -46,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "dailyReminderText" : MessageLookupByLibrary.simpleMessage("Don\'t forget to check your latest lesson or view your progress so far."),
     "dailyReminderTitle" : MessageLookupByLibrary.simpleMessage("Your Daily Reminder"),
     "dashboardTitle" : MessageLookupByLibrary.simpleMessage("Dashboard"),
+    "dataUsageWarningText" : MessageLookupByLibrary.simpleMessage("Warning - Please ensure you have enough data to stream videos in the app."),
+    "dataUsageWarningTitle" : MessageLookupByLibrary.simpleMessage("Data Usage"),
     "deleteMessageText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to delete this message?"),
     "deleteMessageTitle" : MessageLookupByLibrary.simpleMessage("Delete message"),
     "emailLabel" : MessageLookupByLibrary.simpleMessage("Email or Username"),
