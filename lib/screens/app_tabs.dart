@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:intercom_flutter/intercom_flutter.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
@@ -23,6 +24,10 @@ import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 
 class AppTabs extends StatefulWidget {
+  final FirebaseAnalyticsObserver observer;
+
+  AppTabs({@required this.observer});
+
   static const String id = "app_tabs_screen";
   @override
   _AppTabsState createState() => _AppTabsState();
@@ -230,6 +235,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
               _currentIndex = index;
             });
           },
+          observer: widget.observer,
         ),
       ),
     );

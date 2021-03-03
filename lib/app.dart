@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
@@ -38,6 +39,8 @@ class _AppState extends State<App> {
   final appTitle = "The PCOS Protocol";
   bool appError = false;
   GlobalVars refreshMessages = GlobalVars();
+  FirebaseAnalytics analytics = FirebaseAnalytics();
+  FirebaseAnalyticsObserver observer;
 
   @override
   void initState() {
@@ -48,6 +51,7 @@ class _AppState extends State<App> {
   void initializeApp() async {
     initializeFlutterFire();
     initializeOneSignal();
+    observer = FirebaseAnalyticsObserver(analytics: analytics);
   }
 
   //initialise Crashlytics for app
@@ -174,7 +178,7 @@ class _AppState extends State<App> {
           UnsupportedVersion.id: (context) => UnsupportedVersion(),
           PinUnlock.id: (context) => PinUnlock(),
           PinSet.id: (context) => PinSet(),
-          AppTabs.id: (context) => AppTabs(),
+          AppTabs.id: (context) => AppTabs(observer: observer),
           Settings.id: (context) => Settings(),
           Profile.id: (context) => Profile(),
           ChangePassword.id: (context) => ChangePassword(),
@@ -182,6 +186,9 @@ class _AppState extends State<App> {
           TermsAndConditions.id: (context) => TermsAndConditions(),
           Messages.id: (context) => Messages(),
         },
+        navigatorObservers: [
+          observer,
+        ],
       ),
     );
   }

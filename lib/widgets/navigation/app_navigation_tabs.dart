@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:thepcosprotocol_app/constants/app_tab_names.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 
 class AppNavigationTabs extends StatelessWidget {
   final int currentIndex;
   final Function(int selectedIndex) onTapped;
-  AppNavigationTabs({@required this.currentIndex, @required this.onTapped});
+  final FirebaseAnalyticsObserver observer;
+
+  AppNavigationTabs({
+    @required this.currentIndex,
+    @required this.onTapped,
+    @required this.observer,
+  });
+
+  void _sendCurrentTabToAnalytics(final int selectedIndex) {
+    final String indexName = AppTabNames.values[selectedIndex].toString();
+    observer.analytics.setCurrentScreen(
+      screenName: "${AppTabs.id}/$indexName",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +28,7 @@ class AppNavigationTabs extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       onTap: (int index) {
         onTapped(index);
+        _sendCurrentTabToAnalytics(index);
       },
       showSelectedLabels: false,
       showUnselectedLabels: false,
