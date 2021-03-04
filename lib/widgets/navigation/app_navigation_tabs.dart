@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:thepcosprotocol_app/constants/app_tab_names.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 
@@ -16,7 +16,7 @@ class AppNavigationTabs extends StatelessWidget {
   });
 
   void _sendCurrentTabToAnalytics(final int selectedIndex) {
-    final String indexName = AppTabNames.values[selectedIndex].toString();
+    final String indexName = AnalyticsUtils.getAppTabName(selectedIndex);
     observer.analytics.setCurrentScreen(
       screenName: "${AppTabs.id}/$indexName",
     );

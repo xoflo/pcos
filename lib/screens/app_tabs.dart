@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
@@ -22,6 +23,9 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 
 class AppTabs extends StatefulWidget {
   final FirebaseAnalyticsObserver observer;
@@ -47,7 +51,6 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    debugPrint("*********APP TABS dispose");
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -71,7 +74,6 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    debugPrint("*****************didChangeAppLifecycleState $state");
     //backgrounded - app was active (resumed) and is now inactive
     if (_appLifecycleState == AppLifecycleState.resumed &&
         state == AppLifecycleState.inactive) {
@@ -93,7 +95,6 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
 // This function controls which screen the users sees when they foreground the app
   void appForegroundingCheck() async {
-    debugPrint("*************APP OPENING");
     if (!await DeviceUtils.isVersionSupported()) {
       Navigator.of(context).pushNamedAndRemoveUntil(
           UnsupportedVersion.id, (Route<dynamic> route) => false);
@@ -144,14 +145,15 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         Navigator.pushNamed(context, TermsAndConditions.id);
         break;
       case DrawerMenuItem.TUTORIAL:
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (context) => Tutorial(
+        openBottomSheet(
+          context,
+          Tutorial(
             closeTutorial: () {
               Navigator.pop(context);
             },
           ),
+          Analytics.ANALYTICS_SCREEN_TUTORIAL,
+          null,
         );
         break;
     }
@@ -159,10 +161,24 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
   void openChat() {
     if (intercomInitialised) {
+      analytics.setCurrentScreen(
+        screenName: Analytics.ANALYTICS_SCREEN_COACH_CHAT,
+      );
       Intercom.displayMessenger();
     } else {
-      //TODO: Intercom didn't initialise, display a flushBar message
-      debugPrint("handle if intercom didn't initialise");
+      //Intercom failed to initialise
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_EVENT_INTERCOM_INIT_FAILED,
+      );
+
+      showFlushBar(
+        context,
+        S.of(context).coachChatFailedTitle,
+        S.of(context).coachChatFailedText,
+        backgroundColor: Colors.white,
+        borderColor: primaryColorLight,
+        primaryColor: primaryColorDark,
+      );
     }
   }
 

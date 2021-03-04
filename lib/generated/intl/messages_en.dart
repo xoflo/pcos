@@ -39,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "changePasswordSuccessTitle" : MessageLookupByLibrary.simpleMessage("Change password successful"),
     "changePasswordTitle" : MessageLookupByLibrary.simpleMessage("Change Password"),
     "clearButton" : MessageLookupByLibrary.simpleMessage("Clear"),
+    "coachChatFailedText" : MessageLookupByLibrary.simpleMessage("We couldn\'t open the Coach Chat right now, please try again later."),
+    "coachChatFailedTitle" : MessageLookupByLibrary.simpleMessage("Coach Chat"),
     "coachChatHeading" : MessageLookupByLibrary.simpleMessage("Chat to your Coach"),
     "coachChatTitle" : MessageLookupByLibrary.simpleMessage("Coach Chat"),
     "companyTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Nutritionist"),

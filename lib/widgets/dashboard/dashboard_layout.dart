@@ -16,6 +16,8 @@ import 'package:thepcosprotocol_app/widgets/dashboard/your_progress.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/current_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/previous_lessons.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/progress_slider.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -42,14 +44,15 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
       PreferencesController().saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL);
       await Future.delayed(Duration(seconds: 2), () {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (context) => Tutorial(
+        openBottomSheet(
+          context,
+          Tutorial(
             closeTutorial: () {
               Navigator.pop(context);
             },
           ),
+          Analytics.ANALYTICS_SCREEN_TUTORIAL,
+          null,
         );
       });
     }
@@ -78,23 +81,26 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       });
     }
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => CourseLesson(
+    openBottomSheet(
+      context,
+      CourseLesson(
         showDataUsageWarning: showDataUsageWarning,
         lesson: lesson,
         closeLesson: _closeLesson,
         addToFavourites: _addLessonToFavourites,
       ),
+      Analytics.ANALYTICS_SCREEN_LESSON,
+      lesson.lessonId.toString(),
     );
   }
 
   void _closeLesson() async {
     Navigator.pop(context);
 
-    if (!await PreferencesController()
-        .getBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER)) {
+    final bool requestedDailyReminder = await PreferencesController()
+        .getBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
+
+    if (!requestedDailyReminder) {
       //ask the member if they would like a daily reminder first time after closing a lesson
       _askUserForDailyReminder();
     } else if (await NotificationPermissions
@@ -183,6 +189,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   }
 
   void _closeTodaysTask() {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+      parameters: {'type': Analytics.ANALYTICS_BUTTON_SAVE_TASK},
+    );
+
     setState(() {
       _showTodaysTask = false;
     });

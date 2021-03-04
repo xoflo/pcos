@@ -9,6 +9,8 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/utils/string_utils.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class KnowledgeBaseTab extends StatefulWidget {
   final Size screenSize;
@@ -63,6 +65,10 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
   }
 
   void onSearchClicked() async {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_SEARCH,
+      parameters: {'type': Analytics.ANALYTICS_SEARCH_KB},
+    );
     widget.knowledgeBaseProvider
         .filterAndSearch(searchController.text.trim(), tagSelectedValue);
   }

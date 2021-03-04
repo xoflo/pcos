@@ -1704,6 +1704,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Coach Chat`
+  String get coachChatFailedTitle {
+    return Intl.message(
+      'Coach Chat',
+      name: 'coachChatFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We couldn't open the Coach Chat right now, please try again later.`
+  String get coachChatFailedText {
+    return Intl.message(
+      'We couldn\'t open the Coach Chat right now, please try again later.',
+      name: 'coachChatFailedText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
