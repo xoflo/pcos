@@ -15,6 +15,8 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
@@ -46,6 +48,10 @@ class _SignInState extends State<SignIn> {
             await AuthenticationController().signIn(emailOrUsername, password);
 
         if (signedIn) {
+          analytics.logEvent(
+            name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+            parameters: {'type': Analytics.ANALYTICS_BUTTON_SIGN_IN},
+          );
           //if the first use timestamp hasn't been saved, save it now
           final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
           PreferencesController().saveInt(
@@ -95,6 +101,11 @@ class _SignInState extends State<SignIn> {
       final urlQuestionnaireWebsite =
           FlavorConfig.instance.values.questionnaireUrl;
       if (await canLaunch(urlQuestionnaireWebsite)) {
+        analytics.logEvent(
+          name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+          parameters: {'type': Analytics.ANALYTICS_BUTTON_SIGN_UP},
+        );
+
         await launch(
           urlQuestionnaireWebsite,
           forceSafariVC: false,

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
@@ -39,7 +39,7 @@ class _AppState extends State<App> {
   final appTitle = "The PCOS Protocol";
   bool appError = false;
   GlobalVars refreshMessages = GlobalVars();
-  FirebaseAnalytics analytics = FirebaseAnalytics();
+
   FirebaseAnalyticsObserver observer;
 
   @override

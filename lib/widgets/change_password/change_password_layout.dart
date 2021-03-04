@@ -7,6 +7,8 @@ import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class ChangePasswordLayout extends StatefulWidget {
   @override
@@ -24,6 +26,11 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
 
   void _savePassword(BuildContext context) async {
     if (_formKey.currentState.validate()) {
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+        parameters: {'type': Analytics.ANALYTICS_BUTTON_CHANGE_PASSWORD},
+      );
+
       String oldPassword = oldPasswordController.text.trim();
       String newPassword = newPasswordController.text.trim();
       String email = "";

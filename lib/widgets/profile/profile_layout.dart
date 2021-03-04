@@ -8,6 +8,8 @@ import 'package:thepcosprotocol_app/widgets/profile/profile_read_only.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_editable.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class ProfileLayout extends StatefulWidget {
   @override
@@ -32,6 +34,10 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   }
 
   void _editDetails(MemberViewModel member) {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+      parameters: {'type': Analytics.ANALYTICS_BUTTON_EDIT_PROFILE},
+    );
     firstNameController.text = member.firstName;
     lastNameController.text = member.lastName;
     emailController.text = member.email;
@@ -42,6 +48,10 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
   void _saveChanges(MemberViewModel member) {
     if (_formKey.currentState.validate()) {
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+        parameters: {'type': Analytics.ANALYTICS_BUTTON_SAVE_PROFILE},
+      );
       if (member.firstName != firstNameController.text.trim()) {
         member.firstName = firstNameController.text.trim();
       }

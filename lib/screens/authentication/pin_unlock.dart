@@ -12,6 +12,8 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class PinUnlock extends StatefulWidget {
   static const String id = "pin_unlock_screen";
@@ -210,6 +212,10 @@ class PinUnlockState extends State<PinUnlock> {
   }
 
   void continueForgottenPin(BuildContext context) {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+      parameters: {'type': Analytics.ANALYTICS_BUTTON_FORGOTTEN_PIN},
+    );
     Navigator.of(context).pop();
     deleteCredentialsAndGotoSignIn();
   }
@@ -230,9 +236,6 @@ class PinUnlockState extends State<PinUnlock> {
     final double headerPadding = screenSize.width > 600 ? 20.0 : 0.0;
     return WillPopScope(
       onWillPop: () {
-        debugPrint("*****LOCKED - BACK CLICKED");
-        //SystemNavigator.pop();
-        //return Future.value(false);
         return onBackPressed(context);
       },
       child: Scaffold(

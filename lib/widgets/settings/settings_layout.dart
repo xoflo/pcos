@@ -16,6 +16,8 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 import 'package:thepcosprotocol_app/widgets/settings/daily_reminder.dart';
 import 'package:thepcosprotocol_app/widgets/settings/notifications_permissions.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -94,6 +96,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       await PreferencesController().saveString(
           SharedPreferencesKeys.DAILY_REMINDER_TIME,
           _dailyReminderTimeOfDay.format(context));
+      PreferencesController()
+          .saveBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
     } else {
       turnOffDailyReminderNotification(flutterLocalNotificationsPlugin);
       await PreferencesController()
@@ -115,6 +119,10 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   void _scheduleNotification() {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_DAILY_REMINDER,
+    );
+
     turnOffDailyReminderNotification(flutterLocalNotificationsPlugin);
     final tz.TZDateTime zonedSelectedTime = _nextInstanceOfSelectedTime(
       _dailyReminderTimeOfDay.hour,
@@ -131,8 +139,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   void _requestNotificationPermission() async {
     final newPermission =
         await NotificationPermissions.requestNotificationPermissions(
-            iosSettings: const NotificationSettingsIos(
-                sound: true, badge: true, alert: true));
+      iosSettings:
+          const NotificationSettingsIos(sound: true, badge: true, alert: true),
+    );
     setState(() {
       _notificationPermissions = newPermission;
     });

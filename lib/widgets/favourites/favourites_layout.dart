@@ -17,6 +17,7 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class FavouritesLayout extends StatefulWidget {
   @override
@@ -125,9 +126,14 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
 
   void _openFavourite(FavouriteType favouriteType, dynamic favourite) {
     Widget favouriteWidget;
+    final String analyticsName = favouriteType == FavouriteType.Lesson
+        ? Analytics.ANALYTICS_SCREEN_LESSON
+        : Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL;
+    String analyticsId = "";
 
     if (favouriteType == FavouriteType.Lesson) {
       Lesson lesson = favourite;
+      analyticsId = lesson.lessonId.toString();
       favouriteWidget = CourseLesson(
         lesson: lesson,
         closeLesson: closeFavourite,
@@ -135,6 +141,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       );
     } else {
       Recipe recipe = favourite;
+      analyticsId = recipe.recipeId.toString();
       favouriteWidget = RecipeDetails(
         recipe: recipe,
         closeRecipeDetails: closeFavourite,
@@ -142,10 +149,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       );
     }
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => favouriteWidget,
+    openBottomSheet(
+      context,
+      favouriteWidget,
+      analyticsName,
+      analyticsId,
     );
   }
 

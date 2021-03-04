@@ -4,6 +4,8 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class SignInLayout extends StatefulWidget {
   final bool isSigningIn;
@@ -45,6 +47,10 @@ class _SignInLayoutState extends State<SignInLayout> {
         },
       );
     } else {
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+        parameters: {'type': Analytics.ANALYTICS_BUTTON_FORGOTTEN_PWD},
+      );
       showAlertDialog(
         context,
         S.of(context).passwordForgottenTitle,

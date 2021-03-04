@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -9,6 +11,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -39,15 +42,16 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   void openRecipeDetails(BuildContext context, Recipe recipe) async {
     //remove the focus from the searchbox if necessary, to hide the keyboard
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-    //removeFocus();
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => RecipeDetails(
+
+    openBottomSheet(
+      context,
+      RecipeDetails(
         recipe: recipe,
         closeRecipeDetails: closeRecipeDetails,
         addToFavourites: addToFavourites,
       ),
+      Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
+      recipe.recipeId.toString(),
     );
   }
 
@@ -69,6 +73,10 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   void onSearchClicked() async {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_SEARCH,
+      parameters: {'type': Analytics.ANALYTICS_SEARCH_RECIPE},
+    );
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     recipeProvider.filterAndSearch(
         searchController.text.trim(), tagSelectedValue);
