@@ -28,7 +28,10 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
     if (_formKey.currentState.validate()) {
       analytics.logEvent(
         name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-        parameters: {'type': Analytics.ANALYTICS_BUTTON_CHANGE_PASSWORD},
+        parameters: {
+          Analytics.ANALYTICS_PARAMETER_BUTTON:
+              Analytics.ANALYTICS_BUTTON_CHANGE_PASSWORD
+        },
       );
 
       String oldPassword = oldPasswordController.text.trim();

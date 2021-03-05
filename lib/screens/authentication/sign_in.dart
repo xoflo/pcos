@@ -35,6 +35,13 @@ class _SignInState extends State<SignIn> {
     String errorMessage = "";
     String errorTitle = S.of(context).signinErrorTitle;
 
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_BUTTON: Analytics.ANALYTICS_BUTTON_SIGN_IN
+      },
+    );
+
     setState(() {
       isSigningIn = true;
     });
@@ -48,10 +55,7 @@ class _SignInState extends State<SignIn> {
             await AuthenticationController().signIn(emailOrUsername, password);
 
         if (signedIn) {
-          analytics.logEvent(
-            name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-            parameters: {'type': Analytics.ANALYTICS_BUTTON_SIGN_IN},
-          );
+          analytics.logEvent(name: Analytics.ANALYTICS_EVENT_LOGIN);
           //if the first use timestamp hasn't been saved, save it now
           final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
           PreferencesController().saveInt(
@@ -101,10 +105,7 @@ class _SignInState extends State<SignIn> {
       final urlQuestionnaireWebsite =
           FlavorConfig.instance.values.questionnaireUrl;
       if (await canLaunch(urlQuestionnaireWebsite)) {
-        analytics.logEvent(
-          name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-          parameters: {'type': Analytics.ANALYTICS_BUTTON_SIGN_UP},
-        );
+        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_SIGN_UP);
 
         await launch(
           urlQuestionnaireWebsite,

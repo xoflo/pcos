@@ -67,7 +67,9 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
   void onSearchClicked() async {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_SEARCH,
-      parameters: {'type': Analytics.ANALYTICS_SEARCH_KB},
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_SEARCH_TYPE: Analytics.ANALYTICS_SEARCH_KB
+      },
     );
     widget.knowledgeBaseProvider
         .filterAndSearch(searchController.text.trim(), tagSelectedValue);

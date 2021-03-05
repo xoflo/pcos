@@ -145,6 +145,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         Navigator.pushNamed(context, TermsAndConditions.id);
         break;
       case DrawerMenuItem.TUTORIAL:
+        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
         openBottomSheet(
           context,
           Tutorial(
