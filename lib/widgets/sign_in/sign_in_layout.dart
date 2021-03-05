@@ -49,7 +49,10 @@ class _SignInLayoutState extends State<SignInLayout> {
     } else {
       analytics.logEvent(
         name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-        parameters: {'type': Analytics.ANALYTICS_BUTTON_FORGOTTEN_PWD},
+        parameters: {
+          Analytics.ANALYTICS_PARAMETER_BUTTON:
+              Analytics.ANALYTICS_BUTTON_FORGOTTEN_PWD
+        },
       );
       showAlertDialog(
         context,

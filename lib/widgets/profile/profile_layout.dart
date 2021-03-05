@@ -36,7 +36,10 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   void _editDetails(MemberViewModel member) {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-      parameters: {'type': Analytics.ANALYTICS_BUTTON_EDIT_PROFILE},
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_BUTTON:
+            Analytics.ANALYTICS_BUTTON_EDIT_PROFILE
+      },
     );
     firstNameController.text = member.firstName;
     lastNameController.text = member.lastName;
@@ -50,7 +53,10 @@ class _ProfileLayoutState extends State<ProfileLayout> {
     if (_formKey.currentState.validate()) {
       analytics.logEvent(
         name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-        parameters: {'type': Analytics.ANALYTICS_BUTTON_SAVE_PROFILE},
+        parameters: {
+          Analytics.ANALYTICS_PARAMETER_BUTTON:
+              Analytics.ANALYTICS_BUTTON_SAVE_PROFILE
+        },
       );
       if (member.firstName != firstNameController.text.trim()) {
         member.firstName = firstNameController.text.trim();

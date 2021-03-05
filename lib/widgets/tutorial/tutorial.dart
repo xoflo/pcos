@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
-import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class Tutorial extends StatefulWidget {
   final Function closeTutorial;
@@ -19,6 +18,8 @@ class Tutorial extends StatefulWidget {
 class _TutorialState extends State<Tutorial> {
   //final CarouselController _carouselController = CarouselController();
   int _currentPage = 0;
+  final int _totalPages = 5;
+  bool _tutorialComplete = false;
 
   double _getTabBarHeight(BuildContext context) {
     return MediaQuery.of(context).size.height - (kToolbarHeight + 20);
@@ -78,8 +79,15 @@ class _TutorialState extends State<Tutorial> {
                   enableInfiniteScroll: false,
                   viewportFraction: 1,
                   onPageChanged: (index, reason) {
+                    bool isTutorialComplete = false;
+                    if (index == _totalPages - 1 && !_tutorialComplete) {
+                      analytics.logEvent(
+                          name: Analytics.ANALYTICS_EVENT_TUTORIAL_COMPLETE);
+                      isTutorialComplete = true;
+                    }
                     setState(() {
                       _currentPage = index;
+                      _tutorialComplete = isTutorialComplete;
                     });
                   },
                 ),
@@ -98,7 +106,7 @@ class _TutorialState extends State<Tutorial> {
                   );
                 }).toList(),
               ),
-              _getCarouselPager(context, 5),
+              _getCarouselPager(context, _totalPages),
               ColorButton(
                 isUpdating: false,
                 label: "Close",

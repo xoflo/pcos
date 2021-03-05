@@ -42,6 +42,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   Future<void> _checkShowTutorial() async {
     if (!await PreferencesController()
         .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
+      analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
       PreferencesController().saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL);
       await Future.delayed(Duration(seconds: 2), () {
         openBottomSheet(
@@ -191,7 +192,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void _closeTodaysTask() {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-      parameters: {'type': Analytics.ANALYTICS_BUTTON_SAVE_TASK},
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_BUTTON:
+            Analytics.ANALYTICS_BUTTON_SAVE_TASK
+      },
     );
 
     setState(() {

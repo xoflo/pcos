@@ -75,7 +75,10 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   void onSearchClicked() async {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_SEARCH,
-      parameters: {'type': Analytics.ANALYTICS_SEARCH_RECIPE},
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_SEARCH_TYPE:
+            Analytics.ANALYTICS_SEARCH_RECIPE
+      },
     );
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     recipeProvider.filterAndSearch(

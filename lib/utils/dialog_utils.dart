@@ -14,7 +14,7 @@ void showFlushBar(final BuildContext scaffoldContext, final String title,
     final int displayDuration = 5}) {
   analytics.logEvent(
     name: Analytics.ANALYTICS_EVENT_FLUSHBAR,
-    parameters: {'title': title},
+    parameters: {Analytics.ANALYTICS_PARAMETER_FLUSHBAR_TITLE: title},
   );
 
   Flushbar(
@@ -58,7 +58,7 @@ showAlertDialog(
 ) {
   analytics.logEvent(
     name: Analytics.ANALYTICS_EVENT_OPENDIALOG,
-    parameters: {'title': title},
+    parameters: {Analytics.ANALYTICS_PARAMETER_DIALOG_TITLE: title},
   );
   // set up the buttons
   Widget cancelButton = ColorButton(

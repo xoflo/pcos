@@ -214,7 +214,10 @@ class PinUnlockState extends State<PinUnlock> {
   void continueForgottenPin(BuildContext context) {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-      parameters: {'type': Analytics.ANALYTICS_BUTTON_FORGOTTEN_PIN},
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_BUTTON:
+            Analytics.ANALYTICS_BUTTON_FORGOTTEN_PIN
+      },
     );
     Navigator.of(context).pop();
     deleteCredentialsAndGotoSignIn();
