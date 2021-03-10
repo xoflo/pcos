@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
 
@@ -47,14 +48,14 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
         _getHeaderText(context, widget.currentIndex),
         style: TextStyle(
           fontSize: 20.0,
-          color: Colors.white,
+          color: primaryColorDark,
         ),
       ),
       actions: <Widget>[
         IconButton(
           icon: Icon(
             Icons.chat_outlined,
-            color: Colors.white,
+            color: primaryColorDark,
             size: 26.0,
           ),
           onPressed: () {

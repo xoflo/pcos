@@ -55,10 +55,10 @@ class S {
     );
   }
 
-  /// `Dashboard`
+  /// `Your Course`
   String get dashboardTitle {
     return Intl.message(
-      'Dashboard',
+      'Your Course',
       name: 'dashboardTitle',
       desc: '',
       args: [],

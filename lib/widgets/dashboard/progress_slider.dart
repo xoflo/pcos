@@ -39,7 +39,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Today's Task - Sugar Cravings",
+                  "How are your sugar cravings?",
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 Padding(
@@ -49,6 +49,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
                   ),
                   child: Text(
                     "Please tell us how your sugar cravings are today Amelia?",
+                    style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.center,
                   ),
                 ),

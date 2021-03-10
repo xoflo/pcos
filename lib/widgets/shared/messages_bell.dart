@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class MessagesBell extends StatelessWidget {
   final int messagesCount;
@@ -13,7 +14,7 @@ class MessagesBell extends StatelessWidget {
           padding: const EdgeInsets.only(top: 3.0),
           child: Icon(
             Icons.notifications_none,
-            color: Colors.white,
+            color: primaryColorDark,
             size: 30,
           ),
         ),
@@ -25,7 +26,7 @@ class MessagesBell extends StatelessWidget {
                   width: 16,
                   height: 16,
                   child: CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor: primaryColorDark,
                     child: Text(
                       messagesCount.toString(),
                       style: TextStyle(

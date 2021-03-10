@@ -30,12 +30,13 @@ ThemeData appThemeData() {
       ),
     ),
     appBarTheme: AppBarTheme(
-      color: primaryColorDark,
+      color: backgroundColor,
+      iconTheme: IconThemeData(color: primaryColorDark),
+      elevation: 0,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: primaryColor,
     ),
-
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(

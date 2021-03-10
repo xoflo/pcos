@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/your_why.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -13,8 +14,8 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/your_progress.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/current_lesson.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/previous_lessons.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/current_module.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/previous_modules.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/progress_slider.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
@@ -216,6 +217,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            YourWhy(),
             _showTodaysTask
                 ? ProgressSlider(
                     screenSize: screenSize,
@@ -224,14 +226,14 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                   )
                 : Container(),
             YourProgress(),
-            CurrentLesson(
+            CurrentModule(
               isNew: true,
               screenSize: screenSize,
               isHorizontal: isHorizontal,
               openLesson: _openLesson,
               closeLesson: _closeLesson,
             ),
-            PreviousLessons(
+            PreviousModules(
               screenSize: screenSize,
               isHorizontal: isHorizontal,
               openLesson: _openLesson,
