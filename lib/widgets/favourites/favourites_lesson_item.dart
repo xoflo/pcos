@@ -18,62 +18,65 @@ class FavouritesLessonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: width - 75,
-              child: Text(
-                lesson.title,
-                style: Theme.of(context).textTheme.headline6,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: width - 75,
+                child: Text(
+                  lesson.title,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                removeFavourite(FavouriteType.Lesson, lesson.lessonId, false);
-              },
-              child: Icon(
-                Icons.delete,
-                size: 24.0,
-                color: secondaryColor,
+              GestureDetector(
+                onTap: () {
+                  removeFavourite(FavouriteType.Lesson, lesson.lessonId, false);
+                },
+                child: Icon(
+                  Icons.delete,
+                  size: 24.0,
+                  color: secondaryColor,
+                ),
               ),
-            ),
-          ],
-        ),
-        Container(
-          width: width,
-          child: Text(
-            lesson.description,
+            ],
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 4.0),
-              child: Text("Watch now"),
+          Container(
+            width: width,
+            child: Text(
+              lesson.description,
             ),
-            GestureDetector(
-              onTap: () {
-                openFavourite(FavouriteType.Lesson, lesson);
-              },
-              child: Icon(
-                Icons.play_circle_fill,
-                size: 30.0,
-                color: secondaryColor,
-              ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1.0),
-          child: Divider(
-            color: primaryColor,
           ),
-        )
-      ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 4.0),
+                child: Text("Watch now"),
+              ),
+              GestureDetector(
+                onTap: () {
+                  openFavourite(FavouriteType.Lesson, lesson);
+                },
+                child: Icon(
+                  Icons.play_circle_fill,
+                  size: 30.0,
+                  color: secondaryColor,
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1.0),
+            child: Divider(
+              color: primaryColor,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

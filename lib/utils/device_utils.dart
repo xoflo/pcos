@@ -67,7 +67,7 @@ class DeviceUtils {
     }
 
     if (hasNavigationTabs) {
-      adjustmentAmount = adjustmentAmount + 55;
+      adjustmentAmount = adjustmentAmount + 30;
     }
 
     if (hasIconsOnTabs) {
