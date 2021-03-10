@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-class LessonMiniCard extends StatelessWidget {
+class ModuleCard extends StatelessWidget {
   final Size screenSize;
   final int moduleNumber;
   final String moduleName;
+  final bool isSelected;
 
-  LessonMiniCard(
-      {@required this.screenSize,
-      @required this.moduleNumber,
-      @required this.moduleName});
+  ModuleCard({
+    @required this.screenSize,
+    @required this.moduleNumber,
+    @required this.moduleName,
+    @required this.isSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +28,10 @@ class LessonMiniCard extends StatelessWidget {
             width: screenSize.width * 0.5,
             margin: EdgeInsets.symmetric(horizontal: 5.0),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isSelected ? backgroundColor : Colors.white,
               borderRadius: BorderRadius.circular(5.0),
-              border: Border.all(color: secondaryColorLight, width: 2.0),
+              border: Border.all(
+                  color: secondaryColor, width: isSelected ? 3.0 : 2.0),
             ),
             child: Align(
               alignment: Alignment.center,
@@ -36,7 +41,9 @@ class LessonMiniCard extends StatelessWidget {
                   moduleName,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: secondaryColorLight,
+                    color: secondaryColor,
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
               ),
@@ -51,14 +58,14 @@ class LessonMiniCard extends StatelessWidget {
               top: 0,
             ),
             child: SizedBox(
-              height: 20,
-              width: 20,
+              height: isSelected ? 24 : 20,
+              width: isSelected ? 24 : 20,
               child: CircleAvatar(
-                backgroundColor: secondaryColorLight,
+                backgroundColor: secondaryColor,
                 child: Text(
                   moduleNumber.toString(),
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: isSelected ? 14 : 12,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),

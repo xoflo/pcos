@@ -8,7 +8,7 @@ class ChangePassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColorDark,
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(

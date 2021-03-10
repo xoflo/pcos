@@ -48,14 +48,14 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
         _getHeaderText(context, widget.currentIndex),
         style: TextStyle(
           fontSize: 20.0,
-          color: primaryColorDark,
+          color: primaryColor,
         ),
       ),
       actions: <Widget>[
         IconButton(
           icon: Icon(
             Icons.chat_outlined,
-            color: primaryColorDark,
+            color: primaryColor,
             size: 26.0,
           ),
           onPressed: () {

@@ -33,9 +33,9 @@ class YourProgress extends StatelessWidget {
                   height: 30,
                   child: SliderTheme(
                     data: SliderThemeData(
-                      disabledActiveTrackColor: primaryColorDark,
+                      disabledActiveTrackColor: primaryColor,
                       disabledInactiveTrackColor: Colors.black12,
-                      disabledThumbColor: primaryColorDark,
+                      disabledThumbColor: primaryColor,
                       disabledActiveTickMarkColor: Colors.white70,
                       trackHeight: 10,
                       thumbShape:

@@ -33,36 +33,26 @@ class CurrentModule extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: SizedBox(
-            width: screenSize.width,
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: 200,
-                      enableInfiniteScroll: false,
-                      viewportFraction: 0.92,
-                      initialPage: 5,
-                    ),
-                    items: [1, 2, 3, 4, 5].map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          final isNew = i == 5 ? true : false;
-                          return LessonCard(
-                            lessonId: i,
-                            isNew: isNew,
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
+        child: SizedBox(
+          width: screenSize.width,
+          child: CarouselSlider(
+            options: CarouselOptions(
+              height: 200,
+              enableInfiniteScroll: false,
+              viewportFraction: 0.92,
+              initialPage: 5,
             ),
+            items: [1, 2, 3, 4, 5].map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  final isNew = i == 5 ? true : false;
+                  return LessonCard(
+                    lessonId: i,
+                    isNew: isNew,
+                  );
+                },
+              );
+            }).toList(),
           ),
         ),
       ),

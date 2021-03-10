@@ -58,7 +58,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
                   children: [
                     Icon(
                       Icons.sentiment_dissatisfied_outlined,
-                      color: primaryColorDark,
+                      color: primaryColor,
                       size: 30,
                     ),
                     Slider(
@@ -73,7 +73,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
                     ),
                     Icon(
                       Icons.sentiment_satisfied_outlined,
-                      color: primaryColorDark,
+                      color: primaryColor,
                       size: 30,
                     ),
                   ],

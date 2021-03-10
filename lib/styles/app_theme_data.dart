@@ -7,7 +7,6 @@ ThemeData appThemeData() {
     // Define the default brightness and colors.
     brightness: Brightness.light,
     primaryColor: primaryColor,
-    primaryColorDark: primaryColorDark,
     primaryColorLight: primaryColorLight,
     backgroundColor: backgroundColor,
     cardColor: Colors.white,
@@ -19,19 +18,19 @@ ThemeData appThemeData() {
     //accentIconTheme: IconThemeData(color: Colors.white), deprecated
     canvasColor: backgroundColor,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: primaryColorDark,
+      backgroundColor: primaryColor,
       selectedIconTheme: IconThemeData(
         color: Colors.white,
-        size: 34.0,
+        size: 30.0,
       ),
       unselectedIconTheme: IconThemeData(
         color: backgroundColor,
-        size: 30.0,
+        size: 26.0,
       ),
     ),
     appBarTheme: AppBarTheme(
       color: backgroundColor,
-      iconTheme: IconThemeData(color: primaryColorDark),
+      iconTheme: IconThemeData(color: primaryColor),
       elevation: 0,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -41,31 +40,31 @@ ThemeData appThemeData() {
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
       headline1: TextStyle(
-        color: primaryColorDark,
+        color: primaryColor,
         fontSize: 28.0,
         fontWeight: FontWeight.bold,
       ),
       headline2: TextStyle(
-        color: primaryColorDark,
+        color: primaryColor,
         fontSize: 26.0,
         fontWeight: FontWeight.bold,
       ),
       headline3: TextStyle(
-        color: primaryColorDark,
+        color: primaryColor,
         fontSize: 24.0,
         fontWeight: FontWeight.bold,
       ),
       headline4: TextStyle(
-        color: primaryColorDark,
+        color: primaryColor,
         fontSize: 22.0,
         fontWeight: FontWeight.w600,
       ),
       headline5: TextStyle(
-        color: primaryColorDark,
+        color: primaryColor,
         fontSize: 20.0,
       ),
       headline6: TextStyle(
-        color: primaryColorDark,
+        color: primaryColor,
         fontSize: 18.0,
       ),
       bodyText1: TextStyle(
@@ -74,7 +73,7 @@ ThemeData appThemeData() {
         fontWeight: FontWeight.normal,
       ),
       bodyText2: TextStyle(
-        color: textColorAlt,
+        color: textColor,
         fontSize: 16.0,
         fontWeight: FontWeight.normal,
       ),
@@ -83,7 +82,7 @@ ThemeData appThemeData() {
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.white,
         side: BorderSide(
-          color: primaryColorDark,
+          color: primaryColor,
         ),
         padding: EdgeInsets.all(8),
         textStyle: TextStyle(
@@ -94,17 +93,17 @@ ThemeData appThemeData() {
     inputDecorationTheme: InputDecorationTheme(
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: primaryColorDark,
+          color: primaryColor,
         ),
       ),
       labelStyle: TextStyle(
-        color: primaryColorDark,
+        color: primaryColor,
       ),
     ),
     tabBarTheme: TabBarTheme(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
-          color: secondaryColorLight,
+          color: secondaryColor,
         ),
       ),
     ),

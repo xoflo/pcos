@@ -50,7 +50,7 @@ class SearchHeader extends StatelessWidget {
                           labelText: S.of(context).searchInputText,
                           suffixIcon: IconButton(
                             onPressed: () => searchController.clear(),
-                            icon: Icon(Icons.clear, color: secondaryColorLight),
+                            icon: Icon(Icons.clear, color: secondaryColor),
                           ),
                         ),
                       ),
@@ -70,14 +70,14 @@ class SearchHeader extends StatelessWidget {
                               value: tagValue,
                               icon: Icon(
                                 Icons.arrow_drop_down,
-                                color: primaryColorDark,
+                                color: primaryColor,
                               ),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(color: secondaryColorLight),
+                              style: TextStyle(color: secondaryColor),
                               underline: Container(
                                 height: 2,
-                                color: primaryColorDark,
+                                color: primaryColor,
                               ),
                               onChanged: (String newValue) {
                                 onTagSelected(newValue);

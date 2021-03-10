@@ -14,7 +14,7 @@ class MessagesBell extends StatelessWidget {
           padding: const EdgeInsets.only(top: 3.0),
           child: Icon(
             Icons.notifications_none,
-            color: primaryColorDark,
+            color: primaryColor,
             size: 30,
           ),
         ),
@@ -26,7 +26,7 @@ class MessagesBell extends StatelessWidget {
                   width: 16,
                   height: 16,
                   child: CircleAvatar(
-                    backgroundColor: primaryColorDark,
+                    backgroundColor: primaryColor,
                     child: Text(
                       messagesCount.toString(),
                       style: TextStyle(

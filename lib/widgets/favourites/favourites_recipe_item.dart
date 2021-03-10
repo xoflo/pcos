@@ -42,7 +42,7 @@ class FavouritesRecipeItem extends StatelessWidget {
               child: Icon(
                 Icons.delete,
                 size: 24.0,
-                color: secondaryColorLight,
+                color: secondaryColor,
               ),
             ),
           ],
@@ -87,7 +87,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                     child: Icon(
                       Icons.chevron_right,
                       size: 30.0,
-                      color: secondaryColorLight,
+                      color: secondaryColor,
                     ),
                   ),
                 ],
@@ -98,7 +98,7 @@ class FavouritesRecipeItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 1.0),
           child: Divider(
-            color: primaryColorDark,
+            color: primaryColor,
           ),
         )
       ],

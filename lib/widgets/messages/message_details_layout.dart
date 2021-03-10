@@ -68,7 +68,7 @@ class MessageDetailsLayout extends StatelessWidget {
             },
             child: Icon(
               Icons.delete,
-              color: secondaryColorLight,
+              color: secondaryColor,
               size: 36,
             ),
           )

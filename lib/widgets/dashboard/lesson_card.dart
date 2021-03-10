@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/new_indicator.dart';
 
@@ -10,59 +11,88 @@ class LessonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(horizontal: 5.0),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Lesson $lessonId",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(fontSize: 16),
-                ),
-                Text(
-                  "Afternoon Cravings",
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "In the final lesson of the Reducing Sugar module we look at how you can avoid those afternoon snack cravings, and choose a healthier alternative.",
-                    textAlign: TextAlign.justify,
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.symmetric(horizontal: 5.0),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Lesson $lessonId",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(fontSize: 16),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text("Listen now",
-                        style: TextStyle(color: secondaryColorLight)),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4.0),
-                      child: Icon(
-                        Icons.volume_up,
-                        color: secondaryColorLight,
-                        size: 36,
-                      ),
+                  Text(
+                    "Afternoon Cravings",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "In the final lesson of the Reducing Sugar module we look at how you can avoid those afternoon snack cravings, and choose a healthier alternative.",
+                      textAlign: TextAlign.justify,
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("Listen now",
+                          style: TextStyle(color: secondaryColor)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Icon(
+                          Icons.volume_up,
+                          color: secondaryColor,
+                          size: 36,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-          isNew ? NewIndicator() : Container(),
-        ],
-      ),
+        ),
+        isNew
+            ? Align(
+                alignment: Alignment.topRight,
+                child: AvatarGlow(
+                  glowColor: Colors.blue,
+                  endRadius: 33.0,
+                  duration: Duration(milliseconds: 2000),
+                  repeat: true,
+                  showTwoGlows: true,
+                  repeatPauseDuration: Duration(milliseconds: 1000),
+                  child: Material(
+                    // Replace this child with your own
+                    elevation: 8.0,
+                    shape: CircleBorder(),
+                    child: CircleAvatar(
+                      backgroundColor: primaryColor,
+                      child: Icon(
+                        Icons.fiber_new,
+                        color: Colors.white,
+                        size: 25.0,
+                      ),
+                      radius: 17.0,
+                    ),
+                  ),
+                ),
+              )
+            : Container(),
+      ],
     );
   }
 }

@@ -42,7 +42,7 @@ class _QuestionListState extends State<QuestionList> {
             return ListTile(
               title: Text(
                 item.question,
-                style: TextStyle(color: primaryColorDark),
+                style: TextStyle(color: primaryColor),
               ),
             );
           },

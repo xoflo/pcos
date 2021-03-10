@@ -21,7 +21,7 @@ class NewIndicator extends StatelessWidget {
               child: Text("New",
                   style: TextStyle(
                     fontSize: 14,
-                    color: primaryColorDark,
+                    color: primaryColor,
                     fontWeight: FontWeight.bold,
                   )),
             ),
@@ -30,7 +30,7 @@ class NewIndicator extends StatelessWidget {
               child: Icon(
                 Icons.stars,
                 size: 40.0,
-                color: primaryColorDark,
+                color: primaryColor,
               ),
             ),
           ],

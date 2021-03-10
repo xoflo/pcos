@@ -29,7 +29,7 @@ class MessagesListItem extends StatelessWidget {
                 width: 10,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: message.isRead ? Colors.white : secondaryColorLight,
+                    color: message.isRead ? Colors.white : secondaryColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(5.0),
                       bottomLeft: Radius.circular(5.0),
@@ -61,7 +61,7 @@ class MessagesListItem extends StatelessWidget {
                           ),
                           Icon(
                             Icons.open_in_new,
-                            color: secondaryColorLight,
+                            color: secondaryColor,
                             size: 24.0,
                           ),
                         ],

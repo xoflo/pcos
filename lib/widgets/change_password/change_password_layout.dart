@@ -91,7 +91,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
     showFlushBar(context, title, message,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
-        primaryColor: primaryColorDark);
+        primaryColor: primaryColor);
   }
 
   @override

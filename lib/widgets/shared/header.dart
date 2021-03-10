@@ -18,7 +18,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: primaryColorDark,
+        color: primaryColor,
       ),
       child: Padding(
         padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 1.0, bottom: 13.0),
@@ -33,7 +33,7 @@ class Header extends StatelessWidget {
                 width: 35,
                 height: 35,
                 child: Container(
-                  color: primaryColorDark,
+                  color: primaryColor,
                   child: Icon(
                     Icons.arrow_back_ios,
                     color: Colors.white,

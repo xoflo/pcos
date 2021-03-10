@@ -3,6 +3,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class AppNavigationTabs extends StatelessWidget {
   final int currentIndex;

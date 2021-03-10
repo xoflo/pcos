@@ -17,7 +17,7 @@ class YourWhy extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Courgette',
                 fontSize: 20,
-                color: primaryColorDark,
+                color: primaryColor,
               ),
             ),
           ),

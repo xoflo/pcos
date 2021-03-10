@@ -37,7 +37,7 @@ class FavouritesLessonItem extends StatelessWidget {
               child: Icon(
                 Icons.delete,
                 size: 24.0,
-                color: secondaryColorLight,
+                color: secondaryColor,
               ),
             ),
           ],
@@ -62,7 +62,7 @@ class FavouritesLessonItem extends StatelessWidget {
               child: Icon(
                 Icons.play_circle_fill,
                 size: 30.0,
-                color: secondaryColorLight,
+                color: secondaryColor,
               ),
             ),
           ],
@@ -70,7 +70,7 @@ class FavouritesLessonItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 1.0),
           child: Divider(
-            color: primaryColorDark,
+            color: primaryColor,
           ),
         )
       ],

@@ -30,7 +30,7 @@ class _TutorialState extends State<Tutorial> {
     for (var i = 0; i < totalPages; i++) {
       circleList.add(
         _drawCircle(
-          i == _currentPage ? primaryColorDark : primaryColorLight,
+          i == _currentPage ? primaryColor : primaryColorLight,
           i == _currentPage ? 14 : 10,
         ),
       );

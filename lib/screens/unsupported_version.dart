@@ -27,7 +27,7 @@ class UnsupportedVersion extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: primaryColorDark,
+      backgroundColor: primaryColor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),

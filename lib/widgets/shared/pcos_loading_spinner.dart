@@ -9,7 +9,7 @@ class PcosLoadingSpinner extends StatelessWidget {
       child: Align(
           child: CircularProgressIndicator(
         backgroundColor: backgroundColor,
-        valueColor: new AlwaysStoppedAnimation<Color>(primaryColorDark),
+        valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
       )),
     );
   }

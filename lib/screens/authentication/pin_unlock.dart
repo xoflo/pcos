@@ -115,7 +115,7 @@ class PinUnlockState extends State<PinUnlock> {
           S.of(context).internetConnectionText,
           backgroundColor: Colors.white,
           borderColor: primaryColorLight,
-          primaryColor: primaryColorDark);
+          primaryColor: primaryColor);
     }
   }
 
@@ -151,7 +151,7 @@ class PinUnlockState extends State<PinUnlock> {
         S.of(context).pinUnlockErrorText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
-        primaryColor: primaryColorDark);
+        primaryColor: primaryColor);
 
     resetPinPad();
   }
@@ -179,7 +179,7 @@ class PinUnlockState extends State<PinUnlock> {
       message,
       backgroundColor: Colors.white,
       borderColor: primaryColorLight,
-      primaryColor: primaryColorDark,
+      primaryColor: primaryColor,
       displayDuration: 5,
     );
 
@@ -242,7 +242,7 @@ class PinUnlockState extends State<PinUnlock> {
         return onBackPressed(context);
       },
       child: Scaffold(
-        backgroundColor: primaryColorDark,
+        backgroundColor: primaryColor,
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

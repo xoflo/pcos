@@ -178,7 +178,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         S.of(context).coachChatFailedText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
-        primaryColor: primaryColorDark,
+        primaryColor: primaryColor,
       );
     }
   }

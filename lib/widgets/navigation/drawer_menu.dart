@@ -40,12 +40,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
     final TextStyle drawerItemStyle =
         Theme.of(context).textTheme.headline4.copyWith(
               fontSize: 20.0,
-              color: primaryColorDark,
+              color: primaryColor,
             );
     final TextStyle footerStyle =
         Theme.of(context).textTheme.headline4.copyWith(
               fontSize: 14.0,
-              color: primaryColorDark,
+              color: primaryColor,
             );
     final DateTime today = DateTime.now();
 
@@ -62,7 +62,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   Text(
                     S.of(context).appTitle,
                     style: Theme.of(context).textTheme.headline4.copyWith(
-                          color: primaryColorDark,
+                          color: primaryColor,
                         ),
                   ),
                   Row(
@@ -75,7 +75,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                         child: Icon(
                           Icons.settings,
                           size: 24.0,
-                          color: primaryColorDark,
+                          color: primaryColor,
                         ),
                       ),
                       GestureDetector(
@@ -86,12 +86,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           children: [
                             Text("Lock App",
                                 style: TextStyle(
-                                  color: primaryColorDark,
+                                  color: primaryColor,
                                 )),
                             Icon(
                               Icons.lock_outline,
                               size: 24.0,
-                              color: primaryColorDark,
+                              color: primaryColor,
                             ),
                           ],
                         ),

@@ -58,7 +58,7 @@ class _DialogHeaderState extends State<DialogHeader> {
                     isFavouriteOnHeader
                         ? Icons.favorite
                         : Icons.favorite_outline,
-                    color: secondaryColorLight,
+                    color: secondaryColor,
                     size: 35,
                   ),
                 ),
@@ -82,7 +82,7 @@ class _DialogHeaderState extends State<DialogHeader> {
               width: 35,
               height: 35,
               child: Container(
-                color: primaryColorDark,
+                color: primaryColor,
                 child: Icon(
                   Icons.close,
                   color: Colors.white,

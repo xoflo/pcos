@@ -14,12 +14,12 @@ class PreviousLessonsNavigator extends StatelessWidget {
       children: [
         Icon(
           Icons.first_page,
-          color: secondaryColorLight,
+          color: secondaryColor,
           size: 30,
         ),
         Icon(
           Icons.chevron_left,
-          color: secondaryColorLight,
+          color: secondaryColor,
           size: 30,
         ),
         Padding(
@@ -34,12 +34,12 @@ class PreviousLessonsNavigator extends StatelessWidget {
         ),
         Icon(
           Icons.chevron_right,
-          color: secondaryColorLight,
+          color: secondaryColor,
           size: 30,
         ),
         Icon(
           Icons.skip_next,
-          color: secondaryColorLight,
+          color: secondaryColor,
           size: 30,
         ),
       ],
