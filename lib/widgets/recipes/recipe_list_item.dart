@@ -11,44 +11,39 @@ class RecipeListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200.0,
-      child: GestureDetector(
-        onTap: () {
-          openRecipeDetails(context, recipe);
-        },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: FadeInImage.memoryNetwork(
-                    alignment: Alignment.center,
-                    placeholder: kTransparentImage,
-                    image: FlavorConfig.instance.values.imageStorageUrl +
-                        recipe.thumbnail,
-                    fit: BoxFit.fitWidth,
-                    width: double.maxFinite,
-                    height: 221,
-                  ),
+    return GestureDetector(
+      onTap: () {
+        openRecipeDetails(context, recipe);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FadeInImage.memoryNetwork(
+                alignment: Alignment.center,
+                placeholder: kTransparentImage,
+                image: FlavorConfig.instance.values.imageStorageUrl +
+                    recipe.thumbnail,
+                fit: BoxFit.fitWidth,
+                width: double.maxFinite,
+                height: 220,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 8.0,
+                  top: 12.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8.0,
-                    top: 12.0,
-                  ),
-                  child: Text(
-                    recipe.title,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
+                child: Text(
+                  recipe.title,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

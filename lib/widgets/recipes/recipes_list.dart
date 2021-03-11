@@ -22,8 +22,8 @@ class RecipesList extends StatelessWidget {
     final double aspectRatio = isHorizontal
         ? 1.24
         : Platform.isIOS
-            ? 1.36
-            : 1.49;
+            ? 1.5
+            : 1.5;
 
     return Expanded(
       child: GridView.count(

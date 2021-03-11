@@ -30,7 +30,8 @@ class SearchHeader extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      child: Card(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(

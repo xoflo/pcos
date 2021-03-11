@@ -118,25 +118,21 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Column(
-        children: [
-          SearchHeader(
-            searchController: searchController,
-            tagValues: getTagValues(),
-            tagValue: tagSelectedValue,
-            onTagSelected: onTagSelected,
-            onSearchClicked: onSearchClicked,
-            isSearching: isSearching,
-            widthAdjustment: 0,
-          ),
-          Consumer<RecipesProvider>(
-            builder: (context, model, child) =>
-                getRecipesList(screenSize, model),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        SearchHeader(
+          searchController: searchController,
+          tagValues: getTagValues(),
+          tagValue: tagSelectedValue,
+          onTagSelected: onTagSelected,
+          onSearchClicked: onSearchClicked,
+          isSearching: isSearching,
+          widthAdjustment: 0,
+        ),
+        Consumer<RecipesProvider>(
+          builder: (context, model, child) => getRecipesList(screenSize, model),
+        ),
+      ],
     );
   }
 }
