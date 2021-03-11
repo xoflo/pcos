@@ -33,19 +33,33 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   TimeOfDay _customNotificationTime;
   bool _showTodaysTask = true;
   bool _dataUsageWarningDisplayed = false;
+  bool _showYourWhy = false;
 
   @override
   void initState() {
     super.initState();
+    _initialise();
     _checkShowTutorial();
-    _getDataUsageWarningDisplayed();
+  }
+
+  Future<void> _initialise() async {
+    final bool dataUsageWarningDisplayed = await PreferencesController()
+        .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
+    final bool isYourWhyOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+
+    setState(() {
+      _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
+      _showYourWhy = isYourWhyOn;
+    });
   }
 
   Future<void> _checkShowTutorial() async {
     if (!await PreferencesController()
         .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
       analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-      PreferencesController().saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL);
+      PreferencesController()
+          .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
       await Future.delayed(Duration(seconds: 2), () {
         openBottomSheet(
           context,
@@ -61,14 +75,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
   }
 
-  void _getDataUsageWarningDisplayed() async {
-    final bool dataUsageWarningDisplayed = await PreferencesController()
-        .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
-    setState(() {
-      _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
-    });
-  }
-
   void _openLesson() async {
     final Lesson lesson = Lesson.fromValues(
         1, LessonType.Video, "A Test lesson", "This is just a test lesson.");
@@ -78,7 +84,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       showDataUsageWarning = true;
       //save has seen warning so not to display again
       PreferencesController()
-          .saveBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
+          .saveBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED, true);
       setState(() {
         _dataUsageWarningDisplayed = true;
       });
@@ -150,7 +156,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
 
     PreferencesController()
-        .saveBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
+        .saveBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER, true);
 
     showAlertDialog(
       context,
@@ -171,8 +177,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
               sound: true, badge: true, alert: true));
     }
 
-    PreferencesController()
-        .saveBool(SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION);
+    PreferencesController().saveBool(
+        SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
 
     showAlertDialog(
       context,
@@ -218,7 +224,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            YourWhy(),
+            _showYourWhy ? YourWhy() : Container(),
             _showTodaysTask
                 ? Tasks(
                     screenSize: screenSize,

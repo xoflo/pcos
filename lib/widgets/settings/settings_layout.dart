@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/services.dart';
+import 'package:thepcosprotocol_app/widgets/settings/your_why.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -30,6 +31,7 @@ class SettingsLayout extends StatefulWidget {
 class _SettingsLayoutState extends State<SettingsLayout> {
   bool _isLoading = true;
   bool _isDailyReminderOn = false;
+  bool _isYourWhyOn = false;
   TimeOfDay _dailyReminderTimeOfDay =
       DateTimeUtils.stringToTimeOfDay("12:00 PM");
   PermissionStatus _notificationPermissions = PermissionStatus.unknown;
@@ -46,16 +48,20 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         .getString(SharedPreferencesKeys.DAILY_REMINDER_TIME);
     _notificationPermissions =
         await NotificationPermissions.getNotificationPermissionStatus();
+    final bool isYourWhyOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
 
     if (dailyReminderString.length > 0) {
       setState(() {
         _dailyReminderTimeOfDay =
             DateTimeUtils.stringToTimeOfDay(dailyReminderString);
         _isDailyReminderOn = true;
+        _isYourWhyOn = isYourWhyOn;
         _isLoading = false;
       });
     } else {
       setState(() {
+        _isYourWhyOn = isYourWhyOn;
         _isLoading = false;
       });
     }
@@ -97,7 +103,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
           SharedPreferencesKeys.DAILY_REMINDER_TIME,
           _dailyReminderTimeOfDay.format(context));
       PreferencesController()
-          .saveBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
+          .saveBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER, true);
     } else {
       turnOffDailyReminderNotification(flutterLocalNotificationsPlugin);
       await PreferencesController()
@@ -147,6 +153,15 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     });
   }
 
+  Future<void> _saveYourWhy(final bool isOn) async {
+    setState(() {
+      _isYourWhyOn = isOn;
+    });
+
+    PreferencesController()
+        .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, isOn);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -192,6 +207,9 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                             saveDailyReminder: _saveDailyReminder,
                             showTimeDialog: _showTimeDialog,
                           ),
+                          YourWhySetting(
+                              isYourWhyOn: _isYourWhyOn,
+                              saveYourWhy: _saveYourWhy),
                         ],
                       ),
                     ),

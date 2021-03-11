@@ -7,6 +7,7 @@ const String INTERCOM_REGISTERED = "intercom_registered";
 const String VIEWED_TUTORIAL = "viewed_tutorial";
 const String REQUESTED_DAILY_REMINDER = "requested_daily_reminder";
 const String DAILY_REMINDER_TIME = "daily_reminder_time";
+const String YOUR_WHY_DISPLAYED = "your_why_displayed";
 const String APP_FIRST_USE_TIMESTAMP = "app_first_use_timestamp";
 const String REQUESTED_NOTIFICATIONS_PERMISSION =
     "requested_notifications_permission";

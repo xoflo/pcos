@@ -170,6 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendButtonText" : MessageLookupByLibrary.simpleMessage("Send"),
     "settingsDailyReminderText" : MessageLookupByLibrary.simpleMessage("Daily Reminder:"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
+    "settingsYourWhyText" : MessageLookupByLibrary.simpleMessage("Display \'Your Why\':"),
     "signInEmailNotVerifiedErrorText" : MessageLookupByLibrary.simpleMessage("Your email address has not be verified, please check your inbox for a new verification email."),
     "signInTitle" : MessageLookupByLibrary.simpleMessage("Sign In"),
     "signUpTitle" : MessageLookupByLibrary.simpleMessage("Sign Up"),

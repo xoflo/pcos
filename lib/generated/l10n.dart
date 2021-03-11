@@ -1635,6 +1635,16 @@ class S {
     );
   }
 
+  /// `Display 'Your Why':`
+  String get settingsYourWhyText {
+    return Intl.message(
+      'Display \'Your Why\':',
+      name: 'settingsYourWhyText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Allow Notifications`
   String get notificationPermissionsAllowButton {
     return Intl.message(
