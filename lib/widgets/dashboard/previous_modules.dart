@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/module_card.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/previous_lessons_navigator.dart';
 
 class PreviousModules extends StatelessWidget {
   final Size screenSize;

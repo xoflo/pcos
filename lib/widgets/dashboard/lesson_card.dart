@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/new_indicator.dart';
 
 class LessonCard extends StatelessWidget {
   final int lessonId;

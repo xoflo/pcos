@@ -1,28 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/task_card.dart';
 
-class CurrentModule extends StatelessWidget {
-  final bool isNew;
+class Tasks extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
-  final Function openLesson;
-  final Function closeLesson;
+  final Function onSubmit;
 
-  CurrentModule({
-    @required this.isNew,
+  Tasks({
     @required this.screenSize,
     @required this.isHorizontal,
-    @required this.openLesson,
-    @required this.closeLesson,
+    @required this.onSubmit,
   });
-
-  final String moduleTitle = "Increasing Protein";
-  final String lessonTitle = "Why a high protein breakfast?";
-  final String lessonIntro =
-      "In this lesson we look at why it is so important to start the day off with a healthy high protein breakfast, and how you can do this everyday.";
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +25,19 @@ class CurrentModule extends StatelessWidget {
           width: screenSize.width,
           child: CarouselSlider(
             options: CarouselOptions(
-              height: 200,
+              height: 205,
               enableInfiniteScroll: false,
               viewportFraction: 0.92,
               initialPage: 5,
             ),
-            items: [1, 2, 3, 4, 5].map((i) {
+            items: [1].map((i) {
               return Builder(
                 builder: (BuildContext context) {
                   final isNew = i == 5 ? true : false;
-                  return LessonCard(
-                    lessonId: i,
-                    isNew: isNew,
+                  return TaskCard(
+                    screenSize: screenSize,
+                    isHorizontal: isHorizontal,
+                    onSubmit: onSubmit,
                   );
                 },
               );
