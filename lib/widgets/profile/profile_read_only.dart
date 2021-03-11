@@ -44,10 +44,10 @@ class ProfileReadOnly extends StatelessWidget {
                         fontWeight: FontWeight.normal),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: primaryColorDark),
+                        color: primaryColor),
                     message: S.of(context).userNameLocked,
-                    child: Icon(Icons.lock_outline,
-                        color: primaryColorDark, size: 16),
+                    child:
+                        Icon(Icons.lock_outline, color: primaryColor, size: 16),
                   ))
               : Container(),
         ],

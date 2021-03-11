@@ -6,15 +6,16 @@ import 'package:thepcosprotocol_app/tabs/favourites.dart';
 
 class MainScreens extends StatelessWidget {
   final int currentIndex;
+  final bool showYourWhy;
 
-  MainScreens({@required this.currentIndex});
+  MainScreens({@required this.currentIndex, @required this.showYourWhy});
 
   @override
   Widget build(BuildContext context) {
     return IndexedStack(
       index: currentIndex,
       children: [
-        Dashboard(),
+        Dashboard(showYourWhy: showYourWhy),
         KnowledgeBase(),
         Recipes(),
         Favourites(),

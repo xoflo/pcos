@@ -45,9 +45,9 @@ class DailyReminder extends StatelessWidget {
                       S.of(context).notificationPermissionsNeedToAllowText,
                       backgroundColor: Colors.white,
                       borderColor: primaryColorLight,
-                      primaryColor: primaryColorDark);
+                      primaryColor: primaryColor);
                 },
-                activeTrackColor: secondaryColorLight,
+                activeTrackColor: secondaryColor,
                 activeColor: secondaryColor,
               ),
             ],
@@ -70,7 +70,7 @@ class DailyReminder extends StatelessWidget {
                         child: Icon(
                           Icons.timer,
                           size: 30.0,
-                          color: secondaryColorLight,
+                          color: secondaryColor,
                         ),
                       ),
                     ],

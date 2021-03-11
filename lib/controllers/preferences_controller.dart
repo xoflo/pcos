@@ -1,10 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesController {
-  Future<bool> saveBool(final String sharedPreferencesKey) async {
+  Future<bool> saveBool(
+      final String sharedPreferencesKey, final bool value) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool(sharedPreferencesKey, true);
+      prefs.setBool(sharedPreferencesKey, value);
       return true;
     } catch (ex) {
       return false;

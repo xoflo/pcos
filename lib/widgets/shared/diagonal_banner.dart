@@ -17,7 +17,7 @@ class DiagonalBanner extends StatelessWidget {
           textDirection: Directionality.of(context),
           layoutDirection: Directionality.of(context),
           location: BannerLocation.topStart,
-          color: primaryColorDark,
+          color: primaryColor,
         ),
       ),
     );

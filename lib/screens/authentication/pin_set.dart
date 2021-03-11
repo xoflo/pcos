@@ -63,7 +63,7 @@ class _PinSetState extends State<PinSet> {
         S.of(context).pinEntryErrorText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
-        primaryColor: primaryColorDark);
+        primaryColor: primaryColor);
 
     setState(() {
       _progress = [false, false, false, false];
@@ -119,7 +119,7 @@ class _PinSetState extends State<PinSet> {
         S.of(context).pinSaveErrorText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
-        primaryColor: primaryColorDark,
+        primaryColor: primaryColor,
         displayDuration: 3,
       );
     }
@@ -136,7 +136,7 @@ class _PinSetState extends State<PinSet> {
     final double pinButtonSize =
         screenSize.width > 600 ? 100 : screenSize.width * .25;
     return Scaffold(
-      backgroundColor: primaryColorDark,
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: _pinEntry == PinEntry.COMPLETE
             ? PinCorrect(

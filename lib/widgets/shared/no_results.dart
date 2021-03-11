@@ -21,7 +21,7 @@ class NoResults extends StatelessWidget {
             padding: const EdgeInsets.only(top: 30.0),
             child: Icon(
               Icons.block,
-              color: primaryColorDark,
+              color: primaryColor,
               size: 60.0,
             ),
           ),

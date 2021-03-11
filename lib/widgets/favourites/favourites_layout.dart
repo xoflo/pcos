@@ -4,6 +4,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -177,14 +178,16 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: DefaultTabController(
-        length: 3,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Container(
+    return DefaultTabController(
+      length: 3,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            width: screenSize.width,
+            decoration: BoxDecoration(color: Colors.white),
+            child: Align(
+              alignment: Alignment.center,
               child: TabBar(
                 isScrollable: true,
                 tabs: [
@@ -192,28 +195,47 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     text: S.of(context).lessonsTitle,
                     icon: Icon(
                       Icons.play_circle_outline,
+                      color: primaryColor,
+                      size: 30,
                     ),
                   ),
                   Tab(
                     text: S.of(context).knowledgeBaseTitle,
                     icon: Icon(
                       Icons.batch_prediction,
+                      color: primaryColor,
+                      size: 30,
                     ),
                   ),
                   Tab(
                     text: S.of(context).recipesTitle,
                     icon: Icon(
                       Icons.local_dining,
+                      color: primaryColor,
+                      size: 30,
                     ),
                   ),
                 ],
               ),
             ),
-            Padding(
+          ),
+          SizedBox(
+            height: 4.0,
+            child: Container(
+              decoration: BoxDecoration(color: Colors.white),
+            ),
+          ),
+          SizedBox(
+            height: 1.0,
+            child: Container(
+              decoration: BoxDecoration(color: primaryColor),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            child: Padding(
               padding: const EdgeInsets.only(
-                top: 8.0,
-                left: 2.0,
-                right: 2.0,
+                top: 6.0,
               ),
               child: Container(
                 //Add this to give height
@@ -262,8 +284,8 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

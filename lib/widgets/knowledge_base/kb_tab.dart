@@ -93,7 +93,6 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
             onTagSelected: onTagSelected,
             onSearchClicked: onSearchClicked,
             isSearching: isSearching,
-            widthAdjustment: 16,
           ),
           getKBList(widget.screenSize, widget.knowledgeBaseProvider),
         ],

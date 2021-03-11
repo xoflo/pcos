@@ -10,7 +10,6 @@ class SearchHeader extends StatelessWidget {
   final Function(String) onTagSelected;
   final Function onSearchClicked;
   final bool isSearching;
-  final int widthAdjustment;
 
   SearchHeader({
     @required this.searchController,
@@ -19,7 +18,6 @@ class SearchHeader extends StatelessWidget {
     @required this.onTagSelected,
     @required this.onSearchClicked,
     @required this.isSearching,
-    @required this.widthAdjustment,
   });
 
   final _formKey = GlobalKey<FormState>();
@@ -30,7 +28,8 @@ class SearchHeader extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      child: Card(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -41,7 +40,7 @@ class SearchHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: size.width - (28 + widthAdjustment),
+                      width: size.width - 16,
                       height: 40,
                       child: TextFormField(
                         controller: searchController,
@@ -50,7 +49,7 @@ class SearchHeader extends StatelessWidget {
                           labelText: S.of(context).searchInputText,
                           suffixIcon: IconButton(
                             onPressed: () => searchController.clear(),
-                            icon: Icon(Icons.clear, color: secondaryColorLight),
+                            icon: Icon(Icons.clear, color: secondaryColor),
                           ),
                         ),
                       ),
@@ -70,14 +69,14 @@ class SearchHeader extends StatelessWidget {
                               value: tagValue,
                               icon: Icon(
                                 Icons.arrow_drop_down,
-                                color: primaryColorDark,
+                                color: primaryColor,
                               ),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(color: secondaryColorLight),
+                              style: TextStyle(color: secondaryColor),
                               underline: Container(
                                 height: 2,
-                                color: primaryColorDark,
+                                color: primaryColor,
                               ),
                               onChanged: (String newValue) {
                                 onTagSelected(newValue);

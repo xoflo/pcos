@@ -31,7 +31,7 @@ class QuestionTab extends StatelessWidget {
         return NoResults(message: S.of(context).noItemsFound);
       case LoadingStatus.success:
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: 2.0),
           child:
               QuestionList(screenSize: screenSize, questions: provider.items),
         );

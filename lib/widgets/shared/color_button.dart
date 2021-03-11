@@ -13,7 +13,7 @@ class ColorButton extends StatelessWidget {
     @required this.isUpdating,
     @required this.label,
     @required this.onTap,
-    this.color = primaryColorDark,
+    this.color = primaryColor,
     this.textColor = Colors.white,
     this.width = 0,
   });
@@ -40,7 +40,7 @@ class ColorButton extends StatelessWidget {
                     child: CircularProgressIndicator(
                       backgroundColor: backgroundColor,
                       valueColor:
-                          new AlwaysStoppedAnimation<Color>(primaryColorDark),
+                          new AlwaysStoppedAnimation<Color>(primaryColor),
                     ),
                     height: 20.0,
                     width: 20.0,

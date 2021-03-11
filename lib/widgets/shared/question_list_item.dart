@@ -52,7 +52,7 @@ class _QuestionListItemState extends State<QuestionListItem> {
           },
           child: Icon(
             isFavoriteQuestion ? widget.iconDataOn : widget.iconData,
-            color: secondaryColorLight,
+            color: secondaryColor,
             size: 24,
           ),
         ),

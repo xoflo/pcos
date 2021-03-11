@@ -20,88 +20,91 @@ class FavouritesRecipeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: width - 60,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 4.0),
-                child: Text(
-                  recipe.title,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                removeFavourite(FavouriteType.Recipe, recipe, false);
-              },
-              child: Icon(
-                Icons.delete,
-                size: 24.0,
-                color: secondaryColorLight,
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () {
-                openFavourite(FavouriteType.Recipe, recipe);
-              },
-              child: Container(
-                width: 80,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: FadeInImage.memoryNetwork(
-                    alignment: Alignment.center,
-                    placeholder: kTransparentImage,
-                    image: FlavorConfig.instance.values.imageStorageUrl +
-                        recipe.thumbnail,
-                    fit: BoxFit.fitWidth,
-                    width: double.maxFinite,
-                    height: 60,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                width: width - 60,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: Text(
+                    recipe.title,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
               ),
-            ),
-            Container(
-              width: width - 170,
-              child: Text(recipe.description),
-            ),
-            Container(
-              height: 60,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      openFavourite(FavouriteType.Recipe, recipe);
-                    },
-                    child: Icon(
-                      Icons.chevron_right,
-                      size: 30.0,
-                      color: secondaryColorLight,
+              GestureDetector(
+                onTap: () {
+                  removeFavourite(FavouriteType.Recipe, recipe, false);
+                },
+                child: Icon(
+                  Icons.delete,
+                  size: 24.0,
+                  color: secondaryColor,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  openFavourite(FavouriteType.Recipe, recipe);
+                },
+                child: Container(
+                  width: 80,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5.0),
+                    child: FadeInImage.memoryNetwork(
+                      alignment: Alignment.center,
+                      placeholder: kTransparentImage,
+                      image: FlavorConfig.instance.values.imageStorageUrl +
+                          recipe.thumbnail,
+                      fit: BoxFit.fitWidth,
+                      width: double.maxFinite,
+                      height: 60,
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1.0),
-          child: Divider(
-            color: primaryColorDark,
+              Container(
+                width: width - 170,
+                child: Text(recipe.description),
+              ),
+              Container(
+                height: 60,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        openFavourite(FavouriteType.Recipe, recipe);
+                      },
+                      child: Icon(
+                        Icons.chevron_right,
+                        size: 30.0,
+                        color: secondaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1.0),
+            child: Divider(
+              color: primaryColor,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

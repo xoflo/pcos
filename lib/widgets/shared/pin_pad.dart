@@ -139,7 +139,7 @@ class PinPad extends StatelessWidget {
               isUpdating: false,
               label: S.of(context).clearButton,
               color: Colors.white,
-              textColor: primaryColorDark,
+              textColor: primaryColor,
               onTap: () {
                 resetPinPad();
               },

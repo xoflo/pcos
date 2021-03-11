@@ -73,8 +73,8 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
           ? [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]
           : [DeviceOrientation.portraitUp],
       materialProgressColors: ChewieProgressColors(
-          playedColor: secondaryColorLight,
-          handleColor: secondaryColorLight,
+          playedColor: secondaryColor,
+          handleColor: secondaryColor,
           backgroundColor: Colors.white,
           bufferedColor: backgroundColor),
       placeholder: Container(
@@ -110,15 +110,15 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
                 Theme(
                   data: Theme.of(context).copyWith(
                     dialogBackgroundColor: Colors.grey.shade200,
-                    primaryIconTheme: IconThemeData(color: secondaryColorLight),
-                    iconTheme: IconThemeData(color: secondaryColorLight),
+                    primaryIconTheme: IconThemeData(color: secondaryColor),
+                    iconTheme: IconThemeData(color: secondaryColor),
                   ),
                   child: AspectRatio(
                     aspectRatio: _videoPlayerController.value.aspectRatio,
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: primaryColorDark,
+                          color: primaryColor,
                         ),
                       ),
                       child: Chewie(
@@ -135,7 +135,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: primaryColorDark,
+                    color: primaryColor,
                   ),
                 ),
                 child: Column(

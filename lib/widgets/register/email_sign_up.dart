@@ -50,7 +50,7 @@ class EmailSignIn extends StatelessWidget {
                     child: Text(
                       S.of(context).emailLinkTitle,
                       style: TextStyle(
-                        color: primaryColorDark,
+                        color: primaryColor,
                       ),
                     ),
                   ),

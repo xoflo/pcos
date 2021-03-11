@@ -55,10 +55,10 @@ class S {
     );
   }
 
-  /// `Dashboard`
+  /// `Your Course`
   String get dashboardTitle {
     return Intl.message(
-      'Dashboard',
+      'Your Course',
       name: 'dashboardTitle',
       desc: '',
       args: [],
@@ -1630,6 +1630,16 @@ class S {
     return Intl.message(
       'Don\'t forget to check your latest lesson or view your progress so far.',
       name: 'dailyReminderText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display 'Your Why':`
+  String get settingsYourWhyText {
+    return Intl.message(
+      'Display \'Your Why\':',
+      name: 'settingsYourWhyText',
       desc: '',
       args: [],
     );

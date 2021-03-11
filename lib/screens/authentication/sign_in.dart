@@ -96,7 +96,7 @@ class _SignInState extends State<SignIn> {
       showFlushBar(context, errorTitle, errorMessage,
           backgroundColor: Colors.white,
           borderColor: primaryColorLight,
-          primaryColor: primaryColorDark);
+          primaryColor: primaryColor);
     }
   }
 
@@ -122,7 +122,7 @@ class _SignInState extends State<SignIn> {
                 .replaceAll("[url]", urlQuestionnaireWebsite),
             backgroundColor: Colors.white,
             borderColor: primaryColorLight,
-            primaryColor: primaryColorDark);
+            primaryColor: primaryColor);
       }
     }
   }
@@ -135,7 +135,7 @@ class _SignInState extends State<SignIn> {
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
     return Scaffold(
-      backgroundColor: primaryColorDark,
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: isHorizontal
             ? Column(

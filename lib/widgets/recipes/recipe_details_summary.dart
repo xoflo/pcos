@@ -17,14 +17,14 @@ class RecipeDetailsSummary extends StatelessWidget {
     summaryIcons.add(_iconColumn(
       context,
       Icons.restaurant,
-      primaryColorDark,
+      primaryColor,
       recipe.servings.toString(),
     ));
 
     summaryIcons.add(_iconColumn(
       context,
       Icons.timer,
-      primaryColorDark,
+      primaryColor,
       DateTimeUtils.convertMillisecondsToMinutes(recipe.duration).toString() +
           " " +
           S.of(context).minutesShort,
@@ -82,9 +82,9 @@ class RecipeDetailsSummary extends StatelessWidget {
       case 1:
         return primaryColor;
       case 2:
-        return darkAlternative;
+        return tertiaryColor;
     }
-    return primaryColorDark;
+    return primaryColor;
   }
 
   @override

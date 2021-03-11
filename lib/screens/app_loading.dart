@@ -44,11 +44,11 @@ class _AppLoadingState extends State<AppLoading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColorDark,
+      backgroundColor: primaryColor,
       body: Center(
         child: CircularProgressIndicator(
           backgroundColor: backgroundColor,
-          valueColor: new AlwaysStoppedAnimation<Color>(primaryColorDark),
+          valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
         ),
       ),
     );

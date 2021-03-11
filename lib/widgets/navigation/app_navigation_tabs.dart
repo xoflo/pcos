@@ -3,6 +3,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class AppNavigationTabs extends StatelessWidget {
   final int currentIndex;
@@ -33,11 +34,11 @@ class AppNavigationTabs extends StatelessWidget {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       currentIndex: currentIndex, // this will be set when a new tab is tapped
+      selectedFontSize: 0,
+      unselectedFontSize: 0,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-          ),
+          icon: Icon(Icons.school),
           label: S.of(context).dashboardTitle,
         ),
         BottomNavigationBarItem(
