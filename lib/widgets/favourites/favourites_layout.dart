@@ -195,18 +195,24 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     text: S.of(context).lessonsTitle,
                     icon: Icon(
                       Icons.play_circle_outline,
+                      color: primaryColor,
+                      size: 30,
                     ),
                   ),
                   Tab(
                     text: S.of(context).knowledgeBaseTitle,
                     icon: Icon(
                       Icons.batch_prediction,
+                      color: primaryColor,
+                      size: 30,
                     ),
                   ),
                   Tab(
                     text: S.of(context).recipesTitle,
                     icon: Icon(
                       Icons.local_dining,
+                      color: primaryColor,
+                      size: 30,
                     ),
                   ),
                 ],

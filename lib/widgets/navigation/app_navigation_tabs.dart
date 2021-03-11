@@ -34,6 +34,8 @@ class AppNavigationTabs extends StatelessWidget {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       currentIndex: currentIndex, // this will be set when a new tab is tapped
+      selectedFontSize: 0,
+      unselectedFontSize: 0,
       items: [
         BottomNavigationBarItem(
           icon: Icon(

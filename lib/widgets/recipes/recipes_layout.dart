@@ -127,7 +127,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
           onTagSelected: onTagSelected,
           onSearchClicked: onSearchClicked,
           isSearching: isSearching,
-          widthAdjustment: 0,
         ),
         Consumer<RecipesProvider>(
           builder: (context, model, child) => getRecipesList(screenSize, model),
