@@ -38,9 +38,7 @@ class AppNavigationTabs extends StatelessWidget {
       unselectedFontSize: 0,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-          ),
+          icon: Icon(Icons.school),
           label: S.of(context).dashboardTitle,
         ),
         BottomNavigationBarItem(

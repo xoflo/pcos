@@ -6,6 +6,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
+import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -26,6 +27,9 @@ import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 
 class AppTabs extends StatefulWidget {
   final FirebaseAnalyticsObserver observer;
@@ -39,14 +43,15 @@ class AppTabs extends StatefulWidget {
 
 class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   int _currentIndex = 0;
-  bool intercomInitialised = false;
+  bool _intercomInitialised = false;
   AppLifecycleState _appLifecycleState;
+  bool _showYourWhy = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    initializeIntercom();
+    initialize();
   }
 
   @override
@@ -55,7 +60,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  void initializeIntercom() async {
+  void initialize() async {
+    //intercom
     final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
     await Intercom.initialize(
       intercomIds[0],
@@ -67,8 +73,14 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
       Intercom.registerIdentifiedUser(userId: userId);
       await AuthenticationController().saveIntercomRegistered();
     }
+
+    //get the value for showYourWhy, and then pass down to the course screen
+    final bool isYourWhyOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+
     setState(() {
-      intercomInitialised = true;
+      _intercomInitialised = true;
+      _showYourWhy = isYourWhyOn;
     });
   }
 
@@ -130,7 +142,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         );
         break;
       case DrawerMenuItem.SETTINGS:
-        Navigator.pushNamed(context, Settings.id);
+        Navigator.pushNamed(context, Settings.id,
+            arguments: SettingsArguments(_updateYourWhy));
         break;
       case DrawerMenuItem.PROFILE:
         Navigator.pushNamed(context, Profile.id);
@@ -161,7 +174,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   }
 
   void openChat() {
-    if (intercomInitialised) {
+    if (_intercomInitialised) {
       analytics.setCurrentScreen(
         screenName: Analytics.ANALYTICS_SCREEN_COACH_CHAT,
       );
@@ -219,6 +232,12 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         false;
   }
 
+  void _updateYourWhy(final bool isOn) {
+    setState(() {
+      _showYourWhy = isOn;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlavorBanner(
@@ -235,6 +254,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
           child: Platform.isIOS
               ? MainScreens(
                   currentIndex: _currentIndex,
+                  showYourWhy: _showYourWhy,
                 )
               : WillPopScope(
                   onWillPop: () {
@@ -242,6 +262,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
                   },
                   child: MainScreens(
                     currentIndex: _currentIndex,
+                    showYourWhy: _showYourWhy,
                   ),
                 ),
         ),

@@ -24,6 +24,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class SettingsLayout extends StatefulWidget {
+  final Function(bool) updateYourWhy;
+
+  SettingsLayout({@required this.updateYourWhy});
+
   @override
   _SettingsLayoutState createState() => _SettingsLayoutState();
 }
@@ -160,6 +164,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
     PreferencesController()
         .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, isOn);
+    //bubble up so the course screen gets updated
+    widget.updateYourWhy(isOn);
   }
 
   @override

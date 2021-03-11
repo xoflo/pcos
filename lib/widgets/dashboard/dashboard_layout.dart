@@ -17,7 +17,6 @@ import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/your_progress.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/current_module.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/previous_modules.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/progress/progress_slider.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
@@ -25,6 +24,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class DashboardLayout extends StatefulWidget {
+  final bool showYourWhy;
+
+  DashboardLayout({@required this.showYourWhy});
+
   @override
   _DashboardLayoutState createState() => _DashboardLayoutState();
 }
@@ -33,7 +36,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   TimeOfDay _customNotificationTime;
   bool _showTodaysTask = true;
   bool _dataUsageWarningDisplayed = false;
-  bool _showYourWhy = false;
 
   @override
   void initState() {
@@ -45,12 +47,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   Future<void> _initialise() async {
     final bool dataUsageWarningDisplayed = await PreferencesController()
         .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
-    final bool isYourWhyOn = await PreferencesController()
-        .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
 
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
-      _showYourWhy = isYourWhyOn;
     });
   }
 
@@ -224,7 +223,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _showYourWhy ? YourWhy() : Container(),
+            widget.showYourWhy ? YourWhy() : Container(),
             _showTodaysTask
                 ? Tasks(
                     screenSize: screenSize,
