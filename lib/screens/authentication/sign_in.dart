@@ -142,7 +142,10 @@ class _SignInState extends State<SignIn> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  HeaderImage(screenSize: screenSize),
+                  HeaderImage(
+                    screenSize: screenSize,
+                    isOrange: false,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -172,7 +175,10 @@ class _SignInState extends State<SignIn> {
                   shrinkWrap: true,
                   padding: EdgeInsets.all(15.0),
                   children: <Widget>[
-                    HeaderImage(screenSize: screenSize),
+                    HeaderImage(
+                      screenSize: screenSize,
+                      isOrange: false,
+                    ),
                     SizedBox(
                       height: 360.0,
                       child: SignInLayout(

@@ -230,7 +230,6 @@ class PinUnlockState extends State<PinUnlock> {
         .pushNamedAndRemoveUntil(SignIn.id, (Route<dynamic> route) => false);
   }
 
-  //TODO: move the Scaffold into a layout widget, and check Platform and only add WillPop for Android
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -249,7 +248,10 @@ class PinUnlockState extends State<PinUnlock> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(bottom: headerPadding),
-                child: HeaderImage(screenSize: screenSize),
+                child: HeaderImage(
+                  screenSize: screenSize,
+                  isOrange: false,
+                ),
               ),
               PinPad(
                 pinButtonSize: pinButtonSize,

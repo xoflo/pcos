@@ -134,7 +134,7 @@ class _PinSetState extends State<PinSet> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double pinButtonSize =
-        screenSize.width > 600 ? 100 : screenSize.width * .25;
+        screenSize.width > 600 ? 100 : screenSize.width * .23;
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -146,7 +146,10 @@ class _PinSetState extends State<PinSet> {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  HeaderImage(screenSize: screenSize),
+                  HeaderImage(
+                    screenSize: screenSize,
+                    isOrange: false,
+                  ),
                   SizedBox(height: 10.0),
                   PinPad(
                     pinButtonSize: pinButtonSize,

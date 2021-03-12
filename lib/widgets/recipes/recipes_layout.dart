@@ -70,6 +70,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     setState(() {
       tagSelectedValue = tagValue;
     });
+    onSearchClicked();
   }
 
   void onSearchClicked() async {
