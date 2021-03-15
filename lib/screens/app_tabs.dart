@@ -115,8 +115,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
       final int backgroundedTimestamp =
           await AuthenticationController().getBackgroundedTimestamp();
 
-      //check if app was backgrounded over five minutes (300,000 milliseconds) ago, and display lock screen if necessary
-      final int lockoutSeconds = 5;
+      //check if app was backgrounded over five minutes (300 seconds) ago, and display lock screen if necessary
+      final int lockoutSeconds = 300;
 
       if (backgroundedTimestamp != null &&
           currentTimestamp - backgroundedTimestamp > (lockoutSeconds * 1000)) {
@@ -162,6 +162,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         openBottomSheet(
           context,
           Tutorial(
+            isStartUp: false,
             closeTutorial: () {
               Navigator.pop(context);
             },

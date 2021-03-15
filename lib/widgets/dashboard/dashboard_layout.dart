@@ -63,6 +63,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         openBottomSheet(
           context,
           Tutorial(
+            isStartUp: true,
             closeTutorial: () {
               Navigator.pop(context);
             },
