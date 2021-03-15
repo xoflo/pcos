@@ -181,7 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tagAll" : MessageLookupByLibrary.simpleMessage("All"),
     "termsOfUseTitle" : MessageLookupByLibrary.simpleMessage("Terms of use"),
     "tryAgain" : MessageLookupByLibrary.simpleMessage("Please try again later."),
-    "tutorialTitle" : MessageLookupByLibrary.simpleMessage("Welcome Tutorial"),
+    "tutorialTitle" : MessageLookupByLibrary.simpleMessage("Tutorial"),
     "userNameLocked" : MessageLookupByLibrary.simpleMessage("Username cannot be updated"),
     "validateEmailMessage" : MessageLookupByLibrary.simpleMessage("Please enter your email or username"),
     "validateMessageText" : MessageLookupByLibrary.simpleMessage("Please enter your message text"),

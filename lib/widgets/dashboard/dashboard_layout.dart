@@ -238,13 +238,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
               screenSize: screenSize,
               isHorizontal: isHorizontal,
               openLesson: _openLesson,
-              closeLesson: _closeLesson,
             ),
             PreviousModules(
               screenSize: screenSize,
               isHorizontal: isHorizontal,
               openLesson: _openLesson,
-              closeLesson: _closeLesson,
             ),
           ],
         ),

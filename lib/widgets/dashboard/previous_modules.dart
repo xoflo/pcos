@@ -8,13 +8,11 @@ class PreviousModules extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
   final Function openLesson;
-  final Function closeLesson;
 
   PreviousModules({
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.openLesson,
-    @required this.closeLesson,
   });
 
   @override
@@ -78,6 +76,7 @@ class PreviousModules extends StatelessWidget {
                         return LessonCard(
                           lessonId: i,
                           isNew: false,
+                          openLesson: openLesson,
                         );
                       },
                     );

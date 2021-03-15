@@ -9,14 +9,12 @@ class CurrentModule extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
   final Function openLesson;
-  final Function closeLesson;
 
   CurrentModule({
     @required this.isNew,
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.openLesson,
-    @required this.closeLesson,
   });
 
   final String moduleTitle = "Increasing Protein";
@@ -48,6 +46,7 @@ class CurrentModule extends StatelessWidget {
                   return LessonCard(
                     lessonId: i,
                     isNew: isNew,
+                    openLesson: openLesson,
                   );
                 },
               );

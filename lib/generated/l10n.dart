@@ -1555,10 +1555,10 @@ class S {
     );
   }
 
-  /// `Welcome Tutorial`
+  /// `Tutorial`
   String get tutorialTitle {
     return Intl.message(
-      'Welcome Tutorial',
+      'Tutorial',
       name: 'tutorialTitle',
       desc: '',
       args: [],

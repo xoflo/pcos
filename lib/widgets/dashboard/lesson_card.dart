@@ -5,8 +5,13 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 class LessonCard extends StatelessWidget {
   final int lessonId;
   final bool isNew;
+  final Function openLesson;
 
-  LessonCard({@required this.lessonId, @required this.isNew});
+  LessonCard({
+    @required this.lessonId,
+    @required this.isNew,
+    @required this.openLesson,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,20 +49,25 @@ class LessonCard extends StatelessWidget {
                       textAlign: TextAlign.justify,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text("Listen now",
-                          style: TextStyle(color: secondaryColor)),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Icon(
-                          Icons.volume_up,
-                          color: secondaryColor,
-                          size: 36,
+                  GestureDetector(
+                    onTap: () {
+                      openLesson();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("Listen now",
+                            style: TextStyle(color: secondaryColor)),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: Icon(
+                            Icons.volume_up,
+                            color: secondaryColor,
+                            size: 36,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
