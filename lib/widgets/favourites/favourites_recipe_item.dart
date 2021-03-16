@@ -4,6 +4,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class FavouritesRecipeItem extends StatelessWidget {
   final Recipe recipe;
@@ -74,7 +75,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                 ),
               ),
               Container(
-                width: width - 170,
+                width: width - 220,
                 child: Text(recipe.description),
               ),
               Container(
@@ -86,10 +87,16 @@ class FavouritesRecipeItem extends StatelessWidget {
                       onTap: () {
                         openFavourite(FavouriteType.Recipe, recipe);
                       },
-                      child: Icon(
-                        Icons.chevron_right,
-                        size: 30.0,
-                        color: secondaryColor,
+                      child: Row(
+                        children: [
+                          Text(S.of(context).favouritesViewDetails,
+                              style: TextStyle(color: secondaryColor)),
+                          Icon(
+                            Icons.chevron_right,
+                            size: 30.0,
+                            color: secondaryColor,
+                          ),
+                        ],
                       ),
                     ),
                   ],

@@ -1535,6 +1535,26 @@ class S {
     );
   }
 
+  /// `Watch now`
+  String get favouritesWatchNow {
+    return Intl.message(
+      'Watch now',
+      name: 'favouritesWatchNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View details`
+  String get favouritesViewDetails {
+    return Intl.message(
+      'View details',
+      name: 'favouritesViewDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Delete message`
   String get deleteMessageTitle {
     return Intl.message(

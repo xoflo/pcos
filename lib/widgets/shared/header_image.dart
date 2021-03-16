@@ -17,10 +17,10 @@ class HeaderImage extends StatelessWidget {
         screenSize.width, screenSize.height)) {
       //iPad horizontal
       return Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(20.0),
         child: Image(
           image: AssetImage(imagePath),
-          height: 100.0,
+          height: 80.0,
         ),
       );
     } else {
@@ -28,10 +28,13 @@ class HeaderImage extends StatelessWidget {
       if (screenSize.width > 700) {
         //ipad vertical
         return Padding(
-          padding: const EdgeInsets.only(top: 80.0),
+          padding: const EdgeInsets.only(
+            top: 80.0,
+            bottom: 20,
+          ),
           child: Image(
             image: AssetImage(imagePath),
-            height: 120.0,
+            height: 80.0,
           ),
         );
       } else {

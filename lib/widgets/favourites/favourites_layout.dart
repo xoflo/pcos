@@ -61,11 +61,13 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     switch (favouriteType) {
       case FavouriteType.Lesson:
         return FavouritesLessonsList(
-          lessons: favourites,
-          width: screenSize.width,
-          removeFavourite: _removeFavourite,
-          openFavourite: _openFavourite,
-        );
+            lessons: favourites,
+            width: screenSize.width,
+            removeFavourite: _removeFavourite,
+            openFavourite: (FavouriteType, dynamic) {
+              debugPrint("IMPLEMENT OPEN LESSON");
+            } //_openFavourite,
+            );
       case FavouriteType.KnowledgeBase:
         return QuestionList(
           screenSize: screenSize,

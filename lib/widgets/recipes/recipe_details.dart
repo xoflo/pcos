@@ -75,7 +75,7 @@ class RecipeDetails extends StatelessWidget {
   }
 
   double _getTabBarHeight(BuildContext context, bool isHorizontal) {
-    final int adjustmentAmount = isHorizontal ? 138 : 140;
+    final int adjustmentAmount = isHorizontal ? 148 : 140;
     return MediaQuery.of(context).size.height -
         (kToolbarHeight + adjustmentAmount);
   }

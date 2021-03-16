@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "favouriteRemoveText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to remove this favourite?"),
     "favouriteRemoveTitle" : MessageLookupByLibrary.simpleMessage("Remove favourite"),
     "favouritesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
+    "favouritesViewDetails" : MessageLookupByLibrary.simpleMessage("View details"),
+    "favouritesWatchNow" : MessageLookupByLibrary.simpleMessage("Watch now"),
     "frequentlyAskedQuestions" : MessageLookupByLibrary.simpleMessage("FAQs"),
     "gettingStarted" : MessageLookupByLibrary.simpleMessage("Getting started"),
     "gotoSigninText" : MessageLookupByLibrary.simpleMessage("Already have an account for The PCOS Protocol?"),
