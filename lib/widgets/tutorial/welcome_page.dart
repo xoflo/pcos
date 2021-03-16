@@ -9,6 +9,7 @@ class TutorialWelcomePage extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+    final double textPadding = isHorizontal ? 150 : 8;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -24,7 +25,7 @@ class TutorialWelcomePage extends StatelessWidget {
             isOrange: true,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: textPadding),
             child: Text(
               "Thank you for signing up to our programme. We are here to help you get the most from The PCOS Protocol.",
               style: Theme.of(context).textTheme.headline6,
@@ -32,7 +33,7 @@ class TutorialWelcomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: textPadding),
             child: Text(
               "We tailor the programme to meet your specific needs using the information provided in the questionnaire.",
               style: Theme.of(context).textTheme.headline6,
@@ -40,7 +41,7 @@ class TutorialWelcomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: textPadding),
             child: Text(
               "It is important to take your time to complete all the modules and lessons in the programme, beginning with the first module 'What is your Why?'.",
               style: Theme.of(context).textTheme.headline6,
@@ -48,17 +49,32 @@ class TutorialWelcomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: textPadding),
             child: Text(
               "Also, when you feel you need our support, remember to tap the 'Coach Chat' to contact one of our friendly experts.",
               style: Theme.of(context).textTheme.headline6,
               textAlign: TextAlign.center,
             ),
           ),
-          Icon(
-            Icons.chat_outlined,
-            color: primaryColor,
-            size: 30.0,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Coach Chat",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 5.0,
+                  left: 10,
+                ),
+                child: Icon(
+                  Icons.chat_outlined,
+                  color: primaryColor,
+                  size: isHorizontal ? 40.0 : 30.0,
+                ),
+              ),
+            ],
           )
         ],
       ),

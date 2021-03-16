@@ -39,7 +39,7 @@ class PreviousModules extends StatelessWidget {
                   options: CarouselOptions(
                     height: 80,
                     enableInfiniteScroll: false,
-                    viewportFraction: 0.5,
+                    viewportFraction: isHorizontal ? 0.3 : 0.5,
                     initialPage: 4,
                   ),
                   items: [1, 2, 3, 4].map((i) {
@@ -68,7 +68,7 @@ class PreviousModules extends StatelessWidget {
                   options: CarouselOptions(
                     height: 200,
                     enableInfiniteScroll: false,
-                    viewportFraction: 0.92,
+                    viewportFraction: isHorizontal ? 0.50 : 0.92,
                   ),
                   items: [1, 2, 3, 4, 5].map((i) {
                     return Builder(

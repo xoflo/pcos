@@ -295,10 +295,10 @@ class S {
     );
   }
 
-  /// `To register now on your device click the button below to visit the PCOS Questionnaire website.`
+  /// `To register for The PCOS Protocol on your device click the 'Sign Up' button below to visit the PCOS Questionnaire website.`
   String get openWebsiteText {
     return Intl.message(
-      'To register now on your device click the button below to visit the PCOS Questionnaire website.',
+      'To register for The PCOS Protocol on your device click the \'Sign Up\' button below to visit the PCOS Questionnaire website.',
       name: 'openWebsiteText',
       desc: '',
       args: [],

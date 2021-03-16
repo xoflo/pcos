@@ -1,4 +1,5 @@
 class SettingsArguments {
   final Function(bool) updateYourWhy;
-  SettingsArguments(this.updateYourWhy);
+  final bool onlyShowDailyReminder;
+  SettingsArguments(this.updateYourWhy, this.onlyShowDailyReminder);
 }

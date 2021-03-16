@@ -51,6 +51,7 @@ class PinPad extends StatelessWidget {
           child: CustomPaint(
             painter: DrawCircle(
               circleColor: Colors.white,
+              isFilled: true,
             ),
           ),
         ),
@@ -60,6 +61,7 @@ class PinPad extends StatelessWidget {
           child: CustomPaint(
             painter: DrawCircle(
               circleColor: isComplete ? Colors.white : primaryColor,
+              isFilled: true,
             ),
           ),
         ),

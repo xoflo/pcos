@@ -25,8 +25,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 class SettingsLayout extends StatefulWidget {
   final Function(bool) updateYourWhy;
+  final bool onlyShowDailyReminder;
 
-  SettingsLayout({@required this.updateYourWhy});
+  SettingsLayout(
+      {@required this.updateYourWhy, @required this.onlyShowDailyReminder});
 
   @override
   _SettingsLayoutState createState() => _SettingsLayoutState();
@@ -213,9 +215,11 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                             saveDailyReminder: _saveDailyReminder,
                             showTimeDialog: _showTimeDialog,
                           ),
-                          YourWhySetting(
-                              isYourWhyOn: _isYourWhyOn,
-                              saveYourWhy: _saveYourWhy),
+                          widget.onlyShowDailyReminder
+                              ? Container()
+                              : YourWhySetting(
+                                  isYourWhyOn: _isYourWhyOn,
+                                  saveYourWhy: _saveYourWhy),
                         ],
                       ),
                     ),

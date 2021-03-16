@@ -94,7 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "offText" : MessageLookupByLibrary.simpleMessage("Off"),
     "okayText" : MessageLookupByLibrary.simpleMessage("Okay"),
     "onText" : MessageLookupByLibrary.simpleMessage("On"),
-    "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register now on your device click the button below to visit the PCOS Questionnaire website."),
+    "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register for The PCOS Protocol on your device click the \'Sign Up\' button below to visit the PCOS Questionnaire website."),
     "openWebsiteTitle" : MessageLookupByLibrary.simpleMessage("Open Questionnaire"),
     "openWebsiteWhy" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol is a personalised programme, delivered according to your own goals."),
     "passwordForgottenCancel" : MessageLookupByLibrary.simpleMessage("Cancel"),

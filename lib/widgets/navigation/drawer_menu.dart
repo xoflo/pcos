@@ -104,15 +104,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).tutorialTitle,
-              style: drawerItemStyle,
-            ),
-            onTap: () {
-              _drawerNavigation(context, DrawerMenuItem.TUTORIAL);
-            },
-          ),
-          ListTile(
-            title: Text(
               S.of(context).profileTitle,
               style: drawerItemStyle,
             ),
@@ -145,6 +136,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
             ),
             onTap: () {
               _drawerNavigation(context, DrawerMenuItem.TERMS_OF_USE);
+            },
+          ),
+          ListTile(
+            title: Text(
+              S.of(context).tutorialTitle,
+              style: drawerItemStyle,
+            ),
+            onTap: () {
+              _drawerNavigation(context, DrawerMenuItem.TUTORIAL);
             },
           ),
           SizedBox(height: 30.0),

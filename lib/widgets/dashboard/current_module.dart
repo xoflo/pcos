@@ -36,7 +36,7 @@ class CurrentModule extends StatelessWidget {
             options: CarouselOptions(
               height: 200,
               enableInfiniteScroll: false,
-              viewportFraction: 0.92,
+              viewportFraction: isHorizontal ? 0.50 : 0.92,
               initialPage: 5,
             ),
             items: [1, 2, 3, 4, 5].map((i) {

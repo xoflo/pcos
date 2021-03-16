@@ -143,7 +143,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         break;
       case DrawerMenuItem.SETTINGS:
         Navigator.pushNamed(context, Settings.id,
-            arguments: SettingsArguments(_updateYourWhy));
+            arguments: SettingsArguments(_updateYourWhy, false));
         break;
       case DrawerMenuItem.PROFILE:
         Navigator.pushNamed(context, Profile.id);
