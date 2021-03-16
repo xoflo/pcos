@@ -35,7 +35,10 @@ class UnsupportedVersion extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              HeaderImage(screenSize: screenSize),
+              HeaderImage(
+                screenSize: screenSize,
+                isOrange: false,
+              ),
               SizedBox(height: 10.0),
               Text(
                 S.of(context).versionText1,

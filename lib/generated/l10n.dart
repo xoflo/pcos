@@ -295,10 +295,10 @@ class S {
     );
   }
 
-  /// `To register now on your device click the button below to visit the PCOS Questionnaire website.`
+  /// `To register for The PCOS Protocol on your device click the 'Sign Up' button below to visit the PCOS Questionnaire website.`
   String get openWebsiteText {
     return Intl.message(
-      'To register now on your device click the button below to visit the PCOS Questionnaire website.',
+      'To register for The PCOS Protocol on your device click the \'Sign Up\' button below to visit the PCOS Questionnaire website.',
       name: 'openWebsiteText',
       desc: '',
       args: [],
@@ -1535,6 +1535,26 @@ class S {
     );
   }
 
+  /// `Watch now`
+  String get favouritesWatchNow {
+    return Intl.message(
+      'Watch now',
+      name: 'favouritesWatchNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View details`
+  String get favouritesViewDetails {
+    return Intl.message(
+      'View details',
+      name: 'favouritesViewDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Delete message`
   String get deleteMessageTitle {
     return Intl.message(
@@ -1555,10 +1575,10 @@ class S {
     );
   }
 
-  /// `Welcome Tutorial`
+  /// `Tutorial`
   String get tutorialTitle {
     return Intl.message(
-      'Welcome Tutorial',
+      'Tutorial',
       name: 'tutorialTitle',
       desc: '',
       args: [],

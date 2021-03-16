@@ -62,7 +62,7 @@ class DeviceUtils {
       if (Platform.isIOS) {
         adjustmentAmount = isTab ? 170 : 85;
       } else {
-        adjustmentAmount = isTab ? 170 : 89;
+        adjustmentAmount = isTab ? 174 : 89;
       }
     }
 

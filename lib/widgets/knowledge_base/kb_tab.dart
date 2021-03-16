@@ -62,6 +62,7 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
     setState(() {
       tagSelectedValue = tagValue;
     });
+    onSearchClicked();
   }
 
   void onSearchClicked() async {

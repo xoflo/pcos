@@ -16,25 +16,25 @@ class RecipesList extends StatelessWidget {
     final bool isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
-    /*24 is for notification bar on Android*/
-    //final double itemHeight = (size.height - kToolbarHeight) / 2;
-    //final double itemWidth = size.width / 2;
-    final double aspectRatio = isHorizontal
+    final int itemsPerRow =
+        DeviceUtils.getItemsPerRow(screenSize.width, screenSize.height);
+
+    final double aspectRatio = itemsPerRow == 3
         ? 1.24
-        : Platform.isIOS
-            ? 1.5
+        : itemsPerRow == 2
+            ? 1.39
             : 1.5;
 
     return Expanded(
       child: GridView.count(
         cacheExtent: screenSize.height * 2,
         shrinkWrap: true,
-        crossAxisCount:
-            DeviceUtils.getItemsPerRow(screenSize.width, screenSize.height),
+        crossAxisCount: itemsPerRow,
         childAspectRatio: aspectRatio,
         children: recipes.map((Recipe recipe) {
           return RecipeListItem(
             recipe: recipe,
+            itemsPerRow: itemsPerRow,
             openRecipeDetails: openRecipeDetails,
           );
         }).toList(),

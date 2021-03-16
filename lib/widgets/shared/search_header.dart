@@ -22,6 +22,13 @@ class SearchHeader extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
+  void clearTextAndSearch() {
+    if (searchController.text.trim().length > 0) {
+      searchController.clear();
+      onSearchClicked();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -48,7 +55,7 @@ class SearchHeader extends StatelessWidget {
                           border: OutlineInputBorder(),
                           labelText: S.of(context).searchInputText,
                           suffixIcon: IconButton(
-                            onPressed: () => searchController.clear(),
+                            onPressed: () => clearTextAndSearch(),
                             icon: Icon(Icons.clear, color: secondaryColor),
                           ),
                         ),

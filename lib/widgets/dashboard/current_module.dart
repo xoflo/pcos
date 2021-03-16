@@ -9,14 +9,12 @@ class CurrentModule extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
   final Function openLesson;
-  final Function closeLesson;
 
   CurrentModule({
     @required this.isNew,
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.openLesson,
-    @required this.closeLesson,
   });
 
   final String moduleTitle = "Increasing Protein";
@@ -38,7 +36,7 @@ class CurrentModule extends StatelessWidget {
             options: CarouselOptions(
               height: 200,
               enableInfiniteScroll: false,
-              viewportFraction: 0.92,
+              viewportFraction: isHorizontal ? 0.50 : 0.92,
               initialPage: 5,
             ),
             items: [1, 2, 3, 4, 5].map((i) {
@@ -48,6 +46,7 @@ class CurrentModule extends StatelessWidget {
                   return LessonCard(
                     lessonId: i,
                     isNew: isNew,
+                    openLesson: openLesson,
                   );
                 },
               );

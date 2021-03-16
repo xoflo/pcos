@@ -75,13 +75,13 @@ class RecipeDetails extends StatelessWidget {
   }
 
   double _getTabBarHeight(BuildContext context, bool isHorizontal) {
-    final int adjustmentAmount = isHorizontal ? 148 : 150;
+    final int adjustmentAmount = isHorizontal ? 148 : 140;
     return MediaQuery.of(context).size.height -
         (kToolbarHeight + adjustmentAmount);
   }
 
   List<Tab> _getRecipeDetailTabs(BuildContext context, bool isHorizontal) {
-    List<Tab> tabs = List<Tab>();
+    List<Tab> tabs = [];
     if (!isHorizontal) {
       tabs.add(Tab(text: S.of(context).recipeDetailsSummaryTab));
     }
@@ -93,7 +93,7 @@ class RecipeDetails extends StatelessWidget {
 
   List<Widget> _getRecipeDetailTabViews(
       BuildContext context, bool isHorizontal) {
-    List<Widget> tabViews = List<Widget>();
+    List<Widget> tabViews = [];
     if (!isHorizontal) {
       tabViews.add(RecipeDetailsSummary(
         recipe: recipe,
@@ -126,28 +126,22 @@ class RecipeDetails extends StatelessWidget {
       return Container();
     }
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 1.0,
-        top: 1.0,
-        right: 1.0,
-      ),
-      child: Card(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              DialogHeader(
-                screenSize: screenSize,
-                item: recipe,
-                favouriteType: FavouriteType.Recipe,
-                title: recipe.title,
-                isFavourite: recipe.isFavorite,
-                closeItem: closeRecipeDetails,
-                addToFavourites: addToFavourites,
-              ),
-              _getRecipeDetails(context, isHorizontal, screenSize),
-            ],
-          ),
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: Column(
+          children: <Widget>[
+            DialogHeader(
+              screenSize: screenSize,
+              item: recipe,
+              favouriteType: FavouriteType.Recipe,
+              title: recipe.title,
+              isFavourite: recipe.isFavorite,
+              closeItem: closeRecipeDetails,
+              addToFavourites: addToFavourites,
+            ),
+            _getRecipeDetails(context, isHorizontal, screenSize),
+          ],
         ),
       ),
     );

@@ -51,6 +51,7 @@ class PinPad extends StatelessWidget {
           child: CustomPaint(
             painter: DrawCircle(
               circleColor: Colors.white,
+              isFilled: true,
             ),
           ),
         ),
@@ -60,6 +61,7 @@ class PinPad extends StatelessWidget {
           child: CustomPaint(
             painter: DrawCircle(
               circleColor: isComplete ? Colors.white : primaryColor,
+              isFilled: true,
             ),
           ),
         ),
@@ -85,7 +87,7 @@ class PinPad extends StatelessWidget {
         padding: EdgeInsets.all(pinButtonPadding),
         child: OutlinedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
             side: MaterialStateProperty.all<BorderSide>(
               BorderSide(
@@ -102,8 +104,9 @@ class PinPad extends StatelessWidget {
           child: Text(
             pinNumber.toString(),
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 30.0,
+              color: primaryColor,
+              fontSize: 33.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),

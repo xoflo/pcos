@@ -93,41 +93,40 @@ class CourseLesson extends StatelessWidget {
 
     return Container(
       height: _getTabBarHeight(context),
-      child: Card(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              DialogHeader(
+      decoration: BoxDecoration(color: Colors.white),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            DialogHeader(
+              screenSize: screenSize,
+              item: lesson,
+              favouriteType: FavouriteType.Lesson,
+              title: "Breakfast",
+              isFavourite: false,
+              closeItem: closeLesson,
+              addToFavourites: addToFavourites,
+            ),
+            _getDataUsageWarning(context, screenSize),
+            Text(
+              "Changing your breakfast",
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: VideoPlayerChewie(
                 screenSize: screenSize,
-                item: lesson,
-                favouriteType: FavouriteType.Lesson,
-                title: "Breakfast",
-                isFavourite: false,
-                closeItem: closeLesson,
-                addToFavourites: addToFavourites,
+                isHorizontal: isHorizontal,
+                videoUrl:
+                    "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/lessons/ypdlccbrjnwe3hp812rl.mp4",
+                //"https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
+                //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Changing_your_breakfast.mp4",
+                //"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+                //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Lunch__and_Dinner.mp4",
               ),
-              _getDataUsageWarning(context, screenSize),
-              Text(
-                "Changing your breakfast",
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: VideoPlayerChewie(
-                  screenSize: screenSize,
-                  isHorizontal: isHorizontal,
-                  videoUrl:
-                      "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/lessons/ypdlccbrjnwe3hp812rl.mp4",
-                  //"https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4",
-                  //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Changing_your_breakfast.mp4",
-                  //"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
-                  //"https://pcosprotocolstorage.blob.core.windows.net/media/videos/Lunch__and_Dinner.mp4",
-                ),
-              ),
-              Html(data: staticHtmlContent),
-            ],
-          ),
+            ),
+            Html(data: staticHtmlContent),
+          ],
         ),
       ),
     );

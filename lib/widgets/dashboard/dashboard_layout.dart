@@ -4,6 +4,7 @@ import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/constants/lesson_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
@@ -63,6 +64,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         openBottomSheet(
           context,
           Tutorial(
+            isStartUp: true,
             closeTutorial: () {
               Navigator.pop(context);
             },
@@ -136,7 +138,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void _askUserForDailyReminder() {
     void openSettings(BuildContext context) {
       Navigator.of(context).pop();
-      Navigator.pushNamed(context, Settings.id);
+      Navigator.pushNamed(context, Settings.id,
+          arguments: SettingsArguments((bool) {}, true));
     }
 
     void displaySetupLaterMessage(BuildContext context) {
@@ -237,13 +240,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
               screenSize: screenSize,
               isHorizontal: isHorizontal,
               openLesson: _openLesson,
-              closeLesson: _closeLesson,
             ),
             PreviousModules(
               screenSize: screenSize,
               isHorizontal: isHorizontal,
               openLesson: _openLesson,
-              closeLesson: _closeLesson,
             ),
           ],
         ),

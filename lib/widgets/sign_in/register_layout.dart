@@ -4,8 +4,12 @@ import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class RegisterLayout extends StatelessWidget {
   final Function navigateToRegister;
+  final bool isHorizontal;
 
-  RegisterLayout({this.navigateToRegister});
+  RegisterLayout({
+    @required this.navigateToRegister,
+    @required this.isHorizontal,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,9 @@ class RegisterLayout extends StatelessWidget {
                   top: 8.0,
                 ),
                 child: Text(
-                  S.of(context).gotoSignupText,
+                  isHorizontal
+                      ? S.of(context).openWebsiteText
+                      : S.of(context).gotoSignupText,
                   textAlign: TextAlign.center,
                 ),
               ),
