@@ -16,6 +16,7 @@ class Message {
       this.dateReadUTC,
       this.dateCreatedUTC});
 
+  //TODO: title is hardcoded
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       notificationId: json['notificationId'],

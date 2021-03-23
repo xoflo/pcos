@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/module_card.dart';
@@ -7,7 +8,7 @@ import 'package:thepcosprotocol_app/widgets/dashboard/module_card.dart';
 class PreviousModules extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
-  final Function openLesson;
+  final Function(Lesson) openLesson;
 
   PreviousModules({
     @required this.screenSize,
@@ -73,11 +74,12 @@ class PreviousModules extends StatelessWidget {
                   items: [1, 2, 3, 4, 5].map((i) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return LessonCard(
-                          lessonId: i,
+                        return Container();
+                        /*return LessonCard(
+                          lesson: i,
                           isNew: false,
                           openLesson: openLesson,
-                        );
+                        );*/
                       },
                     );
                   }).toList(),

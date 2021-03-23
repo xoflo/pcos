@@ -67,6 +67,22 @@ class DatabaseProvider with ChangeNotifier {
             "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             "cmsText TEXT"
             ")");
+        await db.execute("CREATE TABLE Module ("
+            "moduleID INTEGER PRIMARY KEY,"
+            "title TEXT,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE Lesson ("
+            "lessonID INTEGER PRIMARY KEY,"
+            "moduleID INTEGER,"
+            "title TEXT,"
+            "introduction TEXT,"
+            "mediaUrl TEXT,"
+            "mediaMimeType TEXT,"
+            "body TEXT,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
       },
       version: 1,
     );

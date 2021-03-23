@@ -39,7 +39,7 @@ class RecipeListItem extends StatelessWidget {
                 height: 220,
               ),
               Container(
-                height: 47,
+                height: 46,
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(

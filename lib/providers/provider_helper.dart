@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/cms_text.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
+import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -36,7 +38,7 @@ class ProviderHelper {
             'question': question.question,
             'answer': question.answer,
             'tags': question.tags,
-            'isFavorite': question.isFavorite,
+            'isFavorite': question.isFavorite ? 1 : 0,
           });
         });
 
@@ -48,7 +50,7 @@ class ProviderHelper {
       debugPrint("*********GET DATA FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
-    return List<Question>();
+    return [];
   }
 
   Future<List<Recipe>> fetchAndSaveRecipes(final dbProvider) async {
@@ -87,7 +89,75 @@ class ProviderHelper {
       debugPrint("*********GET RECIPES FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
-    return List<Recipe>();
+    return [];
+  }
+
+  Future<List<Module>> fetchAndSaveModules(final dbProvider) async {
+    final String tableName = "Module";
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    if (dbProvider.db != null) {
+      //first get the data from the api if we have no data yet
+      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+        final modules = await WebServices().getAllModules();
+        debugPrint("**************FETCH MODULES FROM API AND SAVE");
+        //delete all old records before adding new ones
+        await dbProvider.deleteAll(tableName);
+        //add items to database
+        modules.forEach((Module module) async {
+          await dbProvider.insert(tableName, {
+            'moduleID': module.moduleID,
+            'title': module.title,
+            'dateCreatedUTC': module.dateCreatedUTC.toIso8601String(),
+          });
+        });
+
+        //save when we got the data
+        saveTimestamp(tableName);
+      }
+
+      // get items from database
+      debugPrint("*********GET MODULES FROM DB $tableName");
+      return await getAllData(dbProvider, tableName);
+    }
+    return [];
+  }
+
+  //TODO: need to change to call allLessons for all modules
+  Future<List<Lesson>> fetchAndSaveLessons(final dbProvider) async {
+    final String tableName = "Lesson";
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    if (dbProvider.db != null) {
+      //first get the data from the api if we have no data yet
+      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+        final lessons = await WebServices().getAllLessonsForModule(1);
+        debugPrint("**************FETCH MODULES FROM API AND SAVE");
+        //delete all old records before adding new ones
+        await dbProvider.deleteAll(tableName);
+        //add items to database
+        lessons.forEach((Lesson lesson) async {
+          debugPrint("PROVIDER HELPER = ${lesson.moduleID}");
+          await dbProvider.insert(tableName, {
+            'lessonID': lesson.lessonID,
+            'moduleID': lesson.moduleID,
+            'title': lesson.title,
+            'introduction': lesson.introduction,
+            'mediaUrl': lesson.mediaUrl,
+            'mediaMimeType': lesson.mediaMimeType,
+            'body': lesson.body,
+            'orderIndex': lesson.orderIndex,
+            'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
+          });
+        });
+
+        //save when we got the data
+        saveTimestamp(tableName);
+      }
+
+      // get items from database
+      debugPrint("*********GET LESSONS FROM DB $tableName");
+      return await getAllData(dbProvider, tableName);
+    }
+    return [];
   }
 
   //TODO, store notificationId in ID field
@@ -124,7 +194,7 @@ class ProviderHelper {
       debugPrint("*********GET MESSAGES FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
-    return List<Message>();
+    return [];
   }
 
   Future<List<String>> fetchAndSaveCMSText(
@@ -164,7 +234,7 @@ class ProviderHelper {
       debugPrint("*********GET DATA FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
-    return List<String>();
+    return [];
   }
 
   Future<List<dynamic>> filterAndSearch(final dbProvider,
@@ -273,15 +343,15 @@ class ProviderHelper {
 
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     final int savedTimestamp = await getTimestamp(tableName);
-    final int cacheSeconds = tableName == "Message" ? 300 : 3600;
+    final int cacheSeconds = tableName == "Message" ? 300 : 900;
 
-    //we have data, so check if the data is older than an hour (3,600,000 milliseconds)
+    //we have data, so check if the data is older than 15 minutes (900 seconds) or 5 mins for messages
     if (savedTimestamp != null &&
         currentTimestamp - savedTimestamp > (cacheSeconds * 1000)) {
       return true;
     }
 
-    //we have data and it is under an hour old (or 10 mins for Messages), so use the database version
+    //we have data and it is under 15 mins old (or 5 mins for Messages), so use the database version
     return false;
   }
 
@@ -294,6 +364,10 @@ class ProviderHelper {
   List<dynamic> mapDataToList(final dataList, final String tableName) {
     if (tableName == "Recipe") {
       return dataList.map<Recipe>((item) => Recipe.fromJson(item)).toList();
+    } else if (tableName == "Module") {
+      return dataList.map<Module>((item) => Module.fromJson(item)).toList();
+    } else if (tableName == "Lesson") {
+      return dataList.map<Lesson>((item) => Lesson.fromJson(item)).toList();
     } else if (tableName == "Message") {
       return dataList.map<Message>((item) => Message.fromJson(item)).toList();
     } else if (tableName == "CMSText") {

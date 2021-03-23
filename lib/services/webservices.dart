@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
@@ -10,17 +11,21 @@ import 'package:thepcosprotocol_app/models/response/recipe_response.dart';
 import 'package:thepcosprotocol_app/models/response/cms_response.dart';
 import 'package:thepcosprotocol_app/models/response/cms_multi_response.dart';
 import 'package:thepcosprotocol_app/models/response/message_response.dart';
+import 'package:thepcosprotocol_app/models/response/module_response.dart';
+import 'package:thepcosprotocol_app/models/response/lesson_response.dart';
 import 'package:thepcosprotocol_app/models/token.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
 import 'package:thepcosprotocol_app/models/member.dart';
+import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 
 class WebServices {
   final String _baseUrl = FlavorConfig.instance.values.baseUrl;
 
-  //Connectivity
+  //#region Connectivity
   Future<bool> checkInternetConnectivity() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
@@ -30,9 +35,9 @@ class WebServices {
     }
     return false;
   }
+  //#endregion
 
-  //Authentication
-
+  //#region Authentication
   Future<Token> signIn(final String emailAddress, final String password) async {
     final url = _baseUrl + "Token";
     final response = await http.post(
@@ -104,9 +109,9 @@ class WebServices {
       throw FORGOT_PASSWORD_FAILED;
     }
   }
+  //#endregion
 
-  //Member
-
+  //#region Member
   Future<Member> getMemberDetails() async {
     final url = _baseUrl + "Member/me";
     final String token = await AuthenticationController().getAccessToken();
@@ -179,9 +184,115 @@ class WebServices {
       throw RESET_PASSWORD_FAILED;
     }
   }
+  //#endregion
 
-  //Recipes
+  //#region Course
+  Future<List<Module>> getAllModules() async {
+    final url = _baseUrl + "Module/all";
+    final String token = await AuthenticationController().getAccessToken();
 
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("Status=${response.statusCode}");
+    if (response.statusCode == 200) {
+      debugPrint("response = ${jsonDecode(response.body)}");
+      return ModuleResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw Exception(GET_MODULES_FAILED);
+    }
+  }
+
+  Future<List<Module>> getIncompleteModules() async {
+    final url = _baseUrl + "Module/incomplete";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("Status=${response.statusCode}");
+    if (response.statusCode == 200) {
+      debugPrint("response = ${jsonDecode(response.body)}");
+      return ModuleResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw Exception(GET_MODULES_FAILED);
+    }
+  }
+
+  Future<List<Module>> getCompleteModules() async {
+    final url = _baseUrl + "Module/complete";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("Status=${response.statusCode}");
+    if (response.statusCode == 200) {
+      debugPrint("response = ${jsonDecode(response.body)}");
+      return ModuleResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw Exception(GET_MODULES_FAILED);
+    }
+  }
+
+  Future<bool> setModuleComplete(final int moduleId) async {
+    final url = _baseUrl + "Module/set_completed";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        <String, String>{'moduleId': moduleId.toString()},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw false;
+    }
+  }
+
+  Future<List<Lesson>> getAllLessonsForModule(final int moduleId) async {
+    final url = _baseUrl + "Lesson/all/$moduleId";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("Status=${response.statusCode}");
+    if (response.statusCode == 200) {
+      debugPrint("response = ${jsonDecode(response.body)}");
+      return LessonResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw Exception(GET_LESSONS_FAILED);
+    }
+  }
+
+  //#endregion
+
+  //#region Recipes
   Future<List<Recipe>> getAllRecipes() async {
     final url = _baseUrl + "recipe/all";
     final String token = await AuthenticationController().getAccessToken();
@@ -200,9 +311,9 @@ class WebServices {
       throw Exception(GET_RECIPES_FAILED);
     }
   }
+  //#endregion
 
-  //CMS
-
+  //#region CMS
   Future<String> getCmsAssetByReference(final String reference) async {
     final url = _baseUrl + "CMS/asset/$reference";
 
@@ -238,8 +349,9 @@ class WebServices {
       throw GET_CMSBYTYPE_FAILED;
     }
   }
+  //#endregion
 
-  //Notifications
+  //#region Notifications
   Future<List<Message>> getAllUserNotifications() async {
     final url = _baseUrl + "notification";
     final String token = await AuthenticationController().getAccessToken();
@@ -292,9 +404,9 @@ class WebServices {
       throw false;
     }
   }
+  //#endregion
 
-  //FAVOURITES
-
+  //#region Favourites
   Future<bool> addToFavourites(
       final String assetType, final int assetId) async {
     final url = _baseUrl + "Favorite";
@@ -340,9 +452,9 @@ class WebServices {
       throw false;
     }
   }
+  //#endregion
 
-  //App
-
+  //#region App
   Future<bool> checkVersion(final String platform, final String version) async {
     final url =
         _baseUrl + "/app_services/min_supported_version/$platform/$version";
@@ -362,4 +474,5 @@ class WebServices {
       return true;
     }
   }
+  //#endregion
 }

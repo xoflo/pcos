@@ -136,7 +136,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
 
     if (favouriteType == FavouriteType.Lesson) {
       Lesson lesson = favourite;
-      analyticsId = lesson.lessonId.toString();
+      analyticsId = lesson.lessonID.toString();
       favouriteWidget = CourseLesson(
         lesson: lesson,
         closeLesson: closeFavourite,

@@ -35,7 +35,7 @@ class FavouritesLessonItem extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  removeFavourite(FavouriteType.Lesson, lesson.lessonId, false);
+                  removeFavourite(FavouriteType.Lesson, lesson.lessonID, false);
                 },
                 child: Icon(
                   Icons.delete,
@@ -48,7 +48,7 @@ class FavouritesLessonItem extends StatelessWidget {
           Container(
             width: width,
             child: Text(
-              lesson.description,
+              "Introduction here",
             ),
           ),
           Row(

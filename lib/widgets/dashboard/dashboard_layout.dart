@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
-import 'package:thepcosprotocol_app/constants/lesson_type.dart';
+import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
@@ -20,6 +24,11 @@ import 'package:thepcosprotocol_app/widgets/dashboard/current_module.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/previous_modules.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -54,6 +63,21 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     });
   }
 
+  void _getAllModules() async {
+    final List<Module> allModules = await WebServices().getAllModules();
+    final List<Module> incompleteModules =
+        await WebServices().getIncompleteModules();
+    final List<Module> completeModules =
+        await WebServices().getCompleteModules();
+    debugPrint("allModules = ${allModules.length}");
+    debugPrint("incompleteModules = ${incompleteModules.length}");
+    debugPrint("completeModules = ${completeModules.length}");
+
+    final List<Lesson> allLessonsForModule =
+        await WebServices().getAllLessonsForModule(1);
+    debugPrint("allLessonsForModule = ${allLessonsForModule.length}");
+  }
+
   Future<void> _checkShowTutorial() async {
     if (!await PreferencesController()
         .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
@@ -76,12 +100,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
   }
 
-  void _openLesson() async {
-    final Lesson lesson = Lesson.fromValues(
-        1, LessonType.Video, "A Test lesson", "This is just a test lesson.");
+  void _openLesson(final Lesson lesson) async {
     bool showDataUsageWarning = false;
 
-    if (!_dataUsageWarningDisplayed && lesson.lessonType == LessonType.Video) {
+    if (!_dataUsageWarningDisplayed &&
+        lesson.mediaMimeType == MediaType.mp4.toString()) {
       showDataUsageWarning = true;
       //save has seen warning so not to display again
       PreferencesController()
@@ -100,7 +123,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         addToFavourites: _addLessonToFavourites,
       ),
       Analytics.ANALYTICS_SCREEN_LESSON,
-      lesson.lessonId.toString(),
+      lesson.lessonID.toString(),
     );
   }
 
@@ -213,42 +236,65 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     });
   }
 
+  Widget getCurrentModule(final Size screenSize, final bool isHorizontal,
+      final ModulesProvider modulesProvider) {
+    switch (modulesProvider.status) {
+      case LoadingStatus.loading:
+        return PcosLoadingSpinner();
+      case LoadingStatus.empty:
+        return NoResults(message: S.of(context).noResultsRecipes);
+      case LoadingStatus.success:
+        return CurrentModule(
+          screenSize: screenSize,
+          isHorizontal: isHorizontal,
+          title: modulesProvider.currentModule.title,
+          lessons: modulesProvider.currentModuleLessons,
+          openLesson: _openLesson,
+        );
+    }
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-
-    return Container(
-      height: DeviceUtils.getRemainingHeight(
-          screenSize.height, false, isHorizontal, false, false),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            widget.showYourWhy ? YourWhy() : Container(),
-            _showTodaysTask
-                ? Tasks(
-                    screenSize: screenSize,
-                    isHorizontal: isHorizontal,
-                    onSubmit: _closeTodaysTask,
-                  )
-                : Container(),
-            YourProgress(),
-            CurrentModule(
-              isNew: true,
-              screenSize: screenSize,
-              isHorizontal: isHorizontal,
-              openLesson: _openLesson,
+    final int topAdjustment = widget.showYourWhy ? 190 : 0;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        widget.showYourWhy ? YourWhy() : Container(),
+        SingleChildScrollView(
+          child: Container(
+            height: DeviceUtils.getRemainingHeight(
+                    screenSize.height, false, isHorizontal, false, false) -
+                topAdjustment,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _showTodaysTask
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Tasks(
+                          screenSize: screenSize,
+                          isHorizontal: isHorizontal,
+                          onSubmit: _closeTodaysTask,
+                        ),
+                      )
+                    : Container(height: 0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Consumer<ModulesProvider>(
+                    builder: (context, model, child) =>
+                        getCurrentModule(screenSize, isHorizontal, model),
+                  ),
+                ),
+              ],
             ),
-            PreviousModules(
-              screenSize: screenSize,
-              isHorizontal: isHorizontal,
-              openLesson: _openLesson,
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

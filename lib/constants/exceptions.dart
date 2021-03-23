@@ -11,3 +11,5 @@ const String FORGOT_PASSWORD_FAILED = "forgot_password_failed";
 const String GET_CMSBYTYPE_FAILED = "get_cmsbytype_failed";
 const String GET_MESSAGES_FAILED = "get_messages_failed";
 const String ADD_TO_FAVOURITE_FAILED = "add_to_favourite_failed";
+const String GET_MODULES_FAILED = "get_modules_failed";
+const String GET_LESSONS_FAILED = "get_lessons_failed";
