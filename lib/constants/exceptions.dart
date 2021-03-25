@@ -13,3 +13,4 @@ const String GET_MESSAGES_FAILED = "get_messages_failed";
 const String ADD_TO_FAVOURITE_FAILED = "add_to_favourite_failed";
 const String GET_MODULES_FAILED = "get_modules_failed";
 const String GET_LESSONS_FAILED = "get_lessons_failed";
+const String GET_LESSON_TASKS_FAILED = "get_lesson_tasks_failed";

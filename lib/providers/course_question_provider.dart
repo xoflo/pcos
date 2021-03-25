@@ -8,14 +8,14 @@ class CourseQuestionProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
 
   CourseQuestionProvider({@required this.dbProvider}) {
-    if (dbProvider != null) fetchAndSaveData();
+    if (dbProvider != null) _fetchAndSaveData();
   }
   final String tableName = "CourseQuestion";
   List<Question> _items = [];
   LoadingStatus status = LoadingStatus.empty;
   List<Question> get items => [..._items];
 
-  Future<void> fetchAndSaveData() async {
+  Future<void> _fetchAndSaveData() async {
     status = LoadingStatus.loading;
     notifyListeners();
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)

@@ -8,7 +8,7 @@ class FavouritesProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
 
   FavouritesProvider({@required this.dbProvider}) {
-    if (dbProvider != null) getDataFromDatabase(dbProvider);
+    if (dbProvider != null) _getDataFromDatabase(dbProvider);
   }
 
   List<Lesson> _itemsLessons = [];
@@ -16,7 +16,7 @@ class FavouritesProvider with ChangeNotifier {
 
   List<Lesson> get itemsLessons => [..._itemsLessons];
 
-  Future<void> getDataFromDatabase(
+  Future<void> _getDataFromDatabase(
     final dbProvider,
   ) async {
     statusLessons = LoadingStatus.loading;

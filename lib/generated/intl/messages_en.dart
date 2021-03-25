@@ -84,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "messageTitle" : MessageLookupByLibrary.simpleMessage("Message"),
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
+    "moduleText" : MessageLookupByLibrary.simpleMessage("Module"),
     "noItemsFound" : MessageLookupByLibrary.simpleMessage("No items found!"),
     "noMemberDetails" : MessageLookupByLibrary.simpleMessage("We could not display your details, please try again later."),
     "noNotifications" : MessageLookupByLibrary.simpleMessage("There are no messages to display."),
@@ -128,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pinUnlockErrorText" : MessageLookupByLibrary.simpleMessage("Your PIN is incorrect, please try again"),
     "pinUnlockErrorTitle" : MessageLookupByLibrary.simpleMessage("Incorrect PIN"),
     "pinUnlockTitle" : MessageLookupByLibrary.simpleMessage("Enter your PIN to unlock"),
+    "previousModules" : MessageLookupByLibrary.simpleMessage("Previous Modules"),
     "privacyTitle" : MessageLookupByLibrary.simpleMessage("Privacy policy"),
     "profileAliasLabel" : MessageLookupByLibrary.simpleMessage("Username"),
     "profileCancelButton" : MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -167,6 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "requestNotificationPermissionText" : MessageLookupByLibrary.simpleMessage("To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?"),
     "requestNotificationPermissionTitle" : MessageLookupByLibrary.simpleMessage("Notifications"),
     "returnToSignInTitle" : MessageLookupByLibrary.simpleMessage("Return to Sign In"),
+    "saveText" : MessageLookupByLibrary.simpleMessage("Save"),
     "searchHeaderFilterText" : MessageLookupByLibrary.simpleMessage("Filter:"),
     "searchInputText" : MessageLookupByLibrary.simpleMessage("Search"),
     "sendButtonText" : MessageLookupByLibrary.simpleMessage("Send"),
@@ -192,6 +195,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "versionDialogTitle" : MessageLookupByLibrary.simpleMessage("App Store"),
     "versionText1" : MessageLookupByLibrary.simpleMessage("This version of The PCOS Protocol app is no longer supported."),
     "versionText2" : MessageLookupByLibrary.simpleMessage("Please visit the app store to upgrade your app version."),
+    "viewPreviousModules" : MessageLookupByLibrary.simpleMessage("View previous modules"),
     "yesText" : MessageLookupByLibrary.simpleMessage("Yes")
   };
 }

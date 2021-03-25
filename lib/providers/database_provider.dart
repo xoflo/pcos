@@ -70,7 +70,8 @@ class DatabaseProvider with ChangeNotifier {
         await db.execute("CREATE TABLE Module ("
             "moduleID INTEGER PRIMARY KEY,"
             "title TEXT,"
-            "dateCreatedUTC TEXT"
+            "dateCreatedUTC TEXT,"
+            "isComplete INTEGER"
             ")");
         await db.execute("CREATE TABLE Lesson ("
             "lessonID INTEGER PRIMARY KEY,"
@@ -80,6 +81,17 @@ class DatabaseProvider with ChangeNotifier {
             "mediaUrl TEXT,"
             "mediaMimeType TEXT,"
             "body TEXT,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT,"
+            "isComplete INTEGER"
+            ")");
+        await db.execute("CREATE TABLE LessonTask ("
+            "lessonTaskID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "metaName TEXT,"
+            "title TEXT,"
+            "description TEXT,"
+            "taskType TEXT,"
             "orderIndex INTEGER,"
             "dateCreatedUTC TEXT"
             ")");

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
+import 'package:thepcosprotocol_app/models/response/lesson_task_response.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
 import 'package:thepcosprotocol_app/models/response/list_response.dart';
 import 'package:thepcosprotocol_app/models/response/token_response.dart';
@@ -13,6 +14,7 @@ import 'package:thepcosprotocol_app/models/response/cms_multi_response.dart';
 import 'package:thepcosprotocol_app/models/response/message_response.dart';
 import 'package:thepcosprotocol_app/models/response/module_response.dart';
 import 'package:thepcosprotocol_app/models/response/lesson_response.dart';
+import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/token.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
@@ -248,7 +250,7 @@ class WebServices {
   }
 
   Future<bool> setModuleComplete(final int moduleId) async {
-    final url = _baseUrl + "Module/set_completed";
+    final url = _baseUrl + "Module/set-completed";
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.post(
@@ -258,10 +260,33 @@ class WebServices {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(
-        <String, String>{'moduleId': moduleId.toString()},
-      ),
+      body: moduleId.toString(),
     );
+
+    debugPrint("*********SET MODULE COMPLETE = ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw false;
+    }
+  }
+
+  Future<bool> setLessonComplete(final int lessonId) async {
+    final url = _baseUrl + "Lesson/set-completed";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: lessonId.toString(),
+    );
+
+    debugPrint("*********SET LESSON COMPLETE = ${response.statusCode}");
 
     if (response.statusCode == 200) {
       return true;
@@ -290,6 +315,25 @@ class WebServices {
     }
   }
 
+  Future<List<LessonTask>> getIncompleteTasks(final int lessonId) async {
+    final url = _baseUrl + "Task/incomplete/$lessonId";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("Status=${response.statusCode}");
+    if (response.statusCode == 200) {
+      debugPrint("response = ${jsonDecode(response.body)}");
+      return LessonTaskResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw Exception(GET_LESSON_TASKS_FAILED);
+    }
+  }
   //#endregion
 
   //#region Recipes

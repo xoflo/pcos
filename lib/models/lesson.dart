@@ -10,6 +10,7 @@ class Lesson {
   final String body;
   final int orderIndex;
   final DateTime dateCreatedUTC;
+  final bool isComplete;
   Lesson({
     this.lessonID,
     this.moduleID,
@@ -20,6 +21,7 @@ class Lesson {
     this.body,
     this.orderIndex,
     this.dateCreatedUTC,
+    this.isComplete,
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class Lesson {
       body: json['body'],
       orderIndex: json['orderIndex'],
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
+      isComplete: json['isComplete'],
     );
   }
 }

@@ -171,5 +171,9 @@
     "dataUsageWarningTitle": "Data Usage",
     "dataUsageWarningText": "Warning - Please ensure you have enough data to stream videos in the app.",
     "coachChatFailedTitle": "Coach Chat",
-    "coachChatFailedText": "We couldn't open the Coach Chat right now, please try again later."
+    "coachChatFailedText": "We couldn't open the Coach Chat right now, please try again later.",
+    "moduleText": "Module",
+    "viewPreviousModules": "View previous modules",
+    "previousModules": "Previous Modules",
+    "saveText": "Save"
 }

@@ -13,7 +13,7 @@ import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons_list.d
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';

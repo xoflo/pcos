@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
@@ -190,6 +191,7 @@ class _AppState extends State<App> {
           Privacy.id: (context) => Privacy(),
           TermsAndConditions.id: (context) => TermsAndConditions(),
           Messages.id: (context) => Messages(),
+          PreviousModules.id: (context) => PreviousModules(),
         },
         navigatorObservers: [
           observer,

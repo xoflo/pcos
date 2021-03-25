@@ -2,18 +2,21 @@ class Module {
   final int moduleID;
   final String title;
   final DateTime dateCreatedUTC;
+  final bool isComplete;
 
   Module({
     this.moduleID,
     this.title,
     this.dateCreatedUTC,
+    this.isComplete,
   });
 
   factory Module.fromJson(Map<String, dynamic> json) {
     return Module(
       moduleID: json['moduleID'],
-      title: "This is the title",
+      title: json['title'],
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
+      isComplete: json['isComplete'],
     );
   }
 }

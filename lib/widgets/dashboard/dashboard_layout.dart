@@ -6,11 +6,14 @@ import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
+import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/your_why.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
@@ -21,7 +24,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/your_progress.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/current_module.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/previous_modules.dart';
+import 'package:thepcosprotocol_app/widgets/modules/previous_modules_carousel.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -29,6 +32,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -43,8 +47,6 @@ class DashboardLayout extends StatefulWidget {
 }
 
 class _DashboardLayoutState extends State<DashboardLayout> {
-  TimeOfDay _customNotificationTime;
-  bool _showTodaysTask = true;
   bool _dataUsageWarningDisplayed = false;
 
   @override
@@ -61,21 +63,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
     });
-  }
-
-  void _getAllModules() async {
-    final List<Module> allModules = await WebServices().getAllModules();
-    final List<Module> incompleteModules =
-        await WebServices().getIncompleteModules();
-    final List<Module> completeModules =
-        await WebServices().getCompleteModules();
-    debugPrint("allModules = ${allModules.length}");
-    debugPrint("incompleteModules = ${incompleteModules.length}");
-    debugPrint("completeModules = ${completeModules.length}");
-
-    final List<Lesson> allLessonsForModule =
-        await WebServices().getAllLessonsForModule(1);
-    debugPrint("allLessonsForModule = ${allLessonsForModule.length}");
   }
 
   Future<void> _checkShowTutorial() async {
@@ -100,7 +87,23 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
   }
 
-  void _openLesson(final Lesson lesson) async {
+  void _openLesson(
+      final Lesson lesson, final ModulesProvider modulesProvider) async {
+    //mark lesson a complete if not already
+    debugPrint("******open lesson isComplete=${lesson.isComplete}");
+    //if (!lesson.isComplete) {
+    //TODO: put this back in when isComplete is available
+    if (true) {
+      //is this the last lesson of the Module, if so, also setComplete for module
+      final bool setModuleComplete = modulesProvider
+              .currentModuleLessons[
+                  modulesProvider.currentModuleLessons.length - 1]
+              .lessonID ==
+          lesson.lessonID;
+      modulesProvider.setLessonAsComplete(
+          lesson.lessonID, lesson.moduleID, setModuleComplete);
+    }
+
     bool showDataUsageWarning = false;
 
     if (!_dataUsageWarningDisplayed &&
@@ -156,6 +159,12 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         }
       }
     }
+  }
+
+  void _openPreviousModules(
+      final BuildContext context, final ModulesProvider modulesProvider) {
+    Navigator.pushNamed(context, PreviousModules.id,
+        arguments: PreviousModulesArguments(modulesProvider));
   }
 
   void _askUserForDailyReminder() {
@@ -222,7 +231,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     debugPrint("*********ADD LESSON TO FAVE");
   }
 
-  void _closeTodaysTask() {
+  void _saveTask() {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
       parameters: {
@@ -231,28 +240,58 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       },
     );
 
-    setState(() {
+    /*setState(() {
       _showTodaysTask = false;
-    });
+    });*/
   }
 
-  Widget getCurrentModule(final Size screenSize, final bool isHorizontal,
-      final ModulesProvider modulesProvider) {
+  Widget getCurrentModule(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+  ) {
     switch (modulesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
         return NoResults(message: S.of(context).noResultsRecipes);
       case LoadingStatus.success:
+        debugPrint(
+            "currentModule lessons count = ${modulesProvider.currentModuleLessons.length}");
         return CurrentModule(
           screenSize: screenSize,
           isHorizontal: isHorizontal,
-          title: modulesProvider.currentModule.title,
-          lessons: modulesProvider.currentModuleLessons,
+          modulesProvider: modulesProvider,
+          showPreviousModule: modulesProvider.modules.length > 1 ? true : false,
           openLesson: _openLesson,
+          openPreviousModules: _openPreviousModules,
         );
     }
     return Container();
+  }
+
+  Widget getTasks(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+    final double topPadding,
+  ) {
+    switch (modulesProvider.status) {
+      case LoadingStatus.success:
+        debugPrint(
+            "LESSON TASKS ON DASHBAORD = ${modulesProvider.currentLessonTasks.length}");
+        return Padding(
+          padding: EdgeInsets.only(top: topPadding),
+          child: Tasks(
+            screenSize: screenSize,
+            isHorizontal: isHorizontal,
+            lessonTasks: modulesProvider.currentLessonTasks,
+            onSubmit: _saveTask,
+          ),
+        );
+      default:
+        return Container();
+    }
   }
 
   @override
@@ -260,41 +299,25 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-    final int topAdjustment = widget.showYourWhy ? 190 : 0;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        widget.showYourWhy ? YourWhy() : Container(),
-        SingleChildScrollView(
-          child: Container(
-            height: DeviceUtils.getRemainingHeight(
-                    screenSize.height, false, isHorizontal, false, false) -
-                topAdjustment,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _showTodaysTask
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Tasks(
-                          screenSize: screenSize,
-                          isHorizontal: isHorizontal,
-                          onSubmit: _closeTodaysTask,
-                        ),
-                      )
-                    : Container(height: 0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Consumer<ModulesProvider>(
-                    builder: (context, model, child) =>
-                        getCurrentModule(screenSize, isHorizontal, model),
-                  ),
-                ),
-              ],
-            ),
+    final double topPadding = widget.showYourWhy ? 20 : 30;
+    return SingleChildScrollView(
+      child: Container(
+        height: DeviceUtils.getRemainingHeight(
+            screenSize.height, false, isHorizontal, false, false),
+        child: Consumer<ModulesProvider>(
+          builder: (context, model, child) => Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              widget.showYourWhy ? YourWhy() : Container(),
+              getTasks(screenSize, isHorizontal, model, topPadding),
+              Padding(
+                padding: EdgeInsets.only(top: topPadding),
+                child: getCurrentModule(screenSize, isHorizontal, model),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
