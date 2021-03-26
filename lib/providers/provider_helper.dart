@@ -5,9 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/cms_text.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/lesson_export.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/models/module_export.dart';
+import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -93,6 +97,135 @@ class ProviderHelper {
     return [];
   }
 
+  Future<ModulesAndLessons> fetchAndSaveModuleExport(
+      final dbProvider, final bool forceRefresh) async {
+    final String moduleTableName = "Module";
+    final String lessonTableName = "Lesson";
+    final String lessonContentTableName = "LessonContent";
+    final String lessonTaskTableName = "LessonTask";
+
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    if (dbProvider.db != null) {
+      //first get the data from the api if we have no data yet
+      if (forceRefresh ||
+          await _shouldGetDataFromAPI(dbProvider, moduleTableName)) {
+        final moduleExport = await WebServices().getModulesExport();
+        debugPrint("**************FETCH MODULES FROM API AND SAVE");
+        //delete all old records before adding new ones
+        await dbProvider.deleteAll(moduleTableName);
+        await dbProvider.deleteAll(lessonTableName);
+        await dbProvider.deleteAll(lessonContentTableName);
+        await dbProvider.deleteAll(lessonTaskTableName);
+
+        //add modules to database
+        moduleExport.forEach((ModuleExport moduleExport) async {
+          Module module = moduleExport.module;
+          await dbProvider.insert(moduleTableName, {
+            'moduleID': module.moduleID,
+            'title': module.title,
+            'isComplete': module.isComplete,
+            'orderIndex': module.orderIndex,
+            'dateCreatedUTC': module.dateCreatedUTC.toIso8601String(),
+          });
+        });
+
+        //add lessons, lesson content and lesson tasks to database
+        moduleExport.forEach((ModuleExport moduleExport) async {
+          List<LessonExport> lessons = moduleExport.lessons;
+          lessons.forEach((LessonExport lessonExport) async {
+            Lesson lesson = lessonExport.lesson;
+            List<LessonContent> lessonContent = lessonExport.content;
+            List<LessonTask> lessonTasks = lessonExport.tasks;
+            //add lesson to database
+            await dbProvider.insert(lessonTableName, {
+              'lessonID': lesson.lessonID,
+              'moduleID': lesson.moduleID,
+              'title': lesson.title,
+              'introduction': lesson.introduction,
+              'orderIndex': lesson.orderIndex,
+              'isFavorite': lesson.isFavorite,
+              'isComplete': lesson.isComplete,
+              'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
+            });
+            //add lesson content to database
+            await _addLessonContentToDatabase(
+                dbProvider, lessonContentTableName, lessonContent);
+            await _addLessonTasksToDatabase(
+                dbProvider, lessonTaskTableName, lessonTasks);
+          });
+        });
+
+        //save when we got the data
+        saveTimestamp(moduleTableName);
+      }
+
+      // get items from database
+      debugPrint(
+          "*********GET MODULES, LESSON, CONTENT and TASKS FROM DB $moduleTableName");
+      final List<Module> modulesFromDB = await getAllData(
+        dbProvider,
+        moduleTableName,
+        orderByColumn: "orderIndex",
+      );
+      final List<Lesson> lessonsFromDB = await getAllData(
+        dbProvider,
+        lessonTableName,
+        orderByColumn: "moduleID, orderIndex",
+      );
+      final List<LessonContent> lessonContentFromDB = await getAllData(
+        dbProvider,
+        lessonContentTableName,
+        orderByColumn: "lessonID, orderIndex",
+      );
+      final List<LessonTask> lessonTasksFromDB = await getAllData(
+        dbProvider,
+        lessonTaskTableName,
+        orderByColumn: "lessonID, orderIndex",
+      );
+      final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
+        modules: modulesFromDB,
+        lessons: lessonsFromDB,
+        lessonContent: lessonContentFromDB,
+        lessonTasks: lessonTasksFromDB,
+      );
+      return modulesAndLessons;
+    }
+    return ModulesAndLessons();
+  }
+
+  Future<void> _addLessonContentToDatabase(final dbProvider,
+      final String tableName, List<LessonContent> lessonContents) async {
+    for (LessonContent lessonContent in lessonContents) {
+      await dbProvider.insert(tableName, {
+        'lessonContentID': lessonContent.lessonContentID,
+        'lessonID': lessonContent.lessonID,
+        'title': lessonContent.title,
+        'mediaUrl': lessonContent.mediaUrl,
+        'media': lessonContent.mediaMimeType,
+        'body': lessonContent.body,
+        'orderIndex': lessonContent.orderIndex,
+        'dateCreatedUTC': lessonContent.dateCreatedUTC.toIso8601String(),
+      });
+    }
+  }
+
+  Future<void> _addLessonTasksToDatabase(final dbProvider,
+      final String tableName, List<LessonTask> lessonTasks) async {
+    for (LessonTask lessonTask in lessonTasks) {
+      await dbProvider.insert(tableName, {
+        'lessonTaskID': lessonTask.lessonTaskID,
+        'lessonID': lessonTask.lessonID,
+        'metaName': lessonTask.metaName,
+        'title': lessonTask.title,
+        'description': lessonTask.description,
+        'taskType': lessonTask.taskType,
+        'orderIndex': lessonTask.orderIndex,
+        'isComplete': lessonTask.isComplete,
+        'dateCreatedUTC': lessonTask.dateCreatedUTC.toIso8601String(),
+      });
+    }
+  }
+
   Future<List<Module>> fetchAndSaveModules(
       final dbProvider, final bool forceRefresh) async {
     final String tableName = "Module";
@@ -153,9 +286,6 @@ class ProviderHelper {
             'moduleID': lesson.moduleID,
             'title': lesson.title,
             'introduction': lesson.introduction,
-            'mediaUrl': lesson.mediaUrl,
-            'mediaMimeType': lesson.mediaMimeType,
-            'body': lesson.body,
             'orderIndex': lesson.orderIndex,
             'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
           });
@@ -404,9 +534,9 @@ class ProviderHelper {
     return false;
   }
 
-  Future<List<dynamic>> getAllData(
-      final dbProvider, final String tableName) async {
-    final dataList = await dbProvider.getData(tableName);
+  Future<List<dynamic>> getAllData(final dbProvider, final String tableName,
+      {final String orderByColumn = ""}) async {
+    final dataList = await dbProvider.getData(tableName, orderByColumn);
     return mapDataToList(dataList, tableName);
   }
 
@@ -417,6 +547,10 @@ class ProviderHelper {
       return dataList.map<Module>((item) => Module.fromJson(item)).toList();
     } else if (tableName == "Lesson") {
       return dataList.map<Lesson>((item) => Lesson.fromJson(item)).toList();
+    } else if (tableName == "LessonContent") {
+      return dataList
+          .map<LessonContent>((item) => LessonContent.fromJson(item))
+          .toList();
     } else if (tableName == "LessonTask") {
       return dataList
           .map<LessonTask>((item) => LessonTask.fromJson(item))

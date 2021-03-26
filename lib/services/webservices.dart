@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
+import 'package:thepcosprotocol_app/models/module_export.dart';
 import 'package:thepcosprotocol_app/models/response/lesson_task_response.dart';
+import 'package:thepcosprotocol_app/models/response/module_export_response.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
 import 'package:thepcosprotocol_app/models/response/list_response.dart';
 import 'package:thepcosprotocol_app/models/response/token_response.dart';
@@ -189,6 +193,26 @@ class WebServices {
   //#endregion
 
   //#region Course
+  Future<List<ModuleExport>> getModulesExport() async {
+    final url = _baseUrl + "Module/export";
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+    debugPrint("Status=${response.statusCode}");
+    if (response.statusCode == 200) {
+      log(response.body);
+      return ModuleExportResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw Exception(GET_MODULES_FAILED);
+    }
+  }
+
   Future<List<Module>> getAllModules() async {
     final url = _baseUrl + "Module/all";
     final String token = await AuthenticationController().getAccessToken();

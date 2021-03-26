@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
@@ -68,8 +69,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
       androidApiKey: intercomIds[1],
       iosApiKey: intercomIds[2],
     );
+    final String userId = await AuthenticationController().getUserId();
     if (!await AuthenticationController().getIntercomRegistered()) {
-      final String userId = await AuthenticationController().getUserId();
       Intercom.registerIdentifiedUser(userId: userId);
       await AuthenticationController().saveIntercomRegistered();
     }
@@ -77,6 +78,15 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     //get the value for showYourWhy, and then pass down to the course screen
     final bool isYourWhyOn = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+
+    final bool oneSignalUserIdSet = await PreferencesController()
+        .getBool(SharedPreferencesKeys.ONE_SIGNAL_EXTERNAL_USER_ID_SET);
+    //register external userId with OneSignal if not done before on this device
+    if (!oneSignalUserIdSet) {
+      OneSignal.shared.setExternalUserId(userId);
+      await PreferencesController().saveBool(
+          SharedPreferencesKeys.ONE_SIGNAL_EXTERNAL_USER_ID_SET, true);
+    }
 
     setState(() {
       _intercomInitialised = true;

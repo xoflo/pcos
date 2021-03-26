@@ -12,3 +12,5 @@ const String APP_FIRST_USE_TIMESTAMP = "app_first_use_timestamp";
 const String REQUESTED_NOTIFICATIONS_PERMISSION =
     "requested_notifications_permission";
 const String DATA_USAGE_WARNING_DISPLAYED = "data_usage_warning_displayed";
+const String ONE_SIGNAL_EXTERNAL_USER_ID_SET =
+    "one_signal_external_user_id_set";

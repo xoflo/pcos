@@ -6,7 +6,7 @@ class RecipeResponse {
   RecipeResponse({this.results});
 
   factory RecipeResponse.fromJson(Map<String, dynamic> json) {
-    List<Recipe> recipes = List<Recipe>();
+    List<Recipe> recipes = [];
     if (json['recipes'] != null) {
       json['recipes'].forEach((recipe) {
         recipes.add(Recipe.fromJson(recipe));

@@ -6,6 +6,7 @@ class LessonTask {
   final String description;
   final String taskType;
   final int orderIndex;
+  final bool isComplete;
   final DateTime dateCreatedUTC;
 
   LessonTask({
@@ -16,6 +17,7 @@ class LessonTask {
     this.description,
     this.taskType,
     this.orderIndex,
+    this.isComplete,
     this.dateCreatedUTC,
   });
 
@@ -28,6 +30,7 @@ class LessonTask {
       description: json['description'],
       taskType: json['taskType'],
       orderIndex: json['orderIndex'],
+      isComplete: json['isComplete'],
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );
   }
@@ -35,13 +38,14 @@ class LessonTask {
 
 /*
 {
-    lessonTaskID: 1,
-    lessonID: 1,
-    metaName: TestTask,
-    title: This is a test,
-    description: A test task, with a description here?,
-    taskType: bool,
-    orderIndex: 0,
-    dateCreatedUTC: 2021-03-24T01:30:00
+  "lessonTaskID": 1,
+  "lessonID": 1,
+  "metaName": "TestTask",
+  "title": "This is a test",
+  "description": "A test task, with a description here?",
+  "taskType": "bool",
+  "orderIndex": 0,
+  "isComplete": false,
+  "dateCreatedUTC": "2021-03-24T01:30:00"
 }
 */

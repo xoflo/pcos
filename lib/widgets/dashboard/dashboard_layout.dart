@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/models/module_export.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
@@ -48,6 +49,15 @@ class DashboardLayout extends StatefulWidget {
 
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
+  String _exportText = "";
+
+  void _getExportText() async {
+    final List<ModuleExport> exportText =
+        await WebServices().getModulesExport();
+    setState(() {
+      _exportText = "MODULE EXPORT LENGTH ${exportText.length.toString()}";
+    });
+  }
 
   @override
   void initState() {
@@ -95,19 +105,18 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     //TODO: put this back in when isComplete is available
     if (true) {
       //is this the last lesson of the Module, if so, also setComplete for module
-      final bool setModuleComplete = modulesProvider
-              .currentModuleLessons[
-                  modulesProvider.currentModuleLessons.length - 1]
-              .lessonID ==
-          lesson.lessonID;
+      final bool setModuleComplete =
+          modulesProvider.currentModuleLessons.last.lessonID == lesson.lessonID;
       modulesProvider.setLessonAsComplete(
           lesson.lessonID, lesson.moduleID, setModuleComplete);
     }
 
     bool showDataUsageWarning = false;
 
-    if (!_dataUsageWarningDisplayed &&
-        lesson.mediaMimeType == MediaType.mp4.toString()) {
+    //TODO: need to check mediaMimeType in the lesson_content list
+    //if (!_dataUsageWarningDisplayed &&
+    //  lesson.mediaMimeType == MediaType.mp4.toString()) {
+    if (1 == 2) {
       showDataUsageWarning = true;
       //save has seen warning so not to display again
       PreferencesController()
@@ -262,7 +271,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           screenSize: screenSize,
           isHorizontal: isHorizontal,
           modulesProvider: modulesProvider,
-          showPreviousModule: modulesProvider.modules.length > 1 ? true : false,
+          showPreviousModule:
+              modulesProvider.previousModules.length > 0 ? true : false,
           openLesson: _openLesson,
           openPreviousModules: _openPreviousModules,
         );
@@ -313,6 +323,12 @@ class _DashboardLayoutState extends State<DashboardLayout> {
               Padding(
                 padding: EdgeInsets.only(top: topPadding),
                 child: getCurrentModule(screenSize, isHorizontal, model),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _getExportText();
+                },
+                child: Text("EXPORT"),
               ),
             ],
           ),

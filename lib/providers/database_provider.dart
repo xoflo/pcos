@@ -70,20 +70,29 @@ class DatabaseProvider with ChangeNotifier {
         await db.execute("CREATE TABLE Module ("
             "moduleID INTEGER PRIMARY KEY,"
             "title TEXT,"
-            "dateCreatedUTC TEXT,"
-            "isComplete INTEGER"
+            "isComplete INTEGER,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
             ")");
         await db.execute("CREATE TABLE Lesson ("
             "lessonID INTEGER PRIMARY KEY,"
             "moduleID INTEGER,"
             "title TEXT,"
             "introduction TEXT,"
+            "orderIndex INTEGER,"
+            "isFavorite INTEGER,"
+            "isComplete INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE LessonContent ("
+            "lessonContentID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "title TEXT,"
             "mediaUrl TEXT,"
             "mediaMimeType TEXT,"
             "body TEXT,"
             "orderIndex INTEGER,"
-            "dateCreatedUTC TEXT,"
-            "isComplete INTEGER"
+            "dateCreatedUTC TEXT"
             ")");
         await db.execute("CREATE TABLE LessonTask ("
             "lessonTaskID INTEGER PRIMARY KEY,"
@@ -93,6 +102,7 @@ class DatabaseProvider with ChangeNotifier {
             "description TEXT,"
             "taskType TEXT,"
             "orderIndex INTEGER,"
+            "isComplete INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
       },
@@ -109,7 +119,11 @@ class DatabaseProvider with ChangeNotifier {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(final String table) async {
+  Future<List<Map<String, dynamic>>> getData(
+      final String table, final String orderByColumn) async {
+    if (orderByColumn.length > 0) {
+      return await db.query(table, orderBy: orderByColumn);
+    }
     return await db.query(table);
   }
 
