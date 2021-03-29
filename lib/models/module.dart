@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Module {
   final int moduleID;
   final String title;
@@ -14,10 +16,13 @@ class Module {
   });
 
   factory Module.fromJson(Map<String, dynamic> json) {
+    debugPrint("moduleID=${json['moduleID']}");
+    debugPrint("DATE=${json['dateCreatedUTC']}");
     return Module(
       moduleID: json['moduleID'],
       title: json['title'],
-      isComplete: json['isComplete'],
+      isComplete:
+          json['isComplete'] == 1 || json['isComplete'] == true ? true : false,
       orderIndex: json['orderIndex'],
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );

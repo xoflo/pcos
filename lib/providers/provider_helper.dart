@@ -123,7 +123,7 @@ class ProviderHelper {
           await dbProvider.insert(moduleTableName, {
             'moduleID': module.moduleID,
             'title': module.title,
-            'isComplete': module.isComplete,
+            'isComplete': module.isComplete ? 1 : 0,
             'orderIndex': module.orderIndex,
             'dateCreatedUTC': module.dateCreatedUTC.toIso8601String(),
           });
@@ -143,8 +143,8 @@ class ProviderHelper {
               'title': lesson.title,
               'introduction': lesson.introduction,
               'orderIndex': lesson.orderIndex,
-              'isFavorite': lesson.isFavorite,
-              'isComplete': lesson.isComplete,
+              'isFavorite': lesson.isFavorite ? 1 : 0,
+              'isComplete': lesson.isComplete ? 1 : 0,
               'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
             });
             //add lesson content to database
@@ -201,7 +201,7 @@ class ProviderHelper {
         'lessonID': lessonContent.lessonID,
         'title': lessonContent.title,
         'mediaUrl': lessonContent.mediaUrl,
-        'media': lessonContent.mediaMimeType,
+        'mediaMimeType': lessonContent.mediaMimeType,
         'body': lessonContent.body,
         'orderIndex': lessonContent.orderIndex,
         'dateCreatedUTC': lessonContent.dateCreatedUTC.toIso8601String(),
@@ -220,7 +220,7 @@ class ProviderHelper {
         'description': lessonTask.description,
         'taskType': lessonTask.taskType,
         'orderIndex': lessonTask.orderIndex,
-        'isComplete': lessonTask.isComplete,
+        'isComplete': lessonTask.isComplete ? 1 : 0,
         'dateCreatedUTC': lessonTask.dateCreatedUTC.toIso8601String(),
       });
     }

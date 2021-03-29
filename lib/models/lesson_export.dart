@@ -1,6 +1,8 @@
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/lesson_content_list.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/models/lesson_task_list.dart';
 
 class LessonExport {
   final Lesson lesson;
@@ -15,9 +17,9 @@ class LessonExport {
 
   factory LessonExport.fromJson(Map<String, dynamic> json) {
     return LessonExport(
-      lesson: json['lesson'],
-      content: json['content'],
-      tasks: json['tasks'],
+      lesson: Lesson.fromJson(json['lesson']),
+      content: LessonContentList.fromList(json['content']).results,
+      tasks: LessonTaskList.fromList(json['tasks']).results,
     );
   }
 }

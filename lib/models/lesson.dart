@@ -28,8 +28,10 @@ class Lesson {
       title: json['title'],
       introduction: json['introduction'],
       orderIndex: json['orderIndex'],
-      isFavorite: json['isFavorite'],
-      isComplete: json['isComplete'],
+      isFavorite:
+          json['isFavorite'] == 1 || json['isFavorite'] == true ? true : false,
+      isComplete:
+          json['isComplete'] == 1 || json['isComplete'] == true ? true : false,
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );
   }

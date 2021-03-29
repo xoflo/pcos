@@ -30,7 +30,8 @@ class LessonTask {
       description: json['description'],
       taskType: json['taskType'],
       orderIndex: json['orderIndex'],
-      isComplete: json['isComplete'],
+      isComplete:
+          json['isComplete'] == 1 || json['isComplete'] == true ? true : false,
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );
   }
