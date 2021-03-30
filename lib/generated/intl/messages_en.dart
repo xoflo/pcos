@@ -79,6 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "kbTagStress" : MessageLookupByLibrary.simpleMessage("Stress"),
     "kbTagThyroid" : MessageLookupByLibrary.simpleMessage("Thyroid"),
     "knowledgeBaseTitle" : MessageLookupByLibrary.simpleMessage("Knowledge Base"),
+    "lessonText" : MessageLookupByLibrary.simpleMessage("Lesson"),
     "lessonsTitle" : MessageLookupByLibrary.simpleMessage("Lessons"),
     "loadingVideo" : MessageLookupByLibrary.simpleMessage("Loading Video"),
     "messageTitle" : MessageLookupByLibrary.simpleMessage("Message"),
@@ -89,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noMemberDetails" : MessageLookupByLibrary.simpleMessage("We could not display your details, please try again later."),
     "noNotifications" : MessageLookupByLibrary.simpleMessage("There are no messages to display."),
     "noResultsKBs" : MessageLookupByLibrary.simpleMessage("No knowledge base items found!"),
+    "noResultsLessons" : MessageLookupByLibrary.simpleMessage("No lessons to display!"),
     "noResultsRecipes" : MessageLookupByLibrary.simpleMessage("No recipes found!"),
     "noText" : MessageLookupByLibrary.simpleMessage("No"),
     "notificationPermissionsAllowButton" : MessageLookupByLibrary.simpleMessage("Allow Notifications"),
@@ -195,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "versionDialogTitle" : MessageLookupByLibrary.simpleMessage("App Store"),
     "versionText1" : MessageLookupByLibrary.simpleMessage("This version of The PCOS Protocol app is no longer supported."),
     "versionText2" : MessageLookupByLibrary.simpleMessage("Please visit the app store to upgrade your app version."),
+    "viewNow" : MessageLookupByLibrary.simpleMessage("Open"),
     "viewPreviousModules" : MessageLookupByLibrary.simpleMessage("View previous modules"),
     "yesText" : MessageLookupByLibrary.simpleMessage("Yes")
   };

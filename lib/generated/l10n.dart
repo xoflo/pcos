@@ -1765,6 +1765,16 @@ class S {
     );
   }
 
+  /// `Lesson`
+  String get lessonText {
+    return Intl.message(
+      'Lesson',
+      name: 'lessonText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `View previous modules`
   String get viewPreviousModules {
     return Intl.message(
@@ -1790,6 +1800,26 @@ class S {
     return Intl.message(
       'Save',
       name: 'saveText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No lessons to display!`
+  String get noResultsLessons {
+    return Intl.message(
+      'No lessons to display!',
+      name: 'noResultsLessons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open`
+  String get viewNow {
+    return Intl.message(
+      'Open',
+      name: 'viewNow',
       desc: '',
       args: [],
     );

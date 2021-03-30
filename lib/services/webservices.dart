@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -7,6 +7,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/module_export.dart';
+import 'package:thepcosprotocol_app/models/response/lesson_complete_response.dart';
 import 'package:thepcosprotocol_app/models/response/lesson_task_response.dart';
 import 'package:thepcosprotocol_app/models/response/module_export_response.dart';
 import 'package:thepcosprotocol_app/models/response/standard_response.dart';
@@ -296,9 +297,16 @@ class WebServices {
     }
   }
 
-  Future<bool> setLessonComplete(final int lessonId) async {
+  Future<DateTime> setLessonComplete(final int lessonId) async {
     final url = _baseUrl + "Lesson/set-completed";
     final String token = await AuthenticationController().getAccessToken();
+
+    //get next midnight, in UTC
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
+    final tonightMidnightUTC =
+        DateTime(tomorrow.year, tomorrow.month, tomorrow.day).toUtc();
+    debugPrint("LESSONID FOR COMPLETE = $lessonId");
+    debugPrint("UTC MIDNIGHT = ${tonightMidnightUTC.toIso8601String()}");
 
     final response = await http.post(
       url,
@@ -307,15 +315,18 @@ class WebServices {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       },
-      body: lessonId.toString(),
+      body:
+          "{'lessonID': $lessonId,'localMidnightUTC': '${tonightMidnightUTC.toIso8601String()}'}",
     );
 
-    debugPrint("*********SET LESSON COMPLETE = ${response.statusCode}");
-
+    debugPrint("*********SET LESSON CODE = ${response.statusCode}");
+    debugPrint("*********SET LESSON BODY = ${response.body}");
     if (response.statusCode == 200) {
-      return true;
+      final String responseDate =
+          LessonCompleteResponse.fromJson(jsonDecode(response.body)).payload;
+      return DateTime.parse(responseDate).toLocal();
     } else {
-      throw false;
+      throw SET_LESSON_COMPLETE_FAILED;
     }
   }
 
@@ -335,7 +346,7 @@ class WebServices {
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
     } else {
-      throw Exception(GET_LESSONS_FAILED);
+      throw GET_LESSONS_FAILED;
     }
   }
 
@@ -355,7 +366,7 @@ class WebServices {
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
     } else {
-      throw Exception(GET_LESSON_TASKS_FAILED);
+      throw GET_LESSON_TASKS_FAILED;
     }
   }
   //#endregion
@@ -370,13 +381,13 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-
+    debugPrint("RECIPES BODY=${response.body}");
     if (response.statusCode == 200) {
-      return RecipeResponse.fromJson(
-              StandardResponse.fromJson(jsonDecode(response.body)).payload)
+      return RecipeResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
     } else {
-      throw Exception(GET_RECIPES_FAILED);
+      throw GET_RECIPES_FAILED;
     }
   }
   //#endregion
@@ -395,7 +406,7 @@ class WebServices {
               StandardResponse.fromJson(jsonDecode(response.body)).payload)
           .body;
     } else {
-      throw Exception(GET_PRIVACY_STATEMENT_FAILED);
+      throw GET_PRIVACY_STATEMENT_FAILED;
     }
   }
 

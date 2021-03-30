@@ -173,7 +173,10 @@
     "coachChatFailedTitle": "Coach Chat",
     "coachChatFailedText": "We couldn't open the Coach Chat right now, please try again later.",
     "moduleText": "Module",
+    "lessonText": "Lesson",
     "viewPreviousModules": "View previous modules",
     "previousModules": "Previous Modules",
-    "saveText": "Save"
+    "saveText": "Save",
+    "noResultsLessons": "No lessons to display!",
+    "viewNow": "Open"
 }

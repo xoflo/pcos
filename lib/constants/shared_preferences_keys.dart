@@ -14,3 +14,4 @@ const String REQUESTED_NOTIFICATIONS_PERMISSION =
 const String DATA_USAGE_WARNING_DISPLAYED = "data_usage_warning_displayed";
 const String ONE_SIGNAL_EXTERNAL_USER_ID_SET =
     "one_signal_external_user_id_set";
+const String NEXT_LESSON_AVAILABLE_DATE = "next_lesson_available_date";

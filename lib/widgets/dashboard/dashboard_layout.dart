@@ -49,15 +49,6 @@ class DashboardLayout extends StatefulWidget {
 
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
-  String _exportText = "";
-
-  void _getExportText() async {
-    final List<ModuleExport> exportText =
-        await WebServices().getModulesExport();
-    setState(() {
-      _exportText = "MODULE EXPORT LENGTH ${exportText.length.toString()}";
-    });
-  }
 
   @override
   void initState() {
@@ -101,9 +92,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       final Lesson lesson, final ModulesProvider modulesProvider) async {
     //mark lesson a complete if not already
     debugPrint("******open lesson isComplete=${lesson.isComplete}");
-    //if (!lesson.isComplete) {
-    //TODO: put this back in when isComplete is available
-    if (true) {
+    if (!lesson.isComplete) {
       //is this the last lesson of the Module, if so, also setComplete for module
       final bool setModuleComplete =
           modulesProvider.currentModuleLessons.last.lessonID == lesson.lessonID;
@@ -113,10 +102,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
     bool showDataUsageWarning = false;
 
-    //TODO: need to check mediaMimeType in the lesson_content list
-    //if (!_dataUsageWarningDisplayed &&
-    //  lesson.mediaMimeType == MediaType.mp4.toString()) {
-    if (1 == 2) {
+    if (!_dataUsageWarningDisplayed) {
       showDataUsageWarning = true;
       //save has seen warning so not to display again
       PreferencesController()
@@ -129,6 +115,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     openBottomSheet(
       context,
       CourseLesson(
+        modulesProvider: modulesProvider,
         showDataUsageWarning: showDataUsageWarning,
         lesson: lesson,
         closeLesson: _closeLesson,
@@ -263,7 +250,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noResultsRecipes);
+        return NoResults(message: S.of(context).noResultsLessons);
       case LoadingStatus.success:
         debugPrint(
             "currentModule lessons count = ${modulesProvider.currentModuleLessons.length}");
@@ -290,15 +277,19 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.success:
         debugPrint(
             "LESSON TASKS ON DASHBAORD = ${modulesProvider.currentLessonTasks.length}");
-        return Padding(
-          padding: EdgeInsets.only(top: topPadding),
-          child: Tasks(
-            screenSize: screenSize,
-            isHorizontal: isHorizontal,
-            lessonTasks: modulesProvider.currentLessonTasks,
-            onSubmit: _saveTask,
-          ),
-        );
+        debugPrint(
+            "CURRENT LESSON COMPLETE=${modulesProvider.currentLesson.isComplete}");
+        return modulesProvider.currentLesson.isComplete
+            ? Padding(
+                padding: EdgeInsets.only(top: topPadding),
+                child: Tasks(
+                  screenSize: screenSize,
+                  isHorizontal: isHorizontal,
+                  lessonTasks: modulesProvider.currentLessonTasks,
+                  onSubmit: _saveTask,
+                ),
+              )
+            : Container();
       default:
         return Container();
     }
@@ -323,12 +314,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
               Padding(
                 padding: EdgeInsets.only(top: topPadding),
                 child: getCurrentModule(screenSize, isHorizontal, model),
-              ),
-              GestureDetector(
-                onTap: () {
-                  _getExportText();
-                },
-                child: Text("EXPORT"),
               ),
             ],
           ),

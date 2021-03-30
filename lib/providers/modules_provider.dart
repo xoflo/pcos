@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
@@ -9,6 +10,8 @@ import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class ModulesProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
@@ -97,7 +100,12 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
-    await WebServices().setLessonComplete(lessonID);
+    final DateTime nextLessonAvailable =
+        await WebServices().setLessonComplete(lessonID);
+    await PreferencesController().saveString(
+        SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
+        nextLessonAvailable.toIso8601String());
+    debugPrint("nextLessonAvailable = $nextLessonAvailable");
     if (setModuleComplete) {
       await WebServices().setModuleComplete(moduleID);
     }

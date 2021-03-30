@@ -3,6 +3,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class LessonCard extends StatelessWidget {
   final Lesson lesson;
@@ -34,7 +35,7 @@ class LessonCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Lesson ${lesson.orderIndex + 1}",
+                    "${S.of(context).lessonText} ${lesson.orderIndex + 1}",
                     style: Theme.of(context)
                         .textTheme
                         .headline6
@@ -58,12 +59,12 @@ class LessonCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("Listen now",
+                        Text(S.of(context).viewNow,
                             style: TextStyle(color: secondaryColor)),
                         Padding(
                           padding: const EdgeInsets.only(left: 4.0),
                           child: Icon(
-                            Icons.volume_up,
+                            Icons.open_in_new,
                             color: secondaryColor,
                             size: 36,
                           ),
