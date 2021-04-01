@@ -519,6 +519,24 @@ class ProviderHelper {
     }
   }
 
+  Future<bool> markTaskAsCompleted(
+      final dbProvider, final int lessonTaskID, final String value) async {
+    final String tableName = "LessonTask";
+    //update on server
+    final bool setComplete =
+        await WebServices().setTaskComplete(lessonTaskID, value);
+    //refresh the data from the API
+    if (setComplete && dbProvider.db != null) {
+      //set isComplete in local database and delete from displayLessonTasks
+      await dbProvider.deleteQuery(
+        table: tableName,
+        whereClause: "lessonTaskID = $lessonTaskID",
+        limitRowCount: 1,
+      );
+    }
+    return setComplete;
+  }
+
   Future<void> addToFavourites(
     final bool isAdd,
     final dbProvider,

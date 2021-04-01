@@ -25,8 +25,15 @@ class _TaskBoolState extends State<TaskBool> {
   bool answer = false;
   bool isAnswerSet = false;
   bool isSaving = false;
+  bool _showValidationMessage = false;
 
   void _saveResponse() {
+    if (!isAnswerSet) {
+      setState(() {
+        _showValidationMessage = true;
+      });
+      return;
+    }
     widget.onSubmit(widget.lessonTask.lessonTaskID, answer.toString());
   }
 
@@ -34,6 +41,7 @@ class _TaskBoolState extends State<TaskBool> {
     setState(() {
       answer = value;
       isAnswerSet = true;
+      _showValidationMessage = false;
     });
   }
 
@@ -97,6 +105,14 @@ class _TaskBoolState extends State<TaskBool> {
               ),
             ],
           ),
+          _showValidationMessage
+              ? Text(
+                  S.of(context).boolTaskValidation,
+                  style: TextStyle(
+                    color: Colors.redAccent,
+                  ),
+                )
+              : Container(),
           ColorButton(
             isUpdating: isSaving,
             label: S.of(context).saveText,

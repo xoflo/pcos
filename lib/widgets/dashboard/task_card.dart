@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/task_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_slider.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_rating.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_bool.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_text.dart';
 
@@ -23,7 +23,7 @@ class TaskCard extends StatelessWidget {
     debugPrint("***** TASK TYPE = ${lessonTask.taskType}");
     switch (lessonTask.taskType) {
       case TaskType.Rating:
-        return TaskSlider(
+        return TaskRating(
           screenSize: screenSize,
           isHorizontal: isHorizontal,
           lessonTask: lessonTask,

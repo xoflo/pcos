@@ -31,7 +31,7 @@ class ModuleCard extends StatelessWidget {
               color: isSelected ? backgroundColor : Colors.white,
               borderRadius: BorderRadius.circular(5.0),
               border: Border.all(
-                  color: secondaryColor, width: isSelected ? 3.0 : 2.0),
+                  color: primaryColor, width: isSelected ? 3.0 : 2.0),
             ),
             child: Align(
               alignment: Alignment.center,
@@ -41,7 +41,7 @@ class ModuleCard extends StatelessWidget {
                   moduleName,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: secondaryColor,
+                    color: primaryColor,
                     fontWeight:
                         isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
@@ -61,7 +61,7 @@ class ModuleCard extends StatelessWidget {
               height: isSelected ? 24 : 20,
               width: isSelected ? 24 : 20,
               child: CircleAvatar(
-                backgroundColor: secondaryColor,
+                backgroundColor: primaryColor,
                 child: Text(
                   moduleNumber.toString(),
                   style: TextStyle(

@@ -1844,6 +1844,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please make a selection above`
+  String get boolTaskValidation {
+    return Intl.message(
+      'Please make a selection above',
+      name: 'boolTaskValidation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

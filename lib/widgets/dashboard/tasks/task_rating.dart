@@ -4,13 +4,13 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
-class TaskSlider extends StatefulWidget {
+class TaskRating extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
   final Function(int, String) onSubmit;
 
-  TaskSlider({
+  TaskRating({
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.lessonTask,
@@ -18,15 +18,16 @@ class TaskSlider extends StatefulWidget {
   });
 
   @override
-  _TaskSliderState createState() => _TaskSliderState();
+  _TaskRatingState createState() => _TaskRatingState();
 }
 
-class _TaskSliderState extends State<TaskSlider> {
+class _TaskRatingState extends State<TaskRating> {
   double _sliderValue = 2.5;
   bool isSaving = false;
 
   void _saveResponse() {
-    widget.onSubmit(widget.lessonTask.lessonTaskID, _sliderValue.toString());
+    widget.onSubmit(
+        widget.lessonTask.lessonTaskID, _sliderValue.toStringAsFixed(1));
   }
 
   @override

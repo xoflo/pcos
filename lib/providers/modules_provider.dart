@@ -137,9 +137,13 @@ class ModulesProvider with ChangeNotifier {
   }
 
   Future<void> setTaskAsComplete(final int taskID, final String value) async {
-    final bool setComplete = await WebServices().setTaskComplete(taskID, value);
-    //refresh the data from the API
-    _fetchAndSaveData(true);
+    final bool markTaskComplete =
+        await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value);
+    if (markTaskComplete) {
+      _lessonTasks.removeWhere((task) => task.lessonTaskID == taskID);
+      _displayLessonTasks.removeWhere((task) => task.lessonTaskID == taskID);
+    }
+    notifyListeners();
   }
 
   Future<void> _refreshFavourites() async {

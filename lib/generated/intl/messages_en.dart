@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "appTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
     "areYouSureText" : MessageLookupByLibrary.simpleMessage("Close app"),
+    "boolTaskValidation" : MessageLookupByLibrary.simpleMessage("Please make a selection above"),
     "changePasswordConfirmLabel" : MessageLookupByLibrary.simpleMessage("Confirm password"),
     "changePasswordConfirmMessage" : MessageLookupByLibrary.simpleMessage("Please confirm your new password."),
     "changePasswordDifferentMessage" : MessageLookupByLibrary.simpleMessage("Your new and confirm passwords do not match."),

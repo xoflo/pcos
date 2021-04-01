@@ -328,7 +328,7 @@ class WebServices {
   Future<bool> setTaskComplete(final int taskId, final String value) async {
     final url = _baseUrl + "Task/set-completed/$taskId";
     final String token = await AuthenticationController().getAccessToken();
-    debugPrint("taskId=$taskId");
+    debugPrint("*****setTaskComplete taskId=$taskId value=$value");
     final response = await http.post(
       url,
       headers: {

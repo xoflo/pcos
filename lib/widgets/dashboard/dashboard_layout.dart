@@ -255,7 +255,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final Size screenSize,
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
-    final double topPadding,
   ) {
     switch (modulesProvider.status) {
       case LoadingStatus.success:
@@ -264,13 +263,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         debugPrint(
             "CURRENT LESSON COMPLETE=${modulesProvider.currentLesson.isComplete}");
         return modulesProvider.displayLessonTasks.length > 0
-            ? Padding(
-                padding: EdgeInsets.only(top: topPadding),
-                child: Tasks(
-                  screenSize: screenSize,
-                  isHorizontal: isHorizontal,
-                  modulesProvider: modulesProvider,
-                ),
+            ? Tasks(
+                screenSize: screenSize,
+                isHorizontal: isHorizontal,
+                modulesProvider: modulesProvider,
               )
             : Container();
       default:
@@ -283,7 +279,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-    final double topPadding = widget.showYourWhy ? 20 : 30;
     return SingleChildScrollView(
       child: Container(
         height: DeviceUtils.getRemainingHeight(
@@ -292,10 +287,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           builder: (context, model, child) => Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              widget.showYourWhy ? YourWhy() : Container(),
-              getTasks(screenSize, isHorizontal, model, topPadding),
+              widget.showYourWhy ? YourWhy() : Container(height: 20),
+              getTasks(screenSize, isHorizontal, model),
               Padding(
-                padding: EdgeInsets.only(top: topPadding),
+                padding: EdgeInsets.only(top: 20),
                 child: getCurrentModule(screenSize, isHorizontal, model),
               ),
             ],
