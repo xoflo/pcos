@@ -31,7 +31,7 @@ class ModulesProvider with ChangeNotifier {
   List<Module> _previousModules = [];
   List<Lesson> _currentModuleLessons = [];
   Lesson _currentLesson;
-  List<LessonTask> _currentLessonTasks = [];
+  List<LessonTask> _displayLessonTasks = [];
   List<Lesson> _favouriteLessons = [];
 
   Module get currentModule => _currentModule;
@@ -39,16 +39,24 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
   List<Module> get previousModules => [..._previousModules];
   List<Lesson> get favouriteLessons => [..._favouriteLessons];
-  List<LessonTask> get currentLessonTasks => [..._currentLessonTasks];
+  List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
 
   Future<void> _fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
     notifyListeners();
+    final String nextLessonAvailableDateString = await PreferencesController()
+        .getString(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
+    DateTime nextLessonAvailableDate =
+        DateTime.now().add(const Duration(minutes: -1));
+    if (nextLessonAvailableDateString.length > 0) {
+      nextLessonAvailableDate = DateTime.parse(nextLessonAvailableDateString);
+    }
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       final ModulesAndLessons modulesAndLessons = await ProviderHelper()
-          .fetchAndSaveModuleExport(dbProvider, forceRefresh);
+          .fetchAndSaveModuleExport(
+              dbProvider, forceRefresh, nextLessonAvailableDate);
       _modules = modulesAndLessons.modules;
       _lessons = modulesAndLessons.lessons;
       _lessonContent = modulesAndLessons.lessonContent;
@@ -58,7 +66,22 @@ class ModulesProvider with ChangeNotifier {
       _previousModules = await _getPreviousModules();
       _currentModuleLessons = await getModuleLessons(_currentModule.moduleID);
       _currentLesson = _currentModuleLessons.last;
-      _currentLessonTasks = await getLessonTasks(_currentLesson.lessonID);
+      //display the past lesson tasks not completed, and the current lesson if the lesson is complete
+      debugPrint("_lessonTasks = ${_lessonTasks.length}");
+      _displayLessonTasks.clear();
+      for (LessonTask lessonTask in _lessonTasks) {
+        debugPrint("LessonTaskID=${lessonTask.lessonTaskID}");
+        if (lessonTask.lessonID == currentLesson.lessonID) {
+          if (currentLesson.isComplete) {
+            debugPrint("1 ADD TASK = ${lessonTask.lessonTaskID}");
+            _displayLessonTasks.add(lessonTask);
+          }
+        } else {
+          debugPrint("2 ADD TASK = ${lessonTask.lessonTaskID}");
+          _displayLessonTasks.add(lessonTask);
+        }
+      }
+
       await _refreshFavourites();
     }
 
@@ -109,6 +132,12 @@ class ModulesProvider with ChangeNotifier {
     if (setModuleComplete) {
       await WebServices().setModuleComplete(moduleID);
     }
+    //refresh the data from the API
+    _fetchAndSaveData(true);
+  }
+
+  Future<void> setTaskAsComplete(final int taskID, final String value) async {
+    final bool setComplete = await WebServices().setTaskComplete(taskID, value);
     //refresh the data from the API
     _fetchAndSaveData(true);
   }

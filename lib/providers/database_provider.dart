@@ -119,10 +119,17 @@ class DatabaseProvider with ChangeNotifier {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(
-      final String table, final String orderByColumn) async {
+  Future<List<Map<String, dynamic>>> getData(final String table,
+      final String orderByColumn, final bool incompleteOnly) async {
     if (orderByColumn.length > 0) {
+      if (incompleteOnly) {
+        return await db.query(table,
+            orderBy: orderByColumn, where: 'isComplete = 0');
+      }
       return await db.query(table, orderBy: orderByColumn);
+    }
+    if (incompleteOnly) {
+      return await db.query(table, where: 'isComplete = 0');
     }
     return await db.query(table);
   }

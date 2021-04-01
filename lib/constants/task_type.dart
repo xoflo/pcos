@@ -1,4 +1,5 @@
 class TaskType {
-  static const String Slider = "slider";
+  static const String Rating = "rating";
   static const String Bool = "bool";
+  static const String Text = "text";
 }

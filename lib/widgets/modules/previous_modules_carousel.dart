@@ -79,7 +79,6 @@ class PreviousModulesCarousel extends StatelessWidget {
                     builder: (BuildContext context) {
                       return LessonCard(
                         lesson: lesson,
-                        isNew: false,
                         openLesson: openLesson,
                       );
                     },

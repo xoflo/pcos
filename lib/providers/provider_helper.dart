@@ -98,11 +98,19 @@ class ProviderHelper {
   }
 
   Future<ModulesAndLessons> fetchAndSaveModuleExport(
-      final dbProvider, final bool forceRefresh) async {
+    final dbProvider,
+    final bool forceRefresh,
+    final DateTime nextLessonAvailableDate,
+  ) async {
     final String moduleTableName = "Module";
     final String lessonTableName = "Lesson";
     final String lessonContentTableName = "LessonContent";
     final String lessonTaskTableName = "LessonTask";
+    debugPrint(
+        "**********fetchAndSaveModuleExport nextLessonAvailableDate = ${nextLessonAvailableDate.toIso8601String()}");
+    debugPrint("**********fetchAndSaveModuleExport now = ${DateTime.now()}");
+    final bool isNextLessonAvailable =
+        nextLessonAvailableDate.isBefore(DateTime.now());
 
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
     if (dbProvider.db != null) {
@@ -167,11 +175,13 @@ class ProviderHelper {
         moduleTableName,
         orderByColumn: "orderIndex",
       );
+
       final List<Lesson> lessonsFromDB = await getAllData(
         dbProvider,
         lessonTableName,
         orderByColumn: "moduleID, orderIndex",
       );
+
       final List<LessonContent> lessonContentFromDB = await getAllData(
         dbProvider,
         lessonContentTableName,
@@ -181,12 +191,51 @@ class ProviderHelper {
         dbProvider,
         lessonTaskTableName,
         orderByColumn: "lessonID, orderIndex",
+        incompleteOnly: true,
       );
+
+      //only return complete lessons and the first incomplete lesson, also check whether first incomplete lesson should be visible yet
+      List<Lesson> lessonsToReturn = [];
+      List<int> lessonIDs = [];
+      List<int> moduleIDs = [];
+      bool foundIncompleteLesson = false;
+      for (Lesson lesson in lessonsFromDB) {
+        if (foundIncompleteLesson) break;
+        if (lesson.isComplete ||
+            (!lesson.isComplete && isNextLessonAvailable)) {
+          lessonsToReturn.add(lesson);
+          lessonIDs.add(lesson.lessonID);
+          if (!moduleIDs.contains(lesson.moduleID))
+            moduleIDs.add(lesson.moduleID);
+        }
+        if (!lesson.isComplete) foundIncompleteLesson = true;
+      }
+
+      //only return complete modules and the first incomplete module
+      List<Module> modulesToReturn = [];
+      for (Module module in modulesFromDB) {
+        if (moduleIDs.contains(module.moduleID)) modulesToReturn.add(module);
+      }
+
+      //only return the lessonContent for lessons in lessonsToReturn
+      List<LessonContent> lessonContentToReturn = [];
+      for (LessonContent lessonContent in lessonContentFromDB) {
+        if (lessonIDs.contains(lessonContent.lessonID))
+          lessonContentToReturn.add(lessonContent);
+      }
+
+      //only return the lessonTasks for lessons in lessonsToReturn
+      List<LessonTask> lessonTasksToReturn = [];
+      for (LessonTask lessonTask in lessonTasksFromDB) {
+        if (lessonIDs.contains(lessonTask.lessonID) && !lessonTask.isComplete)
+          lessonTasksToReturn.add(lessonTask);
+      }
+
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
-        modules: modulesFromDB,
-        lessons: lessonsFromDB,
-        lessonContent: lessonContentFromDB,
-        lessonTasks: lessonTasksFromDB,
+        modules: modulesToReturn,
+        lessons: lessonsToReturn,
+        lessonContent: lessonContentToReturn,
+        lessonTasks: lessonTasksToReturn,
       );
       return modulesAndLessons;
     }
@@ -535,8 +584,10 @@ class ProviderHelper {
   }
 
   Future<List<dynamic>> getAllData(final dbProvider, final String tableName,
-      {final String orderByColumn = ""}) async {
-    final dataList = await dbProvider.getData(tableName, orderByColumn);
+      {final String orderByColumn = "",
+      final bool incompleteOnly = false}) async {
+    final dataList =
+        await dbProvider.getData(tableName, orderByColumn, incompleteOnly);
     return mapDataToList(dataList, tableName);
   }
 

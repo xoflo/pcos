@@ -1824,6 +1824,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Dismiss`
+  String get dismissText {
+    return Intl.message(
+      'Dismiss',
+      name: 'dismissText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a value in the text box`
+  String get textTaskValidation {
+    return Intl.message(
+      'Please enter a value in the text box',
+      name: 'textTaskValidation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

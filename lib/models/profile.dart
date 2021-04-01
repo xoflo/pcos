@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Profile {
   final int id;
   final String firstName;
@@ -19,6 +21,7 @@ class Profile {
       this.dateCreatedUTC});
 
   factory Profile.fromJson(Map<String, dynamic> json) {
+    debugPrint("******PROFILE JSON = $json");
     return Profile(
         id: json['id'],
         firstName: json['firstName'],

@@ -178,5 +178,7 @@
     "previousModules": "Previous Modules",
     "saveText": "Save",
     "noResultsLessons": "No lessons to display!",
-    "viewNow": "Open"
+    "viewNow": "Open",
+    "dismissText": "Dismiss",
+    "textTaskValidation": "Please enter a value in the text box"
 }

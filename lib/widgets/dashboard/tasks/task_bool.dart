@@ -8,7 +8,7 @@ class TaskBool extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function onSubmit;
+  final Function(int, String) onSubmit;
 
   TaskBool({
     @required this.screenSize,
@@ -27,7 +27,7 @@ class _TaskBoolState extends State<TaskBool> {
   bool isSaving = false;
 
   void _saveResponse() {
-    widget.onSubmit();
+    widget.onSubmit(widget.lessonTask.lessonTaskID, answer.toString());
   }
 
   void _setValue(final bool value) {
@@ -53,7 +53,7 @@ class _TaskBoolState extends State<TaskBool> {
     return SizedBox(
       width: widget.screenSize.width,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(

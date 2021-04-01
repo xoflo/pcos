@@ -4,11 +4,11 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
-class TaskText extends StatelessWidget {
+class TaskText extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function onSubmit;
+  final Function(int, String) onSubmit;
 
   TaskText({
     @required this.screenSize,
@@ -18,41 +18,73 @@ class TaskText extends StatelessWidget {
   });
 
   @override
+  _TaskTextState createState() => _TaskTextState();
+}
+
+class _TaskTextState extends State<TaskText> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController textController = TextEditingController();
+
+  void _submitText() {
+    if (_formKey.currentState.validate()) {
+      widget.onSubmit(
+          widget.lessonTask.lessonTaskID, textController.text.trim());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: screenSize.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            lessonTask.title,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 12.0,
+    return Form(
+      key: _formKey,
+      child: SizedBox(
+        width: widget.screenSize.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              widget.lessonTask.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
-            child: Text(
-              lessonTask.description,
-              style: Theme.of(context).textTheme.bodyText1,
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 12.0,
+              ),
+              child: Text(
+                widget.lessonTask.description,
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("ADD A TEXT INPUT HERE"),
-            ],
-          ),
-          ColorButton(
-            isUpdating: false,
-            label: S.of(context).saveText,
-            onTap: () {},
-            width: 70,
-          ),
-        ],
+            SizedBox(
+              width: widget.screenSize.width - 80,
+              child: TextFormField(
+                maxLines: 2,
+                minLines: 2,
+                controller: textController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  fillColor: Colors.white,
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return S.of(context).textTaskValidation;
+                  }
+                  return null;
+                },
+              ),
+            ),
+            ColorButton(
+              isUpdating: false,
+              label: S.of(context).saveText,
+              onTap: () {
+                _submitText();
+              },
+              width: 70,
+            ),
+          ],
+        ),
       ),
     );
   }

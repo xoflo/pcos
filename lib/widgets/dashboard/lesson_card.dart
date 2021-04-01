@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
-import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class LessonCard extends StatelessWidget {
   final Lesson lesson;
-  final bool isNew;
   final Function(Lesson) openLesson;
 
   LessonCard({
     @required this.lesson,
-    @required this.isNew,
     @required this.openLesson,
   });
 
@@ -30,7 +27,7 @@ class LessonCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -77,7 +74,7 @@ class LessonCard extends StatelessWidget {
             ),
           ),
         ),
-        isNew
+        !lesson.isComplete
             ? Align(
                 alignment: Alignment.topRight,
                 child: AvatarGlow(

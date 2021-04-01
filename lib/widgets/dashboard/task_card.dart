@@ -4,12 +4,13 @@ import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_slider.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_bool.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_text.dart';
 
 class TaskCard extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function onSubmit;
+  final Function(int, String) onSubmit;
 
   TaskCard({
     @required this.screenSize,
@@ -21,7 +22,7 @@ class TaskCard extends StatelessWidget {
   Widget _getTaskWidget(final LessonTask lessonTask) {
     debugPrint("***** TASK TYPE = ${lessonTask.taskType}");
     switch (lessonTask.taskType) {
-      case TaskType.Slider:
+      case TaskType.Rating:
         return TaskSlider(
           screenSize: screenSize,
           isHorizontal: isHorizontal,
@@ -35,8 +36,15 @@ class TaskCard extends StatelessWidget {
           lessonTask: lessonTask,
           onSubmit: onSubmit,
         );
+      case TaskType.Text:
+        return TaskText(
+          screenSize: screenSize,
+          isHorizontal: isHorizontal,
+          lessonTask: lessonTask,
+          onSubmit: onSubmit,
+        );
       default:
-        return Container(child: Text("NOTHING"));
+        return Container(child: Text("Unknown task type"));
     }
   }
 

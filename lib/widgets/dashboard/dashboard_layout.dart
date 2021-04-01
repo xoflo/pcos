@@ -227,20 +227,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     debugPrint("*********ADD LESSON TO FAVE");
   }
 
-  void _saveTask() {
-    analytics.logEvent(
-      name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-      parameters: {
-        Analytics.ANALYTICS_PARAMETER_BUTTON:
-            Analytics.ANALYTICS_BUTTON_SAVE_TASK
-      },
-    );
-
-    /*setState(() {
-      _showTodaysTask = false;
-    });*/
-  }
-
   Widget getCurrentModule(
     final Size screenSize,
     final bool isHorizontal,
@@ -252,8 +238,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.empty:
         return NoResults(message: S.of(context).noResultsLessons);
       case LoadingStatus.success:
-        debugPrint(
-            "currentModule lessons count = ${modulesProvider.currentModuleLessons.length}");
         return CurrentModule(
           screenSize: screenSize,
           isHorizontal: isHorizontal,
@@ -276,17 +260,16 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     switch (modulesProvider.status) {
       case LoadingStatus.success:
         debugPrint(
-            "LESSON TASKS ON DASHBAORD = ${modulesProvider.currentLessonTasks.length}");
+            "LESSON TASKS ON DASHBAORD = ${modulesProvider.displayLessonTasks.length}");
         debugPrint(
             "CURRENT LESSON COMPLETE=${modulesProvider.currentLesson.isComplete}");
-        return modulesProvider.currentLesson.isComplete
+        return modulesProvider.displayLessonTasks.length > 0
             ? Padding(
                 padding: EdgeInsets.only(top: topPadding),
                 child: Tasks(
                   screenSize: screenSize,
                   isHorizontal: isHorizontal,
-                  lessonTasks: modulesProvider.currentLessonTasks,
-                  onSubmit: _saveTask,
+                  modulesProvider: modulesProvider,
                 ),
               )
             : Container();

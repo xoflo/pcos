@@ -1,5 +1,4 @@
-import 'dart:developer';
-import 'package:intl/intl.dart';
+//import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -130,6 +129,7 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
+      debugPrint("*****WEBSERVICE MEMBER = ${response.body}");
       return Member.fromJson(
           StandardResponse.fromJson(jsonDecode(response.body)).payload);
     } else {
@@ -203,9 +203,8 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("Status=${response.statusCode}");
     if (response.statusCode == 200) {
-      log(response.body);
+      //log(response.body);
       return ModuleExportResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -223,9 +222,7 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("Status=${response.statusCode}");
     if (response.statusCode == 200) {
-      debugPrint("response = ${jsonDecode(response.body)}");
       return ModuleResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -243,9 +240,7 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("Status=${response.statusCode}");
     if (response.statusCode == 200) {
-      debugPrint("response = ${jsonDecode(response.body)}");
       return ModuleResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -330,6 +325,27 @@ class WebServices {
     }
   }
 
+  Future<bool> setTaskComplete(final int taskId, final String value) async {
+    final url = _baseUrl + "Task/set-completed/$taskId";
+    final String token = await AuthenticationController().getAccessToken();
+    debugPrint("taskId=$taskId");
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: "'$value'",
+    );
+    debugPrint("TASK COMPLETE = ${response.body}");
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw SET_TASK_COMPLETE_FAILED;
+    }
+  }
+
   Future<List<Lesson>> getAllLessonsForModule(final int moduleId) async {
     final url = _baseUrl + "Lesson/all/$moduleId";
     final String token = await AuthenticationController().getAccessToken();
@@ -359,9 +375,8 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("Status=${response.statusCode}");
+
     if (response.statusCode == 200) {
-      debugPrint("response = ${jsonDecode(response.body)}");
       return LessonTaskResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -381,7 +396,7 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("RECIPES BODY=${response.body}");
+
     if (response.statusCode == 200) {
       return RecipeResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)

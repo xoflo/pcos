@@ -8,7 +8,7 @@ class TaskSlider extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function onSubmit;
+  final Function(int, String) onSubmit;
 
   TaskSlider({
     @required this.screenSize,
@@ -26,7 +26,7 @@ class _TaskSliderState extends State<TaskSlider> {
   bool isSaving = false;
 
   void _saveResponse() {
-    widget.onSubmit();
+    widget.onSubmit(widget.lessonTask.lessonTaskID, _sliderValue.toString());
   }
 
   @override
@@ -34,7 +34,7 @@ class _TaskSliderState extends State<TaskSlider> {
     return SizedBox(
       width: widget.screenSize.width,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(

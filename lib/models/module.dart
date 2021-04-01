@@ -16,8 +16,6 @@ class Module {
   });
 
   factory Module.fromJson(Map<String, dynamic> json) {
-    debugPrint("moduleID=${json['moduleID']}");
-    debugPrint("DATE=${json['dateCreatedUTC']}");
     return Module(
       moduleID: json['moduleID'],
       title: json['title'],

@@ -5,6 +5,7 @@ import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson_content.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -34,6 +35,7 @@ class CourseLesson extends StatefulWidget {
 class _CourseLessonState extends State<CourseLesson> {
   List<LessonContent> _lessonContent;
   bool _isLoading = true;
+  bool _displayDataWarning = false;
 
   @override
   void initState() {
@@ -47,6 +49,7 @@ class _CourseLessonState extends State<CourseLesson> {
     setState(() {
       _lessonContent = lessonContents;
       _isLoading = false;
+      _displayDataWarning = widget.showDataUsageWarning;
     });
   }
 
@@ -54,15 +57,21 @@ class _CourseLessonState extends State<CourseLesson> {
     return MediaQuery.of(context).size.height - (kToolbarHeight + 20);
   }
 
+  void _onDismiss() {
+    setState(() {
+      _displayDataWarning = false;
+    });
+  }
+
   Widget _getDataUsageWarning(
       final BuildContext context, final Size screenSize) {
-    if (!widget.showDataUsageWarning) return Container();
+    if (!_displayDataWarning) return Container();
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(
         width: screenSize.width - 80,
-        height: 110,
+        height: 134,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: primaryColor,
@@ -103,6 +112,16 @@ class _CourseLessonState extends State<CourseLesson> {
                     color: Colors.white,
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: ColorButton(
+                    isUpdating: false,
+                    label: S.of(context).dismissText,
+                    onTap: _onDismiss,
+                    color: Colors.white,
+                    textColor: primaryColor,
+                  ),
+                )
               ],
             ),
           ),
