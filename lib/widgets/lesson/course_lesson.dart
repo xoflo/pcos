@@ -18,7 +18,7 @@ class CourseLesson extends StatefulWidget {
   final bool showDataUsageWarning;
   final Lesson lesson;
   final Function closeLesson;
-  final Function(dynamic, bool) addToFavourites;
+  final Function(ModulesProvider, dynamic, bool) addToFavourites;
 
   CourseLesson({
     @required this.modulesProvider,
@@ -147,13 +147,15 @@ class _CourseLessonState extends State<CourseLesson> {
     }
   }
 
+  void _addToFavourites(final dynamic lesson, final bool add) {
+    widget.addToFavourites(widget.modulesProvider, lesson, add);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-    debugPrint("LESSON ID OPENING=${widget.lesson.lessonID}");
-    debugPrint("LESSON isComplete OPENING=${widget.lesson.isComplete}");
     return Container(
       height: _getTabBarHeight(context),
       decoration: BoxDecoration(color: Colors.white),
@@ -168,7 +170,7 @@ class _CourseLessonState extends State<CourseLesson> {
               title: widget.lesson.title,
               isFavourite: widget.lesson.isFavorite,
               closeItem: widget.closeLesson,
-              addToFavourites: widget.addToFavourites,
+              addToFavourites: _addToFavourites,
             ),
             _getDataUsageWarning(context, screenSize),
             _getLessonContent(context, screenSize, isHorizontal),

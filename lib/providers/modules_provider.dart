@@ -146,6 +146,15 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addToFavourites(final dynamic lesson, final bool add) async {
+    if (dbProvider.db != null) {
+      await ProviderHelper()
+          .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
+      _refreshFavourites();
+      notifyListeners();
+    }
+  }
+
   Future<void> _refreshFavourites() async {
     _favouriteLessons.clear();
     for (Lesson lesson in _lessons) {

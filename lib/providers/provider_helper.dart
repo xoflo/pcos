@@ -562,6 +562,10 @@ class ProviderHelper {
         updateColumn = "id";
         break;
       case FavouriteType.Lesson:
+        updateId = item.lessonID;
+        tableName = "Lesson";
+        assetType = "Lesson";
+        updateColumn = "lessonID";
         break;
       case FavouriteType.None:
         break;

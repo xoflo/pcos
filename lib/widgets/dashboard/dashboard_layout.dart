@@ -91,7 +91,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void _openLesson(
       final Lesson lesson, final ModulesProvider modulesProvider) async {
     //mark lesson a complete if not already
-    debugPrint("******open lesson isComplete=${lesson.isComplete}");
     if (!lesson.isComplete) {
       //is this the last lesson of the Module, if so, also setComplete for module
       final bool setModuleComplete =
@@ -223,8 +222,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     );
   }
 
-  void _addLessonToFavourites(dynamic lesson, bool add) {
+  void _addLessonToFavourites(
+      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     debugPrint("*********ADD LESSON TO FAVE");
+    modulesProvider.addToFavourites(lesson, add);
   }
 
   Widget getCurrentModule(

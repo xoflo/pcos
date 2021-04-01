@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -164,8 +165,10 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     Navigator.pop(context);
   }
 
-  void addLessonToFavourites(dynamic lesson, bool add) {
+  void addLessonToFavourites(
+      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     debugPrint("*********ADD LESSON TO FAVE");
+    modulesProvider.addToFavourites(lesson, add);
   }
 
   void addRecipeToFavourites(dynamic recipe, bool add) async {
@@ -249,13 +252,13 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     true),
                 child: TabBarView(
                   children: [
-                    Consumer<FavouritesProvider>(
+                    Consumer<ModulesProvider>(
                       builder: (context, model, child) => SingleChildScrollView(
                         child: getFavouritesList(
                           context,
                           screenSize,
-                          model.itemsLessons,
-                          model.statusLessons,
+                          model.favouriteLessons,
+                          model.status,
                           FavouriteType.Lesson,
                         ),
                       ),

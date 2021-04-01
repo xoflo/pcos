@@ -59,8 +59,10 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
     });
   }
 
-  void _addLessonToFavourites(dynamic lesson, bool add) {
+  void _addLessonToFavourites(
+      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     debugPrint("*********ADD LESSON TO FAVE");
+    modulesProvider.addToFavourites(lesson, add);
   }
 
   void _openLesson(final Lesson lesson) async {
