@@ -24,7 +24,7 @@ class RecipesList extends StatelessWidget {
         : itemsPerRow == 2
             ? 1.39
             : 1.5;
-
+    //TODO: If that's the case, simply wrap your GridView in Flexible, you may not need to use shrinkWrap then
     return Expanded(
       child: GridView.count(
         cacheExtent: screenSize.height * 2,

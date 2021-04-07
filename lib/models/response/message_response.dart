@@ -6,7 +6,7 @@ class MessageResponse {
   MessageResponse({this.results});
 
   factory MessageResponse.fromList(List<dynamic> json) {
-    List<Message> cmsItems = List<Message>();
+    List<Message> cmsItems = [];
     if (json.length > 0) {
       json.forEach((item) {
         cmsItems.add(Message.fromJson(item));

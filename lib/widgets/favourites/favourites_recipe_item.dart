@@ -65,8 +65,8 @@ class FavouritesRecipeItem extends StatelessWidget {
                     child: FadeInImage.memoryNetwork(
                       alignment: Alignment.center,
                       placeholder: kTransparentImage,
-                      image: FlavorConfig.instance.values.imageStorageUrl +
-                          recipe.thumbnail,
+                      image:
+                          "${FlavorConfig.instance.values.thumbnailStorageUrl}${recipe.thumbnail}",
                       fit: BoxFit.fitWidth,
                       width: double.maxFinite,
                       height: 60,

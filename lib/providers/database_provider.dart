@@ -67,6 +67,44 @@ class DatabaseProvider with ChangeNotifier {
             "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             "cmsText TEXT"
             ")");
+        await db.execute("CREATE TABLE Module ("
+            "moduleID INTEGER PRIMARY KEY,"
+            "title TEXT,"
+            "isComplete INTEGER,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE Lesson ("
+            "lessonID INTEGER PRIMARY KEY,"
+            "moduleID INTEGER,"
+            "title TEXT,"
+            "introduction TEXT,"
+            "orderIndex INTEGER,"
+            "isFavorite INTEGER,"
+            "isComplete INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE LessonContent ("
+            "lessonContentID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "title TEXT,"
+            "mediaUrl TEXT,"
+            "mediaMimeType TEXT,"
+            "body TEXT,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE LessonTask ("
+            "lessonTaskID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "metaName TEXT,"
+            "title TEXT,"
+            "description TEXT,"
+            "taskType TEXT,"
+            "orderIndex INTEGER,"
+            "isComplete INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
       },
       version: 1,
     );
@@ -81,7 +119,18 @@ class DatabaseProvider with ChangeNotifier {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(final String table) async {
+  Future<List<Map<String, dynamic>>> getData(final String table,
+      final String orderByColumn, final bool incompleteOnly) async {
+    if (orderByColumn.length > 0) {
+      if (incompleteOnly) {
+        return await db.query(table,
+            orderBy: orderByColumn, where: 'isComplete = 0');
+      }
+      return await db.query(table, orderBy: orderByColumn);
+    }
+    if (incompleteOnly) {
+      return await db.query(table, where: 'isComplete = 0');
+    }
     return await db.query(table);
   }
 

@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
-class ProgressSlider extends StatefulWidget {
+class TaskRating extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
-  final Function onSubmit;
+  final LessonTask lessonTask;
+  final Function(int, String) onSubmit;
 
-  ProgressSlider({
+  TaskRating({
     @required this.screenSize,
     @required this.isHorizontal,
+    @required this.lessonTask,
     @required this.onSubmit,
   });
 
   @override
-  _ProgressSliderState createState() => _ProgressSliderState();
+  _TaskRatingState createState() => _TaskRatingState();
 }
 
-class _ProgressSliderState extends State<ProgressSlider> {
+class _TaskRatingState extends State<TaskRating> {
   double _sliderValue = 2.5;
   bool isSaving = false;
 
   void _saveResponse() {
-    widget.onSubmit();
+    widget.onSubmit(
+        widget.lessonTask.lessonTaskID, _sliderValue.toStringAsFixed(1));
   }
 
   @override
@@ -30,11 +35,11 @@ class _ProgressSliderState extends State<ProgressSlider> {
     return SizedBox(
       width: widget.screenSize.width,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "How are your sugar cravings?",
+            widget.lessonTask.title,
             style: Theme.of(context).textTheme.headline6,
           ),
           Padding(
@@ -43,7 +48,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
               vertical: 12.0,
             ),
             child: Text(
-              "Please tell us how your sugar cravings are today Amelia?",
+              widget.lessonTask.description,
               style: Theme.of(context).textTheme.bodyText1,
               textAlign: TextAlign.center,
             ),
@@ -75,7 +80,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
           ),
           ColorButton(
             isUpdating: isSaving,
-            label: "Save",
+            label: S.of(context).saveText,
             onTap: () {
               _saveResponse();
             },

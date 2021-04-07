@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -13,7 +14,7 @@ import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons_list.d
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/course_lesson.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -61,13 +62,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     switch (favouriteType) {
       case FavouriteType.Lesson:
         return FavouritesLessonsList(
-            lessons: favourites,
-            width: screenSize.width,
-            removeFavourite: _removeFavourite,
-            openFavourite: (FavouriteType, dynamic) {
-              debugPrint("IMPLEMENT OPEN LESSON");
-            } //_openFavourite,
-            );
+          lessons: favourites,
+          width: screenSize.width,
+          removeFavourite: _removeFavourite,
+          openFavourite: _openFavourite,
+        );
       case FavouriteType.KnowledgeBase:
         return QuestionList(
           screenSize: screenSize,
@@ -107,6 +106,9 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
           kbProvider.fetchAndSaveData();
           break;
         case FavouriteType.Lesson:
+          final modulesProvider =
+              Provider.of<ModulesProvider>(context, listen: false);
+          modulesProvider.addToFavourites(item, false);
           break;
         case FavouriteType.None:
           break;
@@ -136,8 +138,12 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
 
     if (favouriteType == FavouriteType.Lesson) {
       Lesson lesson = favourite;
-      analyticsId = lesson.lessonId.toString();
+      analyticsId = lesson.lessonID.toString();
+      final modulesProvider =
+          Provider.of<ModulesProvider>(context, listen: false);
       favouriteWidget = CourseLesson(
+        showDataUsageWarning: false,
+        modulesProvider: modulesProvider,
         lesson: lesson,
         closeLesson: closeFavourite,
         addToFavourites: addLessonToFavourites,
@@ -164,8 +170,10 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     Navigator.pop(context);
   }
 
-  void addLessonToFavourites(dynamic lesson, bool add) {
+  void addLessonToFavourites(
+      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     debugPrint("*********ADD LESSON TO FAVE");
+    modulesProvider.addToFavourites(lesson, add);
   }
 
   void addRecipeToFavourites(dynamic recipe, bool add) async {
@@ -249,13 +257,13 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     true),
                 child: TabBarView(
                   children: [
-                    Consumer<FavouritesProvider>(
+                    Consumer<ModulesProvider>(
                       builder: (context, model, child) => SingleChildScrollView(
                         child: getFavouritesList(
                           context,
                           screenSize,
-                          model.itemsLessons,
-                          model.statusLessons,
+                          model.favouriteLessons,
+                          model.status,
                           FavouriteType.Lesson,
                         ),
                       ),

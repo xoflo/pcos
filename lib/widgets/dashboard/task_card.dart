@@ -1,17 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/constants/task_type.dart';
+import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/progress/progress_slider.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_rating.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_bool.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/tasks/task_text.dart';
 
 class TaskCard extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
-  final Function onSubmit;
+  final LessonTask lessonTask;
+  final Function(int, String) onSubmit;
 
   TaskCard({
     @required this.screenSize,
     @required this.isHorizontal,
+    @required this.lessonTask,
     @required this.onSubmit,
   });
+
+  Widget _getTaskWidget(final LessonTask lessonTask) {
+    debugPrint("***** TASK TYPE = ${lessonTask.taskType}");
+    switch (lessonTask.taskType) {
+      case TaskType.Rating:
+        return TaskRating(
+          screenSize: screenSize,
+          isHorizontal: isHorizontal,
+          lessonTask: lessonTask,
+          onSubmit: onSubmit,
+        );
+      case TaskType.Bool:
+        return TaskBool(
+          screenSize: screenSize,
+          isHorizontal: isHorizontal,
+          lessonTask: lessonTask,
+          onSubmit: onSubmit,
+        );
+      case TaskType.Text:
+        return TaskText(
+          screenSize: screenSize,
+          isHorizontal: isHorizontal,
+          lessonTask: lessonTask,
+          onSubmit: onSubmit,
+        );
+      default:
+        return Container(child: Text("Unknown task type"));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +60,8 @@ class TaskCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: ProgressSlider(
-            screenSize: screenSize,
-            isHorizontal: isHorizontal,
-            onSubmit: onSubmit,
-          ),
-        ),
+            padding: const EdgeInsets.all(4.0),
+            child: _getTaskWidget(lessonTask)),
       ),
     );
   }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class LessonCard extends StatelessWidget {
-  final int lessonId;
-  final bool isNew;
-  final Function openLesson;
+  final Lesson lesson;
+  final Function(Lesson) openLesson;
 
   LessonCard({
-    @required this.lessonId,
-    @required this.isNew,
+    @required this.lesson,
     @required this.openLesson,
   });
 
@@ -27,41 +27,41 @@ class LessonCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Lesson $lessonId",
+                    "${S.of(context).lessonText} ${lesson.orderIndex + 1}",
                     style: Theme.of(context)
                         .textTheme
                         .headline6
                         .copyWith(fontSize: 16),
                   ),
                   Text(
-                    "Afternoon Cravings",
+                    lesson.title,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "In the final lesson of the Reducing Sugar module we look at how you can avoid those afternoon snack cravings, and choose a healthier alternative.",
+                      lesson.introduction,
                       textAlign: TextAlign.justify,
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      openLesson();
+                      openLesson(lesson);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("Listen now",
+                        Text(S.of(context).viewNow,
                             style: TextStyle(color: secondaryColor)),
                         Padding(
                           padding: const EdgeInsets.only(left: 4.0),
                           child: Icon(
-                            Icons.volume_up,
+                            Icons.open_in_new,
                             color: secondaryColor,
                             size: 36,
                           ),
@@ -74,7 +74,7 @@ class LessonCard extends StatelessWidget {
             ),
           ),
         ),
-        isNew
+        !lesson.isComplete
             ? Align(
                 alignment: Alignment.topRight,
                 child: AvatarGlow(

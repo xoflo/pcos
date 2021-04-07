@@ -20,7 +20,9 @@ Future<void> main() async {
       questionnaireUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
       imageStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/image/upload/c_scale,q_auto:good,w_500/",
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617670686/images/",
+      thumbnailStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617676121/thumbnails/",
       videoStorageUrl:
           "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/",
       intercomIds: [

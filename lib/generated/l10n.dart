@@ -1754,6 +1754,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Module`
+  String get moduleText {
+    return Intl.message(
+      'Module',
+      name: 'moduleText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lesson`
+  String get lessonText {
+    return Intl.message(
+      'Lesson',
+      name: 'lessonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View previous modules`
+  String get viewPreviousModules {
+    return Intl.message(
+      'View previous modules',
+      name: 'viewPreviousModules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Modules`
+  String get previousModules {
+    return Intl.message(
+      'Previous Modules',
+      name: 'previousModules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get saveText {
+    return Intl.message(
+      'Save',
+      name: 'saveText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No lessons to display!`
+  String get noResultsLessons {
+    return Intl.message(
+      'No lessons to display!',
+      name: 'noResultsLessons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open`
+  String get viewNow {
+    return Intl.message(
+      'Open',
+      name: 'viewNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss`
+  String get dismissText {
+    return Intl.message(
+      'Dismiss',
+      name: 'dismissText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a value in the text box`
+  String get textTaskValidation {
+    return Intl.message(
+      'Please enter a value in the text box',
+      name: 'textTaskValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please make a selection above`
+  String get boolTaskValidation {
+    return Intl.message(
+      'Please make a selection above',
+      name: 'boolTaskValidation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

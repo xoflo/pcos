@@ -5,11 +5,11 @@ class RecipeResponse {
 
   RecipeResponse({this.results});
 
-  factory RecipeResponse.fromJson(Map<String, dynamic> json) {
-    List<Recipe> recipes = List<Recipe>();
-    if (json['recipes'] != null) {
-      json['recipes'].forEach((recipe) {
-        recipes.add(Recipe.fromJson(recipe));
+  factory RecipeResponse.fromList(List<dynamic> json) {
+    List<Recipe> recipes = [];
+    if (json.length > 0) {
+      json.forEach((item) {
+        recipes.add(Recipe.fromJson(item));
       });
     }
     return RecipeResponse(results: recipes);
@@ -22,8 +22,8 @@ class RecipeResponse {
   "status": "OK",
   "message": "",
   "info": "",
-  "payload": {
-    "recipes": [
+  "payload":
+   [
       {
         "recipeId": 22,
         "title": "2 Minute Mayo",
@@ -40,7 +40,6 @@ class RecipeResponse {
         "lastUpdatedUTC": "2020-11-17T04:14:36.3",
         "dateCreatedUTC": "2020-09-30T21:26:16.477"
       }
-    ]
-  }
+  ]
 }
 */
