@@ -49,6 +49,7 @@ class DashboardLayout extends StatefulWidget {
 
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
+  int _selectedLessonIndex = -1;
 
   @override
   void initState() {
@@ -228,6 +229,13 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     modulesProvider.addToFavourites(lesson, add);
   }
 
+  void _onLessonChanged(final int lessonIndex) {
+    setState(() {
+      _selectedLessonIndex = lessonIndex;
+    });
+    debugPrint("SELECTED LESSON = $_selectedLessonIndex");
+  }
+
   Widget getCurrentModule(
     final Size screenSize,
     final bool isHorizontal,
@@ -240,6 +248,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         return NoResults(message: S.of(context).noResultsLessons);
       case LoadingStatus.success:
         return CurrentModule(
+          selectedLesson: _selectedLessonIndex,
           screenSize: screenSize,
           isHorizontal: isHorizontal,
           modulesProvider: modulesProvider,
@@ -247,6 +256,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
               modulesProvider.previousModules.length > 0 ? true : false,
           openLesson: _openLesson,
           openPreviousModules: _openPreviousModules,
+          onLessonChanged: _onLessonChanged,
         );
     }
     return Container();

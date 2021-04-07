@@ -275,6 +275,34 @@ class ProviderHelper {
     }
   }
 
+  Future<List<Lesson>> getLessonsFromDatabase(
+    final dbProvider,
+    final DateTime nextLessonAvailableDate,
+  ) async {
+    final bool isNextLessonAvailable =
+        nextLessonAvailableDate.isBefore(DateTime.now());
+
+    final List<Lesson> lessonsFromDB = await getAllData(
+      dbProvider,
+      "Lesson",
+      orderByColumn: "moduleID, orderIndex",
+    );
+
+    debugPrint("getLessonsFromDatabase = ${lessonsFromDB.length}");
+
+    List<Lesson> lessonsToReturn = [];
+    bool foundIncompleteLesson = false;
+    for (Lesson lesson in lessonsFromDB) {
+      if (foundIncompleteLesson) break;
+      if (lesson.isComplete || (!lesson.isComplete && isNextLessonAvailable)) {
+        lessonsToReturn.add(lesson);
+      }
+      if (!lesson.isComplete) foundIncompleteLesson = true;
+    }
+
+    return lessonsToReturn;
+  }
+
   Future<List<Module>> fetchAndSaveModules(
       final dbProvider, final bool forceRefresh) async {
     final String tableName = "Module";
@@ -571,7 +599,11 @@ class ProviderHelper {
         break;
     }
     //update in API
-    WebServices().addToFavourites(assetType, updateId);
+    if (isAdd) {
+      WebServices().addToFavourites(assetType, updateId);
+    } else {
+      WebServices().removeFromFavourites(assetType, updateId);
+    }
     //update in sqlite
     if (dbProvider.db != null) {
       final int isFavorite = isAdd ? 1 : 0;

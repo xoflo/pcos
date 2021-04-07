@@ -7,32 +7,34 @@ import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class CurrentModule extends StatelessWidget {
+  final int selectedLesson;
   final Size screenSize;
   final bool isHorizontal;
   final ModulesProvider modulesProvider;
   final bool showPreviousModule;
   final Function(Lesson, ModulesProvider) openLesson;
   final Function(BuildContext, ModulesProvider) openPreviousModules;
+  final Function(int) onLessonChanged;
 
   CurrentModule({
+    @required this.selectedLesson,
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.modulesProvider,
     @required this.showPreviousModule,
     @required this.openLesson,
     @required this.openPreviousModules,
+    @required this.onLessonChanged,
   });
 
   void _openLesson(final Lesson lesson) {
     openLesson(lesson, modulesProvider);
   }
 
-  //TODO: check isComplete and set isNew for each lesson
   @override
   Widget build(BuildContext context) {
     final String moduleTitle =
         "${S.of(context).moduleText}: ${modulesProvider.currentModule.title}";
-    debugPrint("No of Lessons= ${modulesProvider.currentModuleLessons.length}");
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -56,7 +58,12 @@ class CurrentModule extends StatelessWidget {
                 height: 200,
                 enableInfiniteScroll: false,
                 viewportFraction: isHorizontal ? 0.50 : 0.92,
-                initialPage: modulesProvider.currentModuleLessons.length - 1,
+                initialPage: selectedLesson == -1
+                    ? modulesProvider.currentModuleLessons.length - 1
+                    : selectedLesson,
+                onPageChanged: (index, reason) {
+                  onLessonChanged(index);
+                },
               ),
               items: modulesProvider.currentModuleLessons.map((lesson) {
                 return Builder(

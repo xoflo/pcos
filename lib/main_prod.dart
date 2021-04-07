@@ -19,9 +19,11 @@ Future<void> main() async {
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl: "https://www.thepcosnutritionist.com/",
       imageStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/image/upload/c_scale,q_auto:good,w_500/",
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617670686/images/",
+      thumbnailStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617676121/thumbnails/",
       videoStorageUrl:
-          "https://pcosprotocolstorage.blob.core.windows.net/media/",
+          "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/",
       intercomIds: [
         "xsb9gkoh",
         "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",

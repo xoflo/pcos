@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class FavouritesLessonItem extends StatelessWidget {
   final Lesson lesson;
   final double width;
-  final Function(FavouriteType, int, bool) removeFavourite;
+  final Function(FavouriteType, dynamic, bool) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonItem({
@@ -35,7 +35,7 @@ class FavouritesLessonItem extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  removeFavourite(FavouriteType.Lesson, lesson.lessonID, false);
+                  removeFavourite(FavouriteType.Lesson, lesson, false);
                 },
                 child: Icon(
                   Icons.delete,
@@ -48,7 +48,7 @@ class FavouritesLessonItem extends StatelessWidget {
           Container(
             width: width,
             child: Text(
-              "Introduction here",
+              lesson.introduction,
             ),
           ),
           Row(

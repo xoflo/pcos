@@ -66,7 +66,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                       alignment: Alignment.center,
                       placeholder: kTransparentImage,
                       image:
-                          "${FlavorConfig.instance.values.imageStorageUrl}${recipe.thumbnail}",
+                          "${FlavorConfig.instance.values.thumbnailStorageUrl}${recipe.thumbnail}",
                       fit: BoxFit.fitWidth,
                       width: double.maxFinite,
                       height: 60,

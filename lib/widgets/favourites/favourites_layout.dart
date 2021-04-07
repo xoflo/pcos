@@ -62,13 +62,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     switch (favouriteType) {
       case FavouriteType.Lesson:
         return FavouritesLessonsList(
-            lessons: favourites,
-            width: screenSize.width,
-            removeFavourite: _removeFavourite,
-            openFavourite: (FavouriteType, dynamic) {
-              debugPrint("IMPLEMENT OPEN LESSON");
-            } //_openFavourite,
-            );
+          lessons: favourites,
+          width: screenSize.width,
+          removeFavourite: _removeFavourite,
+          openFavourite: _openFavourite,
+        );
       case FavouriteType.KnowledgeBase:
         return QuestionList(
           screenSize: screenSize,
@@ -108,6 +106,9 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
           kbProvider.fetchAndSaveData();
           break;
         case FavouriteType.Lesson:
+          final modulesProvider =
+              Provider.of<ModulesProvider>(context, listen: false);
+          modulesProvider.addToFavourites(item, false);
           break;
         case FavouriteType.None:
           break;
@@ -138,7 +139,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     if (favouriteType == FavouriteType.Lesson) {
       Lesson lesson = favourite;
       analyticsId = lesson.lessonID.toString();
+      final modulesProvider =
+          Provider.of<ModulesProvider>(context, listen: false);
       favouriteWidget = CourseLesson(
+        showDataUsageWarning: false,
+        modulesProvider: modulesProvider,
         lesson: lesson,
         closeLesson: closeFavourite,
         addToFavourites: addLessonToFavourites,

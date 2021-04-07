@@ -147,17 +147,20 @@ class ModulesProvider with ChangeNotifier {
   }
 
   Future<void> addToFavourites(final dynamic lesson, final bool add) async {
+    Lesson lessonLesson = lesson;
+    debugPrint("addToFavorites lesson id = ${lessonLesson.lessonID}");
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
-      _refreshFavourites();
-      notifyListeners();
+      _fetchAndSaveData(false);
     }
   }
 
   Future<void> _refreshFavourites() async {
     _favouriteLessons.clear();
     for (Lesson lesson in _lessons) {
+      debugPrint(
+          "REFRESH FAVES Lesson ${lesson.lessonID} = ${lesson.isFavorite}");
       if (lesson.isFavorite) {
         _favouriteLessons.add(lesson);
       }

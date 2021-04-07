@@ -503,6 +503,8 @@ class WebServices {
   //#region Favourites
   Future<bool> addToFavourites(
       final String assetType, final int assetId) async {
+    final _favouriteType =
+        assetType.toLowerCase() == "lesson" ? "L" : assetType;
     final url = _baseUrl + "Favorite";
     final String token = await AuthenticationController().getAccessToken();
 
@@ -513,10 +515,13 @@ class WebServices {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode(
-        <String, String>{'assetType': assetType, 'assetId': assetId.toString()},
+        <String, String>{
+          'assetType': _favouriteType,
+          'assetId': assetId.toString()
+        },
       ),
     );
-
+    debugPrint("ADD TO FAVORITES = ${response.body} ${response.statusCode}");
     if (response.statusCode == 200) {
       final standardResponse =
           StandardResponse.fromJson(jsonDecode(response.body));
@@ -531,7 +536,9 @@ class WebServices {
 
   Future<bool> removeFromFavourites(
       final String assetType, final int assetId) async {
-    final url = _baseUrl + "Favorite/$assetType/$assetId";
+    final _favouriteType =
+        assetType.toLowerCase() == "lesson" ? "L" : assetType;
+    final url = _baseUrl + "Favorite/$_favouriteType/$assetId";
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.delete(url, headers: {
@@ -539,7 +546,7 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-
+    debugPrint("DELETE FAVE = ${response.statusCode}");
     if (response.statusCode == 200) {
       return true;
     } else {
