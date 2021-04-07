@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -50,7 +49,7 @@ class _TutorialState extends State<Tutorial> {
   }
 
   Widget _getCarouselPager(final BuildContext context, final int totalPages) {
-    List<Widget> circleList = new List<Widget>();
+    List<Widget> circleList = [];
     for (var i = 0; i < totalPages; i++) {
       circleList.add(
         _drawCircle(
@@ -87,8 +86,6 @@ class _TutorialState extends State<Tutorial> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     final totalPages = _tutorialPages.length;
 
     return Padding(

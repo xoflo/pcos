@@ -51,7 +51,6 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
   }
 
   void _moduleChanged(final int index, final CarouselPageChangedReason reason) {
-    debugPrint("index=$index reason=$reason");
     final Module selectedModule = widget.modulesProvider.previousModules[index];
     setState(() {
       _selectedModuleID = selectedModule.moduleID;
@@ -61,13 +60,10 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
 
   void _addLessonToFavourites(
       final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    debugPrint("*********ADD LESSON TO FAVE");
     modulesProvider.addToFavourites(lesson, add);
   }
 
   void _openLesson(final Lesson lesson) async {
-    debugPrint("Lesson prev open lesson = ${lesson.lessonID}");
-
     openBottomSheet(
       context,
       CourseLesson(

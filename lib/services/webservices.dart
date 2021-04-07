@@ -1,5 +1,5 @@
 //import 'dart:developer';
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
@@ -129,7 +129,6 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
-      debugPrint("*****WEBSERVICE MEMBER = ${response.body}");
       return Member.fromJson(
           StandardResponse.fromJson(jsonDecode(response.body)).payload);
     } else {
@@ -258,9 +257,8 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("Status=${response.statusCode}");
+
     if (response.statusCode == 200) {
-      debugPrint("response = ${jsonDecode(response.body)}");
       return ModuleResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -283,8 +281,6 @@ class WebServices {
       body: moduleId.toString(),
     );
 
-    debugPrint("*********SET MODULE COMPLETE = ${response.statusCode}");
-
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -300,8 +296,6 @@ class WebServices {
     final tomorrow = DateTime.now().add(const Duration(days: 1));
     final tonightMidnightUTC =
         DateTime(tomorrow.year, tomorrow.month, tomorrow.day).toUtc();
-    debugPrint("LESSONID FOR COMPLETE = $lessonId");
-    debugPrint("UTC MIDNIGHT = ${tonightMidnightUTC.toIso8601String()}");
 
     final response = await http.post(
       url,
@@ -314,8 +308,6 @@ class WebServices {
           "{'lessonID': $lessonId,'localMidnightUTC': '${tonightMidnightUTC.toIso8601String()}'}",
     );
 
-    debugPrint("*********SET LESSON CODE = ${response.statusCode}");
-    debugPrint("*********SET LESSON BODY = ${response.body}");
     if (response.statusCode == 200) {
       final String responseDate =
           LessonCompleteResponse.fromJson(jsonDecode(response.body)).payload;
@@ -328,7 +320,6 @@ class WebServices {
   Future<bool> setTaskComplete(final int taskId, final String value) async {
     final url = _baseUrl + "Task/set-completed/$taskId";
     final String token = await AuthenticationController().getAccessToken();
-    debugPrint("*****setTaskComplete taskId=$taskId value=$value");
     final response = await http.post(
       url,
       headers: {
@@ -338,7 +329,7 @@ class WebServices {
       },
       body: "'$value'",
     );
-    debugPrint("TASK COMPLETE = ${response.body}");
+
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -355,9 +346,8 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("Status=${response.statusCode}");
+
     if (response.statusCode == 200) {
-      debugPrint("response = ${jsonDecode(response.body)}");
       return LessonResponse.fromList(
               ListResponse.fromJson(jsonDecode(response.body)).payload)
           .results;
@@ -521,7 +511,7 @@ class WebServices {
         },
       ),
     );
-    debugPrint("ADD TO FAVORITES = ${response.body} ${response.statusCode}");
+
     if (response.statusCode == 200) {
       final standardResponse =
           StandardResponse.fromJson(jsonDecode(response.body));
@@ -546,7 +536,7 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("DELETE FAVE = ${response.statusCode}");
+
     if (response.statusCode == 200) {
       return true;
     } else {

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Lesson {
   final int lessonID;
   final int moduleID;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
@@ -172,7 +171,6 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
 
   void addLessonToFavourites(
       final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    debugPrint("*********ADD LESSON TO FAVE");
     modulesProvider.addToFavourites(lesson, add);
   }
 

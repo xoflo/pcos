@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/constants/media_type.dart';
 
 class FavouritesProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;

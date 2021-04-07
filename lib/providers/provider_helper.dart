@@ -52,7 +52,6 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint("*********GET DATA FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
     return [];
@@ -65,7 +64,6 @@ class ProviderHelper {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final recipes = await WebServices().getAllRecipes();
-        debugPrint("**************FETCH RECIPES FROM API AND SAVE");
         //delete all old records before adding new ones
         await dbProvider.deleteAll(tableName);
         //add items to database
@@ -91,7 +89,6 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint("*********GET RECIPES FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
     return [];
@@ -106,9 +103,6 @@ class ProviderHelper {
     final String lessonTableName = "Lesson";
     final String lessonContentTableName = "LessonContent";
     final String lessonTaskTableName = "LessonTask";
-    debugPrint(
-        "**********fetchAndSaveModuleExport nextLessonAvailableDate = ${nextLessonAvailableDate.toIso8601String()}");
-    debugPrint("**********fetchAndSaveModuleExport now = ${DateTime.now()}");
     final bool isNextLessonAvailable =
         nextLessonAvailableDate.isBefore(DateTime.now());
 
@@ -275,148 +269,6 @@ class ProviderHelper {
     }
   }
 
-  Future<List<Lesson>> getLessonsFromDatabase(
-    final dbProvider,
-    final DateTime nextLessonAvailableDate,
-  ) async {
-    final bool isNextLessonAvailable =
-        nextLessonAvailableDate.isBefore(DateTime.now());
-
-    final List<Lesson> lessonsFromDB = await getAllData(
-      dbProvider,
-      "Lesson",
-      orderByColumn: "moduleID, orderIndex",
-    );
-
-    debugPrint("getLessonsFromDatabase = ${lessonsFromDB.length}");
-
-    List<Lesson> lessonsToReturn = [];
-    bool foundIncompleteLesson = false;
-    for (Lesson lesson in lessonsFromDB) {
-      if (foundIncompleteLesson) break;
-      if (lesson.isComplete || (!lesson.isComplete && isNextLessonAvailable)) {
-        lessonsToReturn.add(lesson);
-      }
-      if (!lesson.isComplete) foundIncompleteLesson = true;
-    }
-
-    return lessonsToReturn;
-  }
-
-  Future<List<Module>> fetchAndSaveModules(
-      final dbProvider, final bool forceRefresh) async {
-    final String tableName = "Module";
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
-    if (dbProvider.db != null) {
-      //first get the data from the api if we have no data yet
-      if (forceRefresh || await _shouldGetDataFromAPI(dbProvider, tableName)) {
-        final modules = await WebServices().getAllModules();
-        debugPrint("**************FETCH MODULES FROM API AND SAVE");
-        //delete all old records before adding new ones
-        await dbProvider.deleteAll(tableName);
-        //add items to database
-        modules.forEach((Module module) async {
-          await dbProvider.insert(tableName, {
-            'moduleID': module.moduleID,
-            'title': module.title,
-            'dateCreatedUTC': module.dateCreatedUTC.toIso8601String(),
-          });
-        });
-
-        //save when we got the data
-        saveTimestamp(tableName);
-      }
-
-      // get items from database
-      debugPrint("*********GET MODULES FROM DB $tableName");
-      return await getAllData(dbProvider, tableName);
-    }
-    return [];
-  }
-
-  //TODO: need to change to call allLessons for all modules
-  Future<List<Lesson>> fetchAndSaveLessons(
-      final dbProvider, final bool forceRefresh) async {
-    final String tableName = "Lesson";
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
-    if (dbProvider.db != null) {
-      //first get the data from the api if we have no data yet
-      if (forceRefresh || await _shouldGetDataFromAPI(dbProvider, tableName)) {
-        final lessons = await WebServices().getAllLessonsForModule(1);
-        final lessons2 = await WebServices().getAllLessonsForModule(2);
-        //TODO: only need one call and don't need to loop once getAllLessons is available
-        final allLessons = [];
-        for (Lesson lesson in lessons) {
-          allLessons.add(lesson);
-        }
-        for (Lesson lesson in lessons2) {
-          allLessons.add(lesson);
-        }
-        debugPrint("**************FETCH MODULES FROM API AND SAVE");
-        //delete all old records before adding new ones
-        await dbProvider.deleteAll(tableName);
-        //add items to database
-        for (Lesson lesson in allLessons) {
-          debugPrint("PROVIDER HELPER = ${lesson.moduleID}");
-          await dbProvider.insert(tableName, {
-            'lessonID': lesson.lessonID,
-            'moduleID': lesson.moduleID,
-            'title': lesson.title,
-            'introduction': lesson.introduction,
-            'orderIndex': lesson.orderIndex,
-            'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
-          });
-        }
-
-        //save when we got the data
-        saveTimestamp(tableName);
-      }
-
-      // get items from database
-      debugPrint("*********GET LESSONS FROM DB $tableName");
-      return await getAllData(dbProvider, tableName);
-    }
-    return [];
-  }
-
-  Future<List<LessonTask>> fetchAndSaveTasks(
-      final dbProvider, final int lessonID, final bool forceRefresh) async {
-    final String tableName = "LessonTask";
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
-    if (dbProvider.db != null) {
-      //first get the data from the api if we have no data yet
-      if (forceRefresh || await _shouldGetDataFromAPI(dbProvider, tableName)) {
-        final List<LessonTask> incompleteTasks =
-            await WebServices().getIncompleteTasks(lessonID);
-        debugPrint("**************FETCH TASKS FROM API AND SAVE");
-        //delete all old records before adding new ones
-        await dbProvider.deleteAll(tableName);
-        //add items to database
-        incompleteTasks.forEach((LessonTask task) async {
-          await dbProvider.insert(tableName, {
-            'lessonTaskID': task.lessonTaskID,
-            'lessonID': task.lessonID,
-            'metaName': task.metaName,
-            'title': task.title,
-            'description': task.description,
-            'taskType': task.taskType,
-            'orderIndex': task.orderIndex,
-            'dateCreatedUTC': task.dateCreatedUTC.toIso8601String(),
-          });
-        });
-
-        //save when we got the data
-        saveTimestamp(tableName);
-      }
-
-      // get items from database
-      debugPrint("*********GET MODULES FROM DB $tableName");
-      return await getAllData(dbProvider, tableName);
-    }
-    return [];
-  }
-
-  //TODO, store notificationId in ID field
   Future<List<Message>> fetchAndSaveMessages(
       final dbProvider, final bool refreshFromAPI) async {
     final String tableName = "Message";
@@ -447,7 +299,6 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint("*********GET MESSAGES FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
     return [];
@@ -457,7 +308,6 @@ class ProviderHelper {
       final dbProvider, final String tableName) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
     if (dbProvider.db != null) {
-      debugPrint("GETTING CMSTEXT");
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final String gettingStarted =
@@ -472,7 +322,6 @@ class ProviderHelper {
           termsAndConditions
         ];
 
-        debugPrint("**************FETCH CMS FROM API AND SAVE");
         //delete all old records before adding new ones
         await dbProvider.deleteAll(tableName);
         //add items to database
@@ -487,7 +336,6 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint("*********GET DATA FROM DB $tableName");
       return await getAllData(dbProvider, tableName);
     }
     return [];
@@ -513,7 +361,7 @@ class ProviderHelper {
         return getAllData(dbProvider, tableName);
       }
     }
-    return List<dynamic>();
+    return [];
   }
 
   Future<void> markNotificationAsRead(
@@ -686,7 +534,7 @@ class ProviderHelper {
 
   List<Question> _convertCMSToQuestions(
       final List<CMS> cmsItems, final String cmsType) {
-    List<Question> questionList = List<Question>();
+    List<Question> questionList = [];
 
     if (cmsItems.length.isOdd) {
       //an odd number of items, so remove the last one as they should be in pairs

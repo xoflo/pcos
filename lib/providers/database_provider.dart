@@ -155,8 +155,6 @@ class DatabaseProvider with ChangeNotifier {
     final int limitRowCount,
   }) async {
     String updateStatement = "UPDATE $table SET $setFields WHERE $whereClause";
-    //if (limitRowCount > 0) updateStatement += " LIMIT $limitRowCount";
-    debugPrint("*******UPDATE STATEMENT = $updateStatement");
     await db.rawQuery(updateStatement);
   }
 
@@ -166,8 +164,6 @@ class DatabaseProvider with ChangeNotifier {
     final int limitRowCount,
   }) async {
     String deleteStatement = "DELETE FROM $table WHERE $whereClause";
-    //if (limitRowCount > 0) deleteStatement += " LIMIT $limitRowCount";
-    debugPrint("*******DELETE STATEMENT = $deleteStatement");
     await db.rawQuery(deleteStatement);
   }
 }

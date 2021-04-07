@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class Module {
   final int moduleID;
   final String title;

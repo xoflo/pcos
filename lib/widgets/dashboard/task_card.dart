@@ -20,7 +20,6 @@ class TaskCard extends StatelessWidget {
   });
 
   Widget _getTaskWidget(final LessonTask lessonTask) {
-    debugPrint("***** TASK TYPE = ${lessonTask.taskType}");
     switch (lessonTask.taskType) {
       case TaskType.Rating:
         return TaskRating(

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -13,9 +12,6 @@ class RecipesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-
     final int itemsPerRow =
         DeviceUtils.getItemsPerRow(screenSize.width, screenSize.height);
 

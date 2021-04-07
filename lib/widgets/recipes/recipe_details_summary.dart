@@ -12,7 +12,7 @@ class RecipeDetailsSummary extends StatelessWidget {
   RecipeDetailsSummary({this.recipe});
 
   List<Column> _getSummaryIcons(BuildContext context) {
-    List<Column> summaryIcons = List<Column>();
+    List<Column> summaryIcons = [];
 
     summaryIcons.add(_iconColumn(
       context,

@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
-import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
-import 'package:thepcosprotocol_app/models/module.dart';
-import 'package:thepcosprotocol_app/models/module_export.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
-import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
-import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
@@ -23,17 +18,12 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/your_progress.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/current_module.dart';
-import 'package:thepcosprotocol_app/widgets/modules/previous_modules_carousel.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -225,7 +215,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   void _addLessonToFavourites(
       final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    debugPrint("*********ADD LESSON TO FAVE");
     modulesProvider.addToFavourites(lesson, add);
   }
 
@@ -233,7 +222,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     setState(() {
       _selectedLessonIndex = lessonIndex;
     });
-    debugPrint("SELECTED LESSON = $_selectedLessonIndex");
   }
 
   Widget getCurrentModule(
@@ -269,10 +257,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   ) {
     switch (modulesProvider.status) {
       case LoadingStatus.success:
-        debugPrint(
-            "LESSON TASKS ON DASHBAORD = ${modulesProvider.displayLessonTasks.length}");
-        debugPrint(
-            "CURRENT LESSON COMPLETE=${modulesProvider.currentLesson.isComplete}");
         return modulesProvider.displayLessonTasks.length > 0
             ? Tasks(
                 screenSize: screenSize,

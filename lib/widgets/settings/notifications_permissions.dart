@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notification_permissions/notification_permissions.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
@@ -33,6 +32,7 @@ class NotificationsPermissions extends StatelessWidget {
           ],
         );
     }
+    return Container();
   }
 
   @override

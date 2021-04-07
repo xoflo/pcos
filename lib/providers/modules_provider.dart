@@ -67,17 +67,13 @@ class ModulesProvider with ChangeNotifier {
       _currentModuleLessons = await getModuleLessons(_currentModule.moduleID);
       _currentLesson = _currentModuleLessons.last;
       //display the past lesson tasks not completed, and the current lesson if the lesson is complete
-      debugPrint("_lessonTasks = ${_lessonTasks.length}");
       _displayLessonTasks.clear();
       for (LessonTask lessonTask in _lessonTasks) {
-        debugPrint("LessonTaskID=${lessonTask.lessonTaskID}");
         if (lessonTask.lessonID == currentLesson.lessonID) {
           if (currentLesson.isComplete) {
-            debugPrint("1 ADD TASK = ${lessonTask.lessonTaskID}");
             _displayLessonTasks.add(lessonTask);
           }
         } else {
-          debugPrint("2 ADD TASK = ${lessonTask.lessonTaskID}");
           _displayLessonTasks.add(lessonTask);
         }
       }
@@ -128,7 +124,6 @@ class ModulesProvider with ChangeNotifier {
     await PreferencesController().saveString(
         SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
         nextLessonAvailable.toIso8601String());
-    debugPrint("nextLessonAvailable = $nextLessonAvailable");
     if (setModuleComplete) {
       await WebServices().setModuleComplete(moduleID);
     }
@@ -147,8 +142,6 @@ class ModulesProvider with ChangeNotifier {
   }
 
   Future<void> addToFavourites(final dynamic lesson, final bool add) async {
-    Lesson lessonLesson = lesson;
-    debugPrint("addToFavorites lesson id = ${lessonLesson.lessonID}");
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
@@ -159,8 +152,6 @@ class ModulesProvider with ChangeNotifier {
   Future<void> _refreshFavourites() async {
     _favouriteLessons.clear();
     for (Lesson lesson in _lessons) {
-      debugPrint(
-          "REFRESH FAVES Lesson ${lesson.lessonID} = ${lesson.isFavorite}");
       if (lesson.isFavorite) {
         _favouriteLessons.add(lesson);
       }

@@ -41,8 +41,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
       //check old password is correct, this is like logging in, so will return a new token that replaces the old one
       try {
         email = await AuthenticationController().getEmail();
-        final bool checkPassword =
-            await AuthenticationController().signIn(email, oldPassword);
+        await AuthenticationController().signIn(email, oldPassword);
       } catch (ex) {
         if (ex == SIGN_IN_CREDENTIALS) {
           //password must have been wrong
