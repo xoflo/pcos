@@ -4,9 +4,10 @@ import 'package:thepcosprotocol_app/widgets/test/device_info_dialog.dart';
 
 class FlavorBanner extends StatelessWidget {
   final Widget child;
-  BannerConfig bannerConfig;
 
   FlavorBanner({@required this.child});
+
+  BannerConfig bannerConfig;
 
   @override
   Widget build(BuildContext context) {

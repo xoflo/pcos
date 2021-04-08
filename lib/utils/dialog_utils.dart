@@ -78,7 +78,7 @@ showAlertDialog(
     },
   );
 
-  List<Widget> actions = List<Widget>();
+  List<Widget> actions = [];
   if (continueText.length > 0) {
     actions.add(continueButton);
   }

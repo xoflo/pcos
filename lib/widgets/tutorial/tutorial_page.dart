@@ -27,6 +27,7 @@ class TutorialPage extends StatelessWidget {
         return getPageFive(context, screenSize, isHorizontal);
         break;
     }
+    return Container();
   }
 
   Widget getPageOne(final BuildContext context, final Size screenSize,

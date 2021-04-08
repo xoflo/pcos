@@ -51,8 +51,6 @@ class CourseLessonContent extends StatelessWidget {
   Widget _getMedia(BuildContext context) {
     final bool displayMedia = lessonContent.mediaUrl.length > 0 &&
         lessonContent.mediaMimeType.length > 0;
-    debugPrint(
-        "media= ${lessonContent.mediaUrl} & ${lessonContent.mediaMimeType}");
     if (displayMedia) {
       switch (lessonContent.mediaMimeType.toLowerCase()) {
         case MediaType.Video:
@@ -61,7 +59,7 @@ class CourseLessonContent extends StatelessWidget {
             child: VideoPlayerChewie(
               screenSize: screenSize,
               isHorizontal: isHorizontal,
-              videoUrl: "${_videoStorageUrl}${lessonContent.mediaUrl}",
+              videoUrl: "$_videoStorageUrl${lessonContent.mediaUrl}",
             ),
           );
         case MediaType.Image:
@@ -70,7 +68,7 @@ class CourseLessonContent extends StatelessWidget {
             child: FadeInImage.memoryNetwork(
               alignment: Alignment.center,
               placeholder: kTransparentImage,
-              image: "${_imageStorageUrl}${lessonContent.mediaUrl}",
+              image: "$_imageStorageUrl${lessonContent.mediaUrl}",
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
               height: 220,

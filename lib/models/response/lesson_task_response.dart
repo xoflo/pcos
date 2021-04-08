@@ -1,5 +1,4 @@
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
-import 'package:flutter/material.dart';
 
 class LessonTaskResponse {
   List<LessonTask> results;
@@ -10,7 +9,6 @@ class LessonTaskResponse {
     List<LessonTask> lessonTasks = [];
     if (json.length > 0) {
       json.forEach((item) {
-        debugPrint("LessonTask Response = $item");
         lessonTasks.add(LessonTask.fromJson(item));
       });
     }
