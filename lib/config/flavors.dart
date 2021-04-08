@@ -11,6 +11,7 @@ class FlavorValues {
     @required this.imageStorageUrl,
     @required this.thumbnailStorageUrl,
     @required this.videoStorageUrl,
+    @required this.pdfStorageUrl,
     @required this.intercomIds,
   });
   final String baseUrl;
@@ -19,6 +20,7 @@ class FlavorValues {
   final String imageStorageUrl;
   final String thumbnailStorageUrl;
   final String videoStorageUrl;
+  final String pdfStorageUrl;
   final List<String> intercomIds;
   //Add other flavor specific values, e.g database name
 }

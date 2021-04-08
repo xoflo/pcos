@@ -1,5 +1,5 @@
 //import 'dart:developer';
-//import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
@@ -58,6 +58,7 @@ class WebServices {
 
     if (response.statusCode == 200) {
       final String responseBody = response.body;
+      debugPrint("SIGNIN=$responseBody");
       if (responseBody.toLowerCase().contains("fail")) {
         if (responseBody.toLowerCase().contains("email address not verified")) {
           throw EMAIL_NOT_VERIFIED;
@@ -85,6 +86,7 @@ class WebServices {
     );
 
     if (response.statusCode == 200) {
+      debugPrint("REFRESHTOKEN=${response.body}");
       final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
       return tokenResponse.token;
     } else {
@@ -129,6 +131,7 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
+      debugPrint("MEMBERDETAILS=${response.body}");
       return Member.fromJson(
           StandardResponse.fromJson(jsonDecode(response.body)).payload);
     } else {
@@ -309,6 +312,7 @@ class WebServices {
     );
 
     if (response.statusCode == 200) {
+      debugPrint("LESSON COMPLETE = ${response.body}");
       final String responseDate =
           LessonCompleteResponse.fromJson(jsonDecode(response.body)).payload;
       return DateTime.parse(responseDate).toLocal();

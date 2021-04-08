@@ -17,6 +17,7 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/models/member.dart';
 
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
@@ -62,6 +63,11 @@ class _SignInState extends State<SignIn> {
               SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP, currentTimestamp);
           //success - this hides the login screen and shows the pin setup screen
           Navigator.pushReplacementNamed(context, PinSet.id);
+          //get the dateNextLessonAvailable and update in shared prefs
+          final Member memberDetails = await WebServices().getMemberDetails();
+          await PreferencesController().saveString(
+              SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
+              memberDetails.dateNextLessonAvailableLocal.toIso8601String());
           return;
         } else {
           showErrorDialog = true;

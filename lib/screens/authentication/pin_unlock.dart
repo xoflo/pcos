@@ -14,6 +14,10 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/models/member.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 
 class PinUnlock extends StatefulWidget {
   static const String id = "pin_unlock_screen";
@@ -124,7 +128,8 @@ class PinUnlockState extends State<PinUnlock> {
     final bool refreshToken = await AuthenticationController().refreshToken();
 
     if (refreshToken) {
-      //token refreshed and Pin entry is complete now show the app
+      //token refreshed and Pin entry is complete now get next lesson date and show the app
+      await saveNextLessonAvailableDate();
       openAppTabs();
     } else {
       //couldn't refresh token, so wait a few seconds and try again
@@ -138,12 +143,24 @@ class PinUnlockState extends State<PinUnlock> {
     final bool refreshToken = await AuthenticationController().refreshToken();
 
     if (refreshToken) {
-      //token refreshed and Pin entry is complete now show the app
+      //token refreshed and Pin entry is complete now get next lesson date and show the app
+      await saveNextLessonAvailableDate();
       openAppTabs();
     } else {
       //couldn't refresh token, so refresh token must have expired, so logout user
       sendToSignIn(true);
     }
+  }
+
+  Future<void> saveNextLessonAvailableDate() async {
+    //get the dateNextLessonAvailable and update in shared prefs
+    final Member memberDetails = await WebServices().getMemberDetails();
+    debugPrint("DATE=${memberDetails.dateNextLessonAvailableLocal}");
+    debugPrint(
+        "DATE LOCALLED=${memberDetails.dateNextLessonAvailableLocal.toLocal()}");
+    await PreferencesController().saveString(
+        SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
+        memberDetails.dateNextLessonAvailableLocal.toIso8601String());
   }
 
   void startPinAgain() {

@@ -24,6 +24,8 @@ Future<void> main() async {
           "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617676121/thumbnails/",
       videoStorageUrl:
           "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/",
+      pdfStorageUrl:
+          "https://pcosprotocolstorage.blob.core.windows.net/media/pdf",
       intercomIds: [
         "xsb9gkoh",
         "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",
