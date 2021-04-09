@@ -4,14 +4,15 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_summary.dart';
-import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class RecipeDetails extends StatelessWidget {
   final Recipe recipe;
   final Function closeRecipeDetails;
+  final Function(dynamic, bool) addToFavourites;
 
-  RecipeDetails({this.recipe, this.closeRecipeDetails});
+  RecipeDetails({this.recipe, this.closeRecipeDetails, this.addToFavourites});
 
   Widget _getRecipeDetails(
       BuildContext context, bool isHorizontal, Size screenSize) {
@@ -20,6 +21,7 @@ class RecipeDetails extends StatelessWidget {
       final summaryWidth = screenSize.width - (tabControllerWidth + 28);
       return Container(
         width: screenSize.width,
+        height: screenSize.height - 140,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,13 +75,13 @@ class RecipeDetails extends StatelessWidget {
   }
 
   double _getTabBarHeight(BuildContext context, bool isHorizontal) {
-    final int adjustmentAmount = isHorizontal ? 0 : 150;
+    final int adjustmentAmount = isHorizontal ? 148 : 140;
     return MediaQuery.of(context).size.height -
-        (kToolbarHeight + kBottomNavigationBarHeight + adjustmentAmount);
+        (kToolbarHeight + adjustmentAmount);
   }
 
   List<Tab> _getRecipeDetailTabs(BuildContext context, bool isHorizontal) {
-    List<Tab> tabs = List<Tab>();
+    List<Tab> tabs = [];
     if (!isHorizontal) {
       tabs.add(Tab(text: S.of(context).recipeDetailsSummaryTab));
     }
@@ -91,20 +93,26 @@ class RecipeDetails extends StatelessWidget {
 
   List<Widget> _getRecipeDetailTabViews(
       BuildContext context, bool isHorizontal) {
-    List<Widget> tabViews = List<Widget>();
+    List<Widget> tabViews = [];
     if (!isHorizontal) {
       tabViews.add(RecipeDetailsSummary(
         recipe: recipe,
       ));
     }
-    tabViews.add(Html(
-      data: recipe.ingredients,
+    tabViews.add(SingleChildScrollView(
+      child: Html(
+        data: recipe.ingredients,
+      ),
     ));
-    tabViews.add(Html(
-      data: recipe.method,
+    tabViews.add(SingleChildScrollView(
+      child: Html(
+        data: recipe.method,
+      ),
     ));
-    tabViews.add(Html(
-      data: recipe.tips,
+    tabViews.add(SingleChildScrollView(
+      child: Html(
+        data: recipe.tips,
+      ),
     ));
     return tabViews;
   }
@@ -118,28 +126,22 @@ class RecipeDetails extends StatelessWidget {
       return Container();
     }
 
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 1.0,
-        top: 1.0,
-        right: 1.0,
-      ),
-      child: SizedBox.expand(
-        child: Card(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Header(
-                  itemId: recipe.id,
-                  favouriteType: FavouriteType.Recipe,
-                  title: recipe.title,
-                  isFavourite: false,
-                  closeItem: closeRecipeDetails,
-                ),
-                _getRecipeDetails(context, isHorizontal, screenSize),
-              ],
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: Column(
+          children: <Widget>[
+            DialogHeader(
+              screenSize: screenSize,
+              item: recipe,
+              favouriteType: FavouriteType.Recipe,
+              title: recipe.title,
+              isFavourite: recipe.isFavorite,
+              closeItem: closeRecipeDetails,
+              addToFavourites: addToFavourites,
             ),
-          ),
+            _getRecipeDetails(context, isHorizontal, screenSize),
+          ],
         ),
       ),
     );

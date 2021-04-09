@@ -1,27 +1,50 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thepcosprotocol_app/app.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+Future<void> main() async {
   FlavorConfig(
     flavor: Flavor.STAGING,
     color: Colors.deepPurpleAccent,
     values: FlavorValues(
       baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
-      oneSignalAppID: "74c753f5-23cf-4819-b732-f4bc41f06c92",
-      questionnaireUrl: "https://www.thepcosnutritionist.com/",
-      blobStorageUrl:
-          "https://pcosprotocolstorage.blob.core.windows.net/media/",
+      oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
+      questionnaireUrl:
+          "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
+      imageStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617670686/images/",
+      thumbnailStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617676121/thumbnails/",
+      videoStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/",
+      pdfStorageUrl:
+          "https://pcosprotocolstorage.blob.core.windows.net/media/pdf",
+      intercomIds: [
+        "xsb9gkoh",
+        "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",
+        "ios_sdk-d3f8b263524828ea01c350105105ae48d550e129",
+      ],
     ),
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  notificationAppLaunchDetails =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  await initNotifications(flutterLocalNotificationsPlugin);
+
   runZonedGuarded(
     () {
       runApp(
-        MyApp(),
+        App(),
       );
     },
     (error, stackTrace) {

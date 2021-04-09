@@ -20,24 +20,27 @@ class DatabaseProvider with ChangeNotifier {
             "reference TEXT,"
             "question TEXT,"
             "answer TEXT,"
-            "tags TEXT"
+            "tags TEXT,"
+            "isFavorite INTEGER"
             ")");
         await db.execute("CREATE TABLE FrequentlyAskedQuestions ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
             "answer TEXT,"
-            "tags TEXT"
+            "tags TEXT,"
+            "isFavorite INTEGER"
             ")");
         await db.execute("CREATE TABLE CourseQuestion ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
             "answer TEXT,"
-            "tags TEXT"
+            "tags TEXT,"
+            "isFavorite INTEGER"
             ")");
         await db.execute("CREATE TABLE Recipe ("
-            "id INTEGER PRIMARY KEY,"
+            "recipeId INTEGER PRIMARY KEY,"
             "title TEXT,"
             "description TEXT,"
             "thumbnail TEXT,"
@@ -47,7 +50,60 @@ class DatabaseProvider with ChangeNotifier {
             "tags TEXT,"
             "difficulty INTEGER,"
             "servings INTEGER,"
-            "duration INTEGER"
+            "duration INTEGER,"
+            "isFavorite INTEGER"
+            ")");
+        await db.execute("CREATE TABLE Message ("
+            "id INTEGER PRIMARY KEY,"
+            "notificationId INTEGER,"
+            "title TEXT,"
+            "message TEXT,"
+            "isRead INTEGER,"
+            "action TEXT,"
+            "dateReadUTC TEXT,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE CMSText ("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "cmsText TEXT"
+            ")");
+        await db.execute("CREATE TABLE Module ("
+            "moduleID INTEGER PRIMARY KEY,"
+            "title TEXT,"
+            "isComplete INTEGER,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE Lesson ("
+            "lessonID INTEGER PRIMARY KEY,"
+            "moduleID INTEGER,"
+            "title TEXT,"
+            "introduction TEXT,"
+            "orderIndex INTEGER,"
+            "isFavorite INTEGER,"
+            "isComplete INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE LessonContent ("
+            "lessonContentID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "title TEXT,"
+            "mediaUrl TEXT,"
+            "mediaMimeType TEXT,"
+            "body TEXT,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
+        await db.execute("CREATE TABLE LessonTask ("
+            "lessonTaskID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "metaName TEXT,"
+            "title TEXT,"
+            "description TEXT,"
+            "taskType TEXT,"
+            "orderIndex INTEGER,"
+            "isComplete INTEGER,"
+            "dateCreatedUTC TEXT"
             ")");
       },
       version: 1,
@@ -63,7 +119,18 @@ class DatabaseProvider with ChangeNotifier {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(final String table) async {
+  Future<List<Map<String, dynamic>>> getData(final String table,
+      final String orderByColumn, final bool incompleteOnly) async {
+    if (orderByColumn.length > 0) {
+      if (incompleteOnly) {
+        return await db.query(table,
+            orderBy: orderByColumn, where: 'isComplete = 0');
+      }
+      return await db.query(table, orderBy: orderByColumn);
+    }
+    if (incompleteOnly) {
+      return await db.query(table, where: 'isComplete = 0');
+    }
     return await db.query(table);
   }
 
@@ -79,5 +146,24 @@ class DatabaseProvider with ChangeNotifier {
 
   Future<void> deleteAll(final String table) async {
     db.delete(table);
+  }
+
+  Future<void> updateQuery({
+    final String table,
+    final String setFields,
+    final String whereClause,
+    final int limitRowCount,
+  }) async {
+    String updateStatement = "UPDATE $table SET $setFields WHERE $whereClause";
+    await db.rawQuery(updateStatement);
+  }
+
+  Future<void> deleteQuery({
+    final String table,
+    final String whereClause,
+    final int limitRowCount,
+  }) async {
+    String deleteStatement = "DELETE FROM $table WHERE $whereClause";
+    await db.rawQuery(deleteStatement);
   }
 }

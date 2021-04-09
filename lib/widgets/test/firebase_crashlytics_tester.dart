@@ -79,34 +79,34 @@ class _FirebaseCrashlyticsTesterState extends State<FirebaseCrashlyticsTester> {
             return Center(
               child: Column(
                 children: <Widget>[
-                  RaisedButton(
+                  ElevatedButton(
                       child: const Text('Key'),
                       onPressed: () {
                         FirebaseCrashlytics.instance
                             .setCustomKey('example', 'flutterfire');
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               'Custom Key "example: flutterfire" has been set \n'
                               'Key will appear in Firebase Console once app has crashed and reopened'),
                           duration: Duration(seconds: 5),
                         ));
                       }),
-                  RaisedButton(
+                  ElevatedButton(
                       child: const Text('Log'),
                       onPressed: () {
                         FirebaseCrashlytics.instance
                             .log('This is a log example');
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               'The message "This is a log example" has been logged \n'
                               'Message will appear in Firebase Console once app has crashed and reopened'),
                           duration: Duration(seconds: 5),
                         ));
                       }),
-                  RaisedButton(
+                  ElevatedButton(
                       child: const Text('Crash'),
                       onPressed: () async {
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('App will crash is 5 seconds \n'
                               'Please reopen to send data to Crashlytics'),
                           duration: Duration(seconds: 5),
@@ -119,10 +119,10 @@ class _FirebaseCrashlyticsTesterState extends State<FirebaseCrashlyticsTester> {
                         // confirmation that errors are being correctly reported.
                         FirebaseCrashlytics.instance.crash();
                       }),
-                  RaisedButton(
+                  ElevatedButton(
                       child: const Text('Throw Error'),
                       onPressed: () {
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text('Thrown error has been caught \n'
                               'Please crash and reopen to send data to Crashlytics'),
                           duration: Duration(seconds: 5),
@@ -132,10 +132,10 @@ class _FirebaseCrashlyticsTesterState extends State<FirebaseCrashlyticsTester> {
                         // Crashlytics.
                         throw StateError('Uncaught error thrown by app');
                       }),
-                  RaisedButton(
+                  ElevatedButton(
                       child: const Text('Async out of bounds'),
                       onPressed: () {
-                        Scaffold.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               'Uncaught Exception that is handled by second parameter of runZonedGuarded \n'
                               'Please crash and reopen to send data to Crashlytics'),
@@ -152,11 +152,11 @@ class _FirebaseCrashlyticsTesterState extends State<FirebaseCrashlyticsTester> {
                           });
                         }, FirebaseCrashlytics.instance.recordError);
                       }),
-                  RaisedButton(
+                  ElevatedButton(
                       child: const Text('Record Error'),
                       onPressed: () async {
                         try {
-                          Scaffold.of(context).showSnackBar(SnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('Recorded Error  \n'
                                 'Please crash and reopen to send data to Crashlytics'),
                             duration: Duration(seconds: 5),

@@ -12,6 +12,7 @@ class Member {
   final String adminNotes;
   final bool isEmailVerified;
   final bool isEnabled;
+  final DateTime dateNextLessonAvailableLocal;
   final DateTime dateCreatedUTC;
 
   Member(
@@ -28,6 +29,7 @@ class Member {
       this.adminNotes,
       this.isEmailVerified,
       this.isEnabled,
+      this.dateNextLessonAvailableLocal,
       this.dateCreatedUTC});
 
   factory Member.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,8 @@ class Member {
         adminNotes: json['adminNotes'],
         isEmailVerified: json['isEmailVerified'],
         isEnabled: json['isEnabled'],
+        dateNextLessonAvailableLocal:
+            DateTime.parse(json['dateNextLessonAvailableUTC']).toLocal(),
         dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']));
   }
 }

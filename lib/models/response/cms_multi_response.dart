@@ -6,7 +6,7 @@ class CMSMultiResponse {
   CMSMultiResponse({this.results});
 
   factory CMSMultiResponse.fromList(List<dynamic> json) {
-    List<CMS> cmsItems = List<CMS>();
+    List<CMS> cmsItems = [];
     if (json.length > 0) {
       json.forEach((item) {
         cmsItems.add(CMS.fromJson(item));

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_read_only.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_editable.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class ProfileLayout extends StatefulWidget {
-  final Function closeMenuItem;
-
-  ProfileLayout({this.closeMenuItem});
-
   @override
   _ProfileLayoutState createState() => _ProfileLayoutState();
 }
@@ -36,6 +34,13 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   }
 
   void _editDetails(MemberViewModel member) {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_BUTTON:
+            Analytics.ANALYTICS_BUTTON_EDIT_PROFILE
+      },
+    );
     firstNameController.text = member.firstName;
     lastNameController.text = member.lastName;
     emailController.text = member.email;
@@ -46,6 +51,13 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
   void _saveChanges(MemberViewModel member) {
     if (_formKey.currentState.validate()) {
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+        parameters: {
+          Analytics.ANALYTICS_PARAMETER_BUTTON:
+              Analytics.ANALYTICS_BUTTON_SAVE_PROFILE
+        },
+      );
       if (member.firstName != firstNameController.text.trim()) {
         member.firstName = firstNameController.text.trim();
       }
@@ -73,8 +85,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        // TODO: create a widget for nothing found and test how it looks
-        return Text("Could not return Member details!");
+        return NoResults(message: S.of(context).noMemberDetails);
       case LoadingStatus.success:
         return !_isEditable
             ? ProfileReadOnly(
@@ -114,11 +125,10 @@ class _ProfileLayoutState extends State<ProfileLayout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            itemId: 0,
-            favouriteType: FavouriteType.None,
             title: S.of(context).profileTitle,
-            isFavourite: false,
-            closeItem: widget.closeMenuItem,
+            closeItem: () {
+              Navigator.pop(context);
+            },
           ),
           _memberDetails(screenSize, vm),
         ],

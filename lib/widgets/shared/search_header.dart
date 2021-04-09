@@ -22,13 +22,21 @@ class SearchHeader extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
+  void clearTextAndSearch() {
+    if (searchController.text.trim().length > 0) {
+      searchController.clear();
+      onSearchClicked();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
     return SizedBox(
       width: double.infinity,
-      child: Card(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
@@ -39,7 +47,7 @@ class SearchHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: size.width - 28,
+                      width: size.width - 16,
                       height: 40,
                       child: TextFormField(
                         controller: searchController,
@@ -47,8 +55,8 @@ class SearchHeader extends StatelessWidget {
                           border: OutlineInputBorder(),
                           labelText: S.of(context).searchInputText,
                           suffixIcon: IconButton(
-                            onPressed: () => searchController.clear(),
-                            icon: Icon(Icons.clear, color: secondaryColorLight),
+                            onPressed: () => clearTextAndSearch(),
+                            icon: Icon(Icons.clear, color: secondaryColor),
                           ),
                         ),
                       ),
@@ -68,14 +76,14 @@ class SearchHeader extends StatelessWidget {
                               value: tagValue,
                               icon: Icon(
                                 Icons.arrow_drop_down,
-                                color: primaryColorDark,
+                                color: primaryColor,
                               ),
                               iconSize: 24,
                               elevation: 16,
-                              style: TextStyle(color: secondaryColorLight),
+                              style: TextStyle(color: secondaryColor),
                               underline: Container(
                                 height: 2,
-                                color: primaryColorDark,
+                                color: primaryColor,
                               ),
                               onChanged: (String newValue) {
                                 onTagSelected(newValue);

@@ -1,10 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thepcosprotocol_app/app.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+Future<void> main() async {
   FlavorConfig(
     flavor: Flavor.DEV,
     color: Colors.green,
@@ -13,16 +19,32 @@ void main() {
       oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
       questionnaireUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
-      blobStorageUrl:
-          "https://pcosprotocolstorage.blob.core.windows.net/media/",
+      imageStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617670686/images/",
+      thumbnailStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617676121/thumbnails/",
+      videoStorageUrl:
+          "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/",
+      pdfStorageUrl:
+          "https://pcosprotocolstorage.blob.core.windows.net/media/pdf",
+      intercomIds: [
+        "xsb9gkoh",
+        "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",
+        "ios_sdk-d3f8b263524828ea01c350105105ae48d550e129",
+      ],
     ),
   );
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  notificationAppLaunchDetails =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  await initNotifications(flutterLocalNotificationsPlugin);
+
   runZonedGuarded(
     () {
       runApp(
-        MyApp(),
+        App(),
       );
     },
     (error, stackTrace) {
