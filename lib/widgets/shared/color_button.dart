@@ -18,13 +18,20 @@ class ColorButton extends StatelessWidget {
     this.width = 0,
   });
 
+  Color getBackgroundColor(Set<MaterialState> states) {
+    return color;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      shape: new RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(5.0),
-      ),
-      color: color,
+    return TextButton(
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.resolveWith(getBackgroundColor),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ))),
       onPressed: () {
         if (!isUpdating) {
           onTap();
