@@ -1,5 +1,5 @@
 class Recipe {
-  final int id;
+  final int recipeId;
   final String title;
   final String description;
   final String thumbnail;
@@ -10,9 +10,10 @@ class Recipe {
   final int difficulty;
   final int servings;
   final int duration;
+  final bool isFavorite;
 
   Recipe({
-    this.id,
+    this.recipeId,
     this.title,
     this.description,
     this.thumbnail,
@@ -23,11 +24,12 @@ class Recipe {
     this.difficulty,
     this.servings,
     this.duration,
+    this.isFavorite,
   });
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      id: json['recipeId'],
+      recipeId: json['recipeId'],
       title: json['title'],
       description: json['description'],
       thumbnail: json['thumbnail'],
@@ -38,6 +40,8 @@ class Recipe {
       difficulty: json['difficulty'],
       servings: json['servings'],
       duration: json['duration'],
+      isFavorite:
+          json['isFavorite'] == 1 || json['isFavorite'] == true ? true : false,
     );
   }
 }

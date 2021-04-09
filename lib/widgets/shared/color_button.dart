@@ -13,18 +13,25 @@ class ColorButton extends StatelessWidget {
     @required this.isUpdating,
     @required this.label,
     @required this.onTap,
-    this.color = primaryColorDark,
+    this.color = primaryColor,
     this.textColor = Colors.white,
     this.width = 0,
   });
 
+  Color getBackgroundColor(Set<MaterialState> states) {
+    return color;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      shape: new RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(5.0),
-      ),
-      color: color,
+    return TextButton(
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.resolveWith(getBackgroundColor),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ))),
       onPressed: () {
         if (!isUpdating) {
           onTap();
@@ -40,7 +47,7 @@ class ColorButton extends StatelessWidget {
                     child: CircularProgressIndicator(
                       backgroundColor: backgroundColor,
                       valueColor:
-                          new AlwaysStoppedAnimation<Color>(primaryColorDark),
+                          new AlwaysStoppedAnimation<Color>(primaryColor),
                     ),
                     height: 20.0,
                     width: 20.0,

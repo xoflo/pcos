@@ -11,7 +11,7 @@ class StandardButton extends StatelessWidget {
     @required this.isUpdating,
     @required this.label,
     @required this.onTap,
-    this.color = primaryColorDark,
+    this.color = primaryColor,
   });
 
   @override
@@ -27,7 +27,7 @@ class StandardButton extends StatelessWidget {
           ? SizedBox(
               child: CircularProgressIndicator(
                 backgroundColor: backgroundColor,
-                valueColor: new AlwaysStoppedAnimation<Color>(primaryColorDark),
+                valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
               ),
               height: 20.0,
               width: 20.0,

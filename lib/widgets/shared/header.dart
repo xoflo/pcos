@@ -1,66 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
 
 class Header extends StatelessWidget {
-  final int itemId;
-  final FavouriteType favouriteType;
   final String title;
-  final bool isFavourite;
   final Function closeItem;
+  final bool showMessagesIcon;
+  final int unreadCount;
 
   Header(
-      {this.itemId,
-      this.favouriteType,
-      this.title,
-      this.isFavourite,
-      this.closeItem});
-
-  void _addToFavourites() {
-    debugPrint("Add to favourites - id=$itemId type=$favouriteType");
-  }
+      {this.title,
+      this.closeItem,
+      this.showMessagesIcon = false,
+      this.unreadCount = 0});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          favouriteType == FavouriteType.None
-              ? SizedBox(width: 35)
-              : GestureDetector(
-                  onTap: () {
-                    _addToFavourites();
-                  },
+    return Container(
+      decoration: BoxDecoration(
+        color: primaryColor,
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 1.0, bottom: 13.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () {
+                closeItem();
+              },
+              child: SizedBox(
+                width: 35,
+                height: 35,
+                child: Container(
+                  color: primaryColor,
                   child: Icon(
-                    isFavourite ? Icons.favorite : Icons.favorite_outline,
-                    color: primaryColorDark,
-                    size: 35,
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                    size: 30,
                   ),
-                ),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          GestureDetector(
-            onTap: () {
-              closeItem();
-            },
-            child: SizedBox(
-              width: 35,
-              height: 35,
-              child: Container(
-                color: primaryColorDark,
-                child: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 30,
                 ),
               ),
             ),
-          ),
-        ],
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline5.copyWith(
+                    color: Colors.white,
+                  ),
+            ),
+            SizedBox(
+                width: 35,
+                height: 35,
+                child: showMessagesIcon
+                    ? MessagesBell(messagesCount: unreadCount)
+                    : Container()),
+          ],
+        ),
       ),
     );
   }

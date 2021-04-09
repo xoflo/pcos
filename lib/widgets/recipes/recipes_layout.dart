@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -8,36 +10,18 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
   _RecipesLayoutState createState() => _RecipesLayoutState();
 }
 
-class _RecipesLayoutState extends State<RecipesLayout>
-    with SingleTickerProviderStateMixin {
-  Recipe _recipeDetails;
-  AnimationController _animationController;
-  Animation<Offset> _offsetAnimation;
+class _RecipesLayoutState extends State<RecipesLayout> {
   final TextEditingController searchController = TextEditingController();
   bool isSearching = false;
   String tagSelectedValue = "All";
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _offsetAnimation =
-        Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-            .animate(_animationController);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
-  }
 
   List<String> getTagValues() {
     final stringContext = S.of(context);
@@ -55,35 +39,61 @@ class _RecipesLayoutState extends State<RecipesLayout>
     ];
   }
 
-  void openRecipeDetails(Recipe recipe) async {
-    setState(() {
-      _recipeDetails = recipe;
-    });
-    await Future.delayed(const Duration(milliseconds: 300), () {
-      _animationController.forward();
-    });
+  void openRecipeDetails(BuildContext context, Recipe recipe) async {
+    //remove the focus from the searchbox if necessary, to hide the keyboard
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+
+    openBottomSheet(
+      context,
+      RecipeDetails(
+        recipe: recipe,
+        closeRecipeDetails: closeRecipeDetails,
+        addToFavourites: addToFavourites,
+      ),
+      Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
+      recipe.recipeId.toString(),
+    );
   }
 
-  void closeRecipeDetails() async {
-    _animationController.reverse();
-    await Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        _recipeDetails = null;
-      });
-    });
+  void closeRecipeDetails() {
+    Navigator.pop(context);
+  }
+
+  void addToFavourites(final dynamic recipe, final bool add) async {
+    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
+    await recipeProvider.addToFavourites(recipe, add);
+    recipeProvider.filterAndSearch(
+        searchController.text.trim(), tagSelectedValue);
   }
 
   void onTagSelected(String tagValue) {
-    debugPrint("********************tagSelected=$tagValue");
     setState(() {
       tagSelectedValue = tagValue;
     });
+    onSearchClicked();
   }
 
   void onSearchClicked() async {
+    analytics.logEvent(
+      name: Analytics.ANALYTICS_EVENT_SEARCH,
+      parameters: {
+        Analytics.ANALYTICS_PARAMETER_SEARCH_TYPE:
+            Analytics.ANALYTICS_SEARCH_RECIPE
+      },
+    );
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     recipeProvider.filterAndSearch(
         searchController.text.trim(), tagSelectedValue);
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+    //removeFocus();
+  }
+
+  void removeFocus() {
+    //remove focus from the searchInput
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
   }
 
   Widget getRecipesList(
@@ -95,8 +105,7 @@ class _RecipesLayoutState extends State<RecipesLayout>
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        // TODO: create a widget for nothing found and test how it looks
-        return Text("No recipes found!");
+        return NoResults(message: S.of(context).noResultsRecipes);
       case LoadingStatus.success:
         return RecipesList(
             screenSize: screenSize,
@@ -110,32 +119,18 @@ class _RecipesLayoutState extends State<RecipesLayout>
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Stack(
-      children: <Widget>[
-        Consumer<RecipesProvider>(
-          builder: (context, model, child) => Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Column(
-              children: [
-                SearchHeader(
-                  searchController: searchController,
-                  tagValues: getTagValues(),
-                  tagValue: tagSelectedValue,
-                  onTagSelected: onTagSelected,
-                  onSearchClicked: onSearchClicked,
-                  isSearching: isSearching,
-                ),
-                getRecipesList(screenSize, model),
-              ],
-            ),
-          ),
+    return Column(
+      children: [
+        SearchHeader(
+          searchController: searchController,
+          tagValues: getTagValues(),
+          tagValue: tagSelectedValue,
+          onTagSelected: onTagSelected,
+          onSearchClicked: onSearchClicked,
+          isSearching: isSearching,
         ),
-        SlideTransition(
-          position: _offsetAnimation,
-          child: RecipeDetails(
-            recipe: _recipeDetails,
-            closeRecipeDetails: closeRecipeDetails,
-          ),
+        Consumer<RecipesProvider>(
+          builder: (context, model, child) => getRecipesList(screenSize, model),
         ),
       ],
     );

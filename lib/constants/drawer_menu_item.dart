@@ -1,6 +1,9 @@
 enum DrawerMenuItem {
+  LOCK,
+  SETTINGS,
   PROFILE,
   CHANGE_PASSWORD,
   PRIVACY,
   TERMS_OF_USE,
+  TUTORIAL,
 }

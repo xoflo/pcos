@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 
 class DateTimeUtils {
   static String shortDate(String countryCode, DateTime dateTime) {
@@ -44,5 +45,10 @@ class DateTimeUtils {
 
   static int convertMillisecondsToMinutes(final int millSeconds) {
     return (millSeconds / 60000000).round();
+  }
+
+  static TimeOfDay stringToTimeOfDay(String tod) {
+    final format = DateFormat.jm(); //"6:00 AM"
+    return TimeOfDay.fromDateTime(format.parse(tod));
   }
 }

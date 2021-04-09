@@ -55,10 +55,10 @@ class S {
     );
   }
 
-  /// `Dashboard`
+  /// `Your Course`
   String get dashboardTitle {
     return Intl.message(
-      'Dashboard',
+      'Your Course',
       name: 'dashboardTitle',
       desc: '',
       args: [],
@@ -110,6 +110,16 @@ class S {
     return Intl.message(
       'Messages',
       name: 'messagesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message`
+  String get messageTitle {
+    return Intl.message(
+      'Message',
+      name: 'messageTitle',
       desc: '',
       args: [],
     );
@@ -285,10 +295,10 @@ class S {
     );
   }
 
-  /// `To register now on your device click the button below to visit the PCOS Questionnaire website.`
+  /// `To register for The PCOS Protocol on your device click the 'Sign Up' button below to visit the PCOS Questionnaire website.`
   String get openWebsiteText {
     return Intl.message(
-      'To register now on your device click the button below to visit the PCOS Questionnaire website.',
+      'To register for The PCOS Protocol on your device click the \'Sign Up\' button below to visit the PCOS Questionnaire website.',
       name: 'openWebsiteText',
       desc: '',
       args: [],
@@ -496,10 +506,10 @@ class S {
   }
 
   /// `Okay`
-  String get passwordForgottenOkay {
+  String get okayText {
     return Intl.message(
       'Okay',
-      name: 'passwordForgottenOkay',
+      name: 'okayText',
       desc: '',
       args: [],
     );
@@ -1340,6 +1350,506 @@ class S {
     return Intl.message(
       'Filter:',
       name: 'searchHeaderFilterText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close app`
+  String get areYouSureText {
+    return Intl.message(
+      'Close app',
+      name: 'areYouSureText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to close the App?`
+  String get exitAppText {
+    return Intl.message(
+      'Are you sure you want to close the App?',
+      name: 'exitAppText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yesText {
+    return Intl.message(
+      'Yes',
+      name: 'yesText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get noText {
+    return Intl.message(
+      'No',
+      name: 'noText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `On`
+  String get onText {
+    return Intl.message(
+      'On',
+      name: 'onText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Off`
+  String get offText {
+    return Intl.message(
+      'Off',
+      name: 'offText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Store`
+  String get versionDialogTitle {
+    return Intl.message(
+      'App Store',
+      name: 'versionDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please open the app store on your device, and upgrade The PCOS Protocol app.`
+  String get versionDialogDesc {
+    return Intl.message(
+      'Please open the app store on your device, and upgrade The PCOS Protocol app.',
+      name: 'versionDialogDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This version of The PCOS Protocol app is no longer supported.`
+  String get versionText1 {
+    return Intl.message(
+      'This version of The PCOS Protocol app is no longer supported.',
+      name: 'versionText1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please visit the app store to upgrade your app version.`
+  String get versionText2 {
+    return Intl.message(
+      'Please visit the app store to upgrade your app version.',
+      name: 'versionText2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No recipes found!`
+  String get noResultsRecipes {
+    return Intl.message(
+      'No recipes found!',
+      name: 'noResultsRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No knowledge base items found!`
+  String get noResultsKBs {
+    return Intl.message(
+      'No knowledge base items found!',
+      name: 'noResultsKBs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not display your details, please try again later.`
+  String get noMemberDetails {
+    return Intl.message(
+      'We could not display your details, please try again later.',
+      name: 'noMemberDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No items found!`
+  String get noItemsFound {
+    return Intl.message(
+      'No items found!',
+      name: 'noItemsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no messages to display.`
+  String get noNotifications {
+    return Intl.message(
+      'There are no messages to display.',
+      name: 'noNotifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lessons`
+  String get lessonsTitle {
+    return Intl.message(
+      'Lessons',
+      name: 'lessonsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove favourite`
+  String get favouriteRemoveTitle {
+    return Intl.message(
+      'Remove favourite',
+      name: 'favouriteRemoveTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove this favourite?`
+  String get favouriteRemoveText {
+    return Intl.message(
+      'Are you sure you want to remove this favourite?',
+      name: 'favouriteRemoveText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watch now`
+  String get favouritesWatchNow {
+    return Intl.message(
+      'Watch now',
+      name: 'favouritesWatchNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View details`
+  String get favouritesViewDetails {
+    return Intl.message(
+      'View details',
+      name: 'favouritesViewDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete message`
+  String get deleteMessageTitle {
+    return Intl.message(
+      'Delete message',
+      name: 'deleteMessageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this message?`
+  String get deleteMessageText {
+    return Intl.message(
+      'Are you sure you want to delete this message?',
+      name: 'deleteMessageText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tutorial`
+  String get tutorialTitle {
+    return Intl.message(
+      'Tutorial',
+      name: 'tutorialTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settingsTitle {
+    return Intl.message(
+      'Settings',
+      name: 'settingsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily Reminder`
+  String get requestDailyReminderTitle {
+    return Intl.message(
+      'Daily Reminder',
+      name: 'requestDailyReminderTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?`
+  String get requestDailyReminderText {
+    return Intl.message(
+      'To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?',
+      name: 'requestDailyReminderText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can set a daily reminder later by clicking the Settings icon in the main menu.`
+  String get requestDailyReminderNoText {
+    return Intl.message(
+      'You can set a daily reminder later by clicking the Settings icon in the main menu.',
+      name: 'requestDailyReminderNoText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily Reminder:`
+  String get settingsDailyReminderText {
+    return Intl.message(
+      'Daily Reminder:',
+      name: 'settingsDailyReminderText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Daily Reminder`
+  String get dailyReminderTitle {
+    return Intl.message(
+      'Your Daily Reminder',
+      name: 'dailyReminderTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't forget to check your latest lesson or view your progress so far.`
+  String get dailyReminderText {
+    return Intl.message(
+      'Don\'t forget to check your latest lesson or view your progress so far.',
+      name: 'dailyReminderText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display 'Your Why':`
+  String get settingsYourWhyText {
+    return Intl.message(
+      'Display \'Your Why\':',
+      name: 'settingsYourWhyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow Notifications`
+  String get notificationPermissionsAllowButton {
+    return Intl.message(
+      'Allow Notifications',
+      name: 'notificationPermissionsAllowButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please Allow Notifications`
+  String get notificationPermissionsNeedToAllowTitle {
+    return Intl.message(
+      'Please Allow Notifications',
+      name: 'notificationPermissionsNeedToAllowTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To set a daily reminder you will need to allow notifications on your device by clicking the button below.`
+  String get notificationPermissionsNeedToAllowText {
+    return Intl.message(
+      'To set a daily reminder you will need to allow notifications on your device by clicking the button below.',
+      name: 'notificationPermissionsNeedToAllowText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get requestNotificationPermissionTitle {
+    return Intl.message(
+      'Notifications',
+      name: 'requestNotificationPermissionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?`
+  String get requestNotificationPermissionText {
+    return Intl.message(
+      'To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?',
+      name: 'requestNotificationPermissionText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Data Usage`
+  String get dataUsageWarningTitle {
+    return Intl.message(
+      'Data Usage',
+      name: 'dataUsageWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning - Please ensure you have enough data to stream videos in the app.`
+  String get dataUsageWarningText {
+    return Intl.message(
+      'Warning - Please ensure you have enough data to stream videos in the app.',
+      name: 'dataUsageWarningText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coach Chat`
+  String get coachChatFailedTitle {
+    return Intl.message(
+      'Coach Chat',
+      name: 'coachChatFailedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We couldn't open the Coach Chat right now, please try again later.`
+  String get coachChatFailedText {
+    return Intl.message(
+      'We couldn\'t open the Coach Chat right now, please try again later.',
+      name: 'coachChatFailedText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Module`
+  String get moduleText {
+    return Intl.message(
+      'Module',
+      name: 'moduleText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lesson`
+  String get lessonText {
+    return Intl.message(
+      'Lesson',
+      name: 'lessonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View previous modules`
+  String get viewPreviousModules {
+    return Intl.message(
+      'View previous modules',
+      name: 'viewPreviousModules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Modules`
+  String get previousModules {
+    return Intl.message(
+      'Previous Modules',
+      name: 'previousModules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get saveText {
+    return Intl.message(
+      'Save',
+      name: 'saveText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No lessons to display!`
+  String get noResultsLessons {
+    return Intl.message(
+      'No lessons to display!',
+      name: 'noResultsLessons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open`
+  String get viewNow {
+    return Intl.message(
+      'Open',
+      name: 'viewNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dismiss`
+  String get dismissText {
+    return Intl.message(
+      'Dismiss',
+      name: 'dismissText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a value in the text box`
+  String get textTaskValidation {
+    return Intl.message(
+      'Please enter a value in the text box',
+      name: 'textTaskValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please make a selection above`
+  String get boolTaskValidation {
+    return Intl.message(
+      'Please make a selection above',
+      name: 'boolTaskValidation',
       desc: '',
       args: [],
     );

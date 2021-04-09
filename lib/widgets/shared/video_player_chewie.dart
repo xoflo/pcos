@@ -5,13 +5,18 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class VideoPlayerChewie extends StatefulWidget {
+  final Size screenSize;
+  final bool isHorizontal;
   final String videoUrl;
 
-  VideoPlayerChewie({this.videoUrl});
+  VideoPlayerChewie({
+    this.screenSize,
+    this.isHorizontal,
+    this.videoUrl,
+  });
 
   @override
   _VideoPlayerChewieState createState() => _VideoPlayerChewieState();
@@ -29,18 +34,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
 
   @override
   void dispose() {
-    try {
-      _videoPlayerController.dispose();
-      _chewieController.dispose();
-    } catch (ex) {
-      //do nothing, just handle possible chewie dispose exception
-    }
-
-    final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-
-    if (isHorizontal) {
+    if (widget.isHorizontal) {
       //iPad
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
@@ -55,13 +49,14 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
       ]);
     }
 
-    super.dispose();
-  }
+    try {
+      _videoPlayerController.dispose();
+      _chewieController.dispose();
+    } catch (ex) {
+      //do nothing, just handle possible chewie dispose exception
+    }
 
-  bool _isHorizontal(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    return DeviceUtils.isHorizontalWideScreen(
-        screenSize.width, screenSize.height);
+    super.dispose();
   }
 
   Future<void> initializePlayer() async {
@@ -74,12 +69,12 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
       allowFullScreen: true,
       showControlsOnInitialize: true,
       allowPlaybackSpeedChanging: false,
-      deviceOrientationsAfterFullScreen: _isHorizontal(context)
+      deviceOrientationsAfterFullScreen: widget.isHorizontal
           ? [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]
           : [DeviceOrientation.portraitUp],
       materialProgressColors: ChewieProgressColors(
-          playedColor: secondaryColorLight,
-          handleColor: secondaryColorLight,
+          playedColor: secondaryColor,
+          handleColor: secondaryColor,
           backgroundColor: Colors.white,
           bufferedColor: backgroundColor),
       placeholder: Container(
@@ -105,8 +100,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final double loadingHeight = ((screenSize.width - 20) / 16) * 9;
+    final double loadingHeight = ((widget.screenSize.width - 20) / 16) * 9;
 
     return Center(
       child: _chewieController != null &&
@@ -116,15 +110,15 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
                 Theme(
                   data: Theme.of(context).copyWith(
                     dialogBackgroundColor: Colors.grey.shade200,
-                    primaryIconTheme: IconThemeData(color: secondaryColorLight),
-                    iconTheme: IconThemeData(color: secondaryColorLight),
+                    primaryIconTheme: IconThemeData(color: secondaryColor),
+                    iconTheme: IconThemeData(color: secondaryColor),
                   ),
                   child: AspectRatio(
                     aspectRatio: _videoPlayerController.value.aspectRatio,
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: primaryColorDark,
+                          color: primaryColor,
                         ),
                       ),
                       child: Chewie(
@@ -141,7 +135,7 @@ class _VideoPlayerChewieState extends State<VideoPlayerChewie> {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: primaryColorDark,
+                    color: primaryColor,
                   ),
                 ),
                 child: Column(

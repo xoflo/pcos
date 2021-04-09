@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class ChangePasswordLayout extends StatefulWidget {
-  final Function closeMenuItem;
-
-  ChangePasswordLayout({
-    @required this.closeMenuItem,
-  });
-
   @override
   _ChangePasswordLayoutState createState() => _ChangePasswordLayoutState();
 }
@@ -31,6 +26,14 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
 
   void _savePassword(BuildContext context) async {
     if (_formKey.currentState.validate()) {
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+        parameters: {
+          Analytics.ANALYTICS_PARAMETER_BUTTON:
+              Analytics.ANALYTICS_BUTTON_CHANGE_PASSWORD
+        },
+      );
+
       String oldPassword = oldPasswordController.text.trim();
       String newPassword = newPasswordController.text.trim();
       String email = "";
@@ -38,9 +41,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
       //check old password is correct, this is like logging in, so will return a new token that replaces the old one
       try {
         email = await AuthenticationController().getEmail();
-        final bool checkPassword =
-            await AuthenticationController().signIn(email, oldPassword);
-        debugPrint("email=$email checkPwd=$checkPassword");
+        await AuthenticationController().signIn(email, oldPassword);
       } catch (ex) {
         if (ex == SIGN_IN_CREDENTIALS) {
           //password must have been wrong
@@ -64,7 +65,6 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
       try {
         final bool resetPassword =
             await WebServices().resetPassword(email, newPassword);
-        debugPrint("resetPwd=$resetPassword");
         if (resetPassword) {
           setState(() {
             isComplete = true;
@@ -82,7 +82,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
   }
 
   void _cancel() {
-    widget.closeMenuItem();
+    Navigator.pop(context);
   }
 
   void _displayMessage(
@@ -90,7 +90,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
     showFlushBar(context, title, message,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
-        primaryColor: primaryColorDark);
+        primaryColor: primaryColor);
   }
 
   @override
@@ -98,26 +98,20 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
     return Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(5.0),
-          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Header(
-                  itemId: 0,
-                  favouriteType: FavouriteType.None,
-                  title: S.of(context).changePasswordTitle,
-                  isFavourite: false,
-                  closeItem: widget.closeMenuItem,
-                ),
-                !isComplete
-                    ? Column(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Header(
+                title: S.of(context).changePasswordTitle,
+                closeItem: _cancel,
+              ),
+              !isComplete
+                  ? Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
@@ -208,10 +202,13 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                             ],
                           ),
                         ],
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 30.0),
@@ -226,8 +223,8 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                               style: Theme.of(context).textTheme.headline6,
                             ),
                           ]),
-              ],
-            ),
+                    ),
+            ],
           ),
         ));
   }

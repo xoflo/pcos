@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:package_info/package_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/constants/app_state.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class DrawerMenu extends StatefulWidget {
-  final Function(AppState) updateAppState;
   final Function(DrawerMenuItem) openDrawerMenuItem;
 
-  DrawerMenu({this.updateAppState, this.openDrawerMenuItem});
+  DrawerMenu({@required this.openDrawerMenuItem});
 
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
@@ -21,7 +23,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
   String _appBuildNumber = "";
 
   void _drawerNavigation(BuildContext context, DrawerMenuItem drawerMenuItem) {
-    debugPrint("Open drawer item");
     widget.openDrawerMenuItem(drawerMenuItem);
   }
 
@@ -31,6 +32,32 @@ class _DrawerMenuState extends State<DrawerMenu> {
       _appVersion = packageInfo.version;
       _appBuildNumber = packageInfo.buildNumber;
     });
+  }
+
+  void _resetDataCache() {
+    saveTimestamp("KnowledgeBase");
+    saveTimestamp("FrequentlyAskedQuestions");
+    saveTimestamp("CourseQuestion");
+    saveTimestamp("Recipe");
+    saveTimestamp("Message");
+    saveTimestamp("CMSText");
+    saveTimestamp("Module");
+    saveTimestamp("Lesson");
+    saveTimestamp("LessonContent");
+    saveTimestamp("LessonTask");
+  }
+
+  Future<bool> saveTimestamp(final String tableName) async {
+    try {
+      final String key =
+          "${tableName}_${SharedPreferencesKeys.DB_SAVED_TIMESTAMP}";
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt(
+          key, DateTime.now().add(Duration(days: -1)).millisecondsSinceEpoch);
+      return true;
+    } catch (ex) {
+      return false;
+    }
   }
 
   void initState() {
@@ -43,12 +70,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
     final TextStyle drawerItemStyle =
         Theme.of(context).textTheme.headline4.copyWith(
               fontSize: 20.0,
-              color: primaryColorDark,
+              color: primaryColor,
             );
     final TextStyle footerStyle =
         Theme.of(context).textTheme.headline4.copyWith(
               fontSize: 14.0,
-              color: primaryColorDark,
+              color: primaryColor,
             );
     final DateTime today = DateTime.now();
 
@@ -57,38 +84,50 @@ class _DrawerMenuState extends State<DrawerMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Container(
-            height: Platform.isIOS ? 120.0 : 115.0,
+            height: Platform.isIOS ? 132.0 : 115.0,
             child: DrawerHeader(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     S.of(context).appTitle,
                     style: Theme.of(context).textTheme.headline4.copyWith(
-                          color: primaryColorDark,
+                          color: primaryColor,
                         ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        widget.updateAppState(AppState.LOCKED);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text("Lock App",
-                              style: TextStyle(
-                                color: primaryColorDark,
-                              )),
-                          Icon(
-                            Icons.lock_outline,
-                            size: 24.0,
-                            color: primaryColor,
-                          )
-                        ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _drawerNavigation(context, DrawerMenuItem.SETTINGS);
+                        },
+                        child: Icon(
+                          Icons.settings,
+                          size: 24.0,
+                          color: primaryColor,
+                        ),
                       ),
-                    ),
-                  )
+                      GestureDetector(
+                        onTap: () {
+                          _drawerNavigation(context, DrawerMenuItem.LOCK);
+                        },
+                        child: Row(
+                          children: [
+                            Text("Lock App",
+                                style: TextStyle(
+                                  color: primaryColor,
+                                )),
+                            Icon(
+                              Icons.lock_outline,
+                              size: 24.0,
+                              color: primaryColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -129,6 +168,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
               _drawerNavigation(context, DrawerMenuItem.TERMS_OF_USE);
             },
           ),
+          ListTile(
+            title: Text(
+              S.of(context).tutorialTitle,
+              style: drawerItemStyle,
+            ),
+            onTap: () {
+              _drawerNavigation(context, DrawerMenuItem.TUTORIAL);
+            },
+          ),
           SizedBox(height: 30.0),
           ListTile(
             title: Text(
@@ -142,6 +190,17 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: footerStyle,
             ),
           ),
+          FlavorConfig.isDev()
+              ? ListTile(
+                  title: Text(
+                    "Reset Data Cache",
+                    style: drawerItemStyle,
+                  ),
+                  onTap: () {
+                    _resetDataCache();
+                  },
+                )
+              : Container(),
         ],
       ),
     );

@@ -12,19 +12,19 @@ class RecipeDetailsSummary extends StatelessWidget {
   RecipeDetailsSummary({this.recipe});
 
   List<Column> _getSummaryIcons(BuildContext context) {
-    List<Column> summaryIcons = List<Column>();
+    List<Column> summaryIcons = [];
 
     summaryIcons.add(_iconColumn(
       context,
       Icons.restaurant,
-      primaryColorDark,
+      primaryColor,
       recipe.servings.toString(),
     ));
 
     summaryIcons.add(_iconColumn(
       context,
       Icons.timer,
-      primaryColorDark,
+      primaryColor,
       DateTimeUtils.convertMillisecondsToMinutes(recipe.duration).toString() +
           " " +
           S.of(context).minutesShort,
@@ -82,9 +82,9 @@ class RecipeDetailsSummary extends StatelessWidget {
       case 1:
         return primaryColor;
       case 2:
-        return darkAlternative;
+        return tertiaryColor;
     }
-    return primaryColorDark;
+    return primaryColor;
   }
 
   @override
@@ -106,8 +106,8 @@ class RecipeDetailsSummary extends StatelessWidget {
             child: FadeInImage.memoryNetwork(
               alignment: Alignment.center,
               placeholder: kTransparentImage,
-              image: FlavorConfig.instance.values.blobStorageUrl +
-                  recipe.thumbnail,
+              image:
+                  "${FlavorConfig.instance.values.imageStorageUrl}${recipe.thumbnail}",
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
               height: 300,
