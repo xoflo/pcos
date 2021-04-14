@@ -73,8 +73,8 @@ class _AppState extends State<App> {
   Future<void> initializeOneSignal() async {
     if (!mounted) return;
 
-    //TODO: remove this temporary dbugging level
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    //temporary dbugging level
+    //OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
     var settings = {
       OSiOSSettings.autoPrompt: false,
@@ -83,49 +83,21 @@ class _AppState extends State<App> {
 
     OneSignal.shared
         .setNotificationReceivedHandler((OSNotification notification) {
-      debugPrint(
-          "*** RECEIVED PN - message=${notification.jsonRepresentation().replaceAll("\\n", "\n")}");
       //calling setState forces the app to get the data again so the messages refreshes, and the true in the refreshMessages global singleton means it comes from the API
       refreshMessages.setRefreshMessagesFromAPI(true);
       setState(() {});
     });
 
-    OneSignal.shared
+    /*OneSignal.shared
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       debugPrint(
           "*** OPENED PN - message=${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}");
-    });
-
-    /*
-    OneSignal.shared
-        .setInAppMessageClickedHandler((OSInAppMessageAction action) {
-      debugPrint(
-          "*** CLICKED INAPP - message=${action.jsonRepresentation().replaceAll("\\n", "\n")}");
-    });
-
-    OneSignal.shared
-        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
-      debugPrint("SUBSCRIPTION STATE CHANGED: ${changes.jsonRepresentation()}");
-    });
-
-    OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
-      debugPrint("PERMISSION STATE CHANGED: ${changes.jsonRepresentation()}");
-    });
-
-    OneSignal.shared.setEmailSubscriptionObserver(
-        (OSEmailSubscriptionStateChanges changes) {
-      debugPrint(
-          "EMAIL SUBSCRIPTION STATE CHANGED ${changes.jsonRepresentation()}");
     });*/
 
-    // NOTE: Replace with your own app ID from https://www.onesignal.com
     await OneSignal.shared.init(FlavorConfig.instance.values.oneSignalAppID,
         iOSSettings: settings);
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
-
-    //TODO: ask for permission on iOS somewhere else later
-    //bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
   }
 
   @override

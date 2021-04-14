@@ -38,6 +38,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   bool _isLoading = true;
   bool _isDailyReminderOn = false;
   bool _isYourWhyOn = false;
+  bool _hasYourWhyBeenAnswered = false;
   TimeOfDay _dailyReminderTimeOfDay =
       DateTimeUtils.stringToTimeOfDay("12:00 PM");
   PermissionStatus _notificationPermissions = PermissionStatus.unknown;
@@ -56,6 +57,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         await NotificationPermissions.getNotificationPermissionStatus();
     final bool isYourWhyOn = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+    final String whatsYourWhy = await PreferencesController()
+        .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
 
     if (dailyReminderString.length > 0) {
       setState(() {
@@ -63,11 +66,13 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             DateTimeUtils.stringToTimeOfDay(dailyReminderString);
         _isDailyReminderOn = true;
         _isYourWhyOn = isYourWhyOn;
+        _hasYourWhyBeenAnswered = whatsYourWhy.length > 0;
         _isLoading = false;
       });
     } else {
       setState(() {
         _isYourWhyOn = isYourWhyOn;
+        _hasYourWhyBeenAnswered = whatsYourWhy.length > 0;
         _isLoading = false;
       });
     }
@@ -219,6 +224,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                               ? Container()
                               : YourWhySetting(
                                   isYourWhyOn: _isYourWhyOn,
+                                  hasYourWhyBeenEntered:
+                                      _hasYourWhyBeenAnswered,
                                   saveYourWhy: _saveYourWhy),
                         ],
                       ),

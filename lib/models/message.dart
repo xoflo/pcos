@@ -16,11 +16,10 @@ class Message {
       this.dateReadUTC,
       this.dateCreatedUTC});
 
-  //TODO: title is hardcoded
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       notificationId: json['notificationId'],
-      title: "This is the title",
+      title: json['title'],
       message: json['message'],
       isRead: json['isRead'] == 1 || json['isRead'] == true ? true : false,
       action: "NONE",
@@ -34,6 +33,7 @@ class Message {
 [
   {
     "notificationId": 2,
+    "title": "The title",
     "message": "Hi Andy, here is another message, do we need a title too?",
     "isRead": false,
     "dateReadUTC": "1900-01-01T00:00:00",
@@ -41,10 +41,11 @@ class Message {
   },
   {
     "notificationId": 1,
+    "title": "The title",
     "message": "Hi Andy, this is a notification message.",
     "isRead": false,
     "dateReadUTC": "1900-01-01T00:00:00",
     "dateCreatedUTC": "2021-02-11T02:27:59.123"
   }
 ]
- */
+*/

@@ -1,4 +1,3 @@
-//TODO: add more media types
 class MediaType {
   static const String Video = "video";
   static const String Audio = "audio";

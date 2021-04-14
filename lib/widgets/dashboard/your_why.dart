@@ -1,48 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
-class YourWhy extends StatelessWidget {
+class YourWhy extends StatefulWidget {
+  final Size screenSize;
+  final String whatsYourWhy;
+
+  YourWhy({@required this.screenSize, @required this.whatsYourWhy});
+
+  @override
+  _YourWhyState createState() => _YourWhyState();
+}
+
+class _YourWhyState extends State<YourWhy> {
+  bool _isVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialise();
+  }
+
+  void _initialise() async {
+    await Future.delayed(const Duration(milliseconds: 250), () {});
+    setState(() {
+      _isVisible = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8.0,
+    return AnimatedOpacity(
+      opacity: _isVisible ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 1000),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20.0),
+        child: Container(
+          width: widget.screenSize.width,
+          decoration: BoxDecoration(
+            color: Colors.white,
           ),
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  "Your why:",
-                  style: TextStyle(
-                    fontFamily: 'Courgette',
-                    fontSize: 20,
-                    color: primaryColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0,
+            ),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    S.of(context).yourWhyTitle,
+                    style: TextStyle(
+                      fontFamily: 'Courgette',
+                      fontSize: 20,
+                      color: primaryColor,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 30.0,
-                  left: 40,
-                  right: 20,
-                  bottom: 8,
-                ),
-                child: Text(
-                  "I want to feel healthier and be able to live my life happier.",
-                  style: TextStyle(
-                    fontFamily: 'Courgette',
-                    fontSize: 20,
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 30.0,
+                    left: 40,
+                    right: 20,
+                    bottom: 8,
+                  ),
+                  child: Text(
+                    widget.whatsYourWhy,
+                    style: TextStyle(
+                      fontFamily: 'Courgette',
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -1854,6 +1854,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Your why:`
+  String get yourWhyTitle {
+    return Intl.message(
+      'Your why:',
+      name: 'yourWhyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What's your why`
+  String get yourWhyWarningTitle {
+    return Intl.message(
+      'What\'s your why',
+      name: 'yourWhyWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This can only be enabled after the first module has been completed.`
+  String get yourWhyWarningText {
+    return Intl.message(
+      'This can only be enabled after the first module has been completed.',
+      name: 'yourWhyWarningText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
