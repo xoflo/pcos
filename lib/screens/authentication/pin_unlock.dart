@@ -26,7 +26,6 @@ class PinUnlock extends StatefulWidget {
   PinUnlockState createState() => PinUnlockState();
 }
 
-//TODO: Pin unlock will need to decide whether the app is open underneath
 class PinUnlockState extends State<PinUnlock> {
   List<bool> _progress = [false, false, false, false];
   int _currentPosition = 0;
@@ -155,9 +154,6 @@ class PinUnlockState extends State<PinUnlock> {
   Future<void> saveNextLessonAvailableDate() async {
     //get the dateNextLessonAvailable and update in shared prefs
     final Member memberDetails = await WebServices().getMemberDetails();
-    debugPrint("DATE=${memberDetails.dateNextLessonAvailableLocal}");
-    debugPrint(
-        "DATE LOCALLED=${memberDetails.dateNextLessonAvailableLocal.toLocal()}");
     await PreferencesController().saveString(
         SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
         memberDetails.dateNextLessonAvailableLocal.toIso8601String());

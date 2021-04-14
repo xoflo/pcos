@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -5,6 +6,7 @@ import 'package:thepcosprotocol_app/constants/secure_storage_keys.dart'
     as SecureStorageKeys;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
@@ -23,13 +25,24 @@ class AuthenticationController {
           key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
       await secureStorage.write(
           key: SecureStorageKeys.USER_ID, value: token.profile.id.toString());
+      //use the SharedPreferences not controller for this as want to check for null
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
+      final bool isUserSignedIn =
+          prefs.getBool(SharedPreferencesKeys.IS_USER_SIGNED_IN);
+      PreferencesController()
+          .saveBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
+      PreferencesController()
+          .saveString(SharedPreferencesKeys.PCOS_TYPE, token.profile.pcosType);
       if (token.profile.whatsMyWhy.length > 0) {
-        await prefs.setString(
+        await PreferencesController().saveString(
             SharedPreferencesKeys.WHATS_YOUR_WHY, token.profile.whatsMyWhy);
+        //if this is first time logging in on this device, but they already have a whatsMyWhy, default the showMyWhy to true as they have previously used the app and saved a what my why
+        if (isUserSignedIn == null) {
+          await PreferencesController()
+              .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, true);
+        }
       }
-      prefs.setString(SharedPreferencesKeys.PCOS_TYPE, token.profile.pcosType);
+
       return true;
     }
 

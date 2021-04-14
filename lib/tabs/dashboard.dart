@@ -9,7 +9,6 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("DASHBOARD NOT LAYOUT = $showYourWhy");
     return DashboardLayout(
         showYourWhy: showYourWhy, updateYourWhy: updateYourWhy);
   }

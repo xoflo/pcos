@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/cms_text.dart';
@@ -32,7 +29,6 @@ class ProviderHelper {
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final cmsItems = await WebServices().getCMSByType(assetType);
         List<Question> questions = _convertCMSToQuestions(cmsItems, assetType);
-        debugPrint("**************FETCH QUESTIONS FROM API AND SAVE");
         //delete all old records before adding new ones
         await dbProvider.deleteAll(tableName);
         //add items to database
@@ -112,7 +108,6 @@ class ProviderHelper {
       if (forceRefresh ||
           await _shouldGetDataFromAPI(dbProvider, moduleTableName)) {
         final moduleExport = await WebServices().getModulesExport();
-        debugPrint("**************FETCH MODULES FROM API AND SAVE");
         //delete all old records before adding new ones
         await dbProvider.deleteAll(moduleTableName);
         await dbProvider.deleteAll(lessonTableName);
@@ -162,8 +157,6 @@ class ProviderHelper {
       }
 
       // get items from database
-      debugPrint(
-          "*********GET MODULES, LESSON, CONTENT and TASKS FROM DB $moduleTableName");
       final List<Module> modulesFromDB = await getAllData(
         dbProvider,
         moduleTableName,
@@ -278,7 +271,6 @@ class ProviderHelper {
       if (refreshFromAPI ||
           await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final messages = await WebServices().getAllUserNotifications();
-        debugPrint("**************FETCH MESSAGES FROM API AND SAVE");
         //delete all old records before adding new ones
         await dbProvider.deleteAll(tableName);
         //add items to database

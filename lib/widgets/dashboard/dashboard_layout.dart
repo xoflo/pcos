@@ -55,7 +55,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
     final String whatsYourWhy = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
-    debugPrint("showYourWhy PASSED TO DASH = ${widget.showYourWhy}");
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
       _yourWhy = whatsYourWhy;
@@ -63,7 +62,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   }
 
   void _updateWhatsYourWhy(final String whatsYourWhy) {
-    debugPrint("UPDATE WHATS YOUR WHY");
     widget.updateYourWhy(true);
     setState(() {
       _yourWhy = whatsYourWhy;

@@ -16,7 +16,6 @@ class MainScreens extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("MAINSCREENS = $showYourWhy");
     return IndexedStack(
       index: currentIndex,
       children: [

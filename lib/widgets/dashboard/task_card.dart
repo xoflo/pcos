@@ -22,7 +22,6 @@ class TaskCard extends StatelessWidget {
   void _onSubmit(final int taskID, final String value) {
     final bool isYourWhy = lessonTask.metaName.toLowerCase() == "why" &&
         lessonTask.taskType == TaskType.Text;
-    ;
     onSubmit(taskID, value, isYourWhy);
   }
 

@@ -78,18 +78,16 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     //get the value for showYourWhy, and then pass down to the course screen
     final bool isYourWhyOn = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
-    debugPrint("PREFS isYourWhyOn = $isYourWhyOn");
-    final bool oneSignalUserIdSet = await PreferencesController()
-        .getBool(SharedPreferencesKeys.ONE_SIGNAL_EXTERNAL_USER_ID_SET);
-    //register external userId with OneSignal if not done before on this device
-    if (!oneSignalUserIdSet) {
+    final bool oneSignalDataSent = await PreferencesController()
+        .getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
+    //register external userId and pcos_type (as tag) with OneSignal if not done before on this device
+    if (!oneSignalDataSent) {
       await OneSignal.shared.setExternalUserId(userId);
-      //TODO: send pcos type to one signal here
-      /*await OneSignal.shared.sendTag(
-        "pcos_type",
-      );*/
-      await PreferencesController().saveBool(
-          SharedPreferencesKeys.ONE_SIGNAL_EXTERNAL_USER_ID_SET, true);
+      final String pcosType = await PreferencesController()
+          .getString(SharedPreferencesKeys.PCOS_TYPE);
+      await OneSignal.shared.sendTag("pcos_type", pcosType);
+      await PreferencesController()
+          .saveBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT, true);
     }
 
     setState(() {
@@ -255,7 +253,6 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("APPTABS _showYourWhy = $_showYourWhy");
     return FlavorBanner(
       child: Scaffold(
         appBar: HeaderAppBar(

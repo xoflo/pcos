@@ -30,7 +30,6 @@ class _TasksState extends State<Tasks> {
 
   void _onSubmit(
       final int taskID, final String value, final bool isYourWhy) async {
-    debugPrint("isYourWhy=$isYourWhy");
     final bool playAnimation =
         widget.modulesProvider.displayLessonTasks.length == 1;
     if (playAnimation) {
@@ -50,7 +49,6 @@ class _TasksState extends State<Tasks> {
     final String whatsYourWhy = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
     if (whatsYourWhy.length == 0 && isYourWhy) {
-      debugPrint("GOT HERE 1");
       //save to local storage
       await PreferencesController()
           .saveString(SharedPreferencesKeys.WHATS_YOUR_WHY, value);
