@@ -30,8 +30,9 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 class DashboardLayout extends StatefulWidget {
   final bool showYourWhy;
+  final Function(bool) updateYourWhy;
 
-  DashboardLayout({@required this.showYourWhy});
+  DashboardLayout({@required this.showYourWhy, @required this.updateYourWhy});
 
   @override
   _DashboardLayoutState createState() => _DashboardLayoutState();
@@ -40,6 +41,7 @@ class DashboardLayout extends StatefulWidget {
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
   int _selectedLessonIndex = -1;
+  String _yourWhy = "";
 
   @override
   void initState() {
@@ -51,9 +53,20 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   Future<void> _initialise() async {
     final bool dataUsageWarningDisplayed = await PreferencesController()
         .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
-
+    final String whatsYourWhy = await PreferencesController()
+        .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+    debugPrint("showYourWhy PASSED TO DASH = ${widget.showYourWhy}");
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
+      _yourWhy = whatsYourWhy;
+    });
+  }
+
+  void _updateWhatsYourWhy(final String whatsYourWhy) {
+    debugPrint("UPDATE WHATS YOUR WHY");
+    widget.updateYourWhy(true);
+    setState(() {
+      _yourWhy = whatsYourWhy;
     });
   }
 
@@ -262,6 +275,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 screenSize: screenSize,
                 isHorizontal: isHorizontal,
                 modulesProvider: modulesProvider,
+                updateWhatsYourWhy: _updateWhatsYourWhy,
               )
             : Container();
       default:
@@ -282,7 +296,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           builder: (context, model, child) => Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              widget.showYourWhy ? YourWhy() : Container(height: 20),
+              widget.showYourWhy
+                  ? YourWhy(screenSize: screenSize, whatsYourWhy: _yourWhy)
+                  : Container(height: 20),
               getTasks(screenSize, isHorizontal, model),
               Padding(
                 padding: EdgeInsets.only(top: 20),

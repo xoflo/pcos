@@ -25,6 +25,11 @@ class AuthenticationController {
           key: SecureStorageKeys.USER_ID, value: token.profile.id.toString());
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
+      if (token.profile.whatsMyWhy.length > 0) {
+        await prefs.setString(
+            SharedPreferencesKeys.WHATS_YOUR_WHY, token.profile.whatsMyWhy);
+      }
+      prefs.setString(SharedPreferencesKeys.PCOS_TYPE, token.profile.pcosType);
       return true;
     }
 
@@ -41,6 +46,13 @@ class AuthenticationController {
             key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
         await secureStorage.write(
             key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        if (token.profile.whatsMyWhy.length > 0) {
+          await prefs.setString(
+              SharedPreferencesKeys.WHATS_YOUR_WHY, token.profile.whatsMyWhy);
+        }
+        await prefs.setString(
+            SharedPreferencesKeys.PCOS_TYPE, token.profile.pcosType);
         return true;
       }
       return false;

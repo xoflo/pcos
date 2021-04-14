@@ -10,7 +10,7 @@ class TaskCard extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function(int, String) onSubmit;
+  final Function(int, String, bool) onSubmit;
 
   TaskCard({
     @required this.screenSize,
@@ -19,6 +19,13 @@ class TaskCard extends StatelessWidget {
     @required this.onSubmit,
   });
 
+  void _onSubmit(final int taskID, final String value) {
+    final bool isYourWhy = lessonTask.metaName.toLowerCase() == "why" &&
+        lessonTask.taskType == TaskType.Text;
+    ;
+    onSubmit(taskID, value, isYourWhy);
+  }
+
   Widget _getTaskWidget(final LessonTask lessonTask) {
     switch (lessonTask.taskType) {
       case TaskType.Rating:
@@ -26,21 +33,21 @@ class TaskCard extends StatelessWidget {
           screenSize: screenSize,
           isHorizontal: isHorizontal,
           lessonTask: lessonTask,
-          onSubmit: onSubmit,
+          onSubmit: _onSubmit,
         );
       case TaskType.Bool:
         return TaskBool(
           screenSize: screenSize,
           isHorizontal: isHorizontal,
           lessonTask: lessonTask,
-          onSubmit: onSubmit,
+          onSubmit: _onSubmit,
         );
       case TaskType.Text:
         return TaskText(
           screenSize: screenSize,
           isHorizontal: isHorizontal,
           lessonTask: lessonTask,
-          onSubmit: onSubmit,
+          onSubmit: _onSubmit,
         );
       default:
         return Container(child: Text("Unknown task type"));

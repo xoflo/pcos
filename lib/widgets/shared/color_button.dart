@@ -38,27 +38,33 @@ class ColorButton extends StatelessWidget {
         }
       },
       child: isUpdating
-          ? Container(
-              width: width,
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Container(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: (width - 20) / 2),
-                  child: SizedBox(
-                    child: CircularProgressIndicator(
-                      backgroundColor: backgroundColor,
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(primaryColor),
+                width: width,
+                child: Container(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: (width - 20) / 2),
+                    child: SizedBox(
+                      child: CircularProgressIndicator(
+                        backgroundColor: backgroundColor,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(primaryColor),
+                      ),
+                      height: 20.0,
+                      width: 20.0,
                     ),
-                    height: 20.0,
-                    width: 20.0,
                   ),
                 ),
               ),
             )
-          : Text(
-              label,
-              style: TextStyle(
-                color: textColor,
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                label,
+                style: TextStyle(
+                  color: textColor,
+                ),
               ),
             ),
     );

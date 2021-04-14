@@ -67,6 +67,7 @@ class WebServices {
         }
       }
       final tokenResponse = TokenResponse.fromJson(jsonDecode(response.body));
+      debugPrint("TOKEN RESPONSE=$tokenResponse");
       return tokenResponse.token;
     } else {
       throw SIGN_IN_CREDENTIALS;

@@ -202,6 +202,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "versionText2" : MessageLookupByLibrary.simpleMessage("Please visit the app store to upgrade your app version."),
     "viewNow" : MessageLookupByLibrary.simpleMessage("Open"),
     "viewPreviousModules" : MessageLookupByLibrary.simpleMessage("View previous modules"),
-    "yesText" : MessageLookupByLibrary.simpleMessage("Yes")
+    "yesText" : MessageLookupByLibrary.simpleMessage("Yes"),
+    "yourWhyTitle" : MessageLookupByLibrary.simpleMessage("Your why:"),
+    "yourWhyWarningText" : MessageLookupByLibrary.simpleMessage("This can only be enabled after the first module has been completed."),
+    "yourWhyWarningTitle" : MessageLookupByLibrary.simpleMessage("What\'s your why")
   };
 }
