@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player_chewie.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/content_pdf_viewer.dart';
 
 class CourseLessonContent extends StatelessWidget {
   final LessonContent lessonContent;
@@ -72,6 +73,16 @@ class CourseLessonContent extends StatelessWidget {
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
               height: 220,
+            ),
+          );
+        case MediaType.Pdf:
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: ContentPdfViewer(
+              lessonContent: lessonContent,
+              screenSize: screenSize,
+              isHorizontal: isHorizontal,
+              pdfStorageUrl: FlavorConfig.instance.values.pdfStorageUrl,
             ),
           );
       }
