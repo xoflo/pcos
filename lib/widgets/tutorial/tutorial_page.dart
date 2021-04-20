@@ -32,85 +32,71 @@ class TutorialPage extends StatelessWidget {
 
   Widget getPageOne(final BuildContext context, final Size screenSize,
       final bool isHorizontal) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isHorizontal ? 50 : 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: Text(
-              "Navigation",
-              style: Theme.of(context).textTheme.headline1,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: isHorizontal ? 50 : 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text(
+                "Navigation",
+                style: Theme.of(context).textTheme.headline1,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              right: isHorizontal ? (screenSize.width / 2) : 70.0,
-              bottom: 20,
+            Padding(
+              padding: EdgeInsets.only(
+                right: isHorizontal ? (screenSize.width / 2) : 70.0,
+                bottom: 20,
+              ),
+              child: Text(
+                "Open the menu drawer for app settings, profile, change password, policies, and to lock the app.",
+                style: Theme.of(context).textTheme.headline6,
+                textAlign: TextAlign.justify,
+              ),
             ),
-            child: Text(
-              "Open the menu drawer for app settings, profile, change password, policies, and to lock the app.",
-              style: Theme.of(context).textTheme.headline6,
-              textAlign: TextAlign.justify,
-            ),
-          ),
-          Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(color: backgroundColor),
-                height: 60,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.menu,
-                        color: primaryColor,
-                        size: 26.0,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Icon(
-                              Icons.chat_outlined,
+            Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(color: backgroundColor),
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          Icons.menu,
+                          color: primaryColor,
+                          size: 26.0,
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.chat_outlined,
+                                color: primaryColor,
+                                size: 26.0,
+                              ),
+                            ),
+                            Icon(
+                              Icons.notifications_none,
                               color: primaryColor,
                               size: 26.0,
                             ),
-                          ),
-                          Icon(
-                            Icons.notifications_none,
-                            color: primaryColor,
-                            size: 26.0,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25, top: 30),
-                child: Container(
-                  width: 35,
-                  height: 35,
-                  child: CustomPaint(
-                    painter: DrawCircle(
-                      circleColor: primaryColor,
-                      isFilled: false,
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 3, top: 30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25, top: 30),
                   child: Container(
-                    width: 40,
-                    height: 40,
+                    width: 35,
+                    height: 35,
                     child: CustomPaint(
                       painter: DrawCircle(
                         circleColor: primaryColor,
@@ -119,97 +105,113 @@ class TutorialPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                left: isHorizontal ? (screenSize.width / 2) : 80.0, top: 20),
-            child: Text(
-              "Tap the chat icon to use the 'Coach Chat' feature, or view your notifications by tapping the bell.",
-              style: Theme.of(context).textTheme.headline6,
-              textAlign: TextAlign.justify,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 3, top: 30),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      child: CustomPaint(
+                        painter: DrawCircle(
+                          circleColor: primaryColor,
+                          isFilled: false,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Row(
+            Padding(
+              padding: EdgeInsets.only(
+                  left: isHorizontal ? (screenSize.width / 2) : 80.0, top: 20),
+              child: Text(
+                "Tap the chat icon to use the 'Coach Chat' feature, or view your notifications by tapping the bell.",
+                style: Theme.of(context).textTheme.headline6,
+                textAlign: TextAlign.justify,
+              ),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Your Course",
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  Text(""),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50.0),
+                    child: Text(
+                      "Recipes",
+                      style: Theme.of(context).textTheme.headline5,
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                  Text(""),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Container(
+                decoration: BoxDecoration(color: primaryColor),
+                height: 60,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.school,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      Icon(
+                        Icons.batch_prediction,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      Icon(
+                        Icons.local_dining,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      Icon(
+                        Icons.favorite_outline,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Your Course",
-                  style: Theme.of(context).textTheme.headline5,
-                ),
                 Text(""),
                 Padding(
-                  padding: const EdgeInsets.only(right: 50.0),
+                  padding: const EdgeInsets.only(left: 15.0),
                   child: Text(
-                    "Recipes",
+                    "Knowledge Base",
                     style: Theme.of(context).textTheme.headline5,
-                    textAlign: TextAlign.justify,
                   ),
                 ),
                 Text(""),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Container(
-              decoration: BoxDecoration(color: primaryColor),
-              height: 60,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.school,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
-                    Icon(
-                      Icons.batch_prediction,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
-                    Icon(
-                      Icons.local_dining,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
-                    Icon(
-                      Icons.favorite_outline,
-                      color: Colors.white,
-                      size: 30.0,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(""),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  "Knowledge Base",
+                Text(
+                  "Favourites",
                   style: Theme.of(context).textTheme.headline5,
                 ),
-              ),
-              Text(""),
-              Text(
-                "Favourites",
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

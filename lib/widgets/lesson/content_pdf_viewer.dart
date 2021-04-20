@@ -101,7 +101,7 @@ class _ContentPdfViewerState extends State<ContentPdfViewer> {
                 width: widget.screenSize.width,
                 height: DeviceUtils.getRemainingHeight(widget.screenSize.height,
                         false, widget.isHorizontal, false, false) -
-                    100,
+                    60,
                 child: PdfView(
                   documentLoader: Center(child: PcosLoadingSpinner()),
                   pageLoader: Center(child: PcosLoadingSpinner()),
