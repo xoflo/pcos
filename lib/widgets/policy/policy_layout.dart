@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -20,6 +19,7 @@ class PolicyLayout extends StatefulWidget {
   _PolicyLayoutState createState() => _PolicyLayoutState();
 }
 
+//TODO: parse html
 class _PolicyLayoutState extends State<PolicyLayout> {
   Widget getCMSText(final BuildContext context, final CMSTextProvider provider,
       final String assetName) {
@@ -34,8 +34,8 @@ class _PolicyLayoutState extends State<PolicyLayout> {
             : provider.termsStatement;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: Html(
-            data: cmsText,
+          child: Text(
+            cmsText,
           ),
         );
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -91,6 +90,7 @@ class RecipeDetails extends StatelessWidget {
     return tabs;
   }
 
+  //TODO: parse html
   List<Widget> _getRecipeDetailTabViews(
       BuildContext context, bool isHorizontal) {
     List<Widget> tabViews = [];
@@ -100,18 +100,18 @@ class RecipeDetails extends StatelessWidget {
       ));
     }
     tabViews.add(SingleChildScrollView(
-      child: Html(
-        data: recipe.ingredients,
+      child: Text(
+        recipe.ingredients,
       ),
     ));
     tabViews.add(SingleChildScrollView(
-      child: Html(
-        data: recipe.method,
+      child: Text(
+        recipe.method,
       ),
     ));
     tabViews.add(SingleChildScrollView(
-      child: Html(
-        data: recipe.tips,
+      child: Text(
+        recipe.tips,
       ),
     ));
     return tabViews;
