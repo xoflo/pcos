@@ -45,7 +45,7 @@ class WebServices {
 
   //#region Authentication
   Future<Token> signIn(final String emailAddress, final String password) async {
-    final url = _baseUrl + "Token";
+    final url = Uri.parse(_baseUrl + "Token");
     final response = await http.post(
       url,
       headers: <String, String>{
@@ -73,7 +73,7 @@ class WebServices {
   }
 
   Future<Token> refreshToken() async {
-    final url = _baseUrl + "Token/refresh";
+    final url = Uri.parse(_baseUrl + "Token/refresh");
     final String refreshToken =
         await AuthenticationController().getRefreshToken();
     final response = await http.post(
@@ -93,7 +93,7 @@ class WebServices {
   }
 
   Future<bool> forgotPassword(final String emailAddress) async {
-    final url = _baseUrl + "account_services/forgot_password";
+    final url = Uri.parse(_baseUrl + "account_services/forgot_password");
 
     final response = await http.post(
       url,
@@ -119,7 +119,7 @@ class WebServices {
 
   //#region Member
   Future<Member> getMemberDetails() async {
-    final url = _baseUrl + "Member/me";
+    final url = Uri.parse(_baseUrl + "Member/me");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -137,7 +137,7 @@ class WebServices {
   }
 
   Future<bool> updateMemberDetails(final String encodedMemberDetails) async {
-    final url = _baseUrl + "account_services/update_profile";
+    final url = Uri.parse(_baseUrl + "account_services/update_profile");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.post(
@@ -158,7 +158,7 @@ class WebServices {
 
   Future<bool> resetPassword(
       final String usernameOrEmail, final String newPassword) async {
-    final url = _baseUrl + "account_services/reset_password";
+    final url = Uri.parse(_baseUrl + "account_services/reset_password");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.post(
@@ -194,7 +194,7 @@ class WebServices {
 
   //#region Course
   Future<List<ModuleExport>> getModulesExport() async {
-    final url = _baseUrl + "Module/export";
+    final url = Uri.parse(_baseUrl + "Module/export");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -213,7 +213,7 @@ class WebServices {
   }
 
   Future<List<Module>> getAllModules() async {
-    final url = _baseUrl + "Module/all";
+    final url = Uri.parse(_baseUrl + "Module/all");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -231,7 +231,7 @@ class WebServices {
   }
 
   Future<List<Module>> getIncompleteModules() async {
-    final url = _baseUrl + "Module/incomplete";
+    final url = Uri.parse(_baseUrl + "Module/incomplete");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -249,7 +249,7 @@ class WebServices {
   }
 
   Future<List<Module>> getCompleteModules() async {
-    final url = _baseUrl + "Module/complete";
+    final url = Uri.parse(_baseUrl + "Module/complete");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -268,7 +268,7 @@ class WebServices {
   }
 
   Future<bool> setModuleComplete(final int moduleId) async {
-    final url = _baseUrl + "Module/set-completed";
+    final url = Uri.parse(_baseUrl + "Module/set-completed");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.post(
@@ -289,7 +289,7 @@ class WebServices {
   }
 
   Future<DateTime> setLessonComplete(final int lessonId) async {
-    final url = _baseUrl + "Lesson/set-completed";
+    final url = Uri.parse(_baseUrl + "Lesson/set-completed");
     final String token = await AuthenticationController().getAccessToken();
 
     //get next midnight, in UTC
@@ -318,7 +318,7 @@ class WebServices {
   }
 
   Future<bool> setTaskComplete(final int taskId, final String value) async {
-    final url = _baseUrl + "Task/set-completed/$taskId";
+    final url = Uri.parse(_baseUrl + "Task/set-completed/$taskId");
     final String token = await AuthenticationController().getAccessToken();
     final response = await http.post(
       url,
@@ -338,7 +338,7 @@ class WebServices {
   }
 
   Future<List<Lesson>> getAllLessonsForModule(final int moduleId) async {
-    final url = _baseUrl + "Lesson/all/$moduleId";
+    final url = Uri.parse(_baseUrl + "Lesson/all/$moduleId");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -357,7 +357,7 @@ class WebServices {
   }
 
   Future<List<LessonTask>> getIncompleteTasks(final int lessonId) async {
-    final url = _baseUrl + "Task/incomplete/$lessonId";
+    final url = Uri.parse(_baseUrl + "Task/incomplete/$lessonId");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -378,7 +378,7 @@ class WebServices {
 
   //#region Recipes
   Future<List<Recipe>> getAllRecipes() async {
-    final url = _baseUrl + "recipe/all";
+    final url = Uri.parse(_baseUrl + "recipe/all");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -399,7 +399,7 @@ class WebServices {
 
   //#region CMS
   Future<String> getCmsAssetByReference(final String reference) async {
-    final url = _baseUrl + "CMS/asset/$reference";
+    final url = Uri.parse(_baseUrl + "CMS/asset/$reference");
 
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
@@ -416,7 +416,7 @@ class WebServices {
   }
 
   Future<List<CMS>> getCMSByType(final String cmsType) async {
-    final url = _baseUrl + "CMS/bytype/$cmsType";
+    final url = Uri.parse(_baseUrl + "CMS/bytype/$cmsType");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -437,7 +437,7 @@ class WebServices {
 
   //#region Notifications
   Future<List<Message>> getAllUserNotifications() async {
-    final url = _baseUrl + "notification";
+    final url = Uri.parse(_baseUrl + "notification");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -456,7 +456,7 @@ class WebServices {
   }
 
   Future<bool> markNotificationAsRead(final int notificationId) async {
-    final url = _baseUrl + "notification/read/$notificationId";
+    final url = Uri.parse(_baseUrl + "notification/read/$notificationId");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -473,7 +473,7 @@ class WebServices {
   }
 
   Future<bool> markNotificationAsDeleted(final int notificationId) async {
-    final url = _baseUrl + "notification/remove/$notificationId";
+    final url = Uri.parse(_baseUrl + "notification/remove/$notificationId");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
@@ -495,7 +495,7 @@ class WebServices {
       final String assetType, final int assetId) async {
     final _favouriteType =
         assetType.toLowerCase() == "lesson" ? "L" : assetType;
-    final url = _baseUrl + "Favorite";
+    final url = Uri.parse(_baseUrl + "Favorite");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.post(
@@ -528,7 +528,7 @@ class WebServices {
       final String assetType, final int assetId) async {
     final _favouriteType =
         assetType.toLowerCase() == "lesson" ? "L" : assetType;
-    final url = _baseUrl + "Favorite/$_favouriteType/$assetId";
+    final url = Uri.parse(_baseUrl + "Favorite/$_favouriteType/$assetId");
     final String token = await AuthenticationController().getAccessToken();
 
     final response = await http.delete(url, headers: {
@@ -547,8 +547,8 @@ class WebServices {
 
   //#region App
   Future<bool> checkVersion(final String platform, final String version) async {
-    final url =
-        _baseUrl + "/app_services/min_supported_version/$platform/$version";
+    final url = Uri.parse(
+        _baseUrl + "/app_services/min_supported_version/$platform/$version");
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

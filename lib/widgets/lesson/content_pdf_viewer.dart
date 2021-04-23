@@ -71,7 +71,7 @@ class _ContentPdfViewerState extends State<ContentPdfViewer> {
     var fileUrl = '${widget.pdfStorageUrl}${widget.lessonContent.mediaUrl}';
     try {
       //get the file from the URL
-      var data = await http.get(fileUrl);
+      var data = await http.get(Uri.parse(fileUrl));
       var bytes = data.bodyBytes;
       File file = File(_localPdfPath);
       await file.writeAsBytes(bytes, flush: true);

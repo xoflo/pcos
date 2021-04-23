@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:html/dom.dart' as DOM;
-import 'package:html/dom_parsing.dart';
-import 'package:html/parser.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
@@ -42,13 +40,9 @@ class CourseLessonContent extends StatelessWidget {
 
   Widget _getBody(BuildContext context) {
     if (lessonContent.body.length > 0) {
-      final DOM.Document document = parse(lessonContent.body);
-      debugPrint("HTML = ${document.outerHtml}");
       return Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Text(
-          document.outerHtml,
-        ),
+        child: HtmlWidget(lessonContent.body),
       );
     }
     return Container();
