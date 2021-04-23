@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as DOM;
 import 'package:html/dom_parsing.dart';
@@ -61,12 +62,19 @@ class CourseLessonContent extends StatelessWidget {
         case MediaType.Video:
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: VideoPlayer(
-              screenSize: screenSize,
-              isHorizontal: isHorizontal,
-              storageUrl: _videoStorageUrl,
-              videoName: lessonContent.mediaUrl,
-            ),
+            child: Platform.isIOS
+                ? VideoPlayer(
+                    screenSize: screenSize,
+                    isHorizontal: isHorizontal,
+                    storageUrl: _videoStorageUrl,
+                    videoName: lessonContent.mediaUrl,
+                  )
+                : VideoPlayer(
+                    screenSize: screenSize,
+                    isHorizontal: isHorizontal,
+                    storageUrl: _videoStorageUrl,
+                    videoName: lessonContent.mediaUrl,
+                  ),
           );
         case MediaType.Image:
           return Padding(

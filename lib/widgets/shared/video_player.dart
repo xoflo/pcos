@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:better_player/better_player.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
@@ -34,6 +35,22 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   Future<void> initializePlayer() async {
     final String videoUrl = "${widget.storageUrl}${widget.videoName}";
+    debugPrint("*******VIDEO URL = $videoUrl");
+    List<DeviceOrientation> fullscreenOrientations = [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ];
+    List<DeviceOrientation> normalOrientations = widget.isHorizontal
+        ? [
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+          ]
+        : [DeviceOrientation.portraitUp];
+
     BetterPlayerDataSource betterPlayerDataSource =
         BetterPlayerDataSource(BetterPlayerDataSourceType.network, videoUrl);
 
@@ -56,6 +73,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
       looping: false,
       fullScreenByDefault: false,
       controlsConfiguration: betterPlayerControlsConfiguration,
+      deviceOrientationsOnFullScreen: fullscreenOrientations,
+      deviceOrientationsAfterFullScreen: normalOrientations,
+      fullScreenAspectRatio: 16 / 9,
     );
 
     _betterPlayerController = BetterPlayerController(
@@ -67,6 +87,32 @@ class _VideoPlayerState extends State<VideoPlayer> {
     _betterPlayerController.addEventsListener((event) {
       debugPrint(
           "***************** BETTER PLAY event: ${event.betterPlayerEventType}");
+      if (event.betterPlayerEventType == BetterPlayerEventType.openFullscreen) {
+        debugPrint("************FULL SCREEN OPEN");
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
+      } else if (event.betterPlayerEventType ==
+          BetterPlayerEventType.hideFullscreen) {
+        if (widget.isHorizontal) {
+          debugPrint("************FULL SCREEN CLOSE HORIZONTAL");
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+          ]);
+        } else {
+          debugPrint("************FULL SCREEN CLOSE NOT HORIZONTAL");
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+          ]);
+        }
+      }
+
       if (event.betterPlayerEventType == BetterPlayerEventType.play &&
           !analyticsPlayEventSent) {
         analytics.logEvent(

@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:device_info/device_info.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
@@ -31,6 +34,7 @@ import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
+import 'package:thepcosprotocol_app/utils/device_utils.dart';
 
 class App extends StatefulWidget {
   @override
@@ -54,6 +58,7 @@ class _AppState extends State<App> {
     initializeFlutterFire();
     initializeOneSignal();
     observer = FirebaseAnalyticsObserver(analytics: analytics);
+    setDeviceOrientations();
   }
 
   //initialise Crashlytics for app
@@ -98,6 +103,20 @@ class _AppState extends State<App> {
         iOSSettings: settings);
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
+  }
+
+  void setDeviceOrientations() async {
+    if (Platform.isIOS) {
+      final IosDeviceInfo iosDeviceInfo = await DeviceUtils.iosDeviceInfo();
+      if (!iosDeviceInfo.model.toLowerCase().contains("ipad")) {
+        //this is iOS but not a iPad so DO NOT allow landscape mode all the time
+        //this gets allowed when the video player goes full screen
+        //and converts back after the video goes out of fullscreen mode
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+        ]);
+      }
+    }
   }
 
   @override
