@@ -51,27 +51,27 @@ class FavouritesLessonItem extends StatelessWidget {
               lesson.introduction,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 4.0),
-                child: Text(
-                  S.of(context).favouritesWatchNow,
-                  style: TextStyle(color: secondaryColor),
+          GestureDetector(
+            onTap: () {
+              openFavourite(FavouriteType.Lesson, lesson);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: Text(
+                    S.of(context).favouritesWatchNow,
+                    style: TextStyle(color: secondaryColor),
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  openFavourite(FavouriteType.Lesson, lesson);
-                },
-                child: Icon(
+                Icon(
                   Icons.play_circle_fill,
                   size: 30.0,
                   color: secondaryColor,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 1.0),

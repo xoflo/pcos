@@ -33,6 +33,10 @@ class Member {
       this.dateCreatedUTC});
 
   factory Member.fromJson(Map<String, dynamic> json) {
+    String nextLessonDateString = json['dateNextLessonAvailableUTC'];
+    if (!nextLessonDateString.endsWith("Z")) {
+      nextLessonDateString = "${nextLessonDateString}Z";
+    }
     return Member(
         id: json['id'],
         preRegistrationCode: json['preRegistrationCode'],
@@ -48,7 +52,7 @@ class Member {
         isEmailVerified: json['isEmailVerified'],
         isEnabled: json['isEnabled'],
         dateNextLessonAvailableLocal:
-            DateTime.parse(json['dateNextLessonAvailableUTC']).toLocal(),
+            DateTime.parse(nextLessonDateString).toLocal(),
         dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']));
   }
 }
