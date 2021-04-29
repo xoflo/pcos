@@ -1725,10 +1725,10 @@ class S {
     );
   }
 
-  /// `Warning - Please ensure you have enough data to stream videos in the app.`
+  /// `Warning - Please ensure you have enough data to stream videos.`
   String get dataUsageWarningText {
     return Intl.message(
-      'Warning - Please ensure you have enough data to stream videos in the app.',
+      'Warning - Please ensure you have enough data to stream videos.',
       name: 'dataUsageWarningText',
       desc: '',
       args: [],

@@ -160,6 +160,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   void _openPreviousModules(
       final BuildContext context, final ModulesProvider modulesProvider) {
+    analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_PREVIOUS_MODULES);
     Navigator.pushNamed(context, PreviousModules.id,
         arguments: PreviousModulesArguments(modulesProvider));
   }

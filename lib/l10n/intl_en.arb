@@ -169,7 +169,7 @@
     "requestNotificationPermissionTitle": "Notifications",
     "requestNotificationPermissionText": "To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?",
     "dataUsageWarningTitle": "Data Usage",
-    "dataUsageWarningText": "Warning - Please ensure you have enough data to stream videos in the app.",
+    "dataUsageWarningText": "Warning - Please ensure you have enough data to stream videos.",
     "coachChatFailedTitle": "Coach Chat",
     "coachChatFailedText": "We couldn't open the Coach Chat right now, please try again later.",
     "moduleText": "Module",
