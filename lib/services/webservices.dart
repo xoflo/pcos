@@ -309,9 +309,12 @@ class WebServices {
     );
 
     if (response.statusCode == 200) {
-      final String responseDate =
+      String nextLessonDateString =
           LessonCompleteResponse.fromJson(jsonDecode(response.body)).payload;
-      return DateTime.parse(responseDate).toLocal();
+      if (!nextLessonDateString.endsWith("Z")) {
+        nextLessonDateString = "${nextLessonDateString}Z";
+      }
+      return DateTime.parse(nextLessonDateString).toLocal();
     } else {
       throw SET_LESSON_COMPLETE_FAILED;
     }
