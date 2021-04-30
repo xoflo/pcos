@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
@@ -20,7 +20,7 @@ void showFlushBar(final BuildContext scaffoldContext, final String title,
   Flushbar(
     margin: EdgeInsets.all(10),
     padding: EdgeInsets.all(10),
-    borderRadius: 8,
+    borderRadius: BorderRadius.circular(5),
     icon: Icon(
       icon,
       color: primaryColor,

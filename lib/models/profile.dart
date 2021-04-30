@@ -4,6 +4,8 @@ class Profile {
   final String lastName;
   final String alias;
   final String email;
+  final String pcosType;
+  final String whatsMyWhy;
   final String countryID;
   final bool isAdmin;
   final DateTime dateCreatedUTC;
@@ -14,6 +16,8 @@ class Profile {
       this.lastName,
       this.alias,
       this.email,
+      this.pcosType,
+      this.whatsMyWhy,
       this.countryID,
       this.isAdmin,
       this.dateCreatedUTC});
@@ -25,6 +29,8 @@ class Profile {
         lastName: json['lastName'],
         alias: json['alias'],
         email: json['email'],
+        pcosType: json['pcosType'],
+        whatsMyWhy: json['whatsMyWhy'],
         countryID: json['countryID'],
         isAdmin: json['isAdmin'],
         dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']));

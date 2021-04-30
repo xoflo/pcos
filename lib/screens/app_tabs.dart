@@ -78,14 +78,16 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     //get the value for showYourWhy, and then pass down to the course screen
     final bool isYourWhyOn = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
-
-    final bool oneSignalUserIdSet = await PreferencesController()
-        .getBool(SharedPreferencesKeys.ONE_SIGNAL_EXTERNAL_USER_ID_SET);
-    //register external userId with OneSignal if not done before on this device
-    if (!oneSignalUserIdSet) {
-      OneSignal.shared.setExternalUserId(userId);
-      await PreferencesController().saveBool(
-          SharedPreferencesKeys.ONE_SIGNAL_EXTERNAL_USER_ID_SET, true);
+    final bool oneSignalDataSent = await PreferencesController()
+        .getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
+    //register external userId and pcos_type (as tag) with OneSignal if not done before on this device
+    if (!oneSignalDataSent) {
+      await OneSignal.shared.setExternalUserId(userId);
+      final String pcosType = await PreferencesController()
+          .getString(SharedPreferencesKeys.PCOS_TYPE);
+      await OneSignal.shared.sendTag("pcos_type", pcosType);
+      await PreferencesController()
+          .saveBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT, true);
     }
 
     setState(() {
@@ -266,6 +268,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
               ? MainScreens(
                   currentIndex: _currentIndex,
                   showYourWhy: _showYourWhy,
+                  updateYourWhy: _updateYourWhy,
                 )
               : WillPopScope(
                   onWillPop: () {
@@ -274,6 +277,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
                   child: MainScreens(
                     currentIndex: _currentIndex,
                     showYourWhy: _showYourWhy,
+                    updateYourWhy: _updateYourWhy,
                   ),
                 ),
         ),

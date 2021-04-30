@@ -1,4 +1,8 @@
 PODS:
+  - better_player (0.0.1):
+    - Flutter
+    - KTVHTTPCache (~> 2.0.0)
+  - CocoaAsyncSocket (7.6.5)
   - connectivity (0.0.1):
     - Flutter
     - Reachability
@@ -97,6 +101,10 @@ PODS:
   - "intercom_flutter (2.2.0+1)":
     - Flutter
     - Intercom (~> 7.1.0)
+  - KTVCocoaHTTPServer (1.0.0):
+    - CocoaAsyncSocket
+  - KTVHTTPCache (2.0.1):
+    - KTVCocoaHTTPServer
   - launch_review (0.0.1):
     - Flutter
   - nanopb (2.30906.0):
@@ -104,6 +112,8 @@ PODS:
     - nanopb/encode (= 2.30906.0)
   - nanopb/decode (2.30906.0)
   - nanopb/encode (2.30906.0)
+  - native_pdf_renderer (1.2.0):
+    - Flutter
   - notification_permissions (0.4.4):
     - Flutter
   - OneSignal (2.15.2)
@@ -131,6 +141,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - better_player (from `.symlinks/plugins/better_player/ios`)
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -143,6 +154,7 @@ DEPENDENCIES:
   - health (from `.symlinks/plugins/health/ios`)
   - intercom_flutter (from `.symlinks/plugins/intercom_flutter/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
+  - native_pdf_renderer (from `.symlinks/plugins/native_pdf_renderer/ios`)
   - notification_permissions (from `.symlinks/plugins/notification_permissions/ios`)
   - OneSignal (< 3.0, >= 2.9.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
@@ -157,6 +169,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - CocoaAsyncSocket
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -168,12 +181,16 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - Intercom
+    - KTVCocoaHTTPServer
+    - KTVHTTPCache
     - nanopb
     - OneSignal
     - PromisesObjC
     - Reachability
 
 EXTERNAL SOURCES:
+  better_player:
+    :path: ".symlinks/plugins/better_player/ios"
   connectivity:
     :path: ".symlinks/plugins/connectivity/ios"
   device_info:
@@ -198,6 +215,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/intercom_flutter/ios"
   launch_review:
     :path: ".symlinks/plugins/launch_review/ios"
+  native_pdf_renderer:
+    :path: ".symlinks/plugins/native_pdf_renderer/ios"
   notification_permissions:
     :path: ".symlinks/plugins/notification_permissions/ios"
   onesignal_flutter:
@@ -220,6 +239,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  better_player: a4383402f457e53720525888c0fc5d337ef6ba11
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
@@ -242,8 +263,11 @@ SPEC CHECKSUMS:
   health: 44840ad4328aa5586e77bef289898bfed644a81c
   Intercom: e44b10bbc38ccf6494c76f9bee4e2e3d7d007153
   intercom_flutter: 8b168f7cad88366708aa1972a395e6195205fc3a
+  KTVCocoaHTTPServer: df8d7b861e603ff8037e9b2138aca2563a6b768d
+  KTVHTTPCache: 588c3eb16f6bd1e6fde1e230dabfb7bd4e490a4d
   launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
+  native_pdf_renderer: 0e545bf94fb341e0fe7508bf72d4c1c42c30aa02
   notification_permissions: b74860c2967c1579243a675e63cd55e0ae75cef7
   OneSignal: 9531e385388565f4d31797ddadbe0fcc786430ec
   onesignal_flutter: b4412973eac419ccce07363e43e0d6057c583a96
@@ -255,8 +279,8 @@ SPEC CHECKSUMS:
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
-  wakelock: bfc7955c418d0db797614075aabbc58a39ab5107
-  webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
+  wakelock: b0843b2479edbf6504d8d262c2959446f35373aa
+  webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
 
 PODFILE CHECKSUM: e7ca51dffe1e8ed3a318c707aca030e833247791
 

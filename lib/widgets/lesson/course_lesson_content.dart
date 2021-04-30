@@ -1,11 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/video_player_chewie.dart';
+import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/content_pdf_viewer.dart';
 
 class CourseLessonContent extends StatelessWidget {
   final LessonContent lessonContent;
@@ -40,9 +42,7 @@ class CourseLessonContent extends StatelessWidget {
     if (lessonContent.body.length > 0) {
       return Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Html(
-          data: lessonContent.body,
-        ),
+        child: HtmlWidget(lessonContent.body),
       );
     }
     return Container();
@@ -56,11 +56,19 @@ class CourseLessonContent extends StatelessWidget {
         case MediaType.Video:
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: VideoPlayerChewie(
-              screenSize: screenSize,
-              isHorizontal: isHorizontal,
-              videoUrl: "$_videoStorageUrl${lessonContent.mediaUrl}",
-            ),
+            child: Platform.isIOS
+                ? VideoPlayer(
+                    screenSize: screenSize,
+                    isHorizontal: isHorizontal,
+                    storageUrl: _videoStorageUrl,
+                    videoName: lessonContent.mediaUrl,
+                  )
+                : VideoPlayer(
+                    screenSize: screenSize,
+                    isHorizontal: isHorizontal,
+                    storageUrl: _videoStorageUrl,
+                    videoName: lessonContent.mediaUrl,
+                  ),
           );
         case MediaType.Image:
           return Padding(
@@ -72,6 +80,16 @@ class CourseLessonContent extends StatelessWidget {
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
               height: 220,
+            ),
+          );
+        case MediaType.Pdf:
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: ContentPdfViewer(
+              lessonContent: lessonContent,
+              screenSize: screenSize,
+              isHorizontal: isHorizontal,
+              pdfStorageUrl: FlavorConfig.instance.values.pdfStorageUrl,
             ),
           );
       }

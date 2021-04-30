@@ -2,28 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/task_card.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 
 class Tasks extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final ModulesProvider modulesProvider;
+  final Function(String) updateWhatsYourWhy;
 
   Tasks({
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.modulesProvider,
+    @required this.updateWhatsYourWhy,
   });
 
   @override
   _TasksState createState() => _TasksState();
 }
 
-class _TasksState extends State<Tasks> with TickerProviderStateMixin {
+class _TasksState extends State<Tasks> {
   double _height = 240.0;
   bool _showSlider = true;
   Color _containerColor = Colors.white;
 
-  void _onSubmit(final int taskID, final String value) async {
+  void _onSubmit(
+      final int taskID, final String value, final bool isYourWhy) async {
     final bool playAnimation =
         widget.modulesProvider.displayLessonTasks.length == 1;
     if (playAnimation) {
@@ -38,6 +44,18 @@ class _TasksState extends State<Tasks> with TickerProviderStateMixin {
     }
     await Future.delayed(const Duration(milliseconds: 750), () {});
     widget.modulesProvider.setTaskAsComplete(taskID, value);
+    //if this is the whats your why and it hasn't already been set, set it now locally
+    //backend updates the member whats your why automatically based on MetaName of the LessonTask
+    final String whatsYourWhy = await PreferencesController()
+        .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+    if (whatsYourWhy.length == 0 && isYourWhy) {
+      //save to local storage
+      await PreferencesController()
+          .saveString(SharedPreferencesKeys.WHATS_YOUR_WHY, value);
+      await PreferencesController()
+          .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, true);
+      widget.updateWhatsYourWhy(value);
+    }
   }
 
   @override

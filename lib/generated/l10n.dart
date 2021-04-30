@@ -1725,10 +1725,10 @@ class S {
     );
   }
 
-  /// `Warning - Please ensure you have enough data to stream videos in the app.`
+  /// `Warning - Please ensure you have enough data to stream videos.`
   String get dataUsageWarningText {
     return Intl.message(
-      'Warning - Please ensure you have enough data to stream videos in the app.',
+      'Warning - Please ensure you have enough data to stream videos.',
       name: 'dataUsageWarningText',
       desc: '',
       args: [],
@@ -1850,6 +1850,36 @@ class S {
     return Intl.message(
       'Please make a selection above',
       name: 'boolTaskValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your why:`
+  String get yourWhyTitle {
+    return Intl.message(
+      'Your why:',
+      name: 'yourWhyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What's your why`
+  String get yourWhyWarningTitle {
+    return Intl.message(
+      'What\'s your why',
+      name: 'yourWhyWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This can only be enabled after the first module has been completed.`
+  String get yourWhyWarningText {
+    return Intl.message(
+      'This can only be enabled after the first module has been completed.',
+      name: 'yourWhyWarningText',
       desc: '',
       args: [],
     );

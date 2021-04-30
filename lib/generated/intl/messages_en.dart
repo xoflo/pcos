@@ -49,7 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dailyReminderText" : MessageLookupByLibrary.simpleMessage("Don\'t forget to check your latest lesson or view your progress so far."),
     "dailyReminderTitle" : MessageLookupByLibrary.simpleMessage("Your Daily Reminder"),
     "dashboardTitle" : MessageLookupByLibrary.simpleMessage("Your Course"),
-    "dataUsageWarningText" : MessageLookupByLibrary.simpleMessage("Warning - Please ensure you have enough data to stream videos in the app."),
+    "dataUsageWarningText" : MessageLookupByLibrary.simpleMessage("Warning - Please ensure you have enough data to stream videos."),
     "dataUsageWarningTitle" : MessageLookupByLibrary.simpleMessage("Data Usage"),
     "deleteMessageText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to delete this message?"),
     "deleteMessageTitle" : MessageLookupByLibrary.simpleMessage("Delete message"),
@@ -202,6 +202,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "versionText2" : MessageLookupByLibrary.simpleMessage("Please visit the app store to upgrade your app version."),
     "viewNow" : MessageLookupByLibrary.simpleMessage("Open"),
     "viewPreviousModules" : MessageLookupByLibrary.simpleMessage("View previous modules"),
-    "yesText" : MessageLookupByLibrary.simpleMessage("Yes")
+    "yesText" : MessageLookupByLibrary.simpleMessage("Yes"),
+    "yourWhyTitle" : MessageLookupByLibrary.simpleMessage("Your why:"),
+    "yourWhyWarningText" : MessageLookupByLibrary.simpleMessage("This can only be enabled after the first module has been completed."),
+    "yourWhyWarningTitle" : MessageLookupByLibrary.simpleMessage("What\'s your why")
   };
 }
