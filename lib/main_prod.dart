@@ -15,15 +15,15 @@ Future<void> main() async {
     flavor: Flavor.PROD,
     color: Colors.blue,
     values: FlavorValues(
-      baseUrl: "",
+      baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
-      questionnaireUrl: "https://www.thepcosnutritionist.com/",
+      questionnaireUrl: "https://questionaire.thepcosnutritionist.com/",
       imageStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617670686/images/",
+          "https://res.cloudinary.com/dbee2ldxn/image/upload/v1619051729/images/",
       thumbnailStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617676121/thumbnails/",
+          "https://res.cloudinary.com/dbee2ldxn/image/upload/v1619051792/thumbnails/",
       videoStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/",
+          "https://res.cloudinary.com/dbee2ldxn/video/upload/v1613597581/videos/",
       pdfStorageUrl:
           "https://pcosprotocolstorage.blob.core.windows.net/media/pdf",
       intercomIds: [

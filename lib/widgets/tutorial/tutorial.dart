@@ -91,7 +91,7 @@ class _TutorialState extends State<Tutorial> {
     return Padding(
       padding: const EdgeInsets.only(top: 30.0),
       child: SizedBox.expand(
-        child: SingleChildScrollView(
+        child: Container(
           child: !_tutorialInitialised
               ? Padding(
                   padding: const EdgeInsets.only(top: 100.0),

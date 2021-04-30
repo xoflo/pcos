@@ -16,18 +16,22 @@ const String ANALYTICS_EVENT_SEARCH = "search";
 const String ANALYTICS_EVENT_CHANGETAB = "change_tab";
 const String ANALYTICS_EVENT_INTERCOM_INIT_FAILED = "intercom_init_failed";
 const String ANALYTICS_EVENT_DAILY_REMINDER = "daily_reminder";
+const String ANALYTICS_VIDEO_PLAY = "video_play";
+const String ANALYTICS_VIDEO_FULLSCREEN = "video_fullscreen";
 
 //PARAMETERS
 const String ANALYTICS_PARAMETER_BUTTON = "button";
 const String ANALYTICS_PARAMETER_SEARCH_TYPE = "search_type";
 const String ANALYTICS_PARAMETER_DIALOG_TITLE = "dialog_title";
 const String ANALYTICS_PARAMETER_FLUSHBAR_TITLE = "flushbar_title";
+const String ANALYTICS_PARAMETER_VIDEO_NAME = "video_name";
 
 //SCREENS
 const String ANALYTICS_SCREEN_LESSON = "lesson";
 const String ANALYTICS_SCREEN_RECIPE_DETAIL = "recipe_detail";
 const String ANALYTICS_SCREEN_TUTORIAL = "tutorial";
 const String ANALYTICS_SCREEN_COACH_CHAT = "coach_chat";
+const String ANALYTICS_SCREEN_PREVIOUS_MODULES = "previous_modules";
 
 //SEARCH TYPES
 const String ANALYTICS_SEARCH_RECIPE = "recipe";

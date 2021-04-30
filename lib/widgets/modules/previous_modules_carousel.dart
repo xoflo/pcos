@@ -24,7 +24,6 @@ class PreviousModulesCarousel extends StatelessWidget {
     @required this.openLesson,
   });
 
-  //TODO: change moduleNumber to module orderNumber
   @override
   Widget build(BuildContext context) {
     return Container(
