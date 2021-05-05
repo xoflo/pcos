@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/widgets/shared/carousel_pager.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/welcome_page.dart';
 
@@ -19,7 +19,6 @@ class Tutorial extends StatefulWidget {
 }
 
 class _TutorialState extends State<Tutorial> {
-  //final CarouselController _carouselController = CarouselController();
   bool _tutorialInitialised = false;
   List<Widget> _tutorialPages = [];
   int _currentPage = 0;
@@ -46,41 +45,6 @@ class _TutorialState extends State<Tutorial> {
       _tutorialPages.addAll(pages);
       _tutorialInitialised = true;
     });
-  }
-
-  Widget _getCarouselPager(final BuildContext context, final int totalPages) {
-    List<Widget> circleList = [];
-    for (var i = 0; i < totalPages; i++) {
-      circleList.add(
-        _drawCircle(
-          i == _currentPage ? primaryColor : Colors.white,
-          i == _currentPage ? 14 : 10,
-        ),
-      );
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: circleList,
-    );
-  }
-
-  Widget _drawCircle(final Color color, final double size) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 8.0,
-        right: 8.0,
-        top: 6.0,
-        bottom: 2.0,
-      ),
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: CircleAvatar(
-          backgroundColor: color,
-        ),
-      ),
-    );
   }
 
   @override
@@ -132,7 +96,11 @@ class _TutorialState extends State<Tutorial> {
                         );
                       }).toList(),
                     ),
-                    _getCarouselPager(context, totalPages),
+                    CarouselPager(
+                      totalPages: totalPages,
+                      currentPage: _currentPage,
+                      bottomPadding: 2.0,
+                    ),
                     ColorButton(
                       isUpdating: false,
                       label: "Close",

@@ -264,6 +264,7 @@ class PinUnlockState extends State<PinUnlock> {
                 child: HeaderImage(
                   screenSize: screenSize,
                   isOrange: false,
+                  verticalTopPadding: 80,
                 ),
               ),
               PinPad(

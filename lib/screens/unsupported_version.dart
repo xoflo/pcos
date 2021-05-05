@@ -38,6 +38,7 @@ class UnsupportedVersion extends StatelessWidget {
               HeaderImage(
                 screenSize: screenSize,
                 isOrange: false,
+                verticalTopPadding: 80,
               ),
               SizedBox(height: 10.0),
               Text(

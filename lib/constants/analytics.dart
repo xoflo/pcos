@@ -9,6 +9,8 @@ const String ANALYTICS_EVENT_LOGIN = "login";
 const String ANALYTICS_EVENT_SIGN_UP = "sign_up";
 const String ANALYTICS_EVENT_TUTORIAL_BEGIN = "tutorial_begin";
 const String ANALYTICS_EVENT_TUTORIAL_COMPLETE = "tutorial_complete";
+const String ANALYTICS_EVENT_LESSON_COMPLETE = "lesson_complete";
+const String ANALYTICS_EVENT_LESSON_PAGE = "lesson_page";
 const String ANALYTICS_EVENT_FLUSHBAR = "flushbar";
 const String ANALYTICS_EVENT_OPENDIALOG = "open_dialog";
 const String ANALYTICS_EVENT_BUTTONCLICK = "button_click";
@@ -25,6 +27,7 @@ const String ANALYTICS_PARAMETER_SEARCH_TYPE = "search_type";
 const String ANALYTICS_PARAMETER_DIALOG_TITLE = "dialog_title";
 const String ANALYTICS_PARAMETER_FLUSHBAR_TITLE = "flushbar_title";
 const String ANALYTICS_PARAMETER_VIDEO_NAME = "video_name";
+const String ANALYTICS_PARAMETER_LESSON_PAGE_NUMBER = "lesson_page_number";
 
 //SCREENS
 const String ANALYTICS_SCREEN_LESSON = "lesson";
