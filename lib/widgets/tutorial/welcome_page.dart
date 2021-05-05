@@ -17,15 +17,20 @@ class TutorialWelcomePage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                "Welcome to",
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              HeaderImage(
-                screenSize: screenSize,
-                isOrange: true,
+              Column(
+                children: [
+                  Text(
+                    "Welcome to",
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                  HeaderImage(
+                    screenSize: screenSize,
+                    isOrange: true,
+                    verticalTopPadding: 20,
+                  ),
+                ],
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: textPadding),

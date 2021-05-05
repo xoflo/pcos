@@ -26,6 +26,7 @@ class RegisterLayout extends StatelessWidget {
               HeaderImage(
                 screenSize: screenSize,
                 isOrange: false,
+                verticalTopPadding: 80,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -58,6 +59,7 @@ class RegisterLayout extends StatelessWidget {
                 HeaderImage(
                   screenSize: screenSize,
                   isOrange: false,
+                  verticalTopPadding: 80,
                 ),
                 SizedBox(
                   height: 360,

@@ -13,11 +13,13 @@ class CourseLessonContent extends StatelessWidget {
   final LessonContent lessonContent;
   final Size screenSize;
   final bool isHorizontal;
+  final double tabBarHeight;
 
   CourseLessonContent({
     @required this.lessonContent,
     @required this.screenSize,
     @required this.isHorizontal,
+    @required this.tabBarHeight,
   });
 
   final String _videoStorageUrl = FlavorConfig.instance.values.videoStorageUrl;
@@ -99,12 +101,17 @@ class CourseLessonContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _getTitle(context),
-        _getBody(context),
-        _getMedia(context),
-      ],
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: tabBarHeight - 51,
+        child: Column(
+          children: [
+            _getTitle(context),
+            _getBody(context),
+            _getMedia(context),
+          ],
+        ),
+      ),
     );
   }
 }
