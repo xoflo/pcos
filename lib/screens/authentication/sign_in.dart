@@ -151,6 +151,7 @@ class _SignInState extends State<SignIn> {
                   HeaderImage(
                     screenSize: screenSize,
                     isOrange: false,
+                    verticalTopPadding: 80,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -186,6 +187,7 @@ class _SignInState extends State<SignIn> {
                     HeaderImage(
                       screenSize: screenSize,
                       isOrange: false,
+                      verticalTopPadding: 80,
                     ),
                     SizedBox(
                       height: 360.0,

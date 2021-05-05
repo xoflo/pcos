@@ -149,6 +149,7 @@ class _PinSetState extends State<PinSet> {
                   HeaderImage(
                     screenSize: screenSize,
                     isOrange: false,
+                    verticalTopPadding: 80,
                   ),
                   SizedBox(height: 10.0),
                   PinPad(

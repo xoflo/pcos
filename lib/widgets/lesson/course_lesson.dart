@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -10,6 +11,9 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/widgets/shared/carousel_pager.dart';
 
 class CourseLesson extends StatefulWidget {
   final ModulesProvider modulesProvider;
@@ -34,6 +38,8 @@ class _CourseLessonState extends State<CourseLesson> {
   List<LessonContent> _lessonContent;
   bool _isLoading = true;
   bool _displayDataWarning = false;
+  int _currentPage = 0;
+  bool _lessonComplete = false;
 
   @override
   void initState() {
@@ -128,19 +134,97 @@ class _CourseLessonState extends State<CourseLesson> {
     );
   }
 
-  Widget _getLessonContent(final BuildContext context, final Size screenSize,
-      final bool isHorizontal) {
+  Widget _getLessonContentInColumn(
+    final BuildContext context,
+    final Size screenSize,
+    final bool isHorizontal,
+    final double tabBarHeight,
+  ) {
     if (_isLoading) {
       return PcosLoadingSpinner();
     } else {
+      analytics.logEvent(name: Analytics.ANALYTICS_EVENT_LESSON_COMPLETE);
       return Column(
         children: _lessonContent.map((LessonContent content) {
           return CourseLessonContent(
             lessonContent: content,
             screenSize: screenSize,
             isHorizontal: isHorizontal,
+            tabBarHeight: tabBarHeight,
           );
         }).toList(),
+      );
+    }
+  }
+
+  Widget _getLessonContentInCarousel(
+    final BuildContext context,
+    final Size screenSize,
+    final bool isHorizontal,
+    final double tabBarHeight,
+  ) {
+    final int totalPages = _lessonContent.length;
+    if (_isLoading) {
+      return PcosLoadingSpinner();
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          CarouselSlider(
+            options: CarouselOptions(
+              height: tabBarHeight - 77,
+              enableInfiniteScroll: false,
+              viewportFraction: 1,
+              onPageChanged: (index, reason) {
+                final int pageNumber = index + 1;
+                //log which page is being read
+                analytics.logEvent(
+                  name: Analytics.ANALYTICS_EVENT_LESSON_PAGE,
+                  parameters: {
+                    Analytics.ANALYTICS_PARAMETER_LESSON_PAGE_NUMBER:
+                        "$pageNumber/$totalPages"
+                  },
+                );
+                bool isLessonComplete = false;
+                if (index == totalPages - 1 && !_lessonComplete) {
+                  //log lesson complete to analytics
+                  analytics.logEvent(
+                      name: Analytics.ANALYTICS_EVENT_LESSON_COMPLETE);
+                  isLessonComplete = true;
+                  //NB: if necessary could set lesson to complete when they goto the last page here, would also need to set for if only 1 page
+                }
+                setState(() {
+                  _currentPage = index;
+                  _lessonComplete = isLessonComplete;
+                });
+              },
+            ),
+            items: _lessonContent.map((LessonContent content) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: 0),
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: CourseLessonContent(
+                      lessonContent: content,
+                      screenSize: screenSize,
+                      isHorizontal: isHorizontal,
+                      tabBarHeight: tabBarHeight + 177,
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          ),
+          Container(
+            color: backgroundColor,
+            child: CarouselPager(
+                totalPages: totalPages,
+                currentPage: _currentPage,
+                bottomPadding: 6.0),
+          ),
+        ],
       );
     }
   }
@@ -154,26 +238,29 @@ class _CourseLessonState extends State<CourseLesson> {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+    final double tabBarHeight = _getTabBarHeight(context);
     return Container(
-      height: _getTabBarHeight(context),
+      height: tabBarHeight,
       decoration: BoxDecoration(color: Colors.white),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            DialogHeader(
-              screenSize: screenSize,
-              item: widget.lesson,
-              favouriteType: FavouriteType.Lesson,
-              title: widget.lesson.title,
-              isFavourite: widget.lesson.isFavorite,
-              closeItem: widget.closeLesson,
-              addToFavourites: _addToFavourites,
-            ),
-            _getDataUsageWarning(context, screenSize),
-            _getLessonContent(context, screenSize, isHorizontal),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          DialogHeader(
+            screenSize: screenSize,
+            item: widget.lesson,
+            favouriteType: FavouriteType.Lesson,
+            title: widget.lesson.title,
+            isFavourite: widget.lesson.isFavorite,
+            closeItem: widget.closeLesson,
+            addToFavourites: _addToFavourites,
+          ),
+          _getDataUsageWarning(context, screenSize),
+          _lessonContent.length == 1
+              ? _getLessonContentInColumn(
+                  context, screenSize, isHorizontal, tabBarHeight)
+              : _getLessonContentInCarousel(
+                  context, screenSize, isHorizontal, tabBarHeight),
+        ],
       ),
     );
   }

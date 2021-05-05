@@ -4,8 +4,13 @@ import 'package:thepcosprotocol_app/utils/device_utils.dart';
 class HeaderImage extends StatelessWidget {
   final Size screenSize;
   final bool isOrange;
+  final double verticalTopPadding;
 
-  HeaderImage({this.screenSize, this.isOrange});
+  HeaderImage({
+    @required this.screenSize,
+    @required this.isOrange,
+    @required this.verticalTopPadding,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +33,8 @@ class HeaderImage extends StatelessWidget {
       if (screenSize.width > 700) {
         //ipad vertical
         return Padding(
-          padding: const EdgeInsets.only(
-            top: 80.0,
+          padding: EdgeInsets.only(
+            top: verticalTopPadding,
             bottom: 20,
           ),
           child: Image(
