@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:package_info/package_info.dart';
@@ -190,7 +191,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: footerStyle,
             ),
           ),
-          FlavorConfig.isDev() || 1 == 1
+          FlavorConfig.isDev() || !Foundation.kReleaseMode
               ? ListTile(
                   title: Text(
                     "Reset Data Cache",
