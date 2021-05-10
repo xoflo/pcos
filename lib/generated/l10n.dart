@@ -1535,10 +1535,10 @@ class S {
     );
   }
 
-  /// `Watch now`
+  /// `View now`
   String get favouritesWatchNow {
     return Intl.message(
-      'Watch now',
+      'View now',
       name: 'favouritesWatchNow',
       desc: '',
       args: [],

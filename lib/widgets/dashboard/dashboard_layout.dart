@@ -247,13 +247,17 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.empty:
         return NoResults(message: S.of(context).noResultsLessons);
       case LoadingStatus.success:
+        final bool showPreviousModule = modulesProvider.previousModules == null
+            ? false
+            : modulesProvider.previousModules.length > 0
+                ? true
+                : false;
         return CurrentModule(
           selectedLesson: _selectedLessonIndex,
           screenSize: screenSize,
           isHorizontal: isHorizontal,
           modulesProvider: modulesProvider,
-          showPreviousModule:
-              modulesProvider.previousModules.length > 0 ? true : false,
+          showPreviousModule: showPreviousModule,
           openLesson: _openLesson,
           openPreviousModules: _openPreviousModules,
           onLessonChanged: _onLessonChanged,
@@ -269,7 +273,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   ) {
     switch (modulesProvider.status) {
       case LoadingStatus.success:
-        return modulesProvider.displayLessonTasks.length > 0
+        return modulesProvider.displayLessonTasks != null &&
+                modulesProvider.displayLessonTasks.length > 0
             ? Tasks(
                 screenSize: screenSize,
                 isHorizontal: isHorizontal,

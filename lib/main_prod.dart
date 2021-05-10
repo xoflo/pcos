@@ -22,8 +22,8 @@ Future<void> main() async {
           "https://res.cloudinary.com/dbee2ldxn/image/upload/v1619051729/images/",
       thumbnailStorageUrl:
           "https://res.cloudinary.com/dbee2ldxn/image/upload/v1619051792/thumbnails/",
-      videoStorageUrl:
-          "https://res.cloudinary.com/dbee2ldxn/video/upload/v1613597581/videos/",
+      videoStorageUrl: "https://",
+      //"https://res.cloudinary.com/dbee2ldxn/video/upload/v1613597581/videos/",
       pdfStorageUrl:
           "https://pcosprotocolstorage.blob.core.windows.net/media/pdf",
       intercomIds: [

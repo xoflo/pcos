@@ -28,11 +28,10 @@ class CourseLessonContent extends StatelessWidget {
   Widget _getTitle(BuildContext context) {
     if (lessonContent.title.length > 0) {
       return Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           lessonContent.title,
-          style:
-              Theme.of(context).textTheme.headline6.copyWith(color: textColor),
+          style: Theme.of(context).textTheme.headline4,
           textAlign: TextAlign.center,
         ),
       );
@@ -43,7 +42,7 @@ class CourseLessonContent extends StatelessWidget {
   Widget _getBody(BuildContext context) {
     if (lessonContent.body.length > 0) {
       return Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(8.0),
         child: HtmlWidget(lessonContent.body),
       );
     }
@@ -57,7 +56,7 @@ class CourseLessonContent extends StatelessWidget {
       switch (lessonContent.mediaMimeType.toLowerCase()) {
         case MediaType.Video:
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: Platform.isIOS
                 ? VideoPlayer(
                     screenSize: screenSize,
@@ -74,7 +73,7 @@ class CourseLessonContent extends StatelessWidget {
           );
         case MediaType.Image:
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: FadeInImage.memoryNetwork(
               alignment: Alignment.center,
               placeholder: kTransparentImage,

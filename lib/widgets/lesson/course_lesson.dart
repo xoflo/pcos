@@ -163,7 +163,7 @@ class _CourseLessonState extends State<CourseLesson> {
     final bool isHorizontal,
     final double tabBarHeight,
   ) {
-    final int totalPages = _lessonContent.length;
+    final int totalPages = _lessonContent == null ? 0 : _lessonContent.length;
     if (_isLoading) {
       return PcosLoadingSpinner();
     } else {
@@ -255,11 +255,13 @@ class _CourseLessonState extends State<CourseLesson> {
             addToFavourites: _addToFavourites,
           ),
           _getDataUsageWarning(context, screenSize),
-          _lessonContent.length == 1
-              ? _getLessonContentInColumn(
-                  context, screenSize, isHorizontal, tabBarHeight)
-              : _getLessonContentInCarousel(
-                  context, screenSize, isHorizontal, tabBarHeight),
+          _lessonContent == null
+              ? Container()
+              : _lessonContent.length == 1
+                  ? _getLessonContentInColumn(
+                      context, screenSize, isHorizontal, tabBarHeight)
+                  : _getLessonContentInCarousel(
+                      context, screenSize, isHorizontal, tabBarHeight),
         ],
       ),
     );
