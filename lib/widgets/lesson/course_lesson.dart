@@ -144,15 +144,21 @@ class _CourseLessonState extends State<CourseLesson> {
       return PcosLoadingSpinner();
     } else {
       analytics.logEvent(name: Analytics.ANALYTICS_EVENT_LESSON_COMPLETE);
-      return Column(
-        children: _lessonContent.map((LessonContent content) {
-          return CourseLessonContent(
-            lessonContent: content,
-            screenSize: screenSize,
-            isHorizontal: isHorizontal,
-            tabBarHeight: tabBarHeight,
-          );
-        }).toList(),
+      return SizedBox(
+        height: tabBarHeight - 51,
+        child: SingleChildScrollView(
+          child: Column(
+            children: _lessonContent.map((LessonContent content) {
+              return CourseLessonContent(
+                lessonContent: content,
+                screenSize: screenSize,
+                isHorizontal: isHorizontal,
+                tabBarHeight: 0,
+                isPaged: false,
+              );
+            }).toList(),
+          ),
+        ),
       );
     }
   }
@@ -211,6 +217,7 @@ class _CourseLessonState extends State<CourseLesson> {
                       screenSize: screenSize,
                       isHorizontal: isHorizontal,
                       tabBarHeight: tabBarHeight + 177,
+                      isPaged: true,
                     ),
                   );
                 },
