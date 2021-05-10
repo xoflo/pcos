@@ -190,7 +190,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               style: footerStyle,
             ),
           ),
-          FlavorConfig.isDev()
+          FlavorConfig.isDev() || 1 == 1
               ? ListTile(
                   title: Text(
                     "Reset Data Cache",

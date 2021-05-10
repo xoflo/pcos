@@ -33,20 +33,18 @@ class LessonCard extends StatelessWidget {
                 children: [
                   Text(
                     "${S.of(context).lessonText} ${lesson.orderIndex + 1}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(fontSize: 16),
+                    style: Theme.of(context).textTheme.headline5,
                   ),
                   Text(
                     lesson.title,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.headline3,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       lesson.introduction,
                       textAlign: TextAlign.justify,
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                   ),
                   GestureDetector(
