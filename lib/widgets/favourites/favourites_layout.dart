@@ -39,15 +39,17 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       case LoadingStatus.empty:
         return NoResults(message: S.of(context).noItemsFound);
       case LoadingStatus.success:
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: getContent(
-            context,
-            screenSize,
-            favourites,
-            favouriteType,
-          ),
-        );
+        return favourites == null || favourites.length == 0
+            ? NoResults(message: S.of(context).noItemsFound)
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: getContent(
+                  context,
+                  screenSize,
+                  favourites,
+                  favouriteType,
+                ),
+              );
     }
     return Container();
   }

@@ -68,7 +68,7 @@ class PreviousModulesCarousel extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: CarouselSlider(
                 options: CarouselOptions(
-                  height: 200,
+                  height: 300,
                   enableInfiniteScroll: false,
                   viewportFraction: isHorizontal ? 0.50 : 0.92,
                 ),

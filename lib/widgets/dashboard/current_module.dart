@@ -47,7 +47,7 @@ class CurrentModule extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 moduleTitle,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline4,
               ),
             ),
           ),
@@ -55,7 +55,7 @@ class CurrentModule extends StatelessWidget {
             width: screenSize.width,
             child: CarouselSlider(
               options: CarouselOptions(
-                height: 200,
+                height: 300,
                 enableInfiniteScroll: false,
                 viewportFraction: isHorizontal ? 0.50 : 0.92,
                 initialPage: selectedLesson == -1

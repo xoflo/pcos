@@ -35,7 +35,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   Future<void> initializePlayer() async {
     final String videoUrl = "${widget.storageUrl}${widget.videoName}";
-    debugPrint("*******VIDEO URL = $videoUrl");
     List<DeviceOrientation> fullscreenOrientations = [
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -85,10 +84,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     //add analytics events for play and fullscreen
     _betterPlayerController.addEventsListener((event) {
-      debugPrint(
-          "***************** BETTER PLAY event: ${event.betterPlayerEventType}");
       if (event.betterPlayerEventType == BetterPlayerEventType.openFullscreen) {
-        debugPrint("************FULL SCREEN OPEN");
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.landscapeLeft,
           DeviceOrientation.landscapeRight,
@@ -98,7 +94,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
       } else if (event.betterPlayerEventType ==
           BetterPlayerEventType.hideFullscreen) {
         if (widget.isHorizontal) {
-          debugPrint("************FULL SCREEN CLOSE HORIZONTAL");
           SystemChrome.setPreferredOrientations([
             DeviceOrientation.landscapeLeft,
             DeviceOrientation.landscapeRight,
@@ -106,7 +101,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
             DeviceOrientation.portraitDown,
           ]);
         } else {
-          debugPrint("************FULL SCREEN CLOSE NOT HORIZONTAL");
           SystemChrome.setPreferredOrientations([
             DeviceOrientation.portraitUp,
           ]);
