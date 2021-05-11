@@ -30,6 +30,13 @@
             {
               "client_id": "974413443291-6bkd9gup9vkl4omj49e9bqq1382lumli.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "974413443291-i6ol5vacucke2p0ga2h19aqs7fjjk4co.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thepcosnutritionist.app"
+              }
             }
           ]
         }

@@ -247,7 +247,7 @@ class PinUnlockState extends State<PinUnlock> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final double pinButtonSize =
-        screenSize.width > 600 ? 100 : screenSize.width * .23;
+        screenSize.width > 600 ? 100 : screenSize.width * .22;
     final double headerPadding = screenSize.width > 600 ? 20.0 : 0.0;
     return WillPopScope(
       onWillPop: () {

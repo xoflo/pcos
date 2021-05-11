@@ -14,17 +14,18 @@ class RecipesList extends StatelessWidget {
   Widget build(BuildContext context) {
     final int itemsPerRow =
         DeviceUtils.getItemsPerRow(screenSize.width, screenSize.height);
-
+    final double aspectRatioSingle = (screenSize.width / 266) - 0.05;
     final double aspectRatio = itemsPerRow == 3
         ? 1.24
         : itemsPerRow == 2
             ? 1.39
-            : 1.5;
-    //TODO: If that's the case, simply wrap your GridView in Flexible, you may not need to use shrinkWrap then
-    return Expanded(
+            : aspectRatioSingle;
+    //NB: If that's the case, simply wrap your GridView in Flexible, you may not need to use shrinkWrap then
+    // Previously was a Expanded with shrinkWrap=true
+    return Flexible(
       child: GridView.count(
         cacheExtent: screenSize.height * 2,
-        shrinkWrap: true,
+        shrinkWrap: false,
         crossAxisCount: itemsPerRow,
         childAspectRatio: aspectRatio,
         children: recipes.map((Recipe recipe) {
@@ -32,6 +33,7 @@ class RecipesList extends StatelessWidget {
             recipe: recipe,
             itemsPerRow: itemsPerRow,
             openRecipeDetails: openRecipeDetails,
+            screenSize: screenSize,
           );
         }).toList(),
       ),

@@ -18,14 +18,8 @@ Future<void> main() async {
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl: "https://questionaire.thepcosnutritionist.com/",
-      imageStorageUrl:
-          "https://res.cloudinary.com/dbee2ldxn/image/upload/v1619051729/images/",
-      thumbnailStorageUrl:
-          "https://res.cloudinary.com/dbee2ldxn/image/upload/v1619051792/thumbnails/",
-      videoStorageUrl: "https://",
-      //"https://res.cloudinary.com/dbee2ldxn/video/upload/v1613597581/videos/",
-      pdfStorageUrl:
-          "https://pcosprotocolstorage.blob.core.windows.net/media/pdf",
+      imageStorageFolder: "/v1620260652/images/",
+      thumbnailStorageFolder: "/v1620688098/thumbnails/",
       intercomIds: [
         "xsb9gkoh",
         "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",

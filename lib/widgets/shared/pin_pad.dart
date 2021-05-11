@@ -121,7 +121,7 @@ class PinPad extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 15),
+          padding: const EdgeInsets.only(bottom: 10),
           child: Text(
             headerText,
             style: Theme.of(context).textTheme.headline6.copyWith(

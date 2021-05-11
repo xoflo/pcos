@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -47,9 +48,7 @@ class FavouritesLessonItem extends StatelessWidget {
           ),
           Container(
             width: width,
-            child: Text(
-              lesson.introduction,
-            ),
+            child: HtmlWidget(lesson.introduction),
           ),
           GestureDetector(
             onTap: () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -41,11 +42,7 @@ class LessonCard extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      lesson.introduction,
-                      textAlign: TextAlign.justify,
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
+                    child: HtmlWidget(lesson.introduction),
                   ),
                   GestureDetector(
                     onTap: () {
