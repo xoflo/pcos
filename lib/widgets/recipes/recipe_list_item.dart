@@ -7,11 +7,13 @@ class RecipeListItem extends StatelessWidget {
   final Recipe recipe;
   final int itemsPerRow;
   final Function(BuildContext, Recipe) openRecipeDetails;
+  final Size screenSize;
 
   RecipeListItem({
     @required this.recipe,
     @required this.itemsPerRow,
     @required this.openRecipeDetails,
+    @required this.screenSize,
   });
 
   @override
@@ -32,11 +34,10 @@ class RecipeListItem extends StatelessWidget {
               FadeInImage.memoryNetwork(
                 alignment: Alignment.center,
                 placeholder: kTransparentImage,
-                image:
-                    "${FlavorConfig.instance.values.imageStorageUrl}${recipe.thumbnail}",
-                fit: BoxFit.fitWidth,
-                width: double.maxFinite,
+                image: recipe.thumbnail,
+                width: screenSize.width,
                 height: 220,
+                fit: BoxFit.fitWidth,
               ),
               Container(
                 height: 46,

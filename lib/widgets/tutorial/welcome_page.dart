@@ -11,9 +11,9 @@ class TutorialWelcomePage extends StatelessWidget {
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     final double textPadding = isHorizontal ? 150 : 8;
 
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: screenSize.height - 100,
+    return SizedBox(
+      height: screenSize.height - 100,
+      child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

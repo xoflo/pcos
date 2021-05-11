@@ -3,8 +3,8 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class FavouritesRecipeItem extends StatelessWidget {
   final Recipe recipe;
@@ -18,6 +18,11 @@ class FavouritesRecipeItem extends StatelessWidget {
     @required this.removeFavourite,
     @required this.openFavourite,
   });
+
+  String _getThumbnailUrl(final String imageUrl) {
+    return imageUrl.replaceAll(FlavorConfig.instance.values.imageStorageFolder,
+        FlavorConfig.instance.values.thumbnailStorageFolder);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +70,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                     child: FadeInImage.memoryNetwork(
                       alignment: Alignment.center,
                       placeholder: kTransparentImage,
-                      image:
-                          "${FlavorConfig.instance.values.thumbnailStorageUrl}${recipe.thumbnail}",
+                      image: _getThumbnailUrl(recipe.thumbnail),
                       fit: BoxFit.fitWidth,
                       width: double.maxFinite,
                       height: 60,
