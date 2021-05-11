@@ -199,7 +199,7 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                     SizedBox(
-                      height: 170.0,
+                      height: 190.0,
                       child: RegisterLayout(
                         navigateToRegister: navigateToRegister,
                         isHorizontal: false,

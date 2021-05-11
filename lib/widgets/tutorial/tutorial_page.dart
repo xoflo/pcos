@@ -32,9 +32,9 @@ class TutorialPage extends StatelessWidget {
 
   Widget getPageOne(final BuildContext context, final Size screenSize,
       final bool isHorizontal) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: screenSize.height - 100,
+    return SizedBox(
+      height: screenSize.height - 100,
+      child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: isHorizontal ? 50 : 0),
           child: Column(

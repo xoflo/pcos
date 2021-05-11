@@ -11,13 +11,11 @@ class ContentPdfViewer extends StatefulWidget {
   final LessonContent lessonContent;
   final Size screenSize;
   final bool isHorizontal;
-  final String pdfStorageUrl;
 
   ContentPdfViewer({
     @required this.lessonContent,
     @required this.screenSize,
     @required this.isHorizontal,
-    @required this.pdfStorageUrl,
   });
 
   @override
@@ -45,7 +43,6 @@ class _ContentPdfViewerState extends State<ContentPdfViewer> {
 
   void initialise() async {
     _localPdfPath = await _getLocalFileName();
-    debugPrint("INIT LOCALFILEPATH = $_localPdfPath");
     //try to delete the file if it already exists, may have viewed before, but file could have changed in backend
     await _deleteFile();
     //now get the file using the url and save in the local file path
@@ -68,7 +65,7 @@ class _ContentPdfViewerState extends State<ContentPdfViewer> {
   }
 
   Future<void> _saveFileFromUrl() async {
-    var fileUrl = '${widget.pdfStorageUrl}${widget.lessonContent.mediaUrl}';
+    var fileUrl = widget.lessonContent.mediaUrl;
     try {
       //get the file from the URL
       var data = await http.get(Uri.parse(fileUrl));

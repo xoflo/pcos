@@ -19,14 +19,8 @@ Future<void> main() async {
       oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
       questionnaireUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
-      imageStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617670686/images/",
-      thumbnailStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/image/upload/v1617676121/thumbnails/",
-      videoStorageUrl:
-          "https://res.cloudinary.com/dpjz8zhvy/video/upload/v1613597581/videos/",
-      pdfStorageUrl:
-          "https://pcosprotocolstorage.blob.core.windows.net/media/pdf/",
+      imageStorageFolder: "/v1617670686/images/",
+      thumbnailStorageFolder: "/v1617676121/thumbnails/",
       intercomIds: [
         "xsb9gkoh",
         "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",

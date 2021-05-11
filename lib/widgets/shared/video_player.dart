@@ -8,14 +8,12 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 class VideoPlayer extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
-  final String storageUrl;
-  final String videoName;
+  final String videoUrl;
 
   VideoPlayer({
     this.screenSize,
     this.isHorizontal,
-    this.storageUrl,
-    this.videoName,
+    this.videoUrl,
   });
 
   @override
@@ -34,7 +32,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> initializePlayer() async {
-    final String videoUrl = "${widget.storageUrl}${widget.videoName}";
+    final String videoUrl = widget.videoUrl;
     List<DeviceOrientation> fullscreenOrientations = [
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -112,7 +110,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         analytics.logEvent(
           name: Analytics.ANALYTICS_VIDEO_PLAY,
           parameters: {
-            Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoName
+            Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoUrl
           },
         );
         setState(() {
@@ -124,7 +122,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         analytics.logEvent(
           name: Analytics.ANALYTICS_VIDEO_FULLSCREEN,
           parameters: {
-            Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoName
+            Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoUrl
           },
         );
         setState(() {

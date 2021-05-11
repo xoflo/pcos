@@ -23,9 +23,6 @@ class CourseLessonContent extends StatelessWidget {
     @required this.isPaged,
   });
 
-  final String _videoStorageUrl = FlavorConfig.instance.values.videoStorageUrl;
-  final String _imageStorageUrl = FlavorConfig.instance.values.imageStorageUrl;
-
   Widget _getTitle(BuildContext context) {
     if (lessonContent.title.length > 0) {
       return Padding(
@@ -56,20 +53,19 @@ class CourseLessonContent extends StatelessWidget {
     if (displayMedia) {
       switch (lessonContent.mediaMimeType.toLowerCase()) {
         case MediaType.Video:
+        case MediaType.Audio:
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: Platform.isIOS
                 ? VideoPlayer(
                     screenSize: screenSize,
                     isHorizontal: isHorizontal,
-                    storageUrl: _videoStorageUrl,
-                    videoName: lessonContent.mediaUrl,
+                    videoUrl: lessonContent.mediaUrl,
                   )
                 : VideoPlayer(
                     screenSize: screenSize,
                     isHorizontal: isHorizontal,
-                    storageUrl: _videoStorageUrl,
-                    videoName: lessonContent.mediaUrl,
+                    videoUrl: lessonContent.mediaUrl,
                   ),
           );
         case MediaType.Image:
@@ -78,10 +74,9 @@ class CourseLessonContent extends StatelessWidget {
             child: FadeInImage.memoryNetwork(
               alignment: Alignment.center,
               placeholder: kTransparentImage,
-              image: "$_imageStorageUrl${lessonContent.mediaUrl}",
+              image: lessonContent.mediaUrl,
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
-              height: 220,
             ),
           );
         case MediaType.Pdf:
@@ -91,7 +86,6 @@ class CourseLessonContent extends StatelessWidget {
               lessonContent: lessonContent,
               screenSize: screenSize,
               isHorizontal: isHorizontal,
-              pdfStorageUrl: FlavorConfig.instance.values.pdfStorageUrl,
             ),
           );
       }

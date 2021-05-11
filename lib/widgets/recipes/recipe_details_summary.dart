@@ -56,7 +56,7 @@ class RecipeDetailsSummary extends StatelessWidget {
         child: Text(
           displayText,
           style: Theme.of(context).textTheme.headline4.copyWith(
-                color: textColor,
+                color: iconColor,
               ),
         ),
       ),
@@ -65,11 +65,11 @@ class RecipeDetailsSummary extends StatelessWidget {
 
   String _getDifficultyText(BuildContext context, int difficulty) {
     switch (difficulty) {
-      case 0:
-        return S.of(context).recipeDifficultyEasy;
       case 1:
-        return S.of(context).recipeDifficultyMedium;
+        return S.of(context).recipeDifficultyEasy;
       case 2:
+        return S.of(context).recipeDifficultyMedium;
+      case 3:
         return S.of(context).recipeDifficultyHard;
     }
     return "";
@@ -77,12 +77,12 @@ class RecipeDetailsSummary extends StatelessWidget {
 
   Color _getDifficultyColor(int difficulty) {
     switch (difficulty) {
-      case 0:
-        return Colors.green;
       case 1:
-        return primaryColor;
+        return Colors.green;
       case 2:
-        return tertiaryColor;
+        return Colors.orange;
+      case 3:
+        return Colors.redAccent;
     }
     return primaryColor;
   }
@@ -106,8 +106,7 @@ class RecipeDetailsSummary extends StatelessWidget {
             child: FadeInImage.memoryNetwork(
               alignment: Alignment.center,
               placeholder: kTransparentImage,
-              image:
-                  "${FlavorConfig.instance.values.imageStorageUrl}${recipe.thumbnail}",
+              image: recipe.thumbnail,
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
               height: 300,
