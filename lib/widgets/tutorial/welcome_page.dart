@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -11,31 +12,31 @@ class TutorialWelcomePage extends StatelessWidget {
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     final double textPadding = isHorizontal ? 150 : 8;
 
-    return SizedBox(
-      height: screenSize.height - 100,
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: screenSize.height - 100,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 children: [
                   Text(
-                    "Welcome to",
+                    S.of(context).tutorialWelcomeWelcome,
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   HeaderImage(
                     screenSize: screenSize,
                     isOrange: true,
-                    verticalTopPadding: 20,
+                    verticalTopPadding: 10,
                   ),
                 ],
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: textPadding),
                 child: Text(
-                  "Thank you for signing up to our programme. We are here to help you get the most from The PCOS Protocol.",
+                  S.of(context).tutorialWelcomeThankYou,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center,
                 ),
@@ -43,7 +44,7 @@ class TutorialWelcomePage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: textPadding),
                 child: Text(
-                  "We tailor the programme to meet your specific needs using the information provided in the questionnaire.",
+                  S.of(context).tutorialWelcomeTailor,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center,
                 ),
@@ -51,39 +52,43 @@ class TutorialWelcomePage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: textPadding),
                 child: Text(
-                  "It is important to take your time to complete all the modules and lessons in the programme, beginning with the first module 'What is your Why?'.",
+                  S.of(context).tutorialWelcomeModules,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: textPadding),
-                child: Text(
-                  "Also, when you feel you need our support, remember to tap the 'Coach Chat' to contact one of our friendly experts.",
-                  style: Theme.of(context).textTheme.headline6,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
                 children: [
-                  Text(
-                    "Coach Chat",
-                    style: Theme.of(context).textTheme.headline6,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        S.of(context).tutorialWelcomeCoachTitle,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 5.0,
+                          left: 10,
+                        ),
+                        child: Icon(
+                          Icons.chat_outlined,
+                          color: primaryColor,
+                          size: isHorizontal ? 40.0 : 30.0,
+                        ),
+                      ),
+                    ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 5.0,
-                      left: 10,
-                    ),
-                    child: Icon(
-                      Icons.chat_outlined,
-                      color: primaryColor,
-                      size: isHorizontal ? 40.0 : 30.0,
+                    padding: EdgeInsets.symmetric(horizontal: textPadding),
+                    child: Text(
+                      S.of(context).tutorialWelcomeCoachDesc,
+                      style: Theme.of(context).textTheme.headline6,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

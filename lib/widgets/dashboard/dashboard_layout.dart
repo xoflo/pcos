@@ -293,23 +293,19 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     return SingleChildScrollView(
-      child: Container(
-        height: DeviceUtils.getRemainingHeight(
-            screenSize.height, false, isHorizontal, false, false),
-        child: Consumer<ModulesProvider>(
-          builder: (context, model, child) => Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              widget.showYourWhy
-                  ? YourWhy(screenSize: screenSize, whatsYourWhy: _yourWhy)
-                  : Container(height: 20),
-              getTasks(screenSize, isHorizontal, model),
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: getCurrentModule(screenSize, isHorizontal, model),
-              ),
-            ],
-          ),
+      child: Consumer<ModulesProvider>(
+        builder: (context, model, child) => Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            widget.showYourWhy
+                ? YourWhy(screenSize: screenSize, whatsYourWhy: _yourWhy)
+                : Container(height: 20),
+            getTasks(screenSize, isHorizontal, model),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: getCurrentModule(screenSize, isHorizontal, model),
+            ),
+          ],
         ),
       ),
     );

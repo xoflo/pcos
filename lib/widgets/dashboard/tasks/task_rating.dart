@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
@@ -47,11 +48,7 @@ class _TaskRatingState extends State<TaskRating> {
               horizontal: 16.0,
               vertical: 12.0,
             ),
-            child: Text(
-              widget.lessonTask.description,
-              style: Theme.of(context).textTheme.bodyText1,
-              textAlign: TextAlign.center,
-            ),
+            child: HtmlWidget(widget.lessonTask.description),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

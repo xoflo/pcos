@@ -11,6 +11,7 @@ class PreviousModulesCarousel extends StatelessWidget {
   final List<Module> modules;
   final List<Lesson> lessons;
   final int selectedModuleID;
+  final CarouselController lessonCarouselController;
   final Function(int, CarouselPageChangedReason) moduleChanged;
   final Function(Lesson) openLesson;
 
@@ -20,12 +21,16 @@ class PreviousModulesCarousel extends StatelessWidget {
     @required this.modules,
     @required this.lessons,
     @required this.selectedModuleID,
+    @required this.lessonCarouselController,
     @required this.moduleChanged,
     @required this.openLesson,
   });
 
   @override
   Widget build(BuildContext context) {
+    int moduleCounter = 0;
+    int lessonCounter = 0;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -49,13 +54,15 @@ class PreviousModulesCarousel extends StatelessWidget {
                   },
                 ),
                 items: modules.map((module) {
+                  moduleCounter += 1;
+                  final int moduleNumber = moduleCounter;
                   return Builder(
                     builder: (BuildContext context) {
                       final bool isSelected =
                           module.moduleID == selectedModuleID ? true : false;
                       return ModuleCard(
                         screenSize: screenSize,
-                        moduleNumber: module.moduleID,
+                        moduleNumber: moduleNumber,
                         moduleName: module.title,
                         isSelected: isSelected,
                       );
@@ -67,15 +74,19 @@ class PreviousModulesCarousel extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: CarouselSlider(
+                carouselController: lessonCarouselController,
                 options: CarouselOptions(
                   height: 300,
                   enableInfiniteScroll: false,
                   viewportFraction: isHorizontal ? 0.50 : 0.92,
                 ),
                 items: lessons.map((lesson) {
+                  lessonCounter += 1;
+                  final int lessonNumber = lessonCounter;
                   return Builder(
                     builder: (BuildContext context) {
                       return LessonCard(
+                        lessonNumber: lessonNumber,
                         lesson: lesson,
                         openLesson: openLesson,
                       );
