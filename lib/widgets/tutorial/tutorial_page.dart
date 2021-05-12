@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/utils/drawing_utils.dart';
@@ -43,7 +44,7 @@ class TutorialPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text(
-                  "Header Bar",
+                  S.of(context).tutorialNavigationHeaderBar,
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -53,7 +54,7 @@ class TutorialPage extends StatelessWidget {
                   bottom: 20,
                 ),
                 child: Text(
-                  "Open the menu drawer for app settings, profile, change password, policies, and to lock the app.",
+                  S.of(context).tutorialNavigationDrawerMenu,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.justify,
                 ),
@@ -130,7 +131,7 @@ class TutorialPage extends StatelessWidget {
                     left: isHorizontal ? (screenSize.width / 2) : 80.0,
                     top: 20),
                 child: Text(
-                  "Tap the chat icon to use the 'Coach Chat' feature, or view your notifications by tapping the bell.",
+                  S.of(context).tutorialNavigationNotifications,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.justify,
                 ),
@@ -141,7 +142,7 @@ class TutorialPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text(
-                  "Bottom Tabs",
+                  S.of(context).tutorialNavigationBottomTabs,
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -151,14 +152,14 @@ class TutorialPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Your Course",
+                      S.of(context).tutorialNavigationYourCourse,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     Text(""),
                     Padding(
                       padding: const EdgeInsets.only(right: 50.0),
                       child: Text(
-                        "Recipes",
+                        S.of(context).tutorialNavigationRecipes,
                         style: Theme.of(context).textTheme.headline5,
                         textAlign: TextAlign.justify,
                       ),
@@ -209,13 +210,13 @@ class TutorialPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Text(
-                      "Knowledge Base",
+                      S.of(context).tutorialNavigationKB,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                   ),
                   Text(""),
                   Text(
-                    "Favourites",
+                    S.of(context).tutorialNavigationFaves,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ],
@@ -233,7 +234,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          "Your Course",
+          S.of(context).tutorialYourCourseTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -245,7 +246,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          "Check this daily for your modules and to complete your tasks",
+          S.of(context).tutorialYourCourseDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),
@@ -259,7 +260,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          "Knowledge Base",
+          S.of(context).tutorialKBTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -271,7 +272,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          "Any questions you have about food, exercise, supplements and all other course content can be found here",
+          S.of(context).tutorialKBDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),
@@ -285,7 +286,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          "Recipes",
+          S.of(context).tutorialRecipesTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -297,7 +298,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          "Oh course we have recipes! Find recipes to help maintain your course goals",
+          S.of(context).tutorialRecipesDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),
@@ -311,7 +312,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          "Favourites",
+          S.of(context).tutorialFavesTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -323,7 +324,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          "Add lessons, knowledge base questions or recipes to your favourites tab for later",
+          S.of(context).tutorialFavesDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),

@@ -1815,10 +1815,10 @@ class S {
     );
   }
 
-  /// `Open`
+  /// `View lesson`
   String get viewNow {
     return Intl.message(
-      'Open',
+      'View lesson',
       name: 'viewNow',
       desc: '',
       args: [],
@@ -1880,6 +1880,236 @@ class S {
     return Intl.message(
       'This can only be enabled after the first module has been completed.',
       name: 'yourWhyWarningText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to`
+  String get tutorialWelcomeWelcome {
+    return Intl.message(
+      'Welcome to',
+      name: 'tutorialWelcomeWelcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you for signing up to our programme. We are here to help you get the most from The PCOS Protocol.`
+  String get tutorialWelcomeThankYou {
+    return Intl.message(
+      'Thank you for signing up to our programme. We are here to help you get the most from The PCOS Protocol.',
+      name: 'tutorialWelcomeThankYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We tailor the programme to meet your specific needs using the information provided in the questionnaire.`
+  String get tutorialWelcomeTailor {
+    return Intl.message(
+      'We tailor the programme to meet your specific needs using the information provided in the questionnaire.',
+      name: 'tutorialWelcomeTailor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It is important to take your time to complete all the modules and lessons in the programme, beginning with the first module 'What is your Why?'.`
+  String get tutorialWelcomeModules {
+    return Intl.message(
+      'It is important to take your time to complete all the modules and lessons in the programme, beginning with the first module \'What is your Why?\'.',
+      name: 'tutorialWelcomeModules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coach Chat`
+  String get tutorialWelcomeCoachTitle {
+    return Intl.message(
+      'Coach Chat',
+      name: 'tutorialWelcomeCoachTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Also, when you feel you need our support, remember to tap the 'Coach Chat' to contact one of our friendly experts.`
+  String get tutorialWelcomeCoachDesc {
+    return Intl.message(
+      'Also, when you feel you need our support, remember to tap the \'Coach Chat\' to contact one of our friendly experts.',
+      name: 'tutorialWelcomeCoachDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Header Bar`
+  String get tutorialNavigationHeaderBar {
+    return Intl.message(
+      'Header Bar',
+      name: 'tutorialNavigationHeaderBar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the menu drawer for app settings, profile, change password, policies, and to lock the app.`
+  String get tutorialNavigationDrawerMenu {
+    return Intl.message(
+      'Open the menu drawer for app settings, profile, change password, policies, and to lock the app.',
+      name: 'tutorialNavigationDrawerMenu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tap the chat icon to use the 'Coach Chat' feature, or view your notifications by tapping the bell.`
+  String get tutorialNavigationNotifications {
+    return Intl.message(
+      'Tap the chat icon to use the \'Coach Chat\' feature, or view your notifications by tapping the bell.',
+      name: 'tutorialNavigationNotifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bottom Tabs`
+  String get tutorialNavigationBottomTabs {
+    return Intl.message(
+      'Bottom Tabs',
+      name: 'tutorialNavigationBottomTabs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Course`
+  String get tutorialNavigationYourCourse {
+    return Intl.message(
+      'Your Course',
+      name: 'tutorialNavigationYourCourse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipes`
+  String get tutorialNavigationRecipes {
+    return Intl.message(
+      'Recipes',
+      name: 'tutorialNavigationRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Knowledge Base`
+  String get tutorialNavigationKB {
+    return Intl.message(
+      'Knowledge Base',
+      name: 'tutorialNavigationKB',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favourites`
+  String get tutorialNavigationFaves {
+    return Intl.message(
+      'Favourites',
+      name: 'tutorialNavigationFaves',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Course`
+  String get tutorialYourCourseTitle {
+    return Intl.message(
+      'Your Course',
+      name: 'tutorialYourCourseTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check this daily for your lessons and to complete your tasks`
+  String get tutorialYourCourseDesc {
+    return Intl.message(
+      'Check this daily for your lessons and to complete your tasks',
+      name: 'tutorialYourCourseDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipes`
+  String get tutorialRecipesTitle {
+    return Intl.message(
+      'Recipes',
+      name: 'tutorialRecipesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oh course we have recipes! Find recipes to help maintain your course goals`
+  String get tutorialRecipesDesc {
+    return Intl.message(
+      'Oh course we have recipes! Find recipes to help maintain your course goals',
+      name: 'tutorialRecipesDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Knowledge Base`
+  String get tutorialKBTitle {
+    return Intl.message(
+      'Knowledge Base',
+      name: 'tutorialKBTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Any questions you have about food, exercise, supplements and all other course content can be found here`
+  String get tutorialKBDesc {
+    return Intl.message(
+      'Any questions you have about food, exercise, supplements and all other course content can be found here',
+      name: 'tutorialKBDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favourites`
+  String get tutorialFavesTitle {
+    return Intl.message(
+      'Favourites',
+      name: 'tutorialFavesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add lessons, knowledge base questions or recipes to your favourites tab for later`
+  String get tutorialFavesDesc {
+    return Intl.message(
+      'Add lessons, knowledge base questions or recipes to your favourites tab for later',
+      name: 'tutorialFavesDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get tutorialClose {
+    return Intl.message(
+      'Close',
+      name: 'tutorialClose',
       desc: '',
       args: [],
     );

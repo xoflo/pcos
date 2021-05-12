@@ -6,10 +6,12 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class LessonCard extends StatelessWidget {
+  final int lessonNumber;
   final Lesson lesson;
   final Function(Lesson) openLesson;
 
   LessonCard({
+    @required this.lessonNumber,
     @required this.lesson,
     @required this.openLesson,
   });
@@ -33,7 +35,7 @@ class LessonCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${S.of(context).lessonText} ${lesson.orderIndex + 1}",
+                    "${S.of(context).lessonText} $lessonNumber",
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   Text(

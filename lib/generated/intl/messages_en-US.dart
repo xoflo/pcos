@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a en locale. All the
+// This is a library that provides messages for a en_US locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -17,7 +17,7 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'en';
+  String get localeName => 'en_US';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -59,9 +59,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "emailLinkTitle" : MessageLookupByLibrary.simpleMessage("Email Link"),
     "enterMessageText" : MessageLookupByLibrary.simpleMessage("Enter your message"),
     "exitAppText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to close the App?"),
-    "favouriteRemoveText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to remove this favourite?"),
-    "favouriteRemoveTitle" : MessageLookupByLibrary.simpleMessage("Remove favourite"),
-    "favouritesTitle" : MessageLookupByLibrary.simpleMessage("Favourites"),
+    "favouriteRemoveText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to remove this favorite?"),
+    "favouriteRemoveTitle" : MessageLookupByLibrary.simpleMessage("Remove favorite"),
+    "favouritesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "favouritesViewDetails" : MessageLookupByLibrary.simpleMessage("View details"),
     "favouritesWatchNow" : MessageLookupByLibrary.simpleMessage("View now"),
     "frequentlyAskedQuestions" : MessageLookupByLibrary.simpleMessage("FAQs"),
@@ -69,7 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "gotoSigninText" : MessageLookupByLibrary.simpleMessage("Already have an account for The PCOS Protocol?"),
     "gotoSignupText" : MessageLookupByLibrary.simpleMessage("Sign up for The PCOS Protocol."),
     "helpTitle" : MessageLookupByLibrary.simpleMessage("Help"),
-    "internetConnectionText" : MessageLookupByLibrary.simpleMessage("Please ensure you are connected to the internet. "),
+    "internetConnectionText" : MessageLookupByLibrary.simpleMessage("Please ensure you are connected to the internet."),
     "internetConnectionTitle" : MessageLookupByLibrary.simpleMessage("Internet connection required"),
     "kbTagDiet" : MessageLookupByLibrary.simpleMessage("Diet"),
     "kbTagEnergy" : MessageLookupByLibrary.simpleMessage("Energy"),
@@ -103,7 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "onText" : MessageLookupByLibrary.simpleMessage("On"),
     "openWebsiteText" : MessageLookupByLibrary.simpleMessage("To register for The PCOS Protocol on your device click the \'Sign Up\' button below to visit the PCOS Questionnaire website."),
     "openWebsiteTitle" : MessageLookupByLibrary.simpleMessage("Open Questionnaire"),
-    "openWebsiteWhy" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol is a personalised programme, delivered according to your own goals."),
+    "openWebsiteWhy" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol is a personalized programme, delivered according to your own goals."),
     "passwordForgottenCancel" : MessageLookupByLibrary.simpleMessage("Cancel"),
     "passwordForgottenCompleteMessage" : MessageLookupByLibrary.simpleMessage("We have sent you a reset password email, please check your inbox and junk mail. Thank you"),
     "passwordForgottenContinue" : MessageLookupByLibrary.simpleMessage("Yes, send email"),
@@ -192,13 +192,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "textTaskValidation" : MessageLookupByLibrary.simpleMessage("Please enter a value in the text box"),
     "tryAgain" : MessageLookupByLibrary.simpleMessage("Please try again later."),
     "tutorialClose" : MessageLookupByLibrary.simpleMessage("Close"),
-    "tutorialFavesDesc" : MessageLookupByLibrary.simpleMessage("Add lessons, knowledge base questions or recipes to your favourites tab for later"),
-    "tutorialFavesTitle" : MessageLookupByLibrary.simpleMessage("Favourites"),
+    "tutorialFavesDesc" : MessageLookupByLibrary.simpleMessage("Add lessons, knowledge base questions or recipes to your favorites tab for later"),
+    "tutorialFavesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "tutorialKBDesc" : MessageLookupByLibrary.simpleMessage("Any questions you have about food, exercise, supplements and all other course content can be found here"),
     "tutorialKBTitle" : MessageLookupByLibrary.simpleMessage("Knowledge Base"),
     "tutorialNavigationBottomTabs" : MessageLookupByLibrary.simpleMessage("Bottom Tabs"),
     "tutorialNavigationDrawerMenu" : MessageLookupByLibrary.simpleMessage("Open the menu drawer for app settings, profile, change password, policies, and to lock the app."),
-    "tutorialNavigationFaves" : MessageLookupByLibrary.simpleMessage("Favourites"),
+    "tutorialNavigationFaves" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "tutorialNavigationHeaderBar" : MessageLookupByLibrary.simpleMessage("Header Bar"),
     "tutorialNavigationKB" : MessageLookupByLibrary.simpleMessage("Knowledge Base"),
     "tutorialNavigationNotifications" : MessageLookupByLibrary.simpleMessage("Tap the chat icon to use the \'Coach Chat\' feature, or view your notifications by tapping the bell."),

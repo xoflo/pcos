@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel_pager.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/welcome_page.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class Tutorial extends StatefulWidget {
   final bool isStartUp;
@@ -103,7 +104,7 @@ class _TutorialState extends State<Tutorial> {
                     ),
                     ColorButton(
                       isUpdating: false,
-                      label: "Close",
+                      label: S.of(context).tutorialClose,
                       onTap: () {
                         Navigator.pop(context);
                       },

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_options.dart';
@@ -27,6 +28,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
   int _selectedModuleID = 0;
   List<Lesson> _selectedModuleLessons = [];
   List<List<Lesson>> _moduleLessons = [];
+  CarouselController lessonCarouselController = CarouselController();
 
   @override
   void initState() {
@@ -55,6 +57,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
     setState(() {
       _selectedModuleID = selectedModule.moduleID;
       _selectedModuleLessons = _moduleLessons[index];
+      lessonCarouselController.jumpToPage(0);
     });
   }
 
@@ -112,6 +115,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
                           modules: widget.modulesProvider.previousModules,
                           lessons: _selectedModuleLessons,
                           selectedModuleID: _selectedModuleID,
+                          lessonCarouselController: lessonCarouselController,
                           moduleChanged: _moduleChanged,
                           openLesson: _openLesson,
                         ),
