@@ -5,7 +5,6 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/content_pdf_viewer.dart';
 
 class CourseLessonContent extends StatelessWidget {

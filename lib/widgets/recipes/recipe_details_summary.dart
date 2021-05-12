@@ -4,7 +4,6 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class RecipeDetailsSummary extends StatelessWidget {
   final Recipe recipe;
@@ -98,6 +97,10 @@ class RecipeDetailsSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: _getSummaryIcons(context),
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+          child: Text(recipe.description),
         ),
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 500),

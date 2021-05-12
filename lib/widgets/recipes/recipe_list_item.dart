@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class RecipeListItem extends StatelessWidget {
   final Recipe recipe;

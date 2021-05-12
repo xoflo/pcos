@@ -239,6 +239,7 @@ class PinUnlockState extends State<PinUnlock> {
   void deleteCredentialsAndGotoSignIn() {
     AuthenticationController().deleteCredentials();
     AuthenticationController().deletePin();
+    AuthenticationController().deleteOtherPrefs();
     Navigator.of(context)
         .pushNamedAndRemoveUntil(SignIn.id, (Route<dynamic> route) => false);
   }
