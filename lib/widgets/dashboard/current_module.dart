@@ -33,6 +33,7 @@ class CurrentModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int lessonCounter = 0;
     final String moduleTitle =
         "${S.of(context).moduleText}: ${modulesProvider.currentModule.title}";
     return Container(
@@ -66,9 +67,12 @@ class CurrentModule extends StatelessWidget {
                 },
               ),
               items: modulesProvider.currentModuleLessons.map((lesson) {
+                lessonCounter += 1;
+                final int lessonNumber = lessonCounter;
                 return Builder(
                   builder: (BuildContext context) {
                     return LessonCard(
+                      lessonNumber: lessonNumber,
                       lesson: lesson,
                       openLesson: _openLesson,
                     );
