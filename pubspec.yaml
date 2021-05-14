@@ -55,6 +55,8 @@ dependencies:
   health: ^3.0.3
   avatar_glow: ^2.0.0
   native_pdf_view: ^4.0.1
+  full_screen_image: ^1.0.2
+  image_downloader: ^0.30.0
 
 dev_dependencies:
   flutter_test:

@@ -207,5 +207,10 @@
     "tutorialKBDesc": "Any questions you have about food, exercise, supplements and all other course content can be found here",
     "tutorialFavesTitle": "Favourites",
     "tutorialFavesDesc": "Add lessons, knowledge base questions or recipes to your favourites tab for later",
-    "tutorialClose": "Close"
+    "tutorialClose": "Close",
+    "downloadToDevice": "Download to device",
+    "downloadFailed":  "Download Failed",
+    "downloadFailedMsg": "We could not download the file to your device",
+    "downloadSuccess": "Download Complete",
+    "downloadSuccessMsg": "Please check your device download folder."
 }
