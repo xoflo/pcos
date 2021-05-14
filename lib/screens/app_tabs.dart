@@ -129,9 +129,12 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
       //check if app was backgrounded over five minutes (300 seconds) ago, and display lock screen if necessary
       final int lockoutSeconds = 300;
-
+      debugPrint(
+          "***************backgroundedTimestamp=$backgroundedTimestamp currentTimestamp=$currentTimestamp lockoutSeconds=$lockoutSeconds");
+      debugPrint("**********DIFF=${currentTimestamp - backgroundedTimestamp}");
       if (backgroundedTimestamp != null &&
           currentTimestamp - backgroundedTimestamp > (lockoutSeconds * 1000)) {
+        debugPrint("*****LOCKING APP");
         Navigator.pushNamed(
           context,
           PinUnlock.id,

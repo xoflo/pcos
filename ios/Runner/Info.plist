@@ -72,5 +72,9 @@
 	<string>We will sync your data with the Apple Health app to give you better insights</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Required so the user can view and download images</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Required so the user can view and download images</string>
 </dict>
 </plist>

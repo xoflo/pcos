@@ -2114,6 +2114,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Download to device`
+  String get downloadToDevice {
+    return Intl.message(
+      'Download to device',
+      name: 'downloadToDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download Failed`
+  String get downloadFailed {
+    return Intl.message(
+      'Download Failed',
+      name: 'downloadFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We could not download the file to your device`
+  String get downloadFailedMsg {
+    return Intl.message(
+      'We could not download the file to your device',
+      name: 'downloadFailedMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download Complete`
+  String get downloadSuccess {
+    return Intl.message(
+      'Download Complete',
+      name: 'downloadSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check your device download folder.`
+  String get downloadSuccessMsg {
+    return Intl.message(
+      'Please check your device download folder.',
+      name: 'downloadSuccessMsg',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
