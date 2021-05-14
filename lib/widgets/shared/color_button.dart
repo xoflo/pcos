@@ -15,7 +15,7 @@ class ColorButton extends StatelessWidget {
     @required this.onTap,
     this.color = primaryColor,
     this.textColor = Colors.white,
-    this.width = 0,
+    this.width = 100,
   });
 
   Color getBackgroundColor(Set<MaterialState> states) {
@@ -42,28 +42,31 @@ class ColorButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Container(
                 width: width,
-                child: Container(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: (width - 20) / 2),
-                    child: SizedBox(
-                      child: CircularProgressIndicator(
-                        backgroundColor: backgroundColor,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(primaryColor),
-                      ),
-                      height: 20.0,
-                      width: 20.0,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: (width - 20) / 2),
+                  child: SizedBox(
+                    child: CircularProgressIndicator(
+                      backgroundColor: backgroundColor,
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(primaryColor),
                     ),
+                    height: 20.0,
+                    width: 20.0,
                   ),
                 ),
               ),
             )
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text(
-                label,
-                style: TextStyle(
-                  color: textColor,
+              child: Container(
+                width: width,
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),

@@ -1,14 +1,20 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:full_screen_image/full_screen_image.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/content_pdf_viewer.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
-class CourseLessonContent extends StatelessWidget {
+class CourseLessonContent extends StatefulWidget {
   final LessonContent lessonContent;
   final Size screenSize;
   final bool isHorizontal;
@@ -23,12 +29,19 @@ class CourseLessonContent extends StatelessWidget {
     @required this.isPaged,
   });
 
+  @override
+  _CourseLessonContentState createState() => _CourseLessonContentState();
+}
+
+class _CourseLessonContentState extends State<CourseLessonContent> {
+  bool isDownloading = false;
+
   Widget _getTitle(BuildContext context) {
-    if (lessonContent.title.length > 0) {
+    if (widget.lessonContent.title.length > 0) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          lessonContent.title,
+          widget.lessonContent.title,
           style: Theme.of(context).textTheme.headline4,
           textAlign: TextAlign.center,
         ),
@@ -38,54 +51,73 @@ class CourseLessonContent extends StatelessWidget {
   }
 
   Widget _getBody(BuildContext context) {
-    if (lessonContent.body.length > 0) {
+    if (widget.lessonContent.body.length > 0) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: HtmlWidget(lessonContent.body),
+        child: HtmlWidget(widget.lessonContent.body),
       );
     }
     return Container();
   }
 
   Widget _getMedia(BuildContext context) {
-    final bool displayMedia = lessonContent.mediaUrl.length > 0 &&
-        lessonContent.mediaMimeType.length > 0;
+    final bool displayMedia = widget.lessonContent.mediaUrl.length > 0 &&
+        widget.lessonContent.mediaMimeType.length > 0;
     if (displayMedia) {
-      switch (lessonContent.mediaMimeType.toLowerCase()) {
+      switch (widget.lessonContent.mediaMimeType.toLowerCase()) {
         case MediaType.Video:
         case MediaType.Audio:
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: Platform.isIOS
                 ? VideoPlayer(
-                    screenSize: screenSize,
-                    isHorizontal: isHorizontal,
-                    videoUrl: lessonContent.mediaUrl,
+                    screenSize: widget.screenSize,
+                    isHorizontal: widget.isHorizontal,
+                    videoUrl: widget.lessonContent.mediaUrl,
                   )
                 : VideoPlayer(
-                    screenSize: screenSize,
-                    isHorizontal: isHorizontal,
-                    videoUrl: lessonContent.mediaUrl,
+                    screenSize: widget.screenSize,
+                    isHorizontal: widget.isHorizontal,
+                    videoUrl: widget.lessonContent.mediaUrl,
                   ),
           );
         case MediaType.Image:
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: FadeInImage.memoryNetwork(
-              alignment: Alignment.center,
-              placeholder: kTransparentImage,
-              image: lessonContent.mediaUrl,
-              fit: BoxFit.fitWidth,
-              width: double.maxFinite,
-            ),
+          final bool isDownloadable = widget.lessonContent.mediaUrl
+              .toLowerCase()
+              .contains("images/lessons/downloadable");
+          return Column(
+            children: [
+              FullScreenWidget(
+                child: FadeInImage.memoryNetwork(
+                  alignment: Alignment.center,
+                  placeholder: kTransparentImage,
+                  image: widget.lessonContent.mediaUrl,
+                  fit: BoxFit.fitWidth,
+                  width: double.maxFinite,
+                ),
+              ),
+              isDownloadable
+                  ? ColorButton(
+                      isUpdating: isDownloading,
+                      label: S.of(context).downloadToDevice,
+                      onTap: () {
+                        setState(() {
+                          isDownloading = true;
+                        });
+                        _downloadImage(context, widget.lessonContent.mediaUrl);
+                      },
+                      width: 200,
+                    )
+                  : Container(),
+            ],
           );
         case MediaType.Pdf:
           return Padding(
             padding: const EdgeInsets.only(bottom: 12.0),
             child: ContentPdfViewer(
-              lessonContent: lessonContent,
-              screenSize: screenSize,
-              isHorizontal: isHorizontal,
+              lessonContent: widget.lessonContent,
+              screenSize: widget.screenSize,
+              isHorizontal: widget.isHorizontal,
             ),
           );
       }
@@ -93,11 +125,48 @@ class CourseLessonContent extends StatelessWidget {
     return Container();
   }
 
+  void _downloadImage(
+      final BuildContext context, final String sourceUrl) async {
+    try {
+      // Saved with this method.
+      var imageId = await ImageDownloader.downloadImage(sourceUrl);
+
+      setState(() {
+        isDownloading = false;
+      });
+
+      if (imageId == null) {
+        showFlushBar(context, S.of(context).downloadFailed,
+            S.of(context).downloadFailedMsg,
+            backgroundColor: Colors.white,
+            borderColor: primaryColorLight,
+            primaryColor: primaryColor);
+        return;
+      }
+
+      // Below is a method of obtaining saved image information.
+      var path = await ImageDownloader.findPath(imageId);
+      showFlushBar(context, S.of(context).downloadSuccess,
+          S.of(context).downloadSuccessMsg,
+          backgroundColor: Colors.white,
+          borderColor: primaryColorLight,
+          primaryColor: primaryColor,
+          displayDuration: 10);
+      ImageDownloader.open(path);
+    } on PlatformException catch (error) {
+      showFlushBar(context, S.of(context).downloadFailed,
+          S.of(context).downloadFailedMsg,
+          backgroundColor: Colors.white,
+          borderColor: primaryColorLight,
+          primaryColor: primaryColor);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return isPaged
+    return widget.isPaged
         ? SizedBox(
-            height: tabBarHeight - 51,
+            height: widget.tabBarHeight - 51,
             child: SingleChildScrollView(
               child: Column(
                 children: [
