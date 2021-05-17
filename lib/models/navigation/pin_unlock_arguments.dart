@@ -1,4 +1,5 @@
 class PinUnlockArguments {
   final bool isAppTabsOpen;
-  PinUnlockArguments(this.isAppTabsOpen);
+  final Function setIsLocked;
+  PinUnlockArguments(this.isAppTabsOpen, this.setIsLocked);
 }

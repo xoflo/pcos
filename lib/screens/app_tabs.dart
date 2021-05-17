@@ -47,6 +47,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   bool _intercomInitialised = false;
   AppLifecycleState _appLifecycleState;
   bool _showYourWhy = false;
+  bool _isLocked = false;
 
   @override
   void initState() {
@@ -122,26 +123,29 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     if (!await DeviceUtils.isVersionSupported()) {
       Navigator.of(context).pushNamedAndRemoveUntil(
           UnsupportedVersion.id, (Route<dynamic> route) => false);
-    } else {
+    } else if (!_isLocked) {
+      //only lock if not already locked
       final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
       final int backgroundedTimestamp =
           await AuthenticationController().getBackgroundedTimestamp();
-
       //check if app was backgrounded over five minutes (300 seconds) ago, and display lock screen if necessary
       final int lockoutSeconds = 300;
-      debugPrint(
-          "***************backgroundedTimestamp=$backgroundedTimestamp currentTimestamp=$currentTimestamp lockoutSeconds=$lockoutSeconds");
-      debugPrint("**********DIFF=${currentTimestamp - backgroundedTimestamp}");
       if (backgroundedTimestamp != null &&
           currentTimestamp - backgroundedTimestamp > (lockoutSeconds * 1000)) {
-        debugPrint("*****LOCKING APP");
         Navigator.pushNamed(
           context,
           PinUnlock.id,
-          arguments: PinUnlockArguments(true),
+          arguments: PinUnlockArguments(true, _setIsLocked),
         );
+        _setIsLocked(true);
       }
     }
+  }
+
+  void _setIsLocked(final bool isLocked) {
+    setState(() {
+      _isLocked = isLocked;
+    });
   }
 
   void openDrawerMenuItem(final DrawerMenuItem drawerMenuItem) {
@@ -153,8 +157,9 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         Navigator.pushNamed(
           context,
           PinUnlock.id,
-          arguments: PinUnlockArguments(true),
+          arguments: PinUnlockArguments(true, _setIsLocked),
         );
+        _setIsLocked(true);
         break;
       case DrawerMenuItem.SETTINGS:
         Navigator.pushNamed(context, Settings.id,

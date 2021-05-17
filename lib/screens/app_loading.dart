@@ -15,6 +15,8 @@ class AppLoading extends StatefulWidget {
 }
 
 class _AppLoadingState extends State<AppLoading> {
+  bool _isLocked = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,18 +29,25 @@ class _AppLoadingState extends State<AppLoading> {
       return;
     } else {
       if (await AuthenticationController().isUserLoggedIn()) {
-        if (await AuthenticationController().isUserPinSet()) {
+        if (await AuthenticationController().isUserPinSet() && !_isLocked) {
           Navigator.pushNamed(
             context,
             PinUnlock.id,
-            arguments: PinUnlockArguments(false),
+            arguments: PinUnlockArguments(false, _setIsLocked),
           );
+          _setIsLocked(true);
           return;
         }
       }
     }
     //navigate to relevant start up screen
     Navigator.pushReplacementNamed(context, SignIn.id);
+  }
+
+  void _setIsLocked(final bool isLocked) {
+    setState(() {
+      _isLocked = isLocked;
+    });
   }
 
   @override

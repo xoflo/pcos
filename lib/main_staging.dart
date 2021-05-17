@@ -42,7 +42,7 @@ Future<void> main() async {
       );
     },
     (error, stackTrace) {
-      debugPrint('runZonedGuarded: Caught error in my root zone.');
+      //debugPrint('runZonedGuarded: Caught error in my root zone.');
       FirebaseCrashlytics.instance.recordError(error, stackTrace);
     },
   );

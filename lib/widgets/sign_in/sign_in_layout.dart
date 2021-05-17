@@ -168,7 +168,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                     isUpdating: widget.isSigningIn,
                     label: S.of(context).signInTitle,
                     onTap: attemptSignIn,
-                    width: 56,
+                    width: 80,
                   ),
                 ),
                 Padding(

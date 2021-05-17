@@ -171,6 +171,7 @@ class PinUnlockState extends State<PinUnlock> {
 
   void openAppTabs() {
     final PinUnlockArguments args = ModalRoute.of(context).settings.arguments;
+    args.setIsLocked(false);
     if (args.isAppTabsOpen) {
       Navigator.pop(context);
     } else {
