@@ -48,6 +48,7 @@ class RegisterLayout extends StatelessWidget {
                   isUpdating: false,
                   label: S.of(context).signUpTitle,
                   onTap: navigateToRegister,
+                  width: 80,
                 ),
               ),
             ],
