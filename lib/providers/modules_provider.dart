@@ -17,7 +17,7 @@ class ModulesProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
 
   ModulesProvider({@required this.dbProvider}) {
-    if (dbProvider != null) _fetchAndSaveData(false);
+    if (dbProvider != null) fetchAndSaveData(false);
   }
 
   LoadingStatus status = LoadingStatus.empty;
@@ -41,7 +41,7 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> get favouriteLessons => [..._favouriteLessons];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
 
-  Future<void> _fetchAndSaveData(final bool forceRefresh) async {
+  Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
     notifyListeners();
     final String nextLessonAvailableDateString = await PreferencesController()
@@ -128,7 +128,7 @@ class ModulesProvider with ChangeNotifier {
       await WebServices().setModuleComplete(moduleID);
     }
     //refresh the data from the API
-    _fetchAndSaveData(true);
+    fetchAndSaveData(true);
   }
 
   Future<void> setTaskAsComplete(final int taskID, final String value) async {
@@ -145,7 +145,7 @@ class ModulesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
-      _fetchAndSaveData(false);
+      fetchAndSaveData(false);
     }
   }
 

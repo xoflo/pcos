@@ -7,11 +7,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
-import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
@@ -25,10 +23,11 @@ import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/app_loading.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
+import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
-import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
@@ -132,11 +131,6 @@ class _AppState extends State<App> {
         ChangeNotifierProxyProvider<DatabaseProvider, FAQProvider>(
           create: (context) => FAQProvider(dbProvider: null),
           update: (context, db, previous) => FAQProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, CourseQuestionProvider>(
-          create: (context) => CourseQuestionProvider(dbProvider: null),
-          update: (context, db, previous) =>
-              CourseQuestionProvider(dbProvider: db),
         ),
         ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
           create: (context) => RecipesProvider(dbProvider: null),

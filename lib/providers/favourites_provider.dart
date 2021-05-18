@@ -7,7 +7,7 @@ class FavouritesProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
 
   FavouritesProvider({@required this.dbProvider}) {
-    if (dbProvider != null) _getDataFromDatabase(dbProvider);
+    if (dbProvider != null) getDataFromDatabase();
   }
 
   List<Lesson> _itemsLessons = [];
@@ -15,9 +15,7 @@ class FavouritesProvider with ChangeNotifier {
 
   List<Lesson> get itemsLessons => [..._itemsLessons];
 
-  Future<void> _getDataFromDatabase(
-    final dbProvider,
-  ) async {
+  Future<void> getDataFromDatabase() async {
     statusLessons = LoadingStatus.loading;
     notifyListeners();
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
