@@ -1775,10 +1775,10 @@ class S {
     );
   }
 
-  /// `View previous modules`
+  /// `Previous modules`
   String get viewPreviousModules {
     return Intl.message(
-      'View previous modules',
+      'Previous modules',
       name: 'viewPreviousModules',
       desc: '',
       args: [],
@@ -2160,6 +2160,26 @@ class S {
     return Intl.message(
       'Please check your device download folder.',
       name: 'downloadSuccessMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lesson Search`
+  String get lessonSearch {
+    return Intl.message(
+      'Lesson Search',
+      name: 'lessonSearch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Future Lesson`
+  String get futureLesson {
+    return Intl.message(
+      'Future Lesson',
+      name: 'futureLesson',
       desc: '',
       args: [],
     );

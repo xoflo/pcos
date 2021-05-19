@@ -21,6 +21,7 @@ class ModulesProvider with ChangeNotifier {
   }
 
   LoadingStatus status = LoadingStatus.empty;
+  LoadingStatus searchStatus = LoadingStatus.empty;
 
   List<Module> _modules = [];
   List<Lesson> _lessons = [];
@@ -33,6 +34,7 @@ class ModulesProvider with ChangeNotifier {
   Lesson _currentLesson;
   List<LessonTask> _displayLessonTasks = [];
   List<Lesson> _favouriteLessons = [];
+  List<Lesson> _searchLessons = [];
 
   Module get currentModule => _currentModule;
   Lesson get currentLesson => _currentLesson;
@@ -40,6 +42,7 @@ class ModulesProvider with ChangeNotifier {
   List<Module> get previousModules => [..._previousModules];
   List<Lesson> get favouriteLessons => [..._favouriteLessons];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
+  List<Lesson> get searchLessons => [..._searchLessons];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -166,5 +169,24 @@ class ModulesProvider with ChangeNotifier {
       }
     }
     return modules;
+  }
+
+  Future<void> filterAndSearch(final String searchText) async {
+    searchStatus = LoadingStatus.loading;
+    notifyListeners();
+    if (dbProvider.db != null) {
+      _searchLessons = await ProviderHelper()
+          .filterAndSearch(dbProvider, "Lesson", searchText, "");
+      await _refreshFavourites();
+    }
+    searchStatus =
+        _searchLessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    notifyListeners();
+  }
+
+  Future<void> clearSearch() async {
+    _searchLessons.clear();
+    searchStatus = LoadingStatus.empty;
+    notifyListeners();
   }
 }

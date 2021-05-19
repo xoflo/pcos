@@ -174,7 +174,7 @@
     "coachChatFailedText": "We couldn't open the Coach Chat right now, please try again later.",
     "moduleText": "Module",
     "lessonText": "Lesson",
-    "viewPreviousModules": "View previous modules",
+    "viewPreviousModules": "Previous modules",
     "previousModules": "Previous Modules",
     "saveText": "Save",
     "noResultsLessons": "No lessons to display!",
@@ -212,5 +212,7 @@
     "downloadFailed":  "Download Failed",
     "downloadFailedMsg": "We could not download the file to your device",
     "downloadSuccess": "Download Complete",
-    "downloadSuccessMsg": "Please check your device download folder."
+    "downloadSuccessMsg": "Please check your device download folder.",
+    "lessonSearch": "Lesson Search",
+    "futureLesson": "Future Lesson"
 }

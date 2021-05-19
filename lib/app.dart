@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
+import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -177,6 +178,7 @@ class _AppState extends State<App> {
           TermsAndConditions.id: (context) => TermsAndConditions(),
           Messages.id: (context) => Messages(),
           PreviousModules.id: (context) => PreviousModules(),
+          LessonSearch.id: (context) => LessonSearch(),
         },
         navigatorObservers: [
           observer,
