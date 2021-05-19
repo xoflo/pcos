@@ -1815,6 +1815,16 @@ class S {
     );
   }
 
+  /// `No lessons matching your search.`
+  String get noResultsLessonsSearch {
+    return Intl.message(
+      'No lessons matching your search.',
+      name: 'noResultsLessonsSearch',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `View lesson`
   String get viewNow {
     return Intl.message(
@@ -2180,6 +2190,36 @@ class S {
     return Intl.message(
       'Future Lesson',
       name: 'futureLesson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favourite lessons to display.`
+  String get noFavouriteLesson {
+    return Intl.message(
+      'No favourite lessons to display.',
+      name: 'noFavouriteLesson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favourite knowledge base items to display.`
+  String get noFavouriteKB {
+    return Intl.message(
+      'No favourite knowledge base items to display.',
+      name: 'noFavouriteKB',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favourite recipes to display.`
+  String get noFavouriteRecipe {
+    return Intl.message(
+      'No favourite recipes to display.',
+      name: 'noFavouriteRecipe',
       desc: '',
       args: [],
     );

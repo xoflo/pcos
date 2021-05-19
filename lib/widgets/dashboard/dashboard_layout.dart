@@ -168,6 +168,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   void _openLessonSearch(
       final BuildContext context, final ModulesProvider modulesProvider) {
+    //clear old search results before opening
+    modulesProvider.clearSearch();
     analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_LESSON_SEARCH);
     Navigator.pushNamed(context, LessonSearch.id);
   }

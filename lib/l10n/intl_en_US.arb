@@ -178,6 +178,7 @@
     "previousModules": "Previous Modules",
     "saveText": "Save",
     "noResultsLessons": "No lessons to display!",
+    "noResultsLessonsSearch": "No lessons matching your search.",
     "viewNow": "View lesson",
     "dismissText": "Dismiss",
     "textTaskValidation": "Please enter a value in the text box",
@@ -214,5 +215,8 @@
     "downloadSuccess": "Download Complete",
     "downloadSuccessMsg": "Please check your device download folder.",
     "lessonSearch": "Lesson Search",
-    "futureLesson": "Future Lesson"
+    "futureLesson": "Future Lesson",
+    "noFavouriteLesson": "No favorite lessons to display.",
+    "noFavouriteKB": "No favorite knowledge base items to display.",
+    "noFavouriteRecipe": "No favorite recipes to display."
 }

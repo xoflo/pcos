@@ -28,6 +28,7 @@ const String ANALYTICS_PARAMETER_DIALOG_TITLE = "dialog_title";
 const String ANALYTICS_PARAMETER_FLUSHBAR_TITLE = "flushbar_title";
 const String ANALYTICS_PARAMETER_VIDEO_NAME = "video_name";
 const String ANALYTICS_PARAMETER_LESSON_PAGE_NUMBER = "lesson_page_number";
+const String ANALYTICS_PARAMETER_LESSON_SEARCH_TEXT = "lesson_search_text";
 
 //SCREENS
 const String ANALYTICS_SCREEN_LESSON = "lesson";

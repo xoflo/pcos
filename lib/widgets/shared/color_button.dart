@@ -15,7 +15,7 @@ class ColorButton extends StatelessWidget {
     @required this.onTap,
     this.color = primaryColor,
     this.textColor = Colors.white,
-    this.width = 100,
+    this.width = 90,
   });
 
   Color getBackgroundColor(Set<MaterialState> states) {
