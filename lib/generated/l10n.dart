@@ -1175,11 +1175,21 @@ class S {
     );
   }
 
-  /// `Mains`
-  String get recipesTagMains {
+  /// `Lunch`
+  String get recipesTagLunch {
     return Intl.message(
-      'Mains',
-      name: 'recipesTagMains',
+      'Lunch',
+      name: 'recipesTagLunch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dinner`
+  String get recipesTagDinner {
+    return Intl.message(
+      'Dinner',
+      name: 'recipesTagDinner',
       desc: '',
       args: [],
     );
@@ -1195,61 +1205,31 @@ class S {
     );
   }
 
-  /// `Sweet`
-  String get recipesTagSweet {
+  /// `Dessert`
+  String get recipesTagDessert {
     return Intl.message(
-      'Sweet',
-      name: 'recipesTagSweet',
+      'Dessert',
+      name: 'recipesTagDessert',
       desc: '',
       args: [],
     );
   }
 
-  /// `Savoury`
-  String get recipesTagSavoury {
+  /// `Condiments`
+  String get recipesTagCondiments {
     return Intl.message(
-      'Savoury',
-      name: 'recipesTagSavoury',
+      'Condiments',
+      name: 'recipesTagCondiments',
       desc: '',
       args: [],
     );
   }
 
-  /// `Vegetarian`
-  String get recipesTagVegetarian {
+  /// `Drinks`
+  String get recipesTagDrinks {
     return Intl.message(
-      'Vegetarian',
-      name: 'recipesTagVegetarian',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Vegan`
-  String get recipesTagVegan {
-    return Intl.message(
-      'Vegan',
-      name: 'recipesTagVegan',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Egg-free`
-  String get recipesTagEggFree {
-    return Intl.message(
-      'Egg-free',
-      name: 'recipesTagEggFree',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Fodmap-friendly`
-  String get recipesTagFodmap {
-    return Intl.message(
-      'Fodmap-friendly',
-      name: 'recipesTagFodmap',
+      'Drinks',
+      name: 'recipesTagDrinks',
       desc: '',
       args: [],
     );

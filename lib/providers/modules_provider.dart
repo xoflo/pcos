@@ -176,7 +176,7 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
     if (dbProvider.db != null) {
       _searchLessons = await ProviderHelper()
-          .filterAndSearch(dbProvider, "Lesson", searchText, "");
+          .filterAndSearch(dbProvider, "Lesson", searchText, "", []);
       await _refreshFavourites();
     }
     searchStatus =

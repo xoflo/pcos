@@ -352,9 +352,15 @@ class ProviderHelper {
     return [];
   }
 
-  Future<List<dynamic>> filterAndSearch(final dbProvider,
-      final String tableName, final String searchText, final String tag) async {
+  Future<List<dynamic>> filterAndSearch(
+      final dbProvider,
+      final String tableName,
+      final String searchText,
+      final String tag,
+      final List<String> secondaryTags) async {
     if (dbProvider.db != null) {
+      debugPrint("*******primary tag=$tag");
+      debugPrint("********Secondary tags=$secondaryTags");
       if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
         String searchQuery = "";
         if (searchText.length > 0) {
@@ -371,6 +377,20 @@ class ProviderHelper {
         if (tag.length > 0 && tag != 'All') {
           searchQuery += searchText.length > 0 ? " AND" : " WHERE";
           searchQuery += " tags LIKE '%$tag%'";
+          //add the secondary tags as OR's if any selected
+          if (tableName == "Recipe" && secondaryTags.length > 0) {
+            bool firstItem = true;
+            searchQuery += " AND (";
+            secondaryTags.forEach((item) {
+              if (firstItem) {
+                searchQuery += "tags LIKE '%$item%'";
+                firstItem = false;
+              } else {
+                searchQuery += " OR tags LIKE '%$item%'";
+              }
+            });
+            searchQuery += ")";
+          }
         }
         debugPrint("*********searchQuery=$searchQuery");
         final dataList = await dbProvider.getDataQuery(tableName, searchQuery);

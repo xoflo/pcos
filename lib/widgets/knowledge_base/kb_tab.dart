@@ -88,9 +88,10 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
       child: Column(
         children: [
           SearchHeader(
+            screenSize: widget.screenSize,
             searchController: searchController,
             tagValues: StringUtils.getTagValues(S.of(context), "knowledgebase"),
-            tagValue: tagSelectedValue,
+            tagValueSelected: tagSelectedValue,
             onTagSelected: onTagSelected,
             onSearchClicked: onSearchClicked,
             isSearching: isSearching,

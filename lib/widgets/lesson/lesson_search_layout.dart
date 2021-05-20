@@ -144,9 +144,10 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
                 child: Column(
                   children: [
                     SearchHeader(
+                      screenSize: screenSize,
                       searchController: _searchController,
                       tagValues: [],
-                      tagValue: "",
+                      tagValueSelected: "",
                       onTagSelected: (String tagValue) {},
                       onSearchClicked: _onSearchClicked,
                       isSearching: _isSearching,

@@ -39,7 +39,7 @@ class KnowledgeBaseProvider with ChangeNotifier {
     notifyListeners();
     if (dbProvider.db != null) {
       _items = await ProviderHelper()
-          .filterAndSearch(dbProvider, tableName, searchText, tag);
+          .filterAndSearch(dbProvider, tableName, searchText, tag, []);
       await refreshFavourites(false, false);
     }
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
