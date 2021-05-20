@@ -28,6 +28,7 @@ const String ANALYTICS_PARAMETER_DIALOG_TITLE = "dialog_title";
 const String ANALYTICS_PARAMETER_FLUSHBAR_TITLE = "flushbar_title";
 const String ANALYTICS_PARAMETER_VIDEO_NAME = "video_name";
 const String ANALYTICS_PARAMETER_LESSON_PAGE_NUMBER = "lesson_page_number";
+const String ANALYTICS_PARAMETER_LESSON_SEARCH_TEXT = "lesson_search_text";
 
 //SCREENS
 const String ANALYTICS_SCREEN_LESSON = "lesson";
@@ -35,10 +36,12 @@ const String ANALYTICS_SCREEN_RECIPE_DETAIL = "recipe_detail";
 const String ANALYTICS_SCREEN_TUTORIAL = "tutorial";
 const String ANALYTICS_SCREEN_COACH_CHAT = "coach_chat";
 const String ANALYTICS_SCREEN_PREVIOUS_MODULES = "previous_modules";
+const String ANALYTICS_SCREEN_LESSON_SEARCH = "lesson_search";
 
 //SEARCH TYPES
 const String ANALYTICS_SEARCH_RECIPE = "recipe";
 const String ANALYTICS_SEARCH_KB = "knowledge_base";
+const String ANALYTICS_SEARCH_LESSON = "lesson";
 
 //BUTTONS
 const String ANALYTICS_BUTTON_EDIT_PROFILE = "edit_profile";

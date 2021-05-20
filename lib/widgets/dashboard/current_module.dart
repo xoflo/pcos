@@ -15,6 +15,7 @@ class CurrentModule extends StatelessWidget {
   final Function(Lesson, ModulesProvider) openLesson;
   final Function(BuildContext, ModulesProvider) openPreviousModules;
   final Function(int) onLessonChanged;
+  final Function(BuildContext, ModulesProvider) openLessonSearch;
 
   CurrentModule({
     @required this.selectedLesson,
@@ -25,6 +26,7 @@ class CurrentModule extends StatelessWidget {
     @required this.openLesson,
     @required this.openPreviousModules,
     @required this.onLessonChanged,
+    @required this.openLessonSearch,
   });
 
   void _openLesson(final Lesson lesson) {
@@ -74,6 +76,7 @@ class CurrentModule extends StatelessWidget {
                     return LessonCard(
                       lessonNumber: lessonNumber,
                       lesson: lesson,
+                      displayIsNew: true,
                       openLesson: _openLesson,
                     );
                   },
@@ -84,25 +87,46 @@ class CurrentModule extends StatelessWidget {
           showPreviousModule
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      openPreviousModules(context, modulesProvider);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(S.of(context).viewPreviousModules,
-                            style: TextStyle(color: secondaryColor)),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          openLessonSearch(context, modulesProvider);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
                           child: Icon(
-                            Icons.school,
+                            Icons.search,
                             color: secondaryColor,
                             size: 36,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          openPreviousModules(context, modulesProvider);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(S.of(context).viewPreviousModules,
+                                  style: TextStyle(color: secondaryColor)),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: Icon(
+                                  Icons.school,
+                                  color: secondaryColor,
+                                  size: 36,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               : Container(),

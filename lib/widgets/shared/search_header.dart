@@ -66,38 +66,42 @@ class SearchHeader extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(S.of(context).searchHeaderFilterText),
-                      ),
-                      tagValues.length > 0
-                          ? DropdownButton<String>(
-                              value: tagValue,
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: primaryColor,
-                              ),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: secondaryColor),
-                              underline: Container(
-                                height: 2,
-                                color: primaryColor,
-                              ),
-                              onChanged: (String newValue) {
-                                onTagSelected(newValue);
-                              },
-                              items: tagValues.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            )
-                          : Container(),
-                    ]),
+                    tagValues.length > 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                      S.of(context).searchHeaderFilterText),
+                                ),
+                                DropdownButton<String>(
+                                  value: tagValue,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: primaryColor,
+                                  ),
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  style: TextStyle(color: secondaryColor),
+                                  underline: Container(
+                                    height: 2,
+                                    color: primaryColor,
+                                  ),
+                                  onChanged: (String newValue) {
+                                    onTagSelected(newValue);
+                                  },
+                                  items: tagValues
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                )
+                              ])
+                        : Container(),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: ColorButton(

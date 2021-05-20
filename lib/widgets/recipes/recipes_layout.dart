@@ -19,9 +19,9 @@ class RecipesLayout extends StatefulWidget {
 }
 
 class _RecipesLayoutState extends State<RecipesLayout> {
-  final TextEditingController searchController = TextEditingController();
-  bool isSearching = false;
-  String tagSelectedValue = "All";
+  final TextEditingController _searchController = TextEditingController();
+  bool _isSearching = false;
+  String _tagSelectedValue = "All";
 
   List<String> getTagValues() {
     final stringContext = S.of(context);
@@ -63,12 +63,12 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     await recipeProvider.addToFavourites(recipe, add);
     recipeProvider.filterAndSearch(
-        searchController.text.trim(), tagSelectedValue);
+        _searchController.text.trim(), _tagSelectedValue);
   }
 
   void onTagSelected(String tagValue) {
     setState(() {
-      tagSelectedValue = tagValue;
+      _tagSelectedValue = tagValue;
     });
     onSearchClicked();
   }
@@ -83,7 +83,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     );
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     recipeProvider.filterAndSearch(
-        searchController.text.trim(), tagSelectedValue);
+        _searchController.text.trim(), _tagSelectedValue);
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     //removeFocus();
   }
@@ -98,8 +98,8 @@ class _RecipesLayoutState extends State<RecipesLayout> {
 
   Widget getRecipesList(
       final Size screenSize, final RecipesProvider recipesProvider) {
-    if (tagSelectedValue.length == 0) {
-      tagSelectedValue = S.of(context).tagAll;
+    if (_tagSelectedValue.length == 0) {
+      _tagSelectedValue = S.of(context).tagAll;
     }
     switch (recipesProvider.status) {
       case LoadingStatus.loading:
@@ -122,12 +122,12 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     return Column(
       children: [
         SearchHeader(
-          searchController: searchController,
+          searchController: _searchController,
           tagValues: getTagValues(),
-          tagValue: tagSelectedValue,
+          tagValue: _tagSelectedValue,
           onTagSelected: onTagSelected,
           onSearchClicked: onSearchClicked,
-          isSearching: isSearching,
+          isSearching: _isSearching,
         ),
         Consumer<RecipesProvider>(
           builder: (context, model, child) => getRecipesList(screenSize, model),

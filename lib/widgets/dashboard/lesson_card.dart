@@ -8,16 +8,19 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class LessonCard extends StatelessWidget {
   final int lessonNumber;
   final Lesson lesson;
+  final bool displayIsNew;
   final Function(Lesson) openLesson;
 
   LessonCard({
     @required this.lessonNumber,
     @required this.lesson,
+    @required this.displayIsNew,
     @required this.openLesson,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isLessonComplete = lesson.isComplete;
     return Stack(
       children: [
         Padding(
@@ -26,7 +29,7 @@ class LessonCard extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(horizontal: 5.0),
             decoration: BoxDecoration(
-              color: backgroundColor,
+              color: isLessonComplete ? backgroundColor : Colors.grey,
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
@@ -34,44 +37,62 @@ class LessonCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "${S.of(context).lessonText} $lessonNumber",
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
+                  lessonNumber > 0
+                      ? Text(
+                          "${S.of(context).lessonText} $lessonNumber",
+                          style: Theme.of(context).textTheme.headline5,
+                        )
+                      : Container(),
                   Text(
                     lesson.title,
-                    style: Theme.of(context).textTheme.headline3,
+                    style: isLessonComplete
+                        ? Theme.of(context).textTheme.headline3
+                        : Theme.of(context)
+                            .textTheme
+                            .headline3
+                            .copyWith(color: Colors.white70),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: HtmlWidget(lesson.introduction),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      openLesson(lesson);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(S.of(context).viewNow,
-                            style: TextStyle(color: secondaryColor)),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
-                          child: Icon(
-                            Icons.open_in_new,
-                            color: secondaryColor,
-                            size: 36,
+                  isLessonComplete
+                      ? GestureDetector(
+                          onTap: () {
+                            openLesson(lesson);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(S.of(context).viewNow,
+                                  style: TextStyle(color: secondaryColor)),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: Icon(
+                                  Icons.open_in_new,
+                                  color: secondaryColor,
+                                  size: 36,
+                                ),
+                              ),
+                            ],
                           ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Text(S.of(context).futureLesson,
+                                  style: TextStyle(color: Colors.white70)),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
           ),
         ),
-        !lesson.isComplete
+        !lesson.isComplete && this.displayIsNew
             ? Align(
                 alignment: Alignment.topRight,
                 child: AvatarGlow(

@@ -4,6 +4,15 @@ import 'dart:io';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/providers/messages_provider.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/providers/faq_provider.dart';
+import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
@@ -143,6 +152,21 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   }
 
   void _setIsLocked(final bool isLocked) {
+    if (!isLocked) {
+      //unlocking so force refresh modules data
+      Provider.of<ModulesProvider>(context, listen: false)
+          .fetchAndSaveData(true);
+      //now get the other data if necessary
+      Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<KnowledgeBaseProvider>(context, listen: false)
+          .fetchAndSaveData();
+      Provider.of<FAQProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<FavouritesProvider>(context, listen: false)
+          .getDataFromDatabase();
+      Provider.of<MessagesProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<CMSTextProvider>(context, listen: false).fetchAndSaveData();
+    }
+
     setState(() {
       _isLocked = isLocked;
     });

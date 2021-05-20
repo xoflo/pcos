@@ -37,10 +37,10 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noItemsFound);
+        return NoResults(message: _getNoResultsMessage(favouriteType));
       case LoadingStatus.success:
         return favourites == null || favourites.length == 0
-            ? NoResults(message: S.of(context).noItemsFound)
+            ? NoResults(message: _getNoResultsMessage(favouriteType))
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: getContent(
@@ -52,6 +52,25 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
               );
     }
     return Container();
+  }
+
+  String _getNoResultsMessage(final FavouriteType favouriteType) {
+    String noResultsMessage = S.of(context).noItemsFound;
+    switch (favouriteType) {
+      case FavouriteType.Lesson:
+        noResultsMessage = S.of(context).noFavouriteLesson;
+        break;
+      case FavouriteType.KnowledgeBase:
+        noResultsMessage = S.of(context).noFavouriteKB;
+        break;
+      case FavouriteType.Recipe:
+        noResultsMessage = S.of(context).noFavouriteRecipe;
+        break;
+      case FavouriteType.None:
+        noResultsMessage = S.of(context).noItemsFound;
+        break;
+    }
+    return noResultsMessage;
   }
 
   Widget getContent(

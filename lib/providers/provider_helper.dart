@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/cms_text.dart';
@@ -357,14 +358,21 @@ class ProviderHelper {
       if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
         String searchQuery = "";
         if (searchText.length > 0) {
-          searchQuery = tableName == "Recipe"
-              ? " WHERE (title LIKE '%$searchText%' OR description LIKE '%$searchText%')"
-              : " WHERE question LIKE '%$searchText%'";
+          if (tableName == "Recipe") {
+            searchQuery =
+                " WHERE (title LIKE '%$searchText%' OR description LIKE '%$searchText%')";
+          } else if (tableName == "Lesson") {
+            searchQuery =
+                " WHERE (title LIKE '%$searchText%' OR REPLACE(title,'''','') LIKE '%$searchText%' OR introduction LIKE '%$searchText%' OR REPLACE(introduction,'''','') LIKE '%$searchText%')";
+          } else {
+            searchQuery = " WHERE question LIKE '%$searchText%'";
+          }
         }
         if (tag.length > 0 && tag != 'All') {
           searchQuery += searchText.length > 0 ? " AND" : " WHERE";
           searchQuery += " tags LIKE '%$tag%'";
         }
+        debugPrint("*********searchQuery=$searchQuery");
         final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
         return mapDataToList(dataList, tableName);
       } else {

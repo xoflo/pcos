@@ -1775,10 +1775,10 @@ class S {
     );
   }
 
-  /// `View previous modules`
+  /// `Previous modules`
   String get viewPreviousModules {
     return Intl.message(
-      'View previous modules',
+      'Previous modules',
       name: 'viewPreviousModules',
       desc: '',
       args: [],
@@ -1810,6 +1810,16 @@ class S {
     return Intl.message(
       'No lessons to display!',
       name: 'noResultsLessons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No lessons matching your search.`
+  String get noResultsLessonsSearch {
+    return Intl.message(
+      'No lessons matching your search.',
+      name: 'noResultsLessonsSearch',
       desc: '',
       args: [],
     );
@@ -2160,6 +2170,56 @@ class S {
     return Intl.message(
       'Please check your device download folder.',
       name: 'downloadSuccessMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lesson Search`
+  String get lessonSearch {
+    return Intl.message(
+      'Lesson Search',
+      name: 'lessonSearch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Future Lesson`
+  String get futureLesson {
+    return Intl.message(
+      'Future Lesson',
+      name: 'futureLesson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favourite lessons to display.`
+  String get noFavouriteLesson {
+    return Intl.message(
+      'No favourite lessons to display.',
+      name: 'noFavouriteLesson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favourite knowledge base items to display.`
+  String get noFavouriteKB {
+    return Intl.message(
+      'No favourite knowledge base items to display.',
+      name: 'noFavouriteKB',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favourite recipes to display.`
+  String get noFavouriteRecipe {
+    return Intl.message(
+      'No favourite recipes to display.',
+      name: 'noFavouriteRecipe',
       desc: '',
       args: [],
     );

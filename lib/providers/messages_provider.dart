@@ -9,7 +9,7 @@ class MessagesProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
 
   MessagesProvider({@required this.dbProvider}) {
-    if (dbProvider != null) _fetchAndSaveData();
+    if (dbProvider != null) fetchAndSaveData();
   }
 
   final String tableName = "Message";
@@ -19,7 +19,7 @@ class MessagesProvider with ChangeNotifier {
 
   List<Message> get items => [..._items];
 
-  Future<void> _fetchAndSaveData() async {
+  Future<void> fetchAndSaveData() async {
     final bool refreshFromAPI = refreshMessages.getRefreshMessagesFromAPI();
     status = LoadingStatus.loading;
     notifyListeners();
