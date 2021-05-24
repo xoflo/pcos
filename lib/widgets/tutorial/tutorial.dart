@@ -33,7 +33,7 @@ class _TutorialState extends State<Tutorial> {
 
   Future<void> setTutorialPages() async {
     List<Widget> pages = [];
-    if (widget.isStartUp) {
+    if (widget.isStartUp || 1 == 1) {
       pages.add(TutorialWelcomePage());
     }
     pages.add(TutorialPage(pageNumber: 1));

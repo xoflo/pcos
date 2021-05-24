@@ -14,7 +14,7 @@ class TutorialWelcomePage extends StatelessWidget {
 
     return SingleChildScrollView(
       child: SizedBox(
-        height: screenSize.height - 100,
+        height: screenSize.height - 27,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(

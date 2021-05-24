@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/search_header_secondary_filter.dart';
 
 class SearchHeader extends StatelessWidget {
+  final Size screenSize;
   final TextEditingController searchController;
   final List<String> tagValues;
-  final String tagValue;
+  final String tagValueSelected;
   final Function(String) onTagSelected;
   final Function onSearchClicked;
   final bool isSearching;
+  final List<MultiSelectItem<String>> tagValuesSecondary;
+  final List<String> tagValuesSelectedSecondary;
+  final Function(List<String>) onSecondaryTagSelected;
 
   SearchHeader({
+    @required this.screenSize,
     @required this.searchController,
     @required this.tagValues,
-    @required this.tagValue,
+    @required this.tagValueSelected,
     @required this.onTagSelected,
     @required this.onSearchClicked,
     @required this.isSearching,
+    this.tagValuesSecondary,
+    this.tagValuesSelectedSecondary,
+    this.onSecondaryTagSelected,
   });
 
   final _formKey = GlobalKey<FormState>();
 
-  void clearTextAndSearch() {
+  void _clearTextAndSearch() {
     if (searchController.text.trim().length > 0) {
       searchController.clear();
       onSearchClicked();
@@ -31,6 +41,8 @@ class SearchHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMultiFilter =
+        tagValuesSecondary != null && tagValuesSecondary.length > 0;
     var size = MediaQuery.of(context).size;
 
     return SizedBox(
@@ -47,7 +59,7 @@ class SearchHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: size.width - 16,
+                      width: size.width - 130,
                       height: 40,
                       child: TextFormField(
                         controller: searchController,
@@ -55,60 +67,70 @@ class SearchHeader extends StatelessWidget {
                           border: OutlineInputBorder(),
                           labelText: S.of(context).searchInputText,
                           suffixIcon: IconButton(
-                            onPressed: () => clearTextAndSearch(),
+                            onPressed: () => _clearTextAndSearch(),
                             icon: Icon(Icons.clear, color: secondaryColor),
                           ),
                         ),
                       ),
+                    ),
+                    ColorButton(
+                      width: 70,
+                      isUpdating: isSearching,
+                      label: S.of(context).searchInputText,
+                      onTap: () {
+                        onSearchClicked();
+                      },
                     ),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(S.of(context).searchHeaderFilterText),
-                      ),
-                      tagValues.length > 0
-                          ? DropdownButton<String>(
-                              value: tagValue,
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: primaryColor,
-                              ),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: secondaryColor),
-                              underline: Container(
-                                height: 2,
-                                color: primaryColor,
-                              ),
-                              onChanged: (String newValue) {
-                                onTagSelected(newValue);
-                              },
-                              items: tagValues.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            )
-                          : Container(),
-                    ]),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: ColorButton(
-                        isUpdating: isSearching,
-                        label: S.of(context).searchInputText,
-                        onTap: () {
-                          onSearchClicked();
-                        },
-                        width: 70,
-                      ),
-                    ),
+                    tagValues.length > 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 4.0),
+                                  child: Text(
+                                    S.of(context).searchHeaderFilterText,
+                                  ),
+                                ),
+                                DropdownButton<String>(
+                                  value: tagValueSelected,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: primaryColor,
+                                  ),
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  style: TextStyle(color: secondaryColor),
+                                  underline: Container(
+                                    height: 2,
+                                    color: primaryColor,
+                                  ),
+                                  onChanged: (String newValue) {
+                                    onTagSelected(newValue);
+                                  },
+                                  items: tagValues
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                                isMultiFilter
+                                    ? SearchHeaderSecondaryFilter(
+                                        tagValuesSecondary: tagValuesSecondary,
+                                        tagValuesSelectedSecondary:
+                                            tagValuesSelectedSecondary,
+                                        onSecondaryTagSelected:
+                                            onSecondaryTagSelected)
+                                    : Container(),
+                              ])
+                        : Container(),
                   ],
                 )
               ],

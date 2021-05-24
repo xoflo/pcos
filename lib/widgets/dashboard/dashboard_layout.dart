@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
@@ -165,6 +166,14 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         arguments: PreviousModulesArguments(modulesProvider));
   }
 
+  void _openLessonSearch(
+      final BuildContext context, final ModulesProvider modulesProvider) {
+    //clear old search results before opening
+    modulesProvider.clearSearch();
+    analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_LESSON_SEARCH);
+    Navigator.pushNamed(context, LessonSearch.id);
+  }
+
   void _askUserForDailyReminder() {
     void openSettings(BuildContext context) {
       Navigator.of(context).pop();
@@ -261,6 +270,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           openLesson: _openLesson,
           openPreviousModules: _openPreviousModules,
           onLessonChanged: _onLessonChanged,
+          openLessonSearch: _openLessonSearch,
         );
     }
     return Container();

@@ -17,7 +17,7 @@ class KnowledgeBaseLayout extends StatelessWidget {
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -41,14 +41,6 @@ class KnowledgeBaseLayout extends StatelessWidget {
                     text: S.of(context).frequentlyAskedQuestions,
                     icon: Icon(
                       Icons.help,
-                      color: primaryColor,
-                      size: 30,
-                    ),
-                  ),
-                  Tab(
-                    text: S.of(context).courseQuestions,
-                    icon: Icon(
-                      Icons.school,
                       color: primaryColor,
                       size: 30,
                     ),
@@ -98,15 +90,6 @@ class KnowledgeBaseLayout extends StatelessWidget {
                         isHorizontal: isHorizontal,
                         isFAQ: true,
                         faqProvider: faqModel,
-                      ),
-                    ),
-                    Consumer<CourseQuestionProvider>(
-                      builder: (context, courseQuestionModel, child) =>
-                          QuestionTab(
-                        screenSize: screenSize,
-                        isHorizontal: isHorizontal,
-                        isFAQ: false,
-                        courseQuestionProvider: courseQuestionModel,
                       ),
                     ),
                   ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -12,14 +11,12 @@ class QuestionTab extends StatelessWidget {
   final bool isHorizontal;
   final bool isFAQ;
   final FAQProvider faqProvider;
-  final CourseQuestionProvider courseQuestionProvider;
 
   QuestionTab({
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.isFAQ,
     this.faqProvider,
-    this.courseQuestionProvider,
   });
 
   Widget getQuestionList(
@@ -44,11 +41,7 @@ class QuestionTab extends StatelessWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(2.0),
-        child: getQuestionList(
-          context,
-          screenSize,
-          isFAQ ? faqProvider : courseQuestionProvider,
-        ),
+        child: getQuestionList(context, screenSize, faqProvider),
       ),
     );
   }
