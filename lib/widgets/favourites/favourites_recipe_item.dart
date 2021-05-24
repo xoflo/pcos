@@ -78,9 +78,12 @@ class FavouritesRecipeItem extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                width: width - 220,
-                child: Text(recipe.description),
+              Padding(
+                padding: const EdgeInsets.only(left: 4.0),
+                child: Container(
+                  width: width - 224,
+                  child: Text(recipe.description),
+                ),
               ),
               Container(
                 height: 60,

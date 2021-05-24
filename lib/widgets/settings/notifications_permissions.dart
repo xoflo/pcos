@@ -22,12 +22,16 @@ class NotificationsPermissions extends StatelessWidget {
         return Column(
           children: [
             Text(S.of(context).notificationPermissionsNeedToAllowText),
-            ColorButton(
-              isUpdating: false,
-              label: S.of(context).notificationPermissionsAllowButton,
-              onTap: () {
-                requestNotificationPermission();
-              },
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: ColorButton(
+                width: 150,
+                isUpdating: false,
+                label: S.of(context).notificationPermissionsAllowButton,
+                onTap: () {
+                  requestNotificationPermission();
+                },
+              ),
             )
           ],
         );
