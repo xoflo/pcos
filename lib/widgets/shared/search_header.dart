@@ -3,6 +3,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/search_header_secondary_filter.dart';
 
 class SearchHeader extends StatelessWidget {
   final Size screenSize;
@@ -31,86 +32,11 @@ class SearchHeader extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
-  void clearTextAndSearch() {
+  void _clearTextAndSearch() {
     if (searchController.text.trim().length > 0) {
       searchController.clear();
       onSearchClicked();
     }
-  }
-
-  void _showMultiSelect(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: (ctx) {
-        return MultiSelectDialog(
-          backgroundColor: backgroundColor,
-          items: tagValuesSecondary,
-          initialValue: tagValuesSelectedSecondary,
-          onConfirm: (values) {
-            onSecondaryTagSelected(values);
-          },
-          searchIcon: Icon(
-            Icons.search,
-            color: primaryColor,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _getSecondaryDropdown(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _showMultiSelect(context);
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
-        child: Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 2.0, color: primaryColor),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 6.0,
-                  horizontal: 3.0,
-                ),
-                child: Text(
-                  "More options...",
-                  style: TextStyle(
-                    color: secondaryColor,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ),
-            this.tagValuesSelectedSecondary.length > 0
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircleAvatar(
-                        backgroundColor: primaryColor,
-                        child: Text(
-                          this.tagValuesSelectedSecondary.length.toString(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : Container()
-          ],
-        ),
-      ),
-    );
   }
 
   @override
@@ -141,7 +67,7 @@ class SearchHeader extends StatelessWidget {
                           border: OutlineInputBorder(),
                           labelText: S.of(context).searchInputText,
                           suffixIcon: IconButton(
-                            onPressed: () => clearTextAndSearch(),
+                            onPressed: () => _clearTextAndSearch(),
                             icon: Icon(Icons.clear, color: secondaryColor),
                           ),
                         ),
@@ -196,7 +122,12 @@ class SearchHeader extends StatelessWidget {
                                   }).toList(),
                                 ),
                                 isMultiFilter
-                                    ? _getSecondaryDropdown(context)
+                                    ? SearchHeaderSecondaryFilter(
+                                        tagValuesSecondary: tagValuesSecondary,
+                                        tagValuesSelectedSecondary:
+                                            tagValuesSelectedSecondary,
+                                        onSecondaryTagSelected:
+                                            onSecondaryTagSelected)
                                     : Container(),
                               ])
                         : Container(),

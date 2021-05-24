@@ -359,8 +359,6 @@ class ProviderHelper {
       final String tag,
       final List<String> secondaryTags) async {
     if (dbProvider.db != null) {
-      debugPrint("*******primary tag=$tag");
-      debugPrint("********Secondary tags=$secondaryTags");
       if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
         String searchQuery = "";
         if (searchText.length > 0) {
@@ -392,7 +390,6 @@ class ProviderHelper {
             searchQuery += ")";
           }
         }
-        debugPrint("*********searchQuery=$searchQuery");
         final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
         return mapDataToList(dataList, tableName);
       } else {

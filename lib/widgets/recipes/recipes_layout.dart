@@ -44,19 +44,31 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       final String tagSelected) {
     //TODO: need to update these once info is available
     final stringContext = S.of(context);
+    final String plantBased = stringContext.recipesTagSecondaryPlantBased;
+    final String vegetarian = stringContext.recipesTagSecondaryVegetarian;
+    final String glutenFree = stringContext.recipesTagSecondaryGlutenFree;
+    final String dairyFree = stringContext.recipesTagSecondaryDairyFree;
+    final String nutFree = stringContext.recipesTagSecondaryNutFree;
+    final String eggFree = stringContext.recipesTagSecondaryEggFree;
+    final String pescatarian = stringContext.recipesTagSecondaryPescatarian;
+    final String fodmapFriendly =
+        stringContext.recipesTagSecondaryFodmapFriendly;
+    final String calorieControlled =
+        stringContext.recipesTagSecondaryCalorieControlled;
+    final String slowCooker = stringContext.recipesTagSecondarySlowCooker;
 
     if (tagSelected == stringContext.recipesTagBreakfast) {
       return [
-        MultiSelectItem('Vegetarian', 'Vegetarian'),
-        MultiSelectItem('Nut Free', 'Nut Free'),
-        MultiSelectItem('Egg Free', 'Egg Free'),
+        MultiSelectItem(vegetarian, vegetarian),
+        MultiSelectItem(nutFree, nutFree),
+        MultiSelectItem(eggFree, eggFree),
       ];
     }
 
     if (tagSelected == stringContext.recipesTagLunch) {
       return [
-        MultiSelectItem('Plant Based', 'Plant Based'),
-        MultiSelectItem('Dairy Free', 'Dairy Free'),
+        MultiSelectItem(plantBased, plantBased),
+        MultiSelectItem(dairyFree, dairyFree),
       ];
     }
 
@@ -94,6 +106,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     setState(() {
       _tagSelectedValue = tagValue;
       _tagValuesSecondary = _getTagValuesSecondary(tagValue);
+      _tagValuesSelectedSecondary.clear();
     });
     _onSearchClicked();
   }

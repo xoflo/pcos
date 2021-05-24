@@ -1235,6 +1235,106 @@ class S {
     );
   }
 
+  /// `Plant Based`
+  String get recipesTagSecondaryPlantBased {
+    return Intl.message(
+      'Plant Based',
+      name: 'recipesTagSecondaryPlantBased',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vegetarian`
+  String get recipesTagSecondaryVegetarian {
+    return Intl.message(
+      'Vegetarian',
+      name: 'recipesTagSecondaryVegetarian',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gluten Free`
+  String get recipesTagSecondaryGlutenFree {
+    return Intl.message(
+      'Gluten Free',
+      name: 'recipesTagSecondaryGlutenFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dairy Free`
+  String get recipesTagSecondaryDairyFree {
+    return Intl.message(
+      'Dairy Free',
+      name: 'recipesTagSecondaryDairyFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nut Free`
+  String get recipesTagSecondaryNutFree {
+    return Intl.message(
+      'Nut Free',
+      name: 'recipesTagSecondaryNutFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Egg Free`
+  String get recipesTagSecondaryEggFree {
+    return Intl.message(
+      'Egg Free',
+      name: 'recipesTagSecondaryEggFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pescatarian`
+  String get recipesTagSecondaryPescatarian {
+    return Intl.message(
+      'Pescatarian',
+      name: 'recipesTagSecondaryPescatarian',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fodmap Friendly`
+  String get recipesTagSecondaryFodmapFriendly {
+    return Intl.message(
+      'Fodmap Friendly',
+      name: 'recipesTagSecondaryFodmapFriendly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calorie Controlled`
+  String get recipesTagSecondaryCalorieControlled {
+    return Intl.message(
+      'Calorie Controlled',
+      name: 'recipesTagSecondaryCalorieControlled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slow Cooker`
+  String get recipesTagSecondarySlowCooker {
+    return Intl.message(
+      'Slow Cooker',
+      name: 'recipesTagSecondarySlowCooker',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Diet`
   String get kbTagDiet {
     return Intl.message(
