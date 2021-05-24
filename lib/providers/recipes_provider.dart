@@ -32,13 +32,13 @@ class RecipesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> filterAndSearch(
-      final String searchText, final String tag) async {
+  Future<void> filterAndSearch(final String searchText, final String tag,
+      final List<String> secondaryTags) async {
     status = LoadingStatus.loading;
     notifyListeners();
     if (dbProvider.db != null) {
-      _items = await ProviderHelper()
-          .filterAndSearch(dbProvider, tableName, searchText, tag);
+      _items = await ProviderHelper().filterAndSearch(
+          dbProvider, tableName, searchText, tag, secondaryTags);
       await _refreshFavourites();
     }
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
@@ -22,24 +23,59 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   final TextEditingController _searchController = TextEditingController();
   bool _isSearching = false;
   String _tagSelectedValue = "All";
+  List<String> _tagValuesSelectedSecondary = [];
+  List<MultiSelectItem<String>> _tagValuesSecondary = [];
 
-  List<String> getTagValues() {
+  List<String> _getTagValues() {
     final stringContext = S.of(context);
     return <String>[
       stringContext.tagAll,
       stringContext.recipesTagBreakfast,
-      stringContext.recipesTagMains,
+      stringContext.recipesTagLunch,
+      stringContext.recipesTagDinner,
       stringContext.recipesTagSnack,
-      stringContext.recipesTagSweet,
-      stringContext.recipesTagSavoury,
-      stringContext.recipesTagVegetarian,
-      stringContext.recipesTagVegan,
-      stringContext.recipesTagEggFree,
-      stringContext.recipesTagFodmap
+      stringContext.recipesTagDessert,
+      stringContext.recipesTagCondiments,
+      stringContext.recipesTagDrinks,
     ];
   }
 
-  void openRecipeDetails(BuildContext context, Recipe recipe) async {
+  List<MultiSelectItem<String>> _getTagValuesSecondary(
+      final String tagSelected) {
+    //TODO: need to update these once info is available
+    final stringContext = S.of(context);
+    final String plantBased = stringContext.recipesTagSecondaryPlantBased;
+    final String vegetarian = stringContext.recipesTagSecondaryVegetarian;
+    final String glutenFree = stringContext.recipesTagSecondaryGlutenFree;
+    final String dairyFree = stringContext.recipesTagSecondaryDairyFree;
+    final String nutFree = stringContext.recipesTagSecondaryNutFree;
+    final String eggFree = stringContext.recipesTagSecondaryEggFree;
+    final String pescatarian = stringContext.recipesTagSecondaryPescatarian;
+    final String fodmapFriendly =
+        stringContext.recipesTagSecondaryFodmapFriendly;
+    final String calorieControlled =
+        stringContext.recipesTagSecondaryCalorieControlled;
+    final String slowCooker = stringContext.recipesTagSecondarySlowCooker;
+
+    if (tagSelected == stringContext.recipesTagBreakfast) {
+      return [
+        MultiSelectItem(vegetarian, vegetarian),
+        MultiSelectItem(nutFree, nutFree),
+        MultiSelectItem(eggFree, eggFree),
+      ];
+    }
+
+    if (tagSelected == stringContext.recipesTagLunch) {
+      return [
+        MultiSelectItem(plantBased, plantBased),
+        MultiSelectItem(dairyFree, dairyFree),
+      ];
+    }
+
+    return [];
+  }
+
+  void _openRecipeDetails(BuildContext context, Recipe recipe) async {
     //remove the focus from the searchbox if necessary, to hide the keyboard
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
 
@@ -47,33 +83,42 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       context,
       RecipeDetails(
         recipe: recipe,
-        closeRecipeDetails: closeRecipeDetails,
-        addToFavourites: addToFavourites,
+        closeRecipeDetails: _closeRecipeDetails,
+        addToFavourites: _addToFavourites,
       ),
       Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
       recipe.recipeId.toString(),
     );
   }
 
-  void closeRecipeDetails() {
+  void _closeRecipeDetails() {
     Navigator.pop(context);
   }
 
-  void addToFavourites(final dynamic recipe, final bool add) async {
+  void _addToFavourites(final dynamic recipe, final bool add) async {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     await recipeProvider.addToFavourites(recipe, add);
-    recipeProvider.filterAndSearch(
-        _searchController.text.trim(), _tagSelectedValue);
+    recipeProvider.filterAndSearch(_searchController.text.trim(),
+        _tagSelectedValue, _tagValuesSelectedSecondary);
   }
 
-  void onTagSelected(String tagValue) {
+  void _onTagSelected(String tagValue) {
     setState(() {
       _tagSelectedValue = tagValue;
+      _tagValuesSecondary = _getTagValuesSecondary(tagValue);
+      _tagValuesSelectedSecondary.clear();
     });
-    onSearchClicked();
+    _onSearchClicked();
   }
 
-  void onSearchClicked() async {
+  void _onSecondaryTagSelected(List<String> tagValues) {
+    setState(() {
+      _tagValuesSelectedSecondary = tagValues;
+    });
+    _onSearchClicked();
+  }
+
+  void _onSearchClicked() async {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_SEARCH,
       parameters: {
@@ -82,21 +127,12 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       },
     );
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
-    recipeProvider.filterAndSearch(
-        _searchController.text.trim(), _tagSelectedValue);
+    recipeProvider.filterAndSearch(_searchController.text.trim(),
+        _tagSelectedValue, _tagValuesSelectedSecondary);
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-    //removeFocus();
   }
 
-  void removeFocus() {
-    //remove focus from the searchInput
-    FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-  }
-
-  Widget getRecipesList(
+  Widget _getRecipesList(
       final Size screenSize, final RecipesProvider recipesProvider) {
     if (_tagSelectedValue.length == 0) {
       _tagSelectedValue = S.of(context).tagAll;
@@ -110,7 +146,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
         return RecipesList(
             screenSize: screenSize,
             recipes: recipesProvider.items,
-            openRecipeDetails: openRecipeDetails);
+            openRecipeDetails: _openRecipeDetails);
     }
     return Container();
   }
@@ -122,15 +158,20 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     return Column(
       children: [
         SearchHeader(
+          screenSize: screenSize,
           searchController: _searchController,
-          tagValues: getTagValues(),
-          tagValue: _tagSelectedValue,
-          onTagSelected: onTagSelected,
-          onSearchClicked: onSearchClicked,
+          tagValues: _getTagValues(),
+          tagValueSelected: _tagSelectedValue,
+          onTagSelected: _onTagSelected,
+          onSearchClicked: _onSearchClicked,
           isSearching: _isSearching,
+          tagValuesSecondary: _tagValuesSecondary,
+          tagValuesSelectedSecondary: _tagValuesSelectedSecondary,
+          onSecondaryTagSelected: _onSecondaryTagSelected,
         ),
         Consumer<RecipesProvider>(
-          builder: (context, model, child) => getRecipesList(screenSize, model),
+          builder: (context, model, child) =>
+              _getRecipesList(screenSize, model),
         ),
       ],
     );

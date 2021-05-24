@@ -1175,11 +1175,21 @@ class S {
     );
   }
 
-  /// `Mains`
-  String get recipesTagMains {
+  /// `Lunch`
+  String get recipesTagLunch {
     return Intl.message(
-      'Mains',
-      name: 'recipesTagMains',
+      'Lunch',
+      name: 'recipesTagLunch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dinner`
+  String get recipesTagDinner {
+    return Intl.message(
+      'Dinner',
+      name: 'recipesTagDinner',
       desc: '',
       args: [],
     );
@@ -1195,61 +1205,131 @@ class S {
     );
   }
 
-  /// `Sweet`
-  String get recipesTagSweet {
+  /// `Dessert`
+  String get recipesTagDessert {
     return Intl.message(
-      'Sweet',
-      name: 'recipesTagSweet',
+      'Dessert',
+      name: 'recipesTagDessert',
       desc: '',
       args: [],
     );
   }
 
-  /// `Savoury`
-  String get recipesTagSavoury {
+  /// `Condiments`
+  String get recipesTagCondiments {
     return Intl.message(
-      'Savoury',
-      name: 'recipesTagSavoury',
+      'Condiments',
+      name: 'recipesTagCondiments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drinks`
+  String get recipesTagDrinks {
+    return Intl.message(
+      'Drinks',
+      name: 'recipesTagDrinks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plant Based`
+  String get recipesTagSecondaryPlantBased {
+    return Intl.message(
+      'Plant Based',
+      name: 'recipesTagSecondaryPlantBased',
       desc: '',
       args: [],
     );
   }
 
   /// `Vegetarian`
-  String get recipesTagVegetarian {
+  String get recipesTagSecondaryVegetarian {
     return Intl.message(
       'Vegetarian',
-      name: 'recipesTagVegetarian',
+      name: 'recipesTagSecondaryVegetarian',
       desc: '',
       args: [],
     );
   }
 
-  /// `Vegan`
-  String get recipesTagVegan {
+  /// `Gluten Free`
+  String get recipesTagSecondaryGlutenFree {
     return Intl.message(
-      'Vegan',
-      name: 'recipesTagVegan',
+      'Gluten Free',
+      name: 'recipesTagSecondaryGlutenFree',
       desc: '',
       args: [],
     );
   }
 
-  /// `Egg-free`
-  String get recipesTagEggFree {
+  /// `Dairy Free`
+  String get recipesTagSecondaryDairyFree {
     return Intl.message(
-      'Egg-free',
-      name: 'recipesTagEggFree',
+      'Dairy Free',
+      name: 'recipesTagSecondaryDairyFree',
       desc: '',
       args: [],
     );
   }
 
-  /// `Fodmap-friendly`
-  String get recipesTagFodmap {
+  /// `Nut Free`
+  String get recipesTagSecondaryNutFree {
     return Intl.message(
-      'Fodmap-friendly',
-      name: 'recipesTagFodmap',
+      'Nut Free',
+      name: 'recipesTagSecondaryNutFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Egg Free`
+  String get recipesTagSecondaryEggFree {
+    return Intl.message(
+      'Egg Free',
+      name: 'recipesTagSecondaryEggFree',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pescatarian`
+  String get recipesTagSecondaryPescatarian {
+    return Intl.message(
+      'Pescatarian',
+      name: 'recipesTagSecondaryPescatarian',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fodmap Friendly`
+  String get recipesTagSecondaryFodmapFriendly {
+    return Intl.message(
+      'Fodmap Friendly',
+      name: 'recipesTagSecondaryFodmapFriendly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calorie Controlled`
+  String get recipesTagSecondaryCalorieControlled {
+    return Intl.message(
+      'Calorie Controlled',
+      name: 'recipesTagSecondaryCalorieControlled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Slow Cooker`
+  String get recipesTagSecondarySlowCooker {
+    return Intl.message(
+      'Slow Cooker',
+      name: 'recipesTagSecondarySlowCooker',
       desc: '',
       args: [],
     );
