@@ -145,9 +145,12 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
       }
 
       // Below is a method of obtaining saved image information.
-      var path = await ImageDownloader.findPath(imageId);
-      showFlushBar(context, S.of(context).downloadSuccess,
-          S.of(context).downloadSuccessMsg,
+      final String path = await ImageDownloader.findPath(imageId);
+      final String downloadMessage = Platform.isIOS
+          ? S.of(context).downloadSuccessMsgiOS
+          : S.of(context).downloadSuccessMsg;
+
+      showFlushBar(context, S.of(context).downloadSuccess, downloadMessage,
           backgroundColor: Colors.white,
           borderColor: primaryColorLight,
           primaryColor: primaryColor,

@@ -222,6 +222,7 @@
     "downloadFailedMsg": "We could not download the file to your device",
     "downloadSuccess": "Download Complete",
     "downloadSuccessMsg": "Please check your device download folder.",
+    "downloadSuccessMsgiOS": "Please check your device photos.",
     "lessonSearch": "Lesson Search",
     "futureLesson": "Future Lesson",
     "noFavouriteLesson": "No favorite lessons to display.",

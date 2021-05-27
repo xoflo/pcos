@@ -2255,6 +2255,16 @@ class S {
     );
   }
 
+  /// `Please check your device photos.`
+  String get downloadSuccessMsgiOS {
+    return Intl.message(
+      'Please check your device photos.',
+      name: 'downloadSuccessMsgiOS',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lesson Search`
   String get lessonSearch {
     return Intl.message(
