@@ -4,6 +4,7 @@ import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 
 class MessageDetailsLayout extends StatelessWidget {
   final Message message;
@@ -56,7 +57,21 @@ class MessageDetailsLayout extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
-                    Text(message.message),
+                    Text(message.message, textAlign: TextAlign.justify),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            DateTimeUtils.longDate(
+                                message.dateCreatedUTC.toLocal()),
+                            style: TextStyle(fontSize: 12.0, color: textColor),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

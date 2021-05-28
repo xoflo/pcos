@@ -45,6 +45,7 @@ class LessonCard extends StatelessWidget {
                       : Container(),
                   Text(
                     lesson.title,
+                    textAlign: TextAlign.center,
                     style: isLessonComplete
                         ? Theme.of(context).textTheme.headline3
                         : Theme.of(context)

@@ -13,23 +13,34 @@ class ProfileReadOnly extends StatelessWidget {
 
   Padding addProfileRow(BuildContext context, final String title,
       final String value, final bool isLocked) {
-    final labelSize = screenSize.width * .3;
+    final labelWidth = screenSize.width * .3;
+    final valueWidth = screenSize.width * .6;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            width: labelSize,
+            width: labelWidth,
             child: Text(
               "$title:",
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
+          isLocked
+              ? Text(
+                  value,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              : Container(
+                  width: valueWidth,
+                  child: Text(
+                    value,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
           isLocked
               ? Padding(
                   padding: const EdgeInsets.only(left: 2.0),
@@ -88,6 +99,7 @@ class ProfileReadOnly extends StatelessWidget {
             false,
           ),
           ColorButton(
+            width: 140,
             isUpdating: false,
             label: S.of(context).profileEditButton,
             onTap: () {

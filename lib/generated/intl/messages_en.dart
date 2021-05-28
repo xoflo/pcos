@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "downloadFailedMsg" : MessageLookupByLibrary.simpleMessage("We could not download the file to your device"),
     "downloadSuccess" : MessageLookupByLibrary.simpleMessage("Download Complete"),
     "downloadSuccessMsg" : MessageLookupByLibrary.simpleMessage("Please check your device download folder."),
+    "downloadSuccessMsgiOS" : MessageLookupByLibrary.simpleMessage("Please check your device photos."),
     "downloadToDevice" : MessageLookupByLibrary.simpleMessage("Download to device"),
     "emailLabel" : MessageLookupByLibrary.simpleMessage("Email or Username"),
     "emailLinkText" : MessageLookupByLibrary.simpleMessage("Or we can send a link to your email so you can visit the website on another device."),
