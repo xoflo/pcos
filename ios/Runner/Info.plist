@@ -76,5 +76,9 @@
 	<string>Required so the user can view and download images</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
     <string>Required so the user can view and download images</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Enables the app to provide a better localized experience for the user</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Enables the app to provide a better localized experience for the user</string>
 </dict>
 </plist>

@@ -186,7 +186,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                                   });
                                   _savePassword(context);
                                 },
-                                width: 122,
+                                width: 158,
                               ),
                               SizedBox(
                                 width: 20,
@@ -197,7 +197,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                                 onTap: () {
                                   _cancel();
                                 },
-                                width: 56,
+                                width: 60,
                               ),
                             ],
                           ),

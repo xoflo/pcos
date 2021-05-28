@@ -17,6 +17,10 @@ class Message {
       this.dateCreatedUTC});
 
   factory Message.fromJson(Map<String, dynamic> json) {
+    String dateCreatedUTCString = json['dateCreatedUTC'];
+    if (!dateCreatedUTCString.endsWith("Z")) {
+      dateCreatedUTCString = "${dateCreatedUTCString}Z";
+    }
     return Message(
       notificationId: json['notificationId'],
       title: json['title'],
@@ -24,7 +28,7 @@ class Message {
       isRead: json['isRead'] == 1 || json['isRead'] == true ? true : false,
       action: "NONE",
       dateReadUTC: DateTime.parse(json['dateReadUTC']),
-      dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
+      dateCreatedUTC: DateTime.parse(dateCreatedUTCString),
     );
   }
 }

@@ -87,6 +87,7 @@ class ProfileEditable extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ColorButton(
+                width: 120,
                 isUpdating: false,
                 label: S.of(context).profileSaveButton,
                 onTap: () {
