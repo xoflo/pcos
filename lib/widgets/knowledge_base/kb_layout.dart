@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
-import 'package:thepcosprotocol_app/providers/course_question_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -61,41 +60,34 @@ class KnowledgeBaseLayout extends StatelessWidget {
               decoration: BoxDecoration(color: primaryColor),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 6.0,
-              ),
-              child: Container(
-                //Add this to give height
-                height: DeviceUtils.getRemainingHeight(
-                    MediaQuery.of(context).size.height,
-                    true,
-                    isHorizontal,
-                    true,
-                    true),
-                child: TabBarView(
-                  children: [
-                    Consumer<KnowledgeBaseProvider>(
-                      builder: (context, model, child) => KnowledgeBaseTab(
-                        screenSize: screenSize,
-                        isHorizontal: isHorizontal,
-                        knowledgeBaseProvider: model,
+          Expanded(
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              return Container(
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: TabBarView(
+                    children: [
+                      Consumer<KnowledgeBaseProvider>(
+                        builder: (context, model, child) => KnowledgeBaseTab(
+                          isHorizontal: isHorizontal,
+                          knowledgeBaseProvider: model,
+                        ),
                       ),
-                    ),
-                    Consumer<FAQProvider>(
-                      builder: (context, faqModel, child) => QuestionTab(
-                        screenSize: screenSize,
-                        isHorizontal: isHorizontal,
-                        isFAQ: true,
-                        faqProvider: faqModel,
+                      Consumer<FAQProvider>(
+                        builder: (context, faqModel, child) => QuestionTab(
+                          isHorizontal: isHorizontal,
+                          isFAQ: true,
+                          faqProvider: faqModel,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ),
         ],
       ),

@@ -3,10 +3,10 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class YourWhy extends StatefulWidget {
-  final Size screenSize;
+  final double width;
   final String whatsYourWhy;
 
-  YourWhy({@required this.screenSize, @required this.whatsYourWhy});
+  YourWhy({@required this.width, @required this.whatsYourWhy});
 
   @override
   _YourWhyState createState() => _YourWhyState();
@@ -36,7 +36,7 @@ class _YourWhyState extends State<YourWhy> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Container(
-          width: widget.screenSize.width,
+          width: widget.width,
           decoration: BoxDecoration(
             color: Colors.white,
           ),

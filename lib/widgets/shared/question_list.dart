@@ -5,7 +5,6 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list_item.dart';
 
 class QuestionList extends StatefulWidget {
-  final Size screenSize;
   final List<Question> questions;
   final bool showIcon;
   final IconData iconData;
@@ -13,7 +12,6 @@ class QuestionList extends StatefulWidget {
   final Function(FavouriteType, Question, bool) iconAction;
 
   QuestionList({
-    @required this.screenSize,
     @required this.questions,
     this.showIcon = false,
     this.iconData,

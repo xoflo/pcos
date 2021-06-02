@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
-import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
 import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';

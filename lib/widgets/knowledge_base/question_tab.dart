@@ -7,20 +7,17 @@ import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class QuestionTab extends StatelessWidget {
-  final Size screenSize;
   final bool isHorizontal;
   final bool isFAQ;
   final FAQProvider faqProvider;
 
   QuestionTab({
-    @required this.screenSize,
     @required this.isHorizontal,
     @required this.isFAQ,
     this.faqProvider,
   });
 
-  Widget getQuestionList(
-      final BuildContext context, final Size screenSize, final provider) {
+  Widget getQuestionList(final BuildContext context, final provider) {
     switch (provider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -29,8 +26,9 @@ class QuestionTab extends StatelessWidget {
       case LoadingStatus.success:
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 2.0),
-          child:
-              QuestionList(screenSize: screenSize, questions: provider.items),
+          child: QuestionList(
+            questions: provider.items,
+          ),
         );
     }
     return Container();
@@ -41,7 +39,7 @@ class QuestionTab extends StatelessWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(2.0),
-        child: getQuestionList(context, screenSize, faqProvider),
+        child: getQuestionList(context, faqProvider),
       ),
     );
   }

@@ -6,7 +6,6 @@ import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header_secondary_filter.dart';
 
 class SearchHeader extends StatelessWidget {
-  final Size screenSize;
   final TextEditingController searchController;
   final List<String> tagValues;
   final String tagValueSelected;
@@ -18,7 +17,6 @@ class SearchHeader extends StatelessWidget {
   final Function(List<String>) onSecondaryTagSelected;
 
   SearchHeader({
-    @required this.screenSize,
     @required this.searchController,
     @required this.tagValues,
     @required this.tagValueSelected,

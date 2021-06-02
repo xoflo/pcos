@@ -126,22 +126,24 @@ class RecipeDetails extends StatelessWidget {
       return Container();
     }
 
-    return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: Column(
-          children: <Widget>[
-            DialogHeader(
-              screenSize: screenSize,
-              item: recipe,
-              favouriteType: FavouriteType.Recipe,
-              title: recipe.title,
-              isFavourite: recipe.isFavorite,
-              closeItem: closeRecipeDetails,
-              addToFavourites: addToFavourites,
-            ),
-            _getRecipeDetails(context, isHorizontal, screenSize),
-          ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            children: <Widget>[
+              DialogHeader(
+                screenSize: screenSize,
+                item: recipe,
+                favouriteType: FavouriteType.Recipe,
+                title: recipe.title,
+                isFavourite: recipe.isFavorite,
+                closeItem: closeRecipeDetails,
+                addToFavourites: addToFavourites,
+              ),
+              _getRecipeDetails(context, isHorizontal, screenSize),
+            ],
+          ),
         ),
       ),
     );
