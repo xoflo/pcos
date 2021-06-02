@@ -48,35 +48,6 @@ class DeviceUtils {
     return 1;
   }
 
-  static double getRemainingHeight(
-      final double height,
-      final bool isTab,
-      final bool isHorizontal,
-      final bool hasNavigationTabs,
-      final bool hasIconsOnTabs) {
-    int adjustmentAmount = 0;
-
-    if (isHorizontal) {
-      adjustmentAmount = isTab ? 170 : 90;
-    } else {
-      if (Platform.isIOS) {
-        adjustmentAmount = isTab ? 170 : 85;
-      } else {
-        adjustmentAmount = isTab ? 174 : 89;
-      }
-    }
-
-    if (hasNavigationTabs) {
-      adjustmentAmount = adjustmentAmount + 25;
-    }
-
-    if (hasIconsOnTabs) {
-      adjustmentAmount = adjustmentAmount + 26;
-    }
-
-    return height - adjustmentAmount;
-  }
-
   static Future<bool> isVersionSupported() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final String version = packageInfo.version;

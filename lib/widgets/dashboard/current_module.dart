@@ -8,7 +8,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class CurrentModule extends StatelessWidget {
   final int selectedLesson;
-  final Size screenSize;
+  final double width;
   final bool isHorizontal;
   final ModulesProvider modulesProvider;
   final bool showPreviousModule;
@@ -19,7 +19,7 @@ class CurrentModule extends StatelessWidget {
 
   CurrentModule({
     @required this.selectedLesson,
-    @required this.screenSize,
+    @required this.width,
     @required this.isHorizontal,
     @required this.modulesProvider,
     @required this.showPreviousModule,
@@ -55,7 +55,7 @@ class CurrentModule extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: screenSize.width,
+            width: width,
             child: CarouselSlider(
               options: CarouselOptions(
                 height: 300,
@@ -76,7 +76,7 @@ class CurrentModule extends StatelessWidget {
                     return LessonCard(
                       lessonNumber: lessonNumber,
                       lesson: lesson,
-                      displayIsNew: true,
+                      isNew: true,
                       openLesson: _openLesson,
                     );
                   },

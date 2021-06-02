@@ -116,8 +116,6 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
             padding: const EdgeInsets.only(bottom: 12.0),
             child: ContentPdfViewer(
               lessonContent: widget.lessonContent,
-              screenSize: widget.screenSize,
-              isHorizontal: widget.isHorizontal,
             ),
           );
       }

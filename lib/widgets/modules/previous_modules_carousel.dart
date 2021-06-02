@@ -88,7 +88,7 @@ class PreviousModulesCarousel extends StatelessWidget {
                       return LessonCard(
                         lessonNumber: lessonNumber,
                         lesson: lesson,
-                        displayIsNew: false,
+                        isNew: false,
                         openLesson: openLesson,
                       );
                     },

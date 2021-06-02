@@ -158,7 +158,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     return Column(
       children: [
         SearchHeader(
-          screenSize: screenSize,
           searchController: _searchController,
           tagValues: _getTagValues(),
           tagValueSelected: _tagSelectedValue,

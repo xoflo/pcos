@@ -33,7 +33,7 @@ class _TutorialState extends State<Tutorial> {
 
   Future<void> setTutorialPages() async {
     List<Widget> pages = [];
-    if (widget.isStartUp || 1 == 1) {
+    if (widget.isStartUp) {
       pages.add(TutorialWelcomePage());
     }
     pages.add(TutorialPage(pageNumber: 1));
@@ -53,8 +53,7 @@ class _TutorialState extends State<Tutorial> {
     final Size screenSize = MediaQuery.of(context).size;
     final totalPages = _tutorialPages.length;
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 30.0),
+    return SafeArea(
       child: SizedBox.expand(
         child: Container(
           child: !_tutorialInitialised
@@ -67,7 +66,7 @@ class _TutorialState extends State<Tutorial> {
                   children: <Widget>[
                     CarouselSlider(
                       options: CarouselOptions(
-                        height: screenSize.height - 100,
+                        height: screenSize.height - 102,
                         enableInfiniteScroll: false,
                         viewportFraction: 1,
                         onPageChanged: (index, reason) {
@@ -100,7 +99,7 @@ class _TutorialState extends State<Tutorial> {
                     CarouselPager(
                       totalPages: totalPages,
                       currentPage: _currentPage,
-                      bottomPadding: 2.0,
+                      bottomPadding: 0,
                     ),
                     ColorButton(
                       isUpdating: false,

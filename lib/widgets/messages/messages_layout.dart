@@ -27,7 +27,6 @@ class MessagesLayout extends StatelessWidget {
         return MessagesList(
           messagesProvider: messagesProvider,
           openMessage: openMessage,
-          screenSize: screenSize,
         );
     }
     return Container();

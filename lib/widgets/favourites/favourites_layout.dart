@@ -5,14 +5,8 @@ import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-import 'package:thepcosprotocol_app/widgets/favourites/favourites_recipes_list.dart';
-import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons_list.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/widgets/favourites/favourites_tab.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
@@ -26,89 +20,6 @@ class FavouritesLayout extends StatefulWidget {
 }
 
 class _FavouritesLayoutState extends State<FavouritesLayout> {
-  Widget getFavouritesList(
-    final BuildContext context,
-    final Size screenSize,
-    final List<dynamic> favourites,
-    final LoadingStatus status,
-    final FavouriteType favouriteType,
-  ) {
-    switch (status) {
-      case LoadingStatus.loading:
-        return PcosLoadingSpinner();
-      case LoadingStatus.empty:
-        return NoResults(message: _getNoResultsMessage(favouriteType));
-      case LoadingStatus.success:
-        return favourites == null || favourites.length == 0
-            ? NoResults(message: _getNoResultsMessage(favouriteType))
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: getContent(
-                  context,
-                  screenSize,
-                  favourites,
-                  favouriteType,
-                ),
-              );
-    }
-    return Container();
-  }
-
-  String _getNoResultsMessage(final FavouriteType favouriteType) {
-    String noResultsMessage = S.of(context).noItemsFound;
-    switch (favouriteType) {
-      case FavouriteType.Lesson:
-        noResultsMessage = S.of(context).noFavouriteLesson;
-        break;
-      case FavouriteType.KnowledgeBase:
-        noResultsMessage = S.of(context).noFavouriteKB;
-        break;
-      case FavouriteType.Recipe:
-        noResultsMessage = S.of(context).noFavouriteRecipe;
-        break;
-      case FavouriteType.None:
-        noResultsMessage = S.of(context).noItemsFound;
-        break;
-    }
-    return noResultsMessage;
-  }
-
-  Widget getContent(
-    final BuildContext context,
-    final Size screenSize,
-    final List<dynamic> favourites,
-    final FavouriteType favouriteType,
-  ) {
-    switch (favouriteType) {
-      case FavouriteType.Lesson:
-        return FavouritesLessonsList(
-          lessons: favourites,
-          width: screenSize.width,
-          removeFavourite: _removeFavourite,
-          openFavourite: _openFavourite,
-        );
-      case FavouriteType.KnowledgeBase:
-        return QuestionList(
-          screenSize: screenSize,
-          questions: favourites,
-          showIcon: true,
-          iconData: Icons.delete,
-          iconDataOn: Icons.delete,
-          iconAction: _removeFavourite,
-        );
-      case FavouriteType.Recipe:
-        return FavouritesRecipesList(
-          recipes: favourites,
-          width: screenSize.width,
-          removeFavourite: _removeFavourite,
-          openFavourite: _openFavourite,
-        );
-      case FavouriteType.None:
-        return Container();
-    }
-    return Container();
-  }
-
   void _removeFavourite(
       FavouriteType favouriteType, dynamic item, bool isAdd) async {
     void removeFavouriteConfirmed(BuildContext context) async {
@@ -165,16 +76,16 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
         showDataUsageWarning: false,
         modulesProvider: modulesProvider,
         lesson: lesson,
-        closeLesson: closeFavourite,
-        addToFavourites: addLessonToFavourites,
+        closeLesson: _closeFavourite,
+        addToFavourites: _addLessonToFavourites,
       );
     } else {
       Recipe recipe = favourite;
       analyticsId = recipe.recipeId.toString();
       favouriteWidget = RecipeDetails(
         recipe: recipe,
-        closeRecipeDetails: closeFavourite,
-        addToFavourites: addRecipeToFavourites,
+        closeRecipeDetails: _closeFavourite,
+        addToFavourites: _addRecipeToFavourites,
       );
     }
 
@@ -186,16 +97,16 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     );
   }
 
-  void closeFavourite() {
+  void _closeFavourite() {
     Navigator.pop(context);
   }
 
-  void addLessonToFavourites(
+  void _addLessonToFavourites(
       final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     modulesProvider.addToFavourites(lesson, add);
   }
 
-  void addRecipeToFavourites(dynamic recipe, bool add) async {
+  void _addRecipeToFavourites(dynamic recipe, bool add) async {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     await recipeProvider.addToFavourites(recipe, add);
     recipeProvider.fetchAndSaveData();
@@ -204,8 +115,6 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
     return DefaultTabController(
       length: 3,
@@ -260,58 +169,51 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
               decoration: BoxDecoration(color: primaryColor),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 6.0,
-              ),
-              child: Container(
-                //Add this to give height
-                height: DeviceUtils.getRemainingHeight(
-                    MediaQuery.of(context).size.height,
-                    true,
-                    isHorizontal,
-                    true,
-                    true),
-                child: TabBarView(
-                  children: [
-                    Consumer<ModulesProvider>(
-                      builder: (context, model, child) => SingleChildScrollView(
-                        child: getFavouritesList(
-                          context,
-                          screenSize,
-                          model.favouriteLessons,
-                          model.status,
-                          FavouriteType.Lesson,
+          Expanded(
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Container(
+                  height: constraints.maxHeight,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: TabBarView(
+                      children: [
+                        Consumer<ModulesProvider>(
+                          builder: (context, model, child) => FavouritesTab(
+                            screenSize: screenSize,
+                            favourites: model.favouriteLessons,
+                            status: model.status,
+                            favouriteType: FavouriteType.Lesson,
+                            removeFavourite: _removeFavourite,
+                            openFavourite: _openFavourite,
+                          ),
                         ),
-                      ),
-                    ),
-                    Consumer<KnowledgeBaseProvider>(
-                      builder: (context, model, child) => SingleChildScrollView(
-                        child: getFavouritesList(
-                          context,
-                          screenSize,
-                          model.favourites,
-                          model.status,
-                          FavouriteType.KnowledgeBase,
+                        Consumer<KnowledgeBaseProvider>(
+                          builder: (context, model, child) => FavouritesTab(
+                            screenSize: screenSize,
+                            favourites: model.favourites,
+                            status: model.status,
+                            favouriteType: FavouriteType.KnowledgeBase,
+                            removeFavourite: _removeFavourite,
+                            openFavourite: _openFavourite,
+                          ),
                         ),
-                      ),
-                    ),
-                    Consumer<RecipesProvider>(
-                      builder: (context, model, child) => SingleChildScrollView(
-                        child: getFavouritesList(
-                          context,
-                          screenSize,
-                          model.favourites,
-                          model.status,
-                          FavouriteType.Recipe,
+                        Consumer<RecipesProvider>(
+                          builder: (context, model, child) => FavouritesTab(
+                            screenSize: screenSize,
+                            favourites: model.favourites,
+                            status: model.status,
+                            favouriteType: FavouriteType.Recipe,
+                            removeFavourite: _removeFavourite,
+                            openFavourite: _openFavourite,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],
