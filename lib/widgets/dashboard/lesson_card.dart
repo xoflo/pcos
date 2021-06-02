@@ -8,13 +8,13 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class LessonCard extends StatelessWidget {
   final int lessonNumber;
   final Lesson lesson;
-  final bool displayIsNew;
+  final bool isNew;
   final Function(Lesson) openLesson;
 
   LessonCard({
     @required this.lessonNumber,
     @required this.lesson,
-    @required this.displayIsNew,
+    @required this.isNew,
     @required this.openLesson,
   });
 
@@ -29,7 +29,7 @@ class LessonCard extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(horizontal: 5.0),
             decoration: BoxDecoration(
-              color: isLessonComplete ? backgroundColor : Colors.grey,
+              color: isLessonComplete || isNew ? backgroundColor : Colors.grey,
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
@@ -43,21 +43,36 @@ class LessonCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.headline5,
                         )
                       : Container(),
-                  Text(
-                    lesson.title,
-                    textAlign: TextAlign.center,
-                    style: isLessonComplete
-                        ? Theme.of(context).textTheme.headline3
-                        : Theme.of(context)
-                            .textTheme
-                            .headline3
-                            .copyWith(color: Colors.white70),
+                  SizedBox(
+                    height: 56,
+                    child: Center(
+                      child: Text(
+                        lesson.title,
+                        textAlign: TextAlign.center,
+                        style: isLessonComplete || isNew
+                            ? Theme.of(context).textTheme.headline3
+                            : Theme.of(context)
+                                .textTheme
+                                .headline3
+                                .copyWith(color: Colors.white70),
+                      ),
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: HtmlWidget(lesson.introduction),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6.0,
+                      vertical: 0,
+                    ),
+                    child: SizedBox(
+                      height: 146,
+                      child: Center(
+                        child: ClipRect(
+                          child: HtmlWidget(lesson.introduction),
+                        ),
+                      ),
+                    ),
                   ),
-                  isLessonComplete
+                  isLessonComplete || isNew
                       ? GestureDetector(
                           onTap: () {
                             openLesson(lesson);
@@ -93,7 +108,7 @@ class LessonCard extends StatelessWidget {
             ),
           ),
         ),
-        !lesson.isComplete && this.displayIsNew
+        !lesson.isComplete && this.isNew
             ? Align(
                 alignment: Alignment.topRight,
                 child: AvatarGlow(

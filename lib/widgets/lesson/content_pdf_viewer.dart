@@ -5,17 +5,12 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 
 class ContentPdfViewer extends StatefulWidget {
   final LessonContent lessonContent;
-  final Size screenSize;
-  final bool isHorizontal;
 
   ContentPdfViewer({
     @required this.lessonContent,
-    @required this.screenSize,
-    @required this.isHorizontal,
   });
 
   @override
@@ -94,26 +89,29 @@ class _ContentPdfViewerState extends State<ContentPdfViewer> {
         : Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: widget.screenSize.width,
-                height: DeviceUtils.getRemainingHeight(widget.screenSize.height,
-                        false, widget.isHorizontal, false, false) -
-                    60,
-                child: PdfView(
-                  documentLoader: Center(child: PcosLoadingSpinner()),
-                  pageLoader: Center(child: PcosLoadingSpinner()),
-                  controller: _pdfController,
-                  onDocumentLoaded: (document) {
-                    setState(() {
-                      _pageCount = document.pagesCount;
-                    });
-                  },
-                  onPageChanged: (page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
-                ),
+              Expanded(
+                child: LayoutBuilder(builder:
+                    (BuildContext context, BoxConstraints constraints) {
+                  return Container(
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                    child: PdfView(
+                      documentLoader: Center(child: PcosLoadingSpinner()),
+                      pageLoader: Center(child: PcosLoadingSpinner()),
+                      controller: _pdfController,
+                      onDocumentLoaded: (document) {
+                        setState(() {
+                          _pageCount = document.pagesCount;
+                        });
+                      },
+                      onPageChanged: (page) {
+                        setState(() {
+                          _currentPage = page;
+                        });
+                      },
+                    ),
+                  );
+                }),
               ),
               Center(
                 child: Text("Page $_currentPage of $_pageCount"),

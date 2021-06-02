@@ -8,7 +8,6 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
@@ -85,8 +84,7 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
     }
   }
 
-  Widget _getLessonList(final Size screenSize, final bool isHorizontal,
-      final ModulesProvider modulesProvider) {
+  Widget _getLessonList(final ModulesProvider modulesProvider) {
     if (_hasSearchRun) {
       switch (modulesProvider.searchStatus) {
         case LoadingStatus.loading:
@@ -97,14 +95,10 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
           return Column(
             children: [
               LessonList(
-                  screenSize: screenSize,
-                  isHorizontal: isHorizontal,
                   isComplete: true,
                   modulesProvider: modulesProvider,
                   openLesson: _openLesson),
               LessonList(
-                  screenSize: screenSize,
-                  isHorizontal: isHorizontal,
                   isComplete: false,
                   modulesProvider: modulesProvider,
                   openLesson: _openLesson),
@@ -117,12 +111,6 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-    final mainContainerHeight = DeviceUtils.getRemainingHeight(
-        MediaQuery.of(context).size.height, false, isHorizontal, false, false);
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -138,23 +126,28 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
             showMessagesIcon: false,
           ),
           Consumer<ModulesProvider>(
-            builder: (context, model, child) => Container(
-              height: mainContainerHeight,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SearchHeader(
-                      screenSize: screenSize,
-                      searchController: _searchController,
-                      tagValues: [],
-                      tagValueSelected: "",
-                      onTagSelected: (String tagValue) {},
-                      onSearchClicked: _onSearchClicked,
-                      isSearching: _isSearching,
+            builder: (context, model, child) => Expanded(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return Container(
+                    height: constraints.maxHeight,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SearchHeader(
+                            searchController: _searchController,
+                            tagValues: [],
+                            tagValueSelected: "",
+                            onTagSelected: (String tagValue) {},
+                            onSearchClicked: _onSearchClicked,
+                            isSearching: _isSearching,
+                          ),
+                          _getLessonList(model),
+                        ],
+                      ),
                     ),
-                    _getLessonList(screenSize, isHorizontal, model),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ),

@@ -12,7 +12,7 @@ class Messages extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
-            top: 12.0,
+            top: 12,
           ),
           child: MessagesLayout(),
         ),

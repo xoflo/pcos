@@ -13,12 +13,10 @@ import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class KnowledgeBaseTab extends StatefulWidget {
-  final Size screenSize;
   final bool isHorizontal;
   final KnowledgeBaseProvider knowledgeBaseProvider;
 
   KnowledgeBaseTab({
-    @required this.screenSize,
     @required this.isHorizontal,
     @required this.knowledgeBaseProvider,
   });
@@ -32,8 +30,7 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
   bool isSearching = false;
   String tagSelectedValue = "All";
 
-  Widget getKBList(
-      final Size screenSize, final KnowledgeBaseProvider kbProvider) {
+  Widget _getKBList(final KnowledgeBaseProvider kbProvider) {
     if (tagSelectedValue.length == 0) {
       tagSelectedValue = S.of(context).tagAll;
     }
@@ -46,26 +43,25 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: QuestionList(
-            screenSize: screenSize,
             questions: kbProvider.items,
             showIcon: true,
             iconData: Icons.favorite_outline,
             iconDataOn: Icons.favorite,
-            iconAction: addFavourite,
+            iconAction: _addFavourite,
           ),
         );
     }
     return Container();
   }
 
-  void onTagSelected(String tagValue) {
+  void _onTagSelected(String tagValue) {
     setState(() {
       tagSelectedValue = tagValue;
     });
-    onSearchClicked();
+    _onSearchClicked();
   }
 
-  void onSearchClicked() async {
+  void _onSearchClicked() async {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_SEARCH,
       parameters: {
@@ -76,7 +72,7 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
         .filterAndSearch(searchController.text.trim(), tagSelectedValue);
   }
 
-  void addFavourite(final FavouriteType favouriteType, final Question question,
+  void _addFavourite(final FavouriteType favouriteType, final Question question,
       final bool add) async {
     await widget.knowledgeBaseProvider.addToFavourites(question, add);
     await widget.knowledgeBaseProvider.refreshFavourites(true, true);
@@ -88,15 +84,14 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
       child: Column(
         children: [
           SearchHeader(
-            screenSize: widget.screenSize,
             searchController: searchController,
             tagValues: StringUtils.getTagValues(S.of(context), "knowledgebase"),
             tagValueSelected: tagSelectedValue,
-            onTagSelected: onTagSelected,
-            onSearchClicked: onSearchClicked,
+            onTagSelected: _onTagSelected,
+            onSearchClicked: _onSearchClicked,
             isSearching: isSearching,
           ),
-          getKBList(widget.screenSize, widget.knowledgeBaseProvider),
+          _getKBList(widget.knowledgeBaseProvider),
         ],
       ),
     );

@@ -246,30 +246,32 @@ class _CourseLessonState extends State<CourseLesson> {
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     final double tabBarHeight = _getTabBarHeight(context);
-    return Container(
-      height: tabBarHeight,
-      decoration: BoxDecoration(color: Colors.white),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          DialogHeader(
-            screenSize: screenSize,
-            item: widget.lesson,
-            favouriteType: FavouriteType.Lesson,
-            title: widget.lesson.title,
-            isFavourite: widget.lesson.isFavorite,
-            closeItem: widget.closeLesson,
-            addToFavourites: _addToFavourites,
-          ),
-          _getDataUsageWarning(context, screenSize),
-          _lessonContent == null
-              ? Container()
-              : _lessonContent.length == 1
-                  ? _getLessonContentInColumn(
-                      context, screenSize, isHorizontal, tabBarHeight)
-                  : _getLessonContentInCarousel(
-                      context, screenSize, isHorizontal, tabBarHeight),
-        ],
+    return SafeArea(
+      child: Container(
+        height: tabBarHeight,
+        decoration: BoxDecoration(color: Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            DialogHeader(
+              screenSize: screenSize,
+              item: widget.lesson,
+              favouriteType: FavouriteType.Lesson,
+              title: widget.lesson.title,
+              isFavourite: widget.lesson.isFavorite,
+              closeItem: widget.closeLesson,
+              addToFavourites: _addToFavourites,
+            ),
+            _getDataUsageWarning(context, screenSize),
+            _lessonContent == null
+                ? Container()
+                : _lessonContent.length == 1
+                    ? _getLessonContentInColumn(
+                        context, screenSize, isHorizontal, tabBarHeight)
+                    : _getLessonContentInCarousel(
+                        context, screenSize, isHorizontal, tabBarHeight),
+          ],
+        ),
       ),
     );
   }

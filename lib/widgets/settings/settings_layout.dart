@@ -8,7 +8,6 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
@@ -177,10 +176,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -194,42 +189,46 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               Navigator.pop(context);
             },
           ),
-          Container(
-            height: DeviceUtils.getRemainingHeight(
-                MediaQuery.of(context).size.height,
-                false,
-                isHorizontal,
-                false,
-                false),
-            child: SingleChildScrollView(
-              child: _isLoading
-                  ? PcosLoadingSpinner()
-                  : Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          NotificationsPermissions(
-                            notificationPermissions: _notificationPermissions,
-                            requestNotificationPermission:
-                                _requestNotificationPermission,
+          Expanded(
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Container(
+                  height: constraints.maxHeight,
+                  child: SingleChildScrollView(
+                    child: _isLoading
+                        ? PcosLoadingSpinner()
+                        : Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                NotificationsPermissions(
+                                  notificationPermissions:
+                                      _notificationPermissions,
+                                  requestNotificationPermission:
+                                      _requestNotificationPermission,
+                                ),
+                                DailyReminder(
+                                  isDailyReminderOn: _isDailyReminderOn,
+                                  dailyReminderTimeOfDay:
+                                      _dailyReminderTimeOfDay,
+                                  notificationPermissions:
+                                      _notificationPermissions,
+                                  saveDailyReminder: _saveDailyReminder,
+                                  showTimeDialog: _showTimeDialog,
+                                ),
+                                widget.onlyShowDailyReminder
+                                    ? Container()
+                                    : YourWhySetting(
+                                        isYourWhyOn: _isYourWhyOn,
+                                        hasYourWhyBeenEntered:
+                                            _hasYourWhyBeenAnswered,
+                                        saveYourWhy: _saveYourWhy),
+                              ],
+                            ),
                           ),
-                          DailyReminder(
-                            isDailyReminderOn: _isDailyReminderOn,
-                            dailyReminderTimeOfDay: _dailyReminderTimeOfDay,
-                            notificationPermissions: _notificationPermissions,
-                            saveDailyReminder: _saveDailyReminder,
-                            showTimeDialog: _showTimeDialog,
-                          ),
-                          widget.onlyShowDailyReminder
-                              ? Container()
-                              : YourWhySetting(
-                                  isYourWhyOn: _isYourWhyOn,
-                                  hasYourWhyBeenEntered:
-                                      _hasYourWhyBeenAnswered,
-                                  saveYourWhy: _saveYourWhy),
-                        ],
-                      ),
-                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],
