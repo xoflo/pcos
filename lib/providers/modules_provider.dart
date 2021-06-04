@@ -54,7 +54,7 @@ class ModulesProvider with ChangeNotifier {
     if (nextLessonAvailableDateString.length > 0) {
       nextLessonAvailableDate = DateTime.parse(nextLessonAvailableDateString);
     }
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       final ModulesAndLessons modulesAndLessons = await ProviderHelper()

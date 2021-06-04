@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/constants/widget_keys.dart';
 
 class SignInLayout extends StatefulWidget {
   final bool isSigningIn;
@@ -130,6 +131,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    key: Key(WidgetKeys.SignInUsernameEmail),
                     controller: widget.emailController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),

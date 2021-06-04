@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin();
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 
 Future<void> main() async {
@@ -18,7 +18,7 @@ Future<void> main() async {
       baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
       oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
       questionnaireUrl:
-          "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
+      "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
       imageStorageFolder: "/v1617670686/images/",
       thumbnailStorageFolder: "/v1617676121/thumbnails/",
       intercomIds: [
@@ -32,16 +32,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   notificationAppLaunchDetails =
-      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
   await initNotifications(flutterLocalNotificationsPlugin);
 
   runZonedGuarded(
-    () {
+        () {
       runApp(
         App(),
       );
     },
-    (error, stackTrace) {
+        (error, stackTrace) {
       //debugPrint('runZonedGuarded: Caught error in my root zone.');
       FirebaseCrashlytics.instance.recordError(error, stackTrace);
     },

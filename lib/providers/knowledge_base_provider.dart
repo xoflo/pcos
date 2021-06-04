@@ -21,7 +21,7 @@ class KnowledgeBaseProvider with ChangeNotifier {
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;
     notifyListeners();
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       _items = await ProviderHelper()

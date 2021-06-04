@@ -23,7 +23,7 @@ class ProviderHelper {
     final String tableName,
     final String assetType,
   ) async {
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
@@ -55,7 +55,7 @@ class ProviderHelper {
 
   Future<List<Recipe>> fetchAndSaveRecipes(final dbProvider) async {
     final String tableName = "Recipe";
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
@@ -102,7 +102,7 @@ class ProviderHelper {
     final bool isNextLessonAvailable =
         nextLessonAvailableDate.isBefore(DateTime.now());
 
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       if (forceRefresh ||
@@ -283,7 +283,7 @@ class ProviderHelper {
   Future<List<Message>> fetchAndSaveMessages(
       final dbProvider, final bool refreshFromAPI) async {
     final String tableName = "Message";
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       if (refreshFromAPI ||
@@ -316,7 +316,7 @@ class ProviderHelper {
 
   Future<List<String>> fetchAndSaveCMSText(
       final dbProvider, final String tableName) async {
-    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on app.dart)
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
