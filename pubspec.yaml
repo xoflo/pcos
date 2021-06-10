@@ -60,7 +60,11 @@ dependencies:
   multi_select_flutter: ^4.0.0
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
+    sdk: flutter
+  flutter_driver:
     sdk: flutter
 
 flutter:

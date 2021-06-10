@@ -66,7 +66,7 @@ class _TutorialState extends State<Tutorial> {
                   children: <Widget>[
                     CarouselSlider(
                       options: CarouselOptions(
-                        height: screenSize.height - 80,
+                        height: screenSize.height - 102,
                         enableInfiniteScroll: false,
                         viewportFraction: 1,
                         onPageChanged: (index, reason) {
