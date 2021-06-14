@@ -78,12 +78,15 @@ class _KnowledgeBaseTabState extends State<KnowledgeBaseTab> {
     await widget.knowledgeBaseProvider.refreshFavourites(true, true);
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           SearchHeader(
+            formKey: _formKey,
             searchController: searchController,
             tagValues: StringUtils.getTagValues(S.of(context), "knowledgebase"),
             tagValueSelected: tagSelectedValue,
