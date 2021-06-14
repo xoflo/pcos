@@ -578,7 +578,6 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 6U6Y86CR5Q;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = /Users/andrewfrost/Repos/thepcosprotocol_app/lib/main_prod.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -1750,7 +1749,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6U6Y86CR5Q;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = /Users/andrewfrost/Repos/thepcosprotocol_app/lib/main_staging.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -1838,7 +1836,6 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 6U6Y86CR5Q;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = /Users/andrewfrost/Repos/thepcosprotocol_app/lib/main_staging.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -1923,7 +1920,6 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 6U6Y86CR5Q;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = /Users/andrewfrost/Repos/thepcosprotocol_app/lib/main_staging.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -2068,7 +2064,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6U6Y86CR5Q;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = /Users/andrewfrost/Repos/thepcosprotocol_app/lib/main_prod.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -2106,7 +2101,6 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 6U6Y86CR5Q;
 				ENABLE_BITCODE = NO;
-				FLUTTER_TARGET = /Users/andrewfrost/Repos/thepcosprotocol_app/lib/main_prod.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
