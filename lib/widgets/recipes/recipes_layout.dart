@@ -151,6 +151,8 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     return Container();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -158,6 +160,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     return Column(
       children: [
         SearchHeader(
+          formKey: _formKey,
           searchController: _searchController,
           tagValues: _getTagValues(),
           tagValueSelected: _tagSelectedValue,

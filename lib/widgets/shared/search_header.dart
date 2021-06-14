@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header_secondary_filter.dart';
 
 class SearchHeader extends StatelessWidget {
+  final formKey;
   final TextEditingController searchController;
   final List<String> tagValues;
   final String tagValueSelected;
@@ -17,6 +18,7 @@ class SearchHeader extends StatelessWidget {
   final Function(List<String>) onSecondaryTagSelected;
 
   SearchHeader({
+    @required this.formKey,
     @required this.searchController,
     @required this.tagValues,
     @required this.tagValueSelected,
@@ -27,8 +29,6 @@ class SearchHeader extends StatelessWidget {
     this.tagValuesSelectedSecondary,
     this.onSecondaryTagSelected,
   });
-
-  final _formKey = GlobalKey<FormState>();
 
   void _clearTextAndSearch() {
     if (searchController.text.trim().length > 0) {
@@ -50,7 +50,7 @@ class SearchHeader extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               children: [
                 Row(
