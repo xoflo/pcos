@@ -109,6 +109,8 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
     return Container();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -135,6 +137,7 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
                       child: Column(
                         children: [
                           SearchHeader(
+                            formKey: _formKey,
                             searchController: _searchController,
                             tagValues: [],
                             tagValueSelected: "",
