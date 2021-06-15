@@ -8,24 +8,23 @@ class RecipesList extends StatelessWidget {
   final List<Recipe> recipes;
   final Function(BuildContext, Recipe) openRecipeDetails;
 
-  RecipesList({this.screenSize, this.recipes, this.openRecipeDetails});
+  RecipesList({
+    @required this.screenSize,
+    @required this.recipes,
+    @required this.openRecipeDetails,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final int itemsPerRow =
-        DeviceUtils.getItemsPerRow(screenSize.width, screenSize.height);
-    final double aspectRatioSingle = (screenSize.width / 266) - 0.05;
-    final double aspectRatio = itemsPerRow == 3
-        ? screenSize.width < 1025 //landscape
-            ? 1.24 //9.7inch iPad
-            : 1.65 //12.9inch iPad
-        : itemsPerRow == 2
-            ? screenSize.width < 769 //portrait
-                ? 1.39 //9.7inch iPad
-                : 1.85 //12.9inch iPad
-            : aspectRatioSingle; //phone
     //NB: If that's the case, simply wrap your GridView in Flexible, you may not need to use shrinkWrap then
     // Previously was a Expanded with shrinkWrap=true
+    final int itemsPerRow =
+        DeviceUtils.getItemsPerRow(screenSize.width, screenSize.height);
+    final double rowHeight = 266;
+    final double itemWidth = screenSize.width / itemsPerRow;
+    final double initialAspectRatio = itemWidth / rowHeight;
+    final aspectRatio = initialAspectRatio * 0.95;
+
     return Flexible(
       child: GridView.count(
         cacheExtent: screenSize.height * 2,
