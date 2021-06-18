@@ -95,8 +95,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.3.1):
     - GoogleUtilities/Logger
-  - health (1.0.1):
-    - Flutter
   - image_downloader (0.0.1):
     - Flutter
   - integration_test (0.0.1):
@@ -155,7 +153,6 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - health (from `.symlinks/plugins/health/ios`)
   - image_downloader (from `.symlinks/plugins/image_downloader/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - intercom_flutter (from `.symlinks/plugins/intercom_flutter/ios`)
@@ -215,8 +212,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_timezone/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  health:
-    :path: ".symlinks/plugins/health/ios"
   image_downloader:
     :path: ".symlinks/plugins/image_downloader/ios"
   integration_test:
@@ -270,7 +265,6 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 8d3c0aeede16ab7764144b5a4ca8e1d4323841b7
   GoogleDataTransport: 116c84c4bdeb76be2a7a46de51244368f9794eab
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
-  health: 44840ad4328aa5586e77bef289898bfed644a81c
   image_downloader: 73e190d6c9f286f2649554051348d9cb319cd4b3
   integration_test: 6eb66a19f7104200dcfdd62bc0077e1b09686e4f
   Intercom: e44b10bbc38ccf6494c76f9bee4e2e3d7d007153
