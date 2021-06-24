@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/sign_in_layout.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/register_layout.dart';
@@ -11,13 +12,14 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/member.dart';
+import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
+import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
@@ -28,6 +30,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   bool isSigningIn = false;
+  bool showSignUp = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -106,7 +109,22 @@ class _SignInState extends State<SignIn> {
     }
   }
 
-  void navigateToRegister() async {
+  void displayRegistration() async {
+    if (!isSigningIn) {
+      analytics.logEvent(name: Analytics.ANALYTICS_EVENT_SIGN_UP);
+      setState(() {
+        showSignUp = true;
+      });
+    }
+  }
+
+  void hideRegistration() async {
+    setState(() {
+      showSignUp = false;
+    });
+  }
+
+  /*void navigateToRegister() async {
     if (!isSigningIn) {
       final urlQuestionnaireWebsite =
           FlavorConfig.instance.values.questionnaireUrl;
@@ -131,7 +149,7 @@ class _SignInState extends State<SignIn> {
             primaryColor: primaryColor);
       }
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -139,75 +157,96 @@ class _SignInState extends State<SignIn> {
     final double boxWidth = screenSize.width * 0.4;
     final bool isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+    final double heightDeduction = Platform.isIOS ? 60 : 64;
 
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
-        child: isHorizontal
+        child: showSignUp
             ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  HeaderImage(
-                    screenSize: screenSize,
-                    isOrange: false,
-                    verticalTopPadding: 80,
+                  SizedBox(
+                    width: screenSize.width,
+                    height: 40,
+                    child: ColorButton(
+                      isUpdating: false,
+                      label: S.of(context).returnToSignInTitle,
+                      onTap: hideRegistration,
+                      width: 250,
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 340.0,
-                        width: boxWidth,
-                        child: SignInLayout(
-                          isSigningIn: isSigningIn,
-                          authenticateUser: authenticateUser,
-                          emailController: emailController,
-                          passwordController: passwordController,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 340.0,
-                        width: boxWidth,
-                        child: RegisterLayout(
-                          navigateToRegister: navigateToRegister,
-                          isHorizontal: true,
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    width: screenSize.width,
+                    height: screenSize.height - heightDeduction,
+                    child: RegisterWebView(),
                   ),
                 ],
               )
-            : Center(
-                child: ListView(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(15.0),
-                  children: <Widget>[
-                    HeaderImage(
-                      screenSize: screenSize,
-                      isOrange: false,
-                      verticalTopPadding: 80,
-                    ),
-                    SizedBox(
-                      height: 360.0,
-                      child: SignInLayout(
-                        isSigningIn: isSigningIn,
-                        authenticateUser: authenticateUser,
-                        emailController: emailController,
-                        passwordController: passwordController,
+            : isHorizontal
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      HeaderImage(
+                        screenSize: screenSize,
+                        isOrange: false,
+                        verticalTopPadding: 80,
                       ),
-                    ),
-                    SizedBox(
-                      height: 190.0,
-                      child: RegisterLayout(
-                        navigateToRegister: navigateToRegister,
-                        isHorizontal: false,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 340.0,
+                            width: boxWidth,
+                            child: SignInLayout(
+                              isSigningIn: isSigningIn,
+                              authenticateUser: authenticateUser,
+                              emailController: emailController,
+                              passwordController: passwordController,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 340.0,
+                            width: boxWidth,
+                            child: RegisterLayout(
+                              navigateToRegister: displayRegistration,
+                              isHorizontal: true,
+                            ),
+                          ),
+                        ],
                       ),
+                    ],
+                  )
+                : Center(
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(15.0),
+                      children: <Widget>[
+                        HeaderImage(
+                          screenSize: screenSize,
+                          isOrange: false,
+                          verticalTopPadding: 80,
+                        ),
+                        SizedBox(
+                          height: 360.0,
+                          child: SignInLayout(
+                            isSigningIn: isSigningIn,
+                            authenticateUser: authenticateUser,
+                            emailController: emailController,
+                            passwordController: passwordController,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 190.0,
+                          child: RegisterLayout(
+                            navigateToRegister: displayRegistration,
+                            isHorizontal: false,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
       ),
     );
   }
