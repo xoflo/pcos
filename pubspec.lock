@@ -388,13 +388,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.0"
-  health:
-    dependency: "direct main"
-    description:
-      name: health
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.5"
   html:
     dependency: transitive
     description:
@@ -910,12 +903,12 @@ packages:
     source: hosted
     version: "3.0.0"
   webview_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.8"
   win32:
     dependency: transitive
     description:

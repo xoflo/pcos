@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -38,9 +39,9 @@ class _QuestionListItemState extends State<QuestionListItem> {
   Widget build(BuildContext context) {
     if (widget.showIcon) {
       return ListTile(
-        title: Text(
-          widget.answerText,
-          style: TextStyle(color: textColor),
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: HtmlWidget(widget.answerText),
         ),
         trailing: GestureDetector(
           onTap: () {
@@ -59,9 +60,9 @@ class _QuestionListItemState extends State<QuestionListItem> {
       );
     } else {
       return ListTile(
-        title: Text(
-          widget.answerText,
-          style: TextStyle(color: textColor),
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: HtmlWidget(widget.answerText),
         ),
       );
     }

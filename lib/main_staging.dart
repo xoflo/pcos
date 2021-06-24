@@ -18,7 +18,7 @@ Future<void> main() async {
       baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
       oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
       questionnaireUrl:
-          "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register",
+          "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/register?mobile=1",
       imageStorageFolder: "/v1617670686/images/",
       thumbnailStorageFolder: "/v1617676121/thumbnails/",
       intercomIds: [
