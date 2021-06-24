@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 //import 'package:url_launcher/url_launcher.dart';
@@ -156,6 +157,7 @@ class _SignInState extends State<SignIn> {
     final double boxWidth = screenSize.width * 0.4;
     final bool isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+    final double heightDeduction = Platform.isIOS ? 60 : 64;
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -165,11 +167,6 @@ class _SignInState extends State<SignIn> {
                 children: [
                   SizedBox(
                     width: screenSize.width,
-                    height: screenSize.height - 60,
-                    child: RegisterWebView(),
-                  ),
-                  SizedBox(
-                    width: screenSize.width,
                     height: 40,
                     child: ColorButton(
                       isUpdating: false,
@@ -177,6 +174,11 @@ class _SignInState extends State<SignIn> {
                       onTap: hideRegistration,
                       width: 250,
                     ),
+                  ),
+                  SizedBox(
+                    width: screenSize.width,
+                    height: screenSize.height - heightDeduction,
+                    child: RegisterWebView(),
                   ),
                 ],
               )

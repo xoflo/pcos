@@ -45,11 +45,6 @@ class _RegisterWebViewState extends State<RegisterWebView> {
         _toasterJavascriptChannel(context),
       },
       navigationDelegate: (NavigationRequest request) {
-        /*if (!request.url
-                  .startsWith(FlavorConfig.instance.values.questionnaireUrl)) {
-                debugPrint('blocking navigation to $request}');
-                return NavigationDecision.prevent;
-              }*/
         debugPrint('allowing navigation to $request');
         return NavigationDecision.navigate;
       },
