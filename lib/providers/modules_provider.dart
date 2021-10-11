@@ -4,6 +4,8 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
+import 'package:thepcosprotocol_app/models/question.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
@@ -118,6 +120,35 @@ class ModulesProvider with ChangeNotifier {
       }
     }
     return lessonContent;
+  }
+
+  List<Question> getLessonWikis(final int lessonID) {
+    List<Question> lessonWikis = [];
+
+    //TODO: add actual wikis
+    Question question1 = Question(
+        id: 1,
+        reference: 'test1',
+        question: "This is a question",
+        answer: "This is the answer",
+        tags: "diet",
+        isFavorite: false);
+    Question question2 = Question(
+        id: 2,
+        reference: 'test2',
+        question: "This is a question",
+        answer: "This is the answer",
+        tags: "diet",
+        isFavorite: false);
+    lessonWikis.add(question1);
+    lessonWikis.add(question2);
+    return lessonWikis;
+  }
+
+  Future<List<Recipe>> getLessonRecipes(final int lessonID) async {
+    List<Recipe> lessonRecipes = [];
+    //TODO: add actual lesson recipes
+    return lessonRecipes;
   }
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,

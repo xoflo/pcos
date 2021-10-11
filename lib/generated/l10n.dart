@@ -2314,6 +2314,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Lesson wiki`
+  String get lessonWiki {
+    return Intl.message(
+      'Lesson wiki',
+      name: 'lessonWiki',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View wiki`
+  String get viewWiki {
+    return Intl.message(
+      'View wiki',
+      name: 'viewWiki',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

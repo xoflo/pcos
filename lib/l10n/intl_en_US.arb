@@ -227,5 +227,7 @@
     "futureLesson": "Future Lesson",
     "noFavouriteLesson": "No favorite lessons to display.",
     "noFavouriteKB": "No favorite knowledge base items to display.",
-    "noFavouriteRecipe": "No favorite recipes to display."
+    "noFavouriteRecipe": "No favorite recipes to display.",
+    "lessonWiki": "Lesson wiki",
+    "viewWiki": "View wiki"
 }

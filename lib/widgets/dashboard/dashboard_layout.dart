@@ -6,10 +6,12 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
+import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/your_why.dart';
@@ -45,6 +47,7 @@ class DashboardLayout extends StatefulWidget {
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
   int _selectedLessonIndex = -1;
+  int _selectedWiki = 0;
   String _yourWhy = "";
 
   @override
@@ -248,6 +251,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     });
   }
 
+  void _onWikiSelected(final int questionID) {}
+
+  void _openWiki(final Question question) {}
+
   Widget getCurrentModule(
     final Size screenSize,
     final bool isHorizontal,
@@ -300,6 +307,44 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
   }
 
+  Widget getLessonWikis(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+  ) {
+    switch (modulesProvider.status) {
+      case LoadingStatus.loading:
+        return Container();
+      case LoadingStatus.empty:
+        return NoResults(message: S.of(context).noResultsLessons);
+      case LoadingStatus.success:
+        return Container(
+            child: LessonWikis(
+          wikiItems: modulesProvider.getLessonWikis(1),
+          isHorizontal: isHorizontal,
+          width: screenSize.width,
+          onSelected: _onWikiSelected,
+          openWiki: _openWiki,
+          selectedWiki: _selectedWiki,
+        ));
+    }
+  }
+
+  Widget getLessonRecipes(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+  ) {
+    switch (modulesProvider.status) {
+      case LoadingStatus.loading:
+        return Container();
+      case LoadingStatus.empty:
+        return NoResults(message: S.of(context).noResultsLessons);
+      case LoadingStatus.success:
+        return Container(child: Text("Recipes"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -318,8 +363,16 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                       : Container(height: 20),
                   getTasks(screenSize, isHorizontal, model),
                   Padding(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(top: 0),
                     child: getCurrentModule(screenSize, isHorizontal, model),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: getLessonWikis(screenSize, isHorizontal, model),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: getLessonRecipes(screenSize, isHorizontal, model),
                   ),
                 ],
               ),
