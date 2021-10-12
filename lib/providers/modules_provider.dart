@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
@@ -145,9 +146,28 @@ class ModulesProvider with ChangeNotifier {
     return lessonWikis;
   }
 
-  Future<List<Recipe>> getLessonRecipes(final int lessonID) async {
-    List<Recipe> lessonRecipes = [];
+  List<LessonRecipe> getLessonRecipes(final int lessonID) {
+    List<LessonRecipe> lessonRecipes = [];
     //TODO: add actual lesson recipes
+    lessonRecipes.add(LessonRecipe(
+      recipeId: 5,
+      title: "Fish with Chilli Lime Salt",
+      thumbnail:
+          "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/fish_chilli_lime_salt.png",
+    ));
+    lessonRecipes.add(LessonRecipe(
+      recipeId: 6,
+      title: "Almond porridge",
+      thumbnail:
+          "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/almond-porridge.jpg",
+    ));
+    lessonRecipes.add(LessonRecipe(
+      recipeId: 7,
+      title: "Breakfast burrito",
+      thumbnail:
+          "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/Breakfast_Burrito.jpg",
+    ));
+
     return lessonRecipes;
   }
 

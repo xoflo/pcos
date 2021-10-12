@@ -229,5 +229,6 @@
     "noFavouriteKB": "No favorite knowledge base items to display.",
     "noFavouriteRecipe": "No favorite recipes to display.",
     "lessonWiki": "Lesson wiki",
-    "viewWiki": "View wiki"
+    "viewWiki": "View wiki",
+    "lessonRecipes": "Lesson recipes"
 }

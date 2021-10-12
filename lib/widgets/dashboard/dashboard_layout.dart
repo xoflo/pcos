@@ -7,14 +7,19 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/your_why.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -48,6 +53,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
   int _selectedLessonIndex = -1;
   int _selectedWiki = 0;
+  int _selectedRecipe = 0;
   String _yourWhy = "";
 
   @override
@@ -255,6 +261,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   void _openWiki(final Question question) {}
 
+  void _onRecipeSelected(final int recipeId) {}
+
+  void _openRecipe(final int recipeId) {}
+
   Widget getCurrentModule(
     final Size screenSize,
     final bool isHorizontal,
@@ -327,6 +337,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           openWiki: _openWiki,
           selectedWiki: _selectedWiki,
         ));
+      default:
+        return Container();
     }
   }
 
@@ -341,8 +353,45 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.empty:
         return NoResults(message: S.of(context).noResultsLessons);
       case LoadingStatus.success:
-        return Container(child: Text("Recipes"));
+        return Container(
+            child: LessonRecipes(
+          recipes: modulesProvider.getLessonRecipes(1),
+          isHorizontal: isHorizontal,
+          width: screenSize.width,
+          onSelected: _onRecipeSelected,
+          openRecipe: _openRecipeDetails,
+          selectedRecipe: _selectedRecipe,
+        ));
+      default:
+        return Container();
     }
+  }
+
+  void _openRecipeDetails(final BuildContext context, final int recipeId) {
+    Recipe recipe = Provider.of<RecipesProvider>(context, listen: false)
+        .getRecipeById(recipeId);
+
+    if (recipe.recipeId != -1) {
+      openBottomSheet(
+        context,
+        RecipeDetails(
+          recipe: recipe,
+          closeRecipeDetails: _closeRecipeDetails,
+          addToFavourites: _addRecipeToFavourites,
+        ),
+        Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
+        recipe.recipeId.toString(),
+      );
+    }
+  }
+
+  void _closeRecipeDetails() {
+    Navigator.pop(context);
+  }
+
+  void _addRecipeToFavourites(final dynamic recipe, final bool add) async {
+    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
+    await recipeProvider.addToFavourites(recipe, add);
   }
 
   @override
