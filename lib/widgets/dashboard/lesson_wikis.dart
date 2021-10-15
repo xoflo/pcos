@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/wiki_card.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class LessonWikis extends StatelessWidget {
-  final List<Question> wikiItems;
+  final int lessonId;
+  final ModulesProvider modulesProvider;
   final int selectedWiki;
   final double width;
   final bool isHorizontal;
   final Function(int) onSelected;
-  final Function(Question) openWiki;
+  final Function(ModulesProvider, Question) addToFavourites;
 
   LessonWikis({
-    @required this.wikiItems,
+    @required this.lessonId,
+    @required this.modulesProvider,
     @required this.selectedWiki,
     @required this.width,
     @required this.isHorizontal,
     @required this.onSelected,
-    @required this.openWiki,
+    @required this.addToFavourites,
   });
+
+  void _addToFavourites(final Question wiki) {
+    this.addToFavourites(this.modulesProvider, wiki);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +59,10 @@ class LessonWikis extends StatelessWidget {
                   onSelected(index);
                 },
               ),
-              items: wikiItems.map((wiki) {
+              items: modulesProvider.getLessonWikis(lessonId).map((wiki) {
                 return WikiCard(
                   wiki: wiki,
+                  addToFavourites: _addToFavourites,
                 );
               }).toList(),
             ),

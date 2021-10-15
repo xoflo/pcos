@@ -54,6 +54,7 @@ class DashboardLayout extends StatefulWidget {
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
   int _selectedLessonIndex = -1;
+  int _selectedLessonId = 1;
   int _selectedWiki = 0;
   int _selectedRecipe = 0;
   String _yourWhy = "";
@@ -332,11 +333,12 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.success:
         return Container(
             child: LessonWikis(
-          wikiItems: modulesProvider.getLessonWikis(1),
+          lessonId: _selectedLessonId,
+          modulesProvider: modulesProvider,
           isHorizontal: isHorizontal,
           width: screenSize.width,
           onSelected: _onWikiSelected,
-          openWiki: _openWiki,
+          addToFavourites: _addWikiToFavourites,
           selectedWiki: _selectedWiki,
         ));
       default:
@@ -394,6 +396,14 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void _addRecipeToFavourites(final dynamic recipe, final bool add) async {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     await recipeProvider.addToFavourites(recipe, add);
+  }
+
+  void _addWikiToFavourites(
+      final ModulesProvider modulesProvider, Question question) {
+    final bool add = !question.isFavorite;
+    modulesProvider.addToFavourites(question, add);
+    //re-run the search to refresh data, and pick up the favourite change
+    //_refreshData();
   }
 
   @override

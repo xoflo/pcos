@@ -2335,10 +2335,10 @@ class S {
     );
   }
 
-  /// `View wiki`
+  /// `View answer`
   String get viewWiki {
     return Intl.message(
-      'View wiki',
+      'View answer',
       name: 'viewWiki',
       desc: '',
       args: [],

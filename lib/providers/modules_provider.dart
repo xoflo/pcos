@@ -128,21 +128,35 @@ class ModulesProvider with ChangeNotifier {
 
     //TODO: add actual wikis
     Question question1 = Question(
-        id: 1,
-        reference: 'test1',
-        question: "This is a question",
-        answer: "This is the answer",
-        tags: "diet",
-        isFavorite: false);
+      id: 1,
+      reference: 'test1',
+      question: "This is a question",
+      answer: "This is the answer",
+      tags: "diet",
+      isFavorite: false,
+      isLongAnswer: false,
+    );
     Question question2 = Question(
-        id: 2,
-        reference: 'test2',
-        question: "This is a question",
-        answer: "This is the answer",
-        tags: "diet",
-        isFavorite: false);
+      id: 2,
+      reference: 'test2',
+      question: "This is a question",
+      answer: "This is the answer",
+      tags: "diet",
+      isFavorite: false,
+      isLongAnswer: true,
+    );
+    Question question3 = Question(
+      id: 3,
+      reference: 'test3',
+      question: "This is a question",
+      answer: "This is the answer",
+      tags: "diet",
+      isFavorite: false,
+      isLongAnswer: false,
+    );
     lessonWikis.add(question1);
     lessonWikis.add(question2);
+    lessonWikis.add(question3);
     return lessonWikis;
   }
 
@@ -199,6 +213,15 @@ class ModulesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
+      fetchAndSaveData(false);
+    }
+  }
+
+  Future<void> addWikiToFavourites(
+      final dynamic question, final bool add) async {
+    if (dbProvider.db != null) {
+      await ProviderHelper().addToFavourites(
+          add, dbProvider, FavouriteType.KnowledgeBase, question);
       fetchAndSaveData(false);
     }
   }
