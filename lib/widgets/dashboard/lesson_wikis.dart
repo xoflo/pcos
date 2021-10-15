@@ -33,14 +33,11 @@ class LessonWikis extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Padding(
-              padding: const EdgeInsets.all(4.0),
+              padding: const EdgeInsets.only(top: 6.0),
               child: Text(
                 S.of(context).lessonWiki,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: primaryColor,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.headline5,
               ),
             ),
           ),
@@ -48,7 +45,7 @@ class LessonWikis extends StatelessWidget {
             width: width,
             child: CarouselSlider(
               options: CarouselOptions(
-                height: 200,
+                height: 260,
                 enableInfiniteScroll: false,
                 viewportFraction: isHorizontal ? 0.50 : 0.92,
                 initialPage: selectedWiki,
@@ -57,13 +54,8 @@ class LessonWikis extends StatelessWidget {
                 },
               ),
               items: wikiItems.map((wiki) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return WikiCard(
-                      wiki: wiki,
-                      openWiki: openWiki,
-                    );
-                  },
+                return WikiCard(
+                  wiki: wiki,
                 );
               }).toList(),
             ),

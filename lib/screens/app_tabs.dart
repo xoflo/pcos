@@ -55,6 +55,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   bool _intercomInitialised = false;
   AppLifecycleState _appLifecycleState;
   bool _showYourWhy = false;
+  bool _showLessonRecipes = false;
   bool _isLocked = false;
 
   @override
@@ -87,6 +88,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     //get the value for showYourWhy, and then pass down to the course screen
     final bool isYourWhyOn = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+    final bool isLessonRecipesOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     final bool oneSignalDataSent = await PreferencesController()
         .getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
     //register external userId and pcos_type (as tag) with OneSignal if not done before on this device
@@ -102,6 +105,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     setState(() {
       _intercomInitialised = true;
       _showYourWhy = isYourWhyOn;
+      _showLessonRecipes = isLessonRecipesOn;
     });
   }
 
@@ -186,7 +190,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         break;
       case DrawerMenuItem.SETTINGS:
         Navigator.pushNamed(context, Settings.id,
-            arguments: SettingsArguments(_updateYourWhy, false));
+            arguments:
+                SettingsArguments(_updateYourWhy, _updateLessonRecipes, false));
         break;
       case DrawerMenuItem.PROFILE:
         Navigator.pushNamed(context, Profile.id);
@@ -282,6 +287,12 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     });
   }
 
+  void _updateLessonRecipes(final bool isOn) {
+    setState(() {
+      _showLessonRecipes = isOn;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlavorBanner(
@@ -299,6 +310,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
               ? MainScreens(
                   currentIndex: _currentIndex,
                   showYourWhy: _showYourWhy,
+                  showLessonRecipes: _showLessonRecipes,
                   updateYourWhy: _updateYourWhy,
                 )
               : WillPopScope(
@@ -308,6 +320,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
                   child: MainScreens(
                     currentIndex: _currentIndex,
                     showYourWhy: _showYourWhy,
+                    showLessonRecipes: _showLessonRecipes,
                     updateYourWhy: _updateYourWhy,
                   ),
                 ),

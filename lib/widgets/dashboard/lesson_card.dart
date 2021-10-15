@@ -40,7 +40,7 @@ class LessonCard extends StatelessWidget {
                   lessonNumber > 0
                       ? Text(
                           "${S.of(context).lessonText} $lessonNumber",
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headline6,
                         )
                       : Container(),
                   SizedBox(
@@ -50,10 +50,10 @@ class LessonCard extends StatelessWidget {
                         lesson.title,
                         textAlign: TextAlign.center,
                         style: isLessonComplete || isNew
-                            ? Theme.of(context).textTheme.headline3
+                            ? Theme.of(context).textTheme.headline5
                             : Theme.of(context)
                                 .textTheme
-                                .headline3
+                                .headline5
                                 .copyWith(color: Colors.white70),
                       ),
                     ),
@@ -64,7 +64,7 @@ class LessonCard extends StatelessWidget {
                       vertical: 0,
                     ),
                     child: SizedBox(
-                      height: 146,
+                      height: 106,
                       child: Center(
                         child: ClipRect(
                           child: HtmlWidget(lesson.introduction),
@@ -87,7 +87,7 @@ class LessonCard extends StatelessWidget {
                                 child: Icon(
                                   Icons.open_in_new,
                                   color: secondaryColor,
-                                  size: 36,
+                                  size: 32,
                                 ),
                               ),
                             ],
@@ -97,9 +97,12 @@ class LessonCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Text(S.of(context).futureLesson,
-                                  style: TextStyle(color: Colors.white70)),
+                              padding: const EdgeInsets.only(left: 4.0),
+                              child: Icon(
+                                Icons.lock,
+                                color: Colors.black87,
+                                size: 32,
+                              ),
                             ),
                           ],
                         ),

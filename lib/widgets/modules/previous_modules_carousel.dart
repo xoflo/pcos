@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/module_card.dart';
+import 'package:thepcosprotocol_app/widgets/modules/module_card.dart';
 
 class PreviousModulesCarousel extends StatelessWidget {
   final Size screenSize;

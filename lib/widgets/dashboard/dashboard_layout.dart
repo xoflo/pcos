@@ -38,10 +38,12 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 class DashboardLayout extends StatefulWidget {
   final bool showYourWhy;
+  final bool showLessonRecipes;
   final Function(bool) updateYourWhy;
 
   DashboardLayout({
     @required this.showYourWhy,
+    @required this.showLessonRecipes,
     @required this.updateYourWhy,
   });
 
@@ -190,7 +192,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     void openSettings(BuildContext context) {
       Navigator.of(context).pop();
       Navigator.pushNamed(context, Settings.id,
-          arguments: SettingsArguments((bool) {}, true));
+          arguments: SettingsArguments((bool) {}, (bool) {}, true));
     }
 
     void displaySetupLaterMessage(BuildContext context) {
@@ -419,10 +421,13 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                     padding: EdgeInsets.only(top: 8),
                     child: getLessonWikis(screenSize, isHorizontal, model),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: getLessonRecipes(screenSize, isHorizontal, model),
-                  ),
+                  widget.showLessonRecipes
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 8),
+                          child:
+                              getLessonRecipes(screenSize, isHorizontal, model),
+                        )
+                      : Container(),
                 ],
               ),
             ),

@@ -58,7 +58,7 @@ class CurrentModule extends StatelessWidget {
             width: width,
             child: CarouselSlider(
               options: CarouselOptions(
-                height: 300,
+                height: 260,
                 enableInfiniteScroll: false,
                 viewportFraction: isHorizontal ? 0.50 : 0.92,
                 initialPage: selectedLesson == -1
@@ -71,15 +71,11 @@ class CurrentModule extends StatelessWidget {
               items: modulesProvider.currentModuleLessons.map((lesson) {
                 lessonCounter += 1;
                 final int lessonNumber = lessonCounter;
-                return Builder(
-                  builder: (BuildContext context) {
-                    return LessonCard(
-                      lessonNumber: lessonNumber,
-                      lesson: lesson,
-                      isNew: true,
-                      openLesson: _openLesson,
-                    );
-                  },
+                return LessonCard(
+                  lessonNumber: lessonNumber,
+                  lesson: lesson,
+                  isNew: true,
+                  openLesson: _openLesson,
                 );
               }).toList(),
             ),
@@ -99,7 +95,7 @@ class CurrentModule extends StatelessWidget {
                           child: Icon(
                             Icons.search,
                             color: secondaryColor,
-                            size: 36,
+                            size: 32,
                           ),
                         ),
                       ),
@@ -119,7 +115,7 @@ class CurrentModule extends StatelessWidget {
                                 child: Icon(
                                   Icons.school,
                                   color: secondaryColor,
-                                  size: 36,
+                                  size: 32,
                                 ),
                               ),
                             ],

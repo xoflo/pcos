@@ -16,3 +16,5 @@ const String NEXT_LESSON_AVAILABLE_DATE = "next_lesson_available_date";
 const String YOUR_WHY_DISPLAYED = "your_why_displayed";
 const String WHATS_YOUR_WHY = "whats_your_why";
 const String PCOS_TYPE = "pcos_type";
+const String LESSON_RECIPES_DISPLAYED_DASHBOARD =
+    "lesson_recipes_displayed_dashboard";

@@ -171,6 +171,7 @@
     "dailyReminderTitle": "Your Daily Reminder",
     "dailyReminderText": "Don't forget to check your latest lesson or view your progress so far.",
     "settingsYourWhyText": "Display 'Your Why':",
+    "settingsLessonRecipesText": "Display Lesson Recipes \non Your Course:",
     "notificationPermissionsAllowButton": "Allow Notifications",
     "notificationPermissionsNeedToAllowTitle": "Please Allow Notifications",
     "notificationPermissionsNeedToAllowText": "To set a daily reminder you will need to allow notifications on your device by clicking the button below.",
@@ -228,7 +229,9 @@
     "noFavouriteLesson": "No favourite lessons to display.",
     "noFavouriteKB": "No favourite knowledge base items to display.",
     "noFavouriteRecipe": "No favourite recipes to display.",
-    "lessonWiki": "Lesson wiki",
+    "lessonWiki": "Lesson Wiki",
     "viewWiki": "View wiki",
-    "lessonRecipes": "Lesson recipes"
+    "lessonRecipes": "Lesson recipes",
+    "swipeUpForAnswer": "Swipe up for answer",
+    "swipeDownForQuestion": "Swipe down for question"
 }

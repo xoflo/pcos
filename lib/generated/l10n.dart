@@ -1745,6 +1745,16 @@ class S {
     );
   }
 
+  /// `Display Lesson Recipes \non Your Course:`
+  String get settingsLessonRecipesText {
+    return Intl.message(
+      'Display Lesson Recipes \non Your Course:',
+      name: 'settingsLessonRecipesText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Allow Notifications`
   String get notificationPermissionsAllowButton {
     return Intl.message(
@@ -2315,10 +2325,10 @@ class S {
     );
   }
 
-  /// `Lesson wiki`
+  /// `Lesson Wiki`
   String get lessonWiki {
     return Intl.message(
-      'Lesson wiki',
+      'Lesson Wiki',
       name: 'lessonWiki',
       desc: '',
       args: [],
@@ -2340,6 +2350,26 @@ class S {
     return Intl.message(
       'Lesson recipes',
       name: 'lessonRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe up for answer`
+  String get swipeUpForAnswer {
+    return Intl.message(
+      'Swipe up for answer',
+      name: 'swipeUpForAnswer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe down for question`
+  String get swipeDownForQuestion {
+    return Intl.message(
+      'Swipe down for question',
+      name: 'swipeDownForQuestion',
       desc: '',
       args: [],
     );
