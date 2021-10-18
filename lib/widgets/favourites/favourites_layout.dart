@@ -30,7 +30,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
           await recipeProvider.addToFavourites(item, false);
           recipeProvider.fetchAndSaveData();
           break;
-        case FavouriteType.KnowledgeBase:
+        case FavouriteType.Wiki:
           final kbProvider =
               Provider.of<KnowledgeBaseProvider>(context, listen: false);
           await kbProvider.addToFavourites(item, false);
@@ -194,7 +194,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                             screenSize: screenSize,
                             favourites: model.favourites,
                             status: model.status,
-                            favouriteType: FavouriteType.KnowledgeBase,
+                            favouriteType: FavouriteType.Wiki,
                             removeFavourite: _removeFavourite,
                             openFavourite: _openFavourite,
                           ),

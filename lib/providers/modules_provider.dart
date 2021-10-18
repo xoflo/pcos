@@ -220,9 +220,8 @@ class ModulesProvider with ChangeNotifier {
   Future<void> addWikiToFavourites(
       final dynamic question, final bool add) async {
     if (dbProvider.db != null) {
-      await ProviderHelper().addToFavourites(
-          add, dbProvider, FavouriteType.KnowledgeBase, question);
-      fetchAndSaveData(false);
+      await ProviderHelper()
+          .addToFavourites(add, dbProvider, FavouriteType.Wiki, question);
     }
   }
 

@@ -41,10 +41,6 @@ class AppNavigationTabs extends StatelessWidget {
           label: S.of(context).dashboardTitle,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.batch_prediction),
-          label: S.of(context).knowledgeBaseTitle,
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.local_dining),
           label: S.of(context).recipesTitle,
         ),

@@ -1,6 +1,7 @@
 enum FavouriteType {
   None,
   Recipe,
-  KnowledgeBase,
+  Wiki,
   Lesson,
+  Toolkit,
 }

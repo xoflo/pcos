@@ -21,7 +21,8 @@ class WikiCard extends StatefulWidget {
 }
 
 class _WikiCardState extends State<WikiCard> {
-  double _questionContainerHeight = 228;
+  final double _standardContainerHeight = 198;
+  double _questionContainerHeight = 198;
   double _answerContainerHeight = 0;
 
   void _switchQuestionAnswer(final DragUpdateDetails details) {
@@ -36,13 +37,20 @@ class _WikiCardState extends State<WikiCard> {
     }
 
     setState(() {
-      _questionContainerHeight = showQuestion ? 228 : 0;
-      _answerContainerHeight = showQuestion ? 0 : 228;
+      _questionContainerHeight = showQuestion ? _standardContainerHeight : 0;
+      _answerContainerHeight = showQuestion ? 0 : _standardContainerHeight;
     });
 
     setState(() {
-      _questionContainerHeight = showQuestion ? 228 : 0;
-      _answerContainerHeight = showQuestion ? 0 : 228;
+      _questionContainerHeight = showQuestion ? _standardContainerHeight : 0;
+      _answerContainerHeight = showQuestion ? 0 : _standardContainerHeight;
+    });
+  }
+
+  void _addToFavourites(final Question wiki) async {
+    widget.addToFavourites(wiki);
+    setState(() {
+      widget.wiki.isFavorite = !widget.wiki.isFavorite;
     });
   }
 
@@ -122,7 +130,7 @@ class _WikiCardState extends State<WikiCard> {
         },
         addToFavourites: widget.addToFavourites,
       ),
-      Analytics.ANALYTICS_SCREEN_LESSON,
+      Analytics.ANALYTICS_SCREEN_WIKI,
       wiki.id.toString(),
     );
   }
@@ -134,7 +142,9 @@ class _WikiCardState extends State<WikiCard> {
       child: GestureDetector(
         onVerticalDragUpdate: (details) {
           // Note: Sensitivity is integer used when you don't want to mess up vertical drag
-          _switchQuestionAnswer(details);
+          if (!widget.wiki.isLongAnswer) {
+            _switchQuestionAnswer(details);
+          }
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -146,8 +156,20 @@ class _WikiCardState extends State<WikiCard> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                GestureDetector(
+                  onTap: () {
+                    _addToFavourites(widget.wiki);
+                  },
+                  child: Icon(
+                    widget.wiki.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                    color: secondaryColor,
+                    size: 30,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 6.0,

@@ -465,7 +465,7 @@ class ProviderHelper {
         assetType = "Recipe";
         updateColumn = "recipeId";
         break;
-      case FavouriteType.KnowledgeBase:
+      case FavouriteType.Wiki:
         updateId = item.id;
         tableName = "KnowledgeBase";
         assetType = "CMS";

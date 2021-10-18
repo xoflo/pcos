@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/wiki_card.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
@@ -43,7 +44,10 @@ class LessonWikis extends StatelessWidget {
               child: Text(
                 S.of(context).lessonWiki,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline5,
+                style: TextStyle(
+                  color: primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

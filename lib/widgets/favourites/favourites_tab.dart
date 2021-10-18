@@ -32,7 +32,7 @@ class FavouritesTab extends StatelessWidget {
       case FavouriteType.Lesson:
         noResultsMessage = S.of(context).noFavouriteLesson;
         break;
-      case FavouriteType.KnowledgeBase:
+      case FavouriteType.Wiki:
         noResultsMessage = S.of(context).noFavouriteKB;
         break;
       case FavouriteType.Recipe:
@@ -59,7 +59,7 @@ class FavouritesTab extends StatelessWidget {
           removeFavourite: removeFavourite,
           openFavourite: openFavourite,
         );
-      case FavouriteType.KnowledgeBase:
+      case FavouriteType.Wiki:
         return QuestionList(
           questions: favourites,
           showIcon: true,

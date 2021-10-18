@@ -2345,10 +2345,10 @@ class S {
     );
   }
 
-  /// `Lesson recipes`
+  /// `Lesson Recipes`
   String get lessonRecipes {
     return Intl.message(
-      'Lesson recipes',
+      'Lesson Recipes',
       name: 'lessonRecipes',
       desc: '',
       args: [],

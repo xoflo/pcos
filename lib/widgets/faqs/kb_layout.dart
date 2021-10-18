@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/widgets/knowledge_base/kb_tab.dart';
-import 'package:thepcosprotocol_app/widgets/knowledge_base/question_tab.dart';
+import 'package:thepcosprotocol_app/widgets/faqs/question_tab.dart';
 
 class KnowledgeBaseLayout extends StatelessWidget {
   @override
@@ -70,12 +68,6 @@ class KnowledgeBaseLayout extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: TabBarView(
                     children: [
-                      Consumer<KnowledgeBaseProvider>(
-                        builder: (context, model, child) => KnowledgeBaseTab(
-                          isHorizontal: isHorizontal,
-                          knowledgeBaseProvider: model,
-                        ),
-                      ),
                       Consumer<FAQProvider>(
                         builder: (context, faqModel, child) => QuestionTab(
                           isHorizontal: isHorizontal,

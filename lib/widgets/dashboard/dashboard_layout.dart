@@ -129,12 +129,20 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       });
     }
 
+    //get the lesson wikis and recipes
+    final List<Question> lessonWikis =
+        modulesProvider.getLessonWikis(lesson.lessonID);
+    final List<LessonRecipe> lessonRecipes =
+        modulesProvider.getLessonRecipes(lesson.lessonID);
+
     openBottomSheet(
       context,
       CourseLesson(
         modulesProvider: modulesProvider,
         showDataUsageWarning: showDataUsageWarning,
         lesson: lesson,
+        lessonWikis: lessonWikis,
+        lessonRecipes: lessonRecipes,
         closeLesson: _closeLesson,
         addToFavourites: _addLessonToFavourites,
       ),
@@ -401,7 +409,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void _addWikiToFavourites(
       final ModulesProvider modulesProvider, Question question) {
     final bool add = !question.isFavorite;
-    modulesProvider.addToFavourites(question, add);
+    modulesProvider.addWikiToFavourites(question, add);
     //re-run the search to refresh data, and pick up the favourite change
     //_refreshData();
   }
