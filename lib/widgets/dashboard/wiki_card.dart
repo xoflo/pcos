@@ -8,12 +8,14 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wiki_full.dart';
 
 class WikiCard extends StatefulWidget {
+  final Size screenSize;
   final Question wiki;
   final Function(Question) addToFavourites;
 
   WikiCard({
     @required this.wiki,
     @required this.addToFavourites,
+    @required this.screenSize,
   });
 
   @override
@@ -21,12 +23,11 @@ class WikiCard extends StatefulWidget {
 }
 
 class _WikiCardState extends State<WikiCard> {
-  final double _standardContainerHeight = 198;
-  double _questionContainerHeight = 198;
-  double _answerContainerHeight = 0;
+  final double _containerHeight = 244;
+  bool _showQuestion = true;
 
   void _switchQuestionAnswer(final DragUpdateDetails details) {
-    bool showQuestion = true;
+    bool showQuestion = false;
     int sensitivity = 8;
     if (details.delta.dy > sensitivity) {
       // Down Swipe
@@ -37,13 +38,7 @@ class _WikiCardState extends State<WikiCard> {
     }
 
     setState(() {
-      _questionContainerHeight = showQuestion ? _standardContainerHeight : 0;
-      _answerContainerHeight = showQuestion ? 0 : _standardContainerHeight;
-    });
-
-    setState(() {
-      _questionContainerHeight = showQuestion ? _standardContainerHeight : 0;
-      _answerContainerHeight = showQuestion ? 0 : _standardContainerHeight;
+      _showQuestion = showQuestion;
     });
   }
 
@@ -54,67 +49,67 @@ class _WikiCardState extends State<WikiCard> {
     });
   }
 
-  Widget _getAnimatedContainer(final BuildContext context, final bool isAnswer,
+  Widget _getContainer(final BuildContext context, final bool isAnswer,
       final Question wiki, final double height, final String swipeText) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.linear,
+    return Container(
+      width: widget.screenSize.width - 54,
       height: height,
       child: Column(
         children: [
           Expanded(
             child: Center(
-              child: ClipRect(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    HtmlWidget(isAnswer ? wiki.answer : wiki.question),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  HtmlWidget(isAnswer ? wiki.answer : wiki.question),
+                ],
               ),
             ),
           ),
-          !wiki.isLongAnswer
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RotatedBox(
-                        quarterTurns: -1,
-                        child: Icon(
-                          Icons.swipe,
-                          size: 26,
-                          color: Colors.grey,
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6.0),
-                      child: Text(
-                        swipeText,
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
-                      ),
-                    ),
-                  ],
-                )
-              : GestureDetector(
-                  onTap: () {
-                    _openWiki(context, wiki);
-                  },
-                  child: Row(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6.0),
+            child: !wiki.isLongAnswer
+                ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(S.of(context).viewWiki,
-                          style: TextStyle(color: secondaryColor)),
+                      RotatedBox(
+                          quarterTurns: -1,
+                          child: Icon(
+                            Icons.swipe,
+                            size: 26,
+                            color: Colors.grey,
+                          )),
                       Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
-                        child: Icon(
-                          Icons.open_in_browser,
-                          color: secondaryColor,
-                          size: 32,
+                        padding: const EdgeInsets.only(left: 6.0),
+                        child: Text(
+                          swipeText,
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ),
                     ],
+                  )
+                : GestureDetector(
+                    onTap: () {
+                      _openWiki(context, wiki);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(S.of(context).viewWiki,
+                            style: TextStyle(color: secondaryColor)),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: Icon(
+                            Icons.open_in_browser,
+                            color: secondaryColor,
+                            size: 32,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+          ),
         ],
       ),
     );
@@ -147,53 +142,87 @@ class _WikiCardState extends State<WikiCard> {
           }
         },
         child: Container(
-          width: MediaQuery.of(context).size.width,
+          width: widget.screenSize.width,
           margin: EdgeInsets.symmetric(horizontal: 5.0),
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(5.0),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    _addToFavourites(widget.wiki);
-                  },
-                  child: Icon(
-                    widget.wiki.isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_outline,
-                    color: secondaryColor,
-                    size: 30,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6.0,
+                  vertical: 0,
+                ),
+                child: Container(
+                  width: widget.screenSize.width,
+                  height: _containerHeight,
+                  child: OverflowBox(
+                    minHeight: _containerHeight,
+                    maxHeight: _containerHeight,
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: <Widget>[
+                        AnimatedPositioned(
+                          top: _showQuestion ? 0 : (_containerHeight * -1),
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastOutSlowIn,
+                          child: Column(
+                            children: [
+                              _getContainer(
+                                  context,
+                                  false,
+                                  widget.wiki,
+                                  _containerHeight,
+                                  S.of(context).swipeUpForAnswer),
+                              _getContainer(
+                                  context,
+                                  true,
+                                  widget.wiki,
+                                  _containerHeight,
+                                  S.of(context).swipeDownForQuestion),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _addToFavourites(widget.wiki);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Icon(
+                              widget.wiki.isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_outline,
+                              color: secondaryColor,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6.0,
-                    vertical: 0,
-                  ),
-                  child: Column(
-                    children: [
-                      _getAnimatedContainer(
-                          context,
-                          false,
-                          widget.wiki,
-                          _questionContainerHeight,
-                          S.of(context).swipeUpForAnswer),
-                      _getAnimatedContainer(
-                          context,
-                          true,
-                          widget.wiki,
-                          _answerContainerHeight,
-                          S.of(context).swipeDownForQuestion),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                /*child: Column(
+                  children: [
+                    _getAnimatedContainer(
+                        context,
+                        false,
+                        widget.wiki,
+                        _questionContainerHeight,
+                        S.of(context).swipeUpForAnswer),
+                    _getAnimatedContainer(
+                        context,
+                        true,
+                        widget.wiki,
+                        _answerContainerHeight,
+                        S.of(context).swipeDownForQuestion),
+                  ],
+                ),*/
+              ),
+            ],
           ),
         ),
       ),

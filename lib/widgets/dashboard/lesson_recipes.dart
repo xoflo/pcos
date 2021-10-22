@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/recipe_card.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class LessonRecipes extends StatelessWidget {
-  final List<LessonRecipe> recipes;
+  final List<Recipe> recipes;
   final int selectedRecipe;
   final double width;
   final bool isHorizontal;

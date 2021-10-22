@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/widgets/dashboard/wiki_card.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class LessonWikis extends StatelessWidget {
+  final Size screenSize;
   final int lessonId;
   final ModulesProvider modulesProvider;
   final int selectedWiki;
@@ -16,6 +17,7 @@ class LessonWikis extends StatelessWidget {
   final Function(ModulesProvider, Question) addToFavourites;
 
   LessonWikis({
+    @required this.screenSize,
     @required this.lessonId,
     @required this.modulesProvider,
     @required this.selectedWiki,
@@ -65,6 +67,7 @@ class LessonWikis extends StatelessWidget {
               ),
               items: modulesProvider.getLessonWikis(lessonId).map((wiki) {
                 return WikiCard(
+                  screenSize: screenSize,
                   wiki: wiki,
                   addToFavourites: _addToFavourites,
                 );

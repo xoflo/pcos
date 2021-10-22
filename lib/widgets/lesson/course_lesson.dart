@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
-import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson_content.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/wiki_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/recipes_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
@@ -23,7 +24,7 @@ class CourseLesson extends StatefulWidget {
   final bool showDataUsageWarning;
   final Lesson lesson;
   final List<Question> lessonWikis;
-  final List<LessonRecipe> lessonRecipes;
+  final List<Recipe> lessonRecipes;
   final Function closeLesson;
   final Function(ModulesProvider, dynamic, bool) addToFavourites;
 
@@ -273,7 +274,11 @@ class _CourseLessonState extends State<CourseLesson> {
   Widget _getRecipesPage(final Size screenSize, final bool isHorizontal,
       final double tabBarHeight) {
     return Builder(builder: (BuildContext context) {
-      return Container(child: Text("RECIPES"));
+      return RecipesPage(
+          screenSize: screenSize,
+          isHorizontal: isHorizontal,
+          recipes: widget.lessonRecipes,
+          parentContext: context);
     });
   }
 

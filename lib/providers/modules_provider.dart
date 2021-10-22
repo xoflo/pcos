@@ -160,26 +160,53 @@ class ModulesProvider with ChangeNotifier {
     return lessonWikis;
   }
 
-  List<LessonRecipe> getLessonRecipes(final int lessonID) {
-    List<LessonRecipe> lessonRecipes = [];
+  List<Recipe> getLessonRecipes(final int lessonID) {
+    List<Recipe> lessonRecipes = [];
     //TODO: add actual lesson recipes
-    lessonRecipes.add(LessonRecipe(
+    lessonRecipes.add(Recipe(
       recipeId: 5,
       title: "Fish with Chilli Lime Salt",
+      description: "Test",
       thumbnail:
           "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/fish_chilli_lime_salt.png",
+      ingredients: "Test",
+      method: "Test",
+      tips: "Test",
+      tags: "",
+      difficulty: 1,
+      servings: 3,
+      duration: 60000,
+      isFavorite: true,
     ));
-    lessonRecipes.add(LessonRecipe(
+    lessonRecipes.add(Recipe(
       recipeId: 6,
       title: "Almond porridge",
+      description: "Test",
       thumbnail:
           "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/almond-porridge.jpg",
+      ingredients: "Test",
+      method: "Test",
+      tips: "Test",
+      tags: "",
+      difficulty: 1,
+      servings: 3,
+      duration: 60000,
+      isFavorite: true,
     ));
-    lessonRecipes.add(LessonRecipe(
+    lessonRecipes.add(Recipe(
       recipeId: 7,
       title: "Breakfast burrito",
+      description: "Test",
       thumbnail:
           "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/Breakfast_Burrito.jpg",
+      ingredients: "Test",
+      method: "Test",
+      tips: "Test",
+      tags: "",
+      difficulty: 1,
+      servings: 3,
+      duration: 60000,
+      isFavorite: true,
     ));
 
     return lessonRecipes;

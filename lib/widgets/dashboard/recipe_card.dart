@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class RecipeCard extends StatelessWidget {
   final double width;
-  final LessonRecipe lessonRecipe;
+  final Recipe lessonRecipe;
   final Function(BuildContext, int) openRecipe;
 
   RecipeCard({

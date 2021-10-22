@@ -132,7 +132,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     //get the lesson wikis and recipes
     final List<Question> lessonWikis =
         modulesProvider.getLessonWikis(lesson.lessonID);
-    final List<LessonRecipe> lessonRecipes =
+    final List<Recipe> lessonRecipes =
         modulesProvider.getLessonRecipes(lesson.lessonID);
 
     openBottomSheet(
@@ -341,6 +341,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.success:
         return Container(
             child: LessonWikis(
+          screenSize: screenSize,
           lessonId: _selectedLessonId,
           modulesProvider: modulesProvider,
           isHorizontal: isHorizontal,
