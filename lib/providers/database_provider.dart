@@ -24,7 +24,7 @@ class DatabaseProvider with ChangeNotifier {
             "tags TEXT,"
             "isFavorite INTEGER"
             ")");
-        await db.execute("CREATE TABLE FrequentlyAskedQuestions ("
+        await db.execute("CREATE TABLE AppHelp ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"

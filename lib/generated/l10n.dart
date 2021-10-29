@@ -145,6 +145,16 @@ class S {
     );
   }
 
+  /// `App Help`
+  String get appHelpTitle {
+    return Intl.message(
+      'App Help',
+      name: 'appHelpTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Request Data`
   String get requestDataTitle {
     return Intl.message(

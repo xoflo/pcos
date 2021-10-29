@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "appHelpTitle" : MessageLookupByLibrary.simpleMessage("App Help"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
     "areYouSureText" : MessageLookupByLibrary.simpleMessage("Close app"),
     "boolTaskValidation" : MessageLookupByLibrary.simpleMessage("Please make a selection above"),

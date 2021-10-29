@@ -20,7 +20,7 @@ import 'package:thepcosprotocol_app/models/cms.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
-// This provider is used for Knowledge Base, FAQs and Course Questions
+// This provider is used for App Help
 class ProviderHelper {
   Future<List<Question>> fetchAndSaveQuestions(
     final dbProvider,
@@ -50,7 +50,6 @@ class ProviderHelper {
         //save when we got the data
         saveTimestamp(tableName);
       }
-      debugPrint("RETURNING ALL QUESTIONS type=$assetType");
       // get items from database
       return await getAllData(dbProvider, tableName);
     }
@@ -87,7 +86,6 @@ class ProviderHelper {
         //save when we got the data
         saveTimestamp(tableName);
       }
-      debugPrint("RETURNING ALL RECIPES");
       // get items from database
       return await getAllData(dbProvider, tableName);
     }
@@ -207,6 +205,7 @@ class ProviderHelper {
         "$wikiTableName INNER JOIN $lessonLinkTableName ON $wikiTableName.id = $lessonLinkTableName.objectID",
         "WHERE objectType = 'wiki'",
       );
+      debugPrint("wikiList = ${wikiList.length}");
 
       final List<LessonWiki> lessonWikisToReturn =
           mapDataToList(wikiList, "LessonWiki");
@@ -263,6 +262,7 @@ class ProviderHelper {
         List<LessonContent> lessonContent = lessonExport.content;
         List<LessonTask> lessonTasks = lessonExport.tasks;
         List<LessonLink> lessonLinks = lessonExport.links;
+        debugPrint("lessonLinks = ${lessonLinks.length}");
         //add lesson to database
         await dbProvider.insert(lessonTableName, {
           'lessonID': lesson.lessonID,
@@ -320,6 +320,7 @@ class ProviderHelper {
 
   Future<void> _addLessonLinkToDatabase(final dbProvider,
       final String tableName, List<LessonLink> lessonLinks) async {
+    debugPrint("lessonLinks = ${lessonLinks.length}");
     lessonLinks.forEach((LessonLink lessonLink) async {
       await dbProvider.insert(tableName, {
         'lessonLinkID': lessonLink.lessonLinkID,

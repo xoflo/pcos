@@ -332,7 +332,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   ) {
     final List<LessonWiki> lessonWikis =
         modulesProvider.getLessonWikis(_selectedLessonId);
-
+    debugPrint("WIKIS=${lessonWikis.length}");
     switch (modulesProvider.status) {
       case LoadingStatus.loading:
         return Container();

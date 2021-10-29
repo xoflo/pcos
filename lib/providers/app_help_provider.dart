@@ -4,13 +4,13 @@ import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 
-class FAQProvider with ChangeNotifier {
+class AppHelpProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
 
-  FAQProvider({@required this.dbProvider}) {
+  AppHelpProvider({@required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData();
   }
-  final String tableName = "FrequentlyAskedQuestions";
+  final String tableName = "AppHelp";
   final String assetType = "FAQ";
   List<Question> _items = [];
   LoadingStatus status = LoadingStatus.empty;

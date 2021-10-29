@@ -70,6 +70,7 @@ class ModulesProvider with ChangeNotifier {
       _lessons = modulesAndLessons.lessons;
       _lessonContent = modulesAndLessons.lessonContent;
       _lessonTasks = modulesAndLessons.lessonTasks;
+      debugPrint("MP Wikis=${modulesAndLessons.lessonWikis.length}");
       _lessonWikis = modulesAndLessons.lessonWikis;
       _lessonRecipes = modulesAndLessons.lessonRecipes;
 

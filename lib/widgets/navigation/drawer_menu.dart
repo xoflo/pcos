@@ -35,9 +35,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
     });
   }
 
+  //TODO: check what needs updating here
   void _resetDataCache() {
     saveTimestamp("KnowledgeBase");
-    saveTimestamp("FrequentlyAskedQuestions");
+    saveTimestamp("AppHelp");
     saveTimestamp("CourseQuestion");
     saveTimestamp("Recipe");
     saveTimestamp("Message");
@@ -149,6 +150,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
             ),
             onTap: () {
               _drawerNavigation(context, DrawerMenuItem.CHANGE_PASSWORD);
+            },
+          ),
+          ListTile(
+            title: Text(
+              S.of(context).appHelpTitle,
+              style: drawerItemStyle,
+            ),
+            onTap: () {
+              _drawerNavigation(context, DrawerMenuItem.APP_HELP);
             },
           ),
           ListTile(

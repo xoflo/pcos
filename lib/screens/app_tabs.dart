@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
-import 'package:thepcosprotocol_app/providers/faq_provider.dart';
+import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
@@ -26,6 +26,7 @@ import 'package:thepcosprotocol_app/widgets/app_body/main_screens.dart';
 import 'package:thepcosprotocol_app/screens/menu/profile.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
+import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
 import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -162,7 +163,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
       //now get the other data if necessary
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<WikiProvider>(context, listen: false).fetchAndSaveData();
-      Provider.of<FAQProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<AppHelpProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<FavouritesProvider>(context, listen: false)
           .getDataFromDatabase();
       Provider.of<MessagesProvider>(context, listen: false).fetchAndSaveData();
@@ -197,6 +198,9 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         break;
       case DrawerMenuItem.CHANGE_PASSWORD:
         Navigator.pushNamed(context, ChangePassword.id);
+        break;
+      case DrawerMenuItem.APP_HELP:
+        Navigator.pushNamed(context, AppHelp.id);
         break;
       case DrawerMenuItem.PRIVACY:
         Navigator.pushNamed(context, Privacy.id);
