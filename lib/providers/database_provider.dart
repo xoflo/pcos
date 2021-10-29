@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
+import 'package:thepcosprotocol_app/models/question.dart';
 
 class DatabaseProvider with ChangeNotifier {
   sql.Database db;
@@ -15,7 +16,7 @@ class DatabaseProvider with ChangeNotifier {
     db = await sql.openDatabase(
       path.join(dbPath, 'ThePCOSProtocol.db'),
       onCreate: (db, version) async {
-        await db.execute("CREATE TABLE KnowledgeBase ("
+        await db.execute("CREATE TABLE Wiki ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
@@ -105,6 +106,14 @@ class DatabaseProvider with ChangeNotifier {
             "isComplete INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
+        await db.execute("CREATE TABLE LessonLink ("
+            "lessonLinkID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "objectID INTEGER,"
+            "objectType TEXT,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
       },
       version: 1,
     );
@@ -137,6 +146,12 @@ class DatabaseProvider with ChangeNotifier {
   Future<List<Map<String, dynamic>>> getDataQuery(
       final String table, final String where) async {
     return await db.rawQuery("SELECT * FROM $table $where");
+  }
+
+  Future<List<Map<String, dynamic>>> getDataQueryWithJoin(final String select,
+      final String tablesAndJoin, final String where) async {
+    debugPrint("QUERY=SELECT $select FROM $tablesAndJoin $where");
+    return await db.rawQuery("SELECT $select FROM $tablesAndJoin $where");
   }
 
   Future<int> getTableRowCount(final String table) async {

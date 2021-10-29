@@ -9,7 +9,7 @@ import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -161,8 +161,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
           .fetchAndSaveData(true);
       //now get the other data if necessary
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
-      Provider.of<KnowledgeBaseProvider>(context, listen: false)
-          .fetchAndSaveData();
+      Provider.of<WikiProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<FAQProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<FavouritesProvider>(context, listen: false)
           .getDataFromDatabase();

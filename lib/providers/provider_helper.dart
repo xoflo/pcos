@@ -1,10 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/cms_text.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_export.dart';
+import 'package:thepcosprotocol_app/models/lesson_link.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/module_export.dart';
@@ -46,7 +50,7 @@ class ProviderHelper {
         //save when we got the data
         saveTimestamp(tableName);
       }
-
+      debugPrint("RETURNING ALL QUESTIONS type=$assetType");
       // get items from database
       return await getAllData(dbProvider, tableName);
     }
@@ -83,7 +87,7 @@ class ProviderHelper {
         //save when we got the data
         saveTimestamp(tableName);
       }
-
+      debugPrint("RETURNING ALL RECIPES");
       // get items from database
       return await getAllData(dbProvider, tableName);
     }
@@ -99,6 +103,9 @@ class ProviderHelper {
     final String lessonTableName = "Lesson";
     final String lessonContentTableName = "LessonContent";
     final String lessonTaskTableName = "LessonTask";
+    final String lessonLinkTableName = "LessonLink";
+    final String wikiTableName = "Wiki";
+    final String recipeTableName = "Recipe";
     final bool isNextLessonAvailable =
         nextLessonAvailableDate.isBefore(DateTime.now());
 
@@ -114,15 +121,18 @@ class ProviderHelper {
         await dbProvider.deleteAll(lessonTableName);
         await dbProvider.deleteAll(lessonContentTableName);
         await dbProvider.deleteAll(lessonTaskTableName);
+        await dbProvider.deleteAll(lessonLinkTableName);
 
         //add modules to database
         await _addModulesAndLessonsToDatabase(
-            dbProvider,
-            moduleExport,
-            moduleTableName,
-            lessonTableName,
-            lessonContentTableName,
-            lessonTaskTableName);
+          dbProvider,
+          moduleExport,
+          moduleTableName,
+          lessonTableName,
+          lessonContentTableName,
+          lessonTaskTableName,
+          lessonLinkTableName,
+        );
 
         //save when we got the data
         await saveTimestamp(moduleTableName);
@@ -190,11 +200,35 @@ class ProviderHelper {
           lessonTasksToReturn.add(lessonTask);
       }
 
+      debugPrint("RUNNING WIKI JOIN QUERY");
+      //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      final wikiList = await dbProvider.getDataQueryWithJoin(
+        "$wikiTableName.*, $lessonLinkTableName.LessonID",
+        "$wikiTableName INNER JOIN $lessonLinkTableName ON $wikiTableName.id = $lessonLinkTableName.objectID",
+        "WHERE objectType = 'wiki'",
+      );
+
+      final List<LessonWiki> lessonWikisToReturn =
+          mapDataToList(wikiList, "LessonWiki");
+
+      debugPrint("RUNNING RECIPES JOIN QUERY");
+      //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      final recipeList = await dbProvider.getDataQueryWithJoin(
+        "$recipeTableName.*, $lessonLinkTableName.LessonID",
+        "$recipeTableName INNER JOIN $lessonLinkTableName ON $recipeTableName.recipeId = $lessonLinkTableName.objectID",
+        "WHERE objectType = 'recipe'",
+      );
+      debugPrint("recipeList = ${recipeList.length}");
+      final List<LessonRecipe> lessonRecipesToReturn =
+          mapDataToList(recipeList, "LessonRecipe");
+      debugPrint("recipeList RTN = ${lessonRecipesToReturn.length}");
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
         modules: modulesToReturn,
         lessons: lessonsToReturn,
         lessonContent: lessonContentToReturn,
         lessonTasks: lessonTasksToReturn,
+        lessonWikis: lessonWikisToReturn,
+        lessonRecipes: lessonRecipesToReturn,
       );
       return modulesAndLessons;
     }
@@ -208,6 +242,7 @@ class ProviderHelper {
     final String lessonTableName,
     final String lessonContentTableName,
     final String lessonTaskTableName,
+    final String lessonLinkTableName,
   ) async {
     moduleExport.forEach((ModuleExport moduleExport) async {
       Module module = moduleExport.module;
@@ -227,6 +262,7 @@ class ProviderHelper {
         Lesson lesson = lessonExport.lesson;
         List<LessonContent> lessonContent = lessonExport.content;
         List<LessonTask> lessonTasks = lessonExport.tasks;
+        List<LessonLink> lessonLinks = lessonExport.links;
         //add lesson to database
         await dbProvider.insert(lessonTableName, {
           'lessonID': lesson.lessonID,
@@ -243,6 +279,8 @@ class ProviderHelper {
             dbProvider, lessonContentTableName, lessonContent);
         await _addLessonTasksToDatabase(
             dbProvider, lessonTaskTableName, lessonTasks);
+        await _addLessonLinkToDatabase(
+            dbProvider, lessonLinkTableName, lessonLinks);
       });
     });
   }
@@ -276,6 +314,20 @@ class ProviderHelper {
         'orderIndex': lessonTask.orderIndex,
         'isComplete': lessonTask.isComplete ? 1 : 0,
         'dateCreatedUTC': lessonTask.dateCreatedUTC.toIso8601String(),
+      });
+    });
+  }
+
+  Future<void> _addLessonLinkToDatabase(final dbProvider,
+      final String tableName, List<LessonLink> lessonLinks) async {
+    lessonLinks.forEach((LessonLink lessonLink) async {
+      await dbProvider.insert(tableName, {
+        'lessonLinkID': lessonLink.lessonLinkID,
+        'lessonID': lessonLink.lessonID,
+        'objectID': lessonLink.objectID,
+        'objectType': lessonLink.objectType,
+        'orderIndex': lessonLink.orderIndex,
+        'dateCreatedUTC': lessonLink.dateCreatedUTC.toIso8601String(),
       });
     });
   }
@@ -541,6 +593,18 @@ class ProviderHelper {
     } else if (tableName == "LessonTask") {
       return dataList
           .map<LessonTask>((item) => LessonTask.fromJson(item))
+          .toList();
+    } else if (tableName == "LessonLink") {
+      return dataList
+          .map<LessonLink>((item) => LessonLink.fromJson(item))
+          .toList();
+    } else if (tableName == "LessonWiki") {
+      return dataList
+          .map<LessonWiki>((item) => LessonWiki.fromJson(item))
+          .toList();
+    } else if (tableName == "LessonRecipe") {
+      return dataList
+          .map<LessonRecipe>((item) => LessonRecipe.fromJson(item))
           .toList();
     } else if (tableName == "Message") {
       return dataList.map<Message>((item) => Message.fromJson(item)).toList();

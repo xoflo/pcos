@@ -5,13 +5,13 @@ import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
-class KnowledgeBaseProvider with ChangeNotifier {
+class WikiProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
 
-  KnowledgeBaseProvider({@required this.dbProvider}) {
+  WikiProvider({@required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData();
   }
-  final String tableName = "KnowledgeBase";
+  final String tableName = "Wiki";
   List<Question> _items = [];
   List<Question> _favourites = [];
   LoadingStatus status = LoadingStatus.empty;

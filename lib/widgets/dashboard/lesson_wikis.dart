@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/wiki_card.dart';
@@ -9,16 +9,18 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class LessonWikis extends StatelessWidget {
   final Size screenSize;
   final int lessonId;
+  final List<LessonWiki> lessonWikis;
   final ModulesProvider modulesProvider;
   final int selectedWiki;
   final double width;
   final bool isHorizontal;
   final Function(int) onSelected;
-  final Function(ModulesProvider, Question) addToFavourites;
+  final Function(ModulesProvider, LessonWiki) addToFavourites;
 
   LessonWikis({
     @required this.screenSize,
     @required this.lessonId,
+    @required this.lessonWikis,
     @required this.modulesProvider,
     @required this.selectedWiki,
     @required this.width,
@@ -27,7 +29,7 @@ class LessonWikis extends StatelessWidget {
     @required this.addToFavourites,
   });
 
-  void _addToFavourites(final Question wiki) {
+  void _addToFavourites(final LessonWiki wiki) {
     this.addToFavourites(this.modulesProvider, wiki);
   }
 
@@ -65,7 +67,7 @@ class LessonWikis extends StatelessWidget {
                   onSelected(index);
                 },
               ),
-              items: modulesProvider.getLessonWikis(lessonId).map((wiki) {
+              items: lessonWikis.map((wiki) {
                 return WikiCard(
                   screenSize: screenSize,
                   wiki: wiki,

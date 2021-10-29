@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -31,8 +31,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
           recipeProvider.fetchAndSaveData();
           break;
         case FavouriteType.Wiki:
-          final kbProvider =
-              Provider.of<KnowledgeBaseProvider>(context, listen: false);
+          final kbProvider = Provider.of<WikiProvider>(context, listen: false);
           await kbProvider.addToFavourites(item, false);
           kbProvider.fetchAndSaveData();
           break;
@@ -189,7 +188,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                             openFavourite: _openFavourite,
                           ),
                         ),
-                        Consumer<KnowledgeBaseProvider>(
+                        Consumer<WikiProvider>(
                           builder: (context, model, child) => FavouritesTab(
                             screenSize: screenSize,
                             favourites: model.favourites,

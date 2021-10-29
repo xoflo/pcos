@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 class QuestionListItem extends StatefulWidget {
   final bool showIcon;
   final String answerText;
-  final Question item;
+  final dynamic item;
   final bool isFavorite;
   final IconData iconData;
   final IconData iconDataOn;

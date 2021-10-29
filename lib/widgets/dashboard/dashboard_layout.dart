@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
@@ -54,7 +55,7 @@ class DashboardLayout extends StatefulWidget {
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
   int _selectedLessonIndex = -1;
-  int _selectedLessonId = 1;
+  int _selectedLessonId = 0;
   int _selectedWiki = 0;
   int _selectedRecipe = 0;
   String _yourWhy = "";
@@ -106,8 +107,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
   }
 
-  void _openLesson(
-      final Lesson lesson, final ModulesProvider modulesProvider) async {
+  void _openLesson(final Lesson lesson, final ModulesProvider modulesProvider) {
     //mark lesson a complete if not already
     if (!lesson.isComplete) {
       //is this the last lesson of the Module, if so, also setComplete for module
@@ -130,9 +130,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     }
 
     //get the lesson wikis and recipes
-    final List<Question> lessonWikis =
-        modulesProvider.getLessonWikis(lesson.lessonID);
-    final List<Recipe> lessonRecipes =
+    final List<LessonWiki> lessonWikis =
+        modulesProvider.getLessonWikis(_selectedLessonId);
+    final List<LessonRecipe> lessonRecipes =
         modulesProvider.getLessonRecipes(lesson.lessonID);
 
     openBottomSheet(
@@ -262,19 +262,16 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     modulesProvider.addToFavourites(lesson, add);
   }
 
-  void _onLessonChanged(final int lessonIndex) {
+  void _onLessonChanged(final int lessonIndex, final int lessonID) {
     setState(() {
       _selectedLessonIndex = lessonIndex;
+      _selectedLessonId = lessonID;
     });
   }
 
   void _onWikiSelected(final int questionID) {}
 
-  void _openWiki(final Question question) {}
-
   void _onRecipeSelected(final int recipeId) {}
-
-  void _openRecipe(final int recipeId) {}
 
   Widget getCurrentModule(
     final Size screenSize,
@@ -333,6 +330,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
   ) {
+    final List<LessonWiki> lessonWikis =
+        modulesProvider.getLessonWikis(_selectedLessonId);
+
     switch (modulesProvider.status) {
       case LoadingStatus.loading:
         return Container();
@@ -343,6 +343,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
             child: LessonWikis(
           screenSize: screenSize,
           lessonId: _selectedLessonId,
+          lessonWikis: lessonWikis,
           modulesProvider: modulesProvider,
           isHorizontal: isHorizontal,
           width: screenSize.width,
@@ -360,6 +361,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
   ) {
+    final List<LessonRecipe> lessonRecipes =
+        modulesProvider.getLessonRecipes(_selectedLessonId);
+    debugPrint("RECIPES=${lessonRecipes.length}");
     switch (modulesProvider.status) {
       case LoadingStatus.loading:
         return Container();
@@ -368,7 +372,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       case LoadingStatus.success:
         return Container(
             child: LessonRecipes(
-          recipes: modulesProvider.getLessonRecipes(1),
+          recipes: lessonRecipes,
           isHorizontal: isHorizontal,
           width: screenSize.width,
           onSelected: _onRecipeSelected,
@@ -408,9 +412,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   }
 
   void _addWikiToFavourites(
-      final ModulesProvider modulesProvider, Question question) {
-    final bool add = !question.isFavorite;
-    modulesProvider.addWikiToFavourites(question, add);
+      final ModulesProvider modulesProvider, LessonWiki wiki) {
+    final bool add = !wiki.isFavorite;
+    modulesProvider.addWikiToFavourites(wiki, add);
     //re-run the search to refresh data, and pick up the favourite change
     //_refreshData();
   }

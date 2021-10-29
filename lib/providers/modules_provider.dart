@@ -4,6 +4,7 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -30,6 +31,8 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> _lessons = [];
   List<LessonContent> _lessonContent = [];
   List<LessonTask> _lessonTasks = [];
+  List<LessonWiki> _lessonWikis = [];
+  List<LessonRecipe> _lessonRecipes = [];
 
   Module _currentModule;
   List<Module> _previousModules = [];
@@ -67,6 +70,8 @@ class ModulesProvider with ChangeNotifier {
       _lessons = modulesAndLessons.lessons;
       _lessonContent = modulesAndLessons.lessonContent;
       _lessonTasks = modulesAndLessons.lessonTasks;
+      _lessonWikis = modulesAndLessons.lessonWikis;
+      _lessonRecipes = modulesAndLessons.lessonRecipes;
 
       _currentModule = _modules.last;
       _previousModules = await _getPreviousModules();
@@ -123,93 +128,26 @@ class ModulesProvider with ChangeNotifier {
     return lessonContent;
   }
 
-  List<Question> getLessonWikis(final int lessonID) {
-    List<Question> lessonWikis = [];
-
-    //TODO: add actual wikis
-    Question question1 = Question(
-      id: 1,
-      reference: 'test1',
-      question: "This is a question",
-      answer: "This is the answer",
-      tags: "diet",
-      isFavorite: false,
-      isLongAnswer: false,
-    );
-    Question question2 = Question(
-      id: 2,
-      reference: 'test2',
-      question: "This is a question",
-      answer: "This is the answer",
-      tags: "diet",
-      isFavorite: false,
-      isLongAnswer: true,
-    );
-    Question question3 = Question(
-      id: 3,
-      reference: 'test3',
-      question: "This is a question",
-      answer: "This is the answer",
-      tags: "diet",
-      isFavorite: false,
-      isLongAnswer: false,
-    );
-    lessonWikis.add(question1);
-    lessonWikis.add(question2);
-    lessonWikis.add(question3);
-    return lessonWikis;
+  List<LessonWiki> getLessonWikis(final int lessonID) {
+    List<LessonWiki> displayLessonWikis = [];
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if (lessonWiki.lessonId == lessonID) {
+        displayLessonWikis.add(lessonWiki);
+      }
+    }
+    return displayLessonWikis;
   }
 
-  List<Recipe> getLessonRecipes(final int lessonID) {
-    List<Recipe> lessonRecipes = [];
-    //TODO: add actual lesson recipes
-    lessonRecipes.add(Recipe(
-      recipeId: 5,
-      title: "Fish with Chilli Lime Salt",
-      description: "Test",
-      thumbnail:
-          "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/fish_chilli_lime_salt.png",
-      ingredients: "Test",
-      method: "Test",
-      tips: "Test",
-      tags: "",
-      difficulty: 1,
-      servings: 3,
-      duration: 60000,
-      isFavorite: true,
-    ));
-    lessonRecipes.add(Recipe(
-      recipeId: 6,
-      title: "Almond porridge",
-      description: "Test",
-      thumbnail:
-          "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/almond-porridge.jpg",
-      ingredients: "Test",
-      method: "Test",
-      tips: "Test",
-      tags: "",
-      difficulty: 1,
-      servings: 3,
-      duration: 60000,
-      isFavorite: true,
-    ));
-    lessonRecipes.add(Recipe(
-      recipeId: 7,
-      title: "Breakfast burrito",
-      description: "Test",
-      thumbnail:
-          "https://res.cloudinary.com/dbee2ldxn/v1620260652/images/recipes/Breakfast_Burrito.jpg",
-      ingredients: "Test",
-      method: "Test",
-      tips: "Test",
-      tags: "",
-      difficulty: 1,
-      servings: 3,
-      duration: 60000,
-      isFavorite: true,
-    ));
-
-    return lessonRecipes;
+  List<LessonRecipe> getLessonRecipes(final int lessonID) {
+    List<LessonRecipe> displayLessonRecipes = [];
+    for (LessonRecipe lessonRecipe in _lessonRecipes) {
+      debugPrint(
+          "lessonRecipe recipeId=${lessonRecipe.recipeId} lessonId=${lessonRecipe.lessonId}");
+      if (lessonRecipe.lessonId == lessonID) {
+        displayLessonRecipes.add(lessonRecipe);
+      }
+    }
+    return displayLessonRecipes;
   }
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
@@ -244,11 +182,10 @@ class ModulesProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addWikiToFavourites(
-      final dynamic question, final bool add) async {
+  Future<void> addWikiToFavourites(final dynamic wiki, final bool add) async {
     if (dbProvider.db != null) {
       await ProviderHelper()
-          .addToFavourites(add, dbProvider, FavouriteType.Wiki, question);
+          .addToFavourites(add, dbProvider, FavouriteType.Wiki, wiki);
     }
   }
 

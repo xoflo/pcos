@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_item.dart';
 
 class RecipesList extends StatelessWidget {
   final Size screenSize;
-  final List<Recipe> recipes;
+  final List<dynamic> recipes;
   final Function(BuildContext, Recipe) openRecipeDetails;
 
   RecipesList({
@@ -31,7 +31,7 @@ class RecipesList extends StatelessWidget {
         shrinkWrap: false,
         crossAxisCount: itemsPerRow,
         childAspectRatio: aspectRatio,
-        children: recipes.map((Recipe recipe) {
+        children: recipes.map((dynamic recipe) {
           return RecipeListItem(
             recipe: recipe,
             itemsPerRow: itemsPerRow,

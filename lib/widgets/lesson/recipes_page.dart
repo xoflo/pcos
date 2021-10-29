@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
@@ -16,7 +17,7 @@ import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 class RecipesPage extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
-  final List<Recipe> recipes;
+  final List<LessonRecipe> recipes;
   final BuildContext parentContext;
 
   RecipesPage({

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
@@ -7,7 +8,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class WikiPage extends StatelessWidget {
   final bool isHorizontal;
-  final List<Question> wikis;
+  final List<LessonWiki> wikis;
 
   WikiPage({
     @required this.isHorizontal,
@@ -19,6 +20,8 @@ class WikiPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("WIKIPAGE=${this.wikis.length}");
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -35,13 +38,16 @@ class WikiPage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: QuestionList(
-              questions: this.wikis,
-              showIcon: true,
-              iconData: Icons.favorite_outline,
-              iconDataOn: Icons.favorite,
-              iconAction: _addFavourite,
-            ),
+            child: this.wikis.length > 0
+                ? QuestionList(
+                    questions: [],
+                    wikis: this.wikis,
+                    showIcon: true,
+                    iconData: Icons.favorite_outline,
+                    iconDataOn: Icons.favorite,
+                    iconAction: _addFavourite,
+                  )
+                : Container(),
           ),
         ],
       ),

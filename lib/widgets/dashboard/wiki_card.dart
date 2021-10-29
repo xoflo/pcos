@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -9,8 +10,8 @@ import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wiki_full.dart';
 
 class WikiCard extends StatefulWidget {
   final Size screenSize;
-  final Question wiki;
-  final Function(Question) addToFavourites;
+  final LessonWiki wiki;
+  final Function(LessonWiki) addToFavourites;
 
   WikiCard({
     @required this.wiki,
@@ -42,7 +43,7 @@ class _WikiCardState extends State<WikiCard> {
     });
   }
 
-  void _addToFavourites(final Question wiki) async {
+  void _addToFavourites(final LessonWiki wiki) async {
     widget.addToFavourites(wiki);
     setState(() {
       widget.wiki.isFavorite = !widget.wiki.isFavorite;
@@ -50,7 +51,7 @@ class _WikiCardState extends State<WikiCard> {
   }
 
   Widget _getContainer(final BuildContext context, final bool isAnswer,
-      final Question wiki, final double height, final String swipeText) {
+      final LessonWiki wiki, final double height, final String swipeText) {
     return Container(
       width: widget.screenSize.width - 54,
       height: height,
@@ -115,7 +116,7 @@ class _WikiCardState extends State<WikiCard> {
     );
   }
 
-  void _openWiki(final BuildContext context, final Question wiki) {
+  void _openWiki(final BuildContext context, final LessonWiki wiki) {
     openBottomSheet(
       context,
       LessonWikiFull(
@@ -126,7 +127,7 @@ class _WikiCardState extends State<WikiCard> {
         addToFavourites: widget.addToFavourites,
       ),
       Analytics.ANALYTICS_SCREEN_WIKI,
-      wiki.id.toString(),
+      wiki.questionId.toString(),
     );
   }
 

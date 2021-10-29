@@ -29,7 +29,7 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/faq_provider.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
@@ -124,10 +124,9 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DatabaseProvider()),
-        ChangeNotifierProxyProvider<DatabaseProvider, KnowledgeBaseProvider>(
-          create: (context) => KnowledgeBaseProvider(dbProvider: null),
-          update: (context, db, previous) =>
-              KnowledgeBaseProvider(dbProvider: db),
+        ChangeNotifierProxyProvider<DatabaseProvider, WikiProvider>(
+          create: (context) => WikiProvider(dbProvider: null),
+          update: (context, db, previous) => WikiProvider(dbProvider: db),
         ),
         ChangeNotifierProxyProvider<DatabaseProvider, FAQProvider>(
           create: (context) => FAQProvider(dbProvider: null),

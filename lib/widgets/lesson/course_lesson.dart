@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson_content.dart';
@@ -23,8 +24,8 @@ class CourseLesson extends StatefulWidget {
   final ModulesProvider modulesProvider;
   final bool showDataUsageWarning;
   final Lesson lesson;
-  final List<Question> lessonWikis;
-  final List<Recipe> lessonRecipes;
+  final List<LessonWiki> lessonWikis;
+  final List<LessonRecipe> lessonRecipes;
   final Function closeLesson;
   final Function(ModulesProvider, dynamic, bool) addToFavourites;
 

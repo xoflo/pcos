@@ -14,7 +14,7 @@ class CurrentModule extends StatelessWidget {
   final bool showPreviousModule;
   final Function(Lesson, ModulesProvider) openLesson;
   final Function(BuildContext, ModulesProvider) openPreviousModules;
-  final Function(int) onLessonChanged;
+  final Function(int, int) onLessonChanged;
   final Function(BuildContext, ModulesProvider) openLessonSearch;
 
   CurrentModule({
@@ -65,7 +65,9 @@ class CurrentModule extends StatelessWidget {
                     ? modulesProvider.currentModuleLessons.length - 1
                     : selectedLesson,
                 onPageChanged: (index, reason) {
-                  onLessonChanged(index);
+                  final int lessonID =
+                      modulesProvider.currentModuleLessons[index].lessonID;
+                  onLessonChanged(index, lessonID);
                 },
               ),
               items: modulesProvider.currentModuleLessons.map((lesson) {

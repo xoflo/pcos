@@ -62,6 +62,7 @@ class FavouritesTab extends StatelessWidget {
       case FavouriteType.Wiki:
         return QuestionList(
           questions: favourites,
+          wikis: [],
           showIcon: true,
           iconData: Icons.delete,
           iconDataOn: Icons.delete,

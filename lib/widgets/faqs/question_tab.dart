@@ -28,6 +28,7 @@ class QuestionTab extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 2.0),
           child: QuestionList(
             questions: provider.items,
+            wikis: [],
           ),
         );
     }

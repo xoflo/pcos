@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
 
 class LessonWikiFull extends StatefulWidget {
-  final Question wiki;
+  final LessonWiki wiki;
   final Function closeWiki;
-  final Function(Question) addToFavourites;
+  final Function(LessonWiki) addToFavourites;
 
   LessonWikiFull({
     @required this.wiki,
