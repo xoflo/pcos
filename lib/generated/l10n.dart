@@ -2355,6 +2355,26 @@ class S {
     );
   }
 
+  /// `There are no wiki items for this lesson`
+  String get noWikis {
+    return Intl.message(
+      'There are no wiki items for this lesson',
+      name: 'noWikis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no recipes for this lesson`
+  String get noRecipes {
+    return Intl.message(
+      'There are no recipes for this lesson',
+      name: 'noRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lesson Recipes`
   String get lessonRecipes {
     return Intl.message(

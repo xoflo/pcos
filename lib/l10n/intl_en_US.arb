@@ -232,6 +232,8 @@
     "noFavouriteRecipe": "No favorite recipes to display.",
     "lessonWiki": "Lesson Wiki",
     "viewWiki": "View answer",
+    "noWikis": "There are no wiki items for this lesson",
+    "noRecipes": "There are no recipes for this lesson",
     "lessonRecipes": "Lesson Recipes",
     "swipeUpForAnswer": "Swipe up for answer",
     "swipeDownForQuestion": "Swipe down for question"
