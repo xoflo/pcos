@@ -30,9 +30,6 @@ class _LessonRecipesState extends State<LessonRecipes> {
   bool _isNoneMessageVisible = false;
 
   void _changeVisibility() {
-    debugPrint("CHANGE VIS");
-    debugPrint("_isVisible=$_isNoneMessageVisible");
-    debugPrint("recipes len=${widget.recipes.length}");
     if (!_isNoneMessageVisible && widget.recipes.length == 0) {
       //play animation to show no wikis msg
       setState(() {
