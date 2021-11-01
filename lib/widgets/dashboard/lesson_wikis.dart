@@ -41,9 +41,6 @@ class _LessonWikisState extends State<LessonWikis> {
   }
 
   void _changeVisibility() {
-    debugPrint("CHANGE VIS");
-    debugPrint("_isVisible=$_isNoneMessageVisible");
-    debugPrint("wikis len=${widget.lessonWikis.length}");
     if (!_isNoneMessageVisible && widget.lessonWikis.length == 0) {
       //play animation to show no wikis msg
       setState(() {
