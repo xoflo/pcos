@@ -28,17 +28,20 @@ class LessonRecipes extends StatefulWidget {
 
 class _LessonRecipesState extends State<LessonRecipes> {
   bool _isNoneMessageVisible = false;
+  bool _isCarouselVisible = true;
 
   void _changeVisibility() {
     if (!_isNoneMessageVisible && widget.recipes.length == 0) {
-      //play animation to show no wikis msg
+      //play animation to show no recipes msg
       setState(() {
         _isNoneMessageVisible = true;
+        _isCarouselVisible = false;
       });
     } else if (_isNoneMessageVisible && widget.recipes.length > 0) {
-      //play animation to show no wikis msg
+      //play animation to show no recipes msg
       setState(() {
         _isNoneMessageVisible = false;
+        _isCarouselVisible = true;
       });
     }
   }
@@ -73,28 +76,6 @@ class _LessonRecipesState extends State<LessonRecipes> {
               width: widget.width,
               child: Stack(
                 children: [
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      height: 200,
-                      enableInfiniteScroll: false,
-                      viewportFraction: widget.isHorizontal ? 0.50 : 0.92,
-                      initialPage: widget.selectedRecipe,
-                      onPageChanged: (index, reason) {
-                        widget.onSelected(index);
-                      },
-                    ),
-                    items: widget.recipes.map((lessonRecipe) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return RecipeCard(
-                            width: this.widget.width,
-                            lessonRecipe: lessonRecipe,
-                            openRecipe: widget.openRecipe,
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
                   AnimatedOpacity(
                     // If the widget is visible, animate to 0.0 (invisible).
                     // If the widget is hidden, animate to 1.0 (fully visible).
@@ -124,7 +105,36 @@ class _LessonRecipesState extends State<LessonRecipes> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  AnimatedOpacity(
+                    // If the widget is visible, animate to 0.0 (invisible).
+                    // If the widget is hidden, animate to 1.0 (fully visible).
+                    opacity: _isCarouselVisible ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 1000),
+                    // The green box must be a child of the AnimatedOpacity widget.
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 200,
+                        enableInfiniteScroll: false,
+                        viewportFraction: widget.isHorizontal ? 0.50 : 0.92,
+                        initialPage: widget.selectedRecipe,
+                        onPageChanged: (index, reason) {
+                          widget.onSelected(index);
+                        },
+                      ),
+                      items: widget.recipes.map((lessonRecipe) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return RecipeCard(
+                              width: this.widget.width,
+                              lessonRecipe: lessonRecipe,
+                              openRecipe: widget.openRecipe,
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
             ),

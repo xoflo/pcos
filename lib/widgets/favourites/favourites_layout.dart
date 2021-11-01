@@ -116,7 +116,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     final Size screenSize = MediaQuery.of(context).size;
 
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -129,6 +129,14 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                 isScrollable: true,
                 tabs: [
                   Tab(
+                    text: S.of(context).toolkitTitle,
+                    icon: Icon(
+                      Icons.construction,
+                      color: primaryColor,
+                      size: 30,
+                    ),
+                  ),
+                  Tab(
                     text: S.of(context).lessonsTitle,
                     icon: Icon(
                       Icons.play_circle_outline,
@@ -137,7 +145,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).knowledgeBaseTitle,
+                    text: S.of(context).wikiTitle,
                     icon: Icon(
                       Icons.batch_prediction,
                       color: primaryColor,
@@ -178,6 +186,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     padding: const EdgeInsets.only(top: 4.0),
                     child: TabBarView(
                       children: [
+                        Container(child: Text("Toolkit")),
                         Consumer<ModulesProvider>(
                           builder: (context, model, child) => FavouritesTab(
                             screenSize: screenSize,

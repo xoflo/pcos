@@ -35,6 +35,7 @@ class LessonWikis extends StatefulWidget {
 
 class _LessonWikisState extends State<LessonWikis> {
   bool _isNoneMessageVisible = false;
+  bool _isCarouselVisible = true;
 
   void _addToFavourites(final LessonWiki wiki) {
     this.widget.addToFavourites(this.widget.modulesProvider, wiki);
@@ -45,11 +46,13 @@ class _LessonWikisState extends State<LessonWikis> {
       //play animation to show no wikis msg
       setState(() {
         _isNoneMessageVisible = true;
+        _isCarouselVisible = false;
       });
     } else if (_isNoneMessageVisible && widget.lessonWikis.length > 0) {
       //play animation to show no wikis msg
       setState(() {
         _isNoneMessageVisible = false;
+        _isCarouselVisible = true;
       });
     }
   }
@@ -82,24 +85,6 @@ class _LessonWikisState extends State<LessonWikis> {
             width: widget.width,
             child: Stack(
               children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 260,
-                    enableInfiniteScroll: false,
-                    viewportFraction: widget.isHorizontal ? 0.50 : 0.92,
-                    initialPage: widget.selectedWiki,
-                    onPageChanged: (index, reason) {
-                      widget.onSelected(index);
-                    },
-                  ),
-                  items: widget.lessonWikis.map((wiki) {
-                    return WikiCard(
-                      screenSize: widget.screenSize,
-                      wiki: wiki,
-                      addToFavourites: _addToFavourites,
-                    );
-                  }).toList(),
-                ),
                 AnimatedOpacity(
                   // If the widget is visible, animate to 0.0 (invisible).
                   // If the widget is hidden, animate to 1.0 (fully visible).
@@ -129,7 +114,32 @@ class _LessonWikisState extends State<LessonWikis> {
                       ),
                     ),
                   ),
-                )
+                ),
+                AnimatedOpacity(
+                  // If the widget is visible, animate to 0.0 (invisible).
+                  // If the widget is hidden, animate to 1.0 (fully visible).
+                  opacity: _isCarouselVisible ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 1000),
+                  // The green box must be a child of the AnimatedOpacity widget.
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 260,
+                      enableInfiniteScroll: false,
+                      viewportFraction: widget.isHorizontal ? 0.50 : 0.92,
+                      initialPage: widget.selectedWiki,
+                      onPageChanged: (index, reason) {
+                        widget.onSelected(index);
+                      },
+                    ),
+                    items: widget.lessonWikis.map((wiki) {
+                      return WikiCard(
+                        screenSize: widget.screenSize,
+                        wiki: wiki,
+                        addToFavourites: _addToFavourites,
+                      );
+                    }).toList(),
+                  ),
+                ),
               ],
             ),
           ),

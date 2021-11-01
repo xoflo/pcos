@@ -52,6 +52,8 @@ class _WikiCardState extends State<WikiCard> {
 
   Widget _getContainer(final BuildContext context, final bool isAnswer,
       final LessonWiki wiki, final double height, final String swipeText) {
+    debugPrint("LONG=${wiki.isLongAnswer}");
+
     return Container(
       width: widget.screenSize.width - 54,
       height: height,
@@ -63,7 +65,10 @@ class _WikiCardState extends State<WikiCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  HtmlWidget(isAnswer ? wiki.answer : wiki.question),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                    child: HtmlWidget(isAnswer ? wiki.answer : wiki.question),
+                  ),
                 ],
               ),
             ),
@@ -178,12 +183,14 @@ class _WikiCardState extends State<WikiCard> {
                                   widget.wiki,
                                   _containerHeight,
                                   S.of(context).swipeUpForAnswer),
-                              _getContainer(
-                                  context,
-                                  true,
-                                  widget.wiki,
-                                  _containerHeight,
-                                  S.of(context).swipeDownForQuestion),
+                              widget.wiki.isLongAnswer
+                                  ? Container()
+                                  : _getContainer(
+                                      context,
+                                      true,
+                                      widget.wiki,
+                                      _containerHeight,
+                                      S.of(context).swipeDownForQuestion),
                             ],
                           ),
                         ),
@@ -192,7 +199,8 @@ class _WikiCardState extends State<WikiCard> {
                             _addToFavourites(widget.wiki);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
+                            padding:
+                                const EdgeInsets.only(top: 4.0, right: 3.0),
                             child: Icon(
                               widget.wiki.isFavorite
                                   ? Icons.favorite
@@ -206,22 +214,6 @@ class _WikiCardState extends State<WikiCard> {
                     ),
                   ),
                 ),
-                /*child: Column(
-                  children: [
-                    _getAnimatedContainer(
-                        context,
-                        false,
-                        widget.wiki,
-                        _questionContainerHeight,
-                        S.of(context).swipeUpForAnswer),
-                    _getAnimatedContainer(
-                        context,
-                        true,
-                        widget.wiki,
-                        _answerContainerHeight,
-                        S.of(context).swipeDownForQuestion),
-                  ],
-                ),*/
               ),
             ],
           ),

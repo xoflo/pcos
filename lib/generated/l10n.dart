@@ -65,11 +65,11 @@ class S {
     );
   }
 
-  /// `Knowledge Base`
-  String get knowledgeBaseTitle {
+  /// `Wikis`
+  String get wikiTitle {
     return Intl.message(
-      'Knowledge Base',
-      name: 'knowledgeBaseTitle',
+      'Wikis',
+      name: 'wikiTitle',
       desc: '',
       args: [],
     );
@@ -2400,6 +2400,16 @@ class S {
     return Intl.message(
       'Swipe down for question',
       name: 'swipeDownForQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Toolkit`
+  String get toolkitTitle {
+    return Intl.message(
+      'Toolkit',
+      name: 'toolkitTitle',
       desc: '',
       args: [],
     );

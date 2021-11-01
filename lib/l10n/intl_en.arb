@@ -3,7 +3,7 @@
     "appTitle": "The PCOS Protocol",
     "companyTitle": "The PCOS Nutritionist",
     "dashboardTitle": "Your Course",
-    "knowledgeBaseTitle": "Knowledge Base",
+    "wikiTitle": "Wikis",
     "recipesTitle": "Recipes",
     "favouritesTitle": "Favourites",
     "coachChatTitle": "Coach Chat",
@@ -236,5 +236,6 @@
     "noRecipes": "There are no recipes for this lesson",
     "lessonRecipes": "Lesson Recipes",
     "swipeUpForAnswer": "Swipe up for answer",
-    "swipeDownForQuestion": "Swipe down for question"
+    "swipeDownForQuestion": "Swipe down for question",
+    "toolkitTitle": "Toolkit"
 }

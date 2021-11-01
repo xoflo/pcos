@@ -26,10 +26,8 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
   String _getHeaderText(BuildContext context, int currentIndex) {
     switch (currentIndex) {
       case 1:
-        return S.of(context).knowledgeBaseTitle;
-      case 2:
         return S.of(context).recipesTitle;
-      case 3:
+      case 2:
         return S.of(context).favouritesTitle;
       default:
         return S.of(context).dashboardTitle;

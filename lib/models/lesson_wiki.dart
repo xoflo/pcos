@@ -30,6 +30,12 @@ class LessonWiki {
   }
 
   factory LessonWiki.fromJson(Map<String, dynamic> json) {
+    final String answerHtml = json["answer"];
+    final bool isLongAnswer =
+        (answerHtml.contains("<img ") || answerHtml.length > 300)
+            ? true
+            : false;
+
     return LessonWiki(
       questionId: json['id'],
       lessonId: json['lessonID'],
@@ -39,9 +45,7 @@ class LessonWiki {
       tags: json["tags"],
       isFavorite:
           json['isFavorite'] == 1 || json['isFavorite'] == true ? true : false,
-      isLongAnswer: json['isLongAnswer'] == 1 || json['isLongAnswer'] == true
-          ? true
-          : false,
+      isLongAnswer: isLongAnswer,
     );
   }
 }
