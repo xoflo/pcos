@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class LessonRecipes extends StatefulWidget {
   final List<LessonRecipe> recipes;
   final int selectedRecipe;
+  final bool isComplete;
   final double width;
   final bool isHorizontal;
   final Function(int) onSelected;
@@ -16,6 +17,7 @@ class LessonRecipes extends StatefulWidget {
   LessonRecipes({
     @required this.recipes,
     @required this.selectedRecipe,
+    @required this.isComplete,
     @required this.width,
     @required this.isHorizontal,
     @required this.onSelected,
@@ -31,7 +33,8 @@ class _LessonRecipesState extends State<LessonRecipes> {
   bool _isCarouselVisible = true;
 
   void _changeVisibility() {
-    if (!_isNoneMessageVisible && widget.recipes.length == 0) {
+    if (!_isNoneMessageVisible &&
+        (widget.recipes.length == 0 || !widget.isComplete)) {
       //play animation to show no recipes msg
       setState(() {
         _isNoneMessageVisible = true;
@@ -50,96 +53,108 @@ class _LessonRecipesState extends State<LessonRecipes> {
   Widget build(BuildContext context) {
     _changeVisibility();
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Text(
-                S.of(context).lessonRecipes,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: primaryColor,
-                  fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Text(
+                  S.of(context).lessonRecipes,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: SizedBox(
-              width: widget.width,
-              child: Stack(
-                children: [
-                  AnimatedOpacity(
-                    // If the widget is visible, animate to 0.0 (invisible).
-                    // If the widget is hidden, animate to 1.0 (fully visible).
-                    opacity: _isNoneMessageVisible ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 1000),
-                    // The green box must be a child of the AnimatedOpacity widget.
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Container(
-                        width: widget.width,
-                        height: 200.0,
-                        color: Colors.white,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.block, size: 44, color: backgroundColor),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                S.of(context).noRecipes,
-                                style: TextStyle(
-                                  color: primaryColor,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: SizedBox(
+                width: widget.width,
+                child: Stack(
+                  children: [
+                    AnimatedOpacity(
+                      // If the widget is visible, animate to 0.0 (invisible).
+                      // If the widget is hidden, animate to 1.0 (fully visible).
+                      opacity: _isNoneMessageVisible ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 1000),
+                      // The green box must be a child of the AnimatedOpacity widget.
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Container(
+                          width: widget.width,
+                          height: 200.0,
+                          color: Colors.white,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                  !widget.isComplete &&
+                                          widget.recipes.length > 0
+                                      ? Icons.lock_outline
+                                      : Icons.block,
+                                  size: 44,
+                                  color: backgroundColor),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Text(
+                                  !widget.isComplete &&
+                                          widget.recipes.length > 0
+                                      ? S.of(context).lockedRecipes
+                                      : S.of(context).noRecipes,
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  AnimatedOpacity(
-                    // If the widget is visible, animate to 0.0 (invisible).
-                    // If the widget is hidden, animate to 1.0 (fully visible).
-                    opacity: _isCarouselVisible ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 1000),
-                    // The green box must be a child of the AnimatedOpacity widget.
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                        height: 200,
-                        enableInfiniteScroll: false,
-                        viewportFraction: widget.isHorizontal ? 0.50 : 0.92,
-                        initialPage: widget.selectedRecipe,
-                        onPageChanged: (index, reason) {
-                          widget.onSelected(index);
-                        },
-                      ),
-                      items: widget.recipes.map((lessonRecipe) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return RecipeCard(
-                              width: this.widget.width,
-                              lessonRecipe: lessonRecipe,
-                              openRecipe: widget.openRecipe,
-                            );
+                    AnimatedOpacity(
+                      // If the widget is visible, animate to 0.0 (invisible).
+                      // If the widget is hidden, animate to 1.0 (fully visible).
+                      opacity: _isCarouselVisible ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 1000),
+                      // The green box must be a child of the AnimatedOpacity widget.
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 200,
+                          enableInfiniteScroll: false,
+                          viewportFraction: widget.isHorizontal ? 0.50 : 0.92,
+                          initialPage: widget.selectedRecipe,
+                          onPageChanged: (index, reason) {
+                            widget.onSelected(index);
                           },
-                        );
-                      }).toList(),
+                        ),
+                        items: widget.recipes.map((lessonRecipe) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return RecipeCard(
+                                width: this.widget.width,
+                                lessonRecipe: lessonRecipe,
+                                openRecipe: widget.openRecipe,
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

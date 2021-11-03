@@ -150,7 +150,6 @@ class DatabaseProvider with ChangeNotifier {
 
   Future<List<Map<String, dynamic>>> getDataQueryWithJoin(final String select,
       final String tablesAndJoin, final String where) async {
-    debugPrint("QUERY=SELECT $select FROM $tablesAndJoin $where");
     return await db.rawQuery("SELECT $select FROM $tablesAndJoin $where");
   }
 

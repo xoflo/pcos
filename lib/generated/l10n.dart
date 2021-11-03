@@ -2365,11 +2365,31 @@ class S {
     );
   }
 
+  /// `Open the lesson to view the lesson and wikis`
+  String get lockedWikis {
+    return Intl.message(
+      'Open the lesson to view the lesson and wikis',
+      name: 'lockedWikis',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `There are no recipes for this lesson`
   String get noRecipes {
     return Intl.message(
       'There are no recipes for this lesson',
       name: 'noRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the lesson to view the lesson and recipes`
+  String get lockedRecipes {
+    return Intl.message(
+      'Open the lesson to view the lesson and recipes',
+      name: 'lockedRecipes',
       desc: '',
       args: [],
     );

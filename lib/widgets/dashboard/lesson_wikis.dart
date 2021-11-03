@@ -9,6 +9,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class LessonWikis extends StatefulWidget {
   final Size screenSize;
   final int lessonId;
+  final bool isComplete;
   final List<LessonWiki> lessonWikis;
   final ModulesProvider modulesProvider;
   final int selectedWiki;
@@ -20,6 +21,7 @@ class LessonWikis extends StatefulWidget {
   LessonWikis({
     @required this.screenSize,
     @required this.lessonId,
+    @required this.isComplete,
     @required this.lessonWikis,
     @required this.modulesProvider,
     @required this.selectedWiki,
@@ -42,7 +44,9 @@ class _LessonWikisState extends State<LessonWikis> {
   }
 
   void _changeVisibility() {
-    if (!_isNoneMessageVisible && widget.lessonWikis.length == 0) {
+    debugPrint("widget.isComplete=${widget.isComplete}");
+    if (!_isNoneMessageVisible &&
+        (widget.lessonWikis.length == 0 || !widget.isComplete)) {
       //play animation to show no wikis msg
       setState(() {
         _isNoneMessageVisible = true;
@@ -59,6 +63,9 @@ class _LessonWikisState extends State<LessonWikis> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("wiki count = ${widget.lessonWikis.length}");
+    debugPrint("isComplete = ${widget.isComplete}");
+
     _changeVisibility();
 
     return Container(
@@ -100,11 +107,20 @@ class _LessonWikisState extends State<LessonWikis> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.block, size: 44, color: backgroundColor),
+                          Icon(
+                              !widget.isComplete &&
+                                      widget.lessonWikis.length > 0
+                                  ? Icons.lock_outline
+                                  : Icons.block,
+                              size: 44,
+                              color: backgroundColor),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
-                              S.of(context).noWikis,
+                              !widget.isComplete &&
+                                      widget.lessonWikis.length > 0
+                                  ? S.of(context).lockedWikis
+                                  : S.of(context).noWikis,
                               style: TextStyle(
                                 color: primaryColor,
                               ),
@@ -136,6 +152,7 @@ class _LessonWikisState extends State<LessonWikis> {
                         screenSize: widget.screenSize,
                         wiki: wiki,
                         addToFavourites: _addToFavourites,
+                        isLessonComplete: widget.isComplete,
                       );
                     }).toList(),
                   ),

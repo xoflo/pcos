@@ -198,29 +198,25 @@ class ProviderHelper {
           lessonTasksToReturn.add(lessonTask);
       }
 
-      debugPrint("RUNNING WIKI JOIN QUERY");
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
       final wikiList = await dbProvider.getDataQueryWithJoin(
         "$wikiTableName.*, $lessonLinkTableName.LessonID",
         "$wikiTableName INNER JOIN $lessonLinkTableName ON $wikiTableName.id = $lessonLinkTableName.objectID",
         "WHERE objectType = 'wiki'",
       );
-      debugPrint("wikiList = ${wikiList.length}");
 
       final List<LessonWiki> lessonWikisToReturn =
           mapDataToList(wikiList, "LessonWiki");
 
-      debugPrint("RUNNING RECIPES JOIN QUERY");
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
       final recipeList = await dbProvider.getDataQueryWithJoin(
         "$recipeTableName.*, $lessonLinkTableName.LessonID",
         "$recipeTableName INNER JOIN $lessonLinkTableName ON $recipeTableName.recipeId = $lessonLinkTableName.objectID",
         "WHERE objectType = 'recipe'",
       );
-      debugPrint("recipeList = ${recipeList.length}");
       final List<LessonRecipe> lessonRecipesToReturn =
           mapDataToList(recipeList, "LessonRecipe");
-      debugPrint("recipeList RTN = ${lessonRecipesToReturn.length}");
+
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
         modules: modulesToReturn,
         lessons: lessonsToReturn,
@@ -262,7 +258,6 @@ class ProviderHelper {
         List<LessonContent> lessonContent = lessonExport.content;
         List<LessonTask> lessonTasks = lessonExport.tasks;
         List<LessonLink> lessonLinks = lessonExport.links;
-        debugPrint("lessonLinks = ${lessonLinks.length}");
         //add lesson to database
         await dbProvider.insert(lessonTableName, {
           'lessonID': lesson.lessonID,
@@ -320,7 +315,6 @@ class ProviderHelper {
 
   Future<void> _addLessonLinkToDatabase(final dbProvider,
       final String tableName, List<LessonLink> lessonLinks) async {
-    debugPrint("lessonLinks = ${lessonLinks.length}");
     lessonLinks.forEach((LessonLink lessonLink) async {
       await dbProvider.insert(tableName, {
         'lessonLinkID': lessonLink.lessonLinkID,

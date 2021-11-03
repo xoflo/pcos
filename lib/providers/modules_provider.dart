@@ -6,8 +6,6 @@ import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
@@ -41,6 +39,8 @@ class ModulesProvider with ChangeNotifier {
   List<LessonTask> _displayLessonTasks = [];
   List<Lesson> _favouriteLessons = [];
   List<Lesson> _searchLessons = [];
+  List<LessonWiki> _initialLessonWikis = [];
+  List<LessonRecipe> _initialLessonRecipes = [];
 
   Module get currentModule => _currentModule;
   Lesson get currentLesson => _currentLesson;
@@ -49,6 +49,8 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> get favouriteLessons => [..._favouriteLessons];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
   List<Lesson> get searchLessons => [..._searchLessons];
+  List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
+  List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -70,7 +72,6 @@ class ModulesProvider with ChangeNotifier {
       _lessons = modulesAndLessons.lessons;
       _lessonContent = modulesAndLessons.lessonContent;
       _lessonTasks = modulesAndLessons.lessonTasks;
-      debugPrint("MP Wikis=${modulesAndLessons.lessonWikis.length}");
       _lessonWikis = modulesAndLessons.lessonWikis;
       _lessonRecipes = modulesAndLessons.lessonRecipes;
 
@@ -87,6 +88,21 @@ class ModulesProvider with ChangeNotifier {
           }
         } else {
           _displayLessonTasks.add(lessonTask);
+        }
+      }
+      //set initial lesson wikis & recipes to display on dashboard when it loads
+      if (_initialLessonWikis.length == 0) {
+        for (LessonWiki lessonWiki in _lessonWikis) {
+          if (lessonWiki.lessonId == currentLesson.lessonID) {
+            _initialLessonWikis.add(lessonWiki);
+          }
+        }
+      }
+      if (_initialLessonRecipes.length == 0) {
+        for (LessonRecipe lessonRecipe in _lessonRecipes) {
+          if (lessonRecipe.lessonId == currentLesson.lessonID) {
+            _initialLessonRecipes.add(lessonRecipe);
+          }
         }
       }
 
@@ -130,6 +146,7 @@ class ModulesProvider with ChangeNotifier {
   }
 
   List<LessonWiki> getLessonWikis(final int lessonID) {
+    debugPrint("getLessonWikis lessonId=$lessonID");
     List<LessonWiki> displayLessonWikis = [];
     for (LessonWiki lessonWiki in _lessonWikis) {
       if (lessonWiki.lessonId == lessonID) {
@@ -142,8 +159,6 @@ class ModulesProvider with ChangeNotifier {
   List<LessonRecipe> getLessonRecipes(final int lessonID) {
     List<LessonRecipe> displayLessonRecipes = [];
     for (LessonRecipe lessonRecipe in _lessonRecipes) {
-      debugPrint(
-          "lessonRecipe recipeId=${lessonRecipe.recipeId} lessonId=${lessonRecipe.lessonId}");
       if (lessonRecipe.lessonId == lessonID) {
         displayLessonRecipes.add(lessonRecipe);
       }

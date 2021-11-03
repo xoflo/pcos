@@ -7,7 +7,6 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -56,6 +55,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   bool _dataUsageWarningDisplayed = false;
   int _selectedLessonIndex = -1;
   int _selectedLessonId = 0;
+  bool _selectedLessonIsComplete = true;
   int _selectedWiki = 0;
   int _selectedRecipe = 0;
   String _yourWhy = "";
@@ -128,10 +128,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         _dataUsageWarningDisplayed = true;
       });
     }
-
     //get the lesson wikis and recipes
     final List<LessonWiki> lessonWikis =
-        modulesProvider.getLessonWikis(_selectedLessonId);
+        modulesProvider.getLessonWikis(lesson.lessonID);
     final List<LessonRecipe> lessonRecipes =
         modulesProvider.getLessonRecipes(lesson.lessonID);
 
@@ -262,10 +261,12 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     modulesProvider.addToFavourites(lesson, add);
   }
 
-  void _onLessonChanged(final int lessonIndex, final int lessonID) {
+  void _onLessonChanged(final int lessonIndex, final Lesson lesson) {
+    debugPrint("lesson changed iscomplete=${lesson.isComplete}");
     setState(() {
       _selectedLessonIndex = lessonIndex;
-      _selectedLessonId = lessonID;
+      _selectedLessonId = lesson.lessonID;
+      _selectedLessonIsComplete = lesson.isComplete;
     });
   }
 
@@ -278,6 +279,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
   ) {
+    if (modulesProvider.currentLesson != null && _selectedLessonId == 0) {
+      _selectedLessonIsComplete = modulesProvider.currentLesson.isComplete;
+    }
+
     switch (modulesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -330,19 +335,22 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
   ) {
-    final List<LessonWiki> lessonWikis =
-        modulesProvider.getLessonWikis(_selectedLessonId);
-    debugPrint("WIKIS=${lessonWikis.length}");
     switch (modulesProvider.status) {
       case LoadingStatus.loading:
         return Container();
       case LoadingStatus.empty:
         return NoResults(message: S.of(context).noResultsLessons);
       case LoadingStatus.success:
+        debugPrint("_selectedLessonId=$_selectedLessonId");
+        //get the lesson wikis and recipes
+        final List<LessonWiki> lessonWikis = _selectedLessonId == 0
+            ? modulesProvider.initialLessonWikis
+            : modulesProvider.getLessonWikis(_selectedLessonId);
         return Container(
             child: LessonWikis(
           screenSize: screenSize,
           lessonId: _selectedLessonId,
+          isComplete: _selectedLessonIsComplete,
           lessonWikis: lessonWikis,
           modulesProvider: modulesProvider,
           isHorizontal: isHorizontal,
@@ -361,9 +369,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
   ) {
-    final List<LessonRecipe> lessonRecipes =
-        modulesProvider.getLessonRecipes(_selectedLessonId);
-    debugPrint("RECIPES=${lessonRecipes.length}");
+    final List<LessonRecipe> lessonRecipes = _selectedLessonId == 0
+        ? modulesProvider.initialLessonRecipes
+        : modulesProvider.getLessonRecipes(_selectedLessonId);
     switch (modulesProvider.status) {
       case LoadingStatus.loading:
         return Container();
@@ -373,6 +381,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         return Container(
             child: LessonRecipes(
           recipes: lessonRecipes,
+          isComplete: _selectedLessonIsComplete,
           isHorizontal: isHorizontal,
           width: screenSize.width,
           onSelected: _onRecipeSelected,

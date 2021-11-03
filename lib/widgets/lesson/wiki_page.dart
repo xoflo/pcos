@@ -20,8 +20,6 @@ class WikiPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("WIKIPAGE=${this.wikis.length}");
-
     return SingleChildScrollView(
       child: Column(
         children: [

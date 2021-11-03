@@ -94,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "lessonWiki" : MessageLookupByLibrary.simpleMessage("Lesson Wiki"),
     "lessonsTitle" : MessageLookupByLibrary.simpleMessage("Lessons"),
     "loadingVideo" : MessageLookupByLibrary.simpleMessage("Loading Video"),
+    "lockedRecipes" : MessageLookupByLibrary.simpleMessage("Open the lesson to view the lesson and recipes"),
+    "lockedWikis" : MessageLookupByLibrary.simpleMessage("Open the lesson to view the lesson and wikis"),
     "messageTitle" : MessageLookupByLibrary.simpleMessage("Message"),
     "messagesTitle" : MessageLookupByLibrary.simpleMessage("Messages"),
     "minutesShort" : MessageLookupByLibrary.simpleMessage("mins"),
