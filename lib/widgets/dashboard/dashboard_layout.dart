@@ -29,9 +29,6 @@ import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/current_module.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -60,6 +57,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   int _selectedRecipe = 0;
   String _yourWhy = "";
 
+  //#region Initialisation
   @override
   void initState() {
     super.initState();
@@ -106,7 +104,71 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       });
     }
   }
+  //#endregion
 
+  //#region User Alerts
+  void _askUserForDailyReminder() {
+    void openSettings(BuildContext context) {
+      Navigator.of(context).pop();
+      Navigator.pushNamed(context, Settings.id,
+          arguments: SettingsArguments((bool) {}, (bool) {}, true));
+    }
+
+    void displaySetupLaterMessage(BuildContext context) {
+      Navigator.of(context).pop();
+      showAlertDialog(
+        context,
+        S.of(context).requestDailyReminderTitle,
+        S.of(context).requestDailyReminderNoText,
+        S.of(context).okayText,
+        "",
+        null,
+        (BuildContext context) {
+          Navigator.of(context).pop();
+        },
+      );
+    }
+
+    PreferencesController()
+        .saveBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER, true);
+
+    showAlertDialog(
+      context,
+      S.of(context).requestDailyReminderTitle,
+      S.of(context).requestDailyReminderText,
+      S.of(context).noText,
+      S.of(context).yesText,
+      openSettings,
+      displaySetupLaterMessage,
+    );
+  }
+
+  void _askUserForNotificationPermission() {
+    void requestNotificationPermission(BuildContext context) async {
+      Navigator.of(context).pop();
+      await NotificationPermissions.requestNotificationPermissions(
+          iosSettings: const NotificationSettingsIos(
+              sound: true, badge: true, alert: true));
+    }
+
+    PreferencesController().saveBool(
+        SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
+
+    showAlertDialog(
+      context,
+      S.of(context).requestNotificationPermissionTitle,
+      S.of(context).requestNotificationPermissionText,
+      S.of(context).noText,
+      S.of(context).yesText,
+      requestNotificationPermission,
+      (BuildContext context) {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+  //#endregion
+
+  //#region Lesson
   void _openLesson(final Lesson lesson, final ModulesProvider modulesProvider) {
     //mark lesson a complete if not already
     if (!lesson.isComplete) {
@@ -196,66 +258,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     Navigator.pushNamed(context, LessonSearch.id);
   }
 
-  void _askUserForDailyReminder() {
-    void openSettings(BuildContext context) {
-      Navigator.of(context).pop();
-      Navigator.pushNamed(context, Settings.id,
-          arguments: SettingsArguments((bool) {}, (bool) {}, true));
-    }
-
-    void displaySetupLaterMessage(BuildContext context) {
-      Navigator.of(context).pop();
-      showAlertDialog(
-        context,
-        S.of(context).requestDailyReminderTitle,
-        S.of(context).requestDailyReminderNoText,
-        S.of(context).okayText,
-        "",
-        null,
-        (BuildContext context) {
-          Navigator.of(context).pop();
-        },
-      );
-    }
-
-    PreferencesController()
-        .saveBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER, true);
-
-    showAlertDialog(
-      context,
-      S.of(context).requestDailyReminderTitle,
-      S.of(context).requestDailyReminderText,
-      S.of(context).noText,
-      S.of(context).yesText,
-      openSettings,
-      displaySetupLaterMessage,
-    );
-  }
-
-  void _askUserForNotificationPermission() {
-    void requestNotificationPermission(BuildContext context) async {
-      Navigator.of(context).pop();
-      await NotificationPermissions.requestNotificationPermissions(
-          iosSettings: const NotificationSettingsIos(
-              sound: true, badge: true, alert: true));
-    }
-
-    PreferencesController().saveBool(
-        SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
-
-    showAlertDialog(
-      context,
-      S.of(context).requestNotificationPermissionTitle,
-      S.of(context).requestNotificationPermissionText,
-      S.of(context).noText,
-      S.of(context).yesText,
-      requestNotificationPermission,
-      (BuildContext context) {
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
   void _addLessonToFavourites(
       final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     modulesProvider.addToFavourites(lesson, add);
@@ -269,130 +271,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       _selectedLessonIsComplete = lesson.isComplete;
     });
   }
+  //#endregion
 
-  void _onWikiSelected(final int questionID) {}
-
-  void _onRecipeSelected(final int recipeId) {}
-
-  Widget getCurrentModule(
-    final Size screenSize,
-    final bool isHorizontal,
-    final ModulesProvider modulesProvider,
-  ) {
-    if (modulesProvider.currentLesson != null && _selectedLessonId == 0) {
-      _selectedLessonIsComplete = modulesProvider.currentLesson.isComplete;
-    }
-
-    switch (modulesProvider.status) {
-      case LoadingStatus.loading:
-        return PcosLoadingSpinner();
-      case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noResultsLessons);
-      case LoadingStatus.success:
-        final bool showPreviousModule = modulesProvider.previousModules == null
-            ? false
-            : modulesProvider.previousModules.length > 0
-                ? true
-                : false;
-        return CurrentModule(
-          selectedLesson: _selectedLessonIndex,
-          width: screenSize.width,
-          isHorizontal: isHorizontal,
-          modulesProvider: modulesProvider,
-          showPreviousModule: showPreviousModule,
-          openLesson: _openLesson,
-          openPreviousModules: _openPreviousModules,
-          onLessonChanged: _onLessonChanged,
-          openLessonSearch: _openLessonSearch,
-        );
-    }
-    return Container();
-  }
-
-  Widget getTasks(
-    final Size screenSize,
-    final bool isHorizontal,
-    final ModulesProvider modulesProvider,
-  ) {
-    switch (modulesProvider.status) {
-      case LoadingStatus.success:
-        return modulesProvider.displayLessonTasks != null &&
-                modulesProvider.displayLessonTasks.length > 0
-            ? Tasks(
-                screenSize: screenSize,
-                isHorizontal: isHorizontal,
-                modulesProvider: modulesProvider,
-                updateWhatsYourWhy: _updateWhatsYourWhy,
-              )
-            : Container();
-      default:
-        return Container();
-    }
-  }
-
-  Widget getLessonWikis(
-    final Size screenSize,
-    final bool isHorizontal,
-    final ModulesProvider modulesProvider,
-  ) {
-    switch (modulesProvider.status) {
-      case LoadingStatus.loading:
-        return Container();
-      case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noResultsLessons);
-      case LoadingStatus.success:
-        debugPrint("_selectedLessonId=$_selectedLessonId");
-        //get the lesson wikis and recipes
-        final List<LessonWiki> lessonWikis = _selectedLessonId == 0
-            ? modulesProvider.initialLessonWikis
-            : modulesProvider.getLessonWikis(_selectedLessonId);
-        return Container(
-            child: LessonWikis(
-          screenSize: screenSize,
-          lessonId: _selectedLessonId,
-          isComplete: _selectedLessonIsComplete,
-          lessonWikis: lessonWikis,
-          modulesProvider: modulesProvider,
-          isHorizontal: isHorizontal,
-          width: screenSize.width,
-          onSelected: _onWikiSelected,
-          addToFavourites: _addWikiToFavourites,
-          selectedWiki: _selectedWiki,
-        ));
-      default:
-        return Container();
-    }
-  }
-
-  Widget getLessonRecipes(
-    final Size screenSize,
-    final bool isHorizontal,
-    final ModulesProvider modulesProvider,
-  ) {
-    final List<LessonRecipe> lessonRecipes = _selectedLessonId == 0
-        ? modulesProvider.initialLessonRecipes
-        : modulesProvider.getLessonRecipes(_selectedLessonId);
-    switch (modulesProvider.status) {
-      case LoadingStatus.loading:
-        return Container();
-      case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noResultsLessons);
-      case LoadingStatus.success:
-        return Container(
-            child: LessonRecipes(
-          recipes: lessonRecipes,
-          isComplete: _selectedLessonIsComplete,
-          isHorizontal: isHorizontal,
-          width: screenSize.width,
-          onSelected: _onRecipeSelected,
-          openRecipe: _openRecipeDetails,
-          selectedRecipe: _selectedRecipe,
-        ));
-      default:
-        return Container();
-    }
-  }
-
+  //#region Actions
   void _openRecipeDetails(final BuildContext context, final int recipeId) {
     Recipe recipe = Provider.of<RecipesProvider>(context, listen: false)
         .getRecipeById(recipeId);
@@ -420,13 +301,101 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     await recipeProvider.addToFavourites(recipe, add);
   }
 
-  void _addWikiToFavourites(
-      final ModulesProvider modulesProvider, LessonWiki wiki) {
+  void _addWikiToFavourites(LessonWiki wiki) {
     final bool add = !wiki.isFavorite;
-    modulesProvider.addWikiToFavourites(wiki, add);
+    //modulesProvider.addWikiToFavourites(wiki, add);
     //re-run the search to refresh data, and pick up the favourite change
     //_refreshData();
   }
+
+  //#endregion
+
+  //#region Get Widgets
+  Widget getCurrentModule(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+  ) {
+    if (modulesProvider.currentLesson != null && _selectedLessonId == 0) {
+      _selectedLessonIsComplete = modulesProvider.currentLesson.isComplete;
+    }
+    final bool showPreviousModule = modulesProvider.previousModules == null
+        ? false
+        : modulesProvider.previousModules.length > 0
+            ? true
+            : false;
+    return CurrentModule(
+      selectedLesson: _selectedLessonIndex,
+      width: screenSize.width,
+      isHorizontal: isHorizontal,
+      modulesProvider: modulesProvider,
+      showPreviousModule: showPreviousModule,
+      openLesson: _openLesson,
+      openPreviousModules: _openPreviousModules,
+      onLessonChanged: _onLessonChanged,
+      openLessonSearch: _openLessonSearch,
+    );
+  }
+
+  Widget getTasks(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+  ) {
+    if (modulesProvider.displayLessonTasks != null &&
+        modulesProvider.displayLessonTasks.length > 0) {
+      return Tasks(
+        screenSize: screenSize,
+        isHorizontal: isHorizontal,
+        modulesProvider: modulesProvider,
+        updateWhatsYourWhy: _updateWhatsYourWhy,
+      );
+    }
+    return Container();
+  }
+
+  Widget getLessonWikis(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+  ) {
+    //get the lesson wikis and recipes
+    final List<LessonWiki> lessonWikis = _selectedLessonId == 0
+        ? modulesProvider.initialLessonWikis
+        : modulesProvider.getLessonWikis(_selectedLessonId);
+    return LessonWikis(
+      screenSize: screenSize,
+      lessonId: _selectedLessonId,
+      isComplete: _selectedLessonIsComplete,
+      lessonWikis: lessonWikis,
+      loadingStatus: modulesProvider.status,
+      isHorizontal: isHorizontal,
+      width: screenSize.width,
+      addToFavourites: _addWikiToFavourites,
+      selectedWiki: _selectedWiki,
+    );
+  }
+
+  Widget getLessonRecipes(
+    final Size screenSize,
+    final bool isHorizontal,
+    final ModulesProvider modulesProvider,
+  ) {
+    final List<LessonRecipe> lessonRecipes = _selectedLessonId == 0
+        ? modulesProvider.initialLessonRecipes
+        : modulesProvider.getLessonRecipes(_selectedLessonId);
+    return LessonRecipes(
+      recipes: lessonRecipes,
+      loadingStatus: modulesProvider.status,
+      isComplete: _selectedLessonIsComplete,
+      isHorizontal: isHorizontal,
+      width: screenSize.width,
+      openRecipe: _openRecipeDetails,
+      selectedRecipe: _selectedRecipe,
+    );
+  }
+
+  //#endregion
 
   @override
   Widget build(BuildContext context) {
@@ -445,20 +414,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                       ? YourWhy(width: screenSize.width, whatsYourWhy: _yourWhy)
                       : Container(height: 20),
                   getTasks(screenSize, isHorizontal, model),
-                  Padding(
-                    padding: EdgeInsets.only(top: 0),
-                    child: getCurrentModule(screenSize, isHorizontal, model),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: getLessonWikis(screenSize, isHorizontal, model),
-                  ),
+                  getCurrentModule(screenSize, isHorizontal, model),
+                  getLessonWikis(screenSize, isHorizontal, model),
                   widget.showLessonRecipes
-                      ? Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child:
-                              getLessonRecipes(screenSize, isHorizontal, model),
-                        )
+                      ? getLessonRecipes(screenSize, isHorizontal, model)
                       : Container(),
                 ],
               ),
