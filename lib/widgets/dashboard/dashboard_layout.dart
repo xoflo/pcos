@@ -264,7 +264,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   }
 
   void _onLessonChanged(final int lessonIndex, final Lesson lesson) {
-    debugPrint("lesson changed iscomplete=${lesson.isComplete}");
     setState(() {
       _selectedLessonIndex = lessonIndex;
       _selectedLessonId = lesson.lessonID;

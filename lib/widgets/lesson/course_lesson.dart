@@ -4,7 +4,6 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson_content.dart';

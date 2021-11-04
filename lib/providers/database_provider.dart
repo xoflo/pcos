@@ -83,6 +83,7 @@ class DatabaseProvider with ChangeNotifier {
             "orderIndex INTEGER,"
             "isFavorite INTEGER,"
             "isComplete INTEGER,"
+            "isToolkit INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
         await db.execute("CREATE TABLE LessonContent ("

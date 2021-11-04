@@ -11,7 +11,6 @@ import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
@@ -164,8 +163,6 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<WikiProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<AppHelpProvider>(context, listen: false).fetchAndSaveData();
-      Provider.of<FavouritesProvider>(context, listen: false)
-          .getDataFromDatabase();
       Provider.of<MessagesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<CMSTextProvider>(context, listen: false).fetchAndSaveData();
     }

@@ -21,6 +21,11 @@ class LessonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLessonComplete = lesson.isComplete;
+    final Color cardColor = lesson.isToolkit
+        ? altBackgroundColor
+        : isLessonComplete || isNew
+            ? backgroundColor
+            : Colors.grey;
     return Stack(
       children: [
         Padding(
@@ -29,7 +34,7 @@ class LessonCard extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(horizontal: 5.0),
             decoration: BoxDecoration(
-              color: isLessonComplete || isNew ? backgroundColor : Colors.grey,
+              color: cardColor,
               borderRadius: BorderRadius.circular(5.0),
             ),
             child: Padding(
@@ -38,10 +43,23 @@ class LessonCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   lessonNumber > 0
-                      ? Text(
-                          "${S.of(context).lessonText} $lessonNumber",
-                          style: Theme.of(context).textTheme.headline6,
-                        )
+                      ? lesson.isToolkit
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(width: 32),
+                                Text(
+                                  "${S.of(context).lessonText} $lessonNumber",
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                                Icon(Icons.construction,
+                                    size: 32, color: primaryColor),
+                              ],
+                            )
+                          : Text(
+                              "${S.of(context).lessonText} $lessonNumber",
+                              style: Theme.of(context).textTheme.headline6,
+                            )
                       : Container(),
                   SizedBox(
                     height: 56,

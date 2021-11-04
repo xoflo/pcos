@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
@@ -71,10 +74,16 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       analyticsId = lesson.lessonID.toString();
       final modulesProvider =
           Provider.of<ModulesProvider>(context, listen: false);
+      final List<LessonWiki> lessonWikis =
+          modulesProvider.getLessonWikis(lesson.lessonID);
+      final List<LessonRecipe> lessonRecipes =
+          modulesProvider.getLessonRecipes(lesson.lessonID);
       favouriteWidget = CourseLesson(
         showDataUsageWarning: false,
         modulesProvider: modulesProvider,
         lesson: lesson,
+        lessonWikis: lessonWikis,
+        lessonRecipes: lessonRecipes,
         closeLesson: _closeFavourite,
         addToFavourites: _addLessonToFavourites,
       );
@@ -184,40 +193,50 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                   decoration: BoxDecoration(color: Colors.white),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: TabBarView(
-                      children: [
-                        Container(child: Text("Toolkit")),
-                        Consumer<ModulesProvider>(
-                          builder: (context, model, child) => FavouritesTab(
+                    child: Consumer3<ModulesProvider, WikiProvider,
+                        RecipesProvider>(
+                      builder: (context, modulesProvider, wikiProvider,
+                              recipesProvider, child) =>
+                          TabBarView(
+                        children: [
+                          FavouritesTab(
                             screenSize: screenSize,
-                            favourites: model.favouriteLessons,
-                            status: model.status,
+                            favourites: modulesProvider.favouriteToolkitLessons,
+                            status: modulesProvider.status,
                             favouriteType: FavouriteType.Lesson,
+                            isToolkit: true,
                             removeFavourite: _removeFavourite,
                             openFavourite: _openFavourite,
                           ),
-                        ),
-                        Consumer<WikiProvider>(
-                          builder: (context, model, child) => FavouritesTab(
+                          FavouritesTab(
                             screenSize: screenSize,
-                            favourites: model.favourites,
-                            status: model.status,
+                            favourites: modulesProvider.favouriteLessons,
+                            status: modulesProvider.status,
+                            favouriteType: FavouriteType.Lesson,
+                            isToolkit: false,
+                            removeFavourite: _removeFavourite,
+                            openFavourite: _openFavourite,
+                          ),
+                          FavouritesTab(
+                            screenSize: screenSize,
+                            favourites: wikiProvider.favourites,
+                            status: wikiProvider.status,
                             favouriteType: FavouriteType.Wiki,
+                            isToolkit: false,
                             removeFavourite: _removeFavourite,
                             openFavourite: _openFavourite,
                           ),
-                        ),
-                        Consumer<RecipesProvider>(
-                          builder: (context, model, child) => FavouritesTab(
+                          FavouritesTab(
                             screenSize: screenSize,
-                            favourites: model.favourites,
-                            status: model.status,
+                            favourites: recipesProvider.favourites,
+                            status: recipesProvider.status,
                             favouriteType: FavouriteType.Recipe,
+                            isToolkit: false,
                             removeFavourite: _removeFavourite,
                             openFavourite: _openFavourite,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );

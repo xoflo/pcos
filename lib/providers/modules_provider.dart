@@ -38,6 +38,8 @@ class ModulesProvider with ChangeNotifier {
   Lesson _currentLesson;
   List<LessonTask> _displayLessonTasks = [];
   List<Lesson> _favouriteLessons = [];
+  List<Lesson> _favouriteToolkitLessons = [];
+  List<LessonWiki> _favouriteLessonWikis = [];
   List<Lesson> _searchLessons = [];
   List<LessonWiki> _initialLessonWikis = [];
   List<LessonRecipe> _initialLessonRecipes = [];
@@ -47,6 +49,8 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
   List<Module> get previousModules => [..._previousModules];
   List<Lesson> get favouriteLessons => [..._favouriteLessons];
+  List<Lesson> get favouriteToolkitLessons => [..._favouriteToolkitLessons];
+  List<LessonWiki> get favouriteLessonWikis => [..._favouriteLessonWikis];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
   List<Lesson> get searchLessons => [..._searchLessons];
   List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
@@ -146,7 +150,6 @@ class ModulesProvider with ChangeNotifier {
   }
 
   List<LessonWiki> getLessonWikis(final int lessonID) {
-    debugPrint("getLessonWikis lessonId=$lessonID");
     List<LessonWiki> displayLessonWikis = [];
     for (LessonWiki lessonWiki in _lessonWikis) {
       if (lessonWiki.lessonId == lessonID) {
@@ -207,9 +210,20 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> _refreshFavourites() async {
     _favouriteLessons.clear();
+    _favouriteToolkitLessons.clear();
     for (Lesson lesson in _lessons) {
       if (lesson.isFavorite) {
-        _favouriteLessons.add(lesson);
+        if (lesson.isToolkit) {
+          _favouriteToolkitLessons.add(lesson);
+        } else {
+          _favouriteLessons.add(lesson);
+        }
+      }
+    }
+    _favouriteLessonWikis.clear();
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if (lessonWiki.isFavorite) {
+        _favouriteLessonWikis.add(lessonWiki);
       }
     }
   }

@@ -13,6 +13,7 @@ class FavouritesTab extends StatelessWidget {
   final List<dynamic> favourites;
   final LoadingStatus status;
   final FavouriteType favouriteType;
+  final bool isToolkit;
   final Function(FavouriteType, dynamic) openFavourite;
   final Function(FavouriteType, dynamic, bool) removeFavourite;
 
@@ -21,6 +22,7 @@ class FavouritesTab extends StatelessWidget {
     @required this.favourites,
     @required this.status,
     @required this.favouriteType,
+    @required this.isToolkit,
     @required this.openFavourite,
     @required this.removeFavourite,
   });
@@ -49,6 +51,7 @@ class FavouritesTab extends StatelessWidget {
     final BuildContext context,
     final List<dynamic> favourites,
     final FavouriteType favouriteType,
+    final bool isToolkit,
     final double width,
   ) {
     switch (favouriteType) {
@@ -56,6 +59,7 @@ class FavouritesTab extends StatelessWidget {
         return FavouritesLessonsList(
           lessons: favourites,
           width: width,
+          isToolkit: isToolkit,
           removeFavourite: removeFavourite,
           openFavourite: openFavourite,
         );
@@ -96,6 +100,7 @@ class FavouritesTab extends StatelessWidget {
                   context,
                   favourites,
                   favouriteType,
+                  isToolkit,
                   screenSize.width,
                 ),
               );

@@ -43,17 +43,14 @@ class _LessonWikisState extends State<LessonWikis> {
   }
 
   void _changeVisibility() {
-    debugPrint("widget.isComplete=${widget.isComplete}");
     if (!_isNoneMessageVisible &&
         (widget.lessonWikis.length == 0 || !widget.isComplete)) {
-      debugPrint("HERE1");
       //play animation to show no wikis msg
       setState(() {
         _isNoneMessageVisible = true;
         _isCarouselVisible = false;
       });
     } else if (_isNoneMessageVisible && widget.lessonWikis.length > 0) {
-      debugPrint("HERE2");
       //play animation to show no wikis msg
       setState(() {
         _isNoneMessageVisible = false;
@@ -65,7 +62,6 @@ class _LessonWikisState extends State<LessonWikis> {
   @override
   Widget build(BuildContext context) {
     String noWikisMessage = "";
-    debugPrint("wikis status=${widget.loadingStatus}");
 
     if (widget.loadingStatus == LoadingStatus.success) {
       if (!widget.isComplete && widget.lessonWikis.length > 0) {
@@ -75,7 +71,6 @@ class _LessonWikisState extends State<LessonWikis> {
       }
       _changeVisibility();
     }
-    debugPrint("MESSAGE=$noWikisMessage");
 
     return widget.loadingStatus == LoadingStatus.success
         ? Padding(
@@ -176,6 +171,6 @@ class _LessonWikisState extends State<LessonWikis> {
           )
         : widget.loadingStatus == LoadingStatus.empty
             ? NoResults(message: S.of(context).noResultsLessons)
-            : Container(child: Text("loading"));
+            : Container();
   }
 }

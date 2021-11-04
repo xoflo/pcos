@@ -267,6 +267,7 @@ class ProviderHelper {
           'orderIndex': lesson.orderIndex,
           'isFavorite': lesson.isFavorite ? 1 : 0,
           'isComplete': lesson.isComplete ? 1 : 0,
+          'isToolkit': lesson.isToolkit ? 1 : 0,
           'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
         });
         //add lesson content to database

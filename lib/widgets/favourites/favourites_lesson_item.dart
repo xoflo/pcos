@@ -8,12 +8,14 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class FavouritesLessonItem extends StatelessWidget {
   final Lesson lesson;
   final double width;
+  final bool isToolkit;
   final Function(FavouriteType, dynamic, bool) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonItem({
     @required this.lesson,
     @required this.width,
+    @required this.isToolkit,
     @required this.removeFavourite,
     @required this.openFavourite,
   });
@@ -34,16 +36,18 @@ class FavouritesLessonItem extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  removeFavourite(FavouriteType.Lesson, lesson, false);
-                },
-                child: Icon(
-                  Icons.delete,
-                  size: 24.0,
-                  color: secondaryColor,
-                ),
-              ),
+              isToolkit
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () {
+                        removeFavourite(FavouriteType.Lesson, lesson, false);
+                      },
+                      child: Icon(
+                        Icons.delete,
+                        size: 24.0,
+                        color: secondaryColor,
+                      ),
+                    ),
             ],
           ),
           Container(

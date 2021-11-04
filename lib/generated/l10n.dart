@@ -2346,10 +2346,20 @@ class S {
   }
 
   /// `View answer`
-  String get viewWiki {
+  String get viewWikiAnswer {
     return Intl.message(
       'View answer',
-      name: 'viewWiki',
+      name: 'viewWikiAnswer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View question`
+  String get viewWikiQuestion {
+    return Intl.message(
+      'View question',
+      name: 'viewWikiQuestion',
       desc: '',
       args: [],
     );

@@ -32,7 +32,6 @@ import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -125,6 +124,10 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DatabaseProvider()),
+        ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
+          create: (context) => RecipesProvider(dbProvider: null),
+          update: (context, db, previous) => RecipesProvider(dbProvider: db),
+        ),
         ChangeNotifierProxyProvider<DatabaseProvider, WikiProvider>(
           create: (context) => WikiProvider(dbProvider: null),
           update: (context, db, previous) => WikiProvider(dbProvider: db),
@@ -132,14 +135,6 @@ class _AppState extends State<App> {
         ChangeNotifierProxyProvider<DatabaseProvider, AppHelpProvider>(
           create: (context) => AppHelpProvider(dbProvider: null),
           update: (context, db, previous) => AppHelpProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
-          create: (context) => RecipesProvider(dbProvider: null),
-          update: (context, db, previous) => RecipesProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, FavouritesProvider>(
-          create: (context) => FavouritesProvider(dbProvider: null),
-          update: (context, db, previous) => FavouritesProvider(dbProvider: db),
         ),
         ChangeNotifierProxyProvider<DatabaseProvider, MessagesProvider>(
           create: (context) => MessagesProvider(dbProvider: null),

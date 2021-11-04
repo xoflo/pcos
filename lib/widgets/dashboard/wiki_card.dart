@@ -28,19 +28,9 @@ class _WikiCardState extends State<WikiCard> {
   final double _containerHeight = 244;
   bool _showQuestion = true;
 
-  void _switchQuestionAnswer(final DragUpdateDetails details) {
-    bool showQuestion = false;
-    int sensitivity = 8;
-    if (details.delta.dy > sensitivity) {
-      // Down Swipe
-      showQuestion = true;
-    } else if (details.delta.dy < -sensitivity) {
-      //Up Swipe
-      showQuestion = false;
-    }
-
+  void _switchQuestionAnswer() {
     setState(() {
-      _showQuestion = showQuestion;
+      _showQuestion = !_showQuestion;
     });
   }
 
@@ -74,46 +64,44 @@ class _WikiCardState extends State<WikiCard> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6.0),
-            child: !wiki.isLongAnswer
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      RotatedBox(
-                          quarterTurns: -1,
-                          child: Icon(
-                            Icons.swipe,
-                            size: 26,
-                            color: Colors.grey,
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6.0),
-                        child: Text(
-                          swipeText,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                      ),
-                    ],
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      _openWiki(context, wiki);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(S.of(context).viewWiki,
-                            style: TextStyle(color: secondaryColor)),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
-                          child: Icon(
-                            Icons.open_in_browser,
+            child: GestureDetector(
+              onTap: () {
+                if (wiki.isLongAnswer) {
+                  _openWiki(context, wiki);
+                } else {
+                  _switchQuestionAnswer();
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                      isAnswer
+                          ? S.of(context).viewWikiQuestion
+                          : S.of(context).viewWikiAnswer,
+                      style: TextStyle(color: secondaryColor)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0),
+                    child: isAnswer
+                        ? RotatedBox(
+                            quarterTurns: 2,
+                            child: Icon(
+                              Icons.present_to_all,
+                              color: secondaryColor,
+                              size: 32,
+                            ),
+                          )
+                        : Icon(
+                            wiki.isLongAnswer
+                                ? Icons.open_in_new
+                                : Icons.present_to_all,
                             color: secondaryColor,
                             size: 32,
                           ),
-                        ),
-                      ],
-                    ),
                   ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -140,84 +128,75 @@ class _WikiCardState extends State<WikiCard> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: widget.isLessonComplete
-          ? GestureDetector(
-              onVerticalDragUpdate: (details) {
-                // Note: Sensitivity is integer used when you don't want to mess up vertical drag
-                if (!widget.wiki.isLongAnswer) {
-                  _switchQuestionAnswer(details);
-                }
-              },
-              child: Container(
-                width: widget.screenSize.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6.0,
-                        vertical: 0,
-                      ),
-                      child: Container(
-                        width: widget.screenSize.width,
-                        height: _containerHeight,
-                        child: OverflowBox(
-                          minHeight: _containerHeight,
-                          maxHeight: _containerHeight,
-                          child: Stack(
-                            alignment: Alignment.topRight,
-                            children: <Widget>[
-                              AnimatedPositioned(
-                                top:
-                                    _showQuestion ? 0 : (_containerHeight * -1),
-                                duration: const Duration(seconds: 1),
-                                curve: Curves.fastOutSlowIn,
-                                child: Column(
-                                  children: [
-                                    _getContainer(
-                                        context,
-                                        false,
-                                        widget.wiki,
-                                        _containerHeight,
-                                        S.of(context).swipeUpForAnswer),
-                                    widget.wiki.isLongAnswer
-                                        ? Container()
-                                        : _getContainer(
-                                            context,
-                                            true,
-                                            widget.wiki,
-                                            _containerHeight,
-                                            S.of(context).swipeDownForQuestion),
-                                  ],
+          ? Container(
+              width: widget.screenSize.width,
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6.0,
+                      vertical: 0,
+                    ),
+                    child: Container(
+                      width: widget.screenSize.width,
+                      height: _containerHeight,
+                      child: OverflowBox(
+                        minHeight: _containerHeight,
+                        maxHeight: _containerHeight,
+                        child: Stack(
+                          alignment: Alignment.topRight,
+                          children: <Widget>[
+                            AnimatedPositioned(
+                              top: _showQuestion ? 0 : (_containerHeight * -1),
+                              duration: const Duration(seconds: 1),
+                              curve: Curves.fastOutSlowIn,
+                              child: Column(
+                                children: [
+                                  _getContainer(
+                                      context,
+                                      false,
+                                      widget.wiki,
+                                      _containerHeight,
+                                      S.of(context).swipeUpForAnswer),
+                                  widget.wiki.isLongAnswer
+                                      ? Container()
+                                      : _getContainer(
+                                          context,
+                                          true,
+                                          widget.wiki,
+                                          _containerHeight,
+                                          S.of(context).swipeDownForQuestion),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _addToFavourites(widget.wiki);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 4.0, right: 3.0),
+                                child: Icon(
+                                  widget.wiki.isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_outline,
+                                  color: secondaryColor,
+                                  size: 30,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  _addToFavourites(widget.wiki);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 4.0, right: 3.0),
-                                  child: Icon(
-                                    widget.wiki.isFavorite
-                                        ? Icons.favorite
-                                        : Icons.favorite_outline,
-                                    color: secondaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           : Container(),
