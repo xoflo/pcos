@@ -43,6 +43,7 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> _searchLessons = [];
   List<LessonWiki> _initialLessonWikis = [];
   List<LessonRecipe> _initialLessonRecipes = [];
+  List<bool> _initialLessonWikiFavourites = [];
 
   Module get currentModule => _currentModule;
   Lesson get currentLesson => _currentLesson;
@@ -55,6 +56,8 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> get searchLessons => [..._searchLessons];
   List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
   List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
+  List<bool> get initialLessonWikiFavourites =>
+      [..._initialLessonWikiFavourites];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -99,6 +102,7 @@ class ModulesProvider with ChangeNotifier {
         for (LessonWiki lessonWiki in _lessonWikis) {
           if (lessonWiki.lessonId == currentLesson.lessonID) {
             _initialLessonWikis.add(lessonWiki);
+            _initialLessonWikiFavourites.add(lessonWiki.isFavorite);
           }
         }
       }
@@ -169,6 +173,16 @@ class ModulesProvider with ChangeNotifier {
     return displayLessonRecipes;
   }
 
+  bool getLessonWikiFavourite(final int questionID, final int lessonID) {
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if (lessonWiki.lessonId == lessonID &&
+          lessonWiki.questionId == questionID) {
+        return lessonWiki.isFavorite;
+      }
+    }
+    return false;
+  }
+
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
     final DateTime nextLessonAvailable =
@@ -205,7 +219,20 @@ class ModulesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Wiki, wiki);
+
+      for (int wikiCounter = 0;
+          wikiCounter < _lessonWikis.length;
+          wikiCounter++) {
+        if (_lessonWikis[wikiCounter].questionId == wiki.questionId) {
+          _lessonWikis[wikiCounter].isFavorite = !wiki.isFavorite;
+        }
+      }
+
+      for (LessonWiki lessonWiki in _lessonWikis) {
+        if (lessonWiki.questionId == wiki.questionId) {}
+      }
     }
+    notifyListeners();
   }
 
   Future<void> _refreshFavourites() async {

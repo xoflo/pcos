@@ -6,35 +6,28 @@ import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
-class LessonWikiFull extends StatefulWidget {
+class LessonWikiFull extends StatelessWidget {
   final LessonWiki wiki;
+  final bool isFavourite;
   final Function closeWiki;
-  final Function(LessonWiki) addToFavourites;
+  final Function(LessonWiki, bool) addToFavourites;
 
   LessonWikiFull({
     @required this.wiki,
+    @required this.isFavourite,
     @required this.closeWiki,
     @required this.addToFavourites,
   });
 
-  @override
-  _LessonWikiFullState createState() => _LessonWikiFullState();
-}
-
-class _LessonWikiFullState extends State<LessonWikiFull> {
   void _addToFavourites(final dynamic wiki, final bool add) async {
-    widget.addToFavourites(wiki);
-    setState(() {
-      widget.wiki.isFavorite = !widget.wiki.isFavorite;
-    });
+    this.addToFavourites(wiki, add);
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("OPEN WIKI isFAVE=$isFavourite");
     final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-    if (widget.wiki == null) {
+    if (this.wiki == null) {
       return Container();
     }
 
@@ -46,11 +39,11 @@ class _LessonWikiFullState extends State<LessonWikiFull> {
             children: <Widget>[
               DialogHeader(
                 screenSize: screenSize,
-                item: widget.wiki,
+                item: this.wiki,
                 favouriteType: FavouriteType.Wiki,
                 title: S.of(context).lessonWiki,
-                isFavourite: widget.wiki.isFavorite,
-                closeItem: widget.closeWiki,
+                isFavourite: this.wiki.isFavorite,
+                closeItem: this.closeWiki,
                 addToFavourites: _addToFavourites,
               ),
               Container(
@@ -64,14 +57,14 @@ class _LessonWikiFullState extends State<LessonWikiFull> {
                       padding: const EdgeInsets.all(16.0),
                       child: Container(
                         width: screenSize.width,
-                        child: HtmlWidget(widget.wiki.question),
+                        child: HtmlWidget(this.wiki.question),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Container(
                         width: screenSize.width,
-                        child: HtmlWidget(widget.wiki.answer),
+                        child: HtmlWidget(this.wiki.answer),
                       ),
                     ),
                   ],

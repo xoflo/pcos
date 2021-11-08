@@ -13,6 +13,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -98,6 +99,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   void _addToFavourites(final dynamic recipe, final bool add) async {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     await recipeProvider.addToFavourites(recipe, add);
+    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
     recipeProvider.filterAndSearch(_searchController.text.trim(),
         _tagSelectedValue, _tagValuesSelectedSecondary);
   }

@@ -13,6 +13,7 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 
 class PreviousModulesLayout extends StatefulWidget {
   final ModulesProvider modulesProvider;
@@ -64,6 +65,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
   void _addLessonToFavourites(
       final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     modulesProvider.addToFavourites(lesson, add);
+    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
   }
 
   void _openLesson(final Lesson lesson) async {

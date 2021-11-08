@@ -13,6 +13,7 @@ import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_list.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 
 class LessonSearchLayout extends StatefulWidget {
   @override
@@ -27,6 +28,7 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
   void _addLessonToFavourites(
       final ModulesProvider modulesProvider, dynamic lesson, bool add) {
     modulesProvider.addToFavourites(lesson, add);
+    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
     //re-run the search to refresh data, and pick up the favourite change
     _refreshData();
   }

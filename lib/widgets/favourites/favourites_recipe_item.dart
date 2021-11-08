@@ -96,11 +96,11 @@ class FavouritesRecipeItem extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Text(S.of(context).favouritesViewDetails,
+                          Text(S.of(context).favouritesViewRecipe,
                               style: TextStyle(color: secondaryColor)),
                           Icon(
-                            Icons.chevron_right,
-                            size: 30.0,
+                            Icons.open_in_new,
+                            size: 26.0,
                             color: secondaryColor,
                           ),
                         ],

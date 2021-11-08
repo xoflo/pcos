@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/widgets/favourites/favourites_wiki_list.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -35,7 +36,7 @@ class FavouritesTab extends StatelessWidget {
         noResultsMessage = S.of(context).noFavouriteLesson;
         break;
       case FavouriteType.Wiki:
-        noResultsMessage = S.of(context).noFavouriteKB;
+        noResultsMessage = S.of(context).noFavouriteWikis;
         break;
       case FavouriteType.Recipe:
         noResultsMessage = S.of(context).noFavouriteRecipe;
@@ -64,13 +65,12 @@ class FavouritesTab extends StatelessWidget {
           openFavourite: openFavourite,
         );
       case FavouriteType.Wiki:
-        return QuestionList(
-          questions: favourites,
-          wikis: [],
-          showIcon: true,
-          iconData: Icons.delete,
-          iconDataOn: Icons.delete,
-          iconAction: removeFavourite,
+        return FavouritesWikiList(
+          lessonWikis: favourites,
+          width: width,
+          isToolkit: isToolkit,
+          removeFavourite: removeFavourite,
+          openFavourite: openFavourite,
         );
       case FavouriteType.Recipe:
         return FavouritesRecipesList(

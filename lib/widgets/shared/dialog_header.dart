@@ -4,13 +4,13 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class DialogHeader extends StatefulWidget {
   final Size screenSize;
-
   final FavouriteType favouriteType;
   final String title;
   final bool isFavourite;
   final Function closeItem;
   final Function(dynamic, bool) addToFavourites;
   final dynamic item;
+  final bool isToolkit;
 
   DialogHeader({
     @required this.screenSize,
@@ -20,6 +20,7 @@ class DialogHeader extends StatefulWidget {
     @required this.closeItem,
     this.addToFavourites,
     this.item,
+    this.isToolkit = false,
   });
 
   @override
@@ -48,11 +49,13 @@ class _DialogHeaderState extends State<DialogHeader> {
               ? SizedBox(width: 35)
               : GestureDetector(
                   onTap: () {
-                    final bool add = !isFavouriteOnHeader;
-                    setState(() {
-                      isFavouriteOnHeader = add;
-                    });
-                    widget.addToFavourites(widget.item, add);
+                    if (!widget.isToolkit) {
+                      final bool add = !isFavouriteOnHeader;
+                      setState(() {
+                        isFavouriteOnHeader = add;
+                      });
+                      widget.addToFavourites(widget.item, add);
+                    }
                   },
                   child: Icon(
                     isFavouriteOnHeader

@@ -11,7 +11,7 @@ class QuestionListItem extends StatefulWidget {
   final bool isFavorite;
   final IconData iconData;
   final IconData iconDataOn;
-  final Function(FavouriteType, Question, bool) iconAction;
+  final Function(FavouriteType, dynamic, bool) iconAction;
 
   QuestionListItem({
     this.showIcon,

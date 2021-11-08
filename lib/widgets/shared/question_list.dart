@@ -11,7 +11,7 @@ class QuestionList extends StatefulWidget {
   final bool showIcon;
   final IconData iconData;
   final IconData iconDataOn;
-  final Function(FavouriteType, Question, bool) iconAction;
+  final Function(FavouriteType, dynamic, bool) iconAction;
 
   QuestionList({
     this.questions,

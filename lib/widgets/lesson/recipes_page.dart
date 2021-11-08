@@ -13,6 +13,7 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 
 class RecipesPage extends StatelessWidget {
   final Size screenSize;
@@ -51,6 +52,8 @@ class RecipesPage extends StatelessWidget {
     final recipeProvider =
         Provider.of<RecipesProvider>(parentContext, listen: false);
     await recipeProvider.addToFavourites(recipe, add);
+    Provider.of<FavouritesProvider>(parentContext, listen: false)
+        .fetchAndSaveData();
     //recipeProvider.filterAndSearch(_searchController.text.trim(),
     //_tagSelectedValue, _tagValuesSelectedSecondary);
   }

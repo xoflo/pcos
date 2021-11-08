@@ -6,6 +6,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
@@ -157,14 +158,15 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   void _setIsLocked(final bool isLocked) {
     if (!isLocked) {
       //unlocking so force refresh modules data
-      Provider.of<ModulesProvider>(context, listen: false)
-          .fetchAndSaveData(true);
-      //now get the other data if necessary
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<WikiProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<ModulesProvider>(context, listen: false)
+          .fetchAndSaveData(true);
       Provider.of<AppHelpProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<MessagesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<CMSTextProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<FavouritesProvider>(context, listen: false)
+          .fetchAndSaveData();
     }
 
     setState(() {

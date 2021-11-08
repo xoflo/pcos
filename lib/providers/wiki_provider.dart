@@ -66,10 +66,10 @@ class WikiProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addToFavourites(final dynamic question, final bool add) async {
+  /*Future<void> addToFavourites(final dynamic question, final bool add) async {
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Wiki, question);
     }
-  }
+  }*/
 }

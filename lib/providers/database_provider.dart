@@ -129,17 +129,35 @@ class DatabaseProvider with ChangeNotifier {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(final String table,
-      final String orderByColumn, final bool incompleteOnly) async {
+  Future<List<Map<String, dynamic>>> getData(
+      final String table,
+      final String orderByColumn,
+      final bool incompleteOnly,
+      final bool favouritesOnly,
+      final bool toolkitsOnly) async {
     if (orderByColumn.length > 0) {
       if (incompleteOnly) {
         return await db.query(table,
             orderBy: orderByColumn, where: 'isComplete = 0');
       }
+      if (favouritesOnly) {
+        return await db.query(table,
+            orderBy: orderByColumn, where: 'isFavorite = 1');
+      }
+      if (table == "Lesson" && toolkitsOnly) {
+        return await db.query(table,
+            orderBy: orderByColumn, where: 'isToolkit = 1 AND isComplete = 1');
+      }
       return await db.query(table, orderBy: orderByColumn);
     }
     if (incompleteOnly) {
       return await db.query(table, where: 'isComplete = 0');
+    }
+    if (favouritesOnly) {
+      return await db.query(table, where: 'isFavorite = 1');
+    }
+    if (table == "Lesson" && toolkitsOnly) {
+      return await db.query(table, where: 'isToolkit = 1 AND isComplete = 1');
     }
     return await db.query(table);
   }

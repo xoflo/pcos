@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
-class FavouritesLessonItem extends StatelessWidget {
-  final Lesson lesson;
+class FavouritesWikiItem extends StatelessWidget {
+  final LessonWiki lessonWiki;
   final double width;
   final bool isToolkit;
   final Function(FavouriteType, dynamic, bool) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
-  FavouritesLessonItem({
-    @required this.lesson,
+  FavouritesWikiItem({
+    @required this.lessonWiki,
     @required this.width,
     @required this.isToolkit,
     @required this.removeFavourite,
@@ -32,7 +33,7 @@ class FavouritesLessonItem extends StatelessWidget {
               Container(
                 width: width - 75,
                 child: Text(
-                  lesson.title,
+                  lessonWiki.question,
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
@@ -40,7 +41,7 @@ class FavouritesLessonItem extends StatelessWidget {
                   ? Container()
                   : GestureDetector(
                       onTap: () {
-                        removeFavourite(FavouriteType.Lesson, lesson, false);
+                        removeFavourite(FavouriteType.Wiki, lessonWiki, false);
                       },
                       child: Icon(
                         Icons.delete,
@@ -52,31 +53,27 @@ class FavouritesLessonItem extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Container(
-              width: width,
-              child: HtmlWidget(lesson.introduction),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              openFavourite(FavouriteType.Lesson, lesson);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 4.0),
-                  child: Text(
-                    S.of(context).favouritesViewLesson,
-                    style: TextStyle(color: secondaryColor),
+            child: GestureDetector(
+              onTap: () {
+                openFavourite(FavouriteType.Wiki, lessonWiki);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 4.0),
+                    child: Text(
+                      S.of(context).favouritesViewWiki,
+                      style: TextStyle(color: secondaryColor),
+                    ),
                   ),
-                ),
-                Icon(
-                  Icons.play_circle_fill,
-                  size: 30.0,
-                  color: secondaryColor,
-                ),
-              ],
+                  Icon(
+                    Icons.open_in_new,
+                    size: 26.0,
+                    color: secondaryColor,
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(

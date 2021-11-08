@@ -32,6 +32,7 @@ import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -132,6 +133,10 @@ class _AppState extends State<App> {
           create: (context) => WikiProvider(dbProvider: null),
           update: (context, db, previous) => WikiProvider(dbProvider: db),
         ),
+        ChangeNotifierProxyProvider<DatabaseProvider, ModulesProvider>(
+          create: (context) => ModulesProvider(dbProvider: null),
+          update: (context, db, previous) => ModulesProvider(dbProvider: db),
+        ),
         ChangeNotifierProxyProvider<DatabaseProvider, AppHelpProvider>(
           create: (context) => AppHelpProvider(dbProvider: null),
           update: (context, db, previous) => AppHelpProvider(dbProvider: db),
@@ -144,9 +149,9 @@ class _AppState extends State<App> {
           create: (context) => CMSTextProvider(dbProvider: null),
           update: (context, db, previous) => CMSTextProvider(dbProvider: db),
         ),
-        ChangeNotifierProxyProvider<DatabaseProvider, ModulesProvider>(
-          create: (context) => ModulesProvider(dbProvider: null),
-          update: (context, db, previous) => ModulesProvider(dbProvider: db),
+        ChangeNotifierProxyProvider<DatabaseProvider, FavouritesProvider>(
+          create: (context) => FavouritesProvider(dbProvider: null),
+          update: (context, db, previous) => FavouritesProvider(dbProvider: db),
         ),
       ],
       child: MaterialApp(

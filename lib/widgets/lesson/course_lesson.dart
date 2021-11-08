@@ -267,7 +267,11 @@ class _CourseLessonState extends State<CourseLesson> {
   Widget _getWikiPage(final Size screenSize, final bool isHorizontal,
       final double tabBarHeight) {
     return Builder(builder: (BuildContext context) {
-      return WikiPage(isHorizontal: isHorizontal, wikis: widget.lessonWikis);
+      return WikiPage(
+        isHorizontal: isHorizontal,
+        wikis: widget.lessonWikis,
+        parentContext: context,
+      );
     });
   }
 
@@ -283,7 +287,9 @@ class _CourseLessonState extends State<CourseLesson> {
   }
 
   void _addToFavourites(final dynamic lesson, final bool add) {
-    widget.addToFavourites(widget.modulesProvider, lesson, add);
+    if (!lesson.isToolkit) {
+      widget.addToFavourites(widget.modulesProvider, lesson, add);
+    }
   }
 
   @override
@@ -304,9 +310,11 @@ class _CourseLessonState extends State<CourseLesson> {
               item: widget.lesson,
               favouriteType: FavouriteType.Lesson,
               title: widget.lesson.title,
-              isFavourite: widget.lesson.isFavorite,
+              isFavourite:
+                  widget.lesson.isToolkit ? true : widget.lesson.isFavorite,
               closeItem: widget.closeLesson,
               addToFavourites: _addToFavourites,
+              isToolkit: widget.lesson.isToolkit,
             ),
             _getDataUsageWarning(context, screenSize),
             _lessonContent == null

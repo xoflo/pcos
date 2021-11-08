@@ -49,7 +49,7 @@ dependencies:
   sqflite: ^2.0.0+3
   intercom_flutter: ^2.3.3
   launch_review: ^2.0.0
-  carousel_slider: ^3.0.0
+  carousel_slider: ^4.0.0
   flutter_native_timezone: ^1.0.4
   notification_permissions: ^0.4.8
   avatar_glow: ^2.0.0

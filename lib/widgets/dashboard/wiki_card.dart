@@ -10,11 +10,13 @@ import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wiki_full.dart';
 class WikiCard extends StatefulWidget {
   final Size screenSize;
   final LessonWiki wiki;
+  final bool isFavorite;
   final bool isLessonComplete;
-  final Function(LessonWiki) addToFavourites;
+  final Function(LessonWiki, bool) addToFavourites;
 
   WikiCard({
     @required this.wiki,
+    @required this.isFavorite,
     @required this.addToFavourites,
     @required this.screenSize,
     @required this.isLessonComplete,
@@ -34,11 +36,8 @@ class _WikiCardState extends State<WikiCard> {
     });
   }
 
-  void _addToFavourites(final LessonWiki wiki) async {
-    widget.addToFavourites(wiki);
-    setState(() {
-      widget.wiki.isFavorite = !widget.wiki.isFavorite;
-    });
+  void _addToFavourites(final LessonWiki wiki, final bool add) async {
+    widget.addToFavourites(wiki, add);
   }
 
   Widget _getContainer(final BuildContext context, final bool isAnswer,
@@ -113,10 +112,11 @@ class _WikiCardState extends State<WikiCard> {
       context,
       LessonWikiFull(
         wiki: wiki,
+        isFavourite: widget.isFavorite,
         closeWiki: () {
           Navigator.pop(context);
         },
-        addToFavourites: widget.addToFavourites,
+        addToFavourites: _addToFavourites,
       ),
       Analytics.ANALYTICS_SCREEN_WIKI,
       wiki.questionId.toString(),
@@ -125,6 +125,9 @@ class _WikiCardState extends State<WikiCard> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("FAVE CARD=${widget.isFavorite}");
+    debugPrint(
+        "WIKI CARD ID=${widget.wiki.questionId} isFAVE=${widget.wiki.isFavorite}");
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: widget.isLessonComplete
@@ -177,13 +180,14 @@ class _WikiCardState extends State<WikiCard> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                _addToFavourites(widget.wiki);
+                                _addToFavourites(
+                                    widget.wiki, !widget.wiki.isFavorite);
                               },
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(top: 4.0, right: 3.0),
                                 child: Icon(
-                                  widget.wiki.isFavorite
+                                  widget.isFavorite
                                       ? Icons.favorite
                                       : Icons.favorite_outline,
                                   color: secondaryColor,

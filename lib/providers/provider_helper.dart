@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/models/all_favourites.dart';
 import 'package:thepcosprotocol_app/models/cms_text.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
@@ -399,6 +400,24 @@ class ProviderHelper {
     return [];
   }
 
+  Future<AllFavourites> getFavourites(final dbProvider) async {
+    List<Lesson> toolkits =
+        await getAllData(dbProvider, "Lesson", toolkitsOnly: true);
+    List<Lesson> lessons =
+        await getAllData(dbProvider, "Lesson", favouritesOnly: true);
+    List<LessonWiki> wikis =
+        await getAllData(dbProvider, "Wiki", favouritesOnly: true);
+    List<Recipe> recipes =
+        await getAllData(dbProvider, "Recipe", favouritesOnly: true);
+
+    return AllFavourites(
+      toolkits: toolkits,
+      lessons: lessons,
+      lessonWikis: wikis,
+      recipes: recipes,
+    );
+  }
+
   Future<List<dynamic>> filterAndSearch(
       final dbProvider,
       final String tableName,
@@ -514,8 +533,8 @@ class ProviderHelper {
         updateColumn = "recipeId";
         break;
       case FavouriteType.Wiki:
-        updateId = item.id;
-        tableName = "KnowledgeBase";
+        updateId = item.questionId;
+        tableName = "Wiki";
         assetType = "CMS";
         updateColumn = "id";
         break;
@@ -567,12 +586,19 @@ class ProviderHelper {
     return false;
   }
 
-  Future<List<dynamic>> getAllData(final dbProvider, final String tableName,
-      {final String orderByColumn = "",
-      final bool incompleteOnly = false}) async {
-    final dataList =
-        await dbProvider.getData(tableName, orderByColumn, incompleteOnly);
-    return mapDataToList(dataList, tableName);
+  Future<List<dynamic>> getAllData(
+    final dbProvider,
+    final String tableName, {
+    final String orderByColumn = "",
+    final bool incompleteOnly = false,
+    final bool favouritesOnly = false,
+    final bool toolkitsOnly = false,
+  }) async {
+    final dataList = await dbProvider.getData(
+        tableName, orderByColumn, incompleteOnly, favouritesOnly, toolkitsOnly);
+    final mapName =
+        tableName == "Wiki" && favouritesOnly ? "LessonWiki" : tableName;
+    return mapDataToList(dataList, mapName);
   }
 
   List<dynamic> mapDataToList(final dataList, final String tableName) {

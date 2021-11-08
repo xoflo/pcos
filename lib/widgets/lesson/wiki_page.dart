@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 
 class WikiPage extends StatelessWidget {
   final bool isHorizontal;
   final List<LessonWiki> wikis;
+  final BuildContext parentContext;
 
   WikiPage({
     @required this.isHorizontal,
     @required this.wikis,
+    @required this.parentContext,
   });
 
-  void _addFavourite(final FavouriteType favouriteType, final Question question,
-      final bool add) async {}
+  void _addFavourite(
+      FavouriteType favouriteType, final dynamic item, final bool add) async {
+    final modulesProvider =
+        Provider.of<ModulesProvider>(parentContext, listen: false);
+    await modulesProvider.addWikiToFavourites(item, add);
+    Provider.of<FavouritesProvider>(parentContext, listen: false)
+        .fetchAndSaveData();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1625,21 +1625,31 @@ class S {
     );
   }
 
-  /// `View now`
-  String get favouritesWatchNow {
+  /// `View lesson`
+  String get favouritesViewLesson {
     return Intl.message(
-      'View now',
-      name: 'favouritesWatchNow',
+      'View lesson',
+      name: 'favouritesViewLesson',
       desc: '',
       args: [],
     );
   }
 
-  /// `View details`
-  String get favouritesViewDetails {
+  /// `View wiki`
+  String get favouritesViewWiki {
     return Intl.message(
-      'View details',
-      name: 'favouritesViewDetails',
+      'View wiki',
+      name: 'favouritesViewWiki',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View recipe`
+  String get favouritesViewRecipe {
+    return Intl.message(
+      'View recipe',
+      name: 'favouritesViewRecipe',
       desc: '',
       args: [],
     );
@@ -2315,11 +2325,11 @@ class S {
     );
   }
 
-  /// `No favourite knowledge base items to display.`
-  String get noFavouriteKB {
+  /// `No favourite lesson wikis to display.`
+  String get noFavouriteWikis {
     return Intl.message(
-      'No favourite knowledge base items to display.',
-      name: 'noFavouriteKB',
+      'No favourite lesson wikis to display.',
+      name: 'noFavouriteWikis',
       desc: '',
       args: [],
     );
