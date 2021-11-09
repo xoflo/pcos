@@ -57,7 +57,7 @@ class _LessonRecipesState extends State<LessonRecipes> {
     if (widget.loadingStatus == LoadingStatus.success) {
       if (!widget.isComplete && widget.recipes.length > 0) {
         noRecipesMessage = S.of(context).lockedRecipes;
-      } else if (widget.isComplete && widget.recipes.length == 0) {
+      } else {
         noRecipesMessage = S.of(context).noRecipes;
       }
       _changeVisibility();

@@ -13,7 +13,7 @@ import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 class LessonWikis extends StatefulWidget {
   final Size screenSize;
   final int lessonId;
-  final bool isComplete;
+  final bool isLessonComplete;
   final List<LessonWiki> lessonWikis;
   final ModulesProvider modulesProvider;
   final LoadingStatus loadingStatus;
@@ -24,7 +24,7 @@ class LessonWikis extends StatefulWidget {
   LessonWikis({
     @required this.screenSize,
     @required this.lessonId,
-    @required this.isComplete,
+    @required this.isLessonComplete,
     @required this.lessonWikis,
     @required this.modulesProvider,
     @required this.loadingStatus,
@@ -42,15 +42,18 @@ class _LessonWikisState extends State<LessonWikis> {
   bool _isCarouselVisible = true;
 
   void _changeVisibility() {
+    debugPrint("_isNoneMessageVisible=$_isNoneMessageVisible");
+    debugPrint("widget.lessonWikis.length=${widget.lessonWikis.length}");
+    debugPrint("widget.isLessonComplete=${widget.isLessonComplete}");
     if (!_isNoneMessageVisible &&
-        (widget.lessonWikis.length == 0 || !widget.isComplete)) {
-      //play animation to show no wikis msg
+        (widget.lessonWikis.length == 0 || !widget.isLessonComplete)) {
+      //play animation to show no wikis/locked msg
       setState(() {
         _isNoneMessageVisible = true;
         _isCarouselVisible = false;
       });
     } else if (_isNoneMessageVisible && widget.lessonWikis.length > 0) {
-      //play animation to show no wikis msg
+      //play animation to hide no wikis/locked msg
       setState(() {
         _isNoneMessageVisible = false;
         _isCarouselVisible = true;
@@ -63,9 +66,9 @@ class _LessonWikisState extends State<LessonWikis> {
     String noWikisMessage = "";
 
     if (widget.loadingStatus == LoadingStatus.success) {
-      if (!widget.isComplete && widget.lessonWikis.length > 0) {
+      if (!widget.isLessonComplete && widget.lessonWikis.length > 0) {
         noWikisMessage = S.of(context).lockedWikis;
-      } else if (widget.isComplete && widget.lessonWikis.length == 0) {
+      } else {
         noWikisMessage = S.of(context).noWikis;
       }
       _changeVisibility();
@@ -116,7 +119,7 @@ class _LessonWikisState extends State<LessonWikis> {
                                 children: [
                                   noWikisMessage.length > 0
                                       ? Icon(
-                                          !widget.isComplete &&
+                                          !widget.isLessonComplete &&
                                                   widget.lessonWikis.length > 0
                                               ? Icons.lock_outline
                                               : Icons.block,
@@ -143,29 +146,29 @@ class _LessonWikisState extends State<LessonWikis> {
                           opacity: _isCarouselVisible ? 1.0 : 0.0,
                           duration: const Duration(milliseconds: 1500),
                           // The green box must be a child of the AnimatedOpacity widget.
-                          child:
-                              widget.lessonWikis.length > 0 && widget.isComplete
-                                  ? CarouselSlider.builder(
-                                      itemCount: widget.lessonWikis.length,
-                                      options: CarouselOptions(
-                                        height: 260,
-                                        enableInfiniteScroll: false,
-                                        viewportFraction:
-                                            widget.isHorizontal ? 0.50 : 0.92,
-                                        initialPage: widget.selectedWiki,
-                                      ),
-                                      itemBuilder: (ctx, index, realIdx) {
-                                        LessonWiki lessonWiki =
-                                            widget.lessonWikis[index];
-                                        return WikiCard(
-                                          screenSize: widget.screenSize,
-                                          wiki: lessonWiki,
-                                          isFavorite: lessonWiki.isFavorite,
-                                          isLessonComplete: widget.isComplete,
-                                        );
-                                      },
-                                    )
-                                  : Container(),
+                          child: widget.lessonWikis.length > 0 &&
+                                  widget.isLessonComplete
+                              ? CarouselSlider.builder(
+                                  itemCount: widget.lessonWikis.length,
+                                  options: CarouselOptions(
+                                    height: 260,
+                                    enableInfiniteScroll: false,
+                                    viewportFraction:
+                                        widget.isHorizontal ? 0.50 : 0.92,
+                                    initialPage: widget.selectedWiki,
+                                  ),
+                                  itemBuilder: (ctx, index, realIdx) {
+                                    LessonWiki lessonWiki =
+                                        widget.lessonWikis[index];
+                                    return WikiCard(
+                                      screenSize: widget.screenSize,
+                                      wiki: lessonWiki,
+                                      isFavorite: lessonWiki.isFavorite,
+                                      isLessonComplete: widget.isLessonComplete,
+                                    );
+                                  },
+                                )
+                              : Container(),
                         ),
                       ],
                     ),

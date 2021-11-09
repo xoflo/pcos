@@ -355,7 +355,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     return LessonWikis(
       screenSize: screenSize,
       lessonId: _selectedLessonId,
-      isComplete: _selectedLessonIsComplete,
+      isLessonComplete: _selectedLessonIsComplete,
       lessonWikis: lessonWikis,
       modulesProvider: modulesProvider,
       loadingStatus: modulesProvider.status,
