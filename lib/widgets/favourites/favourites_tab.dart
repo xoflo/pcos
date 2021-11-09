@@ -16,7 +16,7 @@ class FavouritesTab extends StatelessWidget {
   final FavouriteType favouriteType;
   final bool isToolkit;
   final Function(FavouriteType, dynamic) openFavourite;
-  final Function(FavouriteType, dynamic, bool) removeFavourite;
+  final Function(FavouriteType, dynamic) removeFavourite;
 
   FavouritesTab({
     @required this.screenSize,

@@ -7,7 +7,7 @@ class FavouritesLessonsList extends StatelessWidget {
   final List<Lesson> lessons;
   final double width;
   final bool isToolkit;
-  final Function(FavouriteType, int, bool) removeFavourite;
+  final Function(FavouriteType, int) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonsList({

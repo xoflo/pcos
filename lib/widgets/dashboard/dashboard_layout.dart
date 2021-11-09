@@ -9,7 +9,6 @@ import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
@@ -207,7 +206,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         lessonWikis: lessonWikis,
         lessonRecipes: lessonRecipes,
         closeLesson: _closeLesson,
-        addToFavourites: _addLessonToFavourites,
+        getPreviousModuleLessons: () {},
       ),
       Analytics.ANALYTICS_SCREEN_LESSON,
       lesson.lessonID.toString(),
@@ -260,12 +259,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     Navigator.pushNamed(context, LessonSearch.id);
   }
 
-  void _addLessonToFavourites(
-      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    modulesProvider.addToFavourites(lesson, add);
-    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
-  }
-
   void _onLessonChanged(final ModulesProvider modulesProvider,
       final int lessonIndex, final Lesson lesson) {
     List<LessonWiki> lessonWikis =
@@ -291,7 +284,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         RecipeDetails(
           recipe: recipe,
           closeRecipeDetails: _closeRecipeDetails,
-          addToFavourites: _addRecipeToFavourites,
         ),
         Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
         recipe.recipeId.toString(),
@@ -301,18 +293,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   void _closeRecipeDetails() {
     Navigator.pop(context);
-  }
-
-  void _addRecipeToFavourites(final dynamic recipe, final bool add) async {
-    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
-    await recipeProvider.addToFavourites(recipe, add);
-    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
-  }
-
-  void _addWikiToFavourites(final ModulesProvider modulesProvider,
-      final dynamic wiki, final bool add) {
-    modulesProvider.addWikiToFavourites(wiki, add);
-    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
   }
 
   //#endregion
@@ -381,17 +361,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       loadingStatus: modulesProvider.status,
       isHorizontal: isHorizontal,
       width: screenSize.width,
-      addToFavourites: _addWikiToFavourites,
       selectedWiki: _selectedWiki,
     );
-  }
-
-  List<bool> _getWikiFavourites(final List<LessonWiki> lessonWikis) {
-    List<bool> favourites = [];
-    for (LessonWiki lessonWiki in lessonWikis) {
-      favourites.add(lessonWiki.isFavorite);
-    }
-    return favourites;
   }
 
   Widget getLessonRecipes(

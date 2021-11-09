@@ -4,10 +4,10 @@ class Lesson {
   final String title;
   final String introduction;
   final int orderIndex;
-  final bool isFavorite;
   final bool isComplete;
   final bool isToolkit;
   final DateTime dateCreatedUTC;
+  bool isFavorite;
 
   Lesson({
     this.lessonID,

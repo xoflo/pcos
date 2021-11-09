@@ -26,7 +26,7 @@ class CourseLesson extends StatefulWidget {
   final List<LessonWiki> lessonWikis;
   final List<LessonRecipe> lessonRecipes;
   final Function closeLesson;
-  final Function(ModulesProvider, dynamic, bool) addToFavourites;
+  final Function getPreviousModuleLessons;
 
   CourseLesson({
     @required this.modulesProvider,
@@ -35,7 +35,7 @@ class CourseLesson extends StatefulWidget {
     @required this.lessonWikis,
     @required this.lessonRecipes,
     @required this.closeLesson,
-    @required this.addToFavourites,
+    @required this.getPreviousModuleLessons,
   });
 
   @override
@@ -286,12 +286,6 @@ class _CourseLessonState extends State<CourseLesson> {
     });
   }
 
-  void _addToFavourites(final dynamic lesson, final bool add) {
-    if (!lesson.isToolkit) {
-      widget.addToFavourites(widget.modulesProvider, lesson, add);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -310,11 +304,10 @@ class _CourseLessonState extends State<CourseLesson> {
               item: widget.lesson,
               favouriteType: FavouriteType.Lesson,
               title: widget.lesson.title,
-              isFavourite:
-                  widget.lesson.isToolkit ? true : widget.lesson.isFavorite,
+              isFavourite: widget.lesson.isFavorite,
               closeItem: widget.closeLesson,
-              addToFavourites: _addToFavourites,
               isToolkit: widget.lesson.isToolkit,
+              onAction: widget.getPreviousModuleLessons,
             ),
             _getDataUsageWarning(context, screenSize),
             _lessonContent == null

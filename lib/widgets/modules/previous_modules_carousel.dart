@@ -14,6 +14,7 @@ class PreviousModulesCarousel extends StatelessWidget {
   final CarouselController lessonCarouselController;
   final Function(int, CarouselPageChangedReason) moduleChanged;
   final Function(Lesson) openLesson;
+  final Function refreshPreviousModules;
 
   PreviousModulesCarousel({
     @required this.screenSize,
@@ -24,6 +25,7 @@ class PreviousModulesCarousel extends StatelessWidget {
     @required this.lessonCarouselController,
     @required this.moduleChanged,
     @required this.openLesson,
+    @required this.refreshPreviousModules,
   });
 
   @override
@@ -85,11 +87,16 @@ class PreviousModulesCarousel extends StatelessWidget {
                   final int lessonNumber = lessonCounter;
                   return Builder(
                     builder: (BuildContext context) {
+                      debugPrint(
+                          "LESSON title=${lesson.title} FAVE=${lesson.isFavorite}");
                       return LessonCard(
                         lessonNumber: lessonNumber,
                         lesson: lesson,
+                        lessonFavourite: lesson.isFavorite,
                         isNew: false,
+                        isPreviousModules: true,
                         openLesson: openLesson,
+                        refreshPreviousModules: refreshPreviousModules,
                       );
                     },
                   );

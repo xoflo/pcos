@@ -12,8 +12,7 @@ import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_list.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_search_list.dart';
 
 class LessonSearchLayout extends StatefulWidget {
   @override
@@ -25,14 +24,6 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
   bool _isSearching = false;
   bool _hasSearchRun = false;
 
-  void _addLessonToFavourites(
-      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    modulesProvider.addToFavourites(lesson, add);
-    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
-    //re-run the search to refresh data, and pick up the favourite change
-    _refreshData();
-  }
-
   void _openLesson(
       final Lesson lesson, final ModulesProvider modulesProvider) async {
     openBottomSheet(
@@ -41,22 +32,16 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
         modulesProvider: modulesProvider,
         showDataUsageWarning: false,
         lesson: lesson,
+        lessonWikis: modulesProvider.getLessonWikis(lesson.lessonID),
+        lessonRecipes: modulesProvider.getLessonRecipes(lesson.lessonID),
         closeLesson: () {
           Navigator.pop(context);
         },
-        addToFavourites: _addLessonToFavourites,
+        getPreviousModuleLessons: _refreshData,
       ),
       Analytics.ANALYTICS_SCREEN_LESSON,
       lesson.lessonID.toString(),
     );
-  }
-
-  void _refreshData() async {
-    //this is the add to favourite re-running the search to pickup the changes
-    final String searchText = _searchController.text.trim();
-    final modulesProvider =
-        Provider.of<ModulesProvider>(context, listen: false);
-    modulesProvider.filterAndSearch(searchText);
   }
 
   void _onSearchClicked() async {
@@ -86,6 +71,14 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
     }
   }
 
+  void _refreshData() async {
+    //this is the add to favourite re-running the search to pickup the changes
+    final String searchText = _searchController.text.trim();
+    final modulesProvider =
+        Provider.of<ModulesProvider>(context, listen: false);
+    modulesProvider.filterAndSearch(searchText);
+  }
+
   Widget _getLessonList(final ModulesProvider modulesProvider) {
     if (_hasSearchRun) {
       switch (modulesProvider.searchStatus) {
@@ -96,11 +89,11 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
         case LoadingStatus.success:
           return Column(
             children: [
-              LessonList(
+              LessonSearchList(
                   isComplete: true,
                   modulesProvider: modulesProvider,
                   openLesson: _openLesson),
-              LessonList(
+              LessonSearchList(
                   isComplete: false,
                   modulesProvider: modulesProvider,
                   openLesson: _openLesson),

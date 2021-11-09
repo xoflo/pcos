@@ -85,7 +85,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       RecipeDetails(
         recipe: recipe,
         closeRecipeDetails: _closeRecipeDetails,
-        addToFavourites: _addToFavourites,
       ),
       Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
       recipe.recipeId.toString(),
@@ -94,14 +93,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
 
   void _closeRecipeDetails() {
     Navigator.pop(context);
-  }
-
-  void _addToFavourites(final dynamic recipe, final bool add) async {
-    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
-    await recipeProvider.addToFavourites(recipe, add);
-    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
-    recipeProvider.filterAndSearch(_searchController.text.trim(),
-        _tagSelectedValue, _tagValuesSelectedSecondary);
   }
 
   void _onTagSelected(String tagValue) {

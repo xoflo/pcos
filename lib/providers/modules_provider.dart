@@ -173,6 +173,15 @@ class ModulesProvider with ChangeNotifier {
     return displayLessonRecipes;
   }
 
+  bool getLessonFavourite(final int lessonID) {
+    for (Lesson lesson in _lessons) {
+      if (lesson.lessonID == lessonID) {
+        return lesson.isFavorite;
+      }
+    }
+    return false;
+  }
+
   bool getLessonWikiFavourite(final int questionID, final int lessonID) {
     for (LessonWiki lessonWiki in _lessonWikis) {
       if (lessonWiki.lessonId == lessonID &&
@@ -207,11 +216,22 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToFavourites(final dynamic lesson, final bool add) async {
+  Future<void> addLessonToFavourites(
+      final dynamic lesson, final bool add, final bool refreshData) async {
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
-      fetchAndSaveData(false);
+      if (refreshData) {
+        await fetchAndSaveData(false);
+      } else {
+        for (int lessonCounter = 0;
+            lessonCounter < _lessons.length;
+            lessonCounter++) {
+          if (_lessons[lessonCounter].lessonID == lesson.lessonID) {
+            _lessons[lessonCounter].isFavorite = !lesson.isFavorite;
+          }
+        }
+      }
     }
   }
 
@@ -219,17 +239,13 @@ class ModulesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Wiki, wiki);
-
+      //update the wiki in memory to reflect in app heart icons on Dashboard
       for (int wikiCounter = 0;
           wikiCounter < _lessonWikis.length;
           wikiCounter++) {
         if (_lessonWikis[wikiCounter].questionId == wiki.questionId) {
           _lessonWikis[wikiCounter].isFavorite = !wiki.isFavorite;
         }
-      }
-
-      for (LessonWiki lessonWiki in _lessonWikis) {
-        if (lessonWiki.questionId == wiki.questionId) {}
       }
     }
     notifyListeners();

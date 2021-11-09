@@ -10,7 +10,7 @@ class FavouritesWikiItem extends StatelessWidget {
   final LessonWiki lessonWiki;
   final double width;
   final bool isToolkit;
-  final Function(FavouriteType, dynamic, bool) removeFavourite;
+  final Function(FavouriteType, dynamic) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesWikiItem({
@@ -41,7 +41,7 @@ class FavouritesWikiItem extends StatelessWidget {
                   ? Container()
                   : GestureDetector(
                       onTap: () {
-                        removeFavourite(FavouriteType.Wiki, lessonWiki, false);
+                        removeFavourite(FavouriteType.Wiki, lessonWiki);
                       },
                       child: Icon(
                         Icons.delete,

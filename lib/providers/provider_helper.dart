@@ -549,9 +549,9 @@ class ProviderHelper {
     }
     //update in API
     if (isAdd) {
-      WebServices().addToFavourites(assetType, updateId);
+      await WebServices().addToFavourites(assetType, updateId);
     } else {
-      WebServices().removeFromFavourites(assetType, updateId);
+      await WebServices().removeFromFavourites(assetType, updateId);
     }
     //update in sqlite
     if (dbProvider.db != null) {

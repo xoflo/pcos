@@ -1,29 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/controllers/favourites_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
-class LessonCard extends StatelessWidget {
+class LessonCard extends StatefulWidget {
   final int lessonNumber;
   final Lesson lesson;
+  final bool lessonFavourite;
   final bool isNew;
+  final bool isSearch;
+  final bool isPreviousModules;
   final Function(Lesson) openLesson;
+  final Function refreshPreviousModules;
 
   LessonCard({
     @required this.lessonNumber,
     @required this.lesson,
+    @required this.lessonFavourite,
     @required this.isNew,
+    this.isSearch = false,
+    this.isPreviousModules = false,
     @required this.openLesson,
+    @required this.refreshPreviousModules,
   });
 
   @override
+  _LessonCardState createState() => _LessonCardState();
+}
+
+class _LessonCardState extends State<LessonCard> {
+  bool _isFavourite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _isFavourite = widget.lessonFavourite;
+    });
+  }
+
+  void _onTap() async {
+    await FavouritesController().addToFavourites(
+      context,
+      FavouriteType.Lesson,
+      widget.lesson,
+      widget.isPreviousModules ? !widget.lessonFavourite : !_isFavourite,
+      refreshData: false,
+    );
+    setState(() {
+      _isFavourite = !_isFavourite;
+    });
+    if (widget.isPreviousModules) {
+      await widget.refreshPreviousModules();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isLessonComplete = lesson.isComplete;
-    final Color cardColor = lesson.isToolkit
+    final isLessonComplete = widget.lesson.isComplete;
+    final Color cardColor = widget.lesson.isToolkit
         ? altBackgroundColor
-        : isLessonComplete || isNew
+        : isLessonComplete || widget.isNew
             ? backgroundColor
             : Colors.grey;
     return Stack(
@@ -42,32 +83,47 @@ class LessonCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  lessonNumber > 0
-                      ? lesson.isToolkit
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(width: 32),
-                                Text(
-                                  "${S.of(context).lessonText} $lessonNumber",
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                                Icon(Icons.construction,
-                                    size: 32, color: primaryColor),
-                              ],
-                            )
-                          : Text(
-                              "${S.of(context).lessonText} $lessonNumber",
+                  widget.isSearch
+                      ? Container()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(width: 32),
+                            Text(
+                              "${S.of(context).lessonText} ${widget.lessonNumber}",
                               style: Theme.of(context).textTheme.headline6,
-                            )
-                      : Container(),
+                            ),
+                            widget.lesson.isToolkit
+                                ? Icon(Icons.construction,
+                                    size: 30, color: primaryColor)
+                                : GestureDetector(
+                                    onTap: () {
+                                      _onTap();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 4.0, right: 3.0),
+                                      child: Icon(
+                                        (widget.isPreviousModules &&
+                                                    widget.lessonFavourite) ||
+                                                (!widget.isPreviousModules &&
+                                                    _isFavourite)
+                                            ? Icons.favorite
+                                            : Icons.favorite_outline,
+                                        color: secondaryColor,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
                   SizedBox(
                     height: 56,
                     child: Center(
                       child: Text(
-                        lesson.title,
+                        widget.lesson.title,
                         textAlign: TextAlign.center,
-                        style: isLessonComplete || isNew
+                        style: isLessonComplete || widget.isNew
                             ? Theme.of(context).textTheme.headline5
                             : Theme.of(context)
                                 .textTheme
@@ -85,15 +141,15 @@ class LessonCard extends StatelessWidget {
                       height: 106,
                       child: Center(
                         child: ClipRect(
-                          child: HtmlWidget(lesson.introduction),
+                          child: HtmlWidget(widget.lesson.introduction),
                         ),
                       ),
                     ),
                   ),
-                  isLessonComplete || isNew
+                  isLessonComplete || widget.isNew
                       ? GestureDetector(
                           onTap: () {
-                            openLesson(lesson);
+                            widget.openLesson(widget.lesson);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -129,7 +185,7 @@ class LessonCard extends StatelessWidget {
             ),
           ),
         ),
-        !lesson.isComplete && this.isNew
+        !widget.lesson.isComplete && this.widget.isNew
             ? Align(
                 alignment: Alignment.topRight,
                 child: AvatarGlow(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/controllers/favourites_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -18,7 +20,6 @@ class LessonWikis extends StatefulWidget {
   final int selectedWiki;
   final double width;
   final bool isHorizontal;
-  final Function(ModulesProvider, LessonWiki, bool) addToFavourites;
 
   LessonWikis({
     @required this.screenSize,
@@ -30,7 +31,6 @@ class LessonWikis extends StatefulWidget {
     @required this.selectedWiki,
     @required this.width,
     @required this.isHorizontal,
-    @required this.addToFavourites,
   });
 
   @override
@@ -40,10 +40,6 @@ class LessonWikis extends StatefulWidget {
 class _LessonWikisState extends State<LessonWikis> {
   bool _isNoneMessageVisible = false;
   bool _isCarouselVisible = true;
-
-  void _addToFavourites(final LessonWiki wiki, final bool add) {
-    this.widget.addToFavourites(widget.modulesProvider, wiki, add);
-  }
 
   void _changeVisibility() {
     if (!_isNoneMessageVisible &&
@@ -165,7 +161,6 @@ class _LessonWikisState extends State<LessonWikis> {
                                           screenSize: widget.screenSize,
                                           wiki: lessonWiki,
                                           isFavorite: lessonWiki.isFavorite,
-                                          addToFavourites: _addToFavourites,
                                           isLessonComplete: widget.isComplete,
                                         );
                                       },

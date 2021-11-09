@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class LessonWikiFull extends StatelessWidget {
+  final BuildContext parentContext;
   final LessonWiki wiki;
   final bool isFavourite;
   final Function closeWiki;
-  final Function(LessonWiki, bool) addToFavourites;
 
   LessonWikiFull({
+    @required this.parentContext,
     @required this.wiki,
     @required this.isFavourite,
     @required this.closeWiki,
-    @required this.addToFavourites,
   });
-
-  void _addToFavourites(final dynamic wiki, final bool add) async {
-    this.addToFavourites(wiki, add);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +39,7 @@ class LessonWikiFull extends StatelessWidget {
                 title: S.of(context).lessonWiki,
                 isFavourite: this.wiki.isFavorite,
                 closeItem: this.closeWiki,
-                addToFavourites: _addToFavourites,
+                onAction: () {},
               ),
               Container(
                 width: screenSize.width,

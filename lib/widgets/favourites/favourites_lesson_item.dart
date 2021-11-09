@@ -9,7 +9,7 @@ class FavouritesLessonItem extends StatelessWidget {
   final Lesson lesson;
   final double width;
   final bool isToolkit;
-  final Function(FavouriteType, dynamic, bool) removeFavourite;
+  final Function(FavouriteType, dynamic) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonItem({
@@ -40,7 +40,7 @@ class FavouritesLessonItem extends StatelessWidget {
                   ? Container()
                   : GestureDetector(
                       onTap: () {
-                        removeFavourite(FavouriteType.Lesson, lesson, false);
+                        removeFavourite(FavouriteType.Lesson, lesson);
                       },
                       child: Icon(
                         Icons.delete,

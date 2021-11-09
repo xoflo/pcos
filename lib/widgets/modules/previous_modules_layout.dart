@@ -13,7 +13,6 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 
 class PreviousModulesLayout extends StatefulWidget {
   final ModulesProvider modulesProvider;
@@ -26,6 +25,7 @@ class PreviousModulesLayout extends StatefulWidget {
 }
 
 class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
+  int _moduleIndex = 0;
   int _selectedModuleID = 0;
   List<Lesson> _selectedModuleLessons = [];
   List<List<Lesson>> _moduleLessons = [];
@@ -50,22 +50,18 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
       _selectedModuleID = initialModule.moduleID;
       _moduleLessons = allLessons;
       _selectedModuleLessons = allLessons.last;
+      _moduleIndex = widget.modulesProvider.previousModules.length - 1;
     });
   }
 
   void _moduleChanged(final int index, final CarouselPageChangedReason reason) {
     final Module selectedModule = widget.modulesProvider.previousModules[index];
     setState(() {
+      _moduleIndex = index;
       _selectedModuleID = selectedModule.moduleID;
       _selectedModuleLessons = _moduleLessons[index];
       lessonCarouselController.jumpToPage(0);
     });
-  }
-
-  void _addLessonToFavourites(
-      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    modulesProvider.addToFavourites(lesson, add);
-    Provider.of<FavouritesProvider>(context, listen: false).fetchAndSaveData();
   }
 
   void _openLesson(final Lesson lesson) async {
@@ -78,11 +74,35 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
         closeLesson: () {
           Navigator.pop(context);
         },
-        addToFavourites: _addLessonToFavourites,
+        lessonWikis: widget.modulesProvider.getLessonWikis(lesson.lessonID),
+        lessonRecipes: widget.modulesProvider.getLessonRecipes(lesson.lessonID),
+        getPreviousModuleLessons: _getPreviousModuleLessons,
       ),
       Analytics.ANALYTICS_SCREEN_LESSON,
       lesson.lessonID.toString(),
     );
+  }
+
+  void _getPreviousModuleLessons() async {
+    debugPrint("CALLED ON PREV");
+    final List<List<Lesson>> allLessons = [];
+
+    for (Module module in widget.modulesProvider.previousModules) {
+      allLessons
+          .add(await widget.modulesProvider.getModuleLessons(module.moduleID));
+    }
+    for (List list in allLessons) {
+      for (Lesson lesson in list) {
+        if (lesson.title.contains("Increasing your vegetable intake")) {
+          debugPrint("Vege Lesson isFave = l${lesson.isFavorite}");
+        }
+      }
+    }
+
+    setState(() {
+      _moduleLessons = allLessons;
+      _selectedModuleLessons = allLessons[_moduleIndex];
+    });
   }
 
   @override
@@ -120,6 +140,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
                           lessonCarouselController: lessonCarouselController,
                           moduleChanged: _moduleChanged,
                           openLesson: _openLesson,
+                          refreshPreviousModules: _getPreviousModuleLessons,
                         ),
                       ],
                     ),

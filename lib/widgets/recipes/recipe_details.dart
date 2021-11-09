@@ -8,11 +8,11 @@ import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class RecipeDetails extends StatelessWidget {
+  final BuildContext parentContext;
   final Recipe recipe;
   final Function closeRecipeDetails;
-  final Function(dynamic, bool) addToFavourites;
 
-  RecipeDetails({this.recipe, this.closeRecipeDetails, this.addToFavourites});
+  RecipeDetails({this.parentContext, this.recipe, this.closeRecipeDetails});
 
   Widget _getRecipeDetails(
       BuildContext context, bool isHorizontal, Size screenSize) {
@@ -139,7 +139,7 @@ class RecipeDetails extends StatelessWidget {
                 title: recipe.title,
                 isFavourite: recipe.isFavorite,
                 closeItem: closeRecipeDetails,
-                addToFavourites: addToFavourites,
+                onAction: () {},
               ),
               _getRecipeDetails(context, isHorizontal, screenSize),
             ],

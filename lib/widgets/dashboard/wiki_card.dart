@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/controllers/favourites_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -12,12 +14,10 @@ class WikiCard extends StatefulWidget {
   final LessonWiki wiki;
   final bool isFavorite;
   final bool isLessonComplete;
-  final Function(LessonWiki, bool) addToFavourites;
 
   WikiCard({
     @required this.wiki,
     @required this.isFavorite,
-    @required this.addToFavourites,
     @required this.screenSize,
     @required this.isLessonComplete,
   });
@@ -34,10 +34,6 @@ class _WikiCardState extends State<WikiCard> {
     setState(() {
       _showQuestion = !_showQuestion;
     });
-  }
-
-  void _addToFavourites(final LessonWiki wiki, final bool add) async {
-    widget.addToFavourites(wiki, add);
   }
 
   Widget _getContainer(final BuildContext context, final bool isAnswer,
@@ -111,12 +107,12 @@ class _WikiCardState extends State<WikiCard> {
     openBottomSheet(
       context,
       LessonWikiFull(
+        parentContext: context,
         wiki: wiki,
         isFavourite: widget.isFavorite,
         closeWiki: () {
           Navigator.pop(context);
         },
-        addToFavourites: _addToFavourites,
       ),
       Analytics.ANALYTICS_SCREEN_WIKI,
       wiki.questionId.toString(),
@@ -180,8 +176,12 @@ class _WikiCardState extends State<WikiCard> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                _addToFavourites(
-                                    widget.wiki, !widget.wiki.isFavorite);
+                                FavouritesController().addToFavourites(
+                                  context,
+                                  FavouriteType.Wiki,
+                                  widget.wiki,
+                                  !widget.isFavorite,
+                                );
                               },
                               child: Padding(
                                 padding:

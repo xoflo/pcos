@@ -85,8 +85,11 @@ class CurrentModule extends StatelessWidget {
                       return LessonCard(
                         lessonNumber: lessonNumber,
                         lesson: lesson,
+                        lessonFavourite:
+                            modulesProvider.getLessonFavourite(lesson.lessonID),
                         isNew: true,
                         openLesson: _openLesson,
+                        refreshPreviousModules: () {},
                       );
                     }).toList(),
                   ),
