@@ -84,19 +84,11 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
   }
 
   void _getPreviousModuleLessons() async {
-    debugPrint("CALLED ON PREV");
     final List<List<Lesson>> allLessons = [];
 
     for (Module module in widget.modulesProvider.previousModules) {
       allLessons
           .add(await widget.modulesProvider.getModuleLessons(module.moduleID));
-    }
-    for (List list in allLessons) {
-      for (Lesson lesson in list) {
-        if (lesson.title.contains("Increasing your vegetable intake")) {
-          debugPrint("Vege Lesson isFave = l${lesson.isFavorite}");
-        }
-      }
     }
 
     setState(() {

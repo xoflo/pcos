@@ -87,8 +87,6 @@ class PreviousModulesCarousel extends StatelessWidget {
                   final int lessonNumber = lessonCounter;
                   return Builder(
                     builder: (BuildContext context) {
-                      debugPrint(
-                          "LESSON title=${lesson.title} FAVE=${lesson.isFavorite}");
                       return LessonCard(
                         lessonNumber: lessonNumber,
                         lesson: lesson,

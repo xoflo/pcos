@@ -42,9 +42,6 @@ class _LessonWikisState extends State<LessonWikis> {
   bool _isCarouselVisible = true;
 
   void _changeVisibility() {
-    debugPrint("_isNoneMessageVisible=$_isNoneMessageVisible");
-    debugPrint("widget.lessonWikis.length=${widget.lessonWikis.length}");
-    debugPrint("widget.isLessonComplete=${widget.isLessonComplete}");
     if (!_isNoneMessageVisible &&
         (widget.lessonWikis.length == 0 || !widget.isLessonComplete)) {
       //play animation to show no wikis/locked msg

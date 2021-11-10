@@ -9,7 +9,6 @@ class FavouritesController {
   Future<void> addToFavourites(final BuildContext context,
       final FavouriteType favouriteType, final dynamic item, final bool add,
       {final bool refreshData = true}) async {
-    debugPrint("RefreshData=$refreshData");
     switch (favouriteType) {
       case FavouriteType.Lesson:
         await Provider.of<ModulesProvider>(context, listen: false)

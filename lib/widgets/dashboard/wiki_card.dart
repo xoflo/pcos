@@ -121,9 +121,6 @@ class _WikiCardState extends State<WikiCard> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("FAVE CARD=${widget.isFavorite}");
-    debugPrint(
-        "WIKI CARD ID=${widget.wiki.questionId} isFAVE=${widget.wiki.isFavorite}");
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: widget.isLessonComplete

@@ -514,7 +514,7 @@ class WebServices {
         },
       ),
     );
-    debugPrint("ADD FAVE response.statusCode=${response.statusCode}");
+
     if (response.statusCode == 200) {
       final standardResponse =
           StandardResponse.fromJson(jsonDecode(response.body));
@@ -539,7 +539,7 @@ class WebServices {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     });
-    debugPrint("REMOVE FAVE response.statusCode=${response.statusCode}");
+
     if (response.statusCode == 200) {
       return true;
     } else {

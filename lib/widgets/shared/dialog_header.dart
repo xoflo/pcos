@@ -41,13 +41,9 @@ class _DialogHeaderState extends State<DialogHeader> {
 
   void _onTap() async {
     final bool add = !isFavouriteOnHeader;
-    debugPrint("START ADD FAVE");
     await FavouritesController()
         .addToFavourites(context, widget.favouriteType, widget.item, add);
-    debugPrint("END ADD FAVE");
-    debugPrint("START PREV ACTION");
     await widget.onAction();
-    debugPrint("END PREV ACTION");
     setState(() {
       isFavouriteOnHeader = add;
     });

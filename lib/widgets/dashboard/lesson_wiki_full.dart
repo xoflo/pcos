@@ -20,7 +20,6 @@ class LessonWikiFull extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("OPEN WIKI isFAVE=$isFavourite");
     final Size screenSize = MediaQuery.of(context).size;
     if (this.wiki == null) {
       return Container();

@@ -351,7 +351,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         ? modulesProvider.initialLessonWikis
         : _lessonWikis;
 
-    debugPrint("GET LESSON WIKIS lesson count=${lessonWikis.length}");
     return LessonWikis(
       screenSize: screenSize,
       lessonId: _selectedLessonId,
