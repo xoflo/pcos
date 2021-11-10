@@ -41,6 +41,13 @@ class AuthenticationController {
               .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, true);
         }
       }
+      //set the dashboard to NOT show lesson recipes by default
+      if (prefs.getBool(
+              SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD) ==
+          null) {
+        await PreferencesController().saveBool(
+            SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD, false);
+      }
 
       return true;
     }

@@ -1,10 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/models/all_favourites.dart';
 import 'package:thepcosprotocol_app/models/cms_text.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_export.dart';
+import 'package:thepcosprotocol_app/models/lesson_link.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/module_export.dart';
@@ -16,7 +21,7 @@ import 'package:thepcosprotocol_app/models/cms.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
-// This provider is used for Knowledge Base, FAQs and Course Questions
+// This provider is used for App Help
 class ProviderHelper {
   Future<List<Question>> fetchAndSaveQuestions(
     final dbProvider,
@@ -46,7 +51,6 @@ class ProviderHelper {
         //save when we got the data
         saveTimestamp(tableName);
       }
-
       // get items from database
       return await getAllData(dbProvider, tableName);
     }
@@ -83,7 +87,6 @@ class ProviderHelper {
         //save when we got the data
         saveTimestamp(tableName);
       }
-
       // get items from database
       return await getAllData(dbProvider, tableName);
     }
@@ -99,6 +102,9 @@ class ProviderHelper {
     final String lessonTableName = "Lesson";
     final String lessonContentTableName = "LessonContent";
     final String lessonTaskTableName = "LessonTask";
+    final String lessonLinkTableName = "LessonLink";
+    final String wikiTableName = "Wiki";
+    final String recipeTableName = "Recipe";
     final bool isNextLessonAvailable =
         nextLessonAvailableDate.isBefore(DateTime.now());
 
@@ -114,15 +120,18 @@ class ProviderHelper {
         await dbProvider.deleteAll(lessonTableName);
         await dbProvider.deleteAll(lessonContentTableName);
         await dbProvider.deleteAll(lessonTaskTableName);
+        await dbProvider.deleteAll(lessonLinkTableName);
 
         //add modules to database
         await _addModulesAndLessonsToDatabase(
-            dbProvider,
-            moduleExport,
-            moduleTableName,
-            lessonTableName,
-            lessonContentTableName,
-            lessonTaskTableName);
+          dbProvider,
+          moduleExport,
+          moduleTableName,
+          lessonTableName,
+          lessonContentTableName,
+          lessonTaskTableName,
+          lessonLinkTableName,
+        );
 
         //save when we got the data
         await saveTimestamp(moduleTableName);
@@ -190,11 +199,32 @@ class ProviderHelper {
           lessonTasksToReturn.add(lessonTask);
       }
 
+      //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      final wikiList = await dbProvider.getDataQueryWithJoin(
+        "$wikiTableName.*, $lessonLinkTableName.LessonID",
+        "$wikiTableName INNER JOIN $lessonLinkTableName ON $wikiTableName.id = $lessonLinkTableName.objectID",
+        "WHERE objectType = 'wiki'",
+      );
+
+      final List<LessonWiki> lessonWikisToReturn =
+          mapDataToList(wikiList, "LessonWiki");
+
+      //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      final recipeList = await dbProvider.getDataQueryWithJoin(
+        "$recipeTableName.*, $lessonLinkTableName.LessonID",
+        "$recipeTableName INNER JOIN $lessonLinkTableName ON $recipeTableName.recipeId = $lessonLinkTableName.objectID",
+        "WHERE objectType = 'recipe'",
+      );
+      final List<LessonRecipe> lessonRecipesToReturn =
+          mapDataToList(recipeList, "LessonRecipe");
+
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
         modules: modulesToReturn,
         lessons: lessonsToReturn,
         lessonContent: lessonContentToReturn,
         lessonTasks: lessonTasksToReturn,
+        lessonWikis: lessonWikisToReturn,
+        lessonRecipes: lessonRecipesToReturn,
       );
       return modulesAndLessons;
     }
@@ -208,6 +238,7 @@ class ProviderHelper {
     final String lessonTableName,
     final String lessonContentTableName,
     final String lessonTaskTableName,
+    final String lessonLinkTableName,
   ) async {
     moduleExport.forEach((ModuleExport moduleExport) async {
       Module module = moduleExport.module;
@@ -227,6 +258,7 @@ class ProviderHelper {
         Lesson lesson = lessonExport.lesson;
         List<LessonContent> lessonContent = lessonExport.content;
         List<LessonTask> lessonTasks = lessonExport.tasks;
+        List<LessonLink> lessonLinks = lessonExport.links;
         //add lesson to database
         await dbProvider.insert(lessonTableName, {
           'lessonID': lesson.lessonID,
@@ -236,6 +268,7 @@ class ProviderHelper {
           'orderIndex': lesson.orderIndex,
           'isFavorite': lesson.isFavorite ? 1 : 0,
           'isComplete': lesson.isComplete ? 1 : 0,
+          'isToolkit': lesson.isToolkit ? 1 : 0,
           'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
         });
         //add lesson content to database
@@ -243,6 +276,8 @@ class ProviderHelper {
             dbProvider, lessonContentTableName, lessonContent);
         await _addLessonTasksToDatabase(
             dbProvider, lessonTaskTableName, lessonTasks);
+        await _addLessonLinkToDatabase(
+            dbProvider, lessonLinkTableName, lessonLinks);
       });
     });
   }
@@ -276,6 +311,20 @@ class ProviderHelper {
         'orderIndex': lessonTask.orderIndex,
         'isComplete': lessonTask.isComplete ? 1 : 0,
         'dateCreatedUTC': lessonTask.dateCreatedUTC.toIso8601String(),
+      });
+    });
+  }
+
+  Future<void> _addLessonLinkToDatabase(final dbProvider,
+      final String tableName, List<LessonLink> lessonLinks) async {
+    lessonLinks.forEach((LessonLink lessonLink) async {
+      await dbProvider.insert(tableName, {
+        'lessonLinkID': lessonLink.lessonLinkID,
+        'lessonID': lessonLink.lessonID,
+        'objectID': lessonLink.objectID,
+        'objectType': lessonLink.objectType,
+        'orderIndex': lessonLink.orderIndex,
+        'dateCreatedUTC': lessonLink.dateCreatedUTC.toIso8601String(),
       });
     });
   }
@@ -349,6 +398,24 @@ class ProviderHelper {
       return await getAllData(dbProvider, tableName);
     }
     return [];
+  }
+
+  Future<AllFavourites> getFavourites(final dbProvider) async {
+    List<Lesson> toolkits =
+        await getAllData(dbProvider, "Lesson", toolkitsOnly: true);
+    List<Lesson> lessons =
+        await getAllData(dbProvider, "Lesson", favouritesOnly: true);
+    List<LessonWiki> wikis =
+        await getAllData(dbProvider, "Wiki", favouritesOnly: true);
+    List<Recipe> recipes =
+        await getAllData(dbProvider, "Recipe", favouritesOnly: true);
+
+    return AllFavourites(
+      toolkits: toolkits,
+      lessons: lessons,
+      lessonWikis: wikis,
+      recipes: recipes,
+    );
   }
 
   Future<List<dynamic>> filterAndSearch(
@@ -465,9 +532,9 @@ class ProviderHelper {
         assetType = "Recipe";
         updateColumn = "recipeId";
         break;
-      case FavouriteType.KnowledgeBase:
-        updateId = item.id;
-        tableName = "KnowledgeBase";
+      case FavouriteType.Wiki:
+        updateId = item.questionId;
+        tableName = "Wiki";
         assetType = "CMS";
         updateColumn = "id";
         break;
@@ -482,9 +549,9 @@ class ProviderHelper {
     }
     //update in API
     if (isAdd) {
-      WebServices().addToFavourites(assetType, updateId);
+      await WebServices().addToFavourites(assetType, updateId);
     } else {
-      WebServices().removeFromFavourites(assetType, updateId);
+      await WebServices().removeFromFavourites(assetType, updateId);
     }
     //update in sqlite
     if (dbProvider.db != null) {
@@ -519,12 +586,19 @@ class ProviderHelper {
     return false;
   }
 
-  Future<List<dynamic>> getAllData(final dbProvider, final String tableName,
-      {final String orderByColumn = "",
-      final bool incompleteOnly = false}) async {
-    final dataList =
-        await dbProvider.getData(tableName, orderByColumn, incompleteOnly);
-    return mapDataToList(dataList, tableName);
+  Future<List<dynamic>> getAllData(
+    final dbProvider,
+    final String tableName, {
+    final String orderByColumn = "",
+    final bool incompleteOnly = false,
+    final bool favouritesOnly = false,
+    final bool toolkitsOnly = false,
+  }) async {
+    final dataList = await dbProvider.getData(
+        tableName, orderByColumn, incompleteOnly, favouritesOnly, toolkitsOnly);
+    final mapName =
+        tableName == "Wiki" && favouritesOnly ? "LessonWiki" : tableName;
+    return mapDataToList(dataList, mapName);
   }
 
   List<dynamic> mapDataToList(final dataList, final String tableName) {
@@ -541,6 +615,18 @@ class ProviderHelper {
     } else if (tableName == "LessonTask") {
       return dataList
           .map<LessonTask>((item) => LessonTask.fromJson(item))
+          .toList();
+    } else if (tableName == "LessonLink") {
+      return dataList
+          .map<LessonLink>((item) => LessonLink.fromJson(item))
+          .toList();
+    } else if (tableName == "LessonWiki") {
+      return dataList
+          .map<LessonWiki>((item) => LessonWiki.fromJson(item))
+          .toList();
+    } else if (tableName == "LessonRecipe") {
+      return dataList
+          .map<LessonRecipe>((item) => LessonRecipe.fromJson(item))
           .toList();
     } else if (tableName == "Message") {
       return dataList.map<Message>((item) => Message.fromJson(item)).toList();

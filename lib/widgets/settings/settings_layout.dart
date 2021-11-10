@@ -16,6 +16,7 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 import 'package:thepcosprotocol_app/widgets/settings/daily_reminder.dart';
 import 'package:thepcosprotocol_app/widgets/settings/notifications_permissions.dart';
+import 'package:thepcosprotocol_app/widgets/settings/lesson_recipes.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
@@ -24,10 +25,14 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 class SettingsLayout extends StatefulWidget {
   final Function(bool) updateYourWhy;
+  final Function(bool) updateLessonRecipes;
   final bool onlyShowDailyReminder;
 
-  SettingsLayout(
-      {@required this.updateYourWhy, @required this.onlyShowDailyReminder});
+  SettingsLayout({
+    @required this.updateYourWhy,
+    @required this.updateLessonRecipes,
+    @required this.onlyShowDailyReminder,
+  });
 
   @override
   _SettingsLayoutState createState() => _SettingsLayoutState();
@@ -38,6 +43,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   bool _isDailyReminderOn = false;
   bool _isYourWhyOn = false;
   bool _hasYourWhyBeenAnswered = false;
+  bool _isLessonRecipesOn = false;
   TimeOfDay _dailyReminderTimeOfDay =
       DateTimeUtils.stringToTimeOfDay("12:00 PM");
   PermissionStatus _notificationPermissions = PermissionStatus.unknown;
@@ -58,6 +64,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
     final String whatsYourWhy = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+    final bool isLessonRecipesOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
 
     if (dailyReminderString.length > 0) {
       setState(() {
@@ -65,6 +73,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             DateTimeUtils.stringToTimeOfDay(dailyReminderString);
         _isDailyReminderOn = true;
         _isYourWhyOn = isYourWhyOn;
+        _isLessonRecipesOn = isLessonRecipesOn;
         _hasYourWhyBeenAnswered = whatsYourWhy.length > 0;
         _isLoading = false;
       });
@@ -72,6 +81,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
       setState(() {
         _isYourWhyOn = isYourWhyOn;
         _hasYourWhyBeenAnswered = whatsYourWhy.length > 0;
+        _isLessonRecipesOn = isLessonRecipesOn;
         _isLoading = false;
       });
     }
@@ -174,6 +184,17 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     widget.updateYourWhy(isOn);
   }
 
+  Future<void> _saveLessonRecipes(final bool isOn) async {
+    setState(() {
+      _isLessonRecipesOn = isOn;
+    });
+
+    PreferencesController().saveBool(
+        SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD, isOn);
+    //bubble up so the course screen gets updated
+    widget.updateLessonRecipes(isOn);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -218,11 +239,20 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                                 ),
                                 widget.onlyShowDailyReminder
                                     ? Container()
-                                    : YourWhySetting(
-                                        isYourWhyOn: _isYourWhyOn,
-                                        hasYourWhyBeenEntered:
-                                            _hasYourWhyBeenAnswered,
-                                        saveYourWhy: _saveYourWhy),
+                                    : Column(
+                                        children: [
+                                          YourWhySetting(
+                                              isYourWhyOn: _isYourWhyOn,
+                                              hasYourWhyBeenEntered:
+                                                  _hasYourWhyBeenAnswered,
+                                              saveYourWhy: _saveYourWhy),
+                                          LessonRecipes(
+                                              isLessonRecipesOn:
+                                                  _isLessonRecipesOn,
+                                              saveLessonRecipes:
+                                                  _saveLessonRecipes),
+                                        ],
+                                      ),
                               ],
                             ),
                           ),

@@ -3,7 +3,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 
 class RecipeListItem extends StatelessWidget {
-  final Recipe recipe;
+  final dynamic recipe;
   final int itemsPerRow;
   final Function(BuildContext, Recipe) openRecipeDetails;
   final Size screenSize;

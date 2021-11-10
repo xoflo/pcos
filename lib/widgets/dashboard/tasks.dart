@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/task_card.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
@@ -60,42 +61,45 @@ class _TasksState extends State<Tasks> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 750),
-      curve: Curves.linear,
-      width: widget.screenSize.width,
-      height: _height,
-      decoration: BoxDecoration(
-        color: _containerColor,
-      ),
-      child: SizedBox(
-        width: widget.screenSize.width,
-        height: _height,
-        child: _showSlider
-            ? CarouselSlider(
-                options: CarouselOptions(
-                  height: _height,
-                  enableInfiniteScroll: false,
-                  viewportFraction: 0.92,
-                  initialPage:
-                      widget.modulesProvider.displayLessonTasks.length - 1,
-                ),
-                items:
-                    widget.modulesProvider.displayLessonTasks.map((lessonTask) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return TaskCard(
-                        screenSize: widget.screenSize,
-                        isHorizontal: widget.isHorizontal,
-                        lessonTask: lessonTask,
-                        onSubmit: _onSubmit,
-                      );
-                    },
-                  );
-                }).toList(),
-              )
-            : Container(),
-      ),
-    );
+    return widget.modulesProvider.status == LoadingStatus.success
+        ? AnimatedContainer(
+            duration: Duration(milliseconds: 750),
+            curve: Curves.linear,
+            width: widget.screenSize.width,
+            height: _height,
+            decoration: BoxDecoration(
+              color: _containerColor,
+            ),
+            child: SizedBox(
+              width: widget.screenSize.width,
+              height: _height,
+              child: _showSlider
+                  ? CarouselSlider(
+                      options: CarouselOptions(
+                        height: _height,
+                        enableInfiniteScroll: false,
+                        viewportFraction: 0.92,
+                        initialPage:
+                            widget.modulesProvider.displayLessonTasks.length -
+                                1,
+                      ),
+                      items: widget.modulesProvider.displayLessonTasks
+                          .map((lessonTask) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return TaskCard(
+                              screenSize: widget.screenSize,
+                              isHorizontal: widget.isHorizontal,
+                              lessonTask: lessonTask,
+                              onSubmit: _onSubmit,
+                            );
+                          },
+                        );
+                      }).toList(),
+                    )
+                  : Container(),
+            ),
+          )
+        : Container();
   }
 }

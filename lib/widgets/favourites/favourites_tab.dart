@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/widgets/favourites/favourites_wiki_list.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -13,14 +14,16 @@ class FavouritesTab extends StatelessWidget {
   final List<dynamic> favourites;
   final LoadingStatus status;
   final FavouriteType favouriteType;
+  final bool isToolkit;
   final Function(FavouriteType, dynamic) openFavourite;
-  final Function(FavouriteType, dynamic, bool) removeFavourite;
+  final Function(FavouriteType, dynamic) removeFavourite;
 
   FavouritesTab({
     @required this.screenSize,
     @required this.favourites,
     @required this.status,
     @required this.favouriteType,
+    @required this.isToolkit,
     @required this.openFavourite,
     @required this.removeFavourite,
   });
@@ -32,8 +35,8 @@ class FavouritesTab extends StatelessWidget {
       case FavouriteType.Lesson:
         noResultsMessage = S.of(context).noFavouriteLesson;
         break;
-      case FavouriteType.KnowledgeBase:
-        noResultsMessage = S.of(context).noFavouriteKB;
+      case FavouriteType.Wiki:
+        noResultsMessage = S.of(context).noFavouriteWikis;
         break;
       case FavouriteType.Recipe:
         noResultsMessage = S.of(context).noFavouriteRecipe;
@@ -49,6 +52,7 @@ class FavouritesTab extends StatelessWidget {
     final BuildContext context,
     final List<dynamic> favourites,
     final FavouriteType favouriteType,
+    final bool isToolkit,
     final double width,
   ) {
     switch (favouriteType) {
@@ -56,16 +60,17 @@ class FavouritesTab extends StatelessWidget {
         return FavouritesLessonsList(
           lessons: favourites,
           width: width,
+          isToolkit: isToolkit,
           removeFavourite: removeFavourite,
           openFavourite: openFavourite,
         );
-      case FavouriteType.KnowledgeBase:
-        return QuestionList(
-          questions: favourites,
-          showIcon: true,
-          iconData: Icons.delete,
-          iconDataOn: Icons.delete,
-          iconAction: removeFavourite,
+      case FavouriteType.Wiki:
+        return FavouritesWikiList(
+          lessonWikis: favourites,
+          width: width,
+          isToolkit: isToolkit,
+          removeFavourite: removeFavourite,
+          openFavourite: openFavourite,
         );
       case FavouriteType.Recipe:
         return FavouritesRecipesList(
@@ -95,6 +100,7 @@ class FavouritesTab extends StatelessWidget {
                   context,
                   favourites,
                   favouriteType,
+                  isToolkit,
                   screenSize.width,
                 ),
               );

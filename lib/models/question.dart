@@ -17,6 +17,7 @@ class Question {
   String answer;
   String tags;
   bool isFavorite;
+  bool isLongAnswer;
 
   Question({
     this.id,
@@ -25,6 +26,7 @@ class Question {
     this.answer,
     this.tags,
     this.isFavorite,
+    this.isLongAnswer,
   });
 
   bool _isExpanded = false;
@@ -45,6 +47,9 @@ class Question {
         isFavorite: json['isFavorite'] == 1 || json['isFavorite'] == true
             ? true
             : false,
+        isLongAnswer: json['isLongAnswer'] == 1 || json['isLongAnswer'] == true
+            ? true
+            : false,
       );
 
   Map<String, dynamic> toMap() => {
@@ -54,5 +59,6 @@ class Question {
         "answer": answer,
         "tags": tags,
         "isFavorite": isFavorite,
+        "isLongAnswer": isLongAnswer,
       };
 }

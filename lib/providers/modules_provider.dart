@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
@@ -27,6 +29,8 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> _lessons = [];
   List<LessonContent> _lessonContent = [];
   List<LessonTask> _lessonTasks = [];
+  List<LessonWiki> _lessonWikis = [];
+  List<LessonRecipe> _lessonRecipes = [];
 
   Module _currentModule;
   List<Module> _previousModules = [];
@@ -34,15 +38,26 @@ class ModulesProvider with ChangeNotifier {
   Lesson _currentLesson;
   List<LessonTask> _displayLessonTasks = [];
   List<Lesson> _favouriteLessons = [];
+  List<Lesson> _favouriteToolkitLessons = [];
+  List<LessonWiki> _favouriteLessonWikis = [];
   List<Lesson> _searchLessons = [];
+  List<LessonWiki> _initialLessonWikis = [];
+  List<LessonRecipe> _initialLessonRecipes = [];
+  List<bool> _initialLessonWikiFavourites = [];
 
   Module get currentModule => _currentModule;
   Lesson get currentLesson => _currentLesson;
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
   List<Module> get previousModules => [..._previousModules];
   List<Lesson> get favouriteLessons => [..._favouriteLessons];
+  List<Lesson> get favouriteToolkitLessons => [..._favouriteToolkitLessons];
+  List<LessonWiki> get favouriteLessonWikis => [..._favouriteLessonWikis];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
   List<Lesson> get searchLessons => [..._searchLessons];
+  List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
+  List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
+  List<bool> get initialLessonWikiFavourites =>
+      [..._initialLessonWikiFavourites];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -64,6 +79,8 @@ class ModulesProvider with ChangeNotifier {
       _lessons = modulesAndLessons.lessons;
       _lessonContent = modulesAndLessons.lessonContent;
       _lessonTasks = modulesAndLessons.lessonTasks;
+      _lessonWikis = modulesAndLessons.lessonWikis;
+      _lessonRecipes = modulesAndLessons.lessonRecipes;
 
       _currentModule = _modules.last;
       _previousModules = await _getPreviousModules();
@@ -78,6 +95,22 @@ class ModulesProvider with ChangeNotifier {
           }
         } else {
           _displayLessonTasks.add(lessonTask);
+        }
+      }
+      //set initial lesson wikis & recipes to display on dashboard when it loads
+      if (_initialLessonWikis.length == 0) {
+        for (LessonWiki lessonWiki in _lessonWikis) {
+          if (lessonWiki.lessonId == currentLesson.lessonID) {
+            _initialLessonWikis.add(lessonWiki);
+            _initialLessonWikiFavourites.add(lessonWiki.isFavorite);
+          }
+        }
+      }
+      if (_initialLessonRecipes.length == 0) {
+        for (LessonRecipe lessonRecipe in _lessonRecipes) {
+          if (lessonRecipe.lessonId == currentLesson.lessonID) {
+            _initialLessonRecipes.add(lessonRecipe);
+          }
         }
       }
 
@@ -120,6 +153,45 @@ class ModulesProvider with ChangeNotifier {
     return lessonContent;
   }
 
+  List<LessonWiki> getLessonWikis(final int lessonID) {
+    List<LessonWiki> displayLessonWikis = [];
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if (lessonWiki.lessonId == lessonID) {
+        displayLessonWikis.add(lessonWiki);
+      }
+    }
+    return displayLessonWikis;
+  }
+
+  List<LessonRecipe> getLessonRecipes(final int lessonID) {
+    List<LessonRecipe> displayLessonRecipes = [];
+    for (LessonRecipe lessonRecipe in _lessonRecipes) {
+      if (lessonRecipe.lessonId == lessonID) {
+        displayLessonRecipes.add(lessonRecipe);
+      }
+    }
+    return displayLessonRecipes;
+  }
+
+  bool getLessonFavourite(final int lessonID) {
+    for (Lesson lesson in _lessons) {
+      if (lesson.lessonID == lessonID) {
+        return lesson.isFavorite;
+      }
+    }
+    return false;
+  }
+
+  bool getLessonWikiFavourite(final int questionID, final int lessonID) {
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if (lessonWiki.lessonId == lessonID &&
+          lessonWiki.questionId == questionID) {
+        return lessonWiki.isFavorite;
+      }
+    }
+    return false;
+  }
+
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
     final DateTime nextLessonAvailable =
@@ -144,19 +216,57 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToFavourites(final dynamic lesson, final bool add) async {
+  Future<void> addLessonToFavourites(
+      final dynamic lesson, final bool add, final bool refreshData) async {
     if (dbProvider.db != null) {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
-      fetchAndSaveData(false);
+      if (refreshData) {
+        await fetchAndSaveData(false);
+      } else {
+        for (int lessonCounter = 0;
+            lessonCounter < _lessons.length;
+            lessonCounter++) {
+          if (_lessons[lessonCounter].lessonID == lesson.lessonID) {
+            _lessons[lessonCounter].isFavorite = !lesson.isFavorite;
+          }
+        }
+      }
     }
+  }
+
+  Future<void> addWikiToFavourites(final dynamic wiki, final bool add) async {
+    if (dbProvider.db != null) {
+      await ProviderHelper()
+          .addToFavourites(add, dbProvider, FavouriteType.Wiki, wiki);
+      //update the wiki in memory to reflect in app heart icons on Dashboard
+      for (int wikiCounter = 0;
+          wikiCounter < _lessonWikis.length;
+          wikiCounter++) {
+        if (_lessonWikis[wikiCounter].questionId == wiki.questionId) {
+          _lessonWikis[wikiCounter].isFavorite = !wiki.isFavorite;
+        }
+      }
+    }
+    notifyListeners();
   }
 
   Future<void> _refreshFavourites() async {
     _favouriteLessons.clear();
+    _favouriteToolkitLessons.clear();
     for (Lesson lesson in _lessons) {
       if (lesson.isFavorite) {
-        _favouriteLessons.add(lesson);
+        if (lesson.isToolkit) {
+          _favouriteToolkitLessons.add(lesson);
+        } else {
+          _favouriteLessons.add(lesson);
+        }
+      }
+    }
+    _favouriteLessonWikis.clear();
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if (lessonWiki.isFavorite) {
+        _favouriteLessonWikis.add(lessonWiki);
       }
     }
   }

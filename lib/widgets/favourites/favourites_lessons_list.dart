@@ -6,12 +6,14 @@ import 'package:thepcosprotocol_app/widgets/favourites/favourites_lesson_item.da
 class FavouritesLessonsList extends StatelessWidget {
   final List<Lesson> lessons;
   final double width;
-  final Function(FavouriteType, int, bool) removeFavourite;
+  final bool isToolkit;
+  final Function(FavouriteType, int) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonsList({
     @required this.lessons,
     @required this.width,
+    @required this.isToolkit,
     @required this.removeFavourite,
     @required this.openFavourite,
   });
@@ -23,6 +25,7 @@ class FavouritesLessonsList extends StatelessWidget {
         return FavouritesLessonItem(
           lesson: lesson,
           width: width,
+          isToolkit: isToolkit,
           removeFavourite: removeFavourite,
           openFavourite: openFavourite,
         );

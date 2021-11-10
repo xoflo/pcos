@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
+import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
@@ -28,8 +29,8 @@ import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
-import 'package:thepcosprotocol_app/providers/faq_provider.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
+import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
@@ -124,22 +125,21 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DatabaseProvider()),
-        ChangeNotifierProxyProvider<DatabaseProvider, KnowledgeBaseProvider>(
-          create: (context) => KnowledgeBaseProvider(dbProvider: null),
-          update: (context, db, previous) =>
-              KnowledgeBaseProvider(dbProvider: db),
-        ),
-        ChangeNotifierProxyProvider<DatabaseProvider, FAQProvider>(
-          create: (context) => FAQProvider(dbProvider: null),
-          update: (context, db, previous) => FAQProvider(dbProvider: db),
-        ),
         ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
           create: (context) => RecipesProvider(dbProvider: null),
           update: (context, db, previous) => RecipesProvider(dbProvider: db),
         ),
-        ChangeNotifierProxyProvider<DatabaseProvider, FavouritesProvider>(
-          create: (context) => FavouritesProvider(dbProvider: null),
-          update: (context, db, previous) => FavouritesProvider(dbProvider: db),
+        ChangeNotifierProxyProvider<DatabaseProvider, WikiProvider>(
+          create: (context) => WikiProvider(dbProvider: null),
+          update: (context, db, previous) => WikiProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, ModulesProvider>(
+          create: (context) => ModulesProvider(dbProvider: null),
+          update: (context, db, previous) => ModulesProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, AppHelpProvider>(
+          create: (context) => AppHelpProvider(dbProvider: null),
+          update: (context, db, previous) => AppHelpProvider(dbProvider: db),
         ),
         ChangeNotifierProxyProvider<DatabaseProvider, MessagesProvider>(
           create: (context) => MessagesProvider(dbProvider: null),
@@ -149,9 +149,9 @@ class _AppState extends State<App> {
           create: (context) => CMSTextProvider(dbProvider: null),
           update: (context, db, previous) => CMSTextProvider(dbProvider: db),
         ),
-        ChangeNotifierProxyProvider<DatabaseProvider, ModulesProvider>(
-          create: (context) => ModulesProvider(dbProvider: null),
-          update: (context, db, previous) => ModulesProvider(dbProvider: db),
+        ChangeNotifierProxyProvider<DatabaseProvider, FavouritesProvider>(
+          create: (context) => FavouritesProvider(dbProvider: null),
+          update: (context, db, previous) => FavouritesProvider(dbProvider: db),
         ),
       ],
       child: MaterialApp(
@@ -175,6 +175,7 @@ class _AppState extends State<App> {
           Settings.id: (context) => Settings(),
           Profile.id: (context) => Profile(),
           ChangePassword.id: (context) => ChangePassword(),
+          AppHelp.id: (context) => AppHelp(),
           Privacy.id: (context) => Privacy(),
           TermsAndConditions.id: (context) => TermsAndConditions(),
           Messages.id: (context) => Messages(),

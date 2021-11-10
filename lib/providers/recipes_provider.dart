@@ -60,4 +60,13 @@ class RecipesProvider with ChangeNotifier {
           .addToFavourites(add, dbProvider, FavouriteType.Recipe, recipe);
     }
   }
+
+  Recipe getRecipeById(final int recipeId) {
+    for (Recipe recipe in _items) {
+      if (recipe.recipeId == recipeId) {
+        return recipe;
+      }
+    }
+    return Recipe(recipeId: -1);
+  }
 }

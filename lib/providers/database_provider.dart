@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
+import 'package:thepcosprotocol_app/models/question.dart';
 
 class DatabaseProvider with ChangeNotifier {
   sql.Database db;
@@ -15,7 +16,7 @@ class DatabaseProvider with ChangeNotifier {
     db = await sql.openDatabase(
       path.join(dbPath, 'ThePCOSProtocol.db'),
       onCreate: (db, version) async {
-        await db.execute("CREATE TABLE KnowledgeBase ("
+        await db.execute("CREATE TABLE Wiki ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
@@ -23,7 +24,7 @@ class DatabaseProvider with ChangeNotifier {
             "tags TEXT,"
             "isFavorite INTEGER"
             ")");
-        await db.execute("CREATE TABLE FrequentlyAskedQuestions ("
+        await db.execute("CREATE TABLE AppHelp ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
@@ -82,6 +83,7 @@ class DatabaseProvider with ChangeNotifier {
             "orderIndex INTEGER,"
             "isFavorite INTEGER,"
             "isComplete INTEGER,"
+            "isToolkit INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
         await db.execute("CREATE TABLE LessonContent ("
@@ -105,6 +107,14 @@ class DatabaseProvider with ChangeNotifier {
             "isComplete INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
+        await db.execute("CREATE TABLE LessonLink ("
+            "lessonLinkID INTEGER PRIMARY KEY,"
+            "lessonID INTEGER,"
+            "objectID INTEGER,"
+            "objectType TEXT,"
+            "orderIndex INTEGER,"
+            "dateCreatedUTC TEXT"
+            ")");
       },
       version: 1,
     );
@@ -119,17 +129,35 @@ class DatabaseProvider with ChangeNotifier {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(final String table,
-      final String orderByColumn, final bool incompleteOnly) async {
+  Future<List<Map<String, dynamic>>> getData(
+      final String table,
+      final String orderByColumn,
+      final bool incompleteOnly,
+      final bool favouritesOnly,
+      final bool toolkitsOnly) async {
     if (orderByColumn.length > 0) {
       if (incompleteOnly) {
         return await db.query(table,
             orderBy: orderByColumn, where: 'isComplete = 0');
       }
+      if (favouritesOnly) {
+        return await db.query(table,
+            orderBy: orderByColumn, where: 'isFavorite = 1');
+      }
+      if (table == "Lesson" && toolkitsOnly) {
+        return await db.query(table,
+            orderBy: orderByColumn, where: 'isToolkit = 1 AND isComplete = 1');
+      }
       return await db.query(table, orderBy: orderByColumn);
     }
     if (incompleteOnly) {
       return await db.query(table, where: 'isComplete = 0');
+    }
+    if (favouritesOnly) {
+      return await db.query(table, where: 'isFavorite = 1');
+    }
+    if (table == "Lesson" && toolkitsOnly) {
+      return await db.query(table, where: 'isToolkit = 1 AND isComplete = 1');
     }
     return await db.query(table);
   }
@@ -137,6 +165,11 @@ class DatabaseProvider with ChangeNotifier {
   Future<List<Map<String, dynamic>>> getDataQuery(
       final String table, final String where) async {
     return await db.rawQuery("SELECT * FROM $table $where");
+  }
+
+  Future<List<Map<String, dynamic>>> getDataQueryWithJoin(final String select,
+      final String tablesAndJoin, final String where) async {
+    return await db.rawQuery("SELECT $select FROM $tablesAndJoin $where");
   }
 
   Future<int> getTableRowCount(final String table) async {

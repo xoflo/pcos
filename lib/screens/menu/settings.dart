@@ -19,6 +19,7 @@ class Settings extends StatelessWidget {
           ),
           child: SettingsLayout(
             updateYourWhy: args.updateYourWhy,
+            updateLessonRecipes: args.updateLessonRecipes,
             onlyShowDailyReminder: args.onlyShowDailyReminder,
           ),
         ),

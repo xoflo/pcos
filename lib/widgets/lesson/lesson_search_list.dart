@@ -3,12 +3,12 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
 
-class LessonList extends StatelessWidget {
+class LessonSearchList extends StatelessWidget {
   final bool isComplete;
   final ModulesProvider modulesProvider;
   final Function(Lesson, ModulesProvider) openLesson;
 
-  LessonList({
+  LessonSearchList({
     @required this.isComplete,
     @required this.modulesProvider,
     @required this.openLesson,
@@ -28,8 +28,11 @@ class LessonList extends StatelessWidget {
               ? LessonCard(
                   lessonNumber: 0,
                   lesson: lesson,
+                  lessonFavourite: lesson.isFavorite,
                   isNew: false,
                   openLesson: _openLesson,
+                  isSearch: true,
+                  refreshPreviousModules: () {},
                 )
               : Container();
         }).toList(),
