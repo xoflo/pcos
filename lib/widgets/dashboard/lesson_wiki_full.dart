@@ -43,25 +43,27 @@ class LessonWikiFull extends StatelessWidget {
               Container(
                 width: screenSize.width,
                 height: screenSize.height - 140,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        width: screenSize.width,
-                        child: HtmlWidget(this.wiki.question),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          width: screenSize.width,
+                          child: HtmlWidget(this.wiki.question),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        width: screenSize.width,
-                        child: HtmlWidget(this.wiki.answer),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          width: screenSize.width,
+                          child: HtmlWidget(this.wiki.answer),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
