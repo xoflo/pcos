@@ -59,8 +59,7 @@ class LessonWikiFull extends StatelessWidget {
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
                           width: screenSize.width,
-                          child:
-                              HtmlWidget(this.wiki.answer),
+                          child: HtmlWidget(this.wiki.answer),
                         ),
                       ),
                     ],
