@@ -9,7 +9,6 @@ class CMSTextProvider with ChangeNotifier {
   CMSTextProvider({@required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData();
   }
-  final String tableName = "CMSText";
   String _gettingStarted = "";
   String _privacyStatement = "";
   String _termsStatement = "";
@@ -25,7 +24,7 @@ class CMSTextProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       List<String> cmsItems =
-          await ProviderHelper().fetchAndSaveCMSText(dbProvider, tableName);
+          await ProviderHelper().fetchAndSaveCMSText(dbProvider);
 
       if (cmsItems.length > 0) _gettingStarted = cmsItems[0];
       if (cmsItems.length > 1) _privacyStatement = cmsItems[1];

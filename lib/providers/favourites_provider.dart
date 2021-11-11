@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/all_favourites.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';

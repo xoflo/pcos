@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
-import 'package:thepcosprotocol_app/models/question.dart';
+import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DatabaseProvider with ChangeNotifier {
   sql.Database db;
@@ -16,7 +16,7 @@ class DatabaseProvider with ChangeNotifier {
     db = await sql.openDatabase(
       path.join(dbPath, 'ThePCOSProtocol.db'),
       onCreate: (db, version) async {
-        await db.execute("CREATE TABLE Wiki ("
+        await db.execute("CREATE TABLE $TABLE_WIKI ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
@@ -24,7 +24,7 @@ class DatabaseProvider with ChangeNotifier {
             "tags TEXT,"
             "isFavorite INTEGER"
             ")");
-        await db.execute("CREATE TABLE AppHelp ("
+        await db.execute("CREATE TABLE $TABLE_APP_HELP ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
@@ -32,7 +32,7 @@ class DatabaseProvider with ChangeNotifier {
             "tags TEXT,"
             "isFavorite INTEGER"
             ")");
-        await db.execute("CREATE TABLE CourseQuestion ("
+        await db.execute("CREATE TABLE $TABLE_COURSE_QUESTION ("
             "id INTEGER PRIMARY KEY,"
             "reference TEXT,"
             "question TEXT,"
@@ -40,7 +40,7 @@ class DatabaseProvider with ChangeNotifier {
             "tags TEXT,"
             "isFavorite INTEGER"
             ")");
-        await db.execute("CREATE TABLE Recipe ("
+        await db.execute("CREATE TABLE $TABLE_RECIPE ("
             "recipeId INTEGER PRIMARY KEY,"
             "title TEXT,"
             "description TEXT,"
@@ -54,7 +54,7 @@ class DatabaseProvider with ChangeNotifier {
             "duration INTEGER,"
             "isFavorite INTEGER"
             ")");
-        await db.execute("CREATE TABLE Message ("
+        await db.execute("CREATE TABLE $TABLE_MESSAGE ("
             "id INTEGER PRIMARY KEY,"
             "notificationId INTEGER,"
             "title TEXT,"
@@ -64,18 +64,18 @@ class DatabaseProvider with ChangeNotifier {
             "dateReadUTC TEXT,"
             "dateCreatedUTC TEXT"
             ")");
-        await db.execute("CREATE TABLE CMSText ("
+        await db.execute("CREATE TABLE $TABLE_CMS_TEXT ("
             "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             "cmsText TEXT"
             ")");
-        await db.execute("CREATE TABLE Module ("
+        await db.execute("CREATE TABLE $TABLE_MODULE ("
             "moduleID INTEGER PRIMARY KEY,"
             "title TEXT,"
             "isComplete INTEGER,"
             "orderIndex INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
-        await db.execute("CREATE TABLE Lesson ("
+        await db.execute("CREATE TABLE $TABLE_LESSON ("
             "lessonID INTEGER PRIMARY KEY,"
             "moduleID INTEGER,"
             "title TEXT,"
@@ -86,7 +86,7 @@ class DatabaseProvider with ChangeNotifier {
             "isToolkit INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
-        await db.execute("CREATE TABLE LessonContent ("
+        await db.execute("CREATE TABLE $TABLE_LESSON_CONTENT ("
             "lessonContentID INTEGER PRIMARY KEY,"
             "lessonID INTEGER,"
             "title TEXT,"
@@ -96,7 +96,7 @@ class DatabaseProvider with ChangeNotifier {
             "orderIndex INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
-        await db.execute("CREATE TABLE LessonTask ("
+        await db.execute("CREATE TABLE $TABLE_LESSON_TASK ("
             "lessonTaskID INTEGER PRIMARY KEY,"
             "lessonID INTEGER,"
             "metaName TEXT,"
@@ -107,7 +107,7 @@ class DatabaseProvider with ChangeNotifier {
             "isComplete INTEGER,"
             "dateCreatedUTC TEXT"
             ")");
-        await db.execute("CREATE TABLE LessonLink ("
+        await db.execute("CREATE TABLE $TABLE_LESSON_LINK ("
             "lessonLinkID INTEGER PRIMARY KEY,"
             "lessonID INTEGER,"
             "objectID INTEGER,"
@@ -144,7 +144,7 @@ class DatabaseProvider with ChangeNotifier {
         return await db.query(table,
             orderBy: orderByColumn, where: 'isFavorite = 1');
       }
-      if (table == "Lesson" && toolkitsOnly) {
+      if (table == TABLE_LESSON && toolkitsOnly) {
         return await db.query(table,
             orderBy: orderByColumn, where: 'isToolkit = 1 AND isComplete = 1');
       }
@@ -156,7 +156,7 @@ class DatabaseProvider with ChangeNotifier {
     if (favouritesOnly) {
       return await db.query(table, where: 'isFavorite = 1');
     }
-    if (table == "Lesson" && toolkitsOnly) {
+    if (table == TABLE_LESSON && toolkitsOnly) {
       return await db.query(table, where: 'isToolkit = 1 AND isComplete = 1');
     }
     return await db.query(table);
@@ -196,7 +196,26 @@ class DatabaseProvider with ChangeNotifier {
     final String whereClause,
     final int limitRowCount,
   }) async {
-    String deleteStatement = "DELETE FROM $table WHERE $whereClause";
+    String deleteStatement = "DELETE FROM $table";
+    if (whereClause.length > 0) {
+      deleteStatement += " WHERE $whereClause";
+    }
+
     await db.rawQuery(deleteStatement);
+  }
+
+  Future<void> deleteAllData() async {
+    deleteQuery(table: TABLE_WIKI, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_APP_HELP, whereClause: "", limitRowCount: 0);
+    deleteQuery(
+        table: TABLE_COURSE_QUESTION, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_RECIPE, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_MESSAGE, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_CMS_TEXT, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_MODULE, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_LESSON, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_LESSON_CONTENT, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_LESSON_TASK, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_LESSON_LINK, whereClause: "", limitRowCount: 0);
   }
 }

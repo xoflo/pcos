@@ -46,12 +46,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
         lessonWikis: lessonWikis,
         lessonRecipes: lessonRecipes,
         closeLesson: _closeFavourite,
+        getPreviousModuleLessons: () {},
       );
     } else if (favouriteType == FavouriteType.Wiki) {
       LessonWiki lessonWiki = favourite;
       analyticsId = lessonWiki.questionId.toString();
-      final modulesProvider =
-          Provider.of<ModulesProvider>(context, listen: false);
       favouriteWidget = LessonWikiFull(
         parentContext: context,
         wiki: lessonWiki,
