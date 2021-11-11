@@ -527,12 +527,6 @@ class ProviderHelper {
       case FavouriteType.None:
         break;
     }
-    //update in API
-    if (isAdd) {
-      await WebServices().addToFavourites(assetType, updateId);
-    } else {
-      await WebServices().removeFromFavourites(assetType, updateId);
-    }
     //update in sqlite
     if (dbProvider.db != null && tableName.length > 0) {
       final int isFavorite = isAdd ? 1 : 0;
@@ -542,6 +536,12 @@ class ProviderHelper {
         whereClause: "$updateColumn = $updateId",
         limitRowCount: 1,
       );
+    }
+    //update in API tp persist - don't await the service call otherwise too slow
+    if (isAdd) {
+      WebServices().addToFavourites(assetType, updateId);
+    } else {
+      WebServices().removeFromFavourites(assetType, updateId);
     }
   }
 
