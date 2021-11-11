@@ -9,6 +9,7 @@ import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DrawerMenu extends StatefulWidget {
   final Function(DrawerMenuItem) openDrawerMenuItem;
@@ -35,18 +36,18 @@ class _DrawerMenuState extends State<DrawerMenu> {
     });
   }
 
-  //TODO: check what needs updating here
   void _resetDataCache() {
-    saveTimestamp("KnowledgeBase");
-    saveTimestamp("AppHelp");
-    saveTimestamp("CourseQuestion");
-    saveTimestamp("Recipe");
-    saveTimestamp("Message");
-    saveTimestamp("CMSText");
-    saveTimestamp("Module");
-    saveTimestamp("Lesson");
-    saveTimestamp("LessonContent");
-    saveTimestamp("LessonTask");
+    saveTimestamp(TABLE_WIKI);
+    saveTimestamp(TABLE_APP_HELP);
+    saveTimestamp(TABLE_COURSE_QUESTION);
+    saveTimestamp(TABLE_RECIPE);
+    saveTimestamp(TABLE_MESSAGE);
+    saveTimestamp(TABLE_CMS_TEXT);
+    saveTimestamp(TABLE_MODULE);
+    saveTimestamp(TABLE_LESSON);
+    saveTimestamp(TABLE_LESSON_CONTENT);
+    saveTimestamp(TABLE_LESSON_TASK);
+    saveTimestamp(TABLE_LESSON_LINK);
   }
 
   Future<bool> saveTimestamp(final String tableName) async {

@@ -29,6 +29,7 @@ class RecipesProvider with ChangeNotifier {
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    debugPrint("GOT Recipes status=$status");
     notifyListeners();
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class RecipeCard extends StatelessWidget {

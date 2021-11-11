@@ -10,7 +10,6 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
-import 'package:thepcosprotocol_app/providers/wiki_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
@@ -159,7 +158,6 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     if (!isLocked) {
       //unlocking so force refresh modules data
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
-      Provider.of<WikiProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<ModulesProvider>(context, listen: false)
           .fetchAndSaveData(true);
       Provider.of<AppHelpProvider>(context, listen: false).fetchAndSaveData();

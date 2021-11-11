@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -238,9 +240,13 @@ class PinUnlockState extends State<PinUnlock> {
   }
 
   void deleteCredentialsAndGotoSignIn() {
-    AuthenticationController().deleteCredentials();
-    AuthenticationController().deletePin();
-    AuthenticationController().deleteOtherPrefs();
+    DatabaseProvider dbProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
+    AuthenticationController authController = AuthenticationController();
+    authController.deleteCredentials();
+    authController.deletePin();
+    authController.deleteOtherPrefs();
+    dbProvider.deleteAllData();
     Navigator.of(context)
         .pushNamedAndRemoveUntil(SignIn.id, (Route<dynamic> route) => false);
   }

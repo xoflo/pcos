@@ -20,6 +20,7 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 // This provider is used for App Help
 class ProviderHelper {
@@ -31,6 +32,8 @@ class ProviderHelper {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
+      final bool shouldGet = await _shouldGetDataFromAPI(dbProvider, tableName);
+      debugPrint("QUESTIONS tableName=$tableName shouldGet=$shouldGet");
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final cmsItems = await WebServices().getCMSByType(assetType);
         List<Question> questions = _convertCMSToQuestions(cmsItems, assetType);
@@ -47,7 +50,9 @@ class ProviderHelper {
             'isFavorite': question.isFavorite ? 1 : 0,
           });
         });
-
+        if (tableName == "Wiki") {
+          debugPrint("WIKIS HAVE BEEN SAVED");
+        }
         //save when we got the data
         saveTimestamp(tableName);
       }
@@ -58,17 +63,16 @@ class ProviderHelper {
   }
 
   Future<List<Recipe>> fetchAndSaveRecipes(final dbProvider) async {
-    final String tableName = "Recipe";
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
-      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+      if (await _shouldGetDataFromAPI(dbProvider, TABLE_RECIPE)) {
         final recipes = await WebServices().getAllRecipes();
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(tableName);
+        await dbProvider.deleteAll(TABLE_RECIPE);
         //add items to database
         recipes.forEach((Recipe recipe) async {
-          await dbProvider.insert(tableName, {
+          await dbProvider.insert(TABLE_RECIPE, {
             'recipeId': recipe.recipeId,
             'title': recipe.title,
             'description': recipe.description,
@@ -85,10 +89,10 @@ class ProviderHelper {
         });
 
         //save when we got the data
-        saveTimestamp(tableName);
+        saveTimestamp(TABLE_RECIPE);
       }
       // get items from database
-      return await getAllData(dbProvider, tableName);
+      return await getAllData(dbProvider, TABLE_RECIPE);
     }
     return [];
   }
@@ -98,13 +102,6 @@ class ProviderHelper {
     final bool forceRefresh,
     final DateTime nextLessonAvailableDate,
   ) async {
-    final String moduleTableName = "Module";
-    final String lessonTableName = "Lesson";
-    final String lessonContentTableName = "LessonContent";
-    final String lessonTaskTableName = "LessonTask";
-    final String lessonLinkTableName = "LessonLink";
-    final String wikiTableName = "Wiki";
-    final String recipeTableName = "Recipe";
     final bool isNextLessonAvailable =
         nextLessonAvailableDate.isBefore(DateTime.now());
 
@@ -112,51 +109,47 @@ class ProviderHelper {
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       if (forceRefresh ||
-          await _shouldGetDataFromAPI(dbProvider, moduleTableName)) {
+          await _shouldGetDataFromAPI(dbProvider, TABLE_MODULE)) {
+        //first get the Wiki items and store in local DB
+        await ProviderHelper()
+            .fetchAndSaveQuestions(dbProvider, TABLE_WIKI, TABLE_WIKI);
+        //now get the modules, lessons etc
         final List<ModuleExport> moduleExport =
             await WebServices().getModulesExport();
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(moduleTableName);
-        await dbProvider.deleteAll(lessonTableName);
-        await dbProvider.deleteAll(lessonContentTableName);
-        await dbProvider.deleteAll(lessonTaskTableName);
-        await dbProvider.deleteAll(lessonLinkTableName);
+        await dbProvider.deleteAll(TABLE_MODULE);
+        await dbProvider.deleteAll(TABLE_LESSON);
+        await dbProvider.deleteAll(TABLE_LESSON_CONTENT);
+        await dbProvider.deleteAll(TABLE_LESSON_TASK);
+        await dbProvider.deleteAll(TABLE_LESSON_LINK);
 
         //add modules to database
-        await _addModulesAndLessonsToDatabase(
-          dbProvider,
-          moduleExport,
-          moduleTableName,
-          lessonTableName,
-          lessonContentTableName,
-          lessonTaskTableName,
-          lessonLinkTableName,
-        );
+        await _addModulesAndLessonsToDatabase(dbProvider, moduleExport);
 
         //save when we got the data
-        await saveTimestamp(moduleTableName);
+        await saveTimestamp(TABLE_MODULE);
       }
 
       // get items from database
       final List<Module> modulesFromDB = await getAllData(
         dbProvider,
-        moduleTableName,
+        TABLE_MODULE,
         orderByColumn: "orderIndex",
       );
 
       final List<Lesson> lessonsFromDB = await getAllData(
         dbProvider,
-        lessonTableName,
+        TABLE_LESSON,
         orderByColumn: "moduleID, orderIndex",
       );
       final List<LessonContent> lessonContentFromDB = await getAllData(
         dbProvider,
-        lessonContentTableName,
+        TABLE_LESSON_CONTENT,
         orderByColumn: "lessonID, orderIndex",
       );
       final List<LessonTask> lessonTasksFromDB = await getAllData(
         dbProvider,
-        lessonTaskTableName,
+        TABLE_LESSON_TASK,
         orderByColumn: "lessonID, orderIndex",
         incompleteOnly: true,
       );
@@ -200,9 +193,10 @@ class ProviderHelper {
       }
 
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      debugPrint("MODULES NEEDS THE WIKIS NOW");
       final wikiList = await dbProvider.getDataQueryWithJoin(
-        "$wikiTableName.*, $lessonLinkTableName.LessonID",
-        "$wikiTableName INNER JOIN $lessonLinkTableName ON $wikiTableName.id = $lessonLinkTableName.objectID",
+        "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID",
+        "$TABLE_WIKI INNER JOIN $TABLE_LESSON_LINK ON $TABLE_WIKI.id = $TABLE_LESSON_LINK.objectID",
         "WHERE objectType = 'wiki'",
       );
 
@@ -210,9 +204,10 @@ class ProviderHelper {
           mapDataToList(wikiList, "LessonWiki");
 
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      debugPrint("MODULES NEEDS THE RECIPES NOW");
       final recipeList = await dbProvider.getDataQueryWithJoin(
-        "$recipeTableName.*, $lessonLinkTableName.LessonID",
-        "$recipeTableName INNER JOIN $lessonLinkTableName ON $recipeTableName.recipeId = $lessonLinkTableName.objectID",
+        "$TABLE_RECIPE.*, $TABLE_LESSON_LINK.LessonID",
+        "$TABLE_RECIPE INNER JOIN $TABLE_LESSON_LINK ON $TABLE_RECIPE.recipeId = $TABLE_LESSON_LINK.objectID",
         "WHERE objectType = 'recipe'",
       );
       final List<LessonRecipe> lessonRecipesToReturn =
@@ -232,17 +227,10 @@ class ProviderHelper {
   }
 
   Future<void> _addModulesAndLessonsToDatabase(
-    final dbProvider,
-    final List<ModuleExport> moduleExport,
-    final String moduleTableName,
-    final String lessonTableName,
-    final String lessonContentTableName,
-    final String lessonTaskTableName,
-    final String lessonLinkTableName,
-  ) async {
+      final dbProvider, final List<ModuleExport> moduleExport) async {
     moduleExport.forEach((ModuleExport moduleExport) async {
       Module module = moduleExport.module;
-      await dbProvider.insert(moduleTableName, {
+      await dbProvider.insert(TABLE_MODULE, {
         'moduleID': module.moduleID,
         'title': module.title,
         'isComplete': module.isComplete ? 1 : 0,
@@ -260,7 +248,7 @@ class ProviderHelper {
         List<LessonTask> lessonTasks = lessonExport.tasks;
         List<LessonLink> lessonLinks = lessonExport.links;
         //add lesson to database
-        await dbProvider.insert(lessonTableName, {
+        await dbProvider.insert(TABLE_LESSON, {
           'lessonID': lesson.lessonID,
           'moduleID': lesson.moduleID,
           'title': lesson.title,
@@ -272,20 +260,17 @@ class ProviderHelper {
           'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
         });
         //add lesson content to database
-        await _addLessonContentToDatabase(
-            dbProvider, lessonContentTableName, lessonContent);
-        await _addLessonTasksToDatabase(
-            dbProvider, lessonTaskTableName, lessonTasks);
-        await _addLessonLinkToDatabase(
-            dbProvider, lessonLinkTableName, lessonLinks);
+        await _addLessonContentToDatabase(dbProvider, lessonContent);
+        await _addLessonTasksToDatabase(dbProvider, lessonTasks);
+        await _addLessonLinkToDatabase(dbProvider, lessonLinks);
       });
     });
   }
 
-  Future<void> _addLessonContentToDatabase(final dbProvider,
-      final String tableName, List<LessonContent> lessonContents) async {
+  Future<void> _addLessonContentToDatabase(
+      final dbProvider, List<LessonContent> lessonContents) async {
     lessonContents.forEach((LessonContent lessonContent) async {
-      await dbProvider.insert(tableName, {
+      await dbProvider.insert(TABLE_LESSON_CONTENT, {
         'lessonContentID': lessonContent.lessonContentID,
         'lessonID': lessonContent.lessonID,
         'title': lessonContent.title,
@@ -298,10 +283,10 @@ class ProviderHelper {
     });
   }
 
-  Future<void> _addLessonTasksToDatabase(final dbProvider,
-      final String tableName, List<LessonTask> lessonTasks) async {
+  Future<void> _addLessonTasksToDatabase(
+      final dbProvider, List<LessonTask> lessonTasks) async {
     lessonTasks.forEach((LessonTask lessonTask) async {
-      await dbProvider.insert(tableName, {
+      await dbProvider.insert(TABLE_LESSON_TASK, {
         'lessonTaskID': lessonTask.lessonTaskID,
         'lessonID': lessonTask.lessonID,
         'metaName': lessonTask.metaName,
@@ -315,10 +300,10 @@ class ProviderHelper {
     });
   }
 
-  Future<void> _addLessonLinkToDatabase(final dbProvider,
-      final String tableName, List<LessonLink> lessonLinks) async {
+  Future<void> _addLessonLinkToDatabase(
+      final dbProvider, List<LessonLink> lessonLinks) async {
     lessonLinks.forEach((LessonLink lessonLink) async {
-      await dbProvider.insert(tableName, {
+      await dbProvider.insert(TABLE_LESSON_LINK, {
         'lessonLinkID': lessonLink.lessonLinkID,
         'lessonID': lessonLink.lessonID,
         'objectID': lessonLink.objectID,
@@ -331,18 +316,17 @@ class ProviderHelper {
 
   Future<List<Message>> fetchAndSaveMessages(
       final dbProvider, final bool refreshFromAPI) async {
-    final String tableName = "Message";
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       if (refreshFromAPI ||
-          await _shouldGetDataFromAPI(dbProvider, tableName)) {
+          await _shouldGetDataFromAPI(dbProvider, TABLE_MESSAGE)) {
         final messages = await WebServices().getAllUserNotifications();
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(tableName);
+        await dbProvider.deleteAll(TABLE_MESSAGE);
         //add items to database
         messages.forEach((Message message) async {
-          await dbProvider.insert(tableName, {
+          await dbProvider.insert(TABLE_MESSAGE, {
             'notificationId': message.notificationId,
             'title': message.title,
             'message': message.message,
@@ -354,21 +338,20 @@ class ProviderHelper {
         });
 
         //save when we got the data
-        saveTimestamp(tableName);
+        saveTimestamp(TABLE_MESSAGE);
       }
 
       // get items from database
-      return await getAllData(dbProvider, tableName);
+      return await getAllData(dbProvider, TABLE_MESSAGE);
     }
     return [];
   }
 
-  Future<List<String>> fetchAndSaveCMSText(
-      final dbProvider, final String tableName) async {
+  Future<List<String>> fetchAndSaveCMSText(final dbProvider) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
-      if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
+      if (await _shouldGetDataFromAPI(dbProvider, TABLE_CMS_TEXT)) {
         final String gettingStarted =
             await WebServices().getCmsAssetByReference("GettingStarted");
         final String privacyStatement =
@@ -382,33 +365,33 @@ class ProviderHelper {
         ];
 
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(tableName);
+        await dbProvider.deleteAll(TABLE_CMS_TEXT);
         //add items to database
         cmsItems.forEach((String cmsItem) async {
-          await dbProvider.insert(tableName, {
+          await dbProvider.insert(TABLE_CMS_TEXT, {
             'cmsText': cmsItem,
           });
         });
 
         //save when we got the data
-        saveTimestamp(tableName);
+        saveTimestamp(TABLE_CMS_TEXT);
       }
 
       // get items from database
-      return await getAllData(dbProvider, tableName);
+      return await getAllData(dbProvider, TABLE_CMS_TEXT);
     }
     return [];
   }
 
   Future<AllFavourites> getFavourites(final dbProvider) async {
     List<Lesson> toolkits =
-        await getAllData(dbProvider, "Lesson", toolkitsOnly: true);
+        await getAllData(dbProvider, TABLE_LESSON, toolkitsOnly: true);
     List<Lesson> lessons =
-        await getAllData(dbProvider, "Lesson", favouritesOnly: true);
+        await getAllData(dbProvider, TABLE_LESSON, favouritesOnly: true);
     List<LessonWiki> wikis =
-        await getAllData(dbProvider, "Wiki", favouritesOnly: true);
+        await getAllData(dbProvider, TABLE_WIKI, favouritesOnly: true);
     List<Recipe> recipes =
-        await getAllData(dbProvider, "Recipe", favouritesOnly: true);
+        await getAllData(dbProvider, TABLE_RECIPE, favouritesOnly: true);
 
     return AllFavourites(
       toolkits: toolkits,
@@ -428,10 +411,10 @@ class ProviderHelper {
       if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
         String searchQuery = "";
         if (searchText.length > 0) {
-          if (tableName == "Recipe") {
+          if (tableName == TABLE_RECIPE) {
             searchQuery =
                 " WHERE (title LIKE '%$searchText%' OR description LIKE '%$searchText%')";
-          } else if (tableName == "Lesson") {
+          } else if (tableName == TABLE_LESSON) {
             searchQuery =
                 " WHERE (title LIKE '%$searchText%' OR REPLACE(title,'''','') LIKE '%$searchText%' OR introduction LIKE '%$searchText%' OR REPLACE(introduction,'''','') LIKE '%$searchText%')";
           } else {
@@ -442,7 +425,7 @@ class ProviderHelper {
           searchQuery += searchText.length > 0 ? " AND" : " WHERE";
           searchQuery += " tags LIKE '%$tag%'";
           //add the secondary tags as OR's if any selected
-          if (tableName == "Recipe" && secondaryTags.length > 0) {
+          if (tableName == TABLE_RECIPE && secondaryTags.length > 0) {
             bool firstItem = true;
             searchQuery += " AND (";
             secondaryTags.forEach((item) {
@@ -467,13 +450,12 @@ class ProviderHelper {
 
   Future<void> markNotificationAsRead(
       final dbProvider, final int notificationId) async {
-    final String tableName = "Message";
     //update on server
     WebServices().markNotificationAsRead(notificationId);
     if (dbProvider.db != null) {
       //update in sqlite
       await dbProvider.updateQuery(
-        table: tableName,
+        table: TABLE_MESSAGE,
         setFields: "isRead = 1",
         whereClause: "notificationId = $notificationId",
         limitRowCount: 1,
@@ -483,13 +465,12 @@ class ProviderHelper {
 
   Future<void> markNotificationAsDeleted(
       final dbProvider, final int notificationId) async {
-    final String tableName = "Message";
     //update on server
     WebServices().markNotificationAsDeleted(notificationId);
     if (dbProvider.db != null) {
       //update in sqlite
       await dbProvider.deleteQuery(
-        table: tableName,
+        table: TABLE_MESSAGE,
         whereClause: "notificationId = $notificationId",
         limitRowCount: 1,
       );
@@ -498,7 +479,6 @@ class ProviderHelper {
 
   Future<bool> markTaskAsCompleted(
       final dbProvider, final int lessonTaskID, final String value) async {
-    final String tableName = "LessonTask";
     //update on server
     final bool setComplete =
         await WebServices().setTaskComplete(lessonTaskID, value);
@@ -506,7 +486,7 @@ class ProviderHelper {
     if (setComplete && dbProvider.db != null) {
       //set isComplete in local database and delete from displayLessonTasks
       await dbProvider.deleteQuery(
-        table: tableName,
+        table: TABLE_LESSON_TASK,
         whereClause: "lessonTaskID = $lessonTaskID",
         limitRowCount: 1,
       );
@@ -528,33 +508,27 @@ class ProviderHelper {
     switch (favouriteType) {
       case FavouriteType.Recipe:
         updateId = item.recipeId;
-        tableName = "Recipe";
+        tableName = TABLE_RECIPE;
         assetType = "Recipe";
         updateColumn = "recipeId";
         break;
       case FavouriteType.Wiki:
         updateId = item.questionId;
-        tableName = "Wiki";
+        tableName = TABLE_WIKI;
         assetType = "CMS";
         updateColumn = "id";
         break;
       case FavouriteType.Lesson:
         updateId = item.lessonID;
-        tableName = "Lesson";
+        tableName = TABLE_LESSON;
         assetType = "Lesson";
         updateColumn = "lessonID";
         break;
       case FavouriteType.None:
         break;
     }
-    //update in API
-    if (isAdd) {
-      await WebServices().addToFavourites(assetType, updateId);
-    } else {
-      await WebServices().removeFromFavourites(assetType, updateId);
-    }
     //update in sqlite
-    if (dbProvider.db != null) {
+    if (dbProvider.db != null && tableName.length > 0) {
       final int isFavorite = isAdd ? 1 : 0;
       await dbProvider.updateQuery(
         table: tableName,
@@ -562,6 +536,12 @@ class ProviderHelper {
         whereClause: "$updateColumn = $updateId",
         limitRowCount: 1,
       );
+    }
+    //update in API tp persist - don't await the service call otherwise too slow
+    if (isAdd) {
+      WebServices().addToFavourites(assetType, updateId);
+    } else {
+      WebServices().removeFromFavourites(assetType, updateId);
     }
   }
 
@@ -574,7 +554,7 @@ class ProviderHelper {
 
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     final int savedTimestamp = await getTimestamp(tableName);
-    final int cacheSeconds = tableName == "Message" ? 300 : 900;
+    final int cacheSeconds = tableName == TABLE_MESSAGE ? 300 : 900;
 
     //we have data, so check if the data is older than 15 minutes (900 seconds) or 5 mins for messages
     if (savedTimestamp != null &&
@@ -597,26 +577,26 @@ class ProviderHelper {
     final dataList = await dbProvider.getData(
         tableName, orderByColumn, incompleteOnly, favouritesOnly, toolkitsOnly);
     final mapName =
-        tableName == "Wiki" && favouritesOnly ? "LessonWiki" : tableName;
+        tableName == TABLE_WIKI && favouritesOnly ? "LessonWiki" : tableName;
     return mapDataToList(dataList, mapName);
   }
 
   List<dynamic> mapDataToList(final dataList, final String tableName) {
-    if (tableName == "Recipe") {
+    if (tableName == TABLE_RECIPE) {
       return dataList.map<Recipe>((item) => Recipe.fromJson(item)).toList();
-    } else if (tableName == "Module") {
+    } else if (tableName == TABLE_MODULE) {
       return dataList.map<Module>((item) => Module.fromJson(item)).toList();
-    } else if (tableName == "Lesson") {
+    } else if (tableName == TABLE_LESSON) {
       return dataList.map<Lesson>((item) => Lesson.fromJson(item)).toList();
-    } else if (tableName == "LessonContent") {
+    } else if (tableName == TABLE_LESSON_CONTENT) {
       return dataList
           .map<LessonContent>((item) => LessonContent.fromJson(item))
           .toList();
-    } else if (tableName == "LessonTask") {
+    } else if (tableName == TABLE_LESSON_TASK) {
       return dataList
           .map<LessonTask>((item) => LessonTask.fromJson(item))
           .toList();
-    } else if (tableName == "LessonLink") {
+    } else if (tableName == TABLE_LESSON_LINK) {
       return dataList
           .map<LessonLink>((item) => LessonLink.fromJson(item))
           .toList();
@@ -628,9 +608,9 @@ class ProviderHelper {
       return dataList
           .map<LessonRecipe>((item) => LessonRecipe.fromJson(item))
           .toList();
-    } else if (tableName == "Message") {
+    } else if (tableName == TABLE_MESSAGE) {
       return dataList.map<Message>((item) => Message.fromJson(item)).toList();
-    } else if (tableName == "CMSText") {
+    } else if (tableName == TABLE_CMS_TEXT) {
       List<CMSText> cmsItems =
           dataList.map<CMSText>((item) => CMSText.fromJson(item)).toList();
       List<String> cmsStrings = [];

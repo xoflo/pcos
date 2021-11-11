@@ -7,7 +7,6 @@ import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons_list.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_recipes_list.dart';
-import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 
 class FavouritesTab extends StatelessWidget {
   final Size screenSize;

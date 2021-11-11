@@ -1,0 +1,11 @@
+const String TABLE_WIKI = "Wiki";
+const String TABLE_APP_HELP = "AppHelp";
+const String TABLE_COURSE_QUESTION = "CourseQuestion";
+const String TABLE_RECIPE = "Recipe";
+const String TABLE_MESSAGE = "Message";
+const String TABLE_CMS_TEXT = "CMSText";
+const String TABLE_MODULE = "Module";
+const String TABLE_LESSON = "Lesson";
+const String TABLE_LESSON_CONTENT = "LessonContent";
+const String TABLE_LESSON_TASK = "LessonTask";
+const String TABLE_LESSON_LINK = "LessonLink";
