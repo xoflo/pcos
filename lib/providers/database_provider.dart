@@ -110,6 +110,7 @@ class DatabaseProvider with ChangeNotifier {
         await db.execute("CREATE TABLE $TABLE_LESSON_LINK ("
             "lessonLinkID INTEGER PRIMARY KEY,"
             "lessonID INTEGER,"
+            "moduleID INTEGER,"
             "objectID INTEGER,"
             "objectType TEXT,"
             "orderIndex INTEGER,"

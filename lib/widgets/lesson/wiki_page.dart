@@ -39,19 +39,16 @@ class WikiPage extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: this.wikis.length > 0
-                ? QuestionList(
-                    questions: [],
-                    wikis: this.wikis,
-                    showIcon: true,
-                    iconData: Icons.favorite_outline,
-                    iconDataOn: Icons.favorite,
-                    iconAction: _addToFavourites,
-                  )
-                : Container(),
-          ),
+          this.wikis.length > 0
+              ? QuestionList(
+                  questions: [],
+                  wikis: this.wikis,
+                  showIcon: true,
+                  iconData: Icons.favorite_outline,
+                  iconDataOn: Icons.favorite,
+                  iconAction: _addToFavourites,
+                )
+              : Container(),
         ],
       ),
     );

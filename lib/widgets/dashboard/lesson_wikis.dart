@@ -18,6 +18,7 @@ class LessonWikis extends StatefulWidget {
   final int selectedWiki;
   final double width;
   final bool isHorizontal;
+  final Function(BuildContext, ModulesProvider) openWikiSearch;
 
   LessonWikis({
     @required this.screenSize,
@@ -29,6 +30,7 @@ class LessonWikis extends StatefulWidget {
     @required this.selectedWiki,
     @required this.width,
     @required this.isHorizontal,
+    @required this.openWikiSearch,
   });
 
   @override
@@ -168,6 +170,29 @@ class _LessonWikisState extends State<LessonWikis> {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            widget.openWikiSearch(
+                                context, widget.modulesProvider);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Icon(
+                              Icons.search,
+                              color: secondaryColor,
+                              size: 32,
+                            ),
+                          ),
+                        ),
+                        Container(),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

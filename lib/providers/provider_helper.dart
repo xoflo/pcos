@@ -195,7 +195,7 @@ class ProviderHelper {
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
       debugPrint("MODULES NEEDS THE WIKIS NOW");
       final wikiList = await dbProvider.getDataQueryWithJoin(
-        "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID",
+        "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID, $TABLE_LESSON_LINK.ModuleID",
         "$TABLE_WIKI INNER JOIN $TABLE_LESSON_LINK ON $TABLE_WIKI.id = $TABLE_LESSON_LINK.objectID",
         "WHERE objectType = 'wiki'",
       );
@@ -203,7 +203,7 @@ class ProviderHelper {
       final List<LessonWiki> lessonWikisToReturn =
           mapDataToList(wikiList, "LessonWiki");
 
-      //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      //get the lesson wikis by joining the wiki and lesson table and only return the lessonWikis for lessons in lessonsToReturn
       debugPrint("MODULES NEEDS THE RECIPES NOW");
       final recipeList = await dbProvider.getDataQueryWithJoin(
         "$TABLE_RECIPE.*, $TABLE_LESSON_LINK.LessonID",
@@ -262,7 +262,8 @@ class ProviderHelper {
         //add lesson content to database
         await _addLessonContentToDatabase(dbProvider, lessonContent);
         await _addLessonTasksToDatabase(dbProvider, lessonTasks);
-        await _addLessonLinkToDatabase(dbProvider, lessonLinks);
+        await _addLessonLinkToDatabase(
+            dbProvider, lessonLinks, lesson.moduleID);
       });
     });
   }
@@ -300,12 +301,13 @@ class ProviderHelper {
     });
   }
 
-  Future<void> _addLessonLinkToDatabase(
-      final dbProvider, List<LessonLink> lessonLinks) async {
+  Future<void> _addLessonLinkToDatabase(final dbProvider,
+      final List<LessonLink> lessonLinks, final int moduleID) async {
     lessonLinks.forEach((LessonLink lessonLink) async {
       await dbProvider.insert(TABLE_LESSON_LINK, {
         'lessonLinkID': lessonLink.lessonLinkID,
         'lessonID': lessonLink.lessonID,
+        'moduleID': moduleID,
         'objectID': lessonLink.objectID,
         'objectType': lessonLink.objectType,
         'orderIndex': lessonLink.orderIndex,

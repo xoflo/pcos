@@ -163,6 +163,19 @@ class ModulesProvider with ChangeNotifier {
     return displayLessonWikis;
   }
 
+  Future<List<LessonWiki>> searchLessonWikis(
+      final int moduleID, final String searchText) async {
+    List<LessonWiki> searchLessonWikis = [];
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if ((lessonWiki.moduleId == moduleID || moduleID == 0) &&
+          (lessonWiki.question.contains(searchText) ||
+              searchText.length == 0)) {
+        searchLessonWikis.add(lessonWiki);
+      }
+    }
+    return searchLessonWikis;
+  }
+
   List<LessonRecipe> getLessonRecipes(final int lessonID) {
     List<LessonRecipe> displayLessonRecipes = [];
     for (LessonRecipe lessonRecipe in _lessonRecipes) {

@@ -13,6 +13,7 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
+import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
@@ -295,6 +296,13 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     Navigator.pop(context);
   }
 
+  void _openWikiSearch(
+      final BuildContext context, final ModulesProvider modulesProvider) {
+    //clear old search results before opening
+    analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_LESSON_WIKI_SEARCH);
+    Navigator.pushNamed(context, WikiSearch.id);
+  }
+
   //#endregion
 
   //#region Get Widgets
@@ -361,6 +369,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       isHorizontal: isHorizontal,
       width: screenSize.width,
       selectedWiki: _selectedWiki,
+      openWikiSearch: _openWikiSearch,
     );
   }
 
