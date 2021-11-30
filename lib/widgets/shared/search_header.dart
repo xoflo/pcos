@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header_secondary_filter.dart';
@@ -16,6 +17,10 @@ class SearchHeader extends StatelessWidget {
   final List<MultiSelectItem<String>> tagValuesSecondary;
   final List<String> tagValuesSelectedSecondary;
   final Function(List<String>) onSecondaryTagSelected;
+  final List<Module> modules;
+  final int selectedModule;
+  final String selectedModuleTitle;
+  final Function(String) onModuleSelected;
 
   SearchHeader({
     @required this.formKey,
@@ -28,6 +33,10 @@ class SearchHeader extends StatelessWidget {
     this.tagValuesSecondary,
     this.tagValuesSelectedSecondary,
     this.onSecondaryTagSelected,
+    this.modules,
+    this.selectedModule,
+    this.selectedModuleTitle,
+    this.onModuleSelected,
   });
 
   void _clearTextAndSearch() {
@@ -41,6 +50,7 @@ class SearchHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isMultiFilter =
         tagValuesSecondary != null && tagValuesSecondary.length > 0;
+    final bool hasModulesDropdown = modules != null && modules.length > 0;
     var size = MediaQuery.of(context).size;
 
     return SizedBox(
@@ -128,7 +138,42 @@ class SearchHeader extends StatelessWidget {
                                             onSecondaryTagSelected)
                                     : Container(),
                               ])
-                        : Container(),
+                        : hasModulesDropdown
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 4.0),
+                                      child: Text(
+                                        S.of(context).searchHeaderFilterText,
+                                      ),
+                                    ),
+                                    DropdownButton<String>(
+                                      value: selectedModule.toString(),
+                                      icon: Icon(
+                                        Icons.arrow_drop_down,
+                                        color: primaryColor,
+                                      ),
+                                      iconSize: 24,
+                                      elevation: 16,
+                                      style: TextStyle(color: secondaryColor),
+                                      underline: Container(
+                                        height: 2,
+                                        color: primaryColor,
+                                      ),
+                                      onChanged: (String newValue) {
+                                        onModuleSelected(newValue);
+                                      },
+                                      items: modules.map((Module module) {
+                                        return DropdownMenuItem<String>(
+                                          value: module.moduleID.toString(),
+                                          child: Text(module.title),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ])
+                            : Container(),
                   ],
                 )
               ],

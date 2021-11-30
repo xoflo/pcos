@@ -48,6 +48,7 @@ class ModulesProvider with ChangeNotifier {
   Module get currentModule => _currentModule;
   Lesson get currentLesson => _currentLesson;
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
+  List<Module> get allModules => [..._modules];
   List<Module> get previousModules => [..._previousModules];
   List<Lesson> get favouriteLessons => [..._favouriteLessons];
   List<Lesson> get favouriteToolkitLessons => [..._favouriteToolkitLessons];
@@ -133,6 +134,15 @@ class ModulesProvider with ChangeNotifier {
     return moduleLessons;
   }
 
+  String getModuleTitleByModuleID(final int moduleID) {
+    for (Module module in _modules) {
+      if (module.moduleID == moduleID) {
+        return module.title;
+      }
+    }
+    return "";
+  }
+
   Future<List<LessonTask>> getLessonTasks(final int lessonID) async {
     List<LessonTask> lessonTasks = [];
     for (LessonTask lessonTask in _lessonTasks) {
@@ -166,11 +176,18 @@ class ModulesProvider with ChangeNotifier {
   Future<List<LessonWiki>> searchLessonWikis(
       final int moduleID, final String searchText) async {
     List<LessonWiki> searchLessonWikis = [];
+    List<int> questionIDs = [];
     for (LessonWiki lessonWiki in _lessonWikis) {
       if ((lessonWiki.moduleId == moduleID || moduleID == 0) &&
-          (lessonWiki.question.contains(searchText) ||
+          (lessonWiki.question
+                  .toLowerCase()
+                  .contains(searchText.toLowerCase()) ||
               searchText.length == 0)) {
-        searchLessonWikis.add(lessonWiki);
+        //check if this question has already been added
+        if (!questionIDs.contains(lessonWiki.questionId)) {
+          searchLessonWikis.add(lessonWiki);
+          questionIDs.add(lessonWiki.questionId);
+        }
       }
     }
     return searchLessonWikis;

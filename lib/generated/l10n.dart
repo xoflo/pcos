@@ -2474,6 +2474,16 @@ class S {
       args: [],
     );
   }
+
+  /// `All Modules`
+  String get allModules {
+    return Intl.message(
+      'All Modules',
+      name: 'allModules',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

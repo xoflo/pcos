@@ -243,5 +243,6 @@
     "swipeDownForQuestion": "Swipe down for question",
     "toolkitTitle": "Toolkit",
     "searchWiki": "Lesson Wiki Search",
-    "noWikisSearch": "No lesson wiki matching your search."
+    "noWikisSearch": "No lesson wiki matching your search.",
+    "allModules": "All Modules"
 }

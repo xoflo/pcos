@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
@@ -21,6 +22,7 @@ class WikiSearchLayout extends StatefulWidget {
 class _WikiSearchLayoutState extends State<WikiSearchLayout> {
   final TextEditingController _searchController = TextEditingController();
   int _moduleID = 0;
+  String _moduleTitle = S.current.allModules;
   bool _isSearching = false;
   bool _hasSearchRun = false;
   List<LessonWiki> _lessonWikis = [];
@@ -54,18 +56,29 @@ class _WikiSearchLayoutState extends State<WikiSearchLayout> {
     }
   }
 
-  void _refreshData() async {
-    //this is the add to favourite re-running the search to pickup the changes
-    final String searchText = _searchController.text.trim();
-    final modulesProvider =
-        Provider.of<ModulesProvider>(context, listen: false);
-    modulesProvider.filterAndSearch(searchText);
+  void _onModuleSelected(final String moduleIDString) {
+    final int moduleID = int.parse(moduleIDString);
+    final String moduleTitle = S.current.allModules;
+
+    if (moduleID > 0) {
+      final modulesProvider =
+          Provider.of<ModulesProvider>(context, listen: false);
+      _moduleTitle = modulesProvider.getModuleTitleByModuleID(moduleID);
+    }
+
+    setState(() {
+      _moduleID = moduleID;
+      _moduleTitle = moduleTitle;
+    });
+
+    _onSearchClicked();
   }
 
   void _addToFavourites(
       FavouriteType favouriteType, final dynamic item, final bool add) async {
     FavouritesController()
         .addToFavourites(this.context, favouriteType, item, add);
+    _onSearchClicked();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -90,6 +103,10 @@ class _WikiSearchLayoutState extends State<WikiSearchLayout> {
             builder: (context, model, child) => Expanded(
               child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
+                  List<Module> allModules = model.allModules;
+                  Module emptyModule =
+                      Module(moduleID: 0, title: S.current.allModules);
+                  allModules.insert(0, emptyModule);
                   return Container(
                     height: constraints.maxHeight,
                     child: SingleChildScrollView(
@@ -103,6 +120,10 @@ class _WikiSearchLayoutState extends State<WikiSearchLayout> {
                             onTagSelected: (String tagValue) {},
                             onSearchClicked: _onSearchClicked,
                             isSearching: _isSearching,
+                            modules: allModules,
+                            selectedModule: _moduleID,
+                            selectedModuleTitle: _moduleTitle,
+                            onModuleSelected: _onModuleSelected,
                           ),
                           _lessonWikis.length > 0
                               ? QuestionList(
