@@ -35,7 +35,7 @@ class LessonWikiFull extends StatelessWidget {
                 screenSize: screenSize,
                 item: this.wiki,
                 favouriteType: FavouriteType.Wiki,
-                title: S.of(context).lessonWiki,
+                title: S.current.lessonWiki,
                 isFavourite: this.wiki.isFavorite,
                 closeItem: this.closeWiki,
                 onAction: () {},

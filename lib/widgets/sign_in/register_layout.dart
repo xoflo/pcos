@@ -26,7 +26,7 @@ class RegisterLayout extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).signUpTitle,
+                S.current.signUpTitle,
                 style: Theme.of(context).textTheme.headline6,
               ),
               Padding(
@@ -35,8 +35,8 @@ class RegisterLayout extends StatelessWidget {
                 ),
                 child: Text(
                   isHorizontal
-                      ? S.of(context).openWebsiteText
-                      : S.of(context).gotoSignupText,
+                      ? S.current.openWebsiteText
+                      : S.current.gotoSignupText,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -46,7 +46,7 @@ class RegisterLayout extends StatelessWidget {
                 ),
                 child: ColorButton(
                   isUpdating: false,
-                  label: S.of(context).signUpTitle,
+                  label: S.current.signUpTitle,
                   onTap: navigateToRegister,
                   width: 80,
                 ),

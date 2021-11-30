@@ -266,15 +266,31 @@ class ModulesProvider with ChangeNotifier {
   }
 
   Future<void> addWikiToFavourites(final dynamic wiki, final bool add) async {
+    debugPrint("addWikiToFaves add=$add");
     if (dbProvider.db != null) {
+      LessonWiki lessonWiki = wiki;
+      debugPrint("wiki faves count before= ${_favouriteLessonWikis.length}");
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Wiki, wiki);
       //update the wiki in memory to reflect in app heart icons on Dashboard
+      debugPrint(
+          "modules provider update wiki fave in memory for qid=${lessonWiki.questionId}");
       for (int wikiCounter = 0;
           wikiCounter < _lessonWikis.length;
           wikiCounter++) {
-        if (_lessonWikis[wikiCounter].questionId == wiki.questionId) {
-          _lessonWikis[wikiCounter].isFavorite = !wiki.isFavorite;
+        debugPrint(
+            "LOOPING checking qid = ${_lessonWikis[wikiCounter].questionId}");
+        if (_lessonWikis[wikiCounter].questionId == lessonWiki.questionId) {
+          debugPrint("FOUND IT, NOW UPDATE IT");
+          debugPrint(
+              "UPDATE QUESTION = ${_lessonWikis[wikiCounter].question} to ${!lessonWiki.isFavorite}");
+          debugPrint(
+              "WIKI qid=${lessonWiki.questionId} lid=${lessonWiki.lessonId} mid=${lessonWiki.moduleId} ref=${lessonWiki.reference} q=${lessonWiki.question} a=${lessonWiki.answer} t=${lessonWiki.tags} isfave=${lessonWiki.isFavorite} islong=${lessonWiki.isLongAnswer}");
+          _lessonWikis[wikiCounter].isFavorite = !lessonWiki.isFavorite;
+          debugPrint(
+              "AFTER UPDATE isFAVE in list=${_lessonWikis[wikiCounter].isFavorite}");
+          debugPrint("wiki faves count after= ${_favouriteLessonWikis.length}");
+          break;
         }
       }
     }

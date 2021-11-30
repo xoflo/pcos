@@ -73,7 +73,7 @@ class SearchHeader extends StatelessWidget {
                         controller: searchController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: S.of(context).searchInputText,
+                          labelText: S.current.searchInputText,
                           suffixIcon: IconButton(
                             onPressed: () => _clearTextAndSearch(),
                             icon: Icon(Icons.clear, color: secondaryColor),
@@ -84,7 +84,7 @@ class SearchHeader extends StatelessWidget {
                     ColorButton(
                       width: 70,
                       isUpdating: isSearching,
-                      label: S.of(context).searchInputText,
+                      label: S.current.searchInputText,
                       onTap: () {
                         onSearchClicked();
                       },
@@ -101,7 +101,7 @@ class SearchHeader extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 4.0),
                                   child: Text(
-                                    S.of(context).searchHeaderFilterText,
+                                    S.current.searchHeaderFilterText,
                                   ),
                                 ),
                                 DropdownButton<String>(
@@ -146,7 +146,7 @@ class SearchHeader extends StatelessWidget {
                                       padding:
                                           const EdgeInsets.only(right: 4.0),
                                       child: Text(
-                                        S.of(context).searchHeaderFilterText,
+                                        S.current.searchHeaderFilterText,
                                       ),
                                     ),
                                     DropdownButton<String>(

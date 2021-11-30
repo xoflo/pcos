@@ -44,7 +44,7 @@ class TutorialPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text(
-                  S.of(context).tutorialNavigationHeaderBar,
+                  S.current.tutorialNavigationHeaderBar,
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -54,7 +54,7 @@ class TutorialPage extends StatelessWidget {
                   bottom: 20,
                 ),
                 child: Text(
-                  S.of(context).tutorialNavigationDrawerMenu,
+                  S.current.tutorialNavigationDrawerMenu,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.justify,
                 ),
@@ -131,7 +131,7 @@ class TutorialPage extends StatelessWidget {
                     left: isHorizontal ? (screenSize.width / 2) : 80.0,
                     top: 20),
                 child: Text(
-                  S.of(context).tutorialNavigationNotifications,
+                  S.current.tutorialNavigationNotifications,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.justify,
                 ),
@@ -142,7 +142,7 @@ class TutorialPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text(
-                  S.of(context).tutorialNavigationBottomTabs,
+                  S.current.tutorialNavigationBottomTabs,
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -152,14 +152,14 @@ class TutorialPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      S.of(context).tutorialNavigationYourCourse,
+                      S.current.tutorialNavigationYourCourse,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     Text(""),
                     Padding(
                       padding: const EdgeInsets.only(right: 50.0),
                       child: Text(
-                        S.of(context).tutorialNavigationRecipes,
+                        S.current.tutorialNavigationRecipes,
                         style: Theme.of(context).textTheme.headline5,
                         textAlign: TextAlign.justify,
                       ),
@@ -210,13 +210,13 @@ class TutorialPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Text(
-                      S.of(context).tutorialNavigationKB,
+                      S.current.tutorialNavigationKB,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                   ),
                   Text(""),
                   Text(
-                    S.of(context).tutorialNavigationFaves,
+                    S.current.tutorialNavigationFaves,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                 ],
@@ -234,7 +234,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          S.of(context).tutorialYourCourseTitle,
+          S.current.tutorialYourCourseTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -246,7 +246,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          S.of(context).tutorialYourCourseDesc,
+          S.current.tutorialYourCourseDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),
@@ -260,7 +260,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          S.of(context).tutorialKBTitle,
+          S.current.tutorialKBTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -272,7 +272,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          S.of(context).tutorialKBDesc,
+          S.current.tutorialKBDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),
@@ -286,7 +286,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          S.of(context).tutorialRecipesTitle,
+          S.current.tutorialRecipesTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -298,7 +298,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          S.of(context).tutorialRecipesDesc,
+          S.current.tutorialRecipesDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),
@@ -312,7 +312,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
         child: Text(
-          S.of(context).tutorialFavesTitle,
+          S.current.tutorialFavesTitle,
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
@@ -324,7 +324,7 @@ class TutorialPage extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          S.of(context).tutorialFavesDesc,
+          S.current.tutorialFavesDesc,
           style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
         ),

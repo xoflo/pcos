@@ -72,8 +72,8 @@ class _WikiCardState extends State<WikiCard> {
                 children: [
                   Text(
                       isAnswer
-                          ? S.of(context).viewWikiQuestion
-                          : S.of(context).viewWikiAnswer,
+                          ? S.current.viewWikiQuestion
+                          : S.current.viewWikiAnswer,
                       style: TextStyle(color: secondaryColor)),
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0),
@@ -159,7 +159,7 @@ class _WikiCardState extends State<WikiCard> {
                                       false,
                                       widget.wiki,
                                       _containerHeight,
-                                      S.of(context).swipeUpForAnswer),
+                                      S.current.swipeUpForAnswer),
                                   widget.wiki.isLongAnswer
                                       ? Container()
                                       : _getContainer(
@@ -167,7 +167,7 @@ class _WikiCardState extends State<WikiCard> {
                                           true,
                                           widget.wiki,
                                           _containerHeight,
-                                          S.of(context).swipeDownForQuestion),
+                                          S.current.swipeDownForQuestion),
                                 ],
                               ),
                             ),

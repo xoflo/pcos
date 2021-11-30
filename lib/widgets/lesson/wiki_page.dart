@@ -31,7 +31,7 @@ class WikiPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(
-              S.of(context).lessonWiki,
+              S.current.lessonWiki,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: primaryColor,

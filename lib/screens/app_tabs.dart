@@ -236,8 +236,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
       showFlushBar(
         context,
-        S.of(context).coachChatFailedTitle,
-        S.of(context).coachChatFailedText,
+        S.current.coachChatFailedTitle,
+        S.current.coachChatFailedText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
         primaryColor: primaryColor,
@@ -251,16 +251,15 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text(S.of(context).areYouSureText,
+            title: new Text(S.current.areYouSureText,
                 style: TextStyle(fontSize: 20)),
-            content: new Text(S.of(context).exitAppText),
+            content: new Text(S.current.exitAppText),
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.of(context).noText,
-                      style: TextStyle(fontSize: 24)),
+                  child: Text(S.current.noText, style: TextStyle(fontSize: 24)),
                 ),
               ),
               SizedBox(height: 16),
@@ -271,8 +270,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.of(context).yesText,
-                      style: TextStyle(fontSize: 24)),
+                  child:
+                      Text(S.current.yesText, style: TextStyle(fontSize: 24)),
                 ),
               ),
             ],

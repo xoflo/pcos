@@ -48,6 +48,7 @@ class _CourseLessonState extends State<CourseLesson> {
   bool _displayDataWarning = false;
   int _currentPage = 0;
   bool _lessonComplete = false;
+  List<LessonRecipe> _lessonRecipes = [];
 
   @override
   void initState() {
@@ -60,6 +61,7 @@ class _CourseLessonState extends State<CourseLesson> {
         await widget.modulesProvider.getLessonContent(widget.lesson.lessonID);
     setState(() {
       _lessonContent = lessonContents;
+      _lessonRecipes = widget.lessonRecipes;
       _isLoading = false;
       _displayDataWarning = widget.showDataUsageWarning;
     });
@@ -108,7 +110,7 @@ class _CourseLessonState extends State<CourseLesson> {
                         ),
                       ),
                       Text(
-                        S.of(context).dataUsageWarningTitle,
+                        S.current.dataUsageWarningTitle,
                         style: Theme.of(context)
                             .textTheme
                             .headline6
@@ -118,7 +120,7 @@ class _CourseLessonState extends State<CourseLesson> {
                   ),
                 ),
                 Text(
-                  S.of(context).dataUsageWarningText,
+                  S.current.dataUsageWarningText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -128,7 +130,7 @@ class _CourseLessonState extends State<CourseLesson> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: ColorButton(
                     isUpdating: false,
-                    label: S.of(context).dismissText,
+                    label: S.current.dismissText,
                     onTap: _onDismiss,
                     color: Colors.white,
                     textColor: primaryColor,
@@ -279,10 +281,11 @@ class _CourseLessonState extends State<CourseLesson> {
       final double tabBarHeight) {
     return Builder(builder: (BuildContext context) {
       return RecipesPage(
-          screenSize: screenSize,
-          isHorizontal: isHorizontal,
-          recipes: widget.lessonRecipes,
-          parentContext: context);
+        screenSize: screenSize,
+        isHorizontal: isHorizontal,
+        recipes: _lessonRecipes,
+        parentContext: context,
+      );
     });
   }
 

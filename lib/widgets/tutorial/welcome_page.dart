@@ -23,7 +23,7 @@ class TutorialWelcomePage extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    S.of(context).tutorialWelcomeWelcome,
+                    S.current.tutorialWelcomeWelcome,
                     style: Theme.of(context).textTheme.headline1,
                   ),
                   HeaderImage(
@@ -36,7 +36,7 @@ class TutorialWelcomePage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: textPadding),
                 child: Text(
-                  S.of(context).tutorialWelcomeThankYou,
+                  S.current.tutorialWelcomeThankYou,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center,
                 ),
@@ -44,7 +44,7 @@ class TutorialWelcomePage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: textPadding),
                 child: Text(
-                  S.of(context).tutorialWelcomeTailor,
+                  S.current.tutorialWelcomeTailor,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center,
                 ),
@@ -52,7 +52,7 @@ class TutorialWelcomePage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: textPadding),
                 child: Text(
-                  S.of(context).tutorialWelcomeModules,
+                  S.current.tutorialWelcomeModules,
                   style: Theme.of(context).textTheme.headline6,
                   textAlign: TextAlign.center,
                 ),
@@ -63,7 +63,7 @@ class TutorialWelcomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        S.of(context).tutorialWelcomeCoachTitle,
+                        S.current.tutorialWelcomeCoachTitle,
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       Padding(
@@ -82,7 +82,7 @@ class TutorialWelcomePage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: textPadding),
                     child: Text(
-                      S.of(context).tutorialWelcomeCoachDesc,
+                      S.current.tutorialWelcomeCoachDesc,
                       style: Theme.of(context).textTheme.headline6,
                       textAlign: TextAlign.center,
                     ),

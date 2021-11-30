@@ -20,7 +20,7 @@ class QuestionTab extends StatelessWidget {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noItemsFound);
+        return NoResults(message: S.current.noItemsFound);
       case LoadingStatus.success:
         return QuestionList(
           questions: provider.items,

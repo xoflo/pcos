@@ -114,8 +114,6 @@ PODS:
     - nanopb/encode (= 2.30906.0)
   - nanopb/decode (2.30906.0)
   - nanopb/encode (2.30906.0)
-  - native_pdf_renderer (1.2.0):
-    - Flutter
   - notification_permissions (0.4.4):
     - Flutter
   - OneSignal (2.15.2)
@@ -157,7 +155,6 @@ DEPENDENCIES:
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - intercom_flutter (from `.symlinks/plugins/intercom_flutter/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
-  - native_pdf_renderer (from `.symlinks/plugins/native_pdf_renderer/ios`)
   - notification_permissions (from `.symlinks/plugins/notification_permissions/ios`)
   - OneSignal (< 3.0, >= 2.9.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
@@ -220,8 +217,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/intercom_flutter/ios"
   launch_review:
     :path: ".symlinks/plugins/launch_review/ios"
-  native_pdf_renderer:
-    :path: ".symlinks/plugins/native_pdf_renderer/ios"
   notification_permissions:
     :path: ".symlinks/plugins/notification_permissions/ios"
   onesignal_flutter:
@@ -273,7 +268,6 @@ SPEC CHECKSUMS:
   KTVHTTPCache: 588c3eb16f6bd1e6fde1e230dabfb7bd4e490a4d
   launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
-  native_pdf_renderer: 0e545bf94fb341e0fe7508bf72d4c1c42c30aa02
   notification_permissions: b74860c2967c1579243a675e63cd55e0ae75cef7
   OneSignal: 9531e385388565f4d31797ddadbe0fcc786430ec
   onesignal_flutter: b4412973eac419ccce07363e43e0d6057c583a96

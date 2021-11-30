@@ -50,7 +50,7 @@ class _TaskOkayState extends State<TaskOkay> {
           ),
           ColorButton(
             isUpdating: isSaving,
-            label: S.of(context).okayText,
+            label: S.current.okayText,
             onTap: () {
               _saveResponse();
             },

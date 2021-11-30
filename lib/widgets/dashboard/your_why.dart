@@ -49,7 +49,7 @@ class _YourWhyState extends State<YourWhy> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
-                    S.of(context).yourWhyTitle,
+                    S.current.yourWhyTitle,
                     style: TextStyle(
                       fontFamily: 'Courgette',
                       fontSize: 20,

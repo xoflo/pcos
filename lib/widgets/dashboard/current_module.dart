@@ -44,10 +44,10 @@ class CurrentModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int lessonCounter = 0;
-    final String moduleTitle = this.modulesProvider.status ==
-            LoadingStatus.success
-        ? "${S.of(context).moduleText}: ${modulesProvider.currentModule.title}"
-        : "";
+    final String moduleTitle =
+        this.modulesProvider.status == LoadingStatus.success
+            ? "${S.current.moduleText}: ${modulesProvider.currentModule.title}"
+            : "";
     return this.modulesProvider.status == LoadingStatus.success
         ? Container(
             decoration: BoxDecoration(
@@ -122,7 +122,7 @@ class CurrentModule extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(S.of(context).viewPreviousModules,
+                                    Text(S.current.viewPreviousModules,
                                         style:
                                             TextStyle(color: secondaryColor)),
                                     Padding(
@@ -145,7 +145,7 @@ class CurrentModule extends StatelessWidget {
             ),
           )
         : this.modulesProvider.status == LoadingStatus.empty
-            ? NoResults(message: S.of(context).noResultsLessons)
+            ? NoResults(message: S.current.noResultsLessons)
             : PcosLoadingSpinner();
   }
 }

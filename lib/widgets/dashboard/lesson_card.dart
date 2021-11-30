@@ -90,7 +90,7 @@ class _LessonCardState extends State<LessonCard> {
                           children: [
                             Container(width: 32),
                             Text(
-                              "${S.of(context).lessonText} ${widget.lessonNumber}",
+                              "${S.current.lessonText} ${widget.lessonNumber}",
                               style: Theme.of(context).textTheme.headline6,
                             ),
                             widget.lesson.isToolkit
@@ -154,7 +154,7 @@ class _LessonCardState extends State<LessonCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(S.of(context).viewNow,
+                              Text(S.current.viewNow,
                                   style: TextStyle(color: secondaryColor)),
                               Padding(
                                 padding: const EdgeInsets.only(left: 4.0),

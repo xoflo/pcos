@@ -103,7 +103,7 @@ class _TutorialState extends State<Tutorial> {
                     ),
                     ColorButton(
                       isUpdating: false,
-                      label: S.of(context).tutorialClose,
+                      label: S.current.tutorialClose,
                       onTap: () {
                         Navigator.pop(context);
                       },

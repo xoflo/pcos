@@ -75,14 +75,19 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     return [];
   }
 
-  void _openRecipeDetails(BuildContext context, Recipe recipe) async {
+  void _openRecipeDetails(BuildContext context, dynamic recipe) async {
     //remove the focus from the searchbox if necessary, to hide the keyboard
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+    final RecipesProvider recipeProvider =
+        Provider.of<RecipesProvider>(context, listen: false);
+    final bool isFavourite =
+        recipeProvider.isFavouriteByRecipeId(recipe.recipeId);
 
     openBottomSheet(
       context,
       RecipeDetails(
         recipe: recipe,
+        isFavourite: isFavourite,
         closeRecipeDetails: _closeRecipeDetails,
       ),
       Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
@@ -127,13 +132,13 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   Widget _getRecipesList(
       final Size screenSize, final RecipesProvider recipesProvider) {
     if (_tagSelectedValue.length == 0) {
-      _tagSelectedValue = S.of(context).tagAll;
+      _tagSelectedValue = S.current.tagAll;
     }
     switch (recipesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noResultsRecipes);
+        return NoResults(message: S.current.noResultsRecipes);
       case LoadingStatus.success:
         return RecipesList(
             screenSize: screenSize,

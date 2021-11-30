@@ -120,9 +120,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       Navigator.of(context).pop();
       showAlertDialog(
         context,
-        S.of(context).requestDailyReminderTitle,
-        S.of(context).requestDailyReminderNoText,
-        S.of(context).okayText,
+        S.current.requestDailyReminderTitle,
+        S.current.requestDailyReminderNoText,
+        S.current.okayText,
         "",
         null,
         (BuildContext context) {
@@ -136,10 +136,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
     showAlertDialog(
       context,
-      S.of(context).requestDailyReminderTitle,
-      S.of(context).requestDailyReminderText,
-      S.of(context).noText,
-      S.of(context).yesText,
+      S.current.requestDailyReminderTitle,
+      S.current.requestDailyReminderText,
+      S.current.noText,
+      S.current.yesText,
       openSettings,
       displaySetupLaterMessage,
     );
@@ -158,10 +158,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
     showAlertDialog(
       context,
-      S.of(context).requestNotificationPermissionTitle,
-      S.of(context).requestNotificationPermissionText,
-      S.of(context).noText,
-      S.of(context).yesText,
+      S.current.requestNotificationPermissionTitle,
+      S.current.requestNotificationPermissionText,
+      S.current.noText,
+      S.current.yesText,
       requestNotificationPermission,
       (BuildContext context) {
         Navigator.of(context).pop();
@@ -276,14 +276,17 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   //#region Actions
   void _openRecipeDetails(final BuildContext context, final int recipeId) {
-    Recipe recipe = Provider.of<RecipesProvider>(context, listen: false)
-        .getRecipeById(recipeId);
-
+    final RecipesProvider recipeProvider =
+        Provider.of<RecipesProvider>(context, listen: false);
+    final Recipe recipe = recipeProvider.getRecipeById(recipeId);
+    final bool isFavourite = recipeProvider.isFavouriteByRecipeId(recipeId);
+    debugPrint("Recipe Title DASHBOARD=${recipe.title}");
     if (recipe.recipeId != -1) {
       openBottomSheet(
         context,
         RecipeDetails(
           recipe: recipe,
+          isFavourite: isFavourite,
           closeRecipeDetails: _closeRecipeDetails,
         ),
         Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,

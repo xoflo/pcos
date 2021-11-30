@@ -85,7 +85,7 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
         case LoadingStatus.loading:
           return PcosLoadingSpinner();
         case LoadingStatus.empty:
-          return NoResults(message: S.of(context).noResultsLessonsSearch);
+          return NoResults(message: S.current.noResultsLessonsSearch);
         case LoadingStatus.success:
           return Column(
             children: [
@@ -116,7 +116,7 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            title: S.of(context).lessonSearch,
+            title: S.current.lessonSearch,
             closeItem: () {
               Navigator.pop(context);
             },

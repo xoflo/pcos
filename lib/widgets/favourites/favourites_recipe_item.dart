@@ -96,7 +96,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Text(S.of(context).favouritesViewRecipe,
+                          Text(S.current.favouritesViewRecipe,
                               style: TextStyle(color: secondaryColor)),
                           Icon(
                             Icons.open_in_new,

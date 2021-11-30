@@ -64,9 +64,9 @@ class _LessonWikisState extends State<LessonWikis> {
 
     if (widget.loadingStatus == LoadingStatus.success) {
       if (!widget.isLessonComplete && widget.lessonWikis.length > 0) {
-        noWikisMessage = S.of(context).lockedWikis;
+        noWikisMessage = S.current.lockedWikis;
       } else {
-        noWikisMessage = S.of(context).noWikis;
+        noWikisMessage = S.current.noWikis;
       }
       _changeVisibility();
     }
@@ -85,7 +85,7 @@ class _LessonWikisState extends State<LessonWikis> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 6.0),
                       child: Text(
-                        S.of(context).lessonWiki,
+                        S.current.lessonWiki,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: primaryColor,
@@ -198,7 +198,7 @@ class _LessonWikisState extends State<LessonWikis> {
             ),
           )
         : widget.loadingStatus == LoadingStatus.empty
-            ? NoResults(message: S.of(context).noResultsLessons)
+            ? NoResults(message: S.current.noResultsLessons)
             : Container();
   }
 }

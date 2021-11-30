@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -7,6 +8,7 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 
 class RecipesPage extends StatelessWidget {
   final Size screenSize;
@@ -21,14 +23,18 @@ class RecipesPage extends StatelessWidget {
     @required this.parentContext,
   });
 
-  void _openRecipeDetails(BuildContext context, Recipe recipe) async {
+  void _openRecipeDetails(BuildContext context, dynamic lessonRecipe) async {
     //remove the focus from the searchbox if necessary, to hide the keyboard
-    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-
+    final RecipesProvider recipeProvider =
+        Provider.of<RecipesProvider>(context, listen: false);
+    final Recipe recipe = recipeProvider.getRecipeById(lessonRecipe.recipeId);
+    final bool isFavourite =
+        recipeProvider.isFavouriteByRecipeId(lessonRecipe.recipeId);
     openBottomSheet(
       context,
       RecipeDetails(
         recipe: recipe,
+        isFavourite: isFavourite,
         closeRecipeDetails: _closeRecipeDetails,
       ),
       Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
@@ -52,7 +58,7 @@ class RecipesPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
-                S.of(context).lessonRecipes,
+                S.current.lessonRecipes,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: primaryColor,

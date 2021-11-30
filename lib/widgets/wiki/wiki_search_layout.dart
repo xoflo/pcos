@@ -93,7 +93,7 @@ class _WikiSearchLayoutState extends State<WikiSearchLayout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            title: S.of(context).searchWiki,
+            title: S.current.searchWiki,
             closeItem: () {
               Navigator.pop(context);
             },
@@ -135,8 +135,7 @@ class _WikiSearchLayoutState extends State<WikiSearchLayout> {
                                   iconAction: _addToFavourites,
                                 )
                               : _hasSearchRun
-                                  ? NoResults(
-                                      message: S.of(context).noWikisSearch)
+                                  ? NoResults(message: S.current.noWikisSearch)
                                   : Container(),
                         ],
                       ),

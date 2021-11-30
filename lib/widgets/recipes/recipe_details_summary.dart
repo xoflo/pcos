@@ -26,7 +26,7 @@ class RecipeDetailsSummary extends StatelessWidget {
       primaryColor,
       DateTimeUtils.convertMillisecondsToMinutes(recipe.duration).toString() +
           " " +
-          S.of(context).minutesShort,
+          S.current.minutesShort,
     ));
 
     summaryIcons.add(_iconColumn(
@@ -65,11 +65,11 @@ class RecipeDetailsSummary extends StatelessWidget {
   String _getDifficultyText(BuildContext context, int difficulty) {
     switch (difficulty) {
       case 1:
-        return S.of(context).recipeDifficultyEasy;
+        return S.current.recipeDifficultyEasy;
       case 2:
-        return S.of(context).recipeDifficultyMedium;
+        return S.current.recipeDifficultyMedium;
       case 3:
-        return S.of(context).recipeDifficultyHard;
+        return S.current.recipeDifficultyHard;
     }
     return "";
   }

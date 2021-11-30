@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_item.dart';
 class RecipesList extends StatelessWidget {
   final Size screenSize;
   final List<dynamic> recipes;
-  final Function(BuildContext, Recipe) openRecipeDetails;
+  final Function(BuildContext, dynamic) openRecipeDetails;
 
   RecipesList({
     @required this.screenSize,

@@ -62,6 +62,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       analyticsId = recipe.recipeId.toString();
       favouriteWidget = RecipeDetails(
         recipe: recipe,
+        isFavourite: true,
         closeRecipeDetails: _closeFavourite,
       );
     }
@@ -87,10 +88,10 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
 
     showAlertDialog(
       context,
-      S.of(context).favouriteRemoveTitle,
-      S.of(context).favouriteRemoveText,
-      S.of(context).noText,
-      S.of(context).yesText,
+      S.current.favouriteRemoveTitle,
+      S.current.favouriteRemoveText,
+      S.current.noText,
+      S.current.yesText,
       removeFavouriteConfirmed,
       (BuildContext context) {
         Navigator.of(context).pop();
@@ -116,7 +117,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                 isScrollable: true,
                 tabs: [
                   Tab(
-                    text: S.of(context).toolkitTitle,
+                    text: S.current.toolkitTitle,
                     icon: Icon(
                       Icons.construction,
                       color: primaryColor,
@@ -124,7 +125,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).lessonsTitle,
+                    text: S.current.lessonsTitle,
                     icon: Icon(
                       Icons.play_circle_outline,
                       color: primaryColor,
@@ -132,7 +133,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).wikiTitle,
+                    text: S.current.wikiTitle,
                     icon: Icon(
                       Icons.batch_prediction,
                       color: primaryColor,
@@ -140,7 +141,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).recipesTitle,
+                    text: S.current.recipesTitle,
                     icon: Icon(
                       Icons.local_dining,
                       color: primaryColor,

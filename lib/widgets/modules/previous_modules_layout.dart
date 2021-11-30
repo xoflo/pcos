@@ -112,7 +112,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Header(
-              title: S.of(context).previousModules,
+              title: S.current.previousModules,
               closeItem: () {
                 Navigator.pop(context);
               },

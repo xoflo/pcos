@@ -21,13 +21,13 @@ class NotificationsPermissions extends StatelessWidget {
       case PermissionStatus.denied:
         return Column(
           children: [
-            Text(S.of(context).notificationPermissionsNeedToAllowText),
+            Text(S.current.notificationPermissionsNeedToAllowText),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: ColorButton(
                 width: 150,
                 isUpdating: false,
-                label: S.of(context).notificationPermissionsAllowButton,
+                label: S.current.notificationPermissionsAllowButton,
                 onTap: () {
                   requestNotificationPermission();
                 },

@@ -25,7 +25,7 @@ class RecipesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
       _items = await ProviderHelper().fetchAndSaveRecipes(dbProvider);
-      await _refreshFavourites();
+      await _setFavourites();
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
@@ -39,13 +39,12 @@ class RecipesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       _items = await ProviderHelper().filterAndSearch(
           dbProvider, tableName, searchText, tag, secondaryTags);
-      await _refreshFavourites();
     }
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
     notifyListeners();
   }
 
-  Future<void> _refreshFavourites() async {
+  Future<void> _setFavourites() async {
     _favourites.clear();
     for (Recipe recipe in _items) {
       if (recipe.isFavorite) {
@@ -59,14 +58,30 @@ class RecipesProvider with ChangeNotifier {
       await ProviderHelper()
           .addToFavourites(add, dbProvider, FavouriteType.Recipe, recipe);
     }
+    if (add) {
+      debugPrint("ADD");
+      _favourites.add(recipe);
+    } else {
+      debugPrint("REMOVE");
+      _favourites.remove(recipe);
+    }
+    debugPrint("recipes provider faves count=${_favourites.length}");
+    notifyListeners();
   }
 
   Recipe getRecipeById(final int recipeId) {
-    for (Recipe recipe in _items) {
-      if (recipe.recipeId == recipeId) {
-        return recipe;
-      }
+    return _items.firstWhere((recipe) => recipe.recipeId == recipeId,
+        orElse: () => Recipe(recipeId: -1));
+  }
+
+  bool isFavouriteByRecipeId(final int recipeId) {
+    Recipe recipe = _favourites.firstWhere(
+        (recipe) => recipe.recipeId == recipeId,
+        orElse: () => null);
+    if (recipe != null) {
+      debugPrint("IS FAVE FOUND ITEM ");
+      return true;
     }
-    return Recipe(recipeId: -1);
+    return false;
   }
 }

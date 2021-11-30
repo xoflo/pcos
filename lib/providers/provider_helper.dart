@@ -539,7 +539,7 @@ class ProviderHelper {
         limitRowCount: 1,
       );
     }
-    //update in API tp persist - don't await the service call otherwise too slow
+    //update in API to persist - don't await the service call otherwise too slow
     if (isAdd) {
       WebServices().addToFavourites(assetType, updateId);
     } else {

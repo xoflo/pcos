@@ -56,7 +56,7 @@ class ProfileReadOnly extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: primaryColor),
-                    message: S.of(context).userNameLocked,
+                    message: S.current.userNameLocked,
                     child:
                         Icon(Icons.lock_outline, color: primaryColor, size: 16),
                   ))
@@ -76,32 +76,32 @@ class ProfileReadOnly extends StatelessWidget {
         children: [
           addProfileRow(
             context,
-            S.of(context).profileAliasLabel,
+            S.current.profileAliasLabel,
             member.alias,
             true,
           ),
           addProfileRow(
             context,
-            S.of(context).profileFirstNameLabel,
+            S.current.profileFirstNameLabel,
             member.firstName,
             false,
           ),
           addProfileRow(
             context,
-            S.of(context).profileLastNameLabel,
+            S.current.profileLastNameLabel,
             member.lastName,
             false,
           ),
           addProfileRow(
             context,
-            S.of(context).profileEmailLabel,
+            S.current.profileEmailLabel,
             member.email,
             false,
           ),
           ColorButton(
             width: 140,
             isUpdating: false,
-            label: S.of(context).profileEditButton,
+            label: S.current.profileEditButton,
             onTap: () {
               editMemberDetails(member);
             },

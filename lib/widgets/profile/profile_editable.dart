@@ -37,11 +37,11 @@ class ProfileEditable extends StatelessWidget {
               controller: firstNameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: S.of(context).profileFirstNameLabel,
+                labelText: S.current.profileFirstNameLabel,
               ),
               validator: (value) {
                 if (value.isEmpty) {
-                  return S.of(context).profileValidateFirstNameMessage;
+                  return S.current.profileValidateFirstNameMessage;
                 }
                 return null;
               },
@@ -53,11 +53,11 @@ class ProfileEditable extends StatelessWidget {
               controller: lastNameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: S.of(context).profileLastNameLabel,
+                labelText: S.current.profileLastNameLabel,
               ),
               validator: (value) {
                 if (value.isEmpty) {
-                  return S.of(context).profileValidateLastNameMessage;
+                  return S.current.profileValidateLastNameMessage;
                 }
                 return null;
               },
@@ -69,14 +69,14 @@ class ProfileEditable extends StatelessWidget {
               controller: emailController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: S.of(context).profileEmailLabel,
+                labelText: S.current.profileEmailLabel,
               ),
               validator: (value) {
                 if (value.isEmpty) {
-                  return S.of(context).profileValidateEmailMessage;
+                  return S.current.profileValidateEmailMessage;
                 } else {
                   if (!EmailValidator.validate(value)) {
-                    return S.of(context).profileInvalidEmailMessage;
+                    return S.current.profileInvalidEmailMessage;
                   }
                 }
                 return null;
@@ -89,7 +89,7 @@ class ProfileEditable extends StatelessWidget {
               ColorButton(
                 width: 120,
                 isUpdating: false,
-                label: S.of(context).profileSaveButton,
+                label: S.current.profileSaveButton,
                 onTap: () {
                   saveMemberDetails(member);
                 },
@@ -99,7 +99,7 @@ class ProfileEditable extends StatelessWidget {
               ),
               ColorButton(
                 isUpdating: false,
-                label: S.of(context).profileCancelButton,
+                label: S.current.profileCancelButton,
                 onTap: () {
                   cancel();
                 },
