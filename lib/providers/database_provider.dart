@@ -4,6 +4,9 @@ import 'package:path/path.dart' as path;
 import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DatabaseProvider with ChangeNotifier {
+  //increment this number whenever the database tables change
+  static const DB_VERSION = 2;
+  static const DATABASE_NAME = "ThePCOSProtocol.db";
   sql.Database db;
 
   DatabaseProvider() {
@@ -13,112 +16,123 @@ class DatabaseProvider with ChangeNotifier {
 
   void init() async {
     final dbPath = await sql.getDatabasesPath();
-    db = await sql.openDatabase(
-      path.join(dbPath, 'ThePCOSProtocol.db'),
-      onCreate: (db, version) async {
-        await db.execute("CREATE TABLE $TABLE_WIKI ("
-            "id INTEGER PRIMARY KEY,"
-            "reference TEXT,"
-            "question TEXT,"
-            "answer TEXT,"
-            "tags TEXT,"
-            "isFavorite INTEGER"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_APP_HELP ("
-            "id INTEGER PRIMARY KEY,"
-            "reference TEXT,"
-            "question TEXT,"
-            "answer TEXT,"
-            "tags TEXT,"
-            "isFavorite INTEGER"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_COURSE_QUESTION ("
-            "id INTEGER PRIMARY KEY,"
-            "reference TEXT,"
-            "question TEXT,"
-            "answer TEXT,"
-            "tags TEXT,"
-            "isFavorite INTEGER"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_RECIPE ("
-            "recipeId INTEGER PRIMARY KEY,"
-            "title TEXT,"
-            "description TEXT,"
-            "thumbnail TEXT,"
-            "ingredients TEXT,"
-            "method TEXT,"
-            "tips TEXT,"
-            "tags TEXT,"
-            "difficulty INTEGER,"
-            "servings INTEGER,"
-            "duration INTEGER,"
-            "isFavorite INTEGER"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_MESSAGE ("
-            "id INTEGER PRIMARY KEY,"
-            "notificationId INTEGER,"
-            "title TEXT,"
-            "message TEXT,"
-            "isRead INTEGER,"
-            "action TEXT,"
-            "dateReadUTC TEXT,"
-            "dateCreatedUTC TEXT"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_CMS_TEXT ("
-            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            "cmsText TEXT"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_MODULE ("
-            "moduleID INTEGER PRIMARY KEY,"
-            "title TEXT,"
-            "isComplete INTEGER,"
-            "orderIndex INTEGER,"
-            "dateCreatedUTC TEXT"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_LESSON ("
-            "lessonID INTEGER PRIMARY KEY,"
-            "moduleID INTEGER,"
-            "title TEXT,"
-            "introduction TEXT,"
-            "orderIndex INTEGER,"
-            "isFavorite INTEGER,"
-            "isComplete INTEGER,"
-            "isToolkit INTEGER,"
-            "dateCreatedUTC TEXT"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_LESSON_CONTENT ("
-            "lessonContentID INTEGER PRIMARY KEY,"
-            "lessonID INTEGER,"
-            "title TEXT,"
-            "mediaUrl TEXT,"
-            "mediaMimeType TEXT,"
-            "body TEXT,"
-            "orderIndex INTEGER,"
-            "dateCreatedUTC TEXT"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_LESSON_TASK ("
-            "lessonTaskID INTEGER PRIMARY KEY,"
-            "lessonID INTEGER,"
-            "metaName TEXT,"
-            "title TEXT,"
-            "description TEXT,"
-            "taskType TEXT,"
-            "orderIndex INTEGER,"
-            "isComplete INTEGER,"
-            "dateCreatedUTC TEXT"
-            ")");
-        await db.execute("CREATE TABLE $TABLE_LESSON_LINK ("
-            "lessonLinkID INTEGER PRIMARY KEY,"
-            "lessonID INTEGER,"
-            "moduleID INTEGER,"
-            "objectID INTEGER,"
-            "objectType TEXT,"
-            "orderIndex INTEGER,"
-            "dateCreatedUTC TEXT"
-            ")");
-      },
-      version: 1,
-    );
+    final fullPath = path.join(dbPath, DATABASE_NAME);
+
+    db = await sql.openDatabase(fullPath);
+
+    if (await db.getVersion() < DB_VERSION) {
+      //there is a new version of the db so close and delete the old database so you can create the new one
+      db.close();
+      await sql.deleteDatabase(fullPath);
+      //re-open with the onCreate as the database has changed
+      db = await sql.openDatabase(
+        fullPath,
+        onCreate: (db, version) async {
+          await db.execute("CREATE TABLE $TABLE_WIKI ("
+              "id INTEGER PRIMARY KEY,"
+              "reference TEXT,"
+              "question TEXT,"
+              "answer TEXT,"
+              "tags TEXT,"
+              "isFavorite INTEGER"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_APP_HELP ("
+              "id INTEGER PRIMARY KEY,"
+              "reference TEXT,"
+              "question TEXT,"
+              "answer TEXT,"
+              "tags TEXT,"
+              "isFavorite INTEGER"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_COURSE_QUESTION ("
+              "id INTEGER PRIMARY KEY,"
+              "reference TEXT,"
+              "question TEXT,"
+              "answer TEXT,"
+              "tags TEXT,"
+              "isFavorite INTEGER"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_RECIPE ("
+              "recipeId INTEGER PRIMARY KEY,"
+              "title TEXT,"
+              "description TEXT,"
+              "thumbnail TEXT,"
+              "ingredients TEXT,"
+              "method TEXT,"
+              "tips TEXT,"
+              "tags TEXT,"
+              "difficulty INTEGER,"
+              "servings INTEGER,"
+              "duration INTEGER,"
+              "isFavorite INTEGER"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_MESSAGE ("
+              "id INTEGER PRIMARY KEY,"
+              "notificationId INTEGER,"
+              "title TEXT,"
+              "message TEXT,"
+              "isRead INTEGER,"
+              "action TEXT,"
+              "dateReadUTC TEXT,"
+              "dateCreatedUTC TEXT"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_CMS_TEXT ("
+              "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+              "cmsText TEXT"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_MODULE ("
+              "moduleID INTEGER PRIMARY KEY,"
+              "title TEXT,"
+              "isComplete INTEGER,"
+              "orderIndex INTEGER,"
+              "dateCreatedUTC TEXT"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_LESSON ("
+              "lessonID INTEGER PRIMARY KEY,"
+              "moduleID INTEGER,"
+              "title TEXT,"
+              "introduction TEXT,"
+              "orderIndex INTEGER,"
+              "isFavorite INTEGER,"
+              "isComplete INTEGER,"
+              "isToolkit INTEGER,"
+              "dateCreatedUTC TEXT"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_LESSON_CONTENT ("
+              "lessonContentID INTEGER PRIMARY KEY,"
+              "lessonID INTEGER,"
+              "title TEXT,"
+              "mediaUrl TEXT,"
+              "mediaMimeType TEXT,"
+              "body TEXT,"
+              "summary TEXT,"
+              "orderIndex INTEGER,"
+              "dateCreatedUTC TEXT"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_LESSON_TASK ("
+              "lessonTaskID INTEGER PRIMARY KEY,"
+              "lessonID INTEGER,"
+              "metaName TEXT,"
+              "title TEXT,"
+              "description TEXT,"
+              "taskType TEXT,"
+              "orderIndex INTEGER,"
+              "isComplete INTEGER,"
+              "dateCreatedUTC TEXT"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_LESSON_LINK ("
+              "lessonLinkID INTEGER PRIMARY KEY,"
+              "lessonID INTEGER,"
+              "moduleID INTEGER,"
+              "objectID INTEGER,"
+              "objectType TEXT,"
+              "orderIndex INTEGER,"
+              "dateCreatedUTC TEXT"
+              ")");
+        },
+        version: DB_VERSION,
+      );
+    }
     // the init function is async so it won't block the main thread
     // notify provider that depends on it when done
     notifyListeners();

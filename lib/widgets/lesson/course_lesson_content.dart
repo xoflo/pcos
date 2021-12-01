@@ -59,6 +59,16 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
     return Container();
   }
 
+  Widget _getSummary(BuildContext context) {
+    if (widget.lessonContent.summary.length > 0) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: HtmlWidget(widget.lessonContent.summary),
+      );
+    }
+    return Container();
+  }
+
   Widget _getMedia(BuildContext context) {
     final bool displayMedia = widget.lessonContent.mediaUrl.length > 0 &&
         widget.lessonContent.mediaMimeType.length > 0;
@@ -166,6 +176,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
                   _getTitle(context),
                   _getBody(context),
                   _getMedia(context),
+                  _getSummary(context),
                 ],
               ),
             ),
@@ -175,6 +186,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
               _getTitle(context),
               _getBody(context),
               _getMedia(context),
+              _getSummary(context),
             ],
           );
   }

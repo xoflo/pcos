@@ -270,6 +270,7 @@ class ProviderHelper {
         'mediaUrl': lessonContent.mediaUrl,
         'mediaMimeType': lessonContent.mediaMimeType,
         'body': lessonContent.body,
+        'summary': lessonContent.summary,
         'orderIndex': lessonContent.orderIndex,
         'dateCreatedUTC': lessonContent.dateCreatedUTC.toIso8601String(),
       });
