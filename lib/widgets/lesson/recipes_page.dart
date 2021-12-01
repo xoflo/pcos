@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
@@ -27,9 +29,11 @@ class RecipesPage extends StatelessWidget {
     //remove the focus from the searchbox if necessary, to hide the keyboard
     final RecipesProvider recipeProvider =
         Provider.of<RecipesProvider>(context, listen: false);
+    final FavouritesProvider favouritesProvider =
+        Provider.of<FavouritesProvider>(context, listen: false);
     final Recipe recipe = recipeProvider.getRecipeById(lessonRecipe.recipeId);
-    final bool isFavourite =
-        recipeProvider.isFavouriteByRecipeId(lessonRecipe.recipeId);
+    final bool isFavourite = favouritesProvider.isFavourite(
+        FavouriteType.Recipe, lessonRecipe.recipeId);
     openBottomSheet(
       context,
       RecipeDetails(

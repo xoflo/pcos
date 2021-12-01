@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -75,30 +76,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     return [];
   }
 
-  void _openRecipeDetails(BuildContext context, dynamic recipe) async {
-    //remove the focus from the searchbox if necessary, to hide the keyboard
-    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-    final RecipesProvider recipeProvider =
-        Provider.of<RecipesProvider>(context, listen: false);
-    final bool isFavourite =
-        recipeProvider.isFavouriteByRecipeId(recipe.recipeId);
-
-    openBottomSheet(
-      context,
-      RecipeDetails(
-        recipe: recipe,
-        isFavourite: isFavourite,
-        closeRecipeDetails: _closeRecipeDetails,
-      ),
-      Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
-      recipe.recipeId.toString(),
-    );
-  }
-
-  void _closeRecipeDetails() {
-    Navigator.pop(context);
-  }
-
   void _onTagSelected(String tagValue) {
     setState(() {
       _tagSelectedValue = tagValue;
@@ -130,7 +107,32 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   }
 
   Widget _getRecipesList(
-      final Size screenSize, final RecipesProvider recipesProvider) {
+      final Size screenSize,
+      final RecipesProvider recipesProvider,
+      final FavouritesProvider favouritesProvider) {
+    //functions to open a recipe
+    void _openRecipeDetails(BuildContext context, dynamic recipe) async {
+      void _closeRecipeDetails() {
+        Navigator.pop(context);
+      }
+
+      //remove the focus from the searchbox if necessary, to hide the keyboard
+      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+      final bool isFavourite =
+          favouritesProvider.isFavourite(FavouriteType.Recipe, recipe.recipeId);
+
+      openBottomSheet(
+        context,
+        RecipeDetails(
+          recipe: recipe,
+          isFavourite: isFavourite,
+          closeRecipeDetails: _closeRecipeDetails,
+        ),
+        Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
+        recipe.recipeId.toString(),
+      );
+    }
+
     if (_tagSelectedValue.length == 0) {
       _tagSelectedValue = S.current.tagAll;
     }
@@ -168,9 +170,9 @@ class _RecipesLayoutState extends State<RecipesLayout> {
           tagValuesSelectedSecondary: _tagValuesSelectedSecondary,
           onSecondaryTagSelected: _onSecondaryTagSelected,
         ),
-        Consumer<RecipesProvider>(
-          builder: (context, model, child) =>
-              _getRecipesList(screenSize, model),
+        Consumer2<RecipesProvider, FavouritesProvider>(
+          builder: (context, recipesProvider, favouritesProvider, child) =>
+              _getRecipesList(screenSize, recipesProvider, favouritesProvider),
         ),
       ],
     );

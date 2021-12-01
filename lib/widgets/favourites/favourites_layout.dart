@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/controllers/favourites_controller.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
@@ -54,7 +53,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       favouriteWidget = LessonWikiFull(
         parentContext: context,
         wiki: lessonWiki,
-        isFavourite: lessonWiki.isFavorite,
+        isFavourite: true,
         closeWiki: _closeFavourite,
       );
     } else {
@@ -80,9 +79,14 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
   }
 
   void _removeFavourite(FavouriteType favouriteType, dynamic item) async {
+    final itemId = favouriteType == FavouriteType.Lesson
+        ? item.lessonID
+        : favouriteType == FavouriteType.Wiki
+            ? item.questionId
+            : item.recipeId;
     void removeFavouriteConfirmed(BuildContext context) async {
-      FavouritesController()
-          .addToFavourites(context, favouriteType, item, false);
+      Provider.of<FavouritesProvider>(context, listen: false)
+          .addToFavourites(favouriteType, itemId);
       Navigator.of(context).pop();
     }
 

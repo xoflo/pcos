@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
@@ -37,28 +36,19 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> _currentModuleLessons = [];
   Lesson _currentLesson;
   List<LessonTask> _displayLessonTasks = [];
-  List<Lesson> _favouriteLessons = [];
-  List<Lesson> _favouriteToolkitLessons = [];
-  List<LessonWiki> _favouriteLessonWikis = [];
   List<Lesson> _searchLessons = [];
   List<LessonWiki> _initialLessonWikis = [];
   List<LessonRecipe> _initialLessonRecipes = [];
-  List<bool> _initialLessonWikiFavourites = [];
 
   Module get currentModule => _currentModule;
   Lesson get currentLesson => _currentLesson;
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
   List<Module> get allModules => [..._modules];
   List<Module> get previousModules => [..._previousModules];
-  List<Lesson> get favouriteLessons => [..._favouriteLessons];
-  List<Lesson> get favouriteToolkitLessons => [..._favouriteToolkitLessons];
-  List<LessonWiki> get favouriteLessonWikis => [..._favouriteLessonWikis];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
   List<Lesson> get searchLessons => [..._searchLessons];
   List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
   List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
-  List<bool> get initialLessonWikiFavourites =>
-      [..._initialLessonWikiFavourites];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -103,7 +93,6 @@ class ModulesProvider with ChangeNotifier {
         for (LessonWiki lessonWiki in _lessonWikis) {
           if (lessonWiki.lessonId == currentLesson.lessonID) {
             _initialLessonWikis.add(lessonWiki);
-            _initialLessonWikiFavourites.add(lessonWiki.isFavorite);
           }
         }
       }
@@ -114,8 +103,6 @@ class ModulesProvider with ChangeNotifier {
           }
         }
       }
-
-      await _refreshFavourites();
     }
 
     status = _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
@@ -135,10 +122,11 @@ class ModulesProvider with ChangeNotifier {
   }
 
   String getModuleTitleByModuleID(final int moduleID) {
-    for (Module module in _modules) {
-      if (module.moduleID == moduleID) {
-        return module.title;
-      }
+    Module moduleFound = _modules.firstWhere(
+        (module) => module.moduleID == moduleID,
+        orElse: () => null);
+    if (moduleFound != null) {
+      return moduleFound.title;
     }
     return "";
   }
@@ -203,25 +191,6 @@ class ModulesProvider with ChangeNotifier {
     return displayLessonRecipes;
   }
 
-  bool getLessonFavourite(final int lessonID) {
-    for (Lesson lesson in _lessons) {
-      if (lesson.lessonID == lessonID) {
-        return lesson.isFavorite;
-      }
-    }
-    return false;
-  }
-
-  bool getLessonWikiFavourite(final int questionID, final int lessonID) {
-    for (LessonWiki lessonWiki in _lessonWikis) {
-      if (lessonWiki.lessonId == lessonID &&
-          lessonWiki.questionId == questionID) {
-        return lessonWiki.isFavorite;
-      }
-    }
-    return false;
-  }
-
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
     final DateTime nextLessonAvailable =
@@ -246,77 +215,6 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addLessonToFavourites(
-      final dynamic lesson, final bool add, final bool refreshData) async {
-    if (dbProvider.db != null) {
-      await ProviderHelper()
-          .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
-      if (refreshData) {
-        await fetchAndSaveData(false);
-      } else {
-        for (int lessonCounter = 0;
-            lessonCounter < _lessons.length;
-            lessonCounter++) {
-          if (_lessons[lessonCounter].lessonID == lesson.lessonID) {
-            _lessons[lessonCounter].isFavorite = !lesson.isFavorite;
-          }
-        }
-      }
-    }
-  }
-
-  Future<void> addWikiToFavourites(final dynamic wiki, final bool add) async {
-    debugPrint("addWikiToFaves add=$add");
-    if (dbProvider.db != null) {
-      LessonWiki lessonWiki = wiki;
-      debugPrint("wiki faves count before= ${_favouriteLessonWikis.length}");
-      await ProviderHelper()
-          .addToFavourites(add, dbProvider, FavouriteType.Wiki, wiki);
-      //update the wiki in memory to reflect in app heart icons on Dashboard
-      debugPrint(
-          "modules provider update wiki fave in memory for qid=${lessonWiki.questionId}");
-      for (int wikiCounter = 0;
-          wikiCounter < _lessonWikis.length;
-          wikiCounter++) {
-        debugPrint(
-            "LOOPING checking qid = ${_lessonWikis[wikiCounter].questionId}");
-        if (_lessonWikis[wikiCounter].questionId == lessonWiki.questionId) {
-          debugPrint("FOUND IT, NOW UPDATE IT");
-          debugPrint(
-              "UPDATE QUESTION = ${_lessonWikis[wikiCounter].question} to ${!lessonWiki.isFavorite}");
-          debugPrint(
-              "WIKI qid=${lessonWiki.questionId} lid=${lessonWiki.lessonId} mid=${lessonWiki.moduleId} ref=${lessonWiki.reference} q=${lessonWiki.question} a=${lessonWiki.answer} t=${lessonWiki.tags} isfave=${lessonWiki.isFavorite} islong=${lessonWiki.isLongAnswer}");
-          _lessonWikis[wikiCounter].isFavorite = !lessonWiki.isFavorite;
-          debugPrint(
-              "AFTER UPDATE isFAVE in list=${_lessonWikis[wikiCounter].isFavorite}");
-          debugPrint("wiki faves count after= ${_favouriteLessonWikis.length}");
-          break;
-        }
-      }
-    }
-    notifyListeners();
-  }
-
-  Future<void> _refreshFavourites() async {
-    _favouriteLessons.clear();
-    _favouriteToolkitLessons.clear();
-    for (Lesson lesson in _lessons) {
-      if (lesson.isFavorite) {
-        if (lesson.isToolkit) {
-          _favouriteToolkitLessons.add(lesson);
-        } else {
-          _favouriteLessons.add(lesson);
-        }
-      }
-    }
-    _favouriteLessonWikis.clear();
-    for (LessonWiki lessonWiki in _lessonWikis) {
-      if (lessonWiki.isFavorite) {
-        _favouriteLessonWikis.add(lessonWiki);
-      }
-    }
-  }
-
   Future<List<Module>> _getPreviousModules() async {
     List<Module> modules = [];
     for (Module module in _modules) {
@@ -333,7 +231,6 @@ class ModulesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       _searchLessons = await ProviderHelper()
           .filterAndSearch(dbProvider, "Lesson", searchText, "", []);
-      await _refreshFavourites();
     }
     searchStatus =
         _searchLessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;

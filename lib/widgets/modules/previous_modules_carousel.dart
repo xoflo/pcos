@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
 import 'package:thepcosprotocol_app/widgets/modules/module_card.dart';
 
@@ -90,7 +92,9 @@ class PreviousModulesCarousel extends StatelessWidget {
                       return LessonCard(
                         lessonNumber: lessonNumber,
                         lesson: lesson,
-                        lessonFavourite: lesson.isFavorite,
+                        favouritesProvider: Provider.of<FavouritesProvider>(
+                            context,
+                            listen: false),
                         isNew: false,
                         isPreviousModules: true,
                         openLesson: openLesson,

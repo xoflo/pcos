@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
 
 class RecipeListItem extends StatelessWidget {
   final dynamic recipe;

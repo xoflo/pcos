@@ -36,7 +36,7 @@ class LessonWikiFull extends StatelessWidget {
                 item: this.wiki,
                 favouriteType: FavouriteType.Wiki,
                 title: S.current.lessonWiki,
-                isFavourite: this.wiki.isFavorite,
+                isFavourite: this.isFavourite,
                 closeItem: this.closeWiki,
                 onAction: () {},
               ),

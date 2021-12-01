@@ -160,7 +160,6 @@ class _LessonWikisState extends State<LessonWikis> {
                                     return WikiCard(
                                       screenSize: widget.screenSize,
                                       wiki: lessonWiki,
-                                      isFavorite: lessonWiki.isFavorite,
                                       isLessonComplete: widget.isLessonComplete,
                                     );
                                   },

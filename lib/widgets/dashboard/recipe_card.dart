@@ -18,7 +18,6 @@ class RecipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        debugPrint("CARD recipeid=${this.lessonRecipe.recipeId}");
         this.openRecipe(context, this.lessonRecipe.recipeId);
       },
       child: Container(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson_content.dart';
@@ -295,34 +297,37 @@ class _CourseLessonState extends State<CourseLesson> {
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     final double tabBarHeight = _getTabBarHeight(context);
-    return SafeArea(
-      child: Container(
-        height: tabBarHeight,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            DialogHeader(
-              screenSize: screenSize,
-              item: widget.lesson,
-              favouriteType: FavouriteType.Lesson,
-              title: widget.lesson.title,
-              isFavourite: widget.lesson.isFavorite,
-              closeItem: widget.closeLesson,
-              isToolkit: widget.lesson.isToolkit,
-              onAction: widget.getPreviousModuleLessons,
-            ),
-            _getDataUsageWarning(context, screenSize),
-            _lessonContent == null
-                ? Container()
-                : _lessonContent.length == 1 &&
-                        widget.lessonWikis.length == 0 &&
-                        widget.lessonRecipes.length == 0
-                    ? _getLessonContentInColumn(
-                        context, screenSize, isHorizontal, tabBarHeight)
-                    : _getLessonContentInCarousel(
-                        context, screenSize, isHorizontal, tabBarHeight),
-          ],
+    return Consumer<FavouritesProvider>(
+      builder: (context, favouritesProvider, child) => SafeArea(
+        child: Container(
+          height: tabBarHeight,
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              DialogHeader(
+                screenSize: screenSize,
+                item: widget.lesson,
+                favouriteType: FavouriteType.Lesson,
+                title: widget.lesson.title,
+                isFavourite: favouritesProvider.isFavourite(
+                    FavouriteType.Lesson, widget.lesson.lessonID),
+                closeItem: widget.closeLesson,
+                isToolkit: widget.lesson.isToolkit,
+                onAction: widget.getPreviousModuleLessons,
+              ),
+              _getDataUsageWarning(context, screenSize),
+              _lessonContent == null
+                  ? Container()
+                  : _lessonContent.length == 1 &&
+                          widget.lessonWikis.length == 0 &&
+                          widget.lessonRecipes.length == 0
+                      ? _getLessonContentInColumn(
+                          context, screenSize, isHorizontal, tabBarHeight)
+                      : _getLessonContentInCarousel(
+                          context, screenSize, isHorizontal, tabBarHeight),
+            ],
+          ),
         ),
       ),
     );
