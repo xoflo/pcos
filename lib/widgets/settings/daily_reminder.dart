@@ -29,7 +29,7 @@ class DailyReminder extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).settingsDailyReminderText,
+                S.current.settingsDailyReminderText,
                 style: Theme.of(context).textTheme.headline5,
               ),
               Switch(
@@ -41,8 +41,8 @@ class DailyReminder extends StatelessWidget {
                   }
                   showFlushBar(
                       context,
-                      S.of(context).notificationPermissionsNeedToAllowTitle,
-                      S.of(context).notificationPermissionsNeedToAllowText,
+                      S.current.notificationPermissionsNeedToAllowTitle,
+                      S.current.notificationPermissionsNeedToAllowText,
                       backgroundColor: Colors.white,
                       borderColor: primaryColorLight,
                       primaryColor: primaryColor);

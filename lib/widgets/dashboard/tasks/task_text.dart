@@ -65,7 +65,7 @@ class _TaskTextState extends State<TaskText> {
                 ),
                 validator: (value) {
                   if (value.isEmpty) {
-                    return S.of(context).textTaskValidation;
+                    return S.current.textTaskValidation;
                   }
                   return null;
                 },
@@ -73,7 +73,7 @@ class _TaskTextState extends State<TaskText> {
             ),
             ColorButton(
               isUpdating: false,
-              label: S.of(context).saveText,
+              label: S.current.saveText,
               onTap: () {
                 _submitText();
               },

@@ -85,7 +85,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noMemberDetails);
+        return NoResults(message: S.current.noMemberDetails);
       case LoadingStatus.success:
         return !_isEditable
             ? ProfileReadOnly(
@@ -125,7 +125,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            title: S.of(context).profileTitle,
+            title: S.current.profileTitle,
             closeItem: () {
               Navigator.pop(context);
             },

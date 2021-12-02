@@ -29,19 +29,19 @@ class FavouritesTab extends StatelessWidget {
 
   String _getNoResultsMessage(
       final BuildContext context, final FavouriteType favouriteType) {
-    String noResultsMessage = S.of(context).noItemsFound;
+    String noResultsMessage = S.current.noItemsFound;
     switch (favouriteType) {
       case FavouriteType.Lesson:
-        noResultsMessage = S.of(context).noFavouriteLesson;
+        noResultsMessage = S.current.noFavouriteLesson;
         break;
       case FavouriteType.Wiki:
-        noResultsMessage = S.of(context).noFavouriteWikis;
+        noResultsMessage = S.current.noFavouriteWikis;
         break;
       case FavouriteType.Recipe:
-        noResultsMessage = S.of(context).noFavouriteRecipe;
+        noResultsMessage = S.current.noFavouriteRecipe;
         break;
       case FavouriteType.None:
-        noResultsMessage = S.of(context).noItemsFound;
+        noResultsMessage = S.current.noItemsFound;
         break;
     }
     return noResultsMessage;

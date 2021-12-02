@@ -67,7 +67,7 @@ class FavouritesLessonItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Text(
-                    S.of(context).favouritesViewLesson,
+                    S.current.favouritesViewLesson,
                     style: TextStyle(color: secondaryColor),
                   ),
                 ),

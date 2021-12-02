@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/controllers/favourites_controller.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
@@ -41,8 +42,13 @@ class _DialogHeaderState extends State<DialogHeader> {
 
   void _onTap() async {
     final bool add = !isFavouriteOnHeader;
-    await FavouritesController()
-        .addToFavourites(context, widget.favouriteType, widget.item, add);
+    final itemId = widget.favouriteType == FavouriteType.Lesson
+        ? widget.item.lessonID
+        : widget.favouriteType == FavouriteType.Wiki
+            ? widget.item.questionId
+            : widget.item.recipeId;
+    Provider.of<FavouritesProvider>(context, listen: false)
+        .addToFavourites(widget.favouriteType, itemId);
     await widget.onAction();
     setState(() {
       isFavouriteOnHeader = add;

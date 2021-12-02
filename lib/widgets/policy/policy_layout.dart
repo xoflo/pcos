@@ -26,7 +26,7 @@ class _PolicyLayoutState extends State<PolicyLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noItemsFound);
+        return NoResults(message: S.current.noItemsFound);
       case LoadingStatus.success:
         final cmsText = assetName == "Privacy"
             ? provider.privacyStatement

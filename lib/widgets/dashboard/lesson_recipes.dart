@@ -56,9 +56,9 @@ class _LessonRecipesState extends State<LessonRecipes> {
     String noRecipesMessage = "";
     if (widget.loadingStatus == LoadingStatus.success) {
       if (!widget.isComplete && widget.recipes.length > 0) {
-        noRecipesMessage = S.of(context).lockedRecipes;
+        noRecipesMessage = S.current.lockedRecipes;
       } else {
-        noRecipesMessage = S.of(context).noRecipes;
+        noRecipesMessage = S.current.noRecipes;
       }
       _changeVisibility();
     }
@@ -77,7 +77,7 @@ class _LessonRecipesState extends State<LessonRecipes> {
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
-                        S.of(context).lessonRecipes,
+                        S.current.lessonRecipes,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: primaryColor,
@@ -167,7 +167,7 @@ class _LessonRecipesState extends State<LessonRecipes> {
             ),
           )
         : widget.loadingStatus == LoadingStatus.empty
-            ? NoResults(message: S.of(context).noResultsLessons)
+            ? NoResults(message: S.current.noResultsLessons)
             : Container();
   }
 }

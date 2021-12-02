@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
@@ -14,6 +15,7 @@ class CurrentModule extends StatelessWidget {
   final double width;
   final bool isHorizontal;
   final ModulesProvider modulesProvider;
+  final FavouritesProvider favouritesProvider;
   final bool showPreviousModule;
   final Function(Lesson, ModulesProvider) openLesson;
   final Function(BuildContext, ModulesProvider) openPreviousModules;
@@ -25,6 +27,7 @@ class CurrentModule extends StatelessWidget {
     @required this.width,
     @required this.isHorizontal,
     @required this.modulesProvider,
+    @required this.favouritesProvider,
     @required this.showPreviousModule,
     @required this.openLesson,
     @required this.openPreviousModules,
@@ -44,10 +47,10 @@ class CurrentModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int lessonCounter = 0;
-    final String moduleTitle = this.modulesProvider.status ==
-            LoadingStatus.success
-        ? "${S.of(context).moduleText}: ${modulesProvider.currentModule.title}"
-        : "";
+    final String moduleTitle =
+        this.modulesProvider.status == LoadingStatus.success
+            ? "${S.current.moduleText}: ${modulesProvider.currentModule.title}"
+            : "";
     return this.modulesProvider.status == LoadingStatus.success
         ? Container(
             decoration: BoxDecoration(
@@ -85,9 +88,8 @@ class CurrentModule extends StatelessWidget {
                       return LessonCard(
                         lessonNumber: lessonNumber,
                         lesson: lesson,
-                        lessonFavourite:
-                            modulesProvider.getLessonFavourite(lesson.lessonID),
                         isNew: true,
+                        favouritesProvider: this.favouritesProvider,
                         openLesson: _openLesson,
                         refreshPreviousModules: () {},
                       );
@@ -122,7 +124,7 @@ class CurrentModule extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(S.of(context).viewPreviousModules,
+                                    Text(S.current.viewPreviousModules,
                                         style:
                                             TextStyle(color: secondaryColor)),
                                     Padding(
@@ -145,7 +147,7 @@ class CurrentModule extends StatelessWidget {
             ),
           )
         : this.modulesProvider.status == LoadingStatus.empty
-            ? NoResults(message: S.of(context).noResultsLessons)
+            ? NoResults(message: S.current.noResultsLessons)
             : PcosLoadingSpinner();
   }
 }

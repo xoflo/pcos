@@ -21,7 +21,7 @@ class LessonRecipes extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).settingsLessonRecipesText,
+                S.current.settingsLessonRecipesText,
                 style: Theme.of(context).textTheme.headline5,
               ),
               Switch(

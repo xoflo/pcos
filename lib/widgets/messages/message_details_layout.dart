@@ -28,7 +28,7 @@ class MessageDetailsLayout extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            title: S.of(context).messageTitle,
+            title: S.current.messageTitle,
             closeItem: closeMessage,
             showMessagesIcon: false,
             unreadCount: 2,

@@ -157,8 +157,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     scheduleDailyReminderNotification(
       flutterLocalNotificationsPlugin,
       zonedSelectedTime,
-      S.of(context).dailyReminderTitle,
-      S.of(context).dailyReminderText,
+      S.current.dailyReminderTitle,
+      S.current.dailyReminderText,
     );
   }
 
@@ -205,7 +205,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            title: S.of(context).settingsTitle,
+            title: S.current.settingsTitle,
             closeItem: () {
               Navigator.pop(context);
             },

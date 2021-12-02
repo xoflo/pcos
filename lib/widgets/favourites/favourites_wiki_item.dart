@@ -61,7 +61,7 @@ class FavouritesWikiItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 4.0),
                     child: Text(
-                      S.of(context).favouritesViewWiki,
+                      S.current.favouritesViewWiki,
                       style: TextStyle(color: secondaryColor),
                     ),
                   ),

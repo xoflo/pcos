@@ -11,9 +11,9 @@ class UnsupportedVersion extends StatelessWidget {
   void _openDialog(BuildContext context) {
     showAlertDialog(
       context,
-      S.of(context).versionDialogTitle,
-      S.of(context).versionDialogDesc,
-      S.of(context).okayText,
+      S.current.versionDialogTitle,
+      S.current.versionDialogDesc,
+      S.current.okayText,
       "",
       null,
       (BuildContext context) {
@@ -42,7 +42,7 @@ class UnsupportedVersion extends StatelessWidget {
               ),
               SizedBox(height: 10.0),
               Text(
-                S.of(context).versionText1,
+                S.current.versionText1,
                 style: Theme.of(context).textTheme.headline5.copyWith(
                       color: Colors.white,
                     ),
@@ -57,7 +57,7 @@ class UnsupportedVersion extends StatelessWidget {
                 ),
               ),
               Text(
-                S.of(context).versionText2,
+                S.current.versionText2,
                 style: Theme.of(context).textTheme.headline5.copyWith(
                       color: Colors.white,
                     ),

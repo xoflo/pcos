@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/controllers/favourites_controller.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
@@ -54,7 +53,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       favouriteWidget = LessonWikiFull(
         parentContext: context,
         wiki: lessonWiki,
-        isFavourite: lessonWiki.isFavorite,
+        isFavourite: true,
         closeWiki: _closeFavourite,
       );
     } else {
@@ -62,6 +61,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       analyticsId = recipe.recipeId.toString();
       favouriteWidget = RecipeDetails(
         recipe: recipe,
+        isFavourite: true,
         closeRecipeDetails: _closeFavourite,
       );
     }
@@ -79,18 +79,23 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
   }
 
   void _removeFavourite(FavouriteType favouriteType, dynamic item) async {
+    final itemId = favouriteType == FavouriteType.Lesson
+        ? item.lessonID
+        : favouriteType == FavouriteType.Wiki
+            ? item.questionId
+            : item.recipeId;
     void removeFavouriteConfirmed(BuildContext context) async {
-      FavouritesController()
-          .addToFavourites(context, favouriteType, item, false);
+      Provider.of<FavouritesProvider>(context, listen: false)
+          .addToFavourites(favouriteType, itemId);
       Navigator.of(context).pop();
     }
 
     showAlertDialog(
       context,
-      S.of(context).favouriteRemoveTitle,
-      S.of(context).favouriteRemoveText,
-      S.of(context).noText,
-      S.of(context).yesText,
+      S.current.favouriteRemoveTitle,
+      S.current.favouriteRemoveText,
+      S.current.noText,
+      S.current.yesText,
       removeFavouriteConfirmed,
       (BuildContext context) {
         Navigator.of(context).pop();
@@ -116,7 +121,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                 isScrollable: true,
                 tabs: [
                   Tab(
-                    text: S.of(context).toolkitTitle,
+                    text: S.current.toolkitTitle,
                     icon: Icon(
                       Icons.construction,
                       color: primaryColor,
@@ -124,7 +129,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).lessonsTitle,
+                    text: S.current.lessonsTitle,
                     icon: Icon(
                       Icons.play_circle_outline,
                       color: primaryColor,
@@ -132,7 +137,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).wikiTitle,
+                    text: S.current.wikiTitle,
                     icon: Icon(
                       Icons.batch_prediction,
                       color: primaryColor,
@@ -140,7 +145,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).recipesTitle,
+                    text: S.current.recipesTitle,
                     icon: Icon(
                       Icons.local_dining,
                       color: primaryColor,

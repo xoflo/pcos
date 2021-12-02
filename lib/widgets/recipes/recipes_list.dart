@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_item.dart';
 
 class RecipesList extends StatelessWidget {
   final Size screenSize;
   final List<dynamic> recipes;
-  final Function(BuildContext, Recipe) openRecipeDetails;
+  final Function(BuildContext, dynamic) openRecipeDetails;
 
   RecipesList({
     @required this.screenSize,

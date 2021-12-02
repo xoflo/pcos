@@ -8,7 +8,6 @@ import 'package:image_downloader/image_downloader.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/content_pdf_viewer.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
@@ -60,6 +59,16 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
     return Container();
   }
 
+  Widget _getSummary(BuildContext context) {
+    if (widget.lessonContent.summary.length > 0) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: HtmlWidget(widget.lessonContent.summary),
+      );
+    }
+    return Container();
+  }
+
   Widget _getMedia(BuildContext context) {
     final bool displayMedia = widget.lessonContent.mediaUrl.length > 0 &&
         widget.lessonContent.mediaMimeType.length > 0;
@@ -99,7 +108,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
               isDownloadable
                   ? ColorButton(
                       isUpdating: isDownloading,
-                      label: S.of(context).downloadToDevice,
+                      label: S.current.downloadToDevice,
                       onTap: () {
                         setState(() {
                           isDownloading = true;
@@ -110,13 +119,6 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
                     )
                   : Container(),
             ],
-          );
-        case MediaType.Pdf:
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12.0),
-            child: ContentPdfViewer(
-              lessonContent: widget.lessonContent,
-            ),
           );
       }
     }
@@ -134,8 +136,8 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
       });
 
       if (imageId == null) {
-        showFlushBar(context, S.of(context).downloadFailed,
-            S.of(context).downloadFailedMsg,
+        showFlushBar(
+            context, S.current.downloadFailed, S.current.downloadFailedMsg,
             backgroundColor: Colors.white,
             borderColor: primaryColorLight,
             primaryColor: primaryColor);
@@ -145,18 +147,18 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
       // Below is a method of obtaining saved image information.
       final String path = await ImageDownloader.findPath(imageId);
       final String downloadMessage = Platform.isIOS
-          ? S.of(context).downloadSuccessMsgiOS
-          : S.of(context).downloadSuccessMsg;
+          ? S.current.downloadSuccessMsgiOS
+          : S.current.downloadSuccessMsg;
 
-      showFlushBar(context, S.of(context).downloadSuccess, downloadMessage,
+      showFlushBar(context, S.current.downloadSuccess, downloadMessage,
           backgroundColor: Colors.white,
           borderColor: primaryColorLight,
           primaryColor: primaryColor,
           displayDuration: 10);
       ImageDownloader.open(path);
     } on PlatformException catch (error) {
-      showFlushBar(context, S.of(context).downloadFailed,
-          S.of(context).downloadFailedMsg,
+      showFlushBar(
+          context, S.current.downloadFailed, S.current.downloadFailedMsg,
           backgroundColor: Colors.white,
           borderColor: primaryColorLight,
           primaryColor: primaryColor);
@@ -174,6 +176,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
                   _getTitle(context),
                   _getBody(context),
                   _getMedia(context),
+                  _getSummary(context),
                 ],
               ),
             ),
@@ -183,6 +186,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
               _getTitle(context),
               _getBody(context),
               _getMedia(context),
+              _getSummary(context),
             ],
           );
   }

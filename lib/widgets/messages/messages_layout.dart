@@ -22,7 +22,7 @@ class MessagesLayout extends StatelessWidget {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noNotifications);
+        return NoResults(message: S.current.noNotifications);
       case LoadingStatus.success:
         return MessagesList(
           messagesProvider: messagesProvider,
@@ -66,10 +66,10 @@ class MessagesLayout extends StatelessWidget {
 
     showAlertDialog(
       context,
-      S.of(context).deleteMessageTitle,
-      S.of(context).deleteMessageText,
-      S.of(context).noText,
-      S.of(context).yesText,
+      S.current.deleteMessageTitle,
+      S.current.deleteMessageText,
+      S.current.noText,
+      S.current.yesText,
       continueDeleteMessage,
       (BuildContext context) {
         Navigator.of(context).pop();
@@ -90,7 +90,7 @@ class MessagesLayout extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Header(
-              title: S.of(context).messagesTitle,
+              title: S.current.messagesTitle,
               closeItem: () {
                 Navigator.pop(context);
               },

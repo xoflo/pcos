@@ -20,14 +20,11 @@ class QuestionTab extends StatelessWidget {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.of(context).noItemsFound);
+        return NoResults(message: S.current.noItemsFound);
       case LoadingStatus.success:
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2.0),
-          child: QuestionList(
-            questions: provider.items,
-            wikis: [],
-          ),
+        return QuestionList(
+          questions: provider.items,
+          wikis: [],
         );
     }
     return Container();
@@ -36,10 +33,7 @@ class QuestionTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: getQuestionList(context, faqProvider),
-      ),
+      child: getQuestionList(context, faqProvider),
     );
   }
 }

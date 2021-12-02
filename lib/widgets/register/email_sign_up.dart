@@ -23,7 +23,7 @@ class EmailSignIn extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).emailLinkText,
+                S.current.emailLinkText,
                 textAlign: TextAlign.center,
               ),
               Padding(
@@ -32,7 +32,7 @@ class EmailSignIn extends StatelessWidget {
                   controller: emailController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: S.of(context).emailLabel,
+                    labelText: S.current.emailLabel,
                   ),
                 ),
               ),
@@ -48,7 +48,7 @@ class EmailSignIn extends StatelessWidget {
                       emailWebsiteLink();
                     },
                     child: Text(
-                      S.of(context).emailLinkTitle,
+                      S.current.emailLinkTitle,
                       style: TextStyle(
                         color: primaryColor,
                       ),

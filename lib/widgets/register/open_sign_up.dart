@@ -22,7 +22,7 @@ class OpenSignUp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                S.of(context).openWebsiteText,
+                S.current.openWebsiteText,
                 textAlign: TextAlign.center,
               ),
               Padding(
@@ -31,12 +31,12 @@ class OpenSignUp extends StatelessWidget {
                 ),
                 child: ColorButton(
                   isUpdating: false,
-                  label: S.of(context).openWebsiteTitle,
+                  label: S.current.openWebsiteTitle,
                   onTap: openWebsite,
                 ),
               ),
               Text(
-                S.of(context).openWebsiteWhy,
+                S.current.openWebsiteWhy,
                 textAlign: TextAlign.center,
               ),
             ],

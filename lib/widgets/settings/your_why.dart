@@ -23,7 +23,7 @@ class YourWhySetting extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                S.of(context).settingsYourWhyText,
+                S.current.settingsYourWhyText,
                 style: Theme.of(context).textTheme.headline5,
               ),
               Switch(
@@ -32,8 +32,8 @@ class YourWhySetting extends StatelessWidget {
                   if (hasYourWhyBeenEntered) {
                     saveYourWhy(value);
                   } else {
-                    showFlushBar(context, S.of(context).yourWhyWarningTitle,
-                        S.of(context).yourWhyWarningText,
+                    showFlushBar(context, S.current.yourWhyWarningTitle,
+                        S.current.yourWhyWarningText,
                         backgroundColor: Colors.white,
                         borderColor: primaryColorLight,
                         primaryColor: primaryColor);

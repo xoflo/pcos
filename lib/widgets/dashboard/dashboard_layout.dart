@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
@@ -9,10 +10,12 @@ import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
+import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
@@ -119,9 +122,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       Navigator.of(context).pop();
       showAlertDialog(
         context,
-        S.of(context).requestDailyReminderTitle,
-        S.of(context).requestDailyReminderNoText,
-        S.of(context).okayText,
+        S.current.requestDailyReminderTitle,
+        S.current.requestDailyReminderNoText,
+        S.current.okayText,
         "",
         null,
         (BuildContext context) {
@@ -135,10 +138,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
     showAlertDialog(
       context,
-      S.of(context).requestDailyReminderTitle,
-      S.of(context).requestDailyReminderText,
-      S.of(context).noText,
-      S.of(context).yesText,
+      S.current.requestDailyReminderTitle,
+      S.current.requestDailyReminderText,
+      S.current.noText,
+      S.current.yesText,
       openSettings,
       displaySetupLaterMessage,
     );
@@ -157,10 +160,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
     showAlertDialog(
       context,
-      S.of(context).requestNotificationPermissionTitle,
-      S.of(context).requestNotificationPermissionText,
-      S.of(context).noText,
-      S.of(context).yesText,
+      S.current.requestNotificationPermissionTitle,
+      S.current.requestNotificationPermissionText,
+      S.current.noText,
+      S.current.yesText,
       requestNotificationPermission,
       (BuildContext context) {
         Navigator.of(context).pop();
@@ -274,25 +277,12 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   //#endregion
 
   //#region Actions
-  void _openRecipeDetails(final BuildContext context, final int recipeId) {
-    Recipe recipe = Provider.of<RecipesProvider>(context, listen: false)
-        .getRecipeById(recipeId);
 
-    if (recipe.recipeId != -1) {
-      openBottomSheet(
-        context,
-        RecipeDetails(
-          recipe: recipe,
-          closeRecipeDetails: _closeRecipeDetails,
-        ),
-        Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
-        recipe.recipeId.toString(),
-      );
-    }
-  }
-
-  void _closeRecipeDetails() {
-    Navigator.pop(context);
+  void _openWikiSearch(
+      final BuildContext context, final ModulesProvider modulesProvider) {
+    //clear old search results before opening
+    analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_LESSON_WIKI_SEARCH);
+    Navigator.pushNamed(context, WikiSearch.id);
   }
 
   //#endregion
@@ -302,6 +292,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final Size screenSize,
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
+    final FavouritesProvider favouritesProvider,
   ) {
     if (modulesProvider.currentLesson != null && _selectedLessonId == 0) {
       _selectedLessonIsComplete = modulesProvider.currentLesson.isComplete;
@@ -316,6 +307,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       width: screenSize.width,
       isHorizontal: isHorizontal,
       modulesProvider: modulesProvider,
+      favouritesProvider: favouritesProvider,
       showPreviousModule: showPreviousModule,
       openLesson: _openLesson,
       openPreviousModules: _openPreviousModules,
@@ -361,6 +353,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       isHorizontal: isHorizontal,
       width: screenSize.width,
       selectedWiki: _selectedWiki,
+      openWikiSearch: _openWikiSearch,
     );
   }
 
@@ -368,7 +361,34 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final Size screenSize,
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
+    final FavouritesProvider favouritesProvider,
   ) {
+    //function for opening the recipe details
+    void _openRecipeDetails(final BuildContext context, final int recipeId) {
+      void _closeRecipeDetails() {
+        Navigator.pop(context);
+      }
+
+      final RecipesProvider recipeProvider =
+          Provider.of<RecipesProvider>(context, listen: false);
+      final Recipe recipe = recipeProvider.getRecipeById(recipeId);
+      final bool isFavourite =
+          favouritesProvider.isFavourite(FavouriteType.Recipe, recipeId);
+
+      if (recipe.recipeId != -1) {
+        openBottomSheet(
+          context,
+          RecipeDetails(
+            recipe: recipe,
+            isFavourite: isFavourite,
+            closeRecipeDetails: _closeRecipeDetails,
+          ),
+          Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
+          recipe.recipeId.toString(),
+        );
+      }
+    }
+
     final List<LessonRecipe> lessonRecipes = _selectedLessonId == 0
         ? modulesProvider.initialLessonRecipes
         : modulesProvider.getLessonRecipes(_selectedLessonId);
@@ -394,18 +414,21 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child: Consumer<ModulesProvider>(
-              builder: (context, model, child) => Column(
+            child: Consumer2<ModulesProvider, FavouritesProvider>(
+              builder: (context, modulesProvider, favouritesProvider, child) =>
+                  Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   widget.showYourWhy
                       ? YourWhy(width: screenSize.width, whatsYourWhy: _yourWhy)
                       : Container(height: 20),
-                  getTasks(screenSize, isHorizontal, model),
-                  getCurrentModule(screenSize, isHorizontal, model),
-                  getLessonWikis(screenSize, isHorizontal, model),
+                  getTasks(screenSize, isHorizontal, modulesProvider),
+                  getCurrentModule(screenSize, isHorizontal, modulesProvider,
+                      favouritesProvider),
+                  getLessonWikis(screenSize, isHorizontal, modulesProvider),
                   widget.showLessonRecipes
-                      ? getLessonRecipes(screenSize, isHorizontal, model)
+                      ? getLessonRecipes(screenSize, isHorizontal,
+                          modulesProvider, favouritesProvider)
                       : Container(),
                 ],
               ),
