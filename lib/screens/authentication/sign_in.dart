@@ -37,7 +37,7 @@ class _SignInState extends State<SignIn> {
   void authenticateUser() async {
     bool showErrorDialog = false;
     String errorMessage = "";
-    String errorTitle = S.of(context).signinErrorTitle;
+    String errorTitle = S.current.signinErrorTitle;
 
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
@@ -74,25 +74,25 @@ class _SignInState extends State<SignIn> {
           return;
         } else {
           showErrorDialog = true;
-          errorMessage = S.of(context).signinUnknownErrorText;
+          errorMessage = S.current.signinUnknownErrorText;
         }
       } else {
         //not connected to internet, inform user
         showErrorDialog = true;
-        errorTitle = S.of(context).internetConnectionTitle;
-        errorMessage = S.of(context).internetConnectionText;
+        errorTitle = S.current.internetConnectionTitle;
+        errorMessage = S.current.internetConnectionText;
       }
     } catch (ex) {
       showErrorDialog = true;
       switch (ex) {
         case EMAIL_NOT_VERIFIED:
-          errorMessage = S.of(context).signInEmailNotVerifiedErrorText;
+          errorMessage = S.current.signInEmailNotVerifiedErrorText;
           break;
         case SIGN_IN_CREDENTIALS:
-          errorMessage = S.of(context).signinErrorText;
+          errorMessage = S.current.signinErrorText;
           break;
         default:
-          errorMessage = S.of(context).signinUnknownErrorText;
+          errorMessage = S.current.signinUnknownErrorText;
           break;
       }
     }
@@ -139,7 +139,7 @@ class _SignInState extends State<SignIn> {
       } else {
         showFlushBar(
             context,
-            S.of(context).questionnaireWebsiteErrorTitle,
+            S.current.questionnaireWebsiteErrorTitle,
             S
                 .of(context)
                 .questionnaireWebsiteErrorText
@@ -170,7 +170,7 @@ class _SignInState extends State<SignIn> {
                     height: 40,
                     child: ColorButton(
                       isUpdating: false,
-                      label: S.of(context).returnToSignInTitle,
+                      label: S.current.returnToSignInTitle,
                       onTap: hideRegistration,
                       width: 250,
                     ),

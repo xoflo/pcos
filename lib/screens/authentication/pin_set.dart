@@ -59,8 +59,8 @@ class _PinSetState extends State<PinSet> {
   }
 
   void startPinAgain() {
-    showFlushBar(context, S.of(context).pinEntryErrorTitle,
-        S.of(context).pinEntryErrorText,
+    showFlushBar(
+        context, S.current.pinEntryErrorTitle, S.current.pinEntryErrorText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
         primaryColor: primaryColor);
@@ -115,8 +115,8 @@ class _PinSetState extends State<PinSet> {
       openAppDelay = 4;
       showFlushBar(
         context,
-        S.of(context).pinSaveErrorTitle,
-        S.of(context).pinSaveErrorText,
+        S.current.pinSaveErrorTitle,
+        S.current.pinSaveErrorText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
         primaryColor: primaryColor,
@@ -140,8 +140,8 @@ class _PinSetState extends State<PinSet> {
       body: SafeArea(
         child: _pinEntry == PinEntry.COMPLETE
             ? PinCorrect(
-                message: S.of(context).pinSetSuccessfulTitle,
-                messageWhy: S.of(context).pinSetSuccessfulMessage,
+                message: S.current.pinSetSuccessfulTitle,
+                messageWhy: S.current.pinSetSuccessfulMessage,
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -155,8 +155,8 @@ class _PinSetState extends State<PinSet> {
                   PinPad(
                     pinButtonSize: pinButtonSize,
                     headerText: _pinEntry == PinEntry.NONE
-                        ? S.of(context).pinSetTitle
-                        : S.of(context).pinConfirmTitle,
+                        ? S.current.pinSetTitle
+                        : S.current.pinConfirmTitle,
                     progress: _progress,
                     currentPosition: _currentPosition,
                     showForgottenPin: false,

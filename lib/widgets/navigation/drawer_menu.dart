@@ -93,7 +93,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    S.of(context).appTitle,
+                    S.current.appTitle,
                     style: Theme.of(context).textTheme.headline4.copyWith(
                           color: primaryColor,
                         ),
@@ -137,7 +137,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).profileTitle,
+              S.current.profileTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -146,7 +146,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).changePasswordTitle,
+              S.current.changePasswordTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -155,7 +155,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).appHelpTitle,
+              S.current.appHelpTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -164,7 +164,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).privacyTitle,
+              S.current.privacyTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -173,7 +173,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).termsOfUseTitle,
+              S.current.termsOfUseTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -182,7 +182,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).tutorialTitle,
+              S.current.tutorialTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -192,13 +192,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
           SizedBox(height: 30.0),
           ListTile(
             title: Text(
-              "${S.of(context).appTitle} v$_appVersion (build: $_appBuildNumber)",
+              "${S.current.appTitle} v$_appVersion (build: $_appBuildNumber)",
               style: footerStyle,
             ),
           ),
           ListTile(
             title: Text(
-              "${today.year} \u00a9 ${S.of(context).companyTitle}",
+              "${today.year} \u00a9 ${S.current.companyTitle}",
               style: footerStyle,
             ),
           ),

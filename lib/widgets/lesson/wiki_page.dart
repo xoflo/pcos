@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/controllers/favourites_controller.dart';
 
 class WikiPage extends StatelessWidget {
   final bool isHorizontal;
@@ -19,8 +20,8 @@ class WikiPage extends StatelessWidget {
 
   void _addToFavourites(
       FavouriteType favouriteType, final dynamic item, final bool add) async {
-    FavouritesController()
-        .addToFavourites(parentContext, favouriteType, item, add);
+    Provider.of<FavouritesProvider>(parentContext, listen: false)
+        .addToFavourites(favouriteType, item.questionId);
   }
 
   @override
@@ -31,7 +32,7 @@ class WikiPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(
-              S.of(context).lessonWiki,
+              S.current.lessonWiki,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: primaryColor,
@@ -39,19 +40,16 @@ class WikiPage extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: this.wikis.length > 0
-                ? QuestionList(
-                    questions: [],
-                    wikis: this.wikis,
-                    showIcon: true,
-                    iconData: Icons.favorite_outline,
-                    iconDataOn: Icons.favorite,
-                    iconAction: _addToFavourites,
-                  )
-                : Container(),
-          ),
+          this.wikis.length > 0
+              ? QuestionList(
+                  questions: [],
+                  wikis: this.wikis,
+                  showIcon: true,
+                  iconData: Icons.favorite_outline,
+                  iconDataOn: Icons.favorite,
+                  iconAction: _addToFavourites,
+                )
+              : Container(),
         ],
       ),
     );

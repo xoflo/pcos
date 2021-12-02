@@ -47,13 +47,13 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
           //password must have been wrong
           _displayMessage(
             context,
-            S.of(context).changePasswordOldPasswordWrongTitle,
-            S.of(context).changePasswordOldPasswordWrongMessage,
+            S.current.changePasswordOldPasswordWrongTitle,
+            S.current.changePasswordOldPasswordWrongMessage,
           );
         } else {
           //something else went wrong checking password
-          _displayMessage(context, S.of(context).changePasswordFailedTitle,
-              S.of(context).changePasswordFailedMessage);
+          _displayMessage(context, S.current.changePasswordFailedTitle,
+              S.current.changePasswordFailedMessage);
         }
         setState(() {
           isUpdating = false;
@@ -72,8 +72,8 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
         }
       } catch (ex) {
         //something unexpected went wrong
-        _displayMessage(context, S.of(context).changePasswordFailedTitle,
-            S.of(context).changePasswordFailedMessage);
+        _displayMessage(context, S.current.changePasswordFailedTitle,
+            S.current.changePasswordFailedMessage);
       }
     }
     setState(() {
@@ -105,7 +105,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Header(
-                title: S.of(context).changePasswordTitle,
+                title: S.current.changePasswordTitle,
                 closeItem: _cancel,
               ),
               !isComplete
@@ -121,11 +121,11 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                               obscureText: true,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: S.of(context).changePasswordOldLabel,
+                                labelText: S.current.changePasswordOldLabel,
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
-                                  return S.of(context).changePasswordOldMessage;
+                                  return S.current.changePasswordOldMessage;
                                 }
                                 return null;
                               },
@@ -138,11 +138,11 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                               obscureText: true,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: S.of(context).changePasswordNewLabel,
+                                labelText: S.current.changePasswordNewLabel,
                               ),
                               validator: (value) {
                                 if (value.isEmpty || value.length < 6) {
-                                  return S.of(context).changePasswordNewMessage;
+                                  return S.current.changePasswordNewMessage;
                                 }
                                 return null;
                               },
@@ -155,8 +155,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                               obscureText: true,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText:
-                                    S.of(context).changePasswordConfirmLabel,
+                                labelText: S.current.changePasswordConfirmLabel,
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -179,7 +178,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                             children: [
                               ColorButton(
                                 isUpdating: isUpdating,
-                                label: S.of(context).changePasswordSaveButton,
+                                label: S.current.changePasswordSaveButton,
                                 onTap: () {
                                   setState(() {
                                     isUpdating = true;
@@ -193,7 +192,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                               ),
                               ColorButton(
                                 isUpdating: isUpdating,
-                                label: S.of(context).profileCancelButton,
+                                label: S.current.profileCancelButton,
                                 onTap: () {
                                   _cancel();
                                 },
@@ -219,7 +218,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                               ),
                             ),
                             Text(
-                              S.of(context).changePasswordSuccessMessage,
+                              S.current.changePasswordSuccessMessage,
                               style: Theme.of(context).textTheme.headline6,
                             ),
                           ]),

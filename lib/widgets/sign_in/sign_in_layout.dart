@@ -38,9 +38,9 @@ class _SignInLayoutState extends State<SignInLayout> {
     if (widget.emailController.text.length == 0) {
       showAlertDialog(
         context,
-        S.of(context).passwordForgottenTitle,
-        S.of(context).passwordForgottenEmailMessage,
-        S.of(context).okayText,
+        S.current.passwordForgottenTitle,
+        S.current.passwordForgottenEmailMessage,
+        S.current.okayText,
         "",
         null,
         (BuildContext context) {
@@ -57,13 +57,13 @@ class _SignInLayoutState extends State<SignInLayout> {
       );
       showAlertDialog(
         context,
-        S.of(context).passwordForgottenTitle,
+        S.current.passwordForgottenTitle,
         S
             .of(context)
             .passwordForgottenMessage
             .replaceAll("[emailAddress]", widget.emailController.text),
-        S.of(context).passwordForgottenCancel,
-        S.of(context).passwordForgottenContinue,
+        S.current.passwordForgottenCancel,
+        S.current.passwordForgottenContinue,
         continueForgottenPassword,
         (BuildContext context) {
           Navigator.of(context).pop();
@@ -80,13 +80,13 @@ class _SignInLayoutState extends State<SignInLayout> {
           .forgotPassword(widget.emailController.text.trim());
 
       sendEmail
-          ? S.of(context).passwordForgottenCompleteMessage
-          : S.of(context).passwordForgottenFailedMessage;
+          ? S.current.passwordForgottenCompleteMessage
+          : S.current.passwordForgottenFailedMessage;
       if (sendEmail) {
         showFlushBar(
           context,
-          S.of(context).passwordForgottenTitle,
-          S.of(context).passwordForgottenCompleteMessage,
+          S.current.passwordForgottenTitle,
+          S.current.passwordForgottenCompleteMessage,
           icon: Icons.info_rounded,
           backgroundColor: Colors.white,
           borderColor: secondaryColor,
@@ -95,15 +95,15 @@ class _SignInLayoutState extends State<SignInLayout> {
       } else {
         showFlushBar(
           context,
-          S.of(context).passwordForgottenTitle,
-          S.of(context).passwordForgottenFailedMessage,
+          S.current.passwordForgottenTitle,
+          S.current.passwordForgottenFailedMessage,
         );
       }
     } catch (ex) {
       showFlushBar(
         context,
-        S.of(context).passwordForgottenTitle,
-        S.of(context).passwordForgottenFailedMessage,
+        S.current.passwordForgottenTitle,
+        S.current.passwordForgottenFailedMessage,
       );
     }
   }
@@ -125,7 +125,7 @@ class _SignInLayoutState extends State<SignInLayout> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  S.of(context).signInTitle,
+                  S.current.signInTitle,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 Padding(
@@ -135,11 +135,11 @@ class _SignInLayoutState extends State<SignInLayout> {
                     controller: widget.emailController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: S.of(context).emailLabel,
+                      labelText: S.current.emailLabel,
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return S.of(context).validateEmailMessage;
+                        return S.current.validateEmailMessage;
                       }
                       return null;
                     },
@@ -152,11 +152,11 @@ class _SignInLayoutState extends State<SignInLayout> {
                     obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: S.of(context).passwordLabel,
+                      labelText: S.current.passwordLabel,
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return S.of(context).validatePasswordMessage;
+                        return S.current.validatePasswordMessage;
                       }
                       return null;
                     },
@@ -168,7 +168,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                   ),
                   child: ColorButton(
                     isUpdating: widget.isSigningIn,
-                    label: S.of(context).signInTitle,
+                    label: S.current.signInTitle,
                     onTap: attemptSignIn,
                     width: 80,
                   ),
@@ -180,7 +180,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                       forgottenPassword(context);
                     },
                     child: Text(
-                      S.of(context).passwordForgottenTitle,
+                      S.current.passwordForgottenTitle,
                     ),
                   ),
                 )

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list_item.dart';
 
@@ -29,6 +31,9 @@ class QuestionList extends StatefulWidget {
 class _QuestionListState extends State<QuestionList> {
   @override
   Widget build(BuildContext context) {
+    FavouritesProvider favouritesProvider =
+        Provider.of<FavouritesProvider>(context, listen: false);
+
     return ExpansionPanelList(
       expansionCallback: (int index, bool isExpanded) {
         //remove the focus from the searchbox if necessary, to hide the keyboard
@@ -54,10 +59,10 @@ class _QuestionListState extends State<QuestionList> {
                   );
                 },
                 body: QuestionListItem(
-                  showIcon: widget.showIcon,
+                  showIcon: false,
                   answerText: item.answer,
                   item: item,
-                  isFavorite: item.isFavorite,
+                  isFavorite: false,
                   iconData: widget.iconData,
                   iconDataOn: widget.iconDataOn,
                   iconAction: widget.iconAction,
@@ -83,7 +88,8 @@ class _QuestionListState extends State<QuestionList> {
                   showIcon: widget.showIcon,
                   answerText: item.answer,
                   item: item,
-                  isFavorite: item.isFavorite,
+                  isFavorite: favouritesProvider.isFavourite(
+                      FavouriteType.Wiki, item.questionId),
                   iconData: widget.iconData,
                   iconDataOn: widget.iconDataOn,
                   iconAction: widget.iconAction,

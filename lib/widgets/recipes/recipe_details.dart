@@ -8,11 +8,15 @@ import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class RecipeDetails extends StatelessWidget {
-  final BuildContext parentContext;
   final Recipe recipe;
+  final bool isFavourite;
   final Function closeRecipeDetails;
 
-  RecipeDetails({this.parentContext, this.recipe, this.closeRecipeDetails});
+  RecipeDetails({
+    @required this.recipe,
+    @required this.isFavourite,
+    @required this.closeRecipeDetails,
+  });
 
   Widget _getRecipeDetails(
       BuildContext context, bool isHorizontal, Size screenSize) {
@@ -83,11 +87,11 @@ class RecipeDetails extends StatelessWidget {
   List<Tab> _getRecipeDetailTabs(BuildContext context, bool isHorizontal) {
     List<Tab> tabs = [];
     if (!isHorizontal) {
-      tabs.add(Tab(text: S.of(context).recipeDetailsSummaryTab));
+      tabs.add(Tab(text: S.current.recipeDetailsSummaryTab));
     }
-    tabs.add(Tab(text: S.of(context).recipeDetailsIngredientsTab));
-    tabs.add(Tab(text: S.of(context).recipeDetailsMethodTab));
-    tabs.add(Tab(text: S.of(context).recipeDetailsTipsTab));
+    tabs.add(Tab(text: S.current.recipeDetailsIngredientsTab));
+    tabs.add(Tab(text: S.current.recipeDetailsMethodTab));
+    tabs.add(Tab(text: S.current.recipeDetailsTipsTab));
     return tabs;
   }
 
@@ -137,7 +141,7 @@ class RecipeDetails extends StatelessWidget {
                 item: recipe,
                 favouriteType: FavouriteType.Recipe,
                 title: recipe.title,
-                isFavourite: recipe.isFavorite,
+                isFavourite: this.isFavourite,
                 closeItem: closeRecipeDetails,
                 onAction: () {},
               ),

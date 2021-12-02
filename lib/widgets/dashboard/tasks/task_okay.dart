@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
-class TaskRating extends StatefulWidget {
+class TaskOkay extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
   final Function(int, String) onSubmit;
 
-  TaskRating({
+  TaskOkay({
     @required this.screenSize,
     @required this.isHorizontal,
     @required this.lessonTask,
@@ -19,16 +18,15 @@ class TaskRating extends StatefulWidget {
   });
 
   @override
-  _TaskRatingState createState() => _TaskRatingState();
+  _TaskOkayState createState() => _TaskOkayState();
 }
 
-class _TaskRatingState extends State<TaskRating> {
-  double _sliderValue = 2.5;
+class _TaskOkayState extends State<TaskOkay> {
+  bool answer = false;
   bool isSaving = false;
 
   void _saveResponse() {
-    widget.onSubmit(
-        widget.lessonTask.lessonTaskID, _sliderValue.toStringAsFixed(1));
+    widget.onSubmit(widget.lessonTask.lessonTaskID, "Okay");
   }
 
   @override
@@ -50,34 +48,9 @@ class _TaskRatingState extends State<TaskRating> {
             ),
             child: HtmlWidget(widget.lessonTask.description),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.sentiment_dissatisfied_outlined,
-                color: primaryColor,
-                size: 30,
-              ),
-              Slider(
-                value: _sliderValue,
-                min: 0,
-                max: 5,
-                onChanged: (value) {
-                  setState(() {
-                    _sliderValue = value;
-                  });
-                },
-              ),
-              Icon(
-                Icons.sentiment_satisfied_outlined,
-                color: primaryColor,
-                size: 30,
-              ),
-            ],
-          ),
           ColorButton(
             isUpdating: isSaving,
-            label: S.current.saveText,
+            label: S.current.okayText,
             onTap: () {
               _saveResponse();
             },

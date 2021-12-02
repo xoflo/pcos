@@ -28,7 +28,7 @@ class _AppHelpLayoutState extends State<AppHelpLayout> {
         ),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           Header(
-            title: S.of(context).appHelpTitle,
+            title: S.current.appHelpTitle,
             closeItem: _cancel,
           ),
           Expanded(

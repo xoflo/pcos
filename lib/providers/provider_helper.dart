@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/all_favourites.dart';
@@ -32,8 +31,6 @@ class ProviderHelper {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider.db != null) {
       //first get the data from the api if we have no data yet
-      final bool shouldGet = await _shouldGetDataFromAPI(dbProvider, tableName);
-      debugPrint("QUESTIONS tableName=$tableName shouldGet=$shouldGet");
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final cmsItems = await WebServices().getCMSByType(assetType);
         List<Question> questions = _convertCMSToQuestions(cmsItems, assetType);
@@ -50,9 +47,6 @@ class ProviderHelper {
             'isFavorite': question.isFavorite ? 1 : 0,
           });
         });
-        if (tableName == "Wiki") {
-          debugPrint("WIKIS HAVE BEEN SAVED");
-        }
         //save when we got the data
         saveTimestamp(tableName);
       }
@@ -193,9 +187,8 @@ class ProviderHelper {
       }
 
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
-      debugPrint("MODULES NEEDS THE WIKIS NOW");
       final wikiList = await dbProvider.getDataQueryWithJoin(
-        "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID",
+        "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID, $TABLE_LESSON_LINK.ModuleID",
         "$TABLE_WIKI INNER JOIN $TABLE_LESSON_LINK ON $TABLE_WIKI.id = $TABLE_LESSON_LINK.objectID",
         "WHERE objectType = 'wiki'",
       );
@@ -203,8 +196,7 @@ class ProviderHelper {
       final List<LessonWiki> lessonWikisToReturn =
           mapDataToList(wikiList, "LessonWiki");
 
-      //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
-      debugPrint("MODULES NEEDS THE RECIPES NOW");
+      //get the lesson wikis by joining the wiki and lesson table and only return the lessonWikis for lessons in lessonsToReturn
       final recipeList = await dbProvider.getDataQueryWithJoin(
         "$TABLE_RECIPE.*, $TABLE_LESSON_LINK.LessonID",
         "$TABLE_RECIPE INNER JOIN $TABLE_LESSON_LINK ON $TABLE_RECIPE.recipeId = $TABLE_LESSON_LINK.objectID",
@@ -262,7 +254,8 @@ class ProviderHelper {
         //add lesson content to database
         await _addLessonContentToDatabase(dbProvider, lessonContent);
         await _addLessonTasksToDatabase(dbProvider, lessonTasks);
-        await _addLessonLinkToDatabase(dbProvider, lessonLinks);
+        await _addLessonLinkToDatabase(
+            dbProvider, lessonLinks, lesson.moduleID);
       });
     });
   }
@@ -277,6 +270,7 @@ class ProviderHelper {
         'mediaUrl': lessonContent.mediaUrl,
         'mediaMimeType': lessonContent.mediaMimeType,
         'body': lessonContent.body,
+        'summary': lessonContent.summary,
         'orderIndex': lessonContent.orderIndex,
         'dateCreatedUTC': lessonContent.dateCreatedUTC.toIso8601String(),
       });
@@ -300,12 +294,13 @@ class ProviderHelper {
     });
   }
 
-  Future<void> _addLessonLinkToDatabase(
-      final dbProvider, List<LessonLink> lessonLinks) async {
+  Future<void> _addLessonLinkToDatabase(final dbProvider,
+      final List<LessonLink> lessonLinks, final int moduleID) async {
     lessonLinks.forEach((LessonLink lessonLink) async {
       await dbProvider.insert(TABLE_LESSON_LINK, {
         'lessonLinkID': lessonLink.lessonLinkID,
         'lessonID': lessonLink.lessonID,
+        'moduleID': moduleID,
         'objectID': lessonLink.objectID,
         'objectType': lessonLink.objectType,
         'orderIndex': lessonLink.orderIndex,
@@ -498,7 +493,7 @@ class ProviderHelper {
     final bool isAdd,
     final dbProvider,
     final FavouriteType favouriteType,
-    final dynamic item,
+    final int itemId,
   ) async {
     int updateId = 0;
     String tableName = "";
@@ -507,19 +502,19 @@ class ProviderHelper {
 
     switch (favouriteType) {
       case FavouriteType.Recipe:
-        updateId = item.recipeId;
+        updateId = itemId;
         tableName = TABLE_RECIPE;
         assetType = "Recipe";
         updateColumn = "recipeId";
         break;
       case FavouriteType.Wiki:
-        updateId = item.questionId;
+        updateId = itemId;
         tableName = TABLE_WIKI;
         assetType = "CMS";
         updateColumn = "id";
         break;
       case FavouriteType.Lesson:
-        updateId = item.lessonID;
+        updateId = itemId;
         tableName = TABLE_LESSON;
         assetType = "Lesson";
         updateColumn = "lessonID";
@@ -537,7 +532,7 @@ class ProviderHelper {
         limitRowCount: 1,
       );
     }
-    //update in API tp persist - don't await the service call otherwise too slow
+    //update in API to persist - don't await the service call otherwise too slow
     if (isAdd) {
       WebServices().addToFavourites(assetType, updateId);
     } else {

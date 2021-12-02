@@ -2454,6 +2454,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Lesson Wiki Search`
+  String get searchWiki {
+    return Intl.message(
+      'Lesson Wiki Search',
+      name: 'searchWiki',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No lesson wiki matching your search.`
+  String get noWikisSearch {
+    return Intl.message(
+      'No lesson wiki matching your search.',
+      name: 'noWikisSearch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Modules`
+  String get allModules {
+    return Intl.message(
+      'All Modules',
+      name: 'allModules',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

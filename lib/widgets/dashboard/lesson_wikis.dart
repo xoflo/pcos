@@ -18,6 +18,7 @@ class LessonWikis extends StatefulWidget {
   final int selectedWiki;
   final double width;
   final bool isHorizontal;
+  final Function(BuildContext, ModulesProvider) openWikiSearch;
 
   LessonWikis({
     @required this.screenSize,
@@ -29,6 +30,7 @@ class LessonWikis extends StatefulWidget {
     @required this.selectedWiki,
     @required this.width,
     @required this.isHorizontal,
+    @required this.openWikiSearch,
   });
 
   @override
@@ -62,9 +64,9 @@ class _LessonWikisState extends State<LessonWikis> {
 
     if (widget.loadingStatus == LoadingStatus.success) {
       if (!widget.isLessonComplete && widget.lessonWikis.length > 0) {
-        noWikisMessage = S.of(context).lockedWikis;
+        noWikisMessage = S.current.lockedWikis;
       } else {
-        noWikisMessage = S.of(context).noWikis;
+        noWikisMessage = S.current.noWikis;
       }
       _changeVisibility();
     }
@@ -83,7 +85,7 @@ class _LessonWikisState extends State<LessonWikis> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 6.0),
                       child: Text(
-                        S.of(context).lessonWiki,
+                        S.current.lessonWiki,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: primaryColor,
@@ -158,7 +160,6 @@ class _LessonWikisState extends State<LessonWikis> {
                                     return WikiCard(
                                       screenSize: widget.screenSize,
                                       wiki: lessonWiki,
-                                      isFavorite: lessonWiki.isFavorite,
                                       isLessonComplete: widget.isLessonComplete,
                                     );
                                   },
@@ -168,12 +169,35 @@ class _LessonWikisState extends State<LessonWikis> {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            widget.openWikiSearch(
+                                context, widget.modulesProvider);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Icon(
+                              Icons.search,
+                              color: secondaryColor,
+                              size: 32,
+                            ),
+                          ),
+                        ),
+                        Container(),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
           )
         : widget.loadingStatus == LoadingStatus.empty
-            ? NoResults(message: S.of(context).noResultsLessons)
+            ? NoResults(message: S.current.noResultsLessons)
             : Container();
   }
 }

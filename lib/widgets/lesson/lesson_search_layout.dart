@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/lesson.dart';
@@ -79,23 +80,26 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
     modulesProvider.filterAndSearch(searchText);
   }
 
-  Widget _getLessonList(final ModulesProvider modulesProvider) {
+  Widget _getLessonList(final ModulesProvider modulesProvider,
+      final FavouritesProvider favouritesProvider) {
     if (_hasSearchRun) {
       switch (modulesProvider.searchStatus) {
         case LoadingStatus.loading:
           return PcosLoadingSpinner();
         case LoadingStatus.empty:
-          return NoResults(message: S.of(context).noResultsLessonsSearch);
+          return NoResults(message: S.current.noResultsLessonsSearch);
         case LoadingStatus.success:
           return Column(
             children: [
               LessonSearchList(
                   isComplete: true,
                   modulesProvider: modulesProvider,
+                  favouritesProvider: favouritesProvider,
                   openLesson: _openLesson),
               LessonSearchList(
                   isComplete: false,
                   modulesProvider: modulesProvider,
+                  favouritesProvider: favouritesProvider,
                   openLesson: _openLesson),
             ],
           );
@@ -116,14 +120,15 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Header(
-            title: S.of(context).lessonSearch,
+            title: S.current.lessonSearch,
             closeItem: () {
               Navigator.pop(context);
             },
             showMessagesIcon: false,
           ),
-          Consumer<ModulesProvider>(
-            builder: (context, model, child) => Expanded(
+          Consumer2<ModulesProvider, FavouritesProvider>(
+            builder: (context, modulesProvider, favouritesProvider, child) =>
+                Expanded(
               child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
                   return Container(
@@ -140,7 +145,7 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
                             onSearchClicked: _onSearchClicked,
                             isSearching: _isSearching,
                           ),
-                          _getLessonList(model),
+                          _getLessonList(modulesProvider, favouritesProvider),
                         ],
                       ),
                     ),

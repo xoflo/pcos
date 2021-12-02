@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "allModules" : MessageLookupByLibrary.simpleMessage("All Modules"),
     "appHelpTitle" : MessageLookupByLibrary.simpleMessage("App Help"),
     "appTitle" : MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
     "areYouSureText" : MessageLookupByLibrary.simpleMessage("Close app"),
@@ -114,6 +115,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noResultsRecipes" : MessageLookupByLibrary.simpleMessage("No recipes found!"),
     "noText" : MessageLookupByLibrary.simpleMessage("No"),
     "noWikis" : MessageLookupByLibrary.simpleMessage("There are no wiki items for this lesson"),
+    "noWikisSearch" : MessageLookupByLibrary.simpleMessage("No lesson wiki matching your search."),
     "notificationPermissionsAllowButton" : MessageLookupByLibrary.simpleMessage("Allow Notifications"),
     "notificationPermissionsNeedToAllowText" : MessageLookupByLibrary.simpleMessage("To set a daily reminder you will need to allow notifications on your device by clicking the button below."),
     "notificationPermissionsNeedToAllowTitle" : MessageLookupByLibrary.simpleMessage("Please Allow Notifications"),
@@ -203,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "saveText" : MessageLookupByLibrary.simpleMessage("Save"),
     "searchHeaderFilterText" : MessageLookupByLibrary.simpleMessage("Filter:"),
     "searchInputText" : MessageLookupByLibrary.simpleMessage("Search"),
+    "searchWiki" : MessageLookupByLibrary.simpleMessage("Lesson Wiki Search"),
     "sendButtonText" : MessageLookupByLibrary.simpleMessage("Send"),
     "settingsDailyReminderText" : MessageLookupByLibrary.simpleMessage("Daily Reminder:"),
     "settingsLessonRecipesText" : MessageLookupByLibrary.simpleMessage("Display Lesson Recipes on Your Course:"),

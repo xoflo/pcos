@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class LessonContent {
   final int lessonContentID;
   final int lessonID;
@@ -5,6 +7,7 @@ class LessonContent {
   final String mediaUrl;
   final String mediaMimeType;
   final String body;
+  final String summary;
   final int orderIndex;
   final DateTime dateCreatedUTC;
 
@@ -15,11 +18,16 @@ class LessonContent {
     this.mediaUrl,
     this.mediaMimeType,
     this.body,
+    this.summary,
     this.orderIndex,
     this.dateCreatedUTC,
   });
 
   factory LessonContent.fromJson(Map<String, dynamic> json) {
+    final int lessonContentID = json['lessonContentID'];
+    if (lessonContentID == 52) {
+      debugPrint("LessonContent summary Json=$json");
+    }
     return LessonContent(
       lessonContentID: json['lessonContentID'],
       lessonID: json['lessonID'],
@@ -27,6 +35,7 @@ class LessonContent {
       mediaUrl: json['mediaUrl'],
       mediaMimeType: json['mediaMimeType'],
       body: json['body'],
+      summary: json['summary'],
       orderIndex: json['orderIndex'],
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );
@@ -41,6 +50,7 @@ class LessonContent {
   "mediaUrl": "test.mp4",
   "mediaMimeType": "mp4",
   "body": "Hi, First lesson here, welcome.",
+  "summary": "This is the summary that appears after the media.",
   "orderIndex": 0,
   "dateCreatedUTC": "2021-03-25T10:37:00"
 }

@@ -11,7 +11,6 @@ class LessonRecipe {
   final int difficulty;
   final int servings;
   final int duration;
-  final bool isFavorite;
 
   LessonRecipe({
     this.recipeId,
@@ -26,7 +25,6 @@ class LessonRecipe {
     this.difficulty,
     this.servings,
     this.duration,
-    this.isFavorite,
   });
 
   bool _isExpanded = false;
@@ -53,8 +51,6 @@ class LessonRecipe {
       difficulty: json['difficulty'],
       servings: json['servings'],
       duration: json['duration'],
-      isFavorite:
-          json['isFavorite'] == 1 || json['isFavorite'] == true ? true : false,
     );
   }
 }

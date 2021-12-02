@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class FavouritesProvider with ChangeNotifier {
   final DatabaseProvider dbProvider;
@@ -43,5 +44,44 @@ class FavouritesProvider with ChangeNotifier {
 
     status = LoadingStatus.success;
     notifyListeners();
+  }
+
+  Future<void> addToFavourites(
+      final FavouriteType favouriteType, final int itemId) async {
+    await ProviderHelper().addToFavourites(
+        !isFavourite(favouriteType, itemId), dbProvider, favouriteType, itemId);
+    fetchAndSaveData();
+  }
+
+  bool isFavourite(final FavouriteType favouriteType, final int itemId) {
+    switch (favouriteType) {
+      case FavouriteType.Lesson:
+        Lesson lessonFound = _lessons.firstWhere(
+            (lesson) => lesson.lessonID == itemId,
+            orElse: () => null);
+        if (lessonFound != null) {
+          return true;
+        }
+        return false;
+      case FavouriteType.Wiki:
+        LessonWiki wikiFound = _lessonWikis.firstWhere(
+            (wiki) => wiki.questionId == itemId,
+            orElse: () => null);
+        if (wikiFound != null) {
+          return true;
+        }
+        return false;
+      case FavouriteType.Recipe:
+        Recipe recipeFound = _recipes.firstWhere(
+            (recipe) => recipe.recipeId == itemId,
+            orElse: () => null);
+        if (recipeFound != null) {
+          return true;
+        }
+        return false;
+      case FavouriteType.None:
+        return false;
+    }
+    return false;
   }
 }

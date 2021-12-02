@@ -16,9 +16,9 @@ class TermsAndConditions extends StatelessWidget {
             top: 12.0,
           ),
           child: PolicyLayout(
-            title: S.of(context).termsOfUseTitle,
+            title: S.current.termsOfUseTitle,
             cmsAssetName: "Terms",
-            tryAgainText: S.of(context).tryAgain,
+            tryAgainText: S.current.tryAgain,
           ),
         ),
       ),

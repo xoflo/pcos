@@ -103,7 +103,7 @@ class _TaskBoolState extends State<TaskBool> {
           ),
           _showValidationMessage
               ? Text(
-                  S.of(context).boolTaskValidation,
+                  S.current.boolTaskValidation,
                   style: TextStyle(
                     color: Colors.redAccent,
                   ),
@@ -111,7 +111,7 @@ class _TaskBoolState extends State<TaskBool> {
               : Container(),
           ColorButton(
             isUpdating: isSaving,
-            label: S.of(context).saveText,
+            label: S.current.saveText,
             onTap: () {
               _saveResponse();
             },

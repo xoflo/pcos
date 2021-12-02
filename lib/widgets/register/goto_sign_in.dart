@@ -22,7 +22,7 @@ class GotoSignIn extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                S.of(context).gotoSigninText,
+                S.current.gotoSigninText,
                 textAlign: TextAlign.center,
               ),
               Padding(
@@ -31,7 +31,7 @@ class GotoSignIn extends StatelessWidget {
                 ),
                 child: ColorButton(
                   isUpdating: false,
-                  label: S.of(context).returnToSignInTitle,
+                  label: S.current.returnToSignInTitle,
                   onTap: navigateToSignIn,
                 ),
               ),

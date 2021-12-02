@@ -1,6 +1,7 @@
 class LessonWiki {
   int questionId;
   int lessonId;
+  int moduleId;
   String reference;
   String question;
   String answer;
@@ -11,6 +12,7 @@ class LessonWiki {
   LessonWiki({
     this.questionId,
     this.lessonId,
+    this.moduleId,
     this.reference,
     this.question,
     this.answer,
@@ -39,6 +41,7 @@ class LessonWiki {
     return LessonWiki(
       questionId: json['id'],
       lessonId: json['lessonID'],
+      moduleId: json['moduleID'],
       reference: json["reference"],
       question: json["question"],
       answer: json["answer"],
