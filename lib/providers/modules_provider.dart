@@ -5,6 +5,7 @@ import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
+import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
@@ -30,6 +31,7 @@ class ModulesProvider with ChangeNotifier {
   List<LessonTask> _lessonTasks = [];
   List<LessonWiki> _lessonWikis = [];
   List<LessonRecipe> _lessonRecipes = [];
+  List<Quiz> _lessonQuizzes = [];
 
   Module _currentModule;
   List<Module> _previousModules = [];
@@ -49,6 +51,7 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> get searchLessons => [..._searchLessons];
   List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
   List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
+  List<Quiz> get lessonQuizzes => [..._lessonQuizzes];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -72,6 +75,7 @@ class ModulesProvider with ChangeNotifier {
       _lessonTasks = modulesAndLessons.lessonTasks;
       _lessonWikis = modulesAndLessons.lessonWikis;
       _lessonRecipes = modulesAndLessons.lessonRecipes;
+      _lessonQuizzes = modulesAndLessons.lessonQuizzes;
 
       _currentModule = _modules.last;
       _previousModules = await _getPreviousModules();

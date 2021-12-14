@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class LessonTask {
   final int lessonTaskID;
   final int lessonID;
@@ -22,6 +24,9 @@ class LessonTask {
   });
 
   factory LessonTask.fromJson(Map<String, dynamic> json) {
+    if (json['taskType'] == 'quiz') {
+      debugPrint("quiz metaName = ${json['metaName']}");
+    }
     return LessonTask(
       lessonTaskID: json['lessonTaskID'],
       lessonID: json['lessonID'],

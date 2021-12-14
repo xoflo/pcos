@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class LessonContent {
   final int lessonContentID;
   final int lessonID;
@@ -24,10 +22,6 @@ class LessonContent {
   });
 
   factory LessonContent.fromJson(Map<String, dynamic> json) {
-    final int lessonContentID = json['lessonContentID'];
-    if (lessonContentID == 52) {
-      debugPrint("LessonContent summary Json=$json");
-    }
     return LessonContent(
       lessonContentID: json['lessonContentID'],
       lessonID: json['lessonID'],

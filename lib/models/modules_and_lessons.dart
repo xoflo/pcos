@@ -4,6 +4,7 @@ import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/models/quiz.dart';
 
 class ModulesAndLessons {
   final List<Module> modules;
@@ -12,6 +13,7 @@ class ModulesAndLessons {
   final List<LessonTask> lessonTasks;
   final List<LessonWiki> lessonWikis;
   final List<LessonRecipe> lessonRecipes;
+  final List<Quiz> lessonQuizzes;
 
   ModulesAndLessons({
     this.modules,
@@ -20,5 +22,6 @@ class ModulesAndLessons {
     this.lessonTasks,
     this.lessonWikis,
     this.lessonRecipes,
+    this.lessonQuizzes,
   });
 }

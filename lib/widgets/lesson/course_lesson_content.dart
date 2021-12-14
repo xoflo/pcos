@@ -37,6 +37,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
 
   Widget _getTitle(BuildContext context) {
     if (widget.lessonContent.title.length > 0) {
+      //&& widget.lessonContent.displayTitle) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(

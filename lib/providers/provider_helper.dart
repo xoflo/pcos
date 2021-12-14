@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/all_favourites.dart';
@@ -14,6 +15,9 @@ import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/module_export.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
 import 'package:thepcosprotocol_app/models/question.dart';
+import 'package:thepcosprotocol_app/models/quiz.dart';
+import 'package:thepcosprotocol_app/models/quiz_answer.dart';
+import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
@@ -116,6 +120,9 @@ class ProviderHelper {
         await dbProvider.deleteAll(TABLE_LESSON_CONTENT);
         await dbProvider.deleteAll(TABLE_LESSON_TASK);
         await dbProvider.deleteAll(TABLE_LESSON_LINK);
+        await dbProvider.deleteAll(TABLE_QUIZ);
+        await dbProvider.deleteAll(TABLE_QUIZ_QUESTION);
+        await dbProvider.deleteAll(TABLE_QUIZ_ANSWER);
 
         //add modules to database
         await _addModulesAndLessonsToDatabase(dbProvider, moduleExport);
@@ -147,6 +154,61 @@ class ProviderHelper {
         orderByColumn: "lessonID, orderIndex",
         incompleteOnly: true,
       );
+
+      //get and add the Quizzes including questions and answers to the DB
+      //do this after modules and lessons so we can check the lesson links to see which quizzes are for this member
+      final List<LessonTask> lessonQuizTasks =
+          await WebServices().getQuizTasks();
+      debugPrint("Got Lesson Quiz TASKS count = ${lessonQuizTasks.length}");
+      await _addQuizzesToDatabase(dbProvider, lessonQuizTasks);
+
+      final List<Quiz> quizzesFromDB = await getAllData(
+        dbProvider,
+        TABLE_QUIZ,
+        orderByColumn: "quizID",
+      );
+
+      final List<QuizQuestion> quizQuestionsFromDB = await getAllData(
+        dbProvider,
+        TABLE_QUIZ_QUESTION,
+        orderByColumn: "quizID, orderIndex",
+      );
+
+      final List<QuizAnswer> quizAnswersFromDB = await getAllData(
+        dbProvider,
+        TABLE_QUIZ_ANSWER,
+        orderByColumn: "quizQuestionID, orderIndex",
+      );
+
+      debugPrint("QUIZZES FROM DB = ${quizzesFromDB.length}");
+      debugPrint("QUIZ QUESTIONS FROM DB = ${quizQuestionsFromDB.length}");
+
+      for (Quiz quiz in quizzesFromDB) {
+        List<QuizQuestion> thisQuizQuestions = [];
+        for (QuizQuestion question in quizQuestionsFromDB) {
+          List<QuizAnswer> thisQuestionAnswers = [];
+          int trueAnswerCount = 0;
+          for (QuizAnswer answer in quizAnswersFromDB) {
+            if (answer.quizQuestionID == question.quizQuestionID) {
+              thisQuestionAnswers.add(answer);
+              if (answer.isCorrect) {
+                trueAnswerCount++;
+              }
+            }
+          }
+          question.answers = thisQuestionAnswers;
+          question.isMultiChoice = trueAnswerCount > 1 ? true : false;
+          if (question.quizID == quiz.quizID) {
+            thisQuizQuestions.add(question);
+          }
+        }
+        quiz.questions = thisQuizQuestions;
+      }
+
+      debugPrint(
+          "HOW MANY QUIZ QUESTIONS? ${quizzesFromDB[0].questions.length}");
+      debugPrint(
+          "HOW MANY ANSWERS? ${quizzesFromDB[0].questions[0].answers.length}");
 
       //only return complete lessons and the first incomplete lesson, also check whether first incomplete lesson should be visible yet
       List<Lesson> lessonsToReturn = [];
@@ -186,7 +248,7 @@ class ProviderHelper {
           lessonTasksToReturn.add(lessonTask);
       }
 
-      //get the lesson wikis by joining the wiki and lesson table and only return the lessonaWikis for lessons in lessonsToReturn
+      //get the lesson wikis by joining the wiki and lesson table and only return the lessonWikis for lessons in lessonsToReturn
       final wikiList = await dbProvider.getDataQueryWithJoin(
         "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID, $TABLE_LESSON_LINK.ModuleID",
         "$TABLE_WIKI INNER JOIN $TABLE_LESSON_LINK ON $TABLE_WIKI.id = $TABLE_LESSON_LINK.objectID",
@@ -202,8 +264,34 @@ class ProviderHelper {
         "$TABLE_RECIPE INNER JOIN $TABLE_LESSON_LINK ON $TABLE_RECIPE.recipeId = $TABLE_LESSON_LINK.objectID",
         "WHERE objectType = 'recipe'",
       );
+
       final List<LessonRecipe> lessonRecipesToReturn =
           mapDataToList(recipeList, "LessonRecipe");
+
+      //TODO: need to check whether complete when available
+      final List<Quiz> quizzesToReturn = [];
+      for (Quiz quiz in quizzesFromDB) {
+        //does the member need this quiz?
+        if (lessonIDs.contains(quiz.lessonID)) {
+          //&& !lessonTask.isComplete)
+
+          List<QuizQuestion> thisQuizQuestions = [];
+          for (QuizQuestion question in quizQuestionsFromDB) {
+            List<QuizAnswer> thisQuestionAnswers = [];
+            for (QuizAnswer answer in quizAnswersFromDB) {
+              if (answer.quizQuestionID == question.quizQuestionID) {
+                thisQuestionAnswers.add(answer);
+              }
+            }
+            question.answers = thisQuestionAnswers;
+            if (question.quizID == quiz.quizID) {
+              thisQuizQuestions.add(question);
+            }
+          }
+          quiz.questions = thisQuizQuestions;
+          quizzesToReturn.add(quiz);
+        }
+      }
 
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
         modules: modulesToReturn,
@@ -212,6 +300,7 @@ class ProviderHelper {
         lessonTasks: lessonTasksToReturn,
         lessonWikis: lessonWikisToReturn,
         lessonRecipes: lessonRecipesToReturn,
+        lessonQuizzes: quizzesToReturn,
       );
       return modulesAndLessons;
     }
@@ -306,6 +395,106 @@ class ProviderHelper {
         'orderIndex': lessonLink.orderIndex,
         'dateCreatedUTC': lessonLink.dateCreatedUTC.toIso8601String(),
       });
+    });
+  }
+
+  Future<void> _addQuizzesToDatabase(
+      final dbProvider, final List<LessonTask> lessonQuizTasks) async {
+    final List<LessonLink> lessonLinksFromDB = mapDataToList(
+        await dbProvider.getDataQuery(
+          TABLE_LESSON_LINK,
+          "WHERE objectType = 'quiz'",
+        ),
+        TABLE_LESSON_LINK);
+    //using TaskType split the tasks into five groups, quiz, quiz-question, quiz-question-resp, quiz-answer, quiz-answer-resp
+    final List<LessonTask> quizzes =
+        lessonQuizTasks.where((task) => task.taskType == "quiz").toList();
+    final List<LessonTask> quizQuestions = lessonQuizTasks
+        .where((task) => task.taskType == "quiz-question")
+        .toList();
+    final List<LessonTask> quizQuestionResponses = lessonQuizTasks
+        .where((task) => task.taskType == "quiz-question-resp")
+        .toList();
+    final List<LessonTask> quizAnswers = lessonQuizTasks
+        .where((task) => task.taskType == "quiz-answer")
+        .toList();
+    final List<LessonTask> quizAnswerResponses = lessonQuizTasks
+        .where((task) => task.taskType == "quiz-answer-resp")
+        .toList();
+
+    debugPrint("QUIZ=${quizzes.length}");
+    debugPrint("QUESTIONS=${quizQuestions.length}");
+    debugPrint("Q RESPS=${quizQuestionResponses.length}");
+    debugPrint("ANSWERS=${quizAnswers.length}");
+    debugPrint("A RESPS=${quizAnswerResponses.length}");
+
+    quizzes.forEach((LessonTask quiz) async {
+      //only insert if there is a lesson link in the LessonLink table
+      final LessonLink quizLink = lessonLinksFromDB.firstWhere(
+          (link) => link.objectID == quiz.lessonTaskID,
+          orElse: () => null);
+      if (quizLink != null) {
+        debugPrint(
+            "FOUND QUIZ LINK quizid=${quizLink.objectID} lessonID=${quizLink.lessonID}");
+        //insert the quiz with the lessonID
+        await dbProvider.insert(TABLE_QUIZ, {
+          'quizID': quiz.lessonTaskID,
+          'lessonID': quizLink.lessonID,
+          'title': quiz.title,
+          'description': quiz.description,
+        });
+        //insert the questions for this quiz
+        final List<LessonTask> thisQuizQuestions = quizQuestions
+            .where((question) => question.metaName.startsWith(quiz.metaName))
+            .toList();
+
+        thisQuizQuestions.forEach((LessonTask question) async {
+          //get the question response if there is one
+          final LessonTask thisQuestionResponse =
+              quizQuestionResponses.firstWhere(
+                  (response) => response.metaName.startsWith(question.metaName),
+                  orElse: () => null);
+          if (thisQuestionResponse != null)
+            debugPrint(
+                "found a question response id=${thisQuestionResponse.lessonTaskID}");
+          //insert the question with the response
+          await dbProvider.insert(TABLE_QUIZ_QUESTION, {
+            'quizQuestionID': question.lessonTaskID,
+            'quizID': quiz.lessonTaskID,
+            'questionType': question.description,
+            'questionText': question.title,
+            'response':
+                thisQuestionResponse == null ? "" : thisQuestionResponse.title,
+            'orderIndex': question.orderIndex,
+          });
+
+          //now get the answers for this question
+          final List<LessonTask> thisQuestionAnswers = quizAnswers
+              .where((answer) => answer.metaName.startsWith(question.metaName))
+              .toList();
+
+          thisQuestionAnswers.forEach((LessonTask answer) async {
+            //get the answer response if there is one
+            final LessonTask thisAnswerResponse =
+                quizAnswerResponses.firstWhere(
+                    (response) => response.metaName.startsWith(answer.metaName),
+                    orElse: () => null);
+            if (thisAnswerResponse != null)
+              debugPrint(
+                  "found a answer response id=${thisAnswerResponse.lessonTaskID}");
+            //insert the answer with the response
+            await dbProvider.insert(TABLE_QUIZ_ANSWER, {
+              'quizAnswerID': answer.lessonTaskID,
+              'quizQuestionID': question.lessonTaskID,
+              'answerText': answer.title,
+              'isCorrect': answer.description.toLowerCase() == "true" ? 1 : 0,
+              'response':
+                  thisAnswerResponse == null ? "" : thisAnswerResponse.title,
+              'orderIndex': answer.orderIndex,
+            });
+          });
+        });
+      }
     });
   }
 
@@ -602,6 +791,16 @@ class ProviderHelper {
     } else if (tableName == "LessonRecipe") {
       return dataList
           .map<LessonRecipe>((item) => LessonRecipe.fromJson(item))
+          .toList();
+    } else if (tableName == TABLE_QUIZ) {
+      return dataList.map<Quiz>((item) => Quiz.fromJson(item)).toList();
+    } else if (tableName == TABLE_QUIZ_QUESTION) {
+      return dataList
+          .map<QuizQuestion>((item) => QuizQuestion.fromJson(item))
+          .toList();
+    } else if (tableName == TABLE_QUIZ_ANSWER) {
+      return dataList
+          .map<QuizAnswer>((item) => QuizAnswer.fromJson(item))
           .toList();
     } else if (tableName == TABLE_MESSAGE) {
       return dataList.map<Message>((item) => Message.fromJson(item)).toList();

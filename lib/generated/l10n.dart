@@ -2484,6 +2484,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Start Quiz`
+  String get startQuiz {
+    return Intl.message(
+      'Start Quiz',
+      name: 'startQuiz',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get quizNext {
+    return Intl.message(
+      'Next',
+      name: 'quizNext',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select all that apply`
+  String get quizMulti {
+    return Intl.message(
+      'Select all that apply',
+      name: 'quizMulti',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check Answer`
+  String get checkAnswer {
+    return Intl.message(
+      'Check Answer',
+      name: 'checkAnswer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -10,6 +10,7 @@ import 'package:device_info/device_info.dart';
 import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
+import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -178,6 +179,7 @@ class _AppState extends State<App> {
           PreviousModules.id: (context) => PreviousModules(),
           LessonSearch.id: (context) => LessonSearch(),
           WikiSearch.id: (context) => WikiSearch(),
+          QuizScreen.id: (context) => QuizScreen(),
         },
         navigatorObservers: [
           observer,

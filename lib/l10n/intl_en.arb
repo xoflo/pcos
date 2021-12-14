@@ -244,5 +244,9 @@
     "toolkitTitle": "Toolkit",
     "searchWiki": "Lesson Wiki Search",
     "noWikisSearch": "No lesson wiki matching your search.",
-    "allModules": "All Modules"
+    "allModules": "All Modules",
+    "startQuiz": "Start Quiz",
+    "quizNext": "Next",
+    "quizMulti": "Select all that apply",
+    "checkAnswer": "Check Answer"
 }
