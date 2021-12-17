@@ -5,6 +5,8 @@ class Quiz {
   final int lessonID;
   final String title;
   final String description;
+  final String endTitle;
+  final String endMessage;
   List<QuizQuestion> questions;
 
   Quiz({
@@ -12,6 +14,8 @@ class Quiz {
     this.lessonID,
     this.title,
     this.description,
+    this.endTitle,
+    this.endMessage,
     this.questions,
   });
 
@@ -21,6 +25,8 @@ class Quiz {
       lessonID: json['lessonID'],
       title: json['title'],
       description: json['description'],
+      endTitle: json['endTitle'],
+      endMessage: json['endMessage'],
     );
   }
 }

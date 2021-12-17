@@ -2524,6 +2524,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Well Done`
+  String get quizCorrectResponse {
+    return Intl.message(
+      'Well Done',
+      name: 'quizCorrectResponse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlucky`
+  String get quizWrongResponse {
+    return Intl.message(
+      'Unlucky',
+      name: 'quizWrongResponse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quiz Question`
+  String get quizQuestionWarningTitle {
+    return Intl.message(
+      'Quiz Question',
+      name: 'quizQuestionWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provide an answer for this question.`
+  String get quizQuestionWarningText {
+    return Intl.message(
+      'Please provide an answer for this question.',
+      name: 'quizQuestionWarningText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you`
+  String get quizGenericEndTitle {
+    return Intl.message(
+      'Thank you',
+      name: 'quizGenericEndTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have now completed this quiz`
+  String get quizGenericEndMessage {
+    return Intl.message(
+      'You have now completed this quiz',
+      name: 'quizGenericEndMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

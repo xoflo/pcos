@@ -248,5 +248,11 @@
     "startQuiz": "Start Quiz",
     "quizNext": "Next",
     "quizMulti": "Select all that apply",
-    "checkAnswer": "Check Answer"
+    "checkAnswer": "Check Answer",
+    "quizCorrectResponse": "Well Done",
+    "quizWrongResponse": "Unlucky",
+    "quizQuestionWarningTitle": "Quiz Question",
+    "quizQuestionWarningText": "Please provide an answer for this question.",
+    "quizGenericEndTitle": "Thank you",
+    "quizGenericEndMessage": "You have now completed this quiz"
 }

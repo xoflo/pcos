@@ -409,6 +409,8 @@ class ProviderHelper {
     //using TaskType split the tasks into five groups, quiz, quiz-question, quiz-question-resp, quiz-answer, quiz-answer-resp
     final List<LessonTask> quizzes =
         lessonQuizTasks.where((task) => task.taskType == "quiz").toList();
+    final List<LessonTask> quizMessages =
+        lessonQuizTasks.where((task) => task.taskType == "quiz-msg").toList();
     final List<LessonTask> quizQuestions = lessonQuizTasks
         .where((task) => task.taskType == "quiz-question")
         .toList();
@@ -423,6 +425,7 @@ class ProviderHelper {
         .toList();
 
     debugPrint("QUIZ=${quizzes.length}");
+    debugPrint("QUIZ MSGS=${quizMessages.length}");
     debugPrint("QUESTIONS=${quizQuestions.length}");
     debugPrint("Q RESPS=${quizQuestionResponses.length}");
     debugPrint("ANSWERS=${quizAnswers.length}");
@@ -436,12 +439,26 @@ class ProviderHelper {
       if (quizLink != null) {
         debugPrint(
             "FOUND QUIZ LINK quizid=${quizLink.objectID} lessonID=${quizLink.lessonID}");
+        //has this quiz got an end title and message?
+        String quizEndTitle = "";
+        String quizEndMessage = "";
+        final LessonTask quizMsg = quizMessages.firstWhere(
+            (task) => task.metaName.startsWith(quiz.metaName),
+            orElse: () => null);
+
+        if (quizMsg != null) {
+          quizEndTitle = quizMessages[0].title;
+          quizEndMessage = quizMessages[0].description;
+        }
+
         //insert the quiz with the lessonID
         await dbProvider.insert(TABLE_QUIZ, {
           'quizID': quiz.lessonTaskID,
           'lessonID': quizLink.lessonID,
           'title': quiz.title,
           'description': quiz.description,
+          'endTitle': quizEndTitle,
+          'endMessage': quizEndMessage,
         });
         //insert the questions for this quiz
         final List<LessonTask> thisQuizQuestions = quizQuestions

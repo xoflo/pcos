@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DatabaseProvider with ChangeNotifier {
   //increment this number whenever the database tables change
-  static const DB_VERSION = 4;
+  static const DB_VERSION = 5;
   static const DATABASE_NAME = "ThePCOSProtocol.db";
   sql.Database db;
 
@@ -133,7 +133,9 @@ class DatabaseProvider with ChangeNotifier {
               "quizID INTEGER PRIMARY KEY,"
               "lessonID INTEGER,"
               "title TEXT,"
-              "description TEXT"
+              "description TEXT,"
+              "endTitle TEXT,"
+              "endMessage TEXT"
               ")");
           await db.execute("CREATE TABLE $TABLE_QUIZ_QUESTION ("
               "quizQuestionID INTEGER PRIMARY KEY,"
