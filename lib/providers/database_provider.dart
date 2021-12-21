@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DatabaseProvider with ChangeNotifier {
   //increment this number whenever the database tables change
-  static const DB_VERSION = 2;
+  static const DB_VERSION = 5;
   static const DATABASE_NAME = "ThePCOSProtocol.db";
   sql.Database db;
 
@@ -129,6 +129,30 @@ class DatabaseProvider with ChangeNotifier {
               "orderIndex INTEGER,"
               "dateCreatedUTC TEXT"
               ")");
+          await db.execute("CREATE TABLE $TABLE_QUIZ ("
+              "quizID INTEGER PRIMARY KEY,"
+              "lessonID INTEGER,"
+              "title TEXT,"
+              "description TEXT,"
+              "endTitle TEXT,"
+              "endMessage TEXT"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_QUIZ_QUESTION ("
+              "quizQuestionID INTEGER PRIMARY KEY,"
+              "quizID INTEGER,"
+              "questionType TEXT,"
+              "questionText TEXT,"
+              "response TEXT,"
+              "orderIndex INTEGER"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_QUIZ_ANSWER ("
+              "quizAnswerID INTEGER PRIMARY KEY,"
+              "quizQuestionID INTEGER,"
+              "answerText TEXT,"
+              "isCorrect INTEGER,"
+              "response TEXT,"
+              "orderIndex INTEGER"
+              ")");
         },
         version: DB_VERSION,
       );
@@ -232,5 +256,8 @@ class DatabaseProvider with ChangeNotifier {
     deleteQuery(table: TABLE_LESSON_CONTENT, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_LESSON_TASK, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_LESSON_LINK, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_QUIZ, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_QUIZ_QUESTION, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_QUIZ_ANSWER, whereClause: "", limitRowCount: 0);
   }
 }

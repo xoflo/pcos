@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class LessonLink {
   final int lessonLinkID;
   final int lessonID;
@@ -16,8 +18,11 @@ class LessonLink {
   });
 
   factory LessonLink.fromJson(Map<String, dynamic> json) {
+    if (json['objectType'] == 'quiz') {
+      debugPrint("found quiz link = ${json['lessonLinkID']}");
+    }
     return LessonLink(
-      lessonLinkID: json['lessonContentID'],
+      lessonLinkID: json['lessonLinkID'],
       lessonID: json['lessonID'],
       objectID: json['objectID'],
       objectType: json['objectType'],

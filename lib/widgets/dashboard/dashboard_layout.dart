@@ -15,7 +15,9 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
+import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
@@ -285,6 +287,12 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     Navigator.pushNamed(context, WikiSearch.id);
   }
 
+  void _openQuiz(
+      final BuildContext context, final ModulesProvider modulesProvider) {
+    analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_QUIZ);
+    Navigator.pushNamed(context, QuizScreen.id);
+  }
+
   //#endregion
 
   //#region Get Widgets
@@ -429,6 +437,31 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                   widget.showLessonRecipes
                       ? getLessonRecipes(screenSize, isHorizontal,
                           modulesProvider, favouritesProvider)
+                      : Container(),
+                  modulesProvider.lessonQuizzes.length > 0
+                      ? GestureDetector(
+                          onTap: () {
+                            _openQuiz(context, modulesProvider);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Open Quiz",
+                                    style: TextStyle(color: secondaryColor)),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 4.0),
+                                  child: Icon(
+                                    Icons.quiz,
+                                    color: secondaryColor,
+                                    size: 32,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
                       : Container(),
                 ],
               ),

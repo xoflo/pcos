@@ -21,7 +21,6 @@ class LessonExport {
   });
 
   factory LessonExport.fromJson(Map<String, dynamic> json) {
-    debugPrint("JSON content = ${json['content']}");
     return LessonExport(
       lesson: Lesson.fromJson(json['lesson']),
       content: LessonContentList.fromList(json['content']).results,

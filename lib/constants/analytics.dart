@@ -38,6 +38,7 @@ const String ANALYTICS_SCREEN_PREVIOUS_MODULES = "previous_modules";
 const String ANALYTICS_SCREEN_LESSON_SEARCH = "lesson_search";
 const String ANALYTICS_SCREEN_LESSON_WIKI_SEARCH = "lesson_wiki_search";
 const String ANALYTICS_SCREEN_WIKI = "wiki_full";
+const String ANALYTICS_SCREEN_QUIZ = "lesson_quiz";
 
 //SEARCH TYPES
 const String ANALYTICS_SEARCH_RECIPE = "recipe";
