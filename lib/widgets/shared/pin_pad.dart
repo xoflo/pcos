@@ -140,7 +140,7 @@ class PinPad extends StatelessWidget {
             width: 150,
             child: ColorButton(
               isUpdating: false,
-              label: S.of(context).clearButton,
+              label: S.current.clearButton,
               color: Colors.white,
               textColor: primaryColor,
               onTap: () {
@@ -155,7 +155,7 @@ class PinPad extends StatelessWidget {
                   forgotPin(context);
                 },
                 child: Text(
-                  S.of(context).pinForgottenTitle,
+                  S.current.pinForgottenTitle,
                   style: TextStyle(
                     color: Colors.white,
                   ),

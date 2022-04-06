@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
-import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wiki_full.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_tab.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
@@ -20,46 +22,6 @@ class FavouritesLayout extends StatefulWidget {
 }
 
 class _FavouritesLayoutState extends State<FavouritesLayout> {
-  void _removeFavourite(
-      FavouriteType favouriteType, dynamic item, bool isAdd) async {
-    void removeFavouriteConfirmed(BuildContext context) async {
-      switch (favouriteType) {
-        case FavouriteType.Recipe:
-          final recipeProvider =
-              Provider.of<RecipesProvider>(context, listen: false);
-          await recipeProvider.addToFavourites(item, false);
-          recipeProvider.fetchAndSaveData();
-          break;
-        case FavouriteType.KnowledgeBase:
-          final kbProvider =
-              Provider.of<KnowledgeBaseProvider>(context, listen: false);
-          await kbProvider.addToFavourites(item, false);
-          kbProvider.fetchAndSaveData();
-          break;
-        case FavouriteType.Lesson:
-          final modulesProvider =
-              Provider.of<ModulesProvider>(context, listen: false);
-          modulesProvider.addToFavourites(item, false);
-          break;
-        case FavouriteType.None:
-          break;
-      }
-      Navigator.of(context).pop();
-    }
-
-    showAlertDialog(
-      context,
-      S.of(context).favouriteRemoveTitle,
-      S.of(context).favouriteRemoveText,
-      S.of(context).noText,
-      S.of(context).yesText,
-      removeFavouriteConfirmed,
-      (BuildContext context) {
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
   void _openFavourite(FavouriteType favouriteType, dynamic favourite) {
     Widget favouriteWidget;
     final String analyticsName = favouriteType == FavouriteType.Lesson
@@ -72,20 +34,35 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
       analyticsId = lesson.lessonID.toString();
       final modulesProvider =
           Provider.of<ModulesProvider>(context, listen: false);
+      final List<LessonWiki> lessonWikis =
+          modulesProvider.getLessonWikis(lesson.lessonID);
+      final List<LessonRecipe> lessonRecipes =
+          modulesProvider.getLessonRecipes(lesson.lessonID);
       favouriteWidget = CourseLesson(
         showDataUsageWarning: false,
         modulesProvider: modulesProvider,
         lesson: lesson,
+        lessonWikis: lessonWikis,
+        lessonRecipes: lessonRecipes,
         closeLesson: _closeFavourite,
-        addToFavourites: _addLessonToFavourites,
+        getPreviousModuleLessons: () {},
+      );
+    } else if (favouriteType == FavouriteType.Wiki) {
+      LessonWiki lessonWiki = favourite;
+      analyticsId = lessonWiki.questionId.toString();
+      favouriteWidget = LessonWikiFull(
+        parentContext: context,
+        wiki: lessonWiki,
+        isFavourite: true,
+        closeWiki: _closeFavourite,
       );
     } else {
       Recipe recipe = favourite;
       analyticsId = recipe.recipeId.toString();
       favouriteWidget = RecipeDetails(
         recipe: recipe,
+        isFavourite: true,
         closeRecipeDetails: _closeFavourite,
-        addToFavourites: _addRecipeToFavourites,
       );
     }
 
@@ -101,15 +78,29 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     Navigator.pop(context);
   }
 
-  void _addLessonToFavourites(
-      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    modulesProvider.addToFavourites(lesson, add);
-  }
+  void _removeFavourite(FavouriteType favouriteType, dynamic item) async {
+    final itemId = favouriteType == FavouriteType.Lesson
+        ? item.lessonID
+        : favouriteType == FavouriteType.Wiki
+            ? item.questionId
+            : item.recipeId;
+    void removeFavouriteConfirmed(BuildContext context) async {
+      Provider.of<FavouritesProvider>(context, listen: false)
+          .addToFavourites(favouriteType, itemId);
+      Navigator.of(context).pop();
+    }
 
-  void _addRecipeToFavourites(dynamic recipe, bool add) async {
-    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
-    await recipeProvider.addToFavourites(recipe, add);
-    recipeProvider.fetchAndSaveData();
+    showAlertDialog(
+      context,
+      S.current.favouriteRemoveTitle,
+      S.current.favouriteRemoveText,
+      S.current.noText,
+      S.current.yesText,
+      removeFavouriteConfirmed,
+      (BuildContext context) {
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   @override
@@ -117,7 +108,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     final Size screenSize = MediaQuery.of(context).size;
 
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -130,7 +121,15 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                 isScrollable: true,
                 tabs: [
                   Tab(
-                    text: S.of(context).lessonsTitle,
+                    text: S.current.toolkitTitle,
+                    icon: Icon(
+                      Icons.construction,
+                      color: primaryColor,
+                      size: 30,
+                    ),
+                  ),
+                  Tab(
+                    text: S.current.lessonsTitle,
                     icon: Icon(
                       Icons.play_circle_outline,
                       color: primaryColor,
@@ -138,7 +137,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).knowledgeBaseTitle,
+                    text: S.current.wikiTitle,
                     icon: Icon(
                       Icons.batch_prediction,
                       color: primaryColor,
@@ -146,7 +145,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                     ),
                   ),
                   Tab(
-                    text: S.of(context).recipesTitle,
+                    text: S.current.recipesTitle,
                     icon: Icon(
                       Icons.local_dining,
                       color: primaryColor,
@@ -177,39 +176,48 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
                   decoration: BoxDecoration(color: Colors.white),
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: TabBarView(
-                      children: [
-                        Consumer<ModulesProvider>(
-                          builder: (context, model, child) => FavouritesTab(
+                    child: Consumer<FavouritesProvider>(
+                      builder: (context, favouritesProvider, child) =>
+                          TabBarView(
+                        children: [
+                          FavouritesTab(
                             screenSize: screenSize,
-                            favourites: model.favouriteLessons,
-                            status: model.status,
+                            favourites: favouritesProvider.toolkits,
+                            status: favouritesProvider.status,
                             favouriteType: FavouriteType.Lesson,
-                            removeFavourite: _removeFavourite,
+                            isToolkit: true,
                             openFavourite: _openFavourite,
-                          ),
-                        ),
-                        Consumer<KnowledgeBaseProvider>(
-                          builder: (context, model, child) => FavouritesTab(
-                            screenSize: screenSize,
-                            favourites: model.favourites,
-                            status: model.status,
-                            favouriteType: FavouriteType.KnowledgeBase,
                             removeFavourite: _removeFavourite,
-                            openFavourite: _openFavourite,
                           ),
-                        ),
-                        Consumer<RecipesProvider>(
-                          builder: (context, model, child) => FavouritesTab(
+                          FavouritesTab(
                             screenSize: screenSize,
-                            favourites: model.favourites,
-                            status: model.status,
+                            favourites: favouritesProvider.lessons,
+                            status: favouritesProvider.status,
+                            favouriteType: FavouriteType.Lesson,
+                            isToolkit: false,
+                            openFavourite: _openFavourite,
+                            removeFavourite: _removeFavourite,
+                          ),
+                          FavouritesTab(
+                            screenSize: screenSize,
+                            favourites: favouritesProvider.lessonWikis,
+                            status: favouritesProvider.status,
+                            favouriteType: FavouriteType.Wiki,
+                            isToolkit: false,
+                            openFavourite: _openFavourite,
+                            removeFavourite: _removeFavourite,
+                          ),
+                          FavouritesTab(
+                            screenSize: screenSize,
+                            favourites: favouritesProvider.recipes,
+                            status: favouritesProvider.status,
                             favouriteType: FavouriteType.Recipe,
-                            removeFavourite: _removeFavourite,
+                            isToolkit: false,
                             openFavourite: _openFavourite,
+                            removeFavourite: _removeFavourite,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );

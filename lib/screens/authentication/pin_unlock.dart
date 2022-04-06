@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -39,16 +41,15 @@ class PinUnlockState extends State<PinUnlock> {
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text(S.of(context).areYouSureText,
+            title: new Text(S.current.areYouSureText,
                 style: TextStyle(fontSize: 20)),
-            content: new Text(S.of(context).exitAppText),
+            content: new Text(S.current.exitAppText),
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.of(context).noText,
-                      style: TextStyle(fontSize: 24)),
+                  child: Text(S.current.noText, style: TextStyle(fontSize: 24)),
                 ),
               ),
               SizedBox(height: 16),
@@ -59,8 +60,8 @@ class PinUnlockState extends State<PinUnlock> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.of(context).yesText,
-                      style: TextStyle(fontSize: 24)),
+                  child:
+                      Text(S.current.yesText, style: TextStyle(fontSize: 24)),
                 ),
               ),
             ],
@@ -114,8 +115,8 @@ class PinUnlockState extends State<PinUnlock> {
       }
     } else {
       //not connected to internet, inform user
-      showFlushBar(context, S.of(context).internetConnectionTitle,
-          S.of(context).internetConnectionText,
+      showFlushBar(context, S.current.internetConnectionTitle,
+          S.current.internetConnectionText,
           backgroundColor: Colors.white,
           borderColor: primaryColorLight,
           primaryColor: primaryColor);
@@ -160,8 +161,8 @@ class PinUnlockState extends State<PinUnlock> {
   }
 
   void startPinAgain() {
-    showFlushBar(context, S.of(context).pinUnlockErrorTitle,
-        S.of(context).pinUnlockErrorText,
+    showFlushBar(
+        context, S.current.pinUnlockErrorTitle, S.current.pinUnlockErrorText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
         primaryColor: primaryColor);
@@ -181,11 +182,11 @@ class PinUnlockState extends State<PinUnlock> {
 
   void sendToSignIn(final bool isRefreshTokenExpired) async {
     final title = isRefreshTokenExpired
-        ? S.of(context).pinRefreshErrorTitle
-        : S.of(context).pinUnlockAttemptsErrorTitle;
+        ? S.current.pinRefreshErrorTitle
+        : S.current.pinUnlockAttemptsErrorTitle;
     final message = isRefreshTokenExpired
-        ? S.of(context).pinRefreshErrorText
-        : S.of(context).pinUnlockAttemptsErrorText;
+        ? S.current.pinRefreshErrorText
+        : S.current.pinUnlockAttemptsErrorText;
 
     showFlushBar(
       context,
@@ -214,10 +215,10 @@ class PinUnlockState extends State<PinUnlock> {
   void forgottenPin(BuildContext context) {
     showAlertDialog(
       context,
-      S.of(context).pinForgottenTitle,
-      S.of(context).pinForgottenMessage,
-      S.of(context).pinForgottenCancel,
-      S.of(context).pinForgottenContinue,
+      S.current.pinForgottenTitle,
+      S.current.pinForgottenMessage,
+      S.current.pinForgottenCancel,
+      S.current.pinForgottenContinue,
       continueForgottenPin,
       (BuildContext context) {
         Navigator.of(context).pop();
@@ -238,9 +239,13 @@ class PinUnlockState extends State<PinUnlock> {
   }
 
   void deleteCredentialsAndGotoSignIn() {
-    AuthenticationController().deleteCredentials();
-    AuthenticationController().deletePin();
-    AuthenticationController().deleteOtherPrefs();
+    DatabaseProvider dbProvider =
+        Provider.of<DatabaseProvider>(context, listen: false);
+    AuthenticationController authController = AuthenticationController();
+    authController.deleteCredentials();
+    authController.deletePin();
+    authController.deleteOtherPrefs();
+    dbProvider.deleteAllData();
     Navigator.of(context)
         .pushNamedAndRemoveUntil(SignIn.id, (Route<dynamic> route) => false);
   }
@@ -271,7 +276,7 @@ class PinUnlockState extends State<PinUnlock> {
               ),
               PinPad(
                 pinButtonSize: pinButtonSize,
-                headerText: S.of(context).pinUnlockTitle,
+                headerText: S.current.pinUnlockTitle,
                 progress: _progress,
                 currentPosition: _currentPosition,
                 showForgottenPin: true,

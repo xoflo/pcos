@@ -1,45 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/widgets/favourites/favourites_wiki_list.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons_list.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_recipes_list.dart';
-import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 
 class FavouritesTab extends StatelessWidget {
   final Size screenSize;
   final List<dynamic> favourites;
   final LoadingStatus status;
   final FavouriteType favouriteType;
+  final bool isToolkit;
   final Function(FavouriteType, dynamic) openFavourite;
-  final Function(FavouriteType, dynamic, bool) removeFavourite;
+  final Function(FavouriteType, dynamic) removeFavourite;
 
   FavouritesTab({
     @required this.screenSize,
     @required this.favourites,
     @required this.status,
     @required this.favouriteType,
+    @required this.isToolkit,
     @required this.openFavourite,
     @required this.removeFavourite,
   });
 
   String _getNoResultsMessage(
       final BuildContext context, final FavouriteType favouriteType) {
-    String noResultsMessage = S.of(context).noItemsFound;
+    String noResultsMessage = S.current.noItemsFound;
     switch (favouriteType) {
       case FavouriteType.Lesson:
-        noResultsMessage = S.of(context).noFavouriteLesson;
+        noResultsMessage = S.current.noFavouriteLesson;
         break;
-      case FavouriteType.KnowledgeBase:
-        noResultsMessage = S.of(context).noFavouriteKB;
+      case FavouriteType.Wiki:
+        noResultsMessage = S.current.noFavouriteWikis;
         break;
       case FavouriteType.Recipe:
-        noResultsMessage = S.of(context).noFavouriteRecipe;
+        noResultsMessage = S.current.noFavouriteRecipe;
         break;
       case FavouriteType.None:
-        noResultsMessage = S.of(context).noItemsFound;
+        noResultsMessage = S.current.noItemsFound;
         break;
     }
     return noResultsMessage;
@@ -49,6 +51,7 @@ class FavouritesTab extends StatelessWidget {
     final BuildContext context,
     final List<dynamic> favourites,
     final FavouriteType favouriteType,
+    final bool isToolkit,
     final double width,
   ) {
     switch (favouriteType) {
@@ -56,16 +59,17 @@ class FavouritesTab extends StatelessWidget {
         return FavouritesLessonsList(
           lessons: favourites,
           width: width,
+          isToolkit: isToolkit,
           removeFavourite: removeFavourite,
           openFavourite: openFavourite,
         );
-      case FavouriteType.KnowledgeBase:
-        return QuestionList(
-          questions: favourites,
-          showIcon: true,
-          iconData: Icons.delete,
-          iconDataOn: Icons.delete,
-          iconAction: removeFavourite,
+      case FavouriteType.Wiki:
+        return FavouritesWikiList(
+          lessonWikis: favourites,
+          width: width,
+          isToolkit: isToolkit,
+          removeFavourite: removeFavourite,
+          openFavourite: openFavourite,
         );
       case FavouriteType.Recipe:
         return FavouritesRecipesList(
@@ -95,6 +99,7 @@ class FavouritesTab extends StatelessWidget {
                   context,
                   favourites,
                   favouriteType,
+                  isToolkit,
                   screenSize.width,
                 ),
               );

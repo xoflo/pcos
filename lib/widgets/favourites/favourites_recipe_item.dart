@@ -9,7 +9,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 class FavouritesRecipeItem extends StatelessWidget {
   final Recipe recipe;
   final double width;
-  final Function(FavouriteType, dynamic, bool) removeFavourite;
+  final Function(FavouriteType, dynamic) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesRecipeItem({
@@ -45,7 +45,7 @@ class FavouritesRecipeItem extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  removeFavourite(FavouriteType.Recipe, recipe, false);
+                  removeFavourite(FavouriteType.Recipe, recipe);
                 },
                 child: Icon(
                   Icons.delete,
@@ -96,11 +96,11 @@ class FavouritesRecipeItem extends StatelessWidget {
                       },
                       child: Row(
                         children: [
-                          Text(S.of(context).favouritesViewDetails,
+                          Text(S.current.favouritesViewRecipe,
                               style: TextStyle(color: secondaryColor)),
                           Icon(
-                            Icons.chevron_right,
-                            size: 30.0,
+                            Icons.open_in_new,
+                            size: 26.0,
                             color: secondaryColor,
                           ),
                         ],

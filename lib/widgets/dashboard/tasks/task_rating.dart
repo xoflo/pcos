@@ -77,7 +77,7 @@ class _TaskRatingState extends State<TaskRating> {
           ),
           ColorButton(
             isUpdating: isSaving,
-            label: S.of(context).saveText,
+            label: S.current.saveText,
             onTap: () {
               _saveResponse();
             },

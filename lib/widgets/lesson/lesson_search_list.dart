@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_card.dart';
 
-class LessonList extends StatelessWidget {
+class LessonSearchList extends StatelessWidget {
   final bool isComplete;
   final ModulesProvider modulesProvider;
+  final FavouritesProvider favouritesProvider;
   final Function(Lesson, ModulesProvider) openLesson;
 
-  LessonList({
+  LessonSearchList({
     @required this.isComplete,
     @required this.modulesProvider,
+    @required this.favouritesProvider,
     @required this.openLesson,
   });
 
@@ -28,8 +31,12 @@ class LessonList extends StatelessWidget {
               ? LessonCard(
                   lessonNumber: 0,
                   lesson: lesson,
+                  favouritesProvider: this.favouritesProvider,
                   isNew: false,
                   openLesson: _openLesson,
+                  isSearch: true,
+                  refreshPreviousModules: () {},
+                  modulesProvider: modulesProvider,
                 )
               : Container();
         }).toList(),

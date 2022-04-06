@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class QuestionListItem extends StatefulWidget {
   final bool showIcon;
   final String answerText;
-  final Question item;
+  final dynamic item;
   final bool isFavorite;
   final IconData iconData;
   final IconData iconDataOn;
-  final Function(FavouriteType, Question, bool) iconAction;
+  final Function(FavouriteType, dynamic, bool) iconAction;
 
   QuestionListItem({
     this.showIcon,
@@ -49,7 +48,7 @@ class _QuestionListItemState extends State<QuestionListItem> {
             setState(() {
               isFavoriteQuestion = add;
             });
-            widget.iconAction(FavouriteType.KnowledgeBase, widget.item, add);
+            widget.iconAction(FavouriteType.Wiki, widget.item, add);
           },
           child: Icon(
             isFavoriteQuestion ? widget.iconDataOn : widget.iconData,

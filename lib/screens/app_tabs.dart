@@ -6,12 +6,11 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
-import 'package:thepcosprotocol_app/providers/faq_provider.dart';
-import 'package:thepcosprotocol_app/providers/knowledge_base_provider.dart';
+import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
@@ -26,6 +25,7 @@ import 'package:thepcosprotocol_app/widgets/app_body/main_screens.dart';
 import 'package:thepcosprotocol_app/screens/menu/profile.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
+import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
 import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -55,6 +55,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   bool _intercomInitialised = false;
   AppLifecycleState _appLifecycleState;
   bool _showYourWhy = false;
+  bool _showLessonRecipes = false;
   bool _isLocked = false;
 
   @override
@@ -87,6 +88,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     //get the value for showYourWhy, and then pass down to the course screen
     final bool isYourWhyOn = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+    final bool isLessonRecipesOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     final bool oneSignalDataSent = await PreferencesController()
         .getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
     //register external userId and pcos_type (as tag) with OneSignal if not done before on this device
@@ -102,6 +105,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     setState(() {
       _intercomInitialised = true;
       _showYourWhy = isYourWhyOn;
+      _showLessonRecipes = isLessonRecipesOn;
     });
   }
 
@@ -153,17 +157,14 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   void _setIsLocked(final bool isLocked) {
     if (!isLocked) {
       //unlocking so force refresh modules data
+      Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<ModulesProvider>(context, listen: false)
           .fetchAndSaveData(true);
-      //now get the other data if necessary
-      Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
-      Provider.of<KnowledgeBaseProvider>(context, listen: false)
-          .fetchAndSaveData();
-      Provider.of<FAQProvider>(context, listen: false).fetchAndSaveData();
-      Provider.of<FavouritesProvider>(context, listen: false)
-          .getDataFromDatabase();
+      Provider.of<AppHelpProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<MessagesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<CMSTextProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<FavouritesProvider>(context, listen: false)
+          .fetchAndSaveData();
     }
 
     setState(() {
@@ -186,13 +187,17 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         break;
       case DrawerMenuItem.SETTINGS:
         Navigator.pushNamed(context, Settings.id,
-            arguments: SettingsArguments(_updateYourWhy, false));
+            arguments:
+                SettingsArguments(_updateYourWhy, _updateLessonRecipes, false));
         break;
       case DrawerMenuItem.PROFILE:
         Navigator.pushNamed(context, Profile.id);
         break;
       case DrawerMenuItem.CHANGE_PASSWORD:
         Navigator.pushNamed(context, ChangePassword.id);
+        break;
+      case DrawerMenuItem.APP_HELP:
+        Navigator.pushNamed(context, AppHelp.id);
         break;
       case DrawerMenuItem.PRIVACY:
         Navigator.pushNamed(context, Privacy.id);
@@ -231,8 +236,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
 
       showFlushBar(
         context,
-        S.of(context).coachChatFailedTitle,
-        S.of(context).coachChatFailedText,
+        S.current.coachChatFailedTitle,
+        S.current.coachChatFailedText,
         backgroundColor: Colors.white,
         borderColor: primaryColorLight,
         primaryColor: primaryColor,
@@ -246,16 +251,15 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     return showDialog(
           context: context,
           builder: (context) => new AlertDialog(
-            title: new Text(S.of(context).areYouSureText,
+            title: new Text(S.current.areYouSureText,
                 style: TextStyle(fontSize: 20)),
-            content: new Text(S.of(context).exitAppText),
+            content: new Text(S.current.exitAppText),
             actions: <Widget>[
               new GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.of(context).noText,
-                      style: TextStyle(fontSize: 24)),
+                  child: Text(S.current.noText, style: TextStyle(fontSize: 24)),
                 ),
               ),
               SizedBox(height: 16),
@@ -266,8 +270,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(S.of(context).yesText,
-                      style: TextStyle(fontSize: 24)),
+                  child:
+                      Text(S.current.yesText, style: TextStyle(fontSize: 24)),
                 ),
               ),
             ],
@@ -279,6 +283,12 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   void _updateYourWhy(final bool isOn) {
     setState(() {
       _showYourWhy = isOn;
+    });
+  }
+
+  void _updateLessonRecipes(final bool isOn) {
+    setState(() {
+      _showLessonRecipes = isOn;
     });
   }
 
@@ -299,6 +309,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
               ? MainScreens(
                   currentIndex: _currentIndex,
                   showYourWhy: _showYourWhy,
+                  showLessonRecipes: _showLessonRecipes,
                   updateYourWhy: _updateYourWhy,
                 )
               : WillPopScope(
@@ -308,6 +319,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
                   child: MainScreens(
                     currentIndex: _currentIndex,
                     showYourWhy: _showYourWhy,
+                    showLessonRecipes: _showLessonRecipes,
                     updateYourWhy: _updateYourWhy,
                   ),
                 ),

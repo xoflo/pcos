@@ -8,12 +8,14 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 class FavouritesLessonItem extends StatelessWidget {
   final Lesson lesson;
   final double width;
-  final Function(FavouriteType, dynamic, bool) removeFavourite;
+  final bool isToolkit;
+  final Function(FavouriteType, dynamic) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonItem({
     @required this.lesson,
     @required this.width,
+    @required this.isToolkit,
     @required this.removeFavourite,
     @required this.openFavourite,
   });
@@ -34,21 +36,26 @@ class FavouritesLessonItem extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  removeFavourite(FavouriteType.Lesson, lesson, false);
-                },
-                child: Icon(
-                  Icons.delete,
-                  size: 24.0,
-                  color: secondaryColor,
-                ),
-              ),
+              isToolkit
+                  ? Container()
+                  : GestureDetector(
+                      onTap: () {
+                        removeFavourite(FavouriteType.Lesson, lesson);
+                      },
+                      child: Icon(
+                        Icons.delete,
+                        size: 24.0,
+                        color: secondaryColor,
+                      ),
+                    ),
             ],
           ),
-          Container(
-            width: width,
-            child: HtmlWidget(lesson.introduction),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+              width: width,
+              child: HtmlWidget(lesson.introduction),
+            ),
           ),
           GestureDetector(
             onTap: () {
@@ -60,7 +67,7 @@ class FavouritesLessonItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Text(
-                    S.of(context).favouritesWatchNow,
+                    S.current.favouritesViewLesson,
                     style: TextStyle(color: secondaryColor),
                   ),
                 ),

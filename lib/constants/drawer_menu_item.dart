@@ -3,6 +3,7 @@ enum DrawerMenuItem {
   SETTINGS,
   PROFILE,
   CHANGE_PASSWORD,
+  APP_HELP,
   PRIVACY,
   TERMS_OF_USE,
   TUTORIAL,

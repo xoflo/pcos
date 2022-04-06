@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson_content.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/wiki_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/recipes_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
@@ -19,15 +25,19 @@ class CourseLesson extends StatefulWidget {
   final ModulesProvider modulesProvider;
   final bool showDataUsageWarning;
   final Lesson lesson;
+  final List<LessonWiki> lessonWikis;
+  final List<LessonRecipe> lessonRecipes;
   final Function closeLesson;
-  final Function(ModulesProvider, dynamic, bool) addToFavourites;
+  final Function getPreviousModuleLessons;
 
   CourseLesson({
     @required this.modulesProvider,
     @required this.showDataUsageWarning,
     @required this.lesson,
+    @required this.lessonWikis,
+    @required this.lessonRecipes,
     @required this.closeLesson,
-    @required this.addToFavourites,
+    @required this.getPreviousModuleLessons,
   });
 
   @override
@@ -40,6 +50,7 @@ class _CourseLessonState extends State<CourseLesson> {
   bool _displayDataWarning = false;
   int _currentPage = 0;
   bool _lessonComplete = false;
+  List<LessonRecipe> _lessonRecipes = [];
 
   @override
   void initState() {
@@ -52,6 +63,7 @@ class _CourseLessonState extends State<CourseLesson> {
         await widget.modulesProvider.getLessonContent(widget.lesson.lessonID);
     setState(() {
       _lessonContent = lessonContents;
+      _lessonRecipes = widget.lessonRecipes;
       _isLoading = false;
       _displayDataWarning = widget.showDataUsageWarning;
     });
@@ -75,7 +87,7 @@ class _CourseLessonState extends State<CourseLesson> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(
         width: screenSize.width - 80,
-        height: 134,
+        height: 136,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: primaryColor,
@@ -95,12 +107,12 @@ class _CourseLessonState extends State<CourseLesson> {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Icon(
                           Icons.warning,
-                          size: 24,
+                          size: 22,
                           color: Colors.white,
                         ),
                       ),
                       Text(
-                        S.of(context).dataUsageWarningTitle,
+                        S.current.dataUsageWarningTitle,
                         style: Theme.of(context)
                             .textTheme
                             .headline6
@@ -110,7 +122,7 @@ class _CourseLessonState extends State<CourseLesson> {
                   ),
                 ),
                 Text(
-                  S.of(context).dataUsageWarningText,
+                  S.current.dataUsageWarningText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -120,7 +132,7 @@ class _CourseLessonState extends State<CourseLesson> {
                   padding: const EdgeInsets.only(top: 4.0),
                   child: ColorButton(
                     isUpdating: false,
-                    label: S.of(context).dismissText,
+                    label: S.current.dismissText,
                     onTap: _onDismiss,
                     color: Colors.white,
                     textColor: primaryColor,
@@ -169,7 +181,10 @@ class _CourseLessonState extends State<CourseLesson> {
     final bool isHorizontal,
     final double tabBarHeight,
   ) {
-    final int totalPages = _lessonContent == null ? 0 : _lessonContent.length;
+    final int extraPages = (widget.lessonWikis.length == 0 ? 0 : 1) +
+        (widget.lessonRecipes.length == 0 ? 0 : 1);
+    final int totalPages =
+        _lessonContent == null ? 0 : _lessonContent.length + extraPages;
     if (_isLoading) {
       return PcosLoadingSpinner();
     } else {
@@ -205,24 +220,7 @@ class _CourseLessonState extends State<CourseLesson> {
                 });
               },
             ),
-            items: _lessonContent.map((LessonContent content) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.symmetric(horizontal: 0),
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: CourseLessonContent(
-                      lessonContent: content,
-                      screenSize: screenSize,
-                      isHorizontal: isHorizontal,
-                      tabBarHeight: tabBarHeight + 177,
-                      isPaged: true,
-                    ),
-                  );
-                },
-              );
-            }).toList(),
+            items: _getPages(screenSize, isHorizontal, tabBarHeight),
           ),
           Container(
             color: backgroundColor,
@@ -236,8 +234,61 @@ class _CourseLessonState extends State<CourseLesson> {
     }
   }
 
-  void _addToFavourites(final dynamic lesson, final bool add) {
-    widget.addToFavourites(widget.modulesProvider, lesson, add);
+  List<Widget> _getPages(final Size screenSize, final bool isHorizontal,
+      final double tabBarHeight) {
+    final List<Widget> pages = _lessonContent.map((LessonContent content) {
+      return Builder(
+        builder: (BuildContext context) {
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.symmetric(horizontal: 0),
+            decoration: BoxDecoration(color: Colors.white),
+            child: CourseLessonContent(
+              lessonContent: content,
+              screenSize: screenSize,
+              isHorizontal: isHorizontal,
+              tabBarHeight: tabBarHeight + 177,
+              isPaged: true,
+            ),
+          );
+        },
+      );
+    }).toList();
+
+    //add the wiki page if needed
+    if (widget.lessonWikis.length > 0) {
+      pages.add(_getWikiPage(screenSize, isHorizontal, tabBarHeight));
+    }
+
+    //add the Recipes page if needed
+    if (widget.lessonRecipes.length > 0) {
+      pages.add(_getRecipesPage(screenSize, isHorizontal, tabBarHeight));
+    }
+
+    return pages;
+  }
+
+  Widget _getWikiPage(final Size screenSize, final bool isHorizontal,
+      final double tabBarHeight) {
+    return Builder(builder: (BuildContext context) {
+      return WikiPage(
+        isHorizontal: isHorizontal,
+        wikis: widget.lessonWikis,
+        parentContext: context,
+      );
+    });
+  }
+
+  Widget _getRecipesPage(final Size screenSize, final bool isHorizontal,
+      final double tabBarHeight) {
+    return Builder(builder: (BuildContext context) {
+      return RecipesPage(
+        screenSize: screenSize,
+        isHorizontal: isHorizontal,
+        recipes: _lessonRecipes,
+        parentContext: context,
+      );
+    });
   }
 
   @override
@@ -246,31 +297,37 @@ class _CourseLessonState extends State<CourseLesson> {
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     final double tabBarHeight = _getTabBarHeight(context);
-    return SafeArea(
-      child: Container(
-        height: tabBarHeight,
-        decoration: BoxDecoration(color: Colors.white),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            DialogHeader(
-              screenSize: screenSize,
-              item: widget.lesson,
-              favouriteType: FavouriteType.Lesson,
-              title: widget.lesson.title,
-              isFavourite: widget.lesson.isFavorite,
-              closeItem: widget.closeLesson,
-              addToFavourites: _addToFavourites,
-            ),
-            _getDataUsageWarning(context, screenSize),
-            _lessonContent == null
-                ? Container()
-                : _lessonContent.length == 1
-                    ? _getLessonContentInColumn(
-                        context, screenSize, isHorizontal, tabBarHeight)
-                    : _getLessonContentInCarousel(
-                        context, screenSize, isHorizontal, tabBarHeight),
-          ],
+    return Consumer<FavouritesProvider>(
+      builder: (context, favouritesProvider, child) => SafeArea(
+        child: Container(
+          height: tabBarHeight,
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              DialogHeader(
+                screenSize: screenSize,
+                item: widget.lesson,
+                favouriteType: FavouriteType.Lesson,
+                title: widget.lesson.title,
+                isFavourite: favouritesProvider.isFavourite(
+                    FavouriteType.Lesson, widget.lesson.lessonID),
+                closeItem: widget.closeLesson,
+                isToolkit: widget.lesson.isToolkit,
+                onAction: widget.getPreviousModuleLessons,
+              ),
+              _getDataUsageWarning(context, screenSize),
+              _lessonContent == null
+                  ? Container()
+                  : _lessonContent.length == 1 &&
+                          widget.lessonWikis.length == 0 &&
+                          widget.lessonRecipes.length == 0
+                      ? _getLessonContentInColumn(
+                          context, screenSize, isHorizontal, tabBarHeight)
+                      : _getLessonContentInCarousel(
+                          context, screenSize, isHorizontal, tabBarHeight),
+            ],
+          ),
         ),
       ),
     );

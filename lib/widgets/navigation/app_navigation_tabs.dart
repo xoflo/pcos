@@ -38,19 +38,15 @@ class AppNavigationTabs extends StatelessWidget {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.school),
-          label: S.of(context).dashboardTitle,
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.batch_prediction),
-          label: S.of(context).knowledgeBaseTitle,
+          label: S.current.dashboardTitle,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.local_dining),
-          label: S.of(context).recipesTitle,
+          label: S.current.recipesTitle,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite_outline),
-          label: S.of(context).favouritesTitle,
+          label: S.current.favouritesTitle,
         ),
       ],
     );

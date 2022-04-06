@@ -9,6 +9,7 @@ import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DrawerMenu extends StatefulWidget {
   final Function(DrawerMenuItem) openDrawerMenuItem;
@@ -36,16 +37,17 @@ class _DrawerMenuState extends State<DrawerMenu> {
   }
 
   void _resetDataCache() {
-    saveTimestamp("KnowledgeBase");
-    saveTimestamp("FrequentlyAskedQuestions");
-    saveTimestamp("CourseQuestion");
-    saveTimestamp("Recipe");
-    saveTimestamp("Message");
-    saveTimestamp("CMSText");
-    saveTimestamp("Module");
-    saveTimestamp("Lesson");
-    saveTimestamp("LessonContent");
-    saveTimestamp("LessonTask");
+    saveTimestamp(TABLE_WIKI);
+    saveTimestamp(TABLE_APP_HELP);
+    saveTimestamp(TABLE_COURSE_QUESTION);
+    saveTimestamp(TABLE_RECIPE);
+    saveTimestamp(TABLE_MESSAGE);
+    saveTimestamp(TABLE_CMS_TEXT);
+    saveTimestamp(TABLE_MODULE);
+    saveTimestamp(TABLE_LESSON);
+    saveTimestamp(TABLE_LESSON_CONTENT);
+    saveTimestamp(TABLE_LESSON_TASK);
+    saveTimestamp(TABLE_LESSON_LINK);
   }
 
   Future<bool> saveTimestamp(final String tableName) async {
@@ -91,7 +93,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    S.of(context).appTitle,
+                    S.current.appTitle,
                     style: Theme.of(context).textTheme.headline4.copyWith(
                           color: primaryColor,
                         ),
@@ -135,7 +137,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).profileTitle,
+              S.current.profileTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -144,7 +146,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).changePasswordTitle,
+              S.current.changePasswordTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -153,7 +155,16 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).privacyTitle,
+              S.current.appHelpTitle,
+              style: drawerItemStyle,
+            ),
+            onTap: () {
+              _drawerNavigation(context, DrawerMenuItem.APP_HELP);
+            },
+          ),
+          ListTile(
+            title: Text(
+              S.current.privacyTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -162,7 +173,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).termsOfUseTitle,
+              S.current.termsOfUseTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -171,7 +182,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           ListTile(
             title: Text(
-              S.of(context).tutorialTitle,
+              S.current.tutorialTitle,
               style: drawerItemStyle,
             ),
             onTap: () {
@@ -181,13 +192,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
           SizedBox(height: 30.0),
           ListTile(
             title: Text(
-              "${S.of(context).appTitle} v$_appVersion (build: $_appBuildNumber)",
+              "${S.current.appTitle} v$_appVersion (build: $_appBuildNumber)",
               style: footerStyle,
             ),
           ),
           ListTile(
             title: Text(
-              "${today.year} \u00a9 ${S.of(context).companyTitle}",
+              "${today.year} \u00a9 ${S.current.companyTitle}",
               style: footerStyle,
             ),
           ),

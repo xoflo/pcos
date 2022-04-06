@@ -1,6 +1,5 @@
 //TABS
 const String APP_TAB_NAME_DASHBOARD = "dashboard";
-const String APP_TAB_NAME_KB = "knowledge_base";
 const String APP_TAB_NAME_RECIPES = "recipes";
 const String APP_TAB_NAME_FAVOURITES = "favourites";
 
@@ -37,11 +36,15 @@ const String ANALYTICS_SCREEN_TUTORIAL = "tutorial";
 const String ANALYTICS_SCREEN_COACH_CHAT = "coach_chat";
 const String ANALYTICS_SCREEN_PREVIOUS_MODULES = "previous_modules";
 const String ANALYTICS_SCREEN_LESSON_SEARCH = "lesson_search";
+const String ANALYTICS_SCREEN_LESSON_WIKI_SEARCH = "lesson_wiki_search";
+const String ANALYTICS_SCREEN_WIKI = "wiki_full";
+const String ANALYTICS_SCREEN_QUIZ = "lesson_quiz";
 
 //SEARCH TYPES
 const String ANALYTICS_SEARCH_RECIPE = "recipe";
-const String ANALYTICS_SEARCH_KB = "knowledge_base";
+const String ANALYTICS_SEARCH_KB = "faqs";
 const String ANALYTICS_SEARCH_LESSON = "lesson";
+const String ANALYTICS_SEARCH_LESSON_WIKI = "lesson_wiki";
 
 //BUTTONS
 const String ANALYTICS_BUTTON_EDIT_PROFILE = "edit_profile";
@@ -58,10 +61,8 @@ class AnalyticsUtils {
       case 0:
         return APP_TAB_NAME_DASHBOARD;
       case 1:
-        return APP_TAB_NAME_KB;
-      case 2:
         return APP_TAB_NAME_RECIPES;
-      case 3:
+      case 2:
         return APP_TAB_NAME_FAVOURITES;
       default:
         return "";

@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/lesson.dart';
@@ -25,6 +24,7 @@ class PreviousModulesLayout extends StatefulWidget {
 }
 
 class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
+  int _moduleIndex = 0;
   int _selectedModuleID = 0;
   List<Lesson> _selectedModuleLessons = [];
   List<List<Lesson>> _moduleLessons = [];
@@ -49,21 +49,18 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
       _selectedModuleID = initialModule.moduleID;
       _moduleLessons = allLessons;
       _selectedModuleLessons = allLessons.last;
+      _moduleIndex = widget.modulesProvider.previousModules.length - 1;
     });
   }
 
   void _moduleChanged(final int index, final CarouselPageChangedReason reason) {
     final Module selectedModule = widget.modulesProvider.previousModules[index];
     setState(() {
+      _moduleIndex = index;
       _selectedModuleID = selectedModule.moduleID;
       _selectedModuleLessons = _moduleLessons[index];
       lessonCarouselController.jumpToPage(0);
     });
-  }
-
-  void _addLessonToFavourites(
-      final ModulesProvider modulesProvider, dynamic lesson, bool add) {
-    modulesProvider.addToFavourites(lesson, add);
   }
 
   void _openLesson(final Lesson lesson) async {
@@ -76,11 +73,27 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
         closeLesson: () {
           Navigator.pop(context);
         },
-        addToFavourites: _addLessonToFavourites,
+        lessonWikis: widget.modulesProvider.getLessonWikis(lesson.lessonID),
+        lessonRecipes: widget.modulesProvider.getLessonRecipes(lesson.lessonID),
+        getPreviousModuleLessons: _getPreviousModuleLessons,
       ),
       Analytics.ANALYTICS_SCREEN_LESSON,
       lesson.lessonID.toString(),
     );
+  }
+
+  void _getPreviousModuleLessons() async {
+    final List<List<Lesson>> allLessons = [];
+
+    for (Module module in widget.modulesProvider.previousModules) {
+      allLessons
+          .add(await widget.modulesProvider.getModuleLessons(module.moduleID));
+    }
+
+    setState(() {
+      _moduleLessons = allLessons;
+      _selectedModuleLessons = allLessons[_moduleIndex];
+    });
   }
 
   @override
@@ -89,41 +102,40 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
-    return Consumer<ModulesProvider>(
-      builder: (context, model, child) => Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Header(
-              title: S.of(context).previousModules,
-              closeItem: () {
-                Navigator.pop(context);
-              },
-              showMessagesIcon: false,
-            ),
-            _selectedModuleID == 0
-                ? PcosLoadingSpinner()
-                : SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        PreviousModulesCarousel(
-                          screenSize: screenSize,
-                          isHorizontal: isHorizontal,
-                          modules: widget.modulesProvider.previousModules,
-                          lessons: _selectedModuleLessons,
-                          selectedModuleID: _selectedModuleID,
-                          lessonCarouselController: lessonCarouselController,
-                          moduleChanged: _moduleChanged,
-                          openLesson: _openLesson,
-                        ),
-                      ],
-                    ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Header(
+            title: S.current.previousModules,
+            closeItem: () {
+              Navigator.pop(context);
+            },
+            showMessagesIcon: false,
+          ),
+          _selectedModuleID == 0
+              ? PcosLoadingSpinner()
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      PreviousModulesCarousel(
+                        screenSize: screenSize,
+                        isHorizontal: isHorizontal,
+                        modules: widget.modulesProvider.previousModules,
+                        lessons: _selectedModuleLessons,
+                        selectedModuleID: _selectedModuleID,
+                        lessonCarouselController: lessonCarouselController,
+                        moduleChanged: _moduleChanged,
+                        openLesson: _openLesson,
+                        refreshPreviousModules: _getPreviousModuleLessons,
+                      ),
+                    ],
                   ),
-          ],
-        ),
+                ),
+        ],
       ),
     );
   }

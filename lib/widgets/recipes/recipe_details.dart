@@ -9,10 +9,14 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class RecipeDetails extends StatelessWidget {
   final Recipe recipe;
+  final bool isFavourite;
   final Function closeRecipeDetails;
-  final Function(dynamic, bool) addToFavourites;
 
-  RecipeDetails({this.recipe, this.closeRecipeDetails, this.addToFavourites});
+  RecipeDetails({
+    @required this.recipe,
+    @required this.isFavourite,
+    @required this.closeRecipeDetails,
+  });
 
   Widget _getRecipeDetails(
       BuildContext context, bool isHorizontal, Size screenSize) {
@@ -83,11 +87,11 @@ class RecipeDetails extends StatelessWidget {
   List<Tab> _getRecipeDetailTabs(BuildContext context, bool isHorizontal) {
     List<Tab> tabs = [];
     if (!isHorizontal) {
-      tabs.add(Tab(text: S.of(context).recipeDetailsSummaryTab));
+      tabs.add(Tab(text: S.current.recipeDetailsSummaryTab));
     }
-    tabs.add(Tab(text: S.of(context).recipeDetailsIngredientsTab));
-    tabs.add(Tab(text: S.of(context).recipeDetailsMethodTab));
-    tabs.add(Tab(text: S.of(context).recipeDetailsTipsTab));
+    tabs.add(Tab(text: S.current.recipeDetailsIngredientsTab));
+    tabs.add(Tab(text: S.current.recipeDetailsMethodTab));
+    tabs.add(Tab(text: S.current.recipeDetailsTipsTab));
     return tabs;
   }
 
@@ -137,9 +141,9 @@ class RecipeDetails extends StatelessWidget {
                 item: recipe,
                 favouriteType: FavouriteType.Recipe,
                 title: recipe.title,
-                isFavourite: recipe.isFavorite,
+                isFavourite: this.isFavourite,
                 closeItem: closeRecipeDetails,
-                addToFavourites: addToFavourites,
+                onAction: () {},
               ),
               _getRecipeDetails(context, isHorizontal, screenSize),
             ],

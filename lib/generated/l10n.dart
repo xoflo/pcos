@@ -65,11 +65,11 @@ class S {
     );
   }
 
-  /// `Knowledge Base`
-  String get knowledgeBaseTitle {
+  /// `Wikis`
+  String get wikiTitle {
     return Intl.message(
-      'Knowledge Base',
-      name: 'knowledgeBaseTitle',
+      'Wikis',
+      name: 'wikiTitle',
       desc: '',
       args: [],
     );
@@ -140,6 +140,16 @@ class S {
     return Intl.message(
       'Change Password',
       name: 'changePasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Help`
+  String get appHelpTitle {
+    return Intl.message(
+      'App Help',
+      name: 'appHelpTitle',
       desc: '',
       args: [],
     );
@@ -1615,21 +1625,31 @@ class S {
     );
   }
 
-  /// `View now`
-  String get favouritesWatchNow {
+  /// `View lesson`
+  String get favouritesViewLesson {
     return Intl.message(
-      'View now',
-      name: 'favouritesWatchNow',
+      'View lesson',
+      name: 'favouritesViewLesson',
       desc: '',
       args: [],
     );
   }
 
-  /// `View details`
-  String get favouritesViewDetails {
+  /// `View wiki`
+  String get favouritesViewWiki {
     return Intl.message(
-      'View details',
-      name: 'favouritesViewDetails',
+      'View wiki',
+      name: 'favouritesViewWiki',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View recipe`
+  String get favouritesViewRecipe {
+    return Intl.message(
+      'View recipe',
+      name: 'favouritesViewRecipe',
       desc: '',
       args: [],
     );
@@ -1740,6 +1760,16 @@ class S {
     return Intl.message(
       'Display \'Your Why\':',
       name: 'settingsYourWhyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display Lesson Recipes \non Your Course:`
+  String get settingsLessonRecipesText {
+    return Intl.message(
+      'Display Lesson Recipes \non Your Course:',
+      name: 'settingsLessonRecipesText',
       desc: '',
       args: [],
     );
@@ -2295,11 +2325,11 @@ class S {
     );
   }
 
-  /// `No favourite knowledge base items to display.`
-  String get noFavouriteKB {
+  /// `No favourite lesson wikis to display.`
+  String get noFavouriteWikis {
     return Intl.message(
-      'No favourite knowledge base items to display.',
-      name: 'noFavouriteKB',
+      'No favourite lesson wikis to display.',
+      name: 'noFavouriteWikis',
       desc: '',
       args: [],
     );
@@ -2310,6 +2340,246 @@ class S {
     return Intl.message(
       'No favourite recipes to display.',
       name: 'noFavouriteRecipe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lesson Wiki`
+  String get lessonWiki {
+    return Intl.message(
+      'Lesson Wiki',
+      name: 'lessonWiki',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View answer`
+  String get viewWikiAnswer {
+    return Intl.message(
+      'View answer',
+      name: 'viewWikiAnswer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View question`
+  String get viewWikiQuestion {
+    return Intl.message(
+      'View question',
+      name: 'viewWikiQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no wiki items for this lesson`
+  String get noWikis {
+    return Intl.message(
+      'There are no wiki items for this lesson',
+      name: 'noWikis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the lesson to view the lesson and wikis`
+  String get lockedWikis {
+    return Intl.message(
+      'Open the lesson to view the lesson and wikis',
+      name: 'lockedWikis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no recipes for this lesson`
+  String get noRecipes {
+    return Intl.message(
+      'There are no recipes for this lesson',
+      name: 'noRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open the lesson to view the lesson and recipes`
+  String get lockedRecipes {
+    return Intl.message(
+      'Open the lesson to view the lesson and recipes',
+      name: 'lockedRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lesson Recipes`
+  String get lessonRecipes {
+    return Intl.message(
+      'Lesson Recipes',
+      name: 'lessonRecipes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe up for answer`
+  String get swipeUpForAnswer {
+    return Intl.message(
+      'Swipe up for answer',
+      name: 'swipeUpForAnswer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe down for question`
+  String get swipeDownForQuestion {
+    return Intl.message(
+      'Swipe down for question',
+      name: 'swipeDownForQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Toolkit`
+  String get toolkitTitle {
+    return Intl.message(
+      'Toolkit',
+      name: 'toolkitTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lesson Wiki Search`
+  String get searchWiki {
+    return Intl.message(
+      'Lesson Wiki Search',
+      name: 'searchWiki',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No lesson wiki matching your search.`
+  String get noWikisSearch {
+    return Intl.message(
+      'No lesson wiki matching your search.',
+      name: 'noWikisSearch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Modules`
+  String get allModules {
+    return Intl.message(
+      'All Modules',
+      name: 'allModules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Quiz`
+  String get startQuiz {
+    return Intl.message(
+      'Start Quiz',
+      name: 'startQuiz',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get quizNext {
+    return Intl.message(
+      'Next',
+      name: 'quizNext',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select all that apply`
+  String get quizMulti {
+    return Intl.message(
+      'Select all that apply',
+      name: 'quizMulti',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check Answer`
+  String get checkAnswer {
+    return Intl.message(
+      'Check Answer',
+      name: 'checkAnswer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Well Done`
+  String get quizCorrectResponse {
+    return Intl.message(
+      'Well Done',
+      name: 'quizCorrectResponse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlucky`
+  String get quizWrongResponse {
+    return Intl.message(
+      'Unlucky',
+      name: 'quizWrongResponse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quiz Question`
+  String get quizQuestionWarningTitle {
+    return Intl.message(
+      'Quiz Question',
+      name: 'quizQuestionWarningTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provide an answer for this question.`
+  String get quizQuestionWarningText {
+    return Intl.message(
+      'Please provide an answer for this question.',
+      name: 'quizQuestionWarningText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you`
+  String get quizGenericEndTitle {
+    return Intl.message(
+      'Thank you',
+      name: 'quizGenericEndTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have now completed this quiz`
+  String get quizGenericEndMessage {
+    return Intl.message(
+      'You have now completed this quiz',
+      name: 'quizGenericEndMessage',
       desc: '',
       args: [],
     );

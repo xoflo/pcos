@@ -1,5 +1,5 @@
-//import 'dart:developer';
-//import 'package:flutter/foundation.dart';
+import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
@@ -375,6 +375,25 @@ class WebServices {
           .results;
     } else {
       throw GET_LESSON_TASKS_FAILED;
+    }
+  }
+
+  Future<List<LessonTask>> getQuizTasks() async {
+    final url = Uri.parse(_baseUrl + "Task/all/0");
+    final String token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    if (response.statusCode == 200) {
+      return LessonTaskResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload)
+          .results;
+    } else {
+      throw GET_LESSON_QUIZ_FAILED;
     }
   }
   //#endregion

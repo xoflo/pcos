@@ -4,9 +4,10 @@ class Lesson {
   final String title;
   final String introduction;
   final int orderIndex;
-  final bool isFavorite;
   final bool isComplete;
+  final bool isToolkit;
   final DateTime dateCreatedUTC;
+  bool isFavorite;
 
   Lesson({
     this.lessonID,
@@ -16,6 +17,7 @@ class Lesson {
     this.orderIndex,
     this.isFavorite,
     this.isComplete,
+    this.isToolkit,
     this.dateCreatedUTC,
   });
 
@@ -30,6 +32,8 @@ class Lesson {
           json['isFavorite'] == 1 || json['isFavorite'] == true ? true : false,
       isComplete:
           json['isComplete'] == 1 || json['isComplete'] == true ? true : false,
+      isToolkit:
+          json['isToolkit'] == 1 || json['isToolkit'] == true ? true : false,
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );
   }
@@ -45,6 +49,7 @@ class Lesson {
   "orderIndex": 0,
   "isFavorite": false,
   "isComplete": true,
+  "isToolkit": true,
   "dateCreatedUTC": "2021-03-18T23:00:00"
 },
 */

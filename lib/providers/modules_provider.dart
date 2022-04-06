@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
+import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
@@ -27,22 +29,29 @@ class ModulesProvider with ChangeNotifier {
   List<Lesson> _lessons = [];
   List<LessonContent> _lessonContent = [];
   List<LessonTask> _lessonTasks = [];
+  List<LessonWiki> _lessonWikis = [];
+  List<LessonRecipe> _lessonRecipes = [];
+  List<Quiz> _lessonQuizzes = [];
 
   Module _currentModule;
   List<Module> _previousModules = [];
   List<Lesson> _currentModuleLessons = [];
   Lesson _currentLesson;
   List<LessonTask> _displayLessonTasks = [];
-  List<Lesson> _favouriteLessons = [];
   List<Lesson> _searchLessons = [];
+  List<LessonWiki> _initialLessonWikis = [];
+  List<LessonRecipe> _initialLessonRecipes = [];
 
   Module get currentModule => _currentModule;
   Lesson get currentLesson => _currentLesson;
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
+  List<Module> get allModules => [..._modules];
   List<Module> get previousModules => [..._previousModules];
-  List<Lesson> get favouriteLessons => [..._favouriteLessons];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
   List<Lesson> get searchLessons => [..._searchLessons];
+  List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
+  List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
+  List<Quiz> get lessonQuizzes => [..._lessonQuizzes];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -64,6 +73,9 @@ class ModulesProvider with ChangeNotifier {
       _lessons = modulesAndLessons.lessons;
       _lessonContent = modulesAndLessons.lessonContent;
       _lessonTasks = modulesAndLessons.lessonTasks;
+      _lessonWikis = modulesAndLessons.lessonWikis;
+      _lessonRecipes = modulesAndLessons.lessonRecipes;
+      _lessonQuizzes = modulesAndLessons.lessonQuizzes;
 
       _currentModule = _modules.last;
       _previousModules = await _getPreviousModules();
@@ -80,8 +92,21 @@ class ModulesProvider with ChangeNotifier {
           _displayLessonTasks.add(lessonTask);
         }
       }
-
-      await _refreshFavourites();
+      //set initial lesson wikis & recipes to display on dashboard when it loads
+      if (_initialLessonWikis.length == 0) {
+        for (LessonWiki lessonWiki in _lessonWikis) {
+          if (lessonWiki.lessonId == currentLesson.lessonID) {
+            _initialLessonWikis.add(lessonWiki);
+          }
+        }
+      }
+      if (_initialLessonRecipes.length == 0) {
+        for (LessonRecipe lessonRecipe in _lessonRecipes) {
+          if (lessonRecipe.lessonId == currentLesson.lessonID) {
+            _initialLessonRecipes.add(lessonRecipe);
+          }
+        }
+      }
     }
 
     status = _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
@@ -98,6 +123,16 @@ class ModulesProvider with ChangeNotifier {
       }
     }
     return moduleLessons;
+  }
+
+  String getModuleTitleByModuleID(final int moduleID) {
+    Module moduleFound = _modules.firstWhere(
+        (module) => module.moduleID == moduleID,
+        orElse: () => null);
+    if (moduleFound != null) {
+      return moduleFound.title;
+    }
+    return "";
   }
 
   Future<List<LessonTask>> getLessonTasks(final int lessonID) async {
@@ -118,6 +153,46 @@ class ModulesProvider with ChangeNotifier {
       }
     }
     return lessonContent;
+  }
+
+  List<LessonWiki> getLessonWikis(final int lessonID) {
+    List<LessonWiki> displayLessonWikis = [];
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if (lessonWiki.lessonId == lessonID) {
+        displayLessonWikis.add(lessonWiki);
+      }
+    }
+    return displayLessonWikis;
+  }
+
+  Future<List<LessonWiki>> searchLessonWikis(
+      final int moduleID, final String searchText) async {
+    List<LessonWiki> searchLessonWikis = [];
+    List<int> questionIDs = [];
+    for (LessonWiki lessonWiki in _lessonWikis) {
+      if ((lessonWiki.moduleId == moduleID || moduleID == 0) &&
+          (lessonWiki.question
+                  .toLowerCase()
+                  .contains(searchText.toLowerCase()) ||
+              searchText.length == 0)) {
+        //check if this question has already been added
+        if (!questionIDs.contains(lessonWiki.questionId)) {
+          searchLessonWikis.add(lessonWiki);
+          questionIDs.add(lessonWiki.questionId);
+        }
+      }
+    }
+    return searchLessonWikis;
+  }
+
+  List<LessonRecipe> getLessonRecipes(final int lessonID) {
+    List<LessonRecipe> displayLessonRecipes = [];
+    for (LessonRecipe lessonRecipe in _lessonRecipes) {
+      if (lessonRecipe.lessonId == lessonID) {
+        displayLessonRecipes.add(lessonRecipe);
+      }
+    }
+    return displayLessonRecipes;
   }
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
@@ -144,23 +219,6 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToFavourites(final dynamic lesson, final bool add) async {
-    if (dbProvider.db != null) {
-      await ProviderHelper()
-          .addToFavourites(add, dbProvider, FavouriteType.Lesson, lesson);
-      fetchAndSaveData(false);
-    }
-  }
-
-  Future<void> _refreshFavourites() async {
-    _favouriteLessons.clear();
-    for (Lesson lesson in _lessons) {
-      if (lesson.isFavorite) {
-        _favouriteLessons.add(lesson);
-      }
-    }
-  }
-
   Future<List<Module>> _getPreviousModules() async {
     List<Module> modules = [];
     for (Module module in _modules) {
@@ -177,7 +235,6 @@ class ModulesProvider with ChangeNotifier {
     if (dbProvider.db != null) {
       _searchLessons = await ProviderHelper()
           .filterAndSearch(dbProvider, "Lesson", searchText, "", []);
-      await _refreshFavourites();
     }
     searchStatus =
         _searchLessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
