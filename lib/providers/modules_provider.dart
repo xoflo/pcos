@@ -77,10 +77,13 @@ class ModulesProvider with ChangeNotifier {
       _lessonRecipes = modulesAndLessons.lessonRecipes;
       _lessonQuizzes = modulesAndLessons.lessonQuizzes;
 
-      _currentModule = _modules.last;
-      _previousModules = await _getPreviousModules();
-      _currentModuleLessons = await getModuleLessons(_currentModule.moduleID);
-      _currentLesson = _currentModuleLessons.last;
+      if (_modules.length > 0) {
+        _currentModule = _modules.last;
+        _previousModules = await _getPreviousModules();
+        _currentModuleLessons = await getModuleLessons(_currentModule.moduleID);
+        _currentLesson = _currentModuleLessons.last;
+      }
+
       //display the past lesson tasks not completed, and the current lesson if the lesson is complete
       _displayLessonTasks.clear();
       for (LessonTask lessonTask in _lessonTasks) {
@@ -95,15 +98,19 @@ class ModulesProvider with ChangeNotifier {
       //set initial lesson wikis & recipes to display on dashboard when it loads
       if (_initialLessonWikis.length == 0) {
         for (LessonWiki lessonWiki in _lessonWikis) {
-          if (lessonWiki.lessonId == currentLesson.lessonID) {
-            _initialLessonWikis.add(lessonWiki);
+          if (currentLesson != null) {
+            if (lessonWiki.lessonId == currentLesson.lessonID) {
+              _initialLessonWikis.add(lessonWiki);
+            }
           }
         }
       }
       if (_initialLessonRecipes.length == 0) {
         for (LessonRecipe lessonRecipe in _lessonRecipes) {
-          if (lessonRecipe.lessonId == currentLesson.lessonID) {
-            _initialLessonRecipes.add(lessonRecipe);
+          if (currentLesson != null) {
+            if (lessonRecipe.lessonId == currentLesson.lessonID) {
+              _initialLessonRecipes.add(lessonRecipe);
+            }
           }
         }
       }
