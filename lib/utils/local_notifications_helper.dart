@@ -64,7 +64,7 @@ Future<void> scheduleDailyReminderNotification(
   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
     androidPlatformId,
     androidPlatformName,
-    androidPlatformDesc,
+    channelDescription: androidPlatformDesc,
   );
   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
   var platformChannelSpecifics = NotificationDetails(

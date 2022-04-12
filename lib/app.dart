@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,6 @@ import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
-import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
@@ -59,15 +58,16 @@ class _AppState extends State<App> {
   void initializeApp() async {
     initializeFlutterFire();
     initializeOneSignal();
-    observer = FirebaseAnalyticsObserver(analytics: analytics);
     setDeviceOrientations();
   }
 
   //initialise Crashlytics for app
   Future<void> initializeFlutterFire() async {
     try {
-      // Wait for Firebase to initialize and set `_initialized` state to true
-      await Firebase.initializeApp();
+      Firebase.initializeApp().then((app) {
+        FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);
+        observer = FirebaseAnalyticsObserver(analytics: analytics);
+      });
     } catch (e) {
       // Set `_error` state to true if Firebase initialization fails
       setState(() {
@@ -88,8 +88,7 @@ class _AppState extends State<App> {
       OSiOSSettings.promptBeforeOpeningPushUrl: true
     };
 
-    OneSignal.shared
-        .setNotificationReceivedHandler((OSNotification notification) {
+    OneSignal.shared.setNotificationWillShowInForegroundHandler((notification) {
       //calling setState forces the app to get the data again so the messages refreshes, and the true in the refreshMessages global singleton means it comes from the API
       refreshMessages.setRefreshMessagesFromAPI(true);
       setState(() {});
@@ -101,10 +100,8 @@ class _AppState extends State<App> {
           "*** OPENED PN - message=${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}");
     });*/
 
-    await OneSignal.shared.init(FlavorConfig.instance.values.oneSignalAppID,
-        iOSSettings: settings);
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    await OneSignal.shared
+        .setAppId(FlavorConfig.instance.values.oneSignalAppID);
   }
 
   void setDeviceOrientations() async {
@@ -181,9 +178,8 @@ class _AppState extends State<App> {
           WikiSearch.id: (context) => WikiSearch(),
           QuizScreen.id: (context) => QuizScreen(),
         },
-        navigatorObservers: [
-          observer,
-        ],
+        navigatorObservers:
+            (null == observer) ? [] : <NavigatorObserver>[observer],
       ),
     );
   }
