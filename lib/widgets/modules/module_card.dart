@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class ModuleCard extends StatelessWidget {

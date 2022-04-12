@@ -83,11 +83,6 @@ class _AppState extends State<App> {
     //temporary dbugging level
     //OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-    var settings = {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.promptBeforeOpeningPushUrl: true
-    };
-
     OneSignal.shared.setNotificationWillShowInForegroundHandler((notification) {
       //calling setState forces the app to get the data again so the messages refreshes, and the true in the refreshMessages global singleton means it comes from the API
       refreshMessages.setRefreshMessagesFromAPI(true);

@@ -5,7 +5,6 @@ import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/lesson_task_list.dart';
 import 'package:thepcosprotocol_app/models/lesson_link.dart';
 import 'package:thepcosprotocol_app/models/lesson_link_list.dart';
-import 'package:flutter/foundation.dart';
 
 class LessonExport {
   final Lesson lesson;
