@@ -4,30 +4,30 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 
 class MemberViewModel extends ChangeNotifier {
-  Member member;
+  late Member member;
   Member memberOriginal = Member();
   LoadingStatus status = LoadingStatus.empty;
 
   MemberViewModel();
 
-  int get id {
+  int? get id {
     return this.member.id;
   }
 
   String get firstName {
-    return this.member.firstName;
+    return this.member.firstName ?? "";
   }
 
   String get lastName {
-    return this.member.lastName;
+    return this.member.lastName ?? "";
   }
 
   String get alias {
-    return this.member.alias;
+    return this.member.alias ?? "";
   }
 
   String get email {
-    return this.member.email;
+    return this.member.email ?? "";
   }
 
   set firstName(String firstName) {
@@ -45,7 +45,7 @@ class MemberViewModel extends ChangeNotifier {
   Future<void> populateMember() async {
     status = LoadingStatus.loading;
     try {
-      final Member memberDetails = await WebServices().getMemberDetails();
+      final Member? memberDetails = await WebServices().getMemberDetails();
 
       if (memberDetails != null) {
         this.member = memberDetails;

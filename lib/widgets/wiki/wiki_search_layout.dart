@@ -51,7 +51,7 @@ class _WikiSearchLayoutState extends State<WikiSearchLayout> {
         _lessonWikis = lessonWikis;
         _hasSearchRun = true;
       });
-      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+      WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
     }
   }
 

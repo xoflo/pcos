@@ -3,16 +3,17 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
 
 class Header extends StatelessWidget {
-  final String title;
-  final Function closeItem;
+  final String? title;
+  final Function? closeItem;
   final bool showMessagesIcon;
   final int unreadCount;
 
-  Header(
-      {this.title,
-      this.closeItem,
-      this.showMessagesIcon = false,
-      this.unreadCount = 0});
+  Header({
+    this.title,
+    this.closeItem,
+    this.showMessagesIcon = false,
+    this.unreadCount = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class Header extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                closeItem();
+                closeItem?.call();
               },
               child: SizedBox(
                 width: 35,
@@ -43,9 +44,9 @@ class Header extends StatelessWidget {
               ),
             ),
             Text(
-              title,
+              title ?? "",
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline5.copyWith(
+              style: Theme.of(context).textTheme.headline5?.copyWith(
                     color: Colors.white,
                   ),
             ),

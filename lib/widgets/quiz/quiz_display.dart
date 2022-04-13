@@ -13,8 +13,8 @@ class QuizDisplay extends StatefulWidget {
   final Size screenSize;
 
   QuizDisplay({
-    @required this.modulesProvider,
-    @required this.screenSize,
+    required this.modulesProvider,
+    required this.screenSize,
   });
 
   @override
@@ -41,7 +41,7 @@ class _QuizDisplayState extends State<QuizDisplay> {
     }
 
     setState(() {
-      _currentQuestionID = quiz.questions[0].quizQuestionID;
+      _currentQuestionID = quiz.questions?[0].quizQuestionID ?? 0;
       _isLoading = false;
     });
   }
@@ -62,27 +62,27 @@ class _QuizDisplayState extends State<QuizDisplay> {
         quizQuestionID: 0,
         quizID: quiz.quizID,
         questionType: "final",
-        questionText: quiz.endMessage.length > 0
+        questionText: (quiz.endMessage?.length ?? 0) > 0
             ? quiz.endMessage
             : S.current.quizGenericEndMessage,
-        response: quiz.endTitle.length > 0
+        response: (quiz.endTitle?.length ?? 0) > 0
             ? quiz.endTitle
             : S.current.quizGenericEndTitle,
         orderIndex: 0,
         answers: [],
         isMultiChoice: false);
-    List columnChildren = quiz.questions.map((QuizQuestion question) {
+    List<Widget>? columnChildren = quiz.questions?.map((QuizQuestion question) {
       return QuestionCard(
         question: question,
         screenSize: widget.screenSize,
         isFinalQuestion: question.quizQuestionID ==
-            quiz.questions[quiz.questions.length - 1].quizQuestionID,
+            quiz.questions?[(quiz.questions?.length ?? 1) - 1].quizQuestionID,
         isFinalCard: false,
         next: _nextQuestion,
       );
     }).toList();
 
-    columnChildren.add(QuestionCard(
+    columnChildren?.add(QuestionCard(
       question: finalQuestion,
       screenSize: widget.screenSize,
       isFinalQuestion: false,
@@ -93,7 +93,7 @@ class _QuizDisplayState extends State<QuizDisplay> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: columnChildren,
+      children: columnChildren ?? [],
     );
   }
 
@@ -136,7 +136,8 @@ class _QuizDisplayState extends State<QuizDisplay> {
                         child: OverflowBox(
                           alignment: Alignment.topCenter,
                           //minHeight: containerHeight,
-                          maxHeight: containerHeight * quiz.questions.length,
+                          maxHeight:
+                              containerHeight * (quiz.questions?.length ?? 0),
                           maxWidth: widget.screenSize.width,
                           child: Stack(children: [
                             AnimatedPositioned(

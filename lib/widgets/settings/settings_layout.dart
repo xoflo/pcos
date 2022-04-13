@@ -29,9 +29,9 @@ class SettingsLayout extends StatefulWidget {
   final bool onlyShowDailyReminder;
 
   SettingsLayout({
-    @required this.updateYourWhy,
-    @required this.updateLessonRecipes,
-    @required this.onlyShowDailyReminder,
+    required this.updateYourWhy,
+    required this.updateLessonRecipes,
+    required this.onlyShowDailyReminder,
   });
 
   @override
@@ -132,13 +132,15 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   }
 
   Future<void> _showTimeDialog() async {
-    TimeOfDay selectedTime = await showTimePicker(
+    TimeOfDay? selectedTime = await showTimePicker(
       initialTime: TimeOfDay.now(),
       context: context,
     );
 
     setState(() {
-      _dailyReminderTimeOfDay = selectedTime;
+      if (selectedTime != null) {
+        _dailyReminderTimeOfDay = selectedTime;
+      }
     });
 
     _saveDailyReminder(true);

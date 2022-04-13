@@ -8,9 +8,9 @@ class StandardButton extends StatelessWidget {
   final Color color;
 
   StandardButton({
-    @required this.isUpdating,
-    @required this.label,
-    @required this.onTap,
+    required this.isUpdating,
+    required this.label,
+    required this.onTap,
     this.color = primaryColor,
   });
 

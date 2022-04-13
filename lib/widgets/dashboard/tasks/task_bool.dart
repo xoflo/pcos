@@ -8,13 +8,13 @@ class TaskBool extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function(int, String) onSubmit;
+  final Function(int?, String) onSubmit;
 
   TaskBool({
-    @required this.screenSize,
-    @required this.isHorizontal,
-    @required this.lessonTask,
-    @required this.onSubmit,
+    required this.screenSize,
+    required this.isHorizontal,
+    required this.lessonTask,
+    required this.onSubmit,
   });
 
   @override
@@ -65,7 +65,7 @@ class _TaskBoolState extends State<TaskBool> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            widget.lessonTask.title,
+            widget.lessonTask.title ?? "",
             style: Theme.of(context).textTheme.headline6,
           ),
           Padding(
@@ -73,7 +73,7 @@ class _TaskBoolState extends State<TaskBool> {
               horizontal: 16.0,
               vertical: 12.0,
             ),
-            child: HtmlWidget(widget.lessonTask.description),
+            child: HtmlWidget(widget.lessonTask.description ?? ""),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

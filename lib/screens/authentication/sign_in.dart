@@ -70,7 +70,8 @@ class _SignInState extends State<SignIn> {
           final Member memberDetails = await WebServices().getMemberDetails();
           await PreferencesController().saveString(
               SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
-              memberDetails.dateNextLessonAvailableLocal.toIso8601String());
+              memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ??
+                  "");
           return;
         } else {
           showErrorDialog = true;

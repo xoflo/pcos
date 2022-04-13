@@ -33,7 +33,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
     Provider.of<MemberViewModel>(context, listen: false).populateMember();
   }
 
-  void _editDetails(MemberViewModel member) {
+  void _editDetails(MemberViewModel? member) {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
       parameters: {
@@ -41,16 +41,16 @@ class _ProfileLayoutState extends State<ProfileLayout> {
             Analytics.ANALYTICS_BUTTON_EDIT_PROFILE
       },
     );
-    firstNameController.text = member.firstName;
-    lastNameController.text = member.lastName;
-    emailController.text = member.email;
+    firstNameController.text = member?.firstName ?? "";
+    lastNameController.text = member?.lastName ?? "";
+    emailController.text = member?.email ?? "";
     setState(() {
       _isEditable = true;
     });
   }
 
   void _saveChanges(MemberViewModel member) {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState?.validate() == true) {
       analytics.logEvent(
         name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
         parameters: {
@@ -106,7 +106,6 @@ class _ProfileLayoutState extends State<ProfileLayout> {
                 ),
               );
     }
-    return Container();
   }
 
   @override

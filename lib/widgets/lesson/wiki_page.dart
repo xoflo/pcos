@@ -13,9 +13,9 @@ class WikiPage extends StatelessWidget {
   final BuildContext parentContext;
 
   WikiPage({
-    @required this.isHorizontal,
-    @required this.wikis,
-    @required this.parentContext,
+    required this.isHorizontal,
+    required this.wikis,
+    required this.parentContext,
   });
 
   void _addToFavourites(

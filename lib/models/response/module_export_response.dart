@@ -1,7 +1,7 @@
 import 'package:thepcosprotocol_app/models/module_export.dart';
 
 class ModuleExportResponse {
-  List<ModuleExport> results;
+  List<ModuleExport>? results;
 
   ModuleExportResponse({this.results});
 

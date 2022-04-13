@@ -31,13 +31,13 @@ class CourseLesson extends StatefulWidget {
   final Function getPreviousModuleLessons;
 
   CourseLesson({
-    @required this.modulesProvider,
-    @required this.showDataUsageWarning,
-    @required this.lesson,
-    @required this.lessonWikis,
-    @required this.lessonRecipes,
-    @required this.closeLesson,
-    @required this.getPreviousModuleLessons,
+    required this.modulesProvider,
+    required this.showDataUsageWarning,
+    required this.lesson,
+    required this.lessonWikis,
+    required this.lessonRecipes,
+    required this.closeLesson,
+    required this.getPreviousModuleLessons,
   });
 
   @override
@@ -45,7 +45,7 @@ class CourseLesson extends StatefulWidget {
 }
 
 class _CourseLessonState extends State<CourseLesson> {
-  List<LessonContent> _lessonContent;
+  List<LessonContent>? _lessonContent;
   bool _isLoading = true;
   bool _displayDataWarning = false;
   int _currentPage = 0;
@@ -116,7 +116,7 @@ class _CourseLessonState extends State<CourseLesson> {
                         style: Theme.of(context)
                             .textTheme
                             .headline6
-                            .copyWith(color: Colors.white),
+                            ?.copyWith(color: Colors.white),
                       ),
                     ],
                   ),
@@ -160,15 +160,16 @@ class _CourseLessonState extends State<CourseLesson> {
         height: tabBarHeight - 51,
         child: SingleChildScrollView(
           child: Column(
-            children: _lessonContent.map((LessonContent content) {
-              return CourseLessonContent(
-                lessonContent: content,
-                screenSize: screenSize,
-                isHorizontal: isHorizontal,
-                tabBarHeight: 0,
-                isPaged: false,
-              );
-            }).toList(),
+            children: _lessonContent?.map((LessonContent content) {
+                  return CourseLessonContent(
+                    lessonContent: content,
+                    screenSize: screenSize,
+                    isHorizontal: isHorizontal,
+                    tabBarHeight: 0,
+                    isPaged: false,
+                  );
+                }).toList() ??
+                [],
           ),
         ),
       );
@@ -184,7 +185,7 @@ class _CourseLessonState extends State<CourseLesson> {
     final int extraPages = (widget.lessonWikis.length == 0 ? 0 : 1) +
         (widget.lessonRecipes.length == 0 ? 0 : 1);
     final int totalPages =
-        _lessonContent == null ? 0 : _lessonContent.length + extraPages;
+        _lessonContent == null ? 0 : (_lessonContent?.length ?? 0) + extraPages;
     if (_isLoading) {
       return PcosLoadingSpinner();
     } else {
@@ -236,7 +237,7 @@ class _CourseLessonState extends State<CourseLesson> {
 
   List<Widget> _getPages(final Size screenSize, final bool isHorizontal,
       final double tabBarHeight) {
-    final List<Widget> pages = _lessonContent.map((LessonContent content) {
+    final List<Widget>? pages = _lessonContent?.map((LessonContent content) {
       return Builder(
         builder: (BuildContext context) {
           return Container(
@@ -257,15 +258,15 @@ class _CourseLessonState extends State<CourseLesson> {
 
     //add the wiki page if needed
     if (widget.lessonWikis.length > 0) {
-      pages.add(_getWikiPage(screenSize, isHorizontal, tabBarHeight));
+      pages?.add(_getWikiPage(screenSize, isHorizontal, tabBarHeight));
     }
 
     //add the Recipes page if needed
     if (widget.lessonRecipes.length > 0) {
-      pages.add(_getRecipesPage(screenSize, isHorizontal, tabBarHeight));
+      pages?.add(_getRecipesPage(screenSize, isHorizontal, tabBarHeight));
     }
 
-    return pages;
+    return pages ?? [];
   }
 
   Widget _getWikiPage(final Size screenSize, final bool isHorizontal,
@@ -319,7 +320,7 @@ class _CourseLessonState extends State<CourseLesson> {
               _getDataUsageWarning(context, screenSize),
               _lessonContent == null
                   ? Container()
-                  : _lessonContent.length == 1 &&
+                  : _lessonContent?.length == 1 &&
                           widget.lessonWikis.length == 0 &&
                           widget.lessonRecipes.length == 0
                       ? _getLessonContentInColumn(

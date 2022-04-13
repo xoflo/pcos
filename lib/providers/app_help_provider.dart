@@ -5,9 +5,9 @@ import 'package:thepcosprotocol_app/models/question.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 
 class AppHelpProvider with ChangeNotifier {
-  final DatabaseProvider dbProvider;
+  final DatabaseProvider? dbProvider;
 
-  AppHelpProvider({@required this.dbProvider}) {
+  AppHelpProvider({required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData();
   }
   final String tableName = "AppHelp";
@@ -20,7 +20,7 @@ class AppHelpProvider with ChangeNotifier {
     status = LoadingStatus.loading;
     notifyListeners();
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       _items = await ProviderHelper()
           .fetchAndSaveQuestions(dbProvider, tableName, assetType);

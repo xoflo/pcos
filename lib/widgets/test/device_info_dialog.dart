@@ -44,18 +44,18 @@ class DeviceInfoDialog extends StatelessWidget {
       builder: (context, AsyncSnapshot<IosDeviceInfo> snapshot) {
         if (!snapshot.hasData) return Container();
 
-        IosDeviceInfo device = snapshot.data;
+        IosDeviceInfo? device = snapshot.data;
         return SingleChildScrollView(
           child: Column(
             children: <Widget>[
               _buildTile('Flavor:', '${FlavorConfig.instance.name}'),
               _buildTile('Build mode:',
                   '${StringUtils.enumName(DeviceUtils.currentBuildMode().toString())}'),
-              _buildTile('Physical device?:', '${device.isPhysicalDevice}'),
-              _buildTile('Device:', '${device.name}'),
-              _buildTile('Model:', '${device.model}'),
-              _buildTile('System name:', '${device.systemName}'),
-              _buildTile('System version:', '${device.systemVersion}'),
+              _buildTile('Physical device?:', '${device?.isPhysicalDevice}'),
+              _buildTile('Device:', '${device?.name}'),
+              _buildTile('Model:', '${device?.model}'),
+              _buildTile('System name:', '${device?.systemName}'),
+              _buildTile('System version:', '${device?.systemVersion}'),
               _getDimensions(context),
             ],
           ),
@@ -70,18 +70,18 @@ class DeviceInfoDialog extends StatelessWidget {
       builder: (context, AsyncSnapshot<AndroidDeviceInfo> snapshot) {
         if (!snapshot.hasData) return Container();
 
-        AndroidDeviceInfo device = snapshot.data;
+        AndroidDeviceInfo? device = snapshot.data;
         return SingleChildScrollView(
           child: Column(
             children: <Widget>[
               _buildTile('Flavor:', '${FlavorConfig.instance.name}'),
               _buildTile('Build mode:',
                   '${StringUtils.enumName(DeviceUtils.currentBuildMode().toString())}'),
-              _buildTile('Physical device?:', '${device.isPhysicalDevice}'),
-              _buildTile('Manufacturer:', '${device.manufacturer}'),
-              _buildTile('Model:', '${device.model}'),
-              _buildTile('Android version:', '${device.version.release}'),
-              _buildTile('Android SDK:', '${device.version.sdkInt}'),
+              _buildTile('Physical device?:', '${device?.isPhysicalDevice}'),
+              _buildTile('Manufacturer:', '${device?.manufacturer}'),
+              _buildTile('Model:', '${device?.model}'),
+              _buildTile('Android version:', '${device?.version.release}'),
+              _buildTile('Android SDK:', '${device?.version.sdkInt}'),
               _getDimensions(context),
             ],
           ),

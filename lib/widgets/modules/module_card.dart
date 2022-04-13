@@ -8,10 +8,10 @@ class ModuleCard extends StatelessWidget {
   final bool isSelected;
 
   ModuleCard({
-    @required this.screenSize,
-    @required this.moduleNumber,
-    @required this.moduleName,
-    @required this.isSelected,
+    required this.screenSize,
+    required this.moduleNumber,
+    required this.moduleName,
+    required this.isSelected,
   });
 
   @override

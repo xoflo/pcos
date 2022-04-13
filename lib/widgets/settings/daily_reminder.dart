@@ -6,17 +6,17 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class DailyReminder extends StatelessWidget {
   final bool isDailyReminderOn;
-  final TimeOfDay dailyReminderTimeOfDay;
+  final TimeOfDay? dailyReminderTimeOfDay;
   final PermissionStatus notificationPermissions;
   final Function(bool) saveDailyReminder;
   final Function showTimeDialog;
 
   DailyReminder({
-    @required this.isDailyReminderOn,
-    @required this.dailyReminderTimeOfDay,
-    @required this.notificationPermissions,
-    @required this.saveDailyReminder,
-    @required this.showTimeDialog,
+    required this.isDailyReminderOn,
+    required this.dailyReminderTimeOfDay,
+    required this.notificationPermissions,
+    required this.saveDailyReminder,
+    required this.showTimeDialog,
   });
 
   @override
@@ -60,7 +60,7 @@ class DailyReminder extends StatelessWidget {
                     children: [
                       Text(
                         dailyReminderTimeOfDay != null
-                            ? dailyReminderTimeOfDay.format(context)
+                            ? dailyReminderTimeOfDay?.format(context) ?? ""
                             : "12:00 PM",
                       ),
                       GestureDetector(

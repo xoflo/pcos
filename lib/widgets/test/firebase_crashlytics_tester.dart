@@ -28,7 +28,7 @@ class _FirebaseCrashlyticsTesterState extends State<FirebaseCrashlyticsTester> {
     });
   }
 
-  Future<void> _initializeFlutterFireFuture;
+  late Future<void> _initializeFlutterFireFuture;
 
   // Define an async function to initialize FlutterFire
   Future<void> _initializeFlutterFire() async {
@@ -46,11 +46,11 @@ class _FirebaseCrashlyticsTesterState extends State<FirebaseCrashlyticsTester> {
     }
 
     // Pass all uncaught errors to Crashlytics.
-    Function originalOnError = FlutterError.onError;
+    Function(FlutterErrorDetails)? originalOnError = FlutterError.onError;
     FlutterError.onError = (FlutterErrorDetails errorDetails) async {
       await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
       // Forward to original handler.
-      originalOnError(errorDetails);
+      originalOnError?.call(errorDetails);
     };
 
     if (_kShouldTestAsyncErrorOnInit) {
@@ -172,7 +172,6 @@ class _FirebaseCrashlyticsTesterState extends State<FirebaseCrashlyticsTester> {
                 ],
               ),
             );
-            break;
           default:
             return Center(child: Text('Loading'));
         }

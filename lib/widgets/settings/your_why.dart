@@ -8,10 +8,11 @@ class YourWhySetting extends StatelessWidget {
   final bool hasYourWhyBeenEntered;
   final Function(bool) saveYourWhy;
 
-  YourWhySetting(
-      {@required this.isYourWhyOn,
-      @required this.hasYourWhyBeenEntered,
-      @required this.saveYourWhy});
+  YourWhySetting({
+    required this.isYourWhyOn,
+    required this.hasYourWhyBeenEntered,
+    required this.saveYourWhy,
+  });
 
   @override
   Widget build(BuildContext context) {

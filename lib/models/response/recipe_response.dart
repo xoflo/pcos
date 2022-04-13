@@ -1,7 +1,7 @@
 import 'package:thepcosprotocol_app/models/recipe.dart';
 
 class RecipeResponse {
-  List<Recipe> results;
+  List<Recipe>? results;
 
   RecipeResponse({this.results});
 

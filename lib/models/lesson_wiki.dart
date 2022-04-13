@@ -1,13 +1,13 @@
 class LessonWiki {
-  int questionId;
-  int lessonId;
-  int moduleId;
-  String reference;
-  String question;
-  String answer;
-  String tags;
-  bool isFavorite;
-  bool isLongAnswer;
+  int? questionId;
+  int? lessonId;
+  int? moduleId;
+  String? reference;
+  String? question;
+  String? answer;
+  String? tags;
+  bool? isFavorite;
+  bool? isLongAnswer;
 
   LessonWiki({
     this.questionId,

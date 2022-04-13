@@ -9,9 +9,9 @@ import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class PolicyLayout extends StatefulWidget {
-  final String title;
-  final String cmsAssetName;
-  final String tryAgainText;
+  final String? title;
+  final String? cmsAssetName;
+  final String? tryAgainText;
 
   PolicyLayout({this.title, this.cmsAssetName, this.tryAgainText});
 
@@ -38,7 +38,6 @@ class _PolicyLayoutState extends State<PolicyLayout> {
           ),
         );
     }
-    return Container();
   }
 
   @override
@@ -66,8 +65,8 @@ class _PolicyLayoutState extends State<PolicyLayout> {
                         SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: getCMSText(
-                            context, cmsTextProvider, widget.cmsAssetName),
+                        child: getCMSText(context, cmsTextProvider,
+                            widget.cmsAssetName ?? ""),
                       ),
                     ),
                   ),

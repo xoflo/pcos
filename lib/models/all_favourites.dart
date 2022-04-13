@@ -9,9 +9,9 @@ class AllFavourites {
   final List<Recipe> recipes;
 
   AllFavourites({
-    this.toolkits,
-    this.lessons,
-    this.lessonWikis,
-    this.recipes,
+    required this.toolkits,
+    required this.lessons,
+    required this.lessonWikis,
+    required this.recipes,
   });
 }

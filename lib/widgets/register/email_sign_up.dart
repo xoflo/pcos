@@ -3,8 +3,8 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class EmailSignIn extends StatelessWidget {
-  final Function emailWebsiteLink;
-  final TextEditingController emailController;
+  final Function? emailWebsiteLink;
+  final TextEditingController? emailController;
 
   EmailSignIn({this.emailWebsiteLink, this.emailController});
 
@@ -44,9 +44,7 @@ class EmailSignIn extends StatelessWidget {
                   width: 150.0,
                   height: 40.0,
                   child: OutlinedButton(
-                    onPressed: () {
-                      emailWebsiteLink();
-                    },
+                    onPressed: () => emailWebsiteLink?.call(),
                     child: Text(
                       S.current.emailLinkTitle,
                       style: TextStyle(

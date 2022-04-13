@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
 
 class LessonTask {
-  final int lessonTaskID;
-  final int lessonID;
-  final String metaName;
-  final String title;
-  final String description;
-  final String taskType;
-  final int orderIndex;
-  final bool isComplete;
-  final DateTime dateCreatedUTC;
+  final int? lessonTaskID;
+  final int? lessonID;
+  final String? metaName;
+  final String? title;
+  final String? description;
+  final String? taskType;
+  final int? orderIndex;
+  final bool? isComplete;
+  final DateTime? dateCreatedUTC;
 
   LessonTask({
     this.lessonTaskID,

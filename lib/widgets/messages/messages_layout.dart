@@ -29,12 +29,11 @@ class MessagesLayout extends StatelessWidget {
           openMessage: openMessage,
         );
     }
-    return Container();
   }
 
   void openMessage(
     final BuildContext context,
-    final MessagesProvider messagesProvider,
+    final MessagesProvider? messagesProvider,
     Message message,
   ) async {
     Navigator.push(
@@ -53,13 +52,15 @@ class MessagesLayout extends StatelessWidget {
       ),
     );
     //mark message AsRead = true in backend and locally
-    await messagesProvider.updateNotificationAsRead(message.notificationId);
+    await messagesProvider?.updateNotificationAsRead(message.notificationId);
   }
 
-  void deleteMessage(final BuildContext context,
-      final MessagesProvider messagesProvider, final int notificationId) async {
+  void deleteMessage(
+      final BuildContext context,
+      final MessagesProvider? messagesProvider,
+      final int? notificationId) async {
     void continueDeleteMessage(BuildContext context) async {
-      await messagesProvider.updateNotificationAsDeleted(notificationId);
+      await messagesProvider?.updateNotificationAsDeleted(notificationId);
       Navigator.pop(context);
       Navigator.pop(context);
     }

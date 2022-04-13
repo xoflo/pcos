@@ -11,13 +11,13 @@ String cmsToJson(Question data) {
 }
 
 class Question {
-  int id;
-  String reference;
-  String question;
-  String answer;
-  String tags;
-  bool isFavorite;
-  bool isLongAnswer;
+  int? id;
+  String? reference;
+  String? question;
+  String? answer;
+  String? tags;
+  bool? isFavorite;
+  bool? isLongAnswer;
 
   Question({
     this.id,

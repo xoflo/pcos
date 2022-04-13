@@ -1,6 +1,6 @@
 class CMSGrouped {
-  final String question;
-  final String answer;
+  final String? question;
+  final String? answer;
 
   CMSGrouped({
     this.question,

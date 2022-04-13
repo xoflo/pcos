@@ -7,26 +7,21 @@ import 'package:thepcosprotocol_app/utils/drawing_utils.dart';
 class TutorialPage extends StatelessWidget {
   final int pageNumber;
 
-  TutorialPage({@required this.pageNumber});
+  TutorialPage({required this.pageNumber});
 
   Widget getPageContent(final BuildContext context, final Size screenSize,
       final bool isHorizontal) {
     switch (pageNumber) {
       case 1:
         return getPageOne(context, screenSize, isHorizontal);
-        break;
       case 2:
         return getPageTwo(context, screenSize, isHorizontal);
-        break;
       case 3:
         return getPageThree(context, screenSize, isHorizontal);
-        break;
       case 4:
         return getPageFour(context, screenSize, isHorizontal);
-        break;
       case 5:
         return getPageFive(context, screenSize, isHorizontal);
-        break;
     }
     return Container();
   }

@@ -21,16 +21,16 @@ class LessonWikis extends StatefulWidget {
   final Function(BuildContext, ModulesProvider) openWikiSearch;
 
   LessonWikis({
-    @required this.screenSize,
-    @required this.lessonId,
-    @required this.isLessonComplete,
-    @required this.lessonWikis,
-    @required this.modulesProvider,
-    @required this.loadingStatus,
-    @required this.selectedWiki,
-    @required this.width,
-    @required this.isHorizontal,
-    @required this.openWikiSearch,
+    required this.screenSize,
+    required this.lessonId,
+    required this.isLessonComplete,
+    required this.lessonWikis,
+    required this.modulesProvider,
+    required this.loadingStatus,
+    required this.selectedWiki,
+    required this.width,
+    required this.isHorizontal,
+    required this.openWikiSearch,
   });
 
   @override

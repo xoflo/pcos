@@ -1,6 +1,6 @@
 class CMSText {
-  final int id;
-  final String cmsText;
+  final int? id;
+  final String? cmsText;
 
   CMSText({
     this.id,

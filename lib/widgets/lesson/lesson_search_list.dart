@@ -11,10 +11,10 @@ class LessonSearchList extends StatelessWidget {
   final Function(Lesson, ModulesProvider) openLesson;
 
   LessonSearchList({
-    @required this.isComplete,
-    @required this.modulesProvider,
-    @required this.favouritesProvider,
-    @required this.openLesson,
+    required this.isComplete,
+    required this.modulesProvider,
+    required this.favouritesProvider,
+    required this.openLesson,
   });
 
   void _openLesson(final Lesson lesson) {

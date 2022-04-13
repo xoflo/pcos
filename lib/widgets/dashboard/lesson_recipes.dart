@@ -14,16 +14,16 @@ class LessonRecipes extends StatefulWidget {
   final bool isComplete;
   final double width;
   final bool isHorizontal;
-  final Function(BuildContext, int) openRecipe;
+  final Function(BuildContext, int?) openRecipe;
 
   LessonRecipes({
-    @required this.recipes,
-    @required this.loadingStatus,
-    @required this.selectedRecipe,
-    @required this.isComplete,
-    @required this.width,
-    @required this.isHorizontal,
-    @required this.openRecipe,
+    required this.recipes,
+    required this.loadingStatus,
+    required this.selectedRecipe,
+    required this.isComplete,
+    required this.width,
+    required this.isHorizontal,
+    required this.openRecipe,
   });
 
   @override

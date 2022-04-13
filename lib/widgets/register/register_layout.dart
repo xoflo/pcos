@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
 
 class RegisterLayout extends StatelessWidget {
-  final bool isHorizontal;
-  final Size screenSize;
-  final Widget openSignUp;
-  final Widget emailSignUp;
-  final Widget gotoSignIn;
+  final bool? isHorizontal;
+  final Size? screenSize;
+  final Widget? openSignUp;
+  final Widget? emailSignUp;
+  final Widget? gotoSignIn;
 
   RegisterLayout(
       {this.isHorizontal,
@@ -17,8 +17,8 @@ class RegisterLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double boxWidth = screenSize.width * 0.40;
-    return isHorizontal
+    final double boxWidth = (screenSize?.width ?? 0) * 0.40;
+    return isHorizontal == true
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

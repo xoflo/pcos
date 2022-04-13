@@ -1,8 +1,8 @@
 class ListResponse {
-  final String status;
-  final String message;
-  final String info;
-  final List<dynamic> payload;
+  final String? status;
+  final String? message;
+  final String? info;
+  final List<dynamic>? payload;
 
   ListResponse({this.status, this.message, this.info, this.payload});
 

@@ -1,10 +1,10 @@
 import 'package:thepcosprotocol_app/models/token.dart';
 
 class TokenResponse {
-  final String status;
-  final String message;
-  final String info;
-  final Token token;
+  final String? status;
+  final String? message;
+  final String? info;
+  final Token? token;
 
   TokenResponse({this.status, this.message, this.info, this.token});
 

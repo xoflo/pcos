@@ -3,7 +3,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class OpenSignUp extends StatelessWidget {
-  final Function openWebsite;
+  final Function? openWebsite;
 
   OpenSignUp({this.openWebsite});
 
@@ -32,7 +32,7 @@ class OpenSignUp extends StatelessWidget {
                 child: ColorButton(
                   isUpdating: false,
                   label: S.current.openWebsiteTitle,
-                  onTap: openWebsite,
+                  onTap: () => openWebsite?.call(),
                 ),
               ),
               Text(

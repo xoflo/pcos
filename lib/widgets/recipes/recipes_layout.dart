@@ -96,7 +96,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
     recipeProvider.filterAndSearch(_searchController.text.trim(),
         _tagSelectedValue, _tagValuesSelectedSecondary);
-    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+    WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
   }
 
   Widget _getRecipesList(
@@ -110,7 +110,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       }
 
       //remove the focus from the searchbox if necessary, to hide the keyboard
-      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+      WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
       final bool isFavourite =
           favouritesProvider.isFavourite(FavouriteType.Recipe, recipe.recipeId);
 
@@ -140,7 +140,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
             recipes: recipesProvider.items,
             openRecipeDetails: _openRecipeDetails);
     }
-    return Container();
   }
 
   final _formKey = GlobalKey<FormState>();

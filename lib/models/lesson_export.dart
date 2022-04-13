@@ -7,10 +7,10 @@ import 'package:thepcosprotocol_app/models/lesson_link.dart';
 import 'package:thepcosprotocol_app/models/lesson_link_list.dart';
 
 class LessonExport {
-  final Lesson lesson;
-  final List<LessonContent> content;
-  final List<LessonTask> tasks;
-  final List<LessonLink> links;
+  final Lesson? lesson;
+  final List<LessonContent>? content;
+  final List<LessonTask>? tasks;
+  final List<LessonLink>? links;
 
   LessonExport({
     this.lesson,

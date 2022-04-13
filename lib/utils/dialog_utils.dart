@@ -53,7 +53,7 @@ showAlertDialog(
   final String message,
   final String cancelText,
   final String continueText,
-  final Function continueAction,
+  final Function? continueAction,
   final Function cancelAction,
 ) {
   analytics.logEvent(
@@ -74,7 +74,7 @@ showAlertDialog(
     label: continueText,
     onTap: () {
       //log user out and clear credentials etc
-      continueAction(context);
+      continueAction?.call(context);
     },
   );
 
@@ -100,7 +100,7 @@ showAlertDialog(
 }
 
 openBottomSheet(final BuildContext context, final Widget widget,
-    final String screenName, final String id) {
+    final String screenName, final String? id) {
   final String analyticsScreenName =
       screenName == Analytics.ANALYTICS_SCREEN_TUTORIAL
           ? screenName

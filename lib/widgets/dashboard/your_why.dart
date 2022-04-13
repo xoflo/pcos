@@ -6,7 +6,7 @@ class YourWhy extends StatefulWidget {
   final double width;
   final String whatsYourWhy;
 
-  YourWhy({@required this.width, @required this.whatsYourWhy});
+  YourWhy({required this.width, required this.whatsYourWhy});
 
   @override
   _YourWhyState createState() => _YourWhyState();

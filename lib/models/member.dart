@@ -1,19 +1,19 @@
 class Member {
-  final int id;
-  final String preRegistrationCode;
-  String firstName;
-  String lastName;
-  String alias;
-  String email;
-  final String twitter;
-  final String facebook;
-  final String countryID;
-  final String contactPhone;
-  final String adminNotes;
-  final bool isEmailVerified;
-  final bool isEnabled;
-  final DateTime dateNextLessonAvailableLocal;
-  final DateTime dateCreatedUTC;
+  final int? id;
+  final String? preRegistrationCode;
+  String? firstName;
+  String? lastName;
+  String? alias;
+  String? email;
+  final String? twitter;
+  final String? facebook;
+  final String? countryID;
+  final String? contactPhone;
+  final String? adminNotes;
+  final bool? isEmailVerified;
+  final bool? isEnabled;
+  final DateTime? dateNextLessonAvailableLocal;
+  final DateTime? dateCreatedUTC;
 
   Member(
       {this.id,

@@ -9,10 +9,10 @@ import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/constants/widget_keys.dart';
 
 class SignInLayout extends StatefulWidget {
-  final bool isSigningIn;
-  final Function() authenticateUser;
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
+  final bool? isSigningIn;
+  final Function()? authenticateUser;
+  final TextEditingController? emailController;
+  final TextEditingController? passwordController;
 
   SignInLayout({
     this.isSigningIn,
@@ -29,13 +29,13 @@ class _SignInLayoutState extends State<SignInLayout> {
   final _formKey = GlobalKey<FormState>();
 
   void attemptSignIn() async {
-    if (_formKey.currentState.validate()) {
-      widget.authenticateUser();
+    if (_formKey.currentState?.validate() == true) {
+      widget.authenticateUser?.call();
     }
   }
 
   void forgottenPassword(BuildContext context) {
-    if (widget.emailController.text.length == 0) {
+    if (widget.emailController?.text.length == 0) {
       showAlertDialog(
         context,
         S.current.passwordForgottenTitle,
@@ -61,7 +61,7 @@ class _SignInLayoutState extends State<SignInLayout> {
         S
             .of(context)
             .passwordForgottenMessage
-            .replaceAll("[emailAddress]", widget.emailController.text),
+            .replaceAll("[emailAddress]", widget.emailController?.text ?? ""),
         S.current.passwordForgottenCancel,
         S.current.passwordForgottenContinue,
         continueForgottenPassword,
@@ -77,7 +77,7 @@ class _SignInLayoutState extends State<SignInLayout> {
     //send email to user
     try {
       final bool sendEmail = await WebServices()
-          .forgotPassword(widget.emailController.text.trim());
+          .forgotPassword((widget.emailController?.text ?? "").trim());
 
       sendEmail
           ? S.current.passwordForgottenCompleteMessage
@@ -138,7 +138,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                       labelText: S.current.emailLabel,
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value?.isEmpty == true) {
                         return S.current.validateEmailMessage;
                       }
                       return null;
@@ -155,7 +155,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                       labelText: S.current.passwordLabel,
                     ),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value?.isEmpty == true) {
                         return S.current.validatePasswordMessage;
                       }
                       return null;
@@ -167,7 +167,7 @@ class _SignInLayoutState extends State<SignInLayout> {
                     top: 8.0,
                   ),
                   child: ColorButton(
-                    isUpdating: widget.isSigningIn,
+                    isUpdating: widget.isSigningIn ?? false,
                     label: S.current.signInTitle,
                     onTap: attemptSignIn,
                     width: 80,

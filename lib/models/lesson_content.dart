@@ -1,13 +1,13 @@
 class LessonContent {
-  final int lessonContentID;
-  final int lessonID;
-  final String title;
-  final String mediaUrl;
-  final String mediaMimeType;
-  final String body;
-  final String summary;
-  final int orderIndex;
-  final DateTime dateCreatedUTC;
+  final int? lessonContentID;
+  final int? lessonID;
+  final String? title;
+  final String? mediaUrl;
+  final String? mediaMimeType;
+  final String? body;
+  final String? summary;
+  final int? orderIndex;
+  final DateTime? dateCreatedUTC;
 
   LessonContent({
     this.lessonContentID,

@@ -1,5 +1,5 @@
 class CmsResponse {
-  String body;
+  String? body;
 
   CmsResponse({this.body});
 

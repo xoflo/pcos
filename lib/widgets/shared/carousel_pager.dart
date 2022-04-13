@@ -6,10 +6,11 @@ class CarouselPager extends StatelessWidget {
   final int currentPage;
   final double bottomPadding;
 
-  CarouselPager(
-      {@required this.totalPages,
-      @required this.currentPage,
-      @required this.bottomPadding});
+  CarouselPager({
+    required this.totalPages,
+    required this.currentPage,
+    required this.bottomPadding,
+  });
 
   Widget _getCarouselPager(final BuildContext context) {
     List<Widget> circleList = [];

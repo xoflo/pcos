@@ -12,11 +12,11 @@ class FavouritesWikiItem extends StatelessWidget {
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesWikiItem({
-    @required this.lessonWiki,
-    @required this.width,
-    @required this.isToolkit,
-    @required this.removeFavourite,
-    @required this.openFavourite,
+    required this.lessonWiki,
+    required this.width,
+    required this.isToolkit,
+    required this.removeFavourite,
+    required this.openFavourite,
   });
 
   @override
@@ -31,7 +31,7 @@ class FavouritesWikiItem extends StatelessWidget {
               Container(
                 width: width - 75,
                 child: Text(
-                  lessonWiki.question,
+                  lessonWiki.question ?? "",
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),

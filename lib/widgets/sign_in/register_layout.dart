@@ -7,8 +7,8 @@ class RegisterLayout extends StatelessWidget {
   final bool isHorizontal;
 
   RegisterLayout({
-    @required this.navigateToRegister,
-    @required this.isHorizontal,
+    required this.navigateToRegister,
+    required this.isHorizontal,
   });
 
   @override

@@ -8,14 +8,14 @@ import 'package:thepcosprotocol_app/widgets/shared/dialog_header.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class RecipeDetails extends StatelessWidget {
-  final Recipe recipe;
+  final Recipe? recipe;
   final bool isFavourite;
   final Function closeRecipeDetails;
 
   RecipeDetails({
-    @required this.recipe,
-    @required this.isFavourite,
-    @required this.closeRecipeDetails,
+    required this.recipe,
+    required this.isFavourite,
+    required this.closeRecipeDetails,
   });
 
   Widget _getRecipeDetails(
@@ -105,17 +105,17 @@ class RecipeDetails extends StatelessWidget {
     }
     tabViews.add(SingleChildScrollView(
       child: HtmlWidget(
-        recipe.ingredients,
+        recipe?.ingredients ?? "",
       ),
     ));
     tabViews.add(SingleChildScrollView(
       child: HtmlWidget(
-        recipe.method,
+        recipe?.method ?? "",
       ),
     ));
     tabViews.add(SingleChildScrollView(
       child: HtmlWidget(
-        recipe.tips,
+        recipe?.tips ?? "",
       ),
     ));
     return tabViews;
@@ -140,7 +140,7 @@ class RecipeDetails extends StatelessWidget {
                 screenSize: screenSize,
                 item: recipe,
                 favouriteType: FavouriteType.Recipe,
-                title: recipe.title,
+                title: recipe?.title ?? "",
                 isFavourite: this.isFavourite,
                 closeItem: closeRecipeDetails,
                 onAction: () {},

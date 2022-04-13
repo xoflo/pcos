@@ -1,11 +1,11 @@
 class Message {
-  final int notificationId;
-  final String title;
-  final String message;
-  final bool isRead;
-  final String action;
-  final DateTime dateReadUTC;
-  final DateTime dateCreatedUTC;
+  final int? notificationId;
+  final String? title;
+  final String? message;
+  final bool? isRead;
+  final String? action;
+  final DateTime? dateReadUTC;
+  final DateTime? dateCreatedUTC;
 
   Message(
       {this.notificationId,

@@ -4,13 +4,13 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class QuestionListItem extends StatefulWidget {
-  final bool showIcon;
-  final String answerText;
+  final bool? showIcon;
+  final String? answerText;
   final dynamic item;
-  final bool isFavorite;
-  final IconData iconData;
-  final IconData iconDataOn;
-  final Function(FavouriteType, dynamic, bool) iconAction;
+  final bool? isFavorite;
+  final IconData? iconData;
+  final IconData? iconDataOn;
+  final Function(FavouriteType, dynamic, bool)? iconAction;
 
   QuestionListItem({
     this.showIcon,
@@ -31,16 +31,16 @@ class _QuestionListItemState extends State<QuestionListItem> {
   @override
   void initState() {
     super.initState();
-    isFavoriteQuestion = widget.isFavorite;
+    isFavoriteQuestion = widget.isFavorite ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.showIcon) {
+    if (widget.showIcon == true) {
       return ListTile(
         title: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
-          child: HtmlWidget(widget.answerText),
+          child: HtmlWidget(widget.answerText ?? ""),
         ),
         trailing: GestureDetector(
           onTap: () {
@@ -48,7 +48,7 @@ class _QuestionListItemState extends State<QuestionListItem> {
             setState(() {
               isFavoriteQuestion = add;
             });
-            widget.iconAction(FavouriteType.Wiki, widget.item, add);
+            widget.iconAction?.call(FavouriteType.Wiki, widget.item, add);
           },
           child: Icon(
             isFavoriteQuestion ? widget.iconDataOn : widget.iconData,
@@ -61,7 +61,7 @@ class _QuestionListItemState extends State<QuestionListItem> {
       return ListTile(
         title: Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
-          child: HtmlWidget(widget.answerText),
+          child: HtmlWidget(widget.answerText ?? ""),
         ),
       );
     }

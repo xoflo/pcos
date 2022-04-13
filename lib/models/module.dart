@@ -1,9 +1,9 @@
 class Module {
-  final int moduleID;
-  final String title;
-  final bool isComplete;
-  final int orderIndex;
-  final DateTime dateCreatedUTC;
+  final int? moduleID;
+  final String? title;
+  final bool? isComplete;
+  final int? orderIndex;
+  final DateTime? dateCreatedUTC;
 
   Module({
     this.moduleID,

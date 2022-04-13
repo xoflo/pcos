@@ -1,9 +1,9 @@
 import 'package:thepcosprotocol_app/models/profile.dart';
 
 class Token {
-  final String accessToken;
-  final String refreshToken;
-  final Profile profile;
+  final String? accessToken;
+  final String? refreshToken;
+  final Profile? profile;
 
   Token({this.accessToken, this.refreshToken, this.profile});
 

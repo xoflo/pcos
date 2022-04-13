@@ -13,11 +13,11 @@ class FavouritesLessonItem extends StatelessWidget {
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesLessonItem({
-    @required this.lesson,
-    @required this.width,
-    @required this.isToolkit,
-    @required this.removeFavourite,
-    @required this.openFavourite,
+    required this.lesson,
+    required this.width,
+    required this.isToolkit,
+    required this.removeFavourite,
+    required this.openFavourite,
   });
 
   @override

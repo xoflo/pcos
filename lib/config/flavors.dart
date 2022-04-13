@@ -5,12 +5,12 @@ enum Flavor { DEV, STAGING, PROD }
 
 class FlavorValues {
   FlavorValues({
-    @required this.baseUrl,
-    @required this.oneSignalAppID,
-    @required this.questionnaireUrl,
-    @required this.imageStorageFolder,
-    @required this.thumbnailStorageFolder,
-    @required this.intercomIds,
+    required this.baseUrl,
+    required this.oneSignalAppID,
+    required this.questionnaireUrl,
+    required this.imageStorageFolder,
+    required this.thumbnailStorageFolder,
+    required this.intercomIds,
   });
   final String baseUrl;
   final String oneSignalAppID;
@@ -26,13 +26,13 @@ class FlavorConfig {
   final String name;
   final Color color;
   final FlavorValues values;
-  static FlavorConfig _instance;
+  static late FlavorConfig _instance;
 
   factory FlavorConfig(
-      {@required Flavor flavor,
+      {required Flavor flavor,
       Color color: Colors.blue,
-      @required FlavorValues values}) {
-    _instance ??= FlavorConfig._internal(
+      required FlavorValues values}) {
+    _instance = FlavorConfig._internal(
         flavor, StringUtils.enumName(flavor.toString()), color, values);
     return _instance;
   }

@@ -15,7 +15,7 @@ class PreferencesController {
   Future<bool> getBool(final String sharedPreferencesKey) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      final bool prefValue = prefs.getBool(sharedPreferencesKey);
+      final bool? prefValue = prefs.getBool(sharedPreferencesKey);
       return prefValue != null ? prefValue : false;
     } catch (ex) {
       return true;
@@ -23,10 +23,10 @@ class PreferencesController {
   }
 
   Future<bool> saveString(
-      final String sharedPreferencesKey, final String newValue) async {
+      final String sharedPreferencesKey, final String? newValue) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString(sharedPreferencesKey, newValue);
+      prefs.setString(sharedPreferencesKey, newValue ?? "");
       return true;
     } catch (ex) {
       return false;
@@ -36,7 +36,7 @@ class PreferencesController {
   Future<String> getString(final String sharedPreferencesKey) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String prefValue = prefs.getString(sharedPreferencesKey);
+      final String? prefValue = prefs.getString(sharedPreferencesKey);
       return prefValue != null ? prefValue : "";
     } catch (ex) {
       return "";
@@ -54,7 +54,7 @@ class PreferencesController {
     }
   }
 
-  Future<int> getInt(final String sharedPreferencesKey) async {
+  Future<int?> getInt(final String sharedPreferencesKey) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       return prefs.getInt(sharedPreferencesKey);

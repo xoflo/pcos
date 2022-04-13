@@ -7,14 +7,14 @@ class DatabaseProvider with ChangeNotifier {
   //increment this number whenever the database tables change
   static const DB_VERSION = 5;
   static const DATABASE_NAME = "ThePCOSProtocol.db";
-  sql.Database db;
+  late sql.Database db;
 
   DatabaseProvider() {
     // this will run when provider is instantiate the first time
     init();
   }
 
-  void init() async {
+  Future init() async {
     final dbPath = await sql.getDatabasesPath();
     final fullPath = path.join(dbPath, DATABASE_NAME);
 
@@ -211,7 +211,7 @@ class DatabaseProvider with ChangeNotifier {
     return await db.rawQuery("SELECT $select FROM $tablesAndJoin $where");
   }
 
-  Future<int> getTableRowCount(final String table) async {
+  Future<int?> getTableRowCount(final String table) async {
     return sql.Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
@@ -221,22 +221,22 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   Future<void> updateQuery({
-    final String table,
-    final String setFields,
-    final String whereClause,
-    final int limitRowCount,
+    final String? table,
+    final String? setFields,
+    final String? whereClause,
+    final int? limitRowCount,
   }) async {
     String updateStatement = "UPDATE $table SET $setFields WHERE $whereClause";
     await db.rawQuery(updateStatement);
   }
 
   Future<void> deleteQuery({
-    final String table,
-    final String whereClause,
-    final int limitRowCount,
+    final String? table,
+    final String? whereClause,
+    final int? limitRowCount,
   }) async {
     String deleteStatement = "DELETE FROM $table";
-    if (whereClause.length > 0) {
+    if ((whereClause ?? "").length > 0) {
       deleteStatement += " WHERE $whereClause";
     }
 

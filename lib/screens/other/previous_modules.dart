@@ -9,7 +9,7 @@ class PreviousModules extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PreviousModulesArguments args =
-        ModalRoute.of(context).settings.arguments;
+        ModalRoute.of(context)?.settings.arguments as PreviousModulesArguments;
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(

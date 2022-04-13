@@ -10,15 +10,15 @@ class Lesson {
   bool isFavorite;
 
   Lesson({
-    this.lessonID,
-    this.moduleID,
-    this.title,
-    this.introduction,
-    this.orderIndex,
-    this.isFavorite,
-    this.isComplete,
-    this.isToolkit,
-    this.dateCreatedUTC,
+    required this.lessonID,
+    required this.moduleID,
+    required this.title,
+    required this.introduction,
+    required this.orderIndex,
+    required this.isFavorite,
+    required this.isComplete,
+    required this.isToolkit,
+    required this.dateCreatedUTC,
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) {

@@ -1,10 +1,10 @@
 class QuizAnswer {
-  final int quizAnswerID;
-  final int quizQuestionID;
-  final String answerText;
-  final bool isCorrect;
-  final String response;
-  final int orderIndex;
+  final int? quizAnswerID;
+  final int? quizQuestionID;
+  final String? answerText;
+  final bool? isCorrect;
+  final String? response;
+  final int? orderIndex;
 
   QuizAnswer({
     this.quizAnswerID,

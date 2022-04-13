@@ -10,10 +10,10 @@ class MainScreens extends StatelessWidget {
   final Function(bool) updateYourWhy;
 
   MainScreens({
-    @required this.currentIndex,
-    @required this.showYourWhy,
-    @required this.showLessonRecipes,
-    @required this.updateYourWhy,
+    required this.currentIndex,
+    required this.showYourWhy,
+    required this.showLessonRecipes,
+    required this.updateYourWhy,
   });
 
   @override

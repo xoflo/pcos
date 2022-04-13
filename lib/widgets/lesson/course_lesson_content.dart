@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:full_screen_image/full_screen_image.dart';
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
@@ -21,11 +21,11 @@ class CourseLessonContent extends StatefulWidget {
   final bool isPaged;
 
   CourseLessonContent({
-    @required this.lessonContent,
-    @required this.screenSize,
-    @required this.isHorizontal,
-    @required this.tabBarHeight,
-    @required this.isPaged,
+    required this.lessonContent,
+    required this.screenSize,
+    required this.isHorizontal,
+    required this.tabBarHeight,
+    required this.isPaged,
   });
 
   @override
@@ -36,12 +36,12 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
   bool isDownloading = false;
 
   Widget _getTitle(BuildContext context) {
-    if (widget.lessonContent.title.length > 0) {
+    if ((widget.lessonContent.title ?? "").length > 0) {
       //&& widget.lessonContent.displayTitle) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          widget.lessonContent.title,
+          widget.lessonContent.title ?? "",
           style: Theme.of(context).textTheme.headline4,
           textAlign: TextAlign.center,
         ),
@@ -51,30 +51,31 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
   }
 
   Widget _getBody(BuildContext context) {
-    if (widget.lessonContent.body.length > 0) {
+    if ((widget.lessonContent.body ?? "").length > 0) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: HtmlWidget(widget.lessonContent.body),
+        child: HtmlWidget(widget.lessonContent.body ?? ""),
       );
     }
     return Container();
   }
 
   Widget _getSummary(BuildContext context) {
-    if (widget.lessonContent.summary.length > 0) {
+    if ((widget.lessonContent.summary ?? "").length > 0) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: HtmlWidget(widget.lessonContent.summary),
+        child: HtmlWidget(widget.lessonContent.summary ?? ""),
       );
     }
     return Container();
   }
 
   Widget _getMedia(BuildContext context) {
-    final bool displayMedia = widget.lessonContent.mediaUrl.length > 0 &&
-        widget.lessonContent.mediaMimeType.length > 0;
+    final bool displayMedia =
+        (widget.lessonContent.mediaUrl ?? "").length > 0 &&
+            (widget.lessonContent.mediaMimeType ?? "").length > 0;
     if (displayMedia) {
-      switch (widget.lessonContent.mediaMimeType.toLowerCase()) {
+      switch ((widget.lessonContent.mediaMimeType ?? "").toLowerCase()) {
         case MediaType.Video:
         case MediaType.Audio:
           return Padding(
@@ -92,7 +93,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
                   ),
           );
         case MediaType.Image:
-          final bool isDownloadable = widget.lessonContent.mediaUrl
+          final bool isDownloadable = (widget.lessonContent.mediaUrl ?? "")
               .toLowerCase()
               .contains("images/lessons/downloadable");
           return Column(
@@ -101,7 +102,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
                 child: FadeInImage.memoryNetwork(
                   alignment: Alignment.center,
                   placeholder: kTransparentImage,
-                  image: widget.lessonContent.mediaUrl,
+                  image: widget.lessonContent.mediaUrl ?? "",
                   fit: BoxFit.fitWidth,
                   width: double.maxFinite,
                 ),
@@ -114,7 +115,8 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
                         setState(() {
                           isDownloading = true;
                         });
-                        _downloadImage(context, widget.lessonContent.mediaUrl);
+                        _downloadImage(
+                            context, widget.lessonContent.mediaUrl ?? "");
                       },
                       width: 200,
                     )
@@ -146,7 +148,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
       }
 
       // Below is a method of obtaining saved image information.
-      final String path = await ImageDownloader.findPath(imageId);
+      final String? path = await ImageDownloader.findPath(imageId);
       final String downloadMessage = Platform.isIOS
           ? S.current.downloadSuccessMsgiOS
           : S.current.downloadSuccessMsg;
@@ -156,7 +158,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
           borderColor: primaryColorLight,
           primaryColor: primaryColor,
           displayDuration: 10);
-      ImageDownloader.open(path);
+      ImageDownloader.open(path ?? "");
     } on PlatformException {
       showFlushBar(
           context, S.current.downloadFailed, S.current.downloadFailedMsg,

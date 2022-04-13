@@ -43,7 +43,7 @@ class UnsupportedVersion extends StatelessWidget {
               SizedBox(height: 10.0),
               Text(
                 S.current.versionText1,
-                style: Theme.of(context).textTheme.headline5.copyWith(
+                style: Theme.of(context).textTheme.headline5?.copyWith(
                       color: Colors.white,
                     ),
                 textAlign: TextAlign.center,
@@ -58,7 +58,7 @@ class UnsupportedVersion extends StatelessWidget {
               ),
               Text(
                 S.current.versionText2,
-                style: Theme.of(context).textTheme.headline5.copyWith(
+                style: Theme.of(context).textTheme.headline5?.copyWith(
                       color: Colors.white,
                     ),
                 textAlign: TextAlign.center,

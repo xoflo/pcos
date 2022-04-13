@@ -16,11 +16,11 @@ class QuestionCard extends StatefulWidget {
   final Function(bool) next;
 
   QuestionCard({
-    @required this.question,
-    @required this.screenSize,
-    @required this.isFinalQuestion,
-    @required this.isFinalCard,
-    @required this.next,
+    required this.question,
+    required this.screenSize,
+    required this.isFinalQuestion,
+    required this.isFinalCard,
+    required this.next,
   });
 
   @override
@@ -44,8 +44,8 @@ class _QuestionCardState extends State<QuestionCard> {
   }
 
   Future<void> _initialise() async {
-    for (QuizAnswer answer in widget.question.answers) {
-      _actualAnswers.add(answer.isCorrect);
+    for (QuizAnswer answer in widget.question.answers ?? []) {
+      _actualAnswers.add(answer.isCorrect ?? false);
       _memberAnswers.add(false);
     }
     setState(() {
@@ -67,60 +67,62 @@ class _QuestionCardState extends State<QuestionCard> {
       ),
       Column(
           children: widget.question.answers
-              .asMap()
-              .map((index, answer) => MapEntry(
-                  index,
-                  CheckboxListTile(
-                    title: Text(answer.answerText),
-                    value: _memberAnswers[index],
-                    onChanged: (bool value) {
-                      debugPrint("checkbox onchg");
-                      if (_memberAnswers[index]) {
-                        //already added, so remove the answer id
-                        setState(() {
-                          _memberAnswers[index] = false;
-                          _memberHasInteracted = true;
-                        });
-                      } else {
-                        //add the answer id to the selected items
-                        setState(() {
-                          _memberAnswers[index] = true;
-                          _memberHasInteracted = true;
-                        });
-                      }
-                    },
-                  )))
-              .values
-              .toList())
+                  ?.asMap()
+                  .map((index, answer) => MapEntry(
+                      index,
+                      CheckboxListTile(
+                        title: Text(answer.answerText ?? ""),
+                        value: _memberAnswers[index],
+                        onChanged: (bool? value) {
+                          debugPrint("checkbox onchg");
+                          if (_memberAnswers[index]) {
+                            //already added, so remove the answer id
+                            setState(() {
+                              _memberAnswers[index] = false;
+                              _memberHasInteracted = true;
+                            });
+                          } else {
+                            //add the answer id to the selected items
+                            setState(() {
+                              _memberAnswers[index] = true;
+                              _memberHasInteracted = true;
+                            });
+                          }
+                        },
+                      )))
+                  .values
+                  .toList() ??
+              [])
     ]);
   }
 
   Widget _getSingleChoiceAnswers() {
     return Column(
-      children: widget.question.answers.map((QuizAnswer answer) {
-        return RadioListTile<int>(
-          title: Text(answer.answerText),
-          controlAffinity: ListTileControlAffinity.trailing,
-          value: answer.quizAnswerID,
-          groupValue: _radioSelectedValue,
-          onChanged: (value) {
-            debugPrint("radio onchg");
-            setState(() {
-              _radioSelectedValue = value;
-              _radioSelectedValueCorrect = answer.isCorrect;
-              _radioSelectedResponse = answer.response;
-              _memberHasInteracted = true;
-            });
-          },
-        );
-      }).toList(),
+      children: widget.question.answers?.map((QuizAnswer answer) {
+            return RadioListTile<int>(
+              title: Text(answer.answerText ?? ""),
+              controlAffinity: ListTileControlAffinity.trailing,
+              value: answer.quizAnswerID ?? -1,
+              groupValue: _radioSelectedValue,
+              onChanged: (value) {
+                debugPrint("radio onchg");
+                setState(() {
+                  _radioSelectedValue = value ?? 0;
+                  _radioSelectedValueCorrect = answer.isCorrect == true;
+                  _radioSelectedResponse = answer.response ?? "";
+                  _memberHasInteracted = true;
+                });
+              },
+            );
+          }).toList() ??
+          [],
     );
   }
 
   Widget _getQuestionResponse() {
     bool isCorrect = false;
 
-    if (widget.question.isMultiChoice) {
+    if (widget.question.isMultiChoice == true) {
       isCorrect = ListEquality().equals(_actualAnswers, _memberAnswers);
     } else {
       isCorrect = _radioSelectedValueCorrect;
@@ -132,7 +134,7 @@ class _QuestionCardState extends State<QuestionCard> {
             ? S.current.quizCorrectResponse
             : S.current.quizWrongResponse),
         Text(
-          widget.question.response,
+          widget.question.response ?? "",
           textAlign: TextAlign.center,
         ),
       ],
@@ -183,11 +185,11 @@ class _QuestionCardState extends State<QuestionCard> {
                       child: Column(
                         children: [
                           widget.isFinalCard
-                              ? Text(widget.question.response,
+                              ? Text(widget.question.response ?? "",
                                   style: TextStyle(fontWeight: FontWeight.bold))
                               : Container(),
                           HtmlWidget(
-                            widget.question.questionText,
+                            widget.question.questionText ?? "",
                           ),
                         ],
                       ),
@@ -201,7 +203,7 @@ class _QuestionCardState extends State<QuestionCard> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0),
-                                child: widget.question.isMultiChoice
+                                child: widget.question.isMultiChoice == true
                                     ? _getMultiChoiceAnswers()
                                     : _getSingleChoiceAnswers(),
                               ),
@@ -226,7 +228,7 @@ class _QuestionCardState extends State<QuestionCard> {
                                 // The green box must be a child of the AnimatedOpacity widget.
                                 child: Column(
                                   children: [
-                                    widget.question.response.length > 0
+                                    (widget.question.response?.length ?? 0) > 0
                                         ? _getQuestionResponse()
                                         : _getAnswerResponse(),
                                     Padding(

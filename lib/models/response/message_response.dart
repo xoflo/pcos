@@ -1,7 +1,7 @@
 import 'package:thepcosprotocol_app/models/message.dart';
 
 class MessageResponse {
-  List<Message> results;
+  List<Message>? results;
 
   MessageResponse({this.results});
 

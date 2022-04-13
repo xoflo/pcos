@@ -23,16 +23,16 @@ class CurrentModule extends StatelessWidget {
   final Function(BuildContext, ModulesProvider) openLessonSearch;
 
   CurrentModule({
-    @required this.selectedLesson,
-    @required this.width,
-    @required this.isHorizontal,
-    @required this.modulesProvider,
-    @required this.favouritesProvider,
-    @required this.showPreviousModule,
-    @required this.openLesson,
-    @required this.openPreviousModules,
-    @required this.onLessonChanged,
-    @required this.openLessonSearch,
+    required this.selectedLesson,
+    required this.width,
+    required this.isHorizontal,
+    required this.modulesProvider,
+    required this.favouritesProvider,
+    required this.showPreviousModule,
+    required this.openLesson,
+    required this.openPreviousModules,
+    required this.onLessonChanged,
+    required this.openLessonSearch,
   });
 
   void _openLesson(final Lesson lesson) {
@@ -47,10 +47,10 @@ class CurrentModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int lessonCounter = 0;
-    final String moduleTitle =
-        this.modulesProvider.status == LoadingStatus.success
-            ? "${S.current.moduleText}: ${modulesProvider.currentModule.title}"
-            : "";
+    final String moduleTitle = this.modulesProvider.status ==
+            LoadingStatus.success
+        ? "${S.current.moduleText}: ${modulesProvider.currentModule?.title ?? ""}"
+        : "";
     return this.modulesProvider.status == LoadingStatus.success
         ? Container(
             decoration: BoxDecoration(

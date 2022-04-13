@@ -5,16 +5,16 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class ProfileReadOnly extends StatelessWidget {
-  final MemberViewModel member;
-  final Size screenSize;
-  final Function(MemberViewModel) editMemberDetails;
+  final MemberViewModel? member;
+  final Size? screenSize;
+  final Function(MemberViewModel?)? editMemberDetails;
 
   ProfileReadOnly({this.member, this.screenSize, this.editMemberDetails});
 
   Padding addProfileRow(BuildContext context, final String title,
       final String value, final bool isLocked) {
-    final labelWidth = screenSize.width * .3;
-    final valueWidth = screenSize.width * .6;
+    final labelWidth = (screenSize?.width ?? 0) * .3;
+    final valueWidth = (screenSize?.width ?? 0) * .6;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Row(
@@ -77,25 +77,25 @@ class ProfileReadOnly extends StatelessWidget {
           addProfileRow(
             context,
             S.current.profileAliasLabel,
-            member.alias,
+            member?.alias ?? "",
             true,
           ),
           addProfileRow(
             context,
             S.current.profileFirstNameLabel,
-            member.firstName,
+            member?.firstName ?? "",
             false,
           ),
           addProfileRow(
             context,
             S.current.profileLastNameLabel,
-            member.lastName,
+            member?.lastName ?? "",
             false,
           ),
           addProfileRow(
             context,
             S.current.profileEmailLabel,
-            member.email,
+            member?.email ?? "",
             false,
           ),
           ColorButton(
@@ -103,7 +103,7 @@ class ProfileReadOnly extends StatelessWidget {
             isUpdating: false,
             label: S.current.profileEditButton,
             onTap: () {
-              editMemberDetails(member);
+              editMemberDetails?.call(member);
             },
           ),
         ],

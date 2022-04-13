@@ -1,14 +1,14 @@
 class Profile {
-  final int id;
-  final String firstName;
-  final String lastName;
-  final String alias;
-  final String email;
-  final String pcosType;
-  final String whatsMyWhy;
-  final String countryID;
-  final bool isAdmin;
-  final DateTime dateCreatedUTC;
+  final int? id;
+  final String? firstName;
+  final String? lastName;
+  final String? alias;
+  final String? email;
+  final String? pcosType;
+  final String? whatsMyWhy;
+  final String? countryID;
+  final bool? isAdmin;
+  final DateTime? dateCreatedUTC;
 
   Profile(
       {this.id,
