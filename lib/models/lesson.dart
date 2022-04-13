@@ -24,7 +24,7 @@ class Lesson {
   factory Lesson.fromJson(Map<String, dynamic> json) {
     return Lesson(
       lessonID: json['lessonID'],
-      moduleID: json['moduleID'],
+      moduleID: json['moduleID'] ?? 0,
       title: json['title'],
       introduction: json['introduction'],
       orderIndex: json['orderIndex'],

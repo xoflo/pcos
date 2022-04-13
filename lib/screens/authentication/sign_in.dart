@@ -163,6 +163,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
+        bottom: false,
         child: showSignUp
             ? Column(
                 children: [
@@ -176,10 +177,12 @@ class _SignInState extends State<SignIn> {
                       width: 250,
                     ),
                   ),
-                  SizedBox(
-                    width: screenSize.width,
-                    height: screenSize.height - heightDeduction,
-                    child: RegisterWebView(),
+                  Expanded(
+                    child: SizedBox(
+                      width: screenSize.width,
+                      height: screenSize.height - heightDeduction,
+                      child: RegisterWebView(),
+                    ),
                   ),
                 ],
               )
