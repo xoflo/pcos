@@ -112,6 +112,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //backgrounded - app was active (resumed) and is now inactive
+    _appLifecycleState = state;
     if (_appLifecycleState == AppLifecycleState.resumed &&
         state == AppLifecycleState.inactive) {
       AuthenticationController()
