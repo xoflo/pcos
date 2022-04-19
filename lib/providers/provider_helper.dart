@@ -495,7 +495,7 @@ class ProviderHelper {
           thisQuestionAnswers?.forEach((LessonTask answer) async {
             //get the answer response if there is one
             final LessonTask? thisAnswerResponse =
-                quizAnswerResponses?.firstWhere(
+                quizAnswerResponses?.firstWhereOrNull(
               (response) =>
                   response.metaName?.startsWith(answer.metaName ?? "") ?? false,
             );
