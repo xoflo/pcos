@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';

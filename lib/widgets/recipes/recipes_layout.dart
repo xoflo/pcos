@@ -47,16 +47,9 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     final stringContext = S.of(context);
     final String plantBased = stringContext.recipesTagSecondaryPlantBased;
     final String vegetarian = stringContext.recipesTagSecondaryVegetarian;
-    final String glutenFree = stringContext.recipesTagSecondaryGlutenFree;
     final String dairyFree = stringContext.recipesTagSecondaryDairyFree;
     final String nutFree = stringContext.recipesTagSecondaryNutFree;
     final String eggFree = stringContext.recipesTagSecondaryEggFree;
-    final String pescatarian = stringContext.recipesTagSecondaryPescatarian;
-    final String fodmapFriendly =
-        stringContext.recipesTagSecondaryFodmapFriendly;
-    final String calorieControlled =
-        stringContext.recipesTagSecondaryCalorieControlled;
-    final String slowCooker = stringContext.recipesTagSecondarySlowCooker;
 
     if (tagSelected == stringContext.recipesTagBreakfast) {
       return [

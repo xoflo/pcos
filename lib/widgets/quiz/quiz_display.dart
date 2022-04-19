@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
-import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/widgets/quiz/question_card.dart';
 import 'package:thepcosprotocol_app/widgets/quiz/quiz_intro.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
@@ -25,7 +23,6 @@ class QuizDisplay extends StatefulWidget {
 
 class _QuizDisplayState extends State<QuizDisplay> {
   bool _isLoading = true;
-  Quiz _quiz = Quiz();
   int _currentQuestionID = 0;
   int _selectedQuestion = 0;
   bool _displayIntro = true;
@@ -42,8 +39,8 @@ class _QuizDisplayState extends State<QuizDisplay> {
     if (widget.modulesProvider.lessonQuizzes.length > 0) {
       quiz = widget.modulesProvider.lessonQuizzes[0];
     }
+
     setState(() {
-      _quiz = quiz;
       _currentQuestionID = quiz.questions[0].quizQuestionID;
       _isLoading = false;
     });

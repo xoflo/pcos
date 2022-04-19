@@ -157,7 +157,7 @@ class _CourseLessonContentState extends State<CourseLessonContent> {
           primaryColor: primaryColor,
           displayDuration: 10);
       ImageDownloader.open(path);
-    } on PlatformException catch (error) {
+    } on PlatformException {
       showFlushBar(
           context, S.current.downloadFailed, S.current.downloadFailedMsg,
           backgroundColor: Colors.white,
