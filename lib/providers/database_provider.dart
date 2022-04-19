@@ -163,7 +163,7 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   Future<void> insert(
-      final String table, final Map<String, Object> data) async {
+      final String table, final Map<String, Object?> data) async {
     await db?.insert(table, data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }

@@ -44,11 +44,11 @@ class ProviderHelper {
         //add items to database
         questions.forEach((Question question) async {
           await dbProvider?.insert(tableName, {
-            'id': question.id ?? -1,
-            'reference': question.reference ?? "",
-            'question': question.question ?? "",
-            'answer': question.answer ?? "",
-            'tags': question.tags ?? "",
+            'id': question.id,
+            'reference': question.reference,
+            'question': question.question,
+            'answer': question.answer,
+            'tags': question.tags,
             'isFavorite': (question.isFavorite ?? false) ? 1 : 0,
           });
         });
@@ -74,17 +74,17 @@ class ProviderHelper {
         //add items to database
         recipes?.forEach((Recipe recipe) async {
           await dbProvider?.insert(TABLE_RECIPE, {
-            'recipeId': recipe.recipeId ?? 0,
-            'title': recipe.title ?? "",
-            'description': recipe.description ?? "",
-            'thumbnail': recipe.thumbnail ?? "",
-            'ingredients': recipe.ingredients ?? "",
-            'method': recipe.method ?? "",
-            'tips': recipe.tips ?? "",
-            'tags': recipe.tags ?? "",
-            'difficulty': recipe.difficulty ?? "",
-            'servings': recipe.servings ?? "",
-            'duration': recipe.duration ?? "",
+            'recipeId': recipe.recipeId,
+            'title': recipe.title,
+            'description': recipe.description,
+            'thumbnail': recipe.thumbnail,
+            'ingredients': recipe.ingredients,
+            'method': recipe.method,
+            'tips': recipe.tips,
+            'tags': recipe.tags,
+            'difficulty': recipe.difficulty,
+            'servings': recipe.servings,
+            'duration': recipe.duration,
             'isFavorite': (recipe.isFavorite ?? false) ? 1 : 0,
           });
         });
@@ -311,11 +311,11 @@ class ProviderHelper {
     moduleExport?.forEach((ModuleExport moduleExport) async {
       Module? module = moduleExport.module;
       await dbProvider?.insert(TABLE_MODULE, {
-        'moduleID': module?.moduleID ?? -1,
-        'title': module?.title ?? "",
+        'moduleID': module?.moduleID,
+        'title': module?.title,
         'isComplete': module?.isComplete == true ? 1 : 0,
-        'orderIndex': module?.orderIndex ?? -1,
-        'dateCreatedUTC': module?.dateCreatedUTC?.toIso8601String() ?? "",
+        'orderIndex': module?.orderIndex,
+        'dateCreatedUTC': module?.dateCreatedUTC?.toIso8601String(),
       });
     });
 
@@ -329,15 +329,15 @@ class ProviderHelper {
         List<LessonLink>? lessonLinks = lessonExport.links;
         //add lesson to database
         await dbProvider?.insert(TABLE_LESSON, {
-          'lessonID': lesson?.lessonID ?? -1,
-          'moduleID': lesson?.moduleID ?? -1,
-          'title': lesson?.title ?? "",
-          'introduction': lesson?.introduction ?? "",
-          'orderIndex': lesson?.orderIndex ?? -1,
+          'lessonID': lesson?.lessonID,
+          'moduleID': lesson?.moduleID,
+          'title': lesson?.title,
+          'introduction': lesson?.introduction,
+          'orderIndex': lesson?.orderIndex,
           'isFavorite': lesson?.isFavorite == true ? 1 : 0,
           'isComplete': lesson?.isComplete == true ? 1 : 0,
           'isToolkit': lesson?.isToolkit == true ? 1 : 0,
-          'dateCreatedUTC': lesson?.dateCreatedUTC.toIso8601String() ?? "",
+          'dateCreatedUTC': lesson?.dateCreatedUTC.toIso8601String(),
         });
         //add lesson content to database
         await _addLessonContentToDatabase(dbProvider, lessonContent);
@@ -352,23 +352,23 @@ class ProviderHelper {
       List<LessonContent>? lessonContents) async {
     lessonContents?.forEach((LessonContent lessonContent) async {
       await dbProvider?.insert(TABLE_LESSON_CONTENT, {
-        'lessonContentID': lessonContent.lessonContentID ?? -1,
-        'lessonID': lessonContent.lessonID ?? -1,
-        'title': lessonContent.title ?? "",
-        'mediaUrl': lessonContent.mediaUrl ?? "",
-        'mediaMimeType': lessonContent.mediaMimeType ?? "",
-        'body': lessonContent.body ?? "",
-        'summary': lessonContent.summary ?? "",
-        'orderIndex': lessonContent.orderIndex ?? -1,
-        'dateCreatedUTC': lessonContent.dateCreatedUTC?.toIso8601String() ?? "",
+        'lessonContentID': lessonContent.lessonContentID,
+        'lessonID': lessonContent.lessonID,
+        'title': lessonContent.title,
+        'mediaUrl': lessonContent.mediaUrl,
+        'mediaMimeType': lessonContent.mediaMimeType,
+        'body': lessonContent.body,
+        'summary': lessonContent.summary,
+        'orderIndex': lessonContent.orderIndex,
+        'dateCreatedUTC': lessonContent.dateCreatedUTC?.toIso8601String(),
       });
     });
   }
 
   Future<void> _addLessonTasksToDatabase(
-      final dbProvider, List<LessonTask>? lessonTasks) async {
+      final DatabaseProvider? dbProvider, List<LessonTask>? lessonTasks) async {
     lessonTasks?.forEach((LessonTask lessonTask) async {
-      await dbProvider.insert(TABLE_LESSON_TASK, {
+      await dbProvider?.insert(TABLE_LESSON_TASK, {
         'lessonTaskID': lessonTask.lessonTaskID,
         'lessonID': lessonTask.lessonID,
         'metaName': lessonTask.metaName,
@@ -382,10 +382,10 @@ class ProviderHelper {
     });
   }
 
-  Future<void> _addLessonLinkToDatabase(final dbProvider,
+  Future<void> _addLessonLinkToDatabase(final DatabaseProvider? dbProvider,
       final List<LessonLink>? lessonLinks, final int? moduleID) async {
     lessonLinks?.forEach((LessonLink lessonLink) async {
-      await dbProvider.insert(TABLE_LESSON_LINK, {
+      await dbProvider?.insert(TABLE_LESSON_LINK, {
         'lessonLinkID': lessonLink.lessonLinkID,
         'lessonID': lessonLink.lessonID,
         'moduleID': moduleID,
@@ -397,10 +397,10 @@ class ProviderHelper {
     });
   }
 
-  Future<void> _addQuizzesToDatabase(
-      final dbProvider, final List<LessonTask>? lessonQuizTasks) async {
+  Future<void> _addQuizzesToDatabase(final DatabaseProvider? dbProvider,
+      final List<LessonTask>? lessonQuizTasks) async {
     final List<LessonLink> lessonLinksFromDB = mapDataToList(
-        await dbProvider.getDataQuery(
+        await dbProvider?.getDataQuery(
           TABLE_LESSON_LINK,
           "WHERE objectType = 'quiz'",
         ),
@@ -451,7 +451,7 @@ class ProviderHelper {
         }
 
         //insert the quiz with the lessonID
-        await dbProvider.insert(TABLE_QUIZ, {
+        await dbProvider?.insert(TABLE_QUIZ, {
           'quizID': quiz.lessonTaskID,
           'lessonID': quizLink.lessonID,
           'title': quiz.title,
@@ -476,7 +476,7 @@ class ProviderHelper {
             debugPrint(
                 "found a question response id=${thisQuestionResponse.lessonTaskID}");
           //insert the question with the response
-          await dbProvider.insert(TABLE_QUIZ_QUESTION, {
+          await dbProvider?.insert(TABLE_QUIZ_QUESTION, {
             'quizQuestionID': question.lessonTaskID,
             'quizID': quiz.lessonTaskID,
             'questionType': question.description,
@@ -503,7 +503,7 @@ class ProviderHelper {
               debugPrint(
                   "found a answer response id=${thisAnswerResponse.lessonTaskID}");
             //insert the answer with the response
-            await dbProvider.insert(TABLE_QUIZ_ANSWER, {
+            await dbProvider?.insert(TABLE_QUIZ_ANSWER, {
               'quizAnswerID': answer.lessonTaskID,
               'quizQuestionID': question.lessonTaskID,
               'answerText': answer.title,
@@ -519,18 +519,18 @@ class ProviderHelper {
   }
 
   Future<List<Message>> fetchAndSaveMessages(
-      final dbProvider, final bool refreshFromAPI) async {
+      final DatabaseProvider? dbProvider, final bool refreshFromAPI) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (refreshFromAPI ||
           await _shouldGetDataFromAPI(dbProvider, TABLE_MESSAGE)) {
         final messages = await WebServices().getAllUserNotifications();
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(TABLE_MESSAGE);
+        await dbProvider?.deleteAll(TABLE_MESSAGE);
         //add items to database
         messages?.forEach((Message message) async {
-          await dbProvider.insert(TABLE_MESSAGE, {
+          await dbProvider?.insert(TABLE_MESSAGE, {
             'notificationId': message.notificationId,
             'title': message.title,
             'message': message.message,
@@ -552,9 +552,10 @@ class ProviderHelper {
     return [];
   }
 
-  Future<List<String>> fetchAndSaveCMSText(final dbProvider) async {
+  Future<List<String>> fetchAndSaveCMSText(
+      final DatabaseProvider? dbProvider) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, TABLE_CMS_TEXT)) {
         final String? gettingStarted =
@@ -570,10 +571,10 @@ class ProviderHelper {
         ];
 
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(TABLE_CMS_TEXT);
+        await dbProvider?.deleteAll(TABLE_CMS_TEXT);
         //add items to database
         cmsItems.forEach((String? cmsItem) async {
-          await dbProvider.insert(TABLE_CMS_TEXT, {
+          await dbProvider?.insert(TABLE_CMS_TEXT, {
             'cmsText': cmsItem,
           });
         });
@@ -589,7 +590,8 @@ class ProviderHelper {
     return [];
   }
 
-  Future<AllFavourites> getFavourites(final dbProvider) async {
+  Future<AllFavourites> getFavourites(
+      final DatabaseProvider? dbProvider) async {
     List toolkits =
         await getAllData(dbProvider, TABLE_LESSON, toolkitsOnly: true);
     List lessons =
@@ -607,12 +609,12 @@ class ProviderHelper {
   }
 
   Future<List<dynamic>> filterAndSearch(
-      final dbProvider,
+      final DatabaseProvider? dbProvider,
       final String tableName,
       final String searchText,
       final String tag,
       final List<String> secondaryTags) async {
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
         String searchQuery = "";
         if (searchText.length > 0) {
@@ -644,7 +646,7 @@ class ProviderHelper {
             searchQuery += ")";
           }
         }
-        final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
+        final dataList = await dbProvider?.getDataQuery(tableName, searchQuery);
         return mapDataToList(dataList, tableName);
       } else {
         return getAllData(dbProvider, tableName);
@@ -654,12 +656,12 @@ class ProviderHelper {
   }
 
   Future<void> markNotificationAsRead(
-      final dbProvider, final int? notificationId) async {
+      final DatabaseProvider? dbProvider, final int? notificationId) async {
     //update on server
     WebServices().markNotificationAsRead(notificationId);
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //update in sqlite
-      await dbProvider.updateQuery(
+      await dbProvider?.updateQuery(
         table: TABLE_MESSAGE,
         setFields: "isRead = 1",
         whereClause: "notificationId = $notificationId",
@@ -669,12 +671,12 @@ class ProviderHelper {
   }
 
   Future<void> markNotificationAsDeleted(
-      final dbProvider, final int? notificationId) async {
+      final DatabaseProvider? dbProvider, final int? notificationId) async {
     //update on server
     WebServices().markNotificationAsDeleted(notificationId);
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //update in sqlite
-      await dbProvider.deleteQuery(
+      await dbProvider?.deleteQuery(
         table: TABLE_MESSAGE,
         whereClause: "notificationId = $notificationId",
         limitRowCount: 1,
@@ -682,15 +684,15 @@ class ProviderHelper {
     }
   }
 
-  Future<bool> markTaskAsCompleted(
-      final dbProvider, final int? lessonTaskID, final String value) async {
+  Future<bool> markTaskAsCompleted(final DatabaseProvider? dbProvider,
+      final int? lessonTaskID, final String value) async {
     //update on server
     final bool setComplete =
         await WebServices().setTaskComplete(lessonTaskID, value);
     //refresh the data from the API
-    if (setComplete && dbProvider.db != null) {
+    if (setComplete && dbProvider?.db != null) {
       //set isComplete in local database and delete from displayLessonTasks
-      await dbProvider.deleteQuery(
+      await dbProvider?.deleteQuery(
         table: TABLE_LESSON_TASK,
         whereClause: "lessonTaskID = $lessonTaskID",
         limitRowCount: 1,
@@ -701,7 +703,7 @@ class ProviderHelper {
 
   Future<void> addToFavourites(
     final bool isAdd,
-    final dbProvider,
+    final DatabaseProvider? dbProvider,
     final FavouriteType favouriteType,
     final int? itemId,
   ) async {
@@ -733,9 +735,9 @@ class ProviderHelper {
         break;
     }
     //update in sqlite
-    if (dbProvider.db != null && tableName.length > 0) {
+    if (dbProvider?.db != null && tableName.length > 0) {
       final int isFavorite = isAdd ? 1 : 0;
-      await dbProvider.updateQuery(
+      await dbProvider?.updateQuery(
         table: tableName,
         setFields: "isFavorite = $isFavorite",
         whereClause: "$updateColumn = $updateId",
@@ -751,8 +753,8 @@ class ProviderHelper {
   }
 
   Future<bool> _shouldGetDataFromAPI(
-      final dbProvider, final String tableName) async {
-    final int rowCount = await dbProvider.getTableRowCount(tableName);
+      final DatabaseProvider? dbProvider, final String tableName) async {
+    final int? rowCount = await dbProvider?.getTableRowCount(tableName);
 
     //no data in table so get data from API
     if (rowCount == 0) return true;
@@ -772,14 +774,14 @@ class ProviderHelper {
   }
 
   Future<List> getAllData(
-    final dbProvider,
+    final DatabaseProvider? dbProvider,
     final String tableName, {
     final String orderByColumn = "",
     final bool incompleteOnly = false,
     final bool favouritesOnly = false,
     final bool toolkitsOnly = false,
   }) async {
-    final dataList = await dbProvider.getData(
+    final dataList = await dbProvider?.getData(
         tableName, orderByColumn, incompleteOnly, favouritesOnly, toolkitsOnly);
     final mapName =
         tableName == TABLE_WIKI && favouritesOnly ? "LessonWiki" : tableName;

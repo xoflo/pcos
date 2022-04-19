@@ -12,20 +12,28 @@
             "args": [
                 "--flavor",
                 "dev",
-                // "--no-sound-null-safety"
             ]
         },
         {
             "name": "pcos (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "program": "lib/main_staging.dart",
+            "args": [
+                "--flavor",
+                "staging",
+            ]
         },
         {
             "name": "pcos (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "program": "lib/main_prod.dart",
+            "args": [
+                "--flavor",
+                "prod",
+            ]
         }
     ]
 }
