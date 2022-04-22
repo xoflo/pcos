@@ -330,7 +330,7 @@ class ProviderHelper {
         //add lesson to database
         await dbProvider?.insert(TABLE_LESSON, {
           'lessonID': lesson?.lessonID,
-          'moduleID': lesson?.moduleID,
+          'moduleID': moduleExport.module?.moduleID,
           'title': lesson?.title,
           'introduction': lesson?.introduction,
           'orderIndex': lesson?.orderIndex,
@@ -343,7 +343,7 @@ class ProviderHelper {
         await _addLessonContentToDatabase(dbProvider, lessonContent);
         await _addLessonTasksToDatabase(dbProvider, lessonTasks);
         await _addLessonLinkToDatabase(
-            dbProvider, lessonLinks, lesson?.moduleID);
+            dbProvider, lessonLinks, moduleExport.module?.moduleID);
       });
     });
   }
