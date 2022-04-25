@@ -3,6 +3,7 @@ import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_item.dart';
+import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 
@@ -63,11 +64,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
       backgroundColor: onboardingBackground,
       body: Stack(
         children: [
-          Image(
-            image: const AssetImage("assets/ellipsis.png"),
-            fit: BoxFit.fill,
-            height: width - 80,
-            width: width,
+          CustomPaint(
+            painter: EllipsisPainter(
+              color: primaryColor,
+              heightMultiplier: 0.325,
+              x1Multiplier: 0.75,
+              y1Multiplier: 0.4,
+              y2Multiplier: 0.25,
+            ),
+            child: Container(
+              width: width,
+              height: height,
+            ),
           ),
           SafeArea(
             child: Column(

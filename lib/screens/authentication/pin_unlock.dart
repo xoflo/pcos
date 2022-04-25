@@ -33,9 +33,6 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
   @override
   String get subheaderText => S.current.pinUnlockTitle;
 
-  @override
-  Function(BuildContext)? get forgotPin => forgottenPin;
-
   Future<bool> onBackPressed(BuildContext context) async {
     if (Platform.isIOS) return Future.value(false);
 
@@ -257,27 +254,14 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final double pinButtonSize =
-        screenSize.width > 600 ? 100 : screenSize.width * .22;
     return WillPopScope(
       onWillPop: () {
         return onBackPressed(context);
       },
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        body: Stack(
-          children: [
-            Image(
-              image: const AssetImage("assets/ellipsis_white.png"),
-              fit: BoxFit.fill,
-              height: screenSize.width - 20,
-              width: screenSize.width,
-            ),
-            SafeArea(
-              child: getPinPad(pinButtonSize),
-            ),
-          ],
+      child: getBaseWidget(
+        context,
+        SafeArea(
+          child: getPinPad(forgotPin: forgottenPin),
         ),
       ),
     );
