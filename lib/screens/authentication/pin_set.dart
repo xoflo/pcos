@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
-import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pin_pad.dart';
+import 'package:thepcosprotocol_app/screens/authentication/base_pin.dart';
 import 'package:thepcosprotocol_app/widgets/pin_set/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
@@ -17,98 +15,107 @@ class PinSet extends StatefulWidget {
   _PinSetState createState() => _PinSetState();
 }
 
-class _PinSetState extends State<PinSet> {
-  List<bool> _progress = [false, false, false, false];
-  int _currentPosition = 0;
-  String _pinEntered = "";
+class _PinSetState extends State<PinSet> with BasePin {
   String _pinConfirmed = "";
-  PinEntry _pinEntry = PinEntry.NONE;
 
-  void pinButtonPressed(final String pinNumber) async {
-    HapticFeedback.lightImpact();
-    updatePin(pinNumber);
-    if (_currentPosition > 3) {
-      await Future.delayed(const Duration(milliseconds: 200), () {});
-      updatePinEntryState();
-      if (_pinEntry == PinEntry.ENTERED) {
-        resetPinPad();
-      } else if (_pinEntry == PinEntry.CONFIRMED) {
-        if (validatePins()) {
-          updatePinEntryState();
-          if (_pinEntry == PinEntry.COMPLETE) {
-            //pin entry is complete, update parent to open app dashboard
-            pinEntryComplete();
-          }
-        } else {
-          startPinAgain();
+  bool get isPinValid => pinEntered == _pinConfirmed;
+
+  Function(BuildContext)? get forgotPin => null;
+
+  @override
+  String get subheaderText => pinEntry == PinEntry.NONE
+      ? S.current.pinSetTitle
+      : S.current.pinConfirmTitle;
+
+  @override
+  void validatePin() {
+    if (pinEntry == PinEntry.ENTERED) {
+      resetPinPad();
+    } else if (pinEntry == PinEntry.CONFIRMED) {
+      if (isPinValid) {
+        updatePinEntryState();
+        if (pinEntry == PinEntry.COMPLETE) {
+          //pin entry is complete, update parent to open app dashboard
+          pinEntryComplete();
         }
+      } else {
+        startPinAgain(
+            S.current.pinEntryErrorTitle, S.current.pinEntryErrorText);
       }
     }
   }
 
+  @override
   void resetPinPad() {
     setState(() {
-      _progress = [false, false, false, false];
-      _currentPosition = 0;
-      if (_pinEntry == PinEntry.NONE) {
-        _pinEntered = "";
+      super.resetPinPad();
+      if (pinEntry == PinEntry.NONE) {
+        pinEntered = "";
       } else {
         _pinConfirmed = "";
       }
     });
   }
 
-  void startPinAgain() {
-    showFlushBar(
-        context, S.current.pinEntryErrorTitle, S.current.pinEntryErrorText,
-        backgroundColor: Colors.white,
-        borderColor: primaryColorLight,
-        primaryColor: primaryColor);
+  @override
+  void deletePinPadDigit() {
+    if (currentPosition > 0) {
+      setState(
+        () {
+          super.deletePinPadDigit();
+          if (pinEntry == PinEntry.NONE) {
+            pinEntered = pinEntered.substring(0, pinEntered.length - 1);
+          } else {
+            _pinConfirmed =
+                _pinConfirmed.substring(0, _pinConfirmed.length - 1);
+          }
+        },
+      );
+    }
+  }
+
+  @override
+  void startPinAgain(String title, String message) {
+    super.startPinAgain(title, message);
 
     setState(() {
-      _progress = [false, false, false, false];
-      _currentPosition = 0;
-      _pinEntered = "";
+      progress = [false, false, false, false];
+      currentPosition = 0;
+      pinEntered = "";
       _pinConfirmed = "";
-      _pinEntry = PinEntry.NONE;
+      pinEntry = PinEntry.NONE;
     });
   }
 
+  @override
   void updatePin(final String pinNumber) {
     setState(() {
-      if (_pinEntry == PinEntry.NONE) {
-        _pinEntered += pinNumber.toString();
+      if (pinEntry == PinEntry.NONE) {
+        pinEntered += pinNumber.toString();
       } else {
         _pinConfirmed += pinNumber.toString();
       }
-      _progress[_currentPosition] = true;
-      _currentPosition++;
+      super.updatePin(pinNumber);
     });
   }
 
+  @override
   void updatePinEntryState() {
     setState(() {
-      if (_pinEntry == PinEntry.NONE) {
-        _pinEntry = PinEntry.ENTERED;
-      } else if (_pinEntry == PinEntry.ENTERED) {
-        _pinEntry = PinEntry.CONFIRMED;
-      } else if (_pinEntry == PinEntry.CONFIRMED) {
-        _pinEntry = PinEntry.COMPLETE;
+      if (pinEntry == PinEntry.NONE) {
+        pinEntry = PinEntry.ENTERED;
+      } else if (pinEntry == PinEntry.ENTERED) {
+        pinEntry = PinEntry.CONFIRMED;
+      } else if (pinEntry == PinEntry.CONFIRMED) {
+        pinEntry = PinEntry.COMPLETE;
       }
     });
-  }
-
-  bool validatePins() {
-    if (_pinEntered == _pinConfirmed) {
-      return true;
-    }
-    return false;
   }
 
   void pinEntryComplete() async {
     //Save the Pin to secure storage
     final bool savePinSuccessful =
-        await AuthenticationController().savePin(_pinEntered);
+        await AuthenticationController().savePin(pinEntered);
     int openAppDelay = 3;
 
     if (!savePinSuccessful) {
@@ -137,36 +144,22 @@ class _PinSetState extends State<PinSet> {
         screenSize.width > 600 ? 100 : screenSize.width * .23;
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: _pinEntry == PinEntry.COMPLETE
-            ? PinCorrect(
-                message: S.current.pinSetSuccessfulTitle,
-                messageWhy: S.current.pinSetSuccessfulMessage,
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  HeaderImage(
-                    screenSize: screenSize,
-                    isOrange: false,
-                    verticalTopPadding: 80,
-                  ),
-                  SizedBox(height: 10.0),
-                  PinPad(
-                    pinButtonSize: pinButtonSize,
-                    headerText: _pinEntry == PinEntry.NONE
-                        ? S.current.pinSetTitle
-                        : S.current.pinConfirmTitle,
-                    progress: _progress,
-                    currentPosition: _currentPosition,
-                    showForgottenPin: false,
-                    pinButtonPressed: (pinNumber) {
-                      pinButtonPressed(pinNumber);
-                    },
-                    resetPinPad: resetPinPad,
-                  ),
-                ],
-              ),
+      body: Stack(
+        children: [
+          Image(
+            image: const AssetImage("assets/ellipsis_white.png"),
+            fit: BoxFit.fill,
+            height: screenSize.width - 20,
+            width: screenSize.width,
+          ),
+          SafeArea(
+              child: pinEntry == PinEntry.COMPLETE
+                  ? PinCorrect(
+                      message: S.current.pinSetSuccessfulTitle,
+                      messageWhy: S.current.pinSetSuccessfulMessage,
+                    )
+                  : getPinPad(pinButtonSize)),
+        ],
       ),
     );
   }

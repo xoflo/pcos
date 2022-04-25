@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // const primaryColor = Color(0xfff79869); //main color used in app
-const primaryColorLight = Color(0xfff79499); //a lighter pink/orange
+const primaryColorLight = Color(0xFFFFF9F3); //a lighter pink/orange
 // const backgroundColor =
 //     Color(0xfffde8e4); //an almost pinky white mainly used for app backgrounds
 const altBackgroundColor = Colors.black12; //an alternative background

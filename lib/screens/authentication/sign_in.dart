@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/widget_keys.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
-//import 'package:url_launcher/url_launcher.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -111,33 +110,6 @@ class _SignInState extends State<SignIn> {
       );
     }
   }
-
-  /*void navigateToRegister() async {
-    if (!isSigningIn) {
-      final urlQuestionnaireWebsite =
-          FlavorConfig.instance.values.questionnaireUrl;
-      if (await canLaunch(urlQuestionnaireWebsite)) {
-        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_SIGN_UP);
-
-        await launch(
-          urlQuestionnaireWebsite,
-          forceSafariVC: false,
-          forceWebView: false,
-        );
-      } else {
-        showFlushBar(
-            context,
-            S.current.questionnaireWebsiteErrorTitle,
-            S
-                .of(context)
-                .questionnaireWebsiteErrorText
-                .replaceAll("[url]", urlQuestionnaireWebsite),
-            backgroundColor: Colors.white,
-            borderColor: primaryColorLight,
-            primaryColor: primaryColor);
-      }
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {
