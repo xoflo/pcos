@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class FilledButton extends StatelessWidget {
   const FilledButton({
@@ -9,6 +10,7 @@ class FilledButton extends StatelessWidget {
     required this.backgroundColor,
     this.onPressed,
     this.width = double.infinity,
+    this.isUpdating = false,
   }) : super(key: key);
 
   final Function()? onPressed;
@@ -17,18 +19,29 @@ class FilledButton extends StatelessWidget {
   final EdgeInsetsGeometry margin;
   final Color foregroundColor;
   final Color backgroundColor;
+  final bool isUpdating;
 
   @override
   Widget build(BuildContext context) => Container(
         width: width,
         margin: margin,
         child: ElevatedButton(
-          onPressed: onPressed,
+          onPressed: isUpdating ? null : onPressed,
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Text(
-              text,
-            ),
+            child: isUpdating
+                ? SizedBox(
+                    child: CircularProgressIndicator(
+                      backgroundColor: backgroundColor,
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(primaryColor),
+                    ),
+                    height: 20.0,
+                    width: 20.0,
+                  )
+                : Text(
+                    text,
+                  ),
           ),
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {

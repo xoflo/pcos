@@ -14,9 +14,8 @@ class HeaderImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String imagePath = isOrange
-        ? 'assets/images/pcos_protocol_orange.png'
-        : 'assets/images/pcos_protocol.png';
+    final String imagePath =
+        isOrange ? 'assets/logo_green.png' : 'assets/logo_white.png';
 
     if (DeviceUtils.isHorizontalWideScreen(
         screenSize?.width ?? 0, screenSize?.height ?? 0)) {
@@ -44,11 +43,16 @@ class HeaderImage extends StatelessWidget {
         );
       } else {
         //a mobile phone
-        return Padding(
-          padding: EdgeInsets.only(top: 15, bottom: 30.0),
+        return Container(
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(
+            top: 50,
+            bottom: 50,
+            left: 25,
+          ),
           child: Image(
             image: AssetImage(imagePath),
-            height: 65.0,
+            height: 30,
           ),
         );
       }
