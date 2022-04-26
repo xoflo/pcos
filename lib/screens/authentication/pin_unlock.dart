@@ -110,11 +110,11 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       }
     } else {
       //not connected to internet, inform user
-      showFlushBar(context, S.current.internetConnectionTitle,
-          S.current.internetConnectionText,
-          backgroundColor: Colors.white,
-          borderColor: primaryColorLight,
-          primaryColor: primaryColor);
+      showFlushBar(
+        context,
+        S.current.internetConnectionTitle,
+        S.current.internetConnectionText,
+      );
     }
   }
 

@@ -37,6 +37,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
+import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 
 class App extends StatefulWidget {
   @override
@@ -159,6 +160,7 @@ class _AppState extends State<App> {
           AppLoading.id: (context) => AppLoading(),
           OnboardingPage.id: (context) => OnboardingPage(),
           SignIn.id: (context) => SignIn(),
+          RegisterWebView.id: (context) => RegisterWebView(),
           UnsupportedVersion.id: (context) => UnsupportedVersion(),
           PinUnlock.id: (context) => PinUnlock(),
           PinSet.id: (context) => PinSet(),

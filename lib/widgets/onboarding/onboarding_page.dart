@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
+import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({Key? key}) : super(key: key);
@@ -117,6 +118,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       setState(() {
                         _activePage = _activePage + 1;
                       });
+                    } else {
+                      Navigator.pushReplacementNamed(
+                          context, RegisterWebView.id);
                     }
                   },
                   text: _activePage < 2 ? "NEXT" : "GET STARTED",
@@ -130,10 +134,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   text: "I have done the questionnaire",
                   style: OutlinedButton.styleFrom(
                     primary: backgroundColor,
+                    backgroundColor: onboardingBackground,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    side: const BorderSide(width: 1, color: backgroundColor),
+                    side: const BorderSide(
+                      width: 1,
+                      color: backgroundColor,
+                    ),
                   ),
                   margin: const EdgeInsets.all(15),
                 )

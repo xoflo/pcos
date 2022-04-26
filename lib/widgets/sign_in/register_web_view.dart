@@ -5,6 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 
 class RegisterWebView extends StatefulWidget {
+  static const String id = "register_web_view";
   @override
   _RegisterWebViewState createState() => _RegisterWebViewState();
 }

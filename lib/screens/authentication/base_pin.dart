@@ -40,9 +40,6 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
       context,
       title,
       message,
-      backgroundColor: Colors.white,
-      borderColor: primaryColorLight,
-      primaryColor: primaryColor,
     );
   }
 
