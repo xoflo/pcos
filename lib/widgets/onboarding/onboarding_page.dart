@@ -39,7 +39,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       asset: "assets/onboarding_3.png",
     ),
   ];
-  int _activePage = 1;
+  int _activePage = 0;
 
   List<Widget> generateIndicators() {
     return List<Widget>.generate(items.length, (index) {

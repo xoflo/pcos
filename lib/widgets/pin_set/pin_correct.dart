@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class PinCorrect extends StatelessWidget {
   final String message;
@@ -18,7 +19,7 @@ class PinCorrect extends StatelessWidget {
             child: Text(
               message,
               style: Theme.of(context).textTheme.headline4?.copyWith(
-                    color: Colors.white,
+                    color: textColor,
                   ),
             ),
           ),
@@ -26,7 +27,7 @@ class PinCorrect extends StatelessWidget {
             child: Icon(
               Icons.thumb_up_rounded,
               size: 48.0,
-              color: Colors.white,
+              color: textColor,
             ),
           ),
           messageWhy != null
@@ -35,7 +36,7 @@ class PinCorrect extends StatelessWidget {
                   child: Text(
                     messageWhy ?? "",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
-                          color: Colors.white,
+                          color: textColor,
                         ),
                   ),
                 )

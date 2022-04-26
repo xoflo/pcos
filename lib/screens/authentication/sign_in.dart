@@ -115,242 +115,278 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: SafeArea(
-          bottom: false,
-          child: Center(
-            child: ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                HeaderImage(
-                  screenSize: screenSize,
-                  isOrange: true,
-                  verticalTopPadding: 80,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 60,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        body: SafeArea(
+            bottom: false,
+            child: Center(
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  HeaderImage(
+                    screenSize: screenSize,
+                    isOrange: true,
+                    verticalTopPadding: 80,
                   ),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 12,
-                          ),
-                          child: TextFormField(
-                            key: Key(WidgetKeys.SignInUsernameEmail),
-                            controller: emailController,
-                            cursorColor: backgroundColor,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 60,
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            child: TextFormField(
+                              key: Key(WidgetKeys.SignInUsernameEmail),
+                              controller: emailController,
+                              cursorColor: backgroundColor,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
                                 ),
-                                borderSide: BorderSide(
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                labelText: S.current.emailLabel,
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value?.isEmpty == true) {
+                                  return S.current.validateEmailMessage;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            child: TextFormField(
+                              controller: passwordController,
+                              cursorColor: backgroundColor,
+                              obscuringCharacter: "*",
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                labelText: S.current.passwordLabel,
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value?.isEmpty == true) {
+                                  return S.current.validatePasswordMessage;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 15,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                // forgottenPassword(context);
+                              },
+                              child: Text(
+                                S.current.passwordForgottenTitle,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                   color: backgroundColor,
-                                  width: 2,
+                                  fontSize: 14,
                                 ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: unselectedIndicatorColor,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              labelText: S.current.emailLabel,
-                              labelStyle: TextStyle(
-                                color: Colors.black,
                               ),
                             ),
-                            validator: (value) {
-                              if (value?.isEmpty == true) {
-                                return S.current.validateEmailMessage;
+                          ),
+                          FilledButton(
+                            isUpdating: isSigningIn,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              if (_formKey.currentState?.validate() == true) {
+                                authenticateUser();
                               }
-                              return null;
                             },
+                            text: S.current.signInTitle,
+                            foregroundColor: Colors.white,
+                            backgroundColor: backgroundColor,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 12,
+                          SizedBox(
+                            height: 50,
                           ),
-                          child: TextFormField(
-                            controller: passwordController,
-                            cursorColor: backgroundColor,
-                            obscuringCharacter: "*",
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
-                                ),
-                                borderSide: BorderSide(
-                                  color: backgroundColor,
-                                  width: 2,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: unselectedIndicatorColor,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              labelText: S.current.passwordLabel,
-                              labelStyle: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value?.isEmpty == true) {
-                                return S.current.validatePasswordMessage;
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 15,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              // forgottenPassword(context);
-                            },
-                            child: Text(
-                              S.current.passwordForgottenTitle,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: backgroundColor,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                        FilledButton(
-                          isUpdating: isSigningIn,
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 12,
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() == true) {
-                              authenticateUser();
-                            }
-                          },
-                          text: S.current.signInTitle,
-                          foregroundColor: Colors.white,
-                          backgroundColor: backgroundColor,
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            )
+            //   child: showSignUp
+            //       ? Column(
+            //           children: [
+            //             SizedBox(
+            //               width: screenSize.width,
+            //               height: 40,
+            //               child: ColorButton(
+            //                 isUpdating: false,
+            //                 label: S.current.returnToSignInTitle,
+            //                 onTap: hideRegistration,
+            //                 width: 250,
+            //               ),
+            //             ),
+            //             Expanded(
+            //               child: SizedBox(
+            //                 width: screenSize.width,
+            //                 height: screenSize.height - heightDeduction,
+            //                 child: RegisterWebView(),
+            //               ),
+            //             ),
+            //           ],
+            //         )
+            //       : isHorizontal
+            //           ? Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               crossAxisAlignment: CrossAxisAlignment.center,
+            //               children: [
+            //                 HeaderImage(
+            //                   screenSize: screenSize,
+            //                   isOrange: false,
+            //                   verticalTopPadding: 80,
+            //                 ),
+            //                 Row(
+            //                   mainAxisAlignment: MainAxisAlignment.center,
+            //                   crossAxisAlignment: CrossAxisAlignment.center,
+            //                   children: [
+            //                     SizedBox(
+            //                       height: 340.0,
+            //                       width: boxWidth,
+            //                       child: SignInLayout(
+            //                         isSigningIn: isSigningIn,
+            //                         authenticateUser: authenticateUser,
+            //                         emailController: emailController,
+            //                         passwordController: passwordController,
+            //                       ),
+            //                     ),
+            //                     SizedBox(
+            //                       height: 340.0,
+            //                       width: boxWidth,
+            //                       child: RegisterLayout(
+            //                         navigateToRegister: displayRegistration,
+            //                         isHorizontal: true,
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ],
+            //             )
+            //           : Center(
+            //               child: ListView(
+            //                 shrinkWrap: true,
+            //                 padding: EdgeInsets.all(15.0),
+            //                 children: <Widget>[
+            //                   HeaderImage(
+            //                     screenSize: screenSize,
+            //                     isOrange: false,
+            //                     verticalTopPadding: 80,
+            //                   ),
+            //                   SizedBox(
+            //                     height: 360.0,
+            //                     child: SignInLayout(
+            //                       isSigningIn: isSigningIn,
+            //                       authenticateUser: authenticateUser,
+            //                       emailController: emailController,
+            //                       passwordController: passwordController,
+            //                     ),
+            //                   ),
+            //                   SizedBox(
+            //                     height: 190.0,
+            //                     child: RegisterLayout(
+            //                       navigateToRegister: displayRegistration,
+            //                       isHorizontal: false,
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
             ),
-          )
-          //   child: showSignUp
-          //       ? Column(
-          //           children: [
-          //             SizedBox(
-          //               width: screenSize.width,
-          //               height: 40,
-          //               child: ColorButton(
-          //                 isUpdating: false,
-          //                 label: S.current.returnToSignInTitle,
-          //                 onTap: hideRegistration,
-          //                 width: 250,
-          //               ),
-          //             ),
-          //             Expanded(
-          //               child: SizedBox(
-          //                 width: screenSize.width,
-          //                 height: screenSize.height - heightDeduction,
-          //                 child: RegisterWebView(),
-          //               ),
-          //             ),
-          //           ],
-          //         )
-          //       : isHorizontal
-          //           ? Column(
-          //               mainAxisAlignment: MainAxisAlignment.center,
-          //               crossAxisAlignment: CrossAxisAlignment.center,
-          //               children: [
-          //                 HeaderImage(
-          //                   screenSize: screenSize,
-          //                   isOrange: false,
-          //                   verticalTopPadding: 80,
-          //                 ),
-          //                 Row(
-          //                   mainAxisAlignment: MainAxisAlignment.center,
-          //                   crossAxisAlignment: CrossAxisAlignment.center,
-          //                   children: [
-          //                     SizedBox(
-          //                       height: 340.0,
-          //                       width: boxWidth,
-          //                       child: SignInLayout(
-          //                         isSigningIn: isSigningIn,
-          //                         authenticateUser: authenticateUser,
-          //                         emailController: emailController,
-          //                         passwordController: passwordController,
-          //                       ),
-          //                     ),
-          //                     SizedBox(
-          //                       height: 340.0,
-          //                       width: boxWidth,
-          //                       child: RegisterLayout(
-          //                         navigateToRegister: displayRegistration,
-          //                         isHorizontal: true,
-          //                       ),
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ],
-          //             )
-          //           : Center(
-          //               child: ListView(
-          //                 shrinkWrap: true,
-          //                 padding: EdgeInsets.all(15.0),
-          //                 children: <Widget>[
-          //                   HeaderImage(
-          //                     screenSize: screenSize,
-          //                     isOrange: false,
-          //                     verticalTopPadding: 80,
-          //                   ),
-          //                   SizedBox(
-          //                     height: 360.0,
-          //                     child: SignInLayout(
-          //                       isSigningIn: isSigningIn,
-          //                       authenticateUser: authenticateUser,
-          //                       emailController: emailController,
-          //                       passwordController: passwordController,
-          //                     ),
-          //                   ),
-          //                   SizedBox(
-          //                     height: 190.0,
-          //                     child: RegisterLayout(
-          //                       navigateToRegister: displayRegistration,
-          //                       isHorizontal: false,
-          //                     ),
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          ),
+      ),
     );
   }
 }
