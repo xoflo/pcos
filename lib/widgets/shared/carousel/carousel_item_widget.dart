@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/widgets/shared/carousel_item.dart';
+import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item.dart';
 
 class CarouselItemWidget extends StatelessWidget {
   const CarouselItemWidget({Key? key, required this.item}) : super(key: key);
