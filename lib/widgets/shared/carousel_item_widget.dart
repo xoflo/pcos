@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/widgets/onboarding/onboarding.dart';
+import 'package:thepcosprotocol_app/widgets/shared/carousel_item.dart';
 
-class OnboardingItem extends StatelessWidget {
-  const OnboardingItem({Key? key, required this.item}) : super(key: key);
+class CarouselItemWidget extends StatelessWidget {
+  const CarouselItemWidget({Key? key, required this.item}) : super(key: key);
 
-  final Onboarding item;
+  final CarouselItem item;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -19,12 +19,13 @@ class OnboardingItem extends StatelessWidget {
               width: 240,
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Text(
               item.title,
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 28,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),

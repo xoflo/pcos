@@ -18,6 +18,7 @@ import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
@@ -32,7 +33,6 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
@@ -207,18 +207,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         Navigator.pushNamed(context, TermsAndConditions.id);
         break;
       case DrawerMenuItem.TUTORIAL:
-        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-        openBottomSheet(
-          context,
-          Tutorial(
-            isStartUp: false,
-            closeTutorial: () {
-              Navigator.pop(context);
-            },
-          ),
-          Analytics.ANALYTICS_SCREEN_TUTORIAL,
-          null,
-        );
+        Navigator.pushNamed(context, AppTutorialPage.id);
         break;
     }
   }

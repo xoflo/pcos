@@ -19,13 +19,13 @@ import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/your_why.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
-import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
@@ -93,20 +93,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     if (!await PreferencesController()
         .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
       analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-      PreferencesController()
-          .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
+      // PreferencesController()
+      //     .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
       await Future.delayed(Duration(seconds: 2), () {
-        openBottomSheet(
-          context,
-          Tutorial(
-            isStartUp: true,
-            closeTutorial: () {
-              Navigator.pop(context);
-            },
-          ),
-          Analytics.ANALYTICS_SCREEN_TUTORIAL,
-          null,
-        );
+        Navigator.pushNamed(context, AppTutorialPage.id);
       });
     }
   }

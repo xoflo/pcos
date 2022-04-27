@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/onboarding/onboarding.dart';
-import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_item.dart';
+import 'package:thepcosprotocol_app/widgets/shared/carousel_item.dart';
+import 'package:thepcosprotocol_app/widgets/shared/carousel_item_widget.dart';
 import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
@@ -19,20 +19,20 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _controller = PageController();
-  final List<Onboarding> items = const [
-    Onboarding(
+  final List<CarouselItem> items = const [
+    CarouselItem(
       title: "Hello, we are Ovie",
       subtitle:
           "Do you want to finally reverse your PCOS symptoms? Then you need to fix the root of your PCOS.",
       asset: "assets/onboarding_1.png",
     ),
-    Onboarding(
+    CarouselItem(
       title: "1:1 Consultation",
       subtitle:
           "Do you want to finally reverse your PCOS symptoms? Then you need to fix the root of your PCOS.",
       asset: "assets/onboarding_2.png",
     ),
-    Onboarding(
+    CarouselItem(
       title: "Let’s personalise it.",
       subtitle:
           "Do you want to finally reverse your PCOS symptoms? Then you need to fix the root of your PCOS.",
@@ -89,7 +89,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       controller: _controller,
                       itemCount: items.length,
                       pageSnapping: true,
-                      itemBuilder: (context, pagePosition) => OnboardingItem(
+                      itemBuilder: (context, pagePosition) =>
+                          CarouselItemWidget(
                         item: items[pagePosition],
                       ),
                       onPageChanged: (page) {

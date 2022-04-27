@@ -1,5 +1,5 @@
-class Onboarding {
-  const Onboarding({
+class CarouselItem {
+  const CarouselItem({
     required this.title,
     required this.subtitle,
     required this.asset,
