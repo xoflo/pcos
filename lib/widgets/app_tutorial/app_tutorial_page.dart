@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_get_started.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel_item.dart';
@@ -67,6 +70,10 @@ class _AppTutorialPageState extends State<AppTutorialPage> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
+    final bool showBackButton =
+        (ModalRoute.of(context)?.settings.arguments as AppTutorialArguments)
+            .showBackButton;
+
     CustomPainter? _getPainter() {
       switch (_activePage) {
         case 0:
@@ -86,78 +93,109 @@ class _AppTutorialPageState extends State<AppTutorialPage> {
       }
     }
 
-    return Scaffold(
-      backgroundColor: primaryColorLight,
-      body: Stack(
-        children: [
-          CustomPaint(
-            painter: _getPainter(),
-            child: Container(
-              width: width,
-              height: height,
+    return WillPopScope(
+      onWillPop: () => Future.value(!Platform.isIOS && showBackButton),
+      child: Scaffold(
+        backgroundColor: primaryColorLight,
+        body: Stack(
+          children: [
+            CustomPaint(
+              painter: _getPainter(),
+              child: Container(
+                width: width,
+                height: height,
+              ),
             ),
-          ),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Container(
-                    height: height * 0.5,
-                    child: PageView.builder(
-                      controller: _controller,
-                      itemCount: items.length + 1,
-                      pageSnapping: true,
-                      itemBuilder: (context, pagePosition) => pagePosition == 4
-                          ? AppTutorialGetStarted()
-                          : CarouselItemWidget(
-                              item: items[pagePosition],
-                            ),
-                      onPageChanged: (page) {
+            if (showBackButton)
+              Positioned(
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: AppBar(
+                  leading: new IconButton(
+                      icon: new Icon(
+                        Icons.arrow_back,
+                        color: backgroundColor,
+                      ),
+                      onPressed: () {
+                        // We update the active page so that when popping,
+                        // we remove the big ellipsis painted earlier
                         setState(() {
-                          _activePage = page;
+                          _activePage = _activePage + 1;
                         });
-                      },
+
+                        Navigator.of(context).pop();
+                      }),
+                  backgroundColor: Colors.transparent,
+                  elevation: 0.0,
+                ),
+              ),
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    child: Container(
+                      height: height * 0.5,
+                      child: PageView.builder(
+                        controller: _controller,
+                        itemCount: items.length + 1,
+                        pageSnapping: true,
+                        itemBuilder: (context, pagePosition) =>
+                            pagePosition == 4
+                                ? AppTutorialGetStarted()
+                                : CarouselItemWidget(
+                                    item: items[pagePosition],
+                                  ),
+                        onPageChanged: (page) {
+                          setState(() {
+                            _activePage = page;
+                          });
+                        },
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: _activePage < 4
-                      ? generateIndicators()
-                      : [
-                          Container(
-                            margin: const EdgeInsets.all(8),
-                          )
-                        ],
-                ),
-                FilledButton(
-                  margin: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 25,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _activePage < 4
+                        ? generateIndicators()
+                        : [
+                            Container(
+                              margin: const EdgeInsets.all(8),
+                            )
+                          ],
                   ),
-                  onPressed: () {
-                    if (_activePage < 4) {
-                      _controller.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeIn);
+                  FilledButton(
+                    margin: const EdgeInsets.only(
+                      left: 15,
+                      right: 15,
+                      top: 25,
+                    ),
+                    onPressed: () {
+                      if (_activePage < 4) {
+                        _controller.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn);
+                      } else {
+                        Navigator.pop(context);
+                      }
+
+                      // We update the active page so that when popping,
+                      // we remove the big ellipsis painted earlier
                       setState(() {
                         _activePage = _activePage + 1;
                       });
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  },
-                  text: _activePage < 4 ? "NEXT" : "GET STARTED",
-                  foregroundColor: Colors.white,
-                  backgroundColor: backgroundColor,
-                ),
-              ],
+                    },
+                    text: _activePage < 4 ? "NEXT" : "GET STARTED",
+                    foregroundColor: Colors.white,
+                    backgroundColor: backgroundColor,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

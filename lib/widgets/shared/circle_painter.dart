@@ -10,7 +10,7 @@ class CirclePainter extends CustomPainter {
       ..color = color
       ..style = PaintingStyle.fill;
     canvas.drawCircle(
-        Offset(size.width / 2, size.height / 2), size.width, paint1);
+        Offset(size.width / 2, size.height / 2), size.width * 0.75, paint1);
   }
 
   @override

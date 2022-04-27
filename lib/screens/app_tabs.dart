@@ -5,6 +5,7 @@ import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -207,7 +208,13 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         Navigator.pushNamed(context, TermsAndConditions.id);
         break;
       case DrawerMenuItem.TUTORIAL:
-        Navigator.pushNamed(context, AppTutorialPage.id);
+        Navigator.pushNamed(
+          context,
+          AppTutorialPage.id,
+          arguments: AppTutorialArguments(
+            showBackButton: true,
+          ),
+        );
         break;
     }
   }

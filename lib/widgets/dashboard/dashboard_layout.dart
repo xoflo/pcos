@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -96,7 +97,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       // PreferencesController()
       //     .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
       await Future.delayed(Duration(seconds: 2), () {
-        Navigator.pushNamed(context, AppTutorialPage.id);
+        Navigator.pushNamed(
+          context,
+          AppTutorialPage.id,
+          arguments: AppTutorialArguments(),
+        );
       });
     }
   }

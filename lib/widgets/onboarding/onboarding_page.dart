@@ -68,10 +68,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
           CustomPaint(
             painter: EllipsisPainter(
               color: primaryColor,
-              heightMultiplier: 0.325,
-              x1Multiplier: 0.75,
-              y1Multiplier: 0.4,
-              y2Multiplier: 0.25,
+              heightMultiplier: 0.475,
+              x1Multiplier: 1.5,
+              y1Multiplier: 0.5,
+              y2Multiplier: 0.1,
             ),
             child: Container(
               width: width,
@@ -81,6 +81,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
                   child: Container(
