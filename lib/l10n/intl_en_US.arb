@@ -39,7 +39,7 @@
     "questionnaireWebsiteErrorText": "Open a browser and visit [url]",
     "clearButton": "Clear",
     "pinCorrectTitle": "PIN Correct",
-    "pinForgottenTitle": "Forgotten PIN",
+    "pinForgottenTitle": "Forgot passcode?",
     "pinForgottenMessage": "This will clear your credentials and PIN so you can sign in with your username/email and password. Do you want to continue?",
     "pinForgottenContinue": "Continue",
     "pinForgottenCancel": "Cancel",

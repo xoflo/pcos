@@ -19,4 +19,5 @@ const secondaryColor = Color(0xffedb687);
 const tertiaryColor = Color(0xffffc6c2);
 
 const selectedIndicatorColor = Color(0xffedb687);
-const unselectedIndicatorColor = Color.fromARGB(51, 32, 32, 32);
+final unselectedIndicatorColor = Color(0xFF202020).withOpacity(0.5);
+final unselectedIndicatorIconColor = Color(0xFF202020).withOpacity(0.8);

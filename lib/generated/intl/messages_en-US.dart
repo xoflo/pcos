@@ -224,7 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pinForgottenMessage": MessageLookupByLibrary.simpleMessage(
             "This will clear your credentials and PIN so you can sign in with your username/email and password. Do you want to continue?"),
         "pinForgottenTitle":
-            MessageLookupByLibrary.simpleMessage("Forgotten PIN"),
+            MessageLookupByLibrary.simpleMessage("Forgot passcode?"),
         "pinRefreshErrorText": MessageLookupByLibrary.simpleMessage(
             "Your authentication token has expired, please sign-in using your email and password."),
         "pinRefreshErrorTitle": MessageLookupByLibrary.simpleMessage(

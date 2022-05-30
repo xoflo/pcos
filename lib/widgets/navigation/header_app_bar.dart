@@ -25,9 +25,9 @@ class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _HeaderAppBarState extends State<HeaderAppBar> {
   String _getHeaderText(BuildContext context, int currentIndex) {
     switch (currentIndex) {
-      case 1:
-        return S.current.recipesTitle;
       case 2:
+        return S.current.recipesTitle;
+      case 3:
         return S.current.favouritesTitle;
       default:
         return S.current.dashboardTitle;

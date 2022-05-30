@@ -186,7 +186,8 @@ class PinPad extends StatelessWidget {
                 child: Text(
                   S.current.pinForgottenTitle,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: backgroundColor,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               )

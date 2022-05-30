@@ -22,9 +22,10 @@ class MainScreens extends StatelessWidget {
       index: currentIndex,
       children: [
         Dashboard(
-            showYourWhy: showYourWhy,
-            showLessonRecipes: showLessonRecipes,
-            updateYourWhy: updateYourWhy),
+          showYourWhy: showYourWhy,
+          showLessonRecipes: showLessonRecipes,
+          updateYourWhy: updateYourWhy,
+        ),
         Recipes(),
         Favourites(),
       ],
