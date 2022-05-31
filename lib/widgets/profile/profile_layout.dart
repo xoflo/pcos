@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_settings.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
@@ -10,6 +12,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/widgets/shared/toggle_switch.dart';
 
 class ProfileLayout extends StatefulWidget {
   @override
@@ -22,6 +25,8 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+
+  bool isLeftVisible = true;
 
   @override
   void initState() {
@@ -83,28 +88,53 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   Widget _memberDetails(Size screenSize, MemberViewModel vm) {
     switch (vm.status) {
       case LoadingStatus.loading:
-        return PcosLoadingSpinner();
+        return Column(
+          children: [
+            Header(
+              closeItem: () {
+                Navigator.pop(context);
+              },
+            ),
+            PcosLoadingSpinner(),
+          ],
+        );
       case LoadingStatus.empty:
         return NoResults(message: S.current.noMemberDetails);
       case LoadingStatus.success:
-        return !_isEditable
-            ? ProfileReadOnly(
-                member: vm,
-                screenSize: screenSize,
-                editMemberDetails: _editDetails,
-              )
-            : Form(
-                key: _formKey,
-                child: ProfileEditable(
-                  member: vm,
-                  screenSize: screenSize,
-                  firstNameController: firstNameController,
-                  lastNameController: lastNameController,
-                  emailController: emailController,
-                  saveMemberDetails: _saveChanges,
-                  cancel: _cancelChanges,
-                ),
-              );
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Header(
+              title: "${vm.firstName}'s Profile",
+              closeItem: () => Navigator.pop(context),
+            ),
+            ToggleSwitch(
+              leftText: "Summary",
+              rightText: "Settings",
+              onTapLeft: () => setState(() => isLeftVisible = true),
+              onTapRight: () => setState(() => isLeftVisible = false),
+            ),
+            if (isLeftVisible) Container() else ProfileSettings(email: vm.email)
+          ],
+        );
+      // return !_isEditable
+      //     ? ProfileReadOnly(
+      //         member: vm,
+      //         screenSize: screenSize,
+      //         editMemberDetails: _editDetails,
+      //       )
+      //     : Form(
+      //         key: _formKey,
+      //         child: ProfileEditable(
+      //           member: vm,
+      //           screenSize: screenSize,
+      //           firstNameController: firstNameController,
+      //           lastNameController: lastNameController,
+      //           emailController: emailController,
+      //           saveMemberDetails: _saveChanges,
+      //           cancel: _cancelChanges,
+      //         ),
+      //       );
     }
   }
 
@@ -115,23 +145,12 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: primaryColor,
         borderRadius: BorderRadius.all(
           Radius.circular(5.0),
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Header(
-            title: S.current.profileTitle,
-            closeItem: () {
-              Navigator.pop(context);
-            },
-          ),
-          _memberDetails(screenSize, vm),
-        ],
-      ),
+      child: _memberDetails(screenSize, vm),
     );
   }
 }

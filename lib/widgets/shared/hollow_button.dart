@@ -7,6 +7,7 @@ class HollowButton extends StatelessWidget {
     required this.text,
     required this.style,
     required this.margin,
+    this.verticalPadding = 15,
     this.width = double.infinity,
   }) : super(key: key);
 
@@ -15,6 +16,7 @@ class HollowButton extends StatelessWidget {
   final ButtonStyle style;
   final EdgeInsetsGeometry margin;
   final double width;
+  final double verticalPadding;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -23,8 +25,8 @@ class HollowButton extends StatelessWidget {
         child: OutlinedButton(
           onPressed: onPressed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
+            padding: EdgeInsets.symmetric(
+              vertical: verticalPadding,
             ),
             child: Text(
               text,

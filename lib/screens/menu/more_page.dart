@@ -5,6 +5,7 @@ import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
 import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
+import 'package:thepcosprotocol_app/screens/menu/profile.dart';
 import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
@@ -76,7 +77,7 @@ class MorePage extends StatelessWidget {
               leading: IconButton(
                 icon: Icon(Icons.person_outline,
                     color: unselectedIndicatorIconColor),
-                onPressed: () => print("FOO"),
+                onPressed: () => Navigator.pushNamed(context, Profile.id),
               ),
               actions: [
                 IconButton(
