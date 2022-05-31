@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -32,50 +33,52 @@ class _PolicyLayoutState extends State<PolicyLayout> {
             ? provider.privacyStatement
             : provider.termsStatement;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
           child: HtmlWidget(
             cmsText,
+            textStyle: Theme.of(context).textTheme.bodyText1,
+            onLoadingBuilder: (_, __, ___) {
+              return PcosLoadingSpinner();
+            },
           ),
         );
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Header(
-            title: widget.title,
-            closeItem: () {
-              Navigator.pop(context);
-            },
-          ),
-          Expanded(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return Container(
-                  height: constraints.maxHeight,
-                  child: Consumer<CMSTextProvider>(
-                    builder: (context, cmsTextProvider, child) =>
-                        SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: getCMSText(context, cmsTextProvider,
-                            widget.cmsAssetName ?? ""),
-                      ),
-                    ),
-                  ),
-                );
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          color: primaryColor,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Header(
+              title: widget.title,
+              closeItem: () {
+                Navigator.pop(context);
               },
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            Expanded(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return Container(
+                    height: constraints.maxHeight,
+                    child: Consumer<CMSTextProvider>(
+                      builder: (context, cmsTextProvider, child) =>
+                          SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: getCMSText(context, cmsTextProvider,
+                              widget.cmsAssetName ?? ""),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
 }

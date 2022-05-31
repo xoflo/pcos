@@ -51,11 +51,12 @@ class MorePage extends StatelessWidget {
         );
       case 3:
         return ListTile(
-            contentPadding:
-                EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 30),
-            title: Text("Terms of use"),
-            trailing: Icon(Icons.keyboard_arrow_right),
-            onTap: () => Navigator.pushNamed(context, TermsAndConditions.id));
+          contentPadding:
+              EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 30),
+          title: Text("Terms of use"),
+          trailing: Icon(Icons.keyboard_arrow_right),
+          onTap: () => Navigator.pushNamed(context, TermsAndConditions.id),
+        );
       default:
         break;
     }
