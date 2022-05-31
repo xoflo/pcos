@@ -35,6 +35,7 @@ class _QuestionListState extends State<QuestionList> {
         Provider.of<FavouritesProvider>(context, listen: false);
 
     return ExpansionPanelList(
+      dividerColor: dividerColor,
       expansionCallback: (int index, bool isExpanded) {
         //remove the focus from the searchbox if necessary, to hide the keyboard
         WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
@@ -49,15 +50,26 @@ class _QuestionListState extends State<QuestionList> {
       children: (widget.questions?.length ?? 0) > 0
           ? widget.questions!.map<ExpansionPanel>((Question item) {
               return ExpansionPanel(
+                backgroundColor: primaryColor,
                 headerBuilder: (BuildContext context, bool isExpanded) {
-                  return ListTile(
-                    title: Text(
-                      item.question ?? "",
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontWeight: FontWeight.w500,
+                  return Column(
+                    children: [
+                      ListTile(
+                        contentPadding: EdgeInsets.only(
+                          top: 25,
+                          bottom: 25,
+                          left: 15,
+                          right: 30,
+                        ),
+                        title: Text(
+                          item.question ?? "",
+                          style: TextStyle(
+                            color: textColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   );
                 },
                 body: QuestionListItem(

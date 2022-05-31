@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
@@ -22,33 +23,33 @@ class _AppHelpLayoutState extends State<AppHelpLayout> {
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
 
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Header(
+          title: S.current.appHelpTitle,
+          closeItem: _cancel,
         ),
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Header(
-            title: S.current.appHelpTitle,
-            closeItem: _cancel,
-          ),
-          Expanded(
-            child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-              return Container(
-                height: constraints.maxHeight,
-                decoration: BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Consumer<AppHelpProvider>(
-                    builder: (context, faqModel, child) => QuestionTab(
-                      isHorizontal: isHorizontal,
-                      faqProvider: faqModel,
-                    ),
+        Divider(thickness: 1, height: 1, color: dividerColor),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) =>
+                Container(
+              height: constraints.maxHeight,
+              decoration: BoxDecoration(color: primaryColor),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Consumer<AppHelpProvider>(
+                  builder: (context, faqModel, child) => QuestionTab(
+                    isHorizontal: isHorizontal,
+                    faqProvider: faqModel,
                   ),
                 ),
-              );
-            }),
+              ),
+            ),
           ),
-        ]));
+        ),
+      ],
+    );
   }
 }

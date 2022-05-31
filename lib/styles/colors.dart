@@ -18,6 +18,7 @@ const textColor = Color(0xff202020);
 const secondaryColor = Color(0xffedb687);
 const tertiaryColor = Color(0xffffc6c2);
 
+final dividerColor = Color(0xFF202020).withOpacity(0.2);
 const selectedIndicatorColor = Color(0xffedb687);
 final unselectedIndicatorColor = Color(0xFF202020).withOpacity(0.5);
 final unselectedIndicatorIconColor = Color(0xFF202020).withOpacity(0.8);

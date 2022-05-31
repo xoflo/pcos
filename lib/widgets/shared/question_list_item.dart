@@ -59,10 +59,7 @@ class _QuestionListItemState extends State<QuestionListItem> {
       );
     } else {
       return ListTile(
-        title: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: HtmlWidget(widget.answerText ?? ""),
-        ),
+        title: Text(widget.answerText ?? ""),
       );
     }
   }

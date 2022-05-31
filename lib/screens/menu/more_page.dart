@@ -141,9 +141,9 @@ class MorePage extends StatelessWidget {
                   return Column(
                     children: <Widget>[
                       if (index == 0)
-                        Divider(thickness: 1, height: 1, color: Colors.black),
+                        Divider(thickness: 1, height: 1, color: dividerColor),
                       _renderItem(context, index),
-                      Divider(thickness: 1, height: 1, color: Colors.black),
+                      Divider(thickness: 1, height: 1, color: dividerColor),
                     ],
                   );
                 },

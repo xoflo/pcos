@@ -36,9 +36,8 @@ class Header extends StatelessWidget {
                 child: Container(
                   color: primaryColor,
                   child: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 30,
+                    Icons.arrow_back,
+                    color: backgroundColor,
                   ),
                 ),
               ),
@@ -47,7 +46,7 @@ class Header extends StatelessWidget {
               title ?? "",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline5?.copyWith(
-                    color: Colors.white,
+                    color: backgroundColor,
                   ),
             ),
             SizedBox(
