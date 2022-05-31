@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
+import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_get_started.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel/base_carousel_page.dart';
@@ -113,7 +114,7 @@ class _AppTutorialPageState extends State<AppTutorialPage>
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeIn);
           } else {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, AppTabs.id);
           }
 
           // We update the active page so that when popping,

@@ -17,6 +17,7 @@ import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
+import 'package:thepcosprotocol_app/screens/menu/more_page.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/tabs/dashboard.dart';
@@ -299,6 +300,7 @@ class _AppTabsState extends State<AppTabs>
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
+        backgroundColor: primaryColor,
         appBar: HeaderAppBar(
           currentIndex: _currentIndex,
           displayChat: openChat,
@@ -324,8 +326,9 @@ class _AppTabsState extends State<AppTabs>
                 ),
                 Recipes(),
                 Favourites(),
-                Center(
-                  child: Text("More"),
+                MorePage(
+                  onOpenChat: openChat,
+                  onLockApp: _setIsLocked,
                 ),
               ],
             ),

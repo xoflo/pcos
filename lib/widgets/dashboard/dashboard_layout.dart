@@ -94,9 +94,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     if (!await PreferencesController()
         .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
       analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-      // TODO: Uncomment once settled
-      // PreferencesController()
-      //     .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
+      PreferencesController()
+          .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
       await Future.delayed(Duration(seconds: 2), () {
         Navigator.pushNamed(
           context,
