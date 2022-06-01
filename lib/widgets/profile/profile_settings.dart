@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -106,7 +107,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
           title: Text("Delete account"),
           trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () => Navigator.pushNamed(context, AppHelp.id),
+          onTap: () => Navigator.pushNamed(context, ProfileDeletePage.id),
         );
       default:
         break;

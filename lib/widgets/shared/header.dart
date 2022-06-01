@@ -42,7 +42,8 @@ class Header extends StatelessWidget {
                       color: primaryColor,
                       child: Icon(
                         Icons.arrow_back,
-                        color: backgroundColor,
+                        color: backgroundColor
+                            .withOpacity(closeItem != null ? 1 : 0.5),
                       ),
                     ),
                   ),

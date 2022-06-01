@@ -106,45 +106,50 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                 closeItem: _cancel,
                 showDivider: true,
               ),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
-                    CustomTextField(
-                      controller: oldPasswordController,
-                      title: S.current.changePasswordOldLabel,
-                      blankMessageError: S.current.changePasswordOldMessage,
-                      isObscure: true,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 10),
+                        CustomTextField(
+                          controller: oldPasswordController,
+                          title: S.current.changePasswordOldLabel,
+                          blankMessageError: S.current.changePasswordOldMessage,
+                          isObscure: true,
+                        ),
+                        SizedBox(height: 15),
+                        CustomTextField(
+                          controller: newPasswordController,
+                          title: S.current.changePasswordNewLabel,
+                          blankMessageError: S.current.changePasswordNewMessage,
+                          isObscure: true,
+                        ),
+                        SizedBox(height: 15),
+                        CustomTextField(
+                          controller: confirmPasswordController,
+                          title: S.current.changePasswordConfirmLabel,
+                          blankMessageError:
+                              S.current.changePasswordConfirmMessage,
+                          isObscure: true,
+                        ),
+                        FilledButton(
+                          text: "SAVE CHANGES",
+                          isUpdating: isUpdating,
+                          margin: EdgeInsets.only(top: 25),
+                          foregroundColor: Colors.white,
+                          backgroundColor: backgroundColor,
+                          onPressed: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            setState(() => isUpdating = true);
+                            _savePassword(context);
+                          },
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 15),
-                    CustomTextField(
-                      controller: newPasswordController,
-                      title: S.current.changePasswordNewLabel,
-                      blankMessageError: S.current.changePasswordNewMessage,
-                      isObscure: true,
-                    ),
-                    SizedBox(height: 15),
-                    CustomTextField(
-                      controller: confirmPasswordController,
-                      title: S.current.changePasswordConfirmLabel,
-                      blankMessageError: S.current.changePasswordConfirmMessage,
-                      isObscure: true,
-                    ),
-                    FilledButton(
-                      text: "SAVE CHANGES",
-                      isUpdating: isUpdating,
-                      margin: EdgeInsets.only(top: 25),
-                      foregroundColor: Colors.white,
-                      backgroundColor: backgroundColor,
-                      onPressed: () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        setState(() => isUpdating = true);
-                        _savePassword(context);
-                      },
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
