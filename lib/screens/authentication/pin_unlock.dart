@@ -198,6 +198,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
 
   @override
   void resetPinPad() {
+    super.resetPinPad();
     setState(() {
       pinEntered = "";
       pinEntry = PinEntry.NONE;
