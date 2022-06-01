@@ -1,11 +1,11 @@
 class SettingsArguments {
   final Function(bool) updateYourWhy;
   final Function(bool) updateLessonRecipes;
-  final bool onlyShowDailyReminder;
+  final Function(bool) updateUseUsername;
 
   SettingsArguments(
     this.updateYourWhy,
     this.updateLessonRecipes,
-    this.onlyShowDailyReminder,
+    this.updateUseUsername,
   );
 }

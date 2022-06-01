@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
+import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({Key? key, required this.email}) : super(key: key);
@@ -17,12 +22,41 @@ class ProfileSettings extends StatefulWidget {
 
 class _ProfileSettingsState extends State<ProfileSettings> {
   String _appVersion = "";
+  // ignore: unused_field
+  bool _showYourWhy = false;
+  // ignore: unused_field
+  bool _showLessonRecipes = false;
+  // ignore: unused_field
+  bool _showUseUsername = false;
 
   @override
   void initState() {
     super.initState();
     _getPackageInfo();
+    _initializeAccountPreferences();
   }
+
+  void _initializeAccountPreferences() async {
+    //get the value for showYourWhy, and then pass down to the course screen
+    final bool isYourWhyOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+    final bool isLessonRecipesOn = await PreferencesController()
+        .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
+    final bool isUsernameUsed = await PreferencesController()
+        .getBool(SharedPreferencesKeys.USERNAME_USED);
+
+    _showYourWhy = isYourWhyOn;
+    _showLessonRecipes = isLessonRecipesOn;
+    _showUseUsername = isUsernameUsed;
+  }
+
+  void _updateYourWhy(bool isOn) => setState(() => _showYourWhy = isOn);
+
+  void _updateUsernameUsed(bool isOn) =>
+      setState(() => _showUseUsername = isOn);
+
+  void _updateLessonRecipes(bool isOn) =>
+      setState(() => _showLessonRecipes = isOn);
 
   Widget _renderItems(int index) {
     switch (index) {
@@ -40,7 +74,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
           title: Text("Account preferences"),
           trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () => Navigator.pushNamed(context, AppHelp.id),
+          onTap: () => Navigator.pushNamed(
+            context,
+            Settings.id,
+            arguments: SettingsArguments(
+              _updateYourWhy,
+              _updateLessonRecipes,
+              _updateUsernameUsed,
+            ),
+          ),
         );
       case 2:
         return ListTile(

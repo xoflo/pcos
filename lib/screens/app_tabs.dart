@@ -15,7 +15,6 @@ import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
-import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/menu/more_page.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
@@ -28,7 +27,6 @@ import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
 import 'package:thepcosprotocol_app/screens/menu/profile.dart';
-import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
 import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
@@ -195,9 +193,6 @@ class _AppTabsState extends State<AppTabs>
         _setIsLocked(true);
         break;
       case DrawerMenuItem.SETTINGS:
-        Navigator.pushNamed(context, Settings.id,
-            arguments:
-                SettingsArguments(_updateYourWhy, _updateLessonRecipes, false));
         break;
       case DrawerMenuItem.PROFILE:
         Navigator.pushNamed(context, Profile.id);

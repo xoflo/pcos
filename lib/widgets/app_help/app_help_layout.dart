@@ -29,8 +29,8 @@ class _AppHelpLayoutState extends State<AppHelpLayout> {
         Header(
           title: S.current.appHelpTitle,
           closeItem: _cancel,
+          showDivider: true,
         ),
-        Divider(thickness: 1, height: 1, color: dividerColor),
         Expanded(
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) =>

@@ -112,7 +112,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     void openSettings(BuildContext context) {
       Navigator.of(context).pop();
       Navigator.pushNamed(context, Settings.id,
-          arguments: SettingsArguments((bool) {}, (bool) {}, true));
+          arguments: SettingsArguments((bool) {}, (bool) {}, (bool) {}));
     }
 
     void displaySetupLaterMessage(BuildContext context) {
