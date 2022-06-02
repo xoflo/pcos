@@ -3,19 +3,22 @@ import 'package:package_info/package_info.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
-import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
 class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({Key? key, required this.email}) : super(key: key);
+  const ProfileSettings(
+      {Key? key, required this.email, this.onRefreshUserDetails})
+      : super(key: key);
 
   final String email;
+  final Function()? onRefreshUserDetails;
 
   @override
   State<ProfileSettings> createState() => _ProfileSettingsState();
@@ -67,7 +70,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
           title: Text("Personal details"),
           trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () => Navigator.pushNamed(context, AppHelp.id),
+          onTap: () => Navigator.pushNamed(context, ProfilePersonalDetails.id)
+              .then((value) {
+            if (value is bool && value == true) {
+              widget.onRefreshUserDetails?.call();
+            }
+          }),
         );
       case 1:
         return ListTile(

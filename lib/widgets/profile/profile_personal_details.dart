@@ -3,9 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_layout.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details_layout.dart';
 
-class Profile extends StatelessWidget {
-  static const String id = "profile_screen";
+class ProfilePersonalDetails extends StatelessWidget {
+  const ProfilePersonalDetails({Key? key}) : super(key: key);
+
+  static const String id = "profile_personal_details";
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -17,7 +20,7 @@ class Profile extends StatelessWidget {
             ),
             child: ChangeNotifierProvider(
               create: (context) => MemberViewModel(),
-              child: ProfileLayout(),
+              child: ProfilePersonalDetailsLayout(),
             ),
           ),
         ),

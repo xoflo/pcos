@@ -42,6 +42,10 @@ class MemberViewModel extends ChangeNotifier {
     this.member.email = email;
   }
 
+  set alias(String alias) {
+    this.member.alias = alias;
+  }
+
   Future<void> populateMember() async {
     status = LoadingStatus.loading;
     try {
@@ -52,6 +56,7 @@ class MemberViewModel extends ChangeNotifier {
         this.memberOriginal.firstName = memberDetails.firstName;
         this.memberOriginal.lastName = memberDetails.lastName;
         this.memberOriginal.email = memberDetails.email;
+        this.memberOriginal.alias = memberDetails.alias;
 
         status = LoadingStatus.success;
       } else {
@@ -86,6 +91,12 @@ class MemberViewModel extends ChangeNotifier {
         requestBody += ",";
       }
       requestBody += "'email': '${member.email}'";
+    }
+    if (memberOriginal.alias != member.alias) {
+      if (nameChanged) {
+        requestBody += ",";
+      }
+      requestBody += "'alias': '${member.alias}'";
     }
 
     requestBody += "}";

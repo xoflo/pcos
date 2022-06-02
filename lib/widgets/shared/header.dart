@@ -18,56 +18,53 @@ class Header extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: primaryColor,
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding:
-                EdgeInsets.only(left: 8.0, right: 8.0, top: 1.0, bottom: 13.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    closeItem?.call();
-                  },
-                  child: SizedBox(
-                    width: 35,
-                    height: 35,
-                    child: Container(
-                      color: primaryColor,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: backgroundColor
-                            .withOpacity(closeItem != null ? 1 : 0.5),
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          color: primaryColor,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                  left: 8.0, right: 8.0, top: 1.0, bottom: 13.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => closeItem?.call(),
+                    child: SizedBox(
+                      width: 35,
+                      height: 35,
+                      child: Container(
+                        color: primaryColor,
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: backgroundColor
+                              .withOpacity(closeItem != null ? 1 : 0.5),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Text(
-                  title ?? "",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline5?.copyWith(
-                        color: backgroundColor,
-                      ),
-                ),
-                SizedBox(
+                  Text(
+                    title ?? "",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                          color: backgroundColor,
+                        ),
+                  ),
+                  SizedBox(
                     width: 35,
                     height: 35,
                     child: showMessagesIcon
                         ? MessagesBell(messagesCount: unreadCount)
-                        : Container()),
-              ],
+                        : Container(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          if (showDivider)
-            Divider(thickness: 1, height: 1, color: dividerColor),
-        ],
-      ),
-    );
-  }
+            if (showDivider)
+              Divider(thickness: 1, height: 1, color: dividerColor),
+          ],
+        ),
+      );
 }

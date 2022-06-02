@@ -39,6 +39,7 @@ import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 
 class App extends StatefulWidget {
@@ -180,6 +181,7 @@ class _AppState extends State<App> {
           WikiSearch.id: (context) => WikiSearch(),
           QuizScreen.id: (context) => QuizScreen(),
           ProfileDeletePage.id: (context) => ProfileDeletePage(),
+          ProfilePersonalDetails.id: (context) => ProfilePersonalDetails(),
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

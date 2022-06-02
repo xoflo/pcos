@@ -55,7 +55,13 @@ class _ProfileLayoutState extends State<ProfileLayout> {
               onTapLeft: () => setState(() => isLeftVisible = true),
               onTapRight: () => setState(() => isLeftVisible = false),
             ),
-            if (isLeftVisible) Container() else ProfileSettings(email: vm.email)
+            if (isLeftVisible)
+              Container()
+            else
+              ProfileSettings(
+                email: vm.email,
+                onRefreshUserDetails: _getMemberDetails,
+              )
           ],
         );
     }
