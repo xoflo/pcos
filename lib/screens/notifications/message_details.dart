@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
-import 'package:thepcosprotocol_app/widgets/messages/message_details_layout.dart';
+import 'package:thepcosprotocol_app/widgets/notifications/message_details_layout.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class MessageDetails extends StatelessWidget {

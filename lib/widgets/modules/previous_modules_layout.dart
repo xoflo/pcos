@@ -114,7 +114,6 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
             closeItem: () {
               Navigator.pop(context);
             },
-            showMessagesIcon: false,
           ),
           _selectedModuleID == 0
               ? PcosLoadingSpinner()

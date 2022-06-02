@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
-import 'package:thepcosprotocol_app/screens/header/messages.dart';
+import 'package:thepcosprotocol_app/screens/notifications/notifications.dart';
 import 'package:thepcosprotocol_app/screens/more/app_help.dart';
 import 'package:thepcosprotocol_app/screens/more/privacy.dart';
 import 'package:thepcosprotocol_app/screens/more/profile.dart';
@@ -127,7 +127,8 @@ class MorePage extends StatelessWidget {
                     width: width,
                     foregroundColor: Colors.white,
                     backgroundColor: backgroundColor,
-                    onPressed: () => Navigator.pushNamed(context, Messages.id),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, Notifications.id),
                   ),
                 ],
               ),

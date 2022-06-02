@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
 
 class Header extends StatelessWidget {
   final String? title;
   final Function? closeItem;
-  final bool showMessagesIcon;
   final bool showDivider;
   final int unreadCount;
+  final Function()? onToggleMarkAsRead;
 
   Header({
     this.title,
     this.closeItem,
-    this.showMessagesIcon = false,
     this.showDivider = false,
     this.unreadCount = 0,
+    this.onToggleMarkAsRead,
   });
 
   @override
@@ -28,7 +27,7 @@ class Header extends StatelessWidget {
               padding: EdgeInsets.only(
                   left: 8.0, right: 8.0, top: 1.0, bottom: 13.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () => closeItem?.call(),
@@ -45,6 +44,7 @@ class Header extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Spacer(flex: 2),
                   Text(
                     title ?? "",
                     textAlign: TextAlign.center,
@@ -52,13 +52,37 @@ class Header extends StatelessWidget {
                           color: backgroundColor,
                         ),
                   ),
-                  SizedBox(
-                    width: 35,
-                    height: 35,
-                    child: showMessagesIcon
-                        ? MessagesBell(messagesCount: unreadCount)
-                        : Container(),
-                  ),
+
+                  if (onToggleMarkAsRead != null) ...[
+                    Spacer(flex: 1),
+                    IconButton(
+                      icon: Icon(
+                        Icons.mark_chat_read_outlined,
+                        size: 24,
+                        color: backgroundColor,
+                      ),
+                      onPressed: onToggleMarkAsRead,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.settings,
+                        size: 24,
+                        color: backgroundColor,
+                      ),
+                      onPressed: null,
+                    )
+                  ] else ...[
+                    Spacer(flex: 2),
+                    SizedBox(width: 35, height: 35, child: Container())
+                  ]
+
+                  // SizedBox(
+                  //   width: 35,
+                  //   height: 35,
+                  //   child: showMessagesIcon
+                  //       ? MessagesBell(messagesCount: unreadCount)
+                  //       : Container(),
+                  // ),
                 ],
               ),
             ),

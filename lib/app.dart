@@ -13,7 +13,7 @@ import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/screens/header/messages.dart';
+import 'package:thepcosprotocol_app/screens/notifications/notifications.dart';
 import 'package:thepcosprotocol_app/screens/more/change_password.dart';
 import 'package:thepcosprotocol_app/screens/more/privacy.dart';
 import 'package:thepcosprotocol_app/screens/more/profile.dart';
@@ -175,7 +175,7 @@ class _AppState extends State<App> {
           AppHelp.id: (context) => AppHelp(),
           Privacy.id: (context) => Privacy(),
           TermsAndConditions.id: (context) => TermsAndConditions(),
-          Messages.id: (context) => Messages(),
+          Notifications.id: (context) => Notifications(),
           PreviousModules.id: (context) => PreviousModules(),
           LessonSearch.id: (context) => LessonSearch(),
           WikiSearch.id: (context) => WikiSearch(),

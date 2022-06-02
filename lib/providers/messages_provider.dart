@@ -39,9 +39,14 @@ class MessagesProvider with ChangeNotifier {
   }
 
   Future<void> updateNotificationAsRead(final int? notificationId) async {
+    status = LoadingStatus.loading;
+    notifyListeners();
+
     await ProviderHelper().markNotificationAsRead(dbProvider, notificationId);
     _items = await ProviderHelper().getAllData(dbProvider, tableName)
         as List<Message>;
+
+    status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
     notifyListeners();
   }
 

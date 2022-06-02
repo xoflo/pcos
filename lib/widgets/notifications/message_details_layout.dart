@@ -29,7 +29,6 @@ class MessageDetailsLayout extends StatelessWidget {
           Header(
             title: S.current.messageTitle,
             closeItem: closeMessage,
-            showMessagesIcon: false,
             unreadCount: 2,
           ),
           Padding(

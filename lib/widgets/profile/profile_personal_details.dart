@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
-import 'package:thepcosprotocol_app/widgets/profile/profile_layout.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details_layout.dart';
 
 class ProfilePersonalDetails extends StatelessWidget {

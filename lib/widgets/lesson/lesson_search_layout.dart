@@ -124,7 +124,6 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
             closeItem: () {
               Navigator.pop(context);
             },
-            showMessagesIcon: false,
           ),
           Consumer2<ModulesProvider, FavouritesProvider>(
             builder: (context, modulesProvider, favouritesProvider, child) =>
