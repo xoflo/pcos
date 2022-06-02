@@ -7,6 +7,7 @@ class MessagesList extends StatefulWidget {
   const MessagesList({
     Key? key,
     required this.showMessageReadOption,
+    required this.isAllSelected,
     this.messagesProvider,
     this.openMessage,
     this.onPressMarkAsRead,
@@ -16,6 +17,7 @@ class MessagesList extends StatefulWidget {
   final Function(BuildContext, MessagesProvider?, Message)? openMessage;
   final Function()? onPressMarkAsRead;
   final bool showMessageReadOption;
+  final bool isAllSelected;
 
   @override
   State<MessagesList> createState() => _MessagesListState();
@@ -29,8 +31,11 @@ class _MessagesListState extends State<MessagesList> {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.showMessageReadOption) {
+    if (!widget.showMessageReadOption || !widget.isAllSelected) {
       _selectedMessages.clear();
+    } else if (widget.isAllSelected) {
+      setState(
+          () => _selectedMessages.addAll(widget.messagesProvider?.items ?? []));
     }
     return Expanded(
       child: Stack(
@@ -69,7 +74,16 @@ class _MessagesListState extends State<MessagesList> {
                                     ),
                                   ),
                                 GestureDetector(
-                                  child: Text(message.title ?? ""),
+                                  child: Text(
+                                    message.title ?? "",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: textColor,
+                                      fontWeight: message.isRead == true
+                                          ? FontWeight.normal
+                                          : FontWeight.bold,
+                                    ),
+                                  ),
                                   onTap: () => _openMessage(context, message),
                                 ),
                               ],

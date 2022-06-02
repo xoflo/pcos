@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
 import 'package:thepcosprotocol_app/screens/more/app_help.dart';
+import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
@@ -182,6 +183,7 @@ class _AppState extends State<App> {
           QuizScreen.id: (context) => QuizScreen(),
           ProfileDeletePage.id: (context) => ProfileDeletePage(),
           ProfilePersonalDetails.id: (context) => ProfilePersonalDetails(),
+          NotificationSettings.id: (context) => NotificationSettings(),
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

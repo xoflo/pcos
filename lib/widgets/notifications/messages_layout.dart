@@ -21,6 +21,7 @@ class MessagesLayout extends StatefulWidget {
 
 class _MessagesLayoutState extends State<MessagesLayout> {
   bool showMessageReadOption = false;
+  bool selectAll = false;
   Widget getMessagesList(
     final BuildContext context,
     final Size screenSize,
@@ -30,12 +31,13 @@ class _MessagesLayoutState extends State<MessagesLayout> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.current.noNotifications);
+        return NoResults(message: "There are no notifications to display.");
       case LoadingStatus.success:
         return MessagesList(
           messagesProvider: messagesProvider,
           openMessage: openMessage,
           showMessageReadOption: showMessageReadOption,
+          isAllSelected: selectAll,
           onPressMarkAsRead: () =>
               setState(() => showMessageReadOption = false),
         );
@@ -103,8 +105,14 @@ class _MessagesLayoutState extends State<MessagesLayout> {
               title: "Notifications",
               closeItem: () => Navigator.pop(context),
               showDivider: true,
-              onToggleMarkAsRead: () => setState(
-                  () => showMessageReadOption = !showMessageReadOption),
+              isAllSelected: selectAll,
+              onToggleSelectAll: showMessageReadOption
+                  ? () => setState(() => selectAll = !selectAll)
+                  : null,
+              onToggleMarkAsRead: () => setState(() {
+                showMessageReadOption = !showMessageReadOption;
+                selectAll = false;
+              }),
             ),
             getMessagesList(context, screenSize, model),
           ],

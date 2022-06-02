@@ -173,9 +173,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               margin: const EdgeInsets.all(15),
               verticalPadding: 10,
             ),
-            SizedBox(
-              height: 35,
-            ),
+            SizedBox(height: 35),
           ],
         ),
       );
