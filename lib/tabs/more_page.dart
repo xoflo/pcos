@@ -3,10 +3,10 @@ import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dar
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/header/messages.dart';
-import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
-import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
-import 'package:thepcosprotocol_app/screens/menu/profile.dart';
-import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
+import 'package:thepcosprotocol_app/screens/more/app_help.dart';
+import 'package:thepcosprotocol_app/screens/more/privacy.dart';
+import 'package:thepcosprotocol_app/screens/more/profile.dart';
+import 'package:thepcosprotocol_app/screens/more/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';

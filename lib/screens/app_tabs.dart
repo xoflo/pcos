@@ -16,21 +16,19 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
-import 'package:thepcosprotocol_app/screens/menu/more_page.dart';
+import 'package:thepcosprotocol_app/tabs/more_page.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/tabs/dashboard.dart';
 import 'package:thepcosprotocol_app/tabs/favourites.dart';
 import 'package:thepcosprotocol_app/tabs/recipes.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
-import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
-import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
-import 'package:thepcosprotocol_app/screens/menu/profile.dart';
-import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
-import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
-import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
-import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
+import 'package:thepcosprotocol_app/screens/more/profile.dart';
+import 'package:thepcosprotocol_app/screens/more/change_password.dart';
+import 'package:thepcosprotocol_app/screens/more/app_help.dart';
+import 'package:thepcosprotocol_app/screens/more/privacy.dart';
+import 'package:thepcosprotocol_app/screens/more/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
@@ -285,24 +283,11 @@ class _AppTabsState extends State<AppTabs>
     });
   }
 
-  void _updateLessonRecipes(final bool isOn) {
-    setState(() {
-      _showLessonRecipes = isOn;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
         backgroundColor: primaryColor,
-        appBar: HeaderAppBar(
-          currentIndex: _currentIndex,
-          displayChat: openChat,
-        ),
-        drawer: DrawerMenu(
-          openDrawerMenuItem: openDrawerMenuItem,
-        ),
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText1!,
           child: WillPopScope(
