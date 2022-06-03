@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_layout.dart';
 
 class Dashboard extends StatelessWidget {
@@ -13,10 +15,13 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DashboardLayout(
-      showYourWhy: showYourWhy,
-      showLessonRecipes: showLessonRecipes,
-      updateYourWhy: updateYourWhy,
+    return ChangeNotifierProvider(
+      create: (context) => MemberViewModel(),
+      child: DashboardLayout(
+        showYourWhy: showYourWhy,
+        showLessonRecipes: showLessonRecipes,
+        updateYourWhy: updateYourWhy,
+      ),
     );
   }
 }

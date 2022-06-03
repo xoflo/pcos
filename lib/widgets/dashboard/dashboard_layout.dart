@@ -20,7 +20,9 @@ import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_member_time.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
@@ -77,6 +79,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
     final String whatsYourWhy = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+    await Provider.of<MemberViewModel>(context, listen: false).populateMember();
+
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
       _yourWhy = whatsYourWhy;
@@ -419,11 +423,15 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child: Consumer2<ModulesProvider, FavouritesProvider>(
-              builder: (context, modulesProvider, favouritesProvider, child) =>
+            child:
+                Consumer3<ModulesProvider, FavouritesProvider, MemberViewModel>(
+              builder: (context, modulesProvider, favouritesProvider,
+                      memberViewModel, child) =>
                   Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  DashboardMemberTime(memberViewModel: memberViewModel),
                   widget.showYourWhy
                       ? YourWhy(width: screenSize.width, whatsYourWhy: _yourWhy)
                       : Container(height: 20),
