@@ -287,6 +287,26 @@ class _AppTabsState extends State<AppTabs>
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
+        appBar: _currentIndex == 0 || _currentIndex == 4
+            ? AppBar(
+                leading: IconButton(
+                  icon: Icon(Icons.person_outline,
+                      color: unselectedIndicatorIconColor),
+                  onPressed: () => Navigator.pushNamed(context, Profile.id),
+                ),
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.chat_outlined,
+                      color: unselectedIndicatorColor,
+                    ),
+                    onPressed: openChat,
+                  ),
+                ],
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+              )
+            : null,
         backgroundColor: primaryColor,
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText1!,
@@ -306,10 +326,7 @@ class _AppTabsState extends State<AppTabs>
                 ),
                 Recipes(),
                 Favourites(),
-                MorePage(
-                  onOpenChat: openChat,
-                  onLockApp: _setIsLocked,
-                ),
+                MorePage(onLockApp: _setIsLocked),
               ],
             ),
           ),

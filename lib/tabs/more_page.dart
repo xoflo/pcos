@@ -5,17 +5,14 @@ import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notifications.dart';
 import 'package:thepcosprotocol_app/screens/more/app_help.dart';
 import 'package:thepcosprotocol_app/screens/more/privacy.dart';
-import 'package:thepcosprotocol_app/screens/more/profile.dart';
 import 'package:thepcosprotocol_app/screens/more/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
 class MorePage extends StatelessWidget {
-  const MorePage({Key? key, required this.onOpenChat, required this.onLockApp})
-      : super(key: key);
+  const MorePage({Key? key, required this.onLockApp}) : super(key: key);
 
-  final Function() onOpenChat;
   final Function(bool) onLockApp;
 
   Widget _renderItem(BuildContext context, int index) {
@@ -73,24 +70,6 @@ class MorePage extends StatelessWidget {
         width: double.maxFinite,
         child: Column(
           children: [
-            AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.person_outline,
-                    color: unselectedIndicatorIconColor),
-                onPressed: () => Navigator.pushNamed(context, Profile.id),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.chat_outlined,
-                    color: unselectedIndicatorColor,
-                  ),
-                  onPressed: onOpenChat,
-                ),
-              ],
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-            ),
             Container(
               width: double.maxFinite,
               padding: EdgeInsets.all(15),
