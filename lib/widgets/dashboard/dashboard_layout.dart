@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
@@ -22,12 +24,13 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_member_time.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_why_community.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/your_why.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -432,42 +435,43 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DashboardMemberTime(memberViewModel: memberViewModel),
-                  widget.showYourWhy
-                      ? YourWhy(width: screenSize.width, whatsYourWhy: _yourWhy)
-                      : Container(height: 20),
-                  getTasks(screenSize, isHorizontal, modulesProvider),
-                  getCurrentModule(screenSize, isHorizontal, modulesProvider,
-                      favouritesProvider),
-                  getLessonWikis(screenSize, isHorizontal, modulesProvider),
-                  widget.showLessonRecipes
-                      ? getLessonRecipes(screenSize, isHorizontal,
-                          modulesProvider, favouritesProvider)
-                      : Container(),
-                  modulesProvider.lessonQuizzes.length > 0
-                      ? GestureDetector(
-                          onTap: () {
-                            _openQuiz(context, modulesProvider);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Open Quiz",
-                                    style: TextStyle(color: secondaryColor)),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 4.0),
-                                  child: Icon(
-                                    Icons.quiz,
-                                    color: secondaryColor,
-                                    size: 32,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container(),
+                  DashboardWhyCommunity(yourWhy: _yourWhy),
+                  SizedBox(height: 25),
+                  DashboardLessonCarousel(modulesProvider: modulesProvider),
+
+                  // getTasks(screenSize, isHorizontal, modulesProvider),
+                  // getCurrentModule(screenSize, isHorizontal, modulesProvider,
+                  //     favouritesProvider),
+                  // getLessonWikis(screenSize, isHorizontal, modulesProvider),
+                  // widget.showLessonRecipes
+                  //     ? getLessonRecipes(screenSize, isHorizontal,
+                  //         modulesProvider, favouritesProvider)
+                  //     : Container(),
+                  // modulesProvider.lessonQuizzes.length > 0
+                  //     ? GestureDetector(
+                  //         onTap: () {
+                  //           _openQuiz(context, modulesProvider);
+                  //         },
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.only(right: 16.0),
+                  //           child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.center,
+                  //             children: [
+                  //               Text("Open Quiz",
+                  //                   style: TextStyle(color: secondaryColor)),
+                  //               Padding(
+                  //                 padding: const EdgeInsets.only(left: 4.0),
+                  //                 child: Icon(
+                  //                   Icons.quiz,
+                  //                   color: secondaryColor,
+                  //                   size: 32,
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       )
+                  //     : Container(),
                 ],
               ),
             ),
