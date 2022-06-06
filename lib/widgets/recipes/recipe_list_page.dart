@@ -18,15 +18,6 @@ class _RecipeListPageState extends State<RecipeListPage> {
     final List<LessonRecipe> recipes =
         ModalRoute.of(context)?.settings.arguments as List<LessonRecipe>;
 
-    // TODO: Remove this once recipes are populated
-    recipes.add(recipes.first);
-    recipes.add(recipes.first);
-    recipes.add(recipes.first);
-    recipes.add(recipes.first);
-    recipes.add(recipes.first);
-    recipes.add(recipes.first);
-    recipes.add(recipes.first);
-
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -71,6 +62,23 @@ class _RecipeListPageState extends State<RecipeListPage> {
                                 fit: BoxFit.cover,
                               ),
                             ),
+                            Positioned.fill(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment(1, 0.8),
+                                    colors: [
+                                      Colors.transparent,
+                                      Colors.black.withOpacity(0.7)
+                                    ],
+                                    tileMode: TileMode.clamp,
+                                  ),
+                                ),
+                              ),
+                            ),
                             Positioned(
                               left: 20,
                               right: 20,
@@ -85,7 +93,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
                                       color: Colors.white,
                                     ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );
