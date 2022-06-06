@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
@@ -20,8 +18,6 @@ import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel.dart';
@@ -419,9 +415,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
     return Column(
       children: [
         Expanded(
