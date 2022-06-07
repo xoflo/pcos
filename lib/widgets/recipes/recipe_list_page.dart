@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
 class RecipeListPage extends StatefulWidget {
@@ -35,7 +36,6 @@ class _RecipeListPageState extends State<RecipeListPage> {
               Header(
                 title: "Lesson Recipe",
                 closeItem: () => Navigator.pop(context),
-                showDivider: true,
               ),
               Expanded(
                 child: GridView.count(
@@ -48,53 +48,60 @@ class _RecipeListPageState extends State<RecipeListPage> {
                     recipes.length,
                     (index) {
                       final recipe = recipes[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                      return GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          RecipeDetailsPage.id,
+                          arguments: recipe,
                         ),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                recipe.thumbnail ?? "",
-                                fit: BoxFit.cover,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  recipe.thumbnail ?? "",
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment(1, 0.8),
-                                    colors: [
-                                      Colors.transparent,
-                                      Colors.black.withOpacity(0.7)
-                                    ],
-                                    tileMode: TileMode.clamp,
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topRight,
+                                      end: Alignment(1, 0.8),
+                                      colors: [
+                                        Colors.transparent,
+                                        Colors.black.withOpacity(0.7)
+                                      ],
+                                      tileMode: TileMode.clamp,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              left: 20,
-                              right: 20,
-                              bottom: 20,
-                              child: Text(
-                                recipe.title ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                    ),
+                              Positioned(
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
+                                child: Text(
+                                  recipe.title ?? "",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
