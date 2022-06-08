@@ -142,6 +142,16 @@ class ModulesProvider with ChangeNotifier {
     return "";
   }
 
+  String getLessonTitleByLessonID(final int lessonID) {
+    Lesson? lessonFound = _lessons.firstWhereOrNull(
+      (lesson) => lesson.lessonID == lessonID,
+    );
+    if (lessonFound != null) {
+      return lessonFound.title;
+    }
+    return "";
+  }
+
   List<LessonTask> getLessonTasks(final int lessonID) {
     List<LessonTask> lessonTasks = [];
     for (LessonTask lessonTask in _lessonTasks) {

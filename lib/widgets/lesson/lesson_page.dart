@@ -3,6 +3,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
@@ -18,6 +19,8 @@ class LessonPage extends StatefulWidget {
 class _LessonPageState extends State<LessonPage> {
   String contentIcon = '';
   String contentType = '';
+  bool isExpanded = false;
+
   List<Widget> getType(List<LessonContent> lessonContent) {
     setState(() {
       lessonContent.forEach((element) {
@@ -169,12 +172,31 @@ class _LessonPageState extends State<LessonPage> {
                             ),
                           ),
                         ),
-                        if (otherLessonContent.first.body?.isNotEmpty == true)
+                        if (otherLessonContent.first.body?.isNotEmpty ==
+                            true) ...[
+                          if (isExpanded)
+                            ...otherLessonContent
+                                .map(
+                                  (e) => Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15),
+                                    child: HtmlWidget(
+                                      firstLessonContent.body ?? "",
+                                      textStyle: TextStyle(
+                                        fontSize: 16,
+                                        color: textColor.withOpacity(0.8),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                           Align(
                             alignment: Alignment.center,
                             child: GestureDetector(
+                              onTap: () =>
+                                  setState(() => isExpanded = !isExpanded),
                               child: Text(
-                                "Read More",
+                                "Read ${isExpanded ? 'Less' : 'More'}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: backgroundColor,
@@ -182,7 +204,8 @@ class _LessonPageState extends State<LessonPage> {
                                 ),
                               ),
                             ),
-                          ),
+                          )
+                        ],
                         if (contentType == 'Video') ...[
                           SizedBox(height: 15),
                           Padding(
@@ -220,6 +243,11 @@ class _LessonPageState extends State<LessonPage> {
                                 ...args.lessonWikis
                                     .map(
                                       (element) => GestureDetector(
+                                        onTap: () => Navigator.pushNamed(
+                                          context,
+                                          LessonWikiPage.id,
+                                          arguments: element,
+                                        ),
                                         child: Column(
                                           children: [
                                             SizedBox(height: 15),
@@ -331,6 +359,28 @@ class _LessonPageState extends State<LessonPage> {
                             ),
                           )
                         ],
+                        SizedBox(height: 30),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Divider(
+                            thickness: 1,
+                            height: 1,
+                            color: textColor.withOpacity(0.5),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: FilledButton(
+                            text: "Complete Lesson",
+                            icon: Icon(Icons.check_circle_outline),
+                            margin: EdgeInsets.zero,
+                            foregroundColor: Colors.white,
+                            backgroundColor: backgroundColor,
+                            onPressed: () {},
+                          ),
+                        ),
+                        SizedBox(height: 40),
                       ],
                     ),
                   ),
