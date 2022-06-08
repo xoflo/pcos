@@ -36,11 +36,13 @@ class RecipeMethodTipsPage extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(15),
-                      child: HtmlWidget(args.text,
-                          textStyle: TextStyle(
-                            fontSize: 16,
-                            color: textColor.withOpacity(0.8),
-                          )),
+                      child: HtmlWidget(
+                        args.text,
+                        textStyle: TextStyle(
+                          fontSize: 16,
+                          color: textColor.withOpacity(0.8),
+                        ),
+                      ),
                     ),
                   ),
                 )

@@ -333,6 +333,7 @@ class ProviderHelper {
           'moduleID': moduleExport.module?.moduleID,
           'title': lesson?.title,
           'introduction': lesson?.introduction,
+          'imageUrl': lesson?.imageUrl,
           'orderIndex': lesson?.orderIndex,
           'isFavorite': lesson?.isFavorite == true ? 1 : 0,
           'isComplete': lesson?.isComplete == true ? 1 : 0,

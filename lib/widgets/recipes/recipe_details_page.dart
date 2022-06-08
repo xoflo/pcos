@@ -44,18 +44,6 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
     return "";
   }
 
-  Color get difficultyColor {
-    switch (recipe?.difficulty) {
-      case 1:
-        return Colors.green;
-      case 2:
-        return Colors.orange;
-      case 3:
-        return Colors.redAccent;
-    }
-    return primaryColor;
-  }
-
   @override
   Widget build(BuildContext context) {
     if (recipe == null) {
@@ -93,7 +81,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                           height: 360,
                           fit: BoxFit.cover,
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: 25),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Row(
@@ -127,7 +115,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: 25),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
@@ -153,7 +141,13 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                         ),
                                       ),
                                       SizedBox(height: 15),
-                                      Text("${recipe?.servings}")
+                                      Text(
+                                        "${recipe?.servings}",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: textColor.withOpacity(0.8),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   Column(
@@ -167,12 +161,18 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                         ),
                                       ),
                                       SizedBox(height: 15),
-                                      Text(DateTimeUtils
-                                                  .convertMillisecondsToMinutes(
-                                                      recipe?.duration ?? 0)
-                                              .toString() +
-                                          " " +
-                                          S.current.minutesShort)
+                                      Text(
+                                        DateTimeUtils
+                                                    .convertMillisecondsToMinutes(
+                                                        recipe?.duration ?? 0)
+                                                .toString() +
+                                            " " +
+                                            S.current.minutesShort,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: textColor.withOpacity(0.8),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   Column(
@@ -186,7 +186,13 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                         ),
                                       ),
                                       SizedBox(height: 15),
-                                      Text(difficultyText)
+                                      Text(
+                                        difficultyText,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: textColor.withOpacity(0.8),
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ],
@@ -257,7 +263,14 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Method"),
+                                    Text(
+                                      "Method",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: textColor,
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                     Icon(
                                       Icons.arrow_forward_ios,
                                       size: 15,
@@ -293,7 +306,14 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Tips"),
+                                    Text(
+                                      "Tips",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: textColor,
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                     Icon(
                                       Icons.arrow_forward_ios,
                                       size: 15,

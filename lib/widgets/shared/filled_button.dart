@@ -12,6 +12,7 @@ class FilledButton extends StatelessWidget {
     this.onPressed,
     this.width = double.infinity,
     this.isUpdating = false,
+    this.isRoundedButton = false,
   }) : super(key: key);
 
   final Function()? onPressed;
@@ -22,6 +23,7 @@ class FilledButton extends StatelessWidget {
   final Color foregroundColor;
   final Color backgroundColor;
   final bool isUpdating;
+  final bool isRoundedButton;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -74,7 +76,7 @@ class FilledButton extends StatelessWidget {
             ),
             shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
               (states) => RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(isRoundedButton ? 16 : 12),
               ),
             ),
           ),

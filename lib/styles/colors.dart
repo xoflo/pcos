@@ -24,3 +24,4 @@ final dividerColor = Color(0xFF202020).withOpacity(0.2);
 const selectedIndicatorColor = Color(0xffedb687);
 final unselectedIndicatorColor = Color(0xFF202020).withOpacity(0.5);
 final unselectedIndicatorIconColor = Color(0xFF202020).withOpacity(0.8);
+final redColor = Color(0xFFFB4A44);

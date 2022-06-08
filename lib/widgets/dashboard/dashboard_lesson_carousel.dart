@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -94,6 +96,12 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                 itemBuilder: (context, index) {
                   final currentLesson =
                       widget.modulesProvider.currentModuleLessons[index];
+                  final currentLessonContent = widget.modulesProvider
+                      .getLessonContent(currentLesson.lessonID);
+                  final currentLessonWikis = widget.modulesProvider
+                      .getLessonWikis(currentLesson.lessonID);
+                  final currentLessonTasks = widget.modulesProvider
+                      .getLessonTasks(currentLesson.lessonID);
                   final currentLessonRecipes = widget.modulesProvider
                       .getLessonRecipes(currentLesson.lessonID);
                   final isLessonComplete = currentLesson.isComplete;
@@ -154,7 +162,15 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             child: GestureDetector(
                               onTap:
                                   isPreviousLessonComplete && isLessonComplete
-                                      ? () {}
+                                      ? () => Navigator.pushNamed(
+                                            context,
+                                            LessonPage.id,
+                                            arguments: LessonArguments(
+                                                currentLesson,
+                                                currentLessonContent,
+                                                currentLessonTasks,
+                                                currentLessonWikis),
+                                          )
                                       : null,
                               child: Stack(
                                 children: [

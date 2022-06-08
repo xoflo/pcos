@@ -1,6 +1,7 @@
 class Lesson {
   final int lessonID;
   final int moduleID;
+  final String imageUrl;
   final String title;
   final String introduction;
   final int orderIndex;
@@ -12,6 +13,7 @@ class Lesson {
   Lesson({
     required this.lessonID,
     required this.moduleID,
+    required this.imageUrl,
     required this.title,
     required this.introduction,
     required this.orderIndex,
@@ -25,6 +27,7 @@ class Lesson {
     return Lesson(
       lessonID: json['lessonID'],
       moduleID: json['moduleID'] ?? 0,
+      imageUrl: json['imageUrl'],
       title: json['title'],
       introduction: json['introduction'],
       orderIndex: json['orderIndex'],

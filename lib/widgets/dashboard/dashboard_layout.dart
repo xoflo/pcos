@@ -18,6 +18,7 @@ import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
+import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel.dart';
@@ -415,6 +416,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final isHorizontal =
+        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+
     return Column(
       children: [
         Expanded(
@@ -433,8 +438,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                   DashboardLessonCarousel(modulesProvider: modulesProvider),
 
                   // getTasks(screenSize, isHorizontal, modulesProvider),
-                  // getCurrentModule(screenSize, isHorizontal, modulesProvider,
-                  //     favouritesProvider),
+                  getCurrentModule(screenSize, isHorizontal, modulesProvider,
+                      favouritesProvider),
                   // getLessonWikis(screenSize, isHorizontal, modulesProvider),
                   // widget.showLessonRecipes
                   //     ? getLessonRecipes(screenSize, isHorizontal,

@@ -92,6 +92,7 @@ class DatabaseProvider with ChangeNotifier {
               "moduleID INTEGER,"
               "title TEXT,"
               "introduction TEXT,"
+              "imageUrl TEXT,"
               "orderIndex INTEGER,"
               "isFavorite INTEGER,"
               "isComplete INTEGER,"
