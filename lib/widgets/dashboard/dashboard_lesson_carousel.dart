@@ -81,8 +81,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                 element.lessonID ==
                 widget.modulesProvider.currentLesson?.lessonID,
           );
-          controller =
-              PageController(initialPage: activePage, viewportFraction: 0.9);
+          controller = PageController(initialPage: 2, viewportFraction: 0.9);
         }
 
         return Column(
@@ -166,100 +165,109 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                             context,
                                             LessonPage.id,
                                             arguments: LessonArguments(
-                                                currentLesson,
-                                                currentLessonContent,
-                                                currentLessonTasks,
-                                                currentLessonWikis),
+                                              currentLesson,
+                                              currentLessonContent,
+                                              currentLessonTasks,
+                                              currentLessonWikis,
+                                            ),
                                           )
                                       : null,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    width: double.maxFinite,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 25, vertical: 20),
-                                    decoration: BoxDecoration(
-                                      color: lessonBackgroundColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
+                              child: Container(
+                                width: double.maxFinite,
+                                decoration: BoxDecoration(
+                                  color: lessonBackgroundColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                ),
+                                clipBehavior: Clip.hardEdge,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 25, vertical: 20),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              "Lesson ${index + 1}",
-                                              style: TextStyle(
-                                                color: backgroundColor,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            if (isLessonComplete) ...[
-                                              SizedBox(width: 15),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      completedBackgroundColor,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(8)),
-                                                ),
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 2, horizontal: 8),
-                                                child: Text(
-                                                  "Completed",
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Lesson ${index + 1}",
                                                   style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
+                                                    color: backgroundColor,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ],
-                                        ),
-                                        SizedBox(height: 10),
-                                        HtmlWidget(
-                                          currentLesson.title,
-                                          textStyle: TextStyle(
-                                            color: textColor.withOpacity(0.8),
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.schedule,
-                                                color: textColor, size: 15),
-                                            SizedBox(
-                                              width: 5,
+                                                if (isLessonComplete) ...[
+                                                  SizedBox(width: 15),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          completedBackgroundColor,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  8)),
+                                                    ),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 2,
+                                                            horizontal: 8),
+                                                    child: Text(
+                                                      "Completed",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ],
                                             ),
-                                            Text(
-                                              "5 min",
-                                              style: TextStyle(
+                                            SizedBox(height: 10),
+                                            HtmlWidget(
+                                              currentLesson.title,
+                                              textStyle: TextStyle(
                                                 color:
                                                     textColor.withOpacity(0.8),
                                                 fontSize: 14,
                                               ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Row(
+                                              children: [
+                                                Icon(Icons.schedule,
+                                                    color: textColor, size: 15),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "5 min",
+                                                  style: TextStyle(
+                                                    color: textColor
+                                                        .withOpacity(0.8),
+                                                    fontSize: 14,
+                                                  ),
+                                                )
+                                              ],
                                             )
                                           ],
-                                        )
-                                      ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Image(
+                                    Image(
                                       image: AssetImage(
                                           'assets/dashboard_lesson.png'),
                                       width: 84,
                                       height: 84,
                                     ),
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -276,61 +284,66 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                               arguments: currentLessonRecipes,
                                             )
                                         : null,
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: double.maxFinite,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 25, vertical: 20),
-                                      decoration: BoxDecoration(
-                                        color: lessonBackgroundColor,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12)),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Lesson Recipes",
-                                            style: TextStyle(
-                                              color: backgroundColor,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          SizedBox(height: 30),
-                                          Row(
+                                child: Container(
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(
+                                    color: lessonBackgroundColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 25, vertical: 20),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Icon(Icons.schedule,
-                                                  color: textColor, size: 15),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
                                               Text(
-                                                "5 min",
+                                                "Lesson Recipes",
                                                 style: TextStyle(
-                                                  color: textColor
-                                                      .withOpacity(0.8),
-                                                  fontSize: 14,
+                                                  color: backgroundColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
                                                 ),
+                                              ),
+                                              SizedBox(height: 30),
+                                              Row(
+                                                children: [
+                                                  Icon(Icons.schedule,
+                                                      color: textColor,
+                                                      size: 15),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    "5 min",
+                                                    style: TextStyle(
+                                                      color: textColor
+                                                          .withOpacity(0.8),
+                                                      fontSize: 14,
+                                                    ),
+                                                  )
+                                                ],
                                               )
                                             ],
-                                          )
-                                        ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      bottom: 0,
-                                      right: 0,
-                                      child: Image(
+                                      Image(
                                         image: AssetImage(
                                             'assets/dashboard_recipes.png'),
                                         width: 84,
                                         height: 90,
                                       ),
-                                    )
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -351,70 +364,75 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                                 context, QuizScreen.id);
                                           }
                                         : null,
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: double.maxFinite,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 25, vertical: 20),
-                                      decoration: BoxDecoration(
-                                        color:
-                                            lessonBackgroundColor.withOpacity(
-                                                isLessonComplete ? 1 : 0.5),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12)),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Quiz",
-                                            style: TextStyle(
-                                              color: backgroundColor
-                                                  .withOpacity(isLessonComplete
-                                                      ? 1
-                                                      : 0.5),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                          SizedBox(height: 30),
-                                          if (isLessonComplete)
-                                            Row(
-                                              children: [
-                                                Icon(Icons.schedule,
-                                                    color: textColor, size: 15),
-                                                SizedBox(
-                                                  width: 5,
+                                child: Container(
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(
+                                    color: lessonBackgroundColor.withOpacity(
+                                        isLessonComplete ? 1 : 0.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 25, vertical: 20),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Quiz",
+                                                style: TextStyle(
+                                                  color: backgroundColor
+                                                      .withOpacity(
+                                                          isLessonComplete
+                                                              ? 1
+                                                              : 0.5),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
                                                 ),
-                                                Text(
-                                                  "5 min",
-                                                  style: TextStyle(
-                                                    color: textColor
-                                                        .withOpacity(0.8),
-                                                    fontSize: 14,
-                                                  ),
+                                              ),
+                                              SizedBox(height: 30),
+                                              if (isLessonComplete)
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons.schedule,
+                                                        color: textColor,
+                                                        size: 15),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "5 min",
+                                                      style: TextStyle(
+                                                        color: textColor
+                                                            .withOpacity(0.8),
+                                                        fontSize: 14,
+                                                      ),
+                                                    )
+                                                  ],
                                                 )
-                                              ],
-                                            )
-                                          else
-                                            getLockedComponent(
-                                                "Complete the lesson")
-                                        ],
+                                              else
+                                                getLockedComponent(
+                                                    "Complete the lesson")
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      bottom: 0,
-                                      right: 0,
-                                      child: Image(
+                                      Image(
                                         image: AssetImage(
                                             'assets/dashboard_quiz.png'),
                                         width: 88,
                                         height: 95,
                                       ),
-                                    )
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

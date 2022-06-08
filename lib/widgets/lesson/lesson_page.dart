@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
@@ -20,6 +24,22 @@ class _LessonPageState extends State<LessonPage> {
   String contentIcon = '';
   String contentType = '';
   bool isExpanded = false;
+  bool isFavorite = false;
+
+  late ModulesProvider modulesProvider;
+  late FavouritesProvider favouritesProvider;
+
+  LessonArguments? args;
+  LessonContent? firstLessonContent;
+  List<LessonContent>? otherLessonContent;
+
+  @override
+  void initState() {
+    super.initState();
+    modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
+    favouritesProvider =
+        Provider.of<FavouritesProvider>(context, listen: false);
+  }
 
   List<Widget> getType(List<LessonContent> lessonContent) {
     setState(() {
@@ -61,10 +81,15 @@ class _LessonPageState extends State<LessonPage> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as LessonArguments;
-    final lessonContents = args.lessonContents;
-    final firstLessonContent = lessonContents.first;
-    final otherLessonContent = lessonContents.sublist(1, lessonContents.length);
+    if (args == null) {
+      args = ModalRoute.of(context)?.settings.arguments as LessonArguments;
+      final lessonContents = args?.lessonContents;
+      firstLessonContent = lessonContents?.first;
+      otherLessonContent = lessonContents?.sublist(1, lessonContents.length);
+
+      isFavorite = favouritesProvider.isFavourite(
+          FavouriteType.Lesson, args?.lesson.lessonID);
+    }
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -89,9 +114,9 @@ class _LessonPageState extends State<LessonPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (args.lesson.imageUrl.isNotEmpty)
+                        if (args?.lesson.imageUrl.isNotEmpty == true)
                           Image.network(
-                            args.lesson.imageUrl,
+                            args?.lesson.imageUrl ?? "",
                             width: double.maxFinite,
                             height: 200,
                             fit: BoxFit.cover,
@@ -107,7 +132,7 @@ class _LessonPageState extends State<LessonPage> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Text(
-                            args.lesson.title,
+                            args?.lesson.title ?? "",
                             style: TextStyle(
                               color: textColor,
                               fontWeight: FontWeight.bold,
@@ -124,7 +149,8 @@ class _LessonPageState extends State<LessonPage> {
                               Row(
                                 children: [
                                   Row(
-                                    children: getType(args.lessonContents),
+                                    children:
+                                        getType(args?.lessonContents ?? []),
                                   ),
                                   SizedBox(width: 15),
                                   Row(
@@ -151,9 +177,16 @@ class _LessonPageState extends State<LessonPage> {
                                 ],
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  favouritesProvider.addToFavourites(
+                                      FavouriteType.Lesson,
+                                      args?.lesson.lessonID);
+                                  setState(() => isFavorite = !isFavorite);
+                                },
                                 icon: Icon(
-                                  Icons.favorite,
+                                  isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_outline,
                                   size: 20,
                                   color: redColor,
                                 ),
@@ -165,31 +198,32 @@ class _LessonPageState extends State<LessonPage> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: HtmlWidget(
-                            firstLessonContent.body ?? "",
+                            firstLessonContent?.body ?? "",
                             textStyle: TextStyle(
                               fontSize: 16,
                               color: textColor.withOpacity(0.8),
                             ),
                           ),
                         ),
-                        if (otherLessonContent.first.body?.isNotEmpty ==
+                        if (otherLessonContent?.first.body?.isNotEmpty ==
                             true) ...[
                           if (isExpanded)
                             ...otherLessonContent
-                                .map(
-                                  (e) => Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 15),
-                                    child: HtmlWidget(
-                                      firstLessonContent.body ?? "",
-                                      textStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: textColor.withOpacity(0.8),
+                                    ?.map(
+                                      (e) => Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        child: HtmlWidget(
+                                          firstLessonContent?.body ?? "",
+                                          textStyle: TextStyle(
+                                            fontSize: 16,
+                                            color: textColor.withOpacity(0.8),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
+                                    )
+                                    .toList() ??
+                                [],
                           Align(
                             alignment: Alignment.center,
                             child: GestureDetector(
@@ -225,7 +259,7 @@ class _LessonPageState extends State<LessonPage> {
                             ),
                           )
                         ],
-                        if (args.lessonWikis.isNotEmpty) ...[
+                        if (args?.lessonWikis.isNotEmpty == true) ...[
                           SizedBox(height: 30),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -240,65 +274,69 @@ class _LessonPageState extends State<LessonPage> {
                                     fontSize: 20,
                                   ),
                                 ),
-                                ...args.lessonWikis
-                                    .map(
-                                      (element) => GestureDetector(
-                                        onTap: () => Navigator.pushNamed(
-                                          context,
-                                          LessonWikiPage.id,
-                                          arguments: element,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            SizedBox(height: 15),
-                                            Container(
-                                              width: double.maxFinite,
-                                              padding: EdgeInsets.all(15),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    element.question ?? "",
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: backgroundColor,
+                                ...args?.lessonWikis
+                                        .map(
+                                          (element) => GestureDetector(
+                                            onTap: () => Navigator.pushNamed(
+                                              context,
+                                              LessonWikiPage.id,
+                                              arguments: element,
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(height: 15),
+                                                Container(
+                                                  width: double.maxFinite,
+                                                  padding: EdgeInsets.all(15),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(16),
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10),
-                                                  Text(
-                                                    element.answer ?? "",
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: textColor
-                                                          .withOpacity(0.8),
-                                                      height: 1.25,
-                                                    ),
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        element.question ?? "",
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              backgroundColor,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Text(
+                                                        element.answer ?? "",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: textColor
+                                                              .withOpacity(0.8),
+                                                          height: 1.25,
+                                                        ),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                    .toList()
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                        .toList() ??
+                                    []
                               ],
                             ),
                           )
                         ],
-                        if (args.lessonTasks.isNotEmpty) ...[
+                        if (args?.lessonTasks.isNotEmpty == true) ...[
                           SizedBox(height: 30),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -313,48 +351,51 @@ class _LessonPageState extends State<LessonPage> {
                                     fontSize: 20,
                                   ),
                                 ),
-                                ...args.lessonTasks
-                                    .map(
-                                      (element) => GestureDetector(
-                                        child: Column(
-                                          children: [
-                                            SizedBox(height: 15),
-                                            Container(
-                                              width: double.maxFinite,
-                                              padding: EdgeInsets.all(15),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(16),
-                                                ),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    element.title ?? "",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: backgroundColor,
+                                ...args?.lessonTasks
+                                        .map(
+                                          (element) => GestureDetector(
+                                            child: Column(
+                                              children: [
+                                                SizedBox(height: 15),
+                                                Container(
+                                                  width: double.maxFinite,
+                                                  padding: EdgeInsets.all(15),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(16),
                                                     ),
                                                   ),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: backgroundColor,
-                                                    size: 10,
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                    .toList()
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        element.title ?? "",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              backgroundColor,
+                                                        ),
+                                                      ),
+                                                      Icon(
+                                                        Icons.arrow_forward_ios,
+                                                        color: backgroundColor,
+                                                        size: 10,
+                                                      )
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                        .toList() ??
+                                    []
                               ],
                             ),
                           )
@@ -377,7 +418,19 @@ class _LessonPageState extends State<LessonPage> {
                             margin: EdgeInsets.zero,
                             foregroundColor: Colors.white,
                             backgroundColor: backgroundColor,
-                            onPressed: () {},
+                            onPressed: () {
+                              final bool setModuleComplete = modulesProvider
+                                      .currentModuleLessons.last.lessonID ==
+                                  args?.lesson.lessonID;
+
+                              modulesProvider
+                                  .setLessonAsComplete(
+                                    args?.lesson.lessonID ?? -1,
+                                    args?.lesson.moduleID ?? -1,
+                                    setModuleComplete,
+                                  )
+                                  .then((value) => Navigator.pop(context));
+                            },
                           ),
                         ),
                         SizedBox(height: 40),
