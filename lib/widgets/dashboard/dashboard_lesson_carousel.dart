@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel_item_card.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -81,7 +81,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                 element.lessonID ==
                 widget.modulesProvider.currentLesson?.lessonID,
           );
-          controller = PageController(initialPage: 2, viewportFraction: 0.9);
+          controller = PageController(initialPage: 0, viewportFraction: 0.9);
         }
 
         return Column(
@@ -156,286 +156,66 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             ],
                           ),
                           SizedBox(height: 25),
-                          Opacity(
-                            opacity: isPreviousLessonComplete ? 1 : 0.5,
-                            child: GestureDetector(
-                              onTap:
-                                  isPreviousLessonComplete && isLessonComplete
-                                      ? () => Navigator.pushNamed(
-                                            context,
-                                            LessonPage.id,
-                                            arguments: LessonArguments(
-                                              currentLesson,
-                                              currentLessonContent,
-                                              currentLessonTasks,
-                                              currentLessonWikis,
-                                            ),
-                                          )
-                                      : null,
-                              child: Container(
-                                width: double.maxFinite,
-                                decoration: BoxDecoration(
-                                  color: lessonBackgroundColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 25, vertical: 20),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Lesson ${index + 1}",
-                                                  style: TextStyle(
-                                                    color: backgroundColor,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                if (isLessonComplete) ...[
-                                                  SizedBox(width: 15),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          completedBackgroundColor,
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  8)),
-                                                    ),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 2,
-                                                            horizontal: 8),
-                                                    child: Text(
-                                                      "Completed",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ],
-                                            ),
-                                            SizedBox(height: 10),
-                                            HtmlWidget(
-                                              currentLesson.title,
-                                              textStyle: TextStyle(
-                                                color:
-                                                    textColor.withOpacity(0.8),
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            SizedBox(height: 5),
-                                            Row(
-                                              children: [
-                                                Icon(Icons.schedule,
-                                                    color: textColor, size: 15),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  "5 min",
-                                                  style: TextStyle(
-                                                    color: textColor
-                                                        .withOpacity(0.8),
-                                                    fontSize: 14,
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Image(
-                                      image: AssetImage(
-                                          'assets/dashboard_lesson.png'),
-                                      width: 84,
-                                      height: 84,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          DashboardLessonCarouselItemCard(
+                            onTapCard:
+                                isPreviousLessonComplete && isLessonComplete
+                                    ? () => Navigator.pushNamed(
+                                          context,
+                                          LessonPage.id,
+                                          arguments: LessonArguments(
+                                            currentLesson,
+                                            currentLessonContent,
+                                            currentLessonTasks,
+                                            currentLessonWikis,
+                                          ),
+                                        )
+                                    : null,
+                            isLocked: isPreviousLessonComplete,
+                            title: "Lesson ${index + 1}",
+                            subtitle: currentLesson.title,
+                            duration: "5 mins",
+                            asset: 'assets/dashboard_lesson.png',
+                            assetSize: Size(84, 84),
                           ),
                           if (currentLessonRecipes.length > 0) ...[
                             SizedBox(height: 15),
-                            Opacity(
-                              opacity: isPreviousLessonComplete ? 1 : 0.5,
-                              child: GestureDetector(
-                                onTap:
-                                    isPreviousLessonComplete && isLessonComplete
-                                        ? () => Navigator.pushNamed(
-                                              context,
-                                              RecipeListPage.id,
-                                              arguments: currentLessonRecipes,
-                                            )
-                                        : null,
-                                child: Container(
-                                  width: double.maxFinite,
-                                  decoration: BoxDecoration(
-                                    color: lessonBackgroundColor,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 25, vertical: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Lesson Recipes",
-                                                style: TextStyle(
-                                                  color: backgroundColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                              SizedBox(height: 30),
-                                              Row(
-                                                children: [
-                                                  Icon(Icons.schedule,
-                                                      color: textColor,
-                                                      size: 15),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    "5 min",
-                                                    style: TextStyle(
-                                                      color: textColor
-                                                          .withOpacity(0.8),
-                                                      fontSize: 14,
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Image(
-                                        image: AssetImage(
-                                            'assets/dashboard_recipes.png'),
-                                        width: 84,
-                                        height: 90,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                            DashboardLessonCarouselItemCard(
+                              onTapCard:
+                                  isPreviousLessonComplete && isLessonComplete
+                                      ? () => Navigator.pushNamed(
+                                            context,
+                                            RecipeListPage.id,
+                                            arguments: currentLessonRecipes,
+                                          )
+                                      : null,
+                              isLocked: isPreviousLessonComplete,
+                              title: "Lesson Recipes",
+                              duration: "5 mins",
+                              asset: 'assets/dashboard_recipes.png',
+                              assetSize: Size(84, 90),
                             ),
                           ],
                           if (widget.modulesProvider.lessonQuizzes.length >
                               0) ...[
                             SizedBox(height: 15),
-                            Opacity(
-                              opacity: isPreviousLessonComplete ? 1 : 0.5,
-                              child: GestureDetector(
-                                onTap:
-                                    isPreviousLessonComplete && isLessonComplete
-                                        ? () {
-                                            analytics.logEvent(
-                                                name: Analytics
-                                                    .ANALYTICS_SCREEN_QUIZ);
-                                            Navigator.pushNamed(
-                                                context, QuizScreen.id);
-                                          }
-                                        : null,
-                                child: Container(
-                                  width: double.maxFinite,
-                                  decoration: BoxDecoration(
-                                    color: lessonBackgroundColor.withOpacity(
-                                        isLessonComplete ? 1 : 0.5),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 25, vertical: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Quiz",
-                                                style: TextStyle(
-                                                  color: backgroundColor
-                                                      .withOpacity(
-                                                          isLessonComplete
-                                                              ? 1
-                                                              : 0.5),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                              SizedBox(height: 30),
-                                              if (isLessonComplete)
-                                                Row(
-                                                  children: [
-                                                    Icon(Icons.schedule,
-                                                        color: textColor,
-                                                        size: 15),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "5 min",
-                                                      style: TextStyle(
-                                                        color: textColor
-                                                            .withOpacity(0.8),
-                                                        fontSize: 14,
-                                                      ),
-                                                    )
-                                                  ],
-                                                )
-                                              else
-                                                getLockedComponent(
-                                                    "Complete the lesson")
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Image(
-                                        image: AssetImage(
-                                            'assets/dashboard_quiz.png'),
-                                        width: 88,
-                                        height: 95,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                            DashboardLessonCarouselItemCard(
+                              onTapCard: isPreviousLessonComplete &&
+                                      isLessonComplete
+                                  ? () {
+                                      analytics.logEvent(
+                                          name:
+                                              Analytics.ANALYTICS_SCREEN_QUIZ);
+                                      Navigator.pushNamed(
+                                          context, QuizScreen.id);
+                                    }
+                                  : null,
+                              isLocked: isPreviousLessonComplete,
+                              title: "Quiz",
+                              duration: "5 mins",
+                              asset: 'assets/dashboard_quiz.png',
+                              assetSize: Size(88, 95),
                             ),
+                            //
                           ]
                         ],
                       ),

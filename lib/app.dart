@@ -38,6 +38,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
@@ -193,7 +194,8 @@ class _AppState extends State<App> {
           RecipeDetailsPage.id: (context) => RecipeDetailsPage(),
           RecipeMethodTipsPage.id: (context) => RecipeMethodTipsPage(),
           LessonPage.id: (context) => LessonPage(),
-          LessonWikiPage.id: (context) => LessonWikiPage()
+          LessonWikiPage.id: (context) => LessonWikiPage(),
+          LessonContentPage.id: (context) => LessonContentPage()
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
@@ -23,7 +24,6 @@ class LessonPage extends StatefulWidget {
 class _LessonPageState extends State<LessonPage> {
   String contentIcon = '';
   String contentType = '';
-  bool isExpanded = false;
   bool isFavorite = false;
 
   late ModulesProvider modulesProvider;
@@ -41,7 +41,7 @@ class _LessonPageState extends State<LessonPage> {
         Provider.of<FavouritesProvider>(context, listen: false);
   }
 
-  List<Widget> getType(List<LessonContent> lessonContent) {
+  List<Widget> _getContentType(List<LessonContent> lessonContent) {
     setState(() {
       lessonContent.forEach((element) {
         switch (element.mediaMimeType) {
@@ -149,8 +149,8 @@ class _LessonPageState extends State<LessonPage> {
                               Row(
                                 children: [
                                   Row(
-                                    children:
-                                        getType(args?.lessonContents ?? []),
+                                    children: _getContentType(
+                                        args?.lessonContents ?? []),
                                   ),
                                   SizedBox(width: 15),
                                   Row(
@@ -179,8 +179,9 @@ class _LessonPageState extends State<LessonPage> {
                               IconButton(
                                 onPressed: () {
                                   favouritesProvider.addToFavourites(
-                                      FavouriteType.Lesson,
-                                      args?.lesson.lessonID);
+                                    FavouriteType.Lesson,
+                                    args?.lesson.lessonID,
+                                  );
                                   setState(() => isFavorite = !isFavorite);
                                 },
                                 icon: Icon(
@@ -207,30 +208,20 @@ class _LessonPageState extends State<LessonPage> {
                         ),
                         if (otherLessonContent?.first.body?.isNotEmpty ==
                             true) ...[
-                          if (isExpanded)
-                            ...otherLessonContent
-                                    ?.map(
-                                      (e) => Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        child: HtmlWidget(
-                                          firstLessonContent?.body ?? "",
-                                          textStyle: TextStyle(
-                                            fontSize: 16,
-                                            color: textColor.withOpacity(0.8),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList() ??
-                                [],
                           Align(
                             alignment: Alignment.center,
-                            child: GestureDetector(
-                              onTap: () =>
-                                  setState(() => isExpanded = !isExpanded),
+                            child: InkWell(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                LessonContentPage.id,
+                                arguments: args?.lesson,
+                              ).then((value) {
+                                if (value is bool) {
+                                  setState(() => isFavorite = value);
+                                }
+                              }),
                               child: Text(
-                                "Read ${isExpanded ? 'Less' : 'More'}",
+                                "Read More",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: backgroundColor,

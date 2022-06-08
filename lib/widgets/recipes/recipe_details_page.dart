@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/models/navigation/recipe_method_tips_argumen
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_component.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
@@ -240,96 +241,28 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                           ),
                         ),
                         SizedBox(height: 25),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              RecipeMethodTipsPage.id,
-                              arguments: RecipeMethodTipsArguments(
-                                false,
-                                recipe?.method ?? "",
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Divider(
-                                  thickness: 1,
-                                  height: 1,
-                                  color: textColor.withOpacity(0.5),
-                                ),
-                                SizedBox(height: 25),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Method",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: textColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 15,
-                                      color: secondaryColor,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 25),
-                                Divider(
-                                  thickness: 1,
-                                  height: 1,
-                                  color: textColor.withOpacity(0.5),
-                                ),
-                              ],
+                        RecipeMethodTipsComponent(
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            RecipeMethodTipsPage.id,
+                            arguments: RecipeMethodTipsArguments(
+                              false,
+                              recipe?.method ?? "",
                             ),
                           ),
+                          title: "Method",
                         ),
-                        SizedBox(height: 25),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              RecipeMethodTipsPage.id,
-                              arguments: RecipeMethodTipsArguments(
-                                true,
-                                recipe?.tips ?? "",
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Tips",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: textColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 15,
-                                      color: secondaryColor,
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 25),
-                                Divider(
-                                  thickness: 1,
-                                  height: 1,
-                                  color: textColor.withOpacity(0.5),
-                                ),
-                              ],
+                        RecipeMethodTipsComponent(
+                          onPressed: () => Navigator.pushNamed(
+                            context,
+                            RecipeMethodTipsPage.id,
+                            arguments: RecipeMethodTipsArguments(
+                              true,
+                              recipe?.tips ?? "",
                             ),
                           ),
+                          title: "Tips",
+                          isBottomDividerVisible: true,
                         ),
                         SizedBox(height: 25),
                       ],
