@@ -40,6 +40,7 @@ import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
@@ -195,7 +196,8 @@ class _AppState extends State<App> {
           RecipeMethodTipsPage.id: (context) => RecipeMethodTipsPage(),
           LessonPage.id: (context) => LessonPage(),
           LessonWikiPage.id: (context) => LessonWikiPage(),
-          LessonContentPage.id: (context) => LessonContentPage()
+          LessonContentPage.id: (context) => LessonContentPage(),
+          LessonVideoPage.id: (context) => LessonVideoPage()
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

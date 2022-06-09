@@ -8,7 +8,9 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
+import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
@@ -24,6 +26,7 @@ class LessonPage extends StatefulWidget {
 class _LessonPageState extends State<LessonPage> {
   String contentIcon = '';
   String contentType = '';
+  String contentUrl = '';
   bool isFavorite = false;
 
   late ModulesProvider modulesProvider;
@@ -48,10 +51,13 @@ class _LessonPageState extends State<LessonPage> {
           case 'video':
             contentIcon = "assets/lesson_video.png";
             contentType = "Video";
+            contentUrl = element.mediaUrl ?? '';
             break;
           case 'audio':
             contentIcon = "assets/lesson_audio.png";
             contentType = "Audio";
+            contentUrl = element.mediaUrl ?? '';
+
             break;
           default:
             contentIcon = "assets/lesson_reading.png";
@@ -214,8 +220,9 @@ class _LessonPageState extends State<LessonPage> {
                             ),
                           ),
                         ),
-                        if (otherLessonContent?.first.body?.isNotEmpty ==
-                            true) ...[
+                        if (otherLessonContent?.isNotEmpty == true &&
+                            otherLessonContent?.first.body?.isNotEmpty ==
+                                true) ...[
                           Align(
                             alignment: Alignment.center,
                             child: InkWell(
@@ -241,6 +248,10 @@ class _LessonPageState extends State<LessonPage> {
                         ],
                         if (contentType == 'Video') ...[
                           SizedBox(height: 15),
+                          // Padding(
+                          //   padding: EdgeInsets.symmetric(horizontal: 15),
+                          //   child: SoundPlayer(link: contentUrl),
+                          // )
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             child: Align(
@@ -253,9 +264,19 @@ class _LessonPageState extends State<LessonPage> {
                                 isRoundedButton: true,
                                 foregroundColor: Colors.white,
                                 backgroundColor: backgroundColor,
-                                onPressed: () {},
+                                onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  LessonVideoPage.id,
+                                  arguments: contentUrl,
+                                ),
                               ),
                             ),
+                          )
+                        ] else if (contentType == 'Audio') ...[
+                          SizedBox(height: 15),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: SoundPlayer(link: contentUrl),
                           )
                         ],
                         if (args?.lessonWikis.isNotEmpty == true) ...[
