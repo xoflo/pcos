@@ -210,19 +210,17 @@ class _LessonPageState extends State<LessonPage> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: HtmlWidget(
-                            firstLessonContent?.body ?? "",
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              color: textColor.withOpacity(0.8),
+                        if ((firstLessonContent?.body ?? "").length > 200) ...[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: HtmlWidget(
+                              "${firstLessonContent?.body?.substring(0, 200)}...",
+                              textStyle: TextStyle(
+                                fontSize: 16,
+                                color: textColor.withOpacity(0.8),
+                              ),
                             ),
                           ),
-                        ),
-                        if (otherLessonContent?.isNotEmpty == true &&
-                            otherLessonContent?.first.body?.isNotEmpty ==
-                                true) ...[
                           Align(
                             alignment: Alignment.center,
                             child: InkWell(
@@ -244,14 +242,20 @@ class _LessonPageState extends State<LessonPage> {
                                 ),
                               ),
                             ),
-                          )
-                        ],
+                          ),
+                        ] else if ((firstLessonContent?.body ?? "").length > 0)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: HtmlWidget(
+                              firstLessonContent?.body ?? "",
+                              textStyle: TextStyle(
+                                fontSize: 16,
+                                color: textColor.withOpacity(0.8),
+                              ),
+                            ),
+                          ),
                         if (contentType == 'Video') ...[
                           SizedBox(height: 15),
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(horizontal: 15),
-                          //   child: SoundPlayer(link: contentUrl),
-                          // )
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             child: Align(
