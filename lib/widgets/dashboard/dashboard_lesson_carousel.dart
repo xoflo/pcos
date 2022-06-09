@@ -81,7 +81,8 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                 element.lessonID ==
                 widget.modulesProvider.currentLesson?.lessonID,
           );
-          controller = PageController(initialPage: 0, viewportFraction: 0.9);
+          controller =
+              PageController(initialPage: activePage, viewportFraction: 0.9);
         }
 
         return Column(

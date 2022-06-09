@@ -22,6 +22,7 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   @override
   void initState() {
     super.initState();
+    widget.memberViewModel.populateMember();
 
     timer = Timer.periodic(Duration(seconds: 1), (_) {
       setState(() {

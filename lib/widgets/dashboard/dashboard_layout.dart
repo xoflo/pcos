@@ -79,7 +79,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
     final String whatsYourWhy = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
-    await Provider.of<MemberViewModel>(context, listen: false).populateMember();
 
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
@@ -424,10 +423,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child:
-                Consumer3<ModulesProvider, FavouritesProvider, MemberViewModel>(
+            child: Consumer4<ModulesProvider, FavouritesProvider,
+                RecipesProvider, MemberViewModel>(
               builder: (context, modulesProvider, favouritesProvider,
-                      memberViewModel, child) =>
+                      recipesProvider, memberViewModel, child) =>
                   Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

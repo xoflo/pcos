@@ -126,7 +126,15 @@ class _LessonPageState extends State<LessonPage> {
                           Container(
                             width: double.maxFinite,
                             height: 200,
-                            color: Colors.black,
+                            color: Colors.white,
+                            child: Center(
+                              child: Image(
+                                image: AssetImage('assets/logo_pink.png'),
+                                fit: BoxFit.contain,
+                                width: 100,
+                                height: 50,
+                              ),
+                            ),
                           ),
                         SizedBox(height: 15),
                         Padding(
