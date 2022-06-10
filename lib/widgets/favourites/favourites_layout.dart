@@ -21,7 +21,17 @@ class FavouritesLayout extends StatefulWidget {
   _FavouritesLayoutState createState() => _FavouritesLayoutState();
 }
 
-class _FavouritesLayoutState extends State<FavouritesLayout> {
+class _FavouritesLayoutState extends State<FavouritesLayout>
+    with TickerProviderStateMixin {
+  late TabController tabController;
+  int index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(initialIndex: index, length: 4, vsync: this);
+  }
+
   void _openFavourite(FavouriteType favouriteType, dynamic favourite) {
     Widget favouriteWidget;
     final String analyticsName = favouriteType == FavouriteType.Lesson
@@ -103,125 +113,110 @@ class _FavouritesLayoutState extends State<FavouritesLayout> {
     );
   }
 
+  Tab generateTab(int itemNumber, String title) => Tab(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: index == itemNumber ? backgroundColor : Colors.white,
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: index == itemNumber
+                    ? Colors.white
+                    : textColor.withOpacity(0.5),
+              ),
+            ),
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return DefaultTabController(
-      length: 4,
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(backgroundColor: primaryColor),
+      body: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            width: screenSize.width,
-            decoration: BoxDecoration(color: Colors.white),
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(color: primaryColor),
             child: Align(
               alignment: Alignment.center,
               child: TabBar(
+                onTap: (value) => setState(() => index = value),
+                labelPadding: EdgeInsets.symmetric(horizontal: 10),
+                controller: tabController,
+                indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
                 isScrollable: true,
                 tabs: [
-                  Tab(
-                    text: S.current.toolkitTitle,
-                    icon: Icon(
-                      Icons.construction,
-                      color: primaryColor,
-                      size: 30,
-                    ),
-                  ),
-                  Tab(
-                    text: S.current.lessonsTitle,
-                    icon: Icon(
-                      Icons.play_circle_outline,
-                      color: primaryColor,
-                      size: 30,
-                    ),
-                  ),
-                  Tab(
-                    text: S.current.wikiTitle,
-                    icon: Icon(
-                      Icons.batch_prediction,
-                      color: primaryColor,
-                      size: 30,
-                    ),
-                  ),
-                  Tab(
-                    text: S.current.recipesTitle,
-                    icon: Icon(
-                      Icons.local_dining,
-                      color: primaryColor,
-                      size: 30,
-                    ),
-                  ),
+                  generateTab(0, S.current.toolkitTitle),
+                  generateTab(1, S.current.lessonsTitle),
+                  generateTab(2, S.current.wikiTitle),
+                  generateTab(3, S.current.recipesTitle),
                 ],
               ),
             ),
           ),
-          SizedBox(
-            height: 4.0,
+          Expanded(
             child: Container(
               decoration: BoxDecoration(color: Colors.white),
-            ),
-          ),
-          SizedBox(
-            height: 1.0,
-            child: Container(
-              decoration: BoxDecoration(color: primaryColor),
-            ),
-          ),
-          Expanded(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return Container(
-                  height: constraints.maxHeight,
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Consumer<FavouritesProvider>(
-                      builder: (context, favouritesProvider, child) =>
-                          TabBarView(
-                        children: [
-                          FavouritesTab(
-                            screenSize: screenSize,
-                            favourites: favouritesProvider.toolkits,
-                            status: favouritesProvider.status,
-                            favouriteType: FavouriteType.Lesson,
-                            isToolkit: true,
-                            openFavourite: _openFavourite,
-                            removeFavourite: _removeFavourite,
-                          ),
-                          FavouritesTab(
-                            screenSize: screenSize,
-                            favourites: favouritesProvider.lessons,
-                            status: favouritesProvider.status,
-                            favouriteType: FavouriteType.Lesson,
-                            isToolkit: false,
-                            openFavourite: _openFavourite,
-                            removeFavourite: _removeFavourite,
-                          ),
-                          FavouritesTab(
-                            screenSize: screenSize,
-                            favourites: favouritesProvider.lessonWikis,
-                            status: favouritesProvider.status,
-                            favouriteType: FavouriteType.Wiki,
-                            isToolkit: false,
-                            openFavourite: _openFavourite,
-                            removeFavourite: _removeFavourite,
-                          ),
-                          FavouritesTab(
-                            screenSize: screenSize,
-                            favourites: favouritesProvider.recipes,
-                            status: favouritesProvider.status,
-                            favouriteType: FavouriteType.Recipe,
-                            isToolkit: false,
-                            openFavourite: _openFavourite,
-                            removeFavourite: _removeFavourite,
-                          ),
-                        ],
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Consumer<FavouritesProvider>(
+                  builder: (context, favouritesProvider, child) => PageView(
+                    onPageChanged: (value) {
+                      setState(() => index = value);
+                      tabController.index = value;
+                    },
+                    children: [
+                      FavouritesTab(
+                        screenSize: screenSize,
+                        favourites: favouritesProvider.toolkits,
+                        status: favouritesProvider.status,
+                        favouriteType: FavouriteType.Lesson,
+                        isToolkit: true,
+                        openFavourite: _openFavourite,
+                        removeFavourite: _removeFavourite,
                       ),
-                    ),
+                      FavouritesTab(
+                        screenSize: screenSize,
+                        favourites: favouritesProvider.lessons,
+                        status: favouritesProvider.status,
+                        favouriteType: FavouriteType.Lesson,
+                        isToolkit: false,
+                        openFavourite: _openFavourite,
+                        removeFavourite: _removeFavourite,
+                      ),
+                      FavouritesTab(
+                        screenSize: screenSize,
+                        favourites: favouritesProvider.lessonWikis,
+                        status: favouritesProvider.status,
+                        favouriteType: FavouriteType.Wiki,
+                        isToolkit: false,
+                        openFavourite: _openFavourite,
+                        removeFavourite: _removeFavourite,
+                      ),
+                      FavouritesTab(
+                        screenSize: screenSize,
+                        favourites: favouritesProvider.recipes,
+                        status: favouritesProvider.status,
+                        favouriteType: FavouriteType.Recipe,
+                        isToolkit: false,
+                        openFavourite: _openFavourite,
+                        removeFavourite: _removeFavourite,
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ),
             ),
           ),
         ],

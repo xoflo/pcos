@@ -87,7 +87,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   Widget build(BuildContext context) {
     // TODO: Replace this with the actual audio link
     final link =
-        "https://file-examples.com/storage/fec1714f5162a0dba9d6e7f/2017/11/file_example_MP3_700KB.mp3";
+        "https://file-examples.com/storage/fea82d62d362a2656b7aaf5/2017/11/file_example_MP3_700KB.mp3";
 
     setDetails(link);
     return Container(
