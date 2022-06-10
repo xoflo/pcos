@@ -24,8 +24,8 @@ class LessonPage extends StatefulWidget {
 }
 
 class _LessonPageState extends State<LessonPage> {
-  String contentIcon = '';
-  String contentType = '';
+  String contentIcon = 'assets/lesson_reading.png';
+  String contentType = 'Reading';
   String contentUrl = '';
   bool isFavorite = false;
 

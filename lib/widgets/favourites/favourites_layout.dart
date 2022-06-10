@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wiki_full.dart';
+import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_tab.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_toolkits.dart';
@@ -187,24 +188,18 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
                       toolkits: favouritesProvider.toolkits,
                       status: favouritesProvider.status,
                     ),
+                    FavouritesLessons(
+                      favouritesProvider: favouritesProvider,
+                    ),
                     // FavouritesTab(
                     //   screenSize: screenSize,
-                    //   favourites: favouritesProvider.toolkits,
+                    //   favourites: favouritesProvider.lessons,
                     //   status: favouritesProvider.status,
                     //   favouriteType: FavouriteType.Lesson,
-                    //   isToolkit: true,
+                    //   isToolkit: false,
                     //   openFavourite: _openFavourite,
                     //   removeFavourite: _removeFavourite,
                     // ),
-                    FavouritesTab(
-                      screenSize: screenSize,
-                      favourites: favouritesProvider.lessons,
-                      status: favouritesProvider.status,
-                      favouriteType: FavouriteType.Lesson,
-                      isToolkit: false,
-                      openFavourite: _openFavourite,
-                      removeFavourite: _removeFavourite,
-                    ),
                     FavouritesTab(
                       screenSize: screenSize,
                       favourites: favouritesProvider.lessonWikis,
