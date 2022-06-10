@@ -62,7 +62,8 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                       child: Column(
                         children: [
                           Row(
@@ -88,7 +89,11 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                                 ),
                                 onPressed: () {
                                   favouritesProvider.addToFavourites(
-                                      FavouriteType.Wiki, wiki?.questionId);
+                                    FavouriteType.Wiki,
+                                    wiki?.questionId,
+                                    moduleId: wiki?.moduleId,
+                                    lessonId: wiki?.lessonId,
+                                  );
                                   setState(() => isFavorite = !isFavorite);
                                 },
                               )

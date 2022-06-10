@@ -34,6 +34,8 @@ class DatabaseProvider with ChangeNotifier {
               "question TEXT,"
               "answer TEXT,"
               "tags TEXT,"
+              "lessonID INTEGER,"
+              "moduleID INTEGER,"
               "isFavorite INTEGER"
               ")");
           await db.execute("CREATE TABLE $TABLE_APP_HELP ("

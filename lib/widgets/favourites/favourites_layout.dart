@@ -11,6 +11,7 @@ import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_tab.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_toolkits.dart';
+import 'package:thepcosprotocol_app/widgets/favourites/favourites_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
@@ -191,24 +192,18 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
                     FavouritesLessons(
                       favouritesProvider: favouritesProvider,
                     ),
+                    FavouritesWikis(
+                      favouritesProvider: favouritesProvider,
+                    ),
                     // FavouritesTab(
                     //   screenSize: screenSize,
-                    //   favourites: favouritesProvider.lessons,
+                    //   favourites: favouritesProvider.lessonWikis,
                     //   status: favouritesProvider.status,
-                    //   favouriteType: FavouriteType.Lesson,
+                    //   favouriteType: FavouriteType.Wiki,
                     //   isToolkit: false,
                     //   openFavourite: _openFavourite,
                     //   removeFavourite: _removeFavourite,
                     // ),
-                    FavouritesTab(
-                      screenSize: screenSize,
-                      favourites: favouritesProvider.lessonWikis,
-                      status: favouritesProvider.status,
-                      favouriteType: FavouriteType.Wiki,
-                      isToolkit: false,
-                      openFavourite: _openFavourite,
-                      removeFavourite: _removeFavourite,
-                    ),
                     FavouritesTab(
                       screenSize: screenSize,
                       favourites: favouritesProvider.recipes,
