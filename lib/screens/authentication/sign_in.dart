@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'package:thepcosprotocol_app/constants/widget_keys.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
-//import 'package:url_launcher/url_launcher.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
-import 'package:thepcosprotocol_app/widgets/sign_in/sign_in_layout.dart';
-import 'package:thepcosprotocol_app/widgets/sign_in/register_layout.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -18,8 +15,6 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/member.dart';
-import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
-import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
@@ -33,6 +28,8 @@ class _SignInState extends State<SignIn> {
   bool showSignUp = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   void authenticateUser() async {
     bool showErrorDialog = false;
@@ -103,154 +100,292 @@ class _SignInState extends State<SignIn> {
         isSigningIn = false;
       });
 
-      showFlushBar(context, errorTitle, errorMessage,
-          backgroundColor: Colors.white,
-          borderColor: primaryColorLight,
-          primaryColor: primaryColor);
+      showFlushBar(
+        context,
+        errorTitle,
+        errorMessage,
+        backgroundColor: Colors.white,
+        borderColor: backgroundColor,
+        primaryColor: backgroundColor,
+      );
     }
   }
-
-  void displayRegistration() async {
-    if (!isSigningIn) {
-      analytics.logEvent(name: Analytics.ANALYTICS_EVENT_SIGN_UP);
-      setState(() {
-        showSignUp = true;
-      });
-    }
-  }
-
-  void hideRegistration() async {
-    setState(() {
-      showSignUp = false;
-    });
-  }
-
-  /*void navigateToRegister() async {
-    if (!isSigningIn) {
-      final urlQuestionnaireWebsite =
-          FlavorConfig.instance.values.questionnaireUrl;
-      if (await canLaunch(urlQuestionnaireWebsite)) {
-        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_SIGN_UP);
-
-        await launch(
-          urlQuestionnaireWebsite,
-          forceSafariVC: false,
-          forceWebView: false,
-        );
-      } else {
-        showFlushBar(
-            context,
-            S.current.questionnaireWebsiteErrorTitle,
-            S
-                .of(context)
-                .questionnaireWebsiteErrorText
-                .replaceAll("[url]", urlQuestionnaireWebsite),
-            backgroundColor: Colors.white,
-            borderColor: primaryColorLight,
-            primaryColor: primaryColor);
-      }
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    final double boxWidth = screenSize.width * 0.4;
-    final bool isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
-    final double heightDeduction = Platform.isIOS ? 60 : 64;
 
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: SafeArea(
-        bottom: false,
-        child: showSignUp
-            ? Column(
-                children: [
-                  SizedBox(
-                    width: screenSize.width,
-                    height: 40,
-                    child: ColorButton(
-                      isUpdating: false,
-                      label: S.current.returnToSignInTitle,
-                      onTap: hideRegistration,
-                      width: 250,
-                    ),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        body: SafeArea(
+            bottom: false,
+            child: Center(
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  HeaderImage(
+                    screenSize: screenSize,
+                    isOrange: true,
+                    verticalTopPadding: 80,
                   ),
-                  Expanded(
-                    child: SizedBox(
-                      width: screenSize.width,
-                      height: screenSize.height - heightDeduction,
-                      child: RegisterWebView(),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 60,
                     ),
-                  ),
-                ],
-              )
-            : isHorizontal
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      HeaderImage(
-                        screenSize: screenSize,
-                        isOrange: false,
-                        verticalTopPadding: 80,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            height: 340.0,
-                            width: boxWidth,
-                            child: SignInLayout(
-                              isSigningIn: isSigningIn,
-                              authenticateUser: authenticateUser,
-                              emailController: emailController,
-                              passwordController: passwordController,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            child: TextFormField(
+                              key: Key(WidgetKeys.SignInUsernameEmail),
+                              controller: emailController,
+                              cursorColor: backgroundColor,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                labelText: S.current.emailLabel,
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value?.isEmpty == true) {
+                                  return S.current.validateEmailMessage;
+                                }
+                                return null;
+                              },
                             ),
                           ),
-                          SizedBox(
-                            height: 340.0,
-                            width: boxWidth,
-                            child: RegisterLayout(
-                              navigateToRegister: displayRegistration,
-                              isHorizontal: true,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
                             ),
+                            child: TextFormField(
+                              controller: passwordController,
+                              cursorColor: backgroundColor,
+                              obscuringCharacter: "*",
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: backgroundColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: unselectedIndicatorColor,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                labelText: S.current.passwordLabel,
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value?.isEmpty == true) {
+                                  return S.current.validatePasswordMessage;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 15,
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                // forgottenPassword(context);
+                              },
+                              child: Text(
+                                S.current.passwordForgottenTitle,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: backgroundColor,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                          FilledButton(
+                            isUpdating: isSigningIn,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              if (_formKey.currentState?.validate() == true) {
+                                authenticateUser();
+                              }
+                            },
+                            text: S.current.signInTitle,
+                            foregroundColor: Colors.white,
+                            backgroundColor: backgroundColor,
+                          ),
+                          SizedBox(
+                            height: 50,
                           ),
                         ],
                       ),
-                    ],
-                  )
-                : Center(
-                    child: ListView(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(15.0),
-                      children: <Widget>[
-                        HeaderImage(
-                          screenSize: screenSize,
-                          isOrange: false,
-                          verticalTopPadding: 80,
-                        ),
-                        SizedBox(
-                          height: 360.0,
-                          child: SignInLayout(
-                            isSigningIn: isSigningIn,
-                            authenticateUser: authenticateUser,
-                            emailController: emailController,
-                            passwordController: passwordController,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 190.0,
-                          child: RegisterLayout(
-                            navigateToRegister: displayRegistration,
-                            isHorizontal: false,
-                          ),
-                        ),
-                      ],
                     ),
                   ),
+                ],
+              ),
+            )
+            //   child: showSignUp
+            //       ? Column(
+            //           children: [
+            //             SizedBox(
+            //               width: screenSize.width,
+            //               height: 40,
+            //               child: ColorButton(
+            //                 isUpdating: false,
+            //                 label: S.current.returnToSignInTitle,
+            //                 onTap: hideRegistration,
+            //                 width: 250,
+            //               ),
+            //             ),
+            //             Expanded(
+            //               child: SizedBox(
+            //                 width: screenSize.width,
+            //                 height: screenSize.height - heightDeduction,
+            //                 child: RegisterWebView(),
+            //               ),
+            //             ),
+            //           ],
+            //         )
+            //       : isHorizontal
+            //           ? Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               crossAxisAlignment: CrossAxisAlignment.center,
+            //               children: [
+            //                 HeaderImage(
+            //                   screenSize: screenSize,
+            //                   isOrange: false,
+            //                   verticalTopPadding: 80,
+            //                 ),
+            //                 Row(
+            //                   mainAxisAlignment: MainAxisAlignment.center,
+            //                   crossAxisAlignment: CrossAxisAlignment.center,
+            //                   children: [
+            //                     SizedBox(
+            //                       height: 340.0,
+            //                       width: boxWidth,
+            //                       child: SignInLayout(
+            //                         isSigningIn: isSigningIn,
+            //                         authenticateUser: authenticateUser,
+            //                         emailController: emailController,
+            //                         passwordController: passwordController,
+            //                       ),
+            //                     ),
+            //                     SizedBox(
+            //                       height: 340.0,
+            //                       width: boxWidth,
+            //                       child: RegisterLayout(
+            //                         navigateToRegister: displayRegistration,
+            //                         isHorizontal: true,
+            //                       ),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ],
+            //             )
+            //           : Center(
+            //               child: ListView(
+            //                 shrinkWrap: true,
+            //                 padding: EdgeInsets.all(15.0),
+            //                 children: <Widget>[
+            //                   HeaderImage(
+            //                     screenSize: screenSize,
+            //                     isOrange: false,
+            //                     verticalTopPadding: 80,
+            //                   ),
+            //                   SizedBox(
+            //                     height: 360.0,
+            //                     child: SignInLayout(
+            //                       isSigningIn: isSigningIn,
+            //                       authenticateUser: authenticateUser,
+            //                       emailController: emailController,
+            //                       passwordController: passwordController,
+            //                     ),
+            //                   ),
+            //                   SizedBox(
+            //                     height: 190.0,
+            //                     child: RegisterLayout(
+            //                       navigateToRegister: displayRegistration,
+            //                       isHorizontal: false,
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            ),
       ),
     );
   }

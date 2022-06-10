@@ -5,10 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/authentication/base_pin.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
-import 'package:thepcosprotocol_app/widgets/shared/header_image.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pin_pad.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
@@ -28,12 +27,11 @@ class PinUnlock extends StatefulWidget {
   PinUnlockState createState() => PinUnlockState();
 }
 
-class PinUnlockState extends State<PinUnlock> {
-  List<bool> _progress = [false, false, false, false];
-  int _currentPosition = 0;
-  String _pinEntered = "";
-  PinEntry _pinEntry = PinEntry.NONE;
+class PinUnlockState extends State<PinUnlock> with BasePin {
   int _pinAttempts = 0;
+
+  @override
+  String get subheaderText => S.current.pinUnlockTitle;
 
   Future<bool> onBackPressed(BuildContext context) async {
     if (Platform.isIOS) return Future.value(false);
@@ -70,32 +68,28 @@ class PinUnlockState extends State<PinUnlock> {
         false;
   }
 
-  void pinButtonPressed(final String pinNumber) async {
-    HapticFeedback.lightImpact();
-    updatePin(pinNumber);
-    if (_currentPosition > 3) {
-      await Future.delayed(const Duration(milliseconds: 200), () {});
-      updatePinEntryState();
-      if (_pinEntry == PinEntry.ENTERED) {
-        checkPin(_pinEntered);
-      }
+  @override
+  void validatePin() {
+    if (pinEntry == PinEntry.ENTERED) {
+      checkPin(pinEntered);
     }
   }
 
+  @override
   void updatePin(final String pinNumber) {
     setState(() {
-      _pinEntered += pinNumber.toString();
-      _progress[_currentPosition] = true;
-      _currentPosition++;
+      pinEntered += pinNumber.toString();
+      super.updatePin(pinNumber);
     });
   }
 
+  @override
   void updatePinEntryState() {
     setState(() {
-      if (_pinEntry == PinEntry.NONE) {
-        _pinEntry = PinEntry.ENTERED;
-      } else if (_pinEntry == PinEntry.ENTERED) {
-        _pinEntry = PinEntry.COMPLETE;
+      if (pinEntry == PinEntry.NONE) {
+        pinEntry = PinEntry.ENTERED;
+      } else if (pinEntry == PinEntry.ENTERED) {
+        pinEntry = PinEntry.COMPLETE;
       }
     });
   }
@@ -107,7 +101,8 @@ class PinUnlockState extends State<PinUnlock> {
         pinEntryComplete();
       } else {
         if (_pinAttempts < 5) {
-          startPinAgain();
+          startPinAgain(
+              S.current.pinEntryErrorTitle, S.current.pinEntryErrorText);
         } else {
           //have tried pin five times, clear pin, and send back to sign in
           sendToSignIn(false);
@@ -115,11 +110,11 @@ class PinUnlockState extends State<PinUnlock> {
       }
     } else {
       //not connected to internet, inform user
-      showFlushBar(context, S.current.internetConnectionTitle,
-          S.current.internetConnectionText,
-          backgroundColor: Colors.white,
-          borderColor: primaryColorLight,
-          primaryColor: primaryColor);
+      showFlushBar(
+        context,
+        S.current.internetConnectionTitle,
+        S.current.internetConnectionText,
+      );
     }
   }
 
@@ -160,12 +155,9 @@ class PinUnlockState extends State<PinUnlock> {
         memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ?? "");
   }
 
-  void startPinAgain() {
-    showFlushBar(
-        context, S.current.pinUnlockErrorTitle, S.current.pinUnlockErrorText,
-        backgroundColor: Colors.white,
-        borderColor: primaryColorLight,
-        primaryColor: primaryColor);
+  @override
+  void startPinAgain(String title, String message) {
+    super.startPinAgain(title, message);
 
     resetPinPad();
   }
@@ -204,13 +196,23 @@ class PinUnlockState extends State<PinUnlock> {
     });
   }
 
+  @override
   void resetPinPad() {
+    super.resetPinPad();
     setState(() {
-      _progress = [false, false, false, false];
-      _currentPosition = 0;
-      _pinEntered = "";
-      _pinEntry = PinEntry.NONE;
+      pinEntered = "";
+      pinEntry = PinEntry.NONE;
     });
+  }
+
+  @override
+  void deletePinPadDigit() {
+    if (currentPosition > 0) {
+      setState(() {
+        super.deletePinPadDigit();
+        pinEntered = pinEntered.substring(0, pinEntered.length - 1);
+      });
+    }
   }
 
   void forgottenPin(BuildContext context) {
@@ -253,42 +255,14 @@ class PinUnlockState extends State<PinUnlock> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final double pinButtonSize =
-        screenSize.width > 600 ? 100 : screenSize.width * .22;
-    final double headerPadding = screenSize.width > 600 ? 20.0 : 0.0;
     return WillPopScope(
       onWillPop: () {
         return onBackPressed(context);
       },
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: headerPadding),
-                child: HeaderImage(
-                  screenSize: screenSize,
-                  isOrange: false,
-                  verticalTopPadding: 80,
-                ),
-              ),
-              PinPad(
-                pinButtonSize: pinButtonSize,
-                headerText: S.current.pinUnlockTitle,
-                progress: _progress,
-                currentPosition: _currentPosition,
-                showForgottenPin: true,
-                pinButtonPressed: (pinNumber) {
-                  pinButtonPressed(pinNumber);
-                },
-                resetPinPad: resetPinPad,
-                forgotPin: forgottenPin,
-              )
-            ],
-          ),
+      child: getBaseWidget(
+        context,
+        SafeArea(
+          child: getPinPad(forgotPin: forgottenPin),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart' as colors;
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
@@ -9,8 +10,8 @@ void showFlushBar(final BuildContext scaffoldContext, final String title,
     final String message,
     {final IconData icon = Icons.warning_outlined,
     final Color backgroundColor = Colors.white,
-    final Color borderColor = Colors.black38,
-    final Color primaryColor = Colors.black87,
+    final Color borderColor = colors.backgroundColor,
+    final Color primaryColor = colors.backgroundColor,
     final int displayDuration = 5}) {
   analytics.logEvent(
     name: Analytics.ANALYTICS_EVENT_FLUSHBAR,

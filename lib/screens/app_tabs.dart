@@ -5,6 +5,7 @@ import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -18,10 +19,13 @@ import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/tabs/dashboard.dart';
+import 'package:thepcosprotocol_app/tabs/favourites.dart';
+import 'package:thepcosprotocol_app/tabs/recipes.dart';
+import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/drawer_menu.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/header_app_bar.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
-import 'package:thepcosprotocol_app/widgets/app_body/main_screens.dart';
 import 'package:thepcosprotocol_app/screens/menu/profile.dart';
 import 'package:thepcosprotocol_app/screens/menu/settings.dart';
 import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
@@ -32,7 +36,6 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/widgets/tutorial/tutorial.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
@@ -50,13 +53,15 @@ class AppTabs extends StatefulWidget {
   _AppTabsState createState() => _AppTabsState();
 }
 
-class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
+class _AppTabsState extends State<AppTabs>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
   int _currentIndex = 0;
   bool _intercomInitialised = false;
   late AppLifecycleState _appLifecycleState;
   bool _showYourWhy = false;
   bool _showLessonRecipes = false;
   bool _isLocked = false;
+  late TabController tabController;
 
   @override
   void initState() {
@@ -72,6 +77,8 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   }
 
   void initialize() async {
+    tabController = TabController(initialIndex: 0, length: 5, vsync: this);
+
     //intercom
     final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
     await Intercom.initialize(
@@ -207,17 +214,12 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         Navigator.pushNamed(context, TermsAndConditions.id);
         break;
       case DrawerMenuItem.TUTORIAL:
-        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-        openBottomSheet(
+        Navigator.pushNamed(
           context,
-          Tutorial(
-            isStartUp: false,
-            closeTutorial: () {
-              Navigator.pop(context);
-            },
+          AppTutorialPage.id,
+          arguments: AppTutorialArguments(
+            showBackButton: true,
           ),
-          Analytics.ANALYTICS_SCREEN_TUTORIAL,
-          null,
         );
         break;
     }
@@ -306,32 +308,33 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         ),
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText1!,
-          child: Platform.isIOS
-              ? MainScreens(
-                  currentIndex: _currentIndex,
+          child: WillPopScope(
+            onWillPop: onBackPressed,
+            child: TabBarView(
+              controller: tabController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Dashboard(
                   showYourWhy: _showYourWhy,
                   showLessonRecipes: _showLessonRecipes,
                   updateYourWhy: _updateYourWhy,
-                )
-              : WillPopScope(
-                  onWillPop: () {
-                    return onBackPressed();
-                  },
-                  child: MainScreens(
-                    currentIndex: _currentIndex,
-                    showYourWhy: _showYourWhy,
-                    showLessonRecipes: _showLessonRecipes,
-                    updateYourWhy: _updateYourWhy,
-                  ),
                 ),
+                Center(
+                  child: Text("Library"),
+                ),
+                Recipes(),
+                Favourites(),
+                Center(
+                  child: Text("More"),
+                ),
+              ],
+            ),
+          ),
         ),
         bottomNavigationBar: AppNavigationTabs(
           currentIndex: _currentIndex,
-          onTapped: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
+          tabController: tabController,
+          onTapped: (index) => setState(() => _currentIndex = index),
           observer: widget.observer,
         ),
       ),

@@ -426,10 +426,10 @@ class S {
     );
   }
 
-  /// `Forgotten PIN`
+  /// `Forgot passcode?`
   String get pinForgottenTitle {
     return Intl.message(
-      'Forgotten PIN',
+      'Forgot passcode?',
       name: 'pinForgottenTitle',
       desc: '',
       args: [],
@@ -466,10 +466,10 @@ class S {
     );
   }
 
-  /// `Forgotten Password`
+  /// `Forgot Password?`
   String get passwordForgottenTitle {
     return Intl.message(
-      'Forgotten Password',
+      'Forgot Password?',
       name: 'passwordForgottenTitle',
       desc: '',
       args: [],

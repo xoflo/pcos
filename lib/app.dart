@@ -36,6 +36,9 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
+import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 
 class App extends StatefulWidget {
   @override
@@ -156,7 +159,10 @@ class _AppState extends State<App> {
         initialRoute: AppLoading.id,
         routes: {
           AppLoading.id: (context) => AppLoading(),
+          AppTutorialPage.id: (context) => AppTutorialPage(),
+          OnboardingPage.id: (context) => OnboardingPage(),
           SignIn.id: (context) => SignIn(),
+          RegisterWebView.id: (context) => RegisterWebView(),
           UnsupportedVersion.id: (context) => UnsupportedVersion(),
           PinUnlock.id: (context) => PinUnlock(),
           PinSet.id: (context) => PinSet(),

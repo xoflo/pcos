@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
-import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
 
 class AppLoading extends StatefulWidget {
   static const String id = "app_loading_screen";
@@ -41,7 +41,7 @@ class _AppLoadingState extends State<AppLoading> {
       }
     }
     //navigate to relevant start up screen
-    Navigator.pushReplacementNamed(context, SignIn.id);
+    Navigator.pushReplacementNamed(context, OnboardingPage.id);
   }
 
   void _setIsLocked(final bool isLocked) {
