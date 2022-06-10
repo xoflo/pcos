@@ -90,8 +90,10 @@ class _LessonPageState extends State<LessonPage> {
     if (args == null) {
       args = ModalRoute.of(context)?.settings.arguments as LessonArguments;
       final lessonContents = args?.lessonContents;
-      firstLessonContent = lessonContents?.first;
-      otherLessonContent = lessonContents?.sublist(1, lessonContents.length);
+      if (lessonContents?.isNotEmpty == true) {
+        firstLessonContent = lessonContents?.first;
+        otherLessonContent = lessonContents?.sublist(1, lessonContents.length);
+      }
 
       isFavorite = favouritesProvider.isFavourite(
           FavouriteType.Lesson, args?.lesson.lessonID);
