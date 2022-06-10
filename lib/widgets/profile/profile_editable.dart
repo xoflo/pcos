@@ -14,13 +14,13 @@ class ProfileEditable extends StatelessWidget {
   final Function cancel;
 
   ProfileEditable({
-    @required this.member,
-    @required this.firstNameController,
-    @required this.lastNameController,
-    @required this.emailController,
-    @required this.screenSize,
-    @required this.saveMemberDetails,
-    @required this.cancel,
+    required this.member,
+    required this.firstNameController,
+    required this.lastNameController,
+    required this.emailController,
+    required this.screenSize,
+    required this.saveMemberDetails,
+    required this.cancel,
   });
 
   @override
@@ -40,7 +40,7 @@ class ProfileEditable extends StatelessWidget {
                 labelText: S.current.profileFirstNameLabel,
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value?.isEmpty == true) {
                   return S.current.profileValidateFirstNameMessage;
                 }
                 return null;
@@ -56,7 +56,7 @@ class ProfileEditable extends StatelessWidget {
                 labelText: S.current.profileLastNameLabel,
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value?.isEmpty == true) {
                   return S.current.profileValidateLastNameMessage;
                 }
                 return null;
@@ -72,10 +72,10 @@ class ProfileEditable extends StatelessWidget {
                 labelText: S.current.profileEmailLabel,
               ),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value?.isEmpty == true) {
                   return S.current.profileValidateEmailMessage;
                 } else {
-                  if (!EmailValidator.validate(value)) {
+                  if (!EmailValidator.validate(value ?? "")) {
                     return S.current.profileInvalidEmailMessage;
                   }
                 }

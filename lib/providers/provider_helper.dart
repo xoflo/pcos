@@ -19,6 +19,7 @@ import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
@@ -28,49 +29,51 @@ import 'package:thepcosprotocol_app/constants/table_names.dart';
 // This provider is used for App Help
 class ProviderHelper {
   Future<List<Question>> fetchAndSaveQuestions(
-    final dbProvider,
+    final DatabaseProvider? dbProvider,
     final String tableName,
     final String assetType,
   ) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
         final cmsItems = await WebServices().getCMSByType(assetType);
         List<Question> questions = _convertCMSToQuestions(cmsItems, assetType);
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(tableName);
+        await dbProvider?.deleteAll(tableName);
         //add items to database
         questions.forEach((Question question) async {
-          await dbProvider.insert(tableName, {
+          await dbProvider?.insert(tableName, {
             'id': question.id,
             'reference': question.reference,
             'question': question.question,
             'answer': question.answer,
             'tags': question.tags,
-            'isFavorite': question.isFavorite ? 1 : 0,
+            'isFavorite': (question.isFavorite ?? false) ? 1 : 0,
           });
         });
         //save when we got the data
         saveTimestamp(tableName);
       }
       // get items from database
-      return await getAllData(dbProvider, tableName);
+      List questions = await getAllData(dbProvider, tableName);
+      return questions as List<Question>;
     }
     return [];
   }
 
-  Future<List<Recipe>> fetchAndSaveRecipes(final dbProvider) async {
+  Future<List<Recipe>> fetchAndSaveRecipes(
+      final DatabaseProvider? dbProvider) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, TABLE_RECIPE)) {
         final recipes = await WebServices().getAllRecipes();
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(TABLE_RECIPE);
+        await dbProvider?.deleteAll(TABLE_RECIPE);
         //add items to database
-        recipes.forEach((Recipe recipe) async {
-          await dbProvider.insert(TABLE_RECIPE, {
+        recipes?.forEach((Recipe recipe) async {
+          await dbProvider?.insert(TABLE_RECIPE, {
             'recipeId': recipe.recipeId,
             'title': recipe.title,
             'description': recipe.description,
@@ -82,7 +85,7 @@ class ProviderHelper {
             'difficulty': recipe.difficulty,
             'servings': recipe.servings,
             'duration': recipe.duration,
-            'isFavorite': recipe.isFavorite ? 1 : 0,
+            'isFavorite': (recipe.isFavorite ?? false) ? 1 : 0,
           });
         });
 
@@ -90,13 +93,14 @@ class ProviderHelper {
         saveTimestamp(TABLE_RECIPE);
       }
       // get items from database
-      return await getAllData(dbProvider, TABLE_RECIPE);
+      List recipes = await getAllData(dbProvider, TABLE_RECIPE);
+      return recipes as List<Recipe>;
     }
     return [];
   }
 
   Future<ModulesAndLessons> fetchAndSaveModuleExport(
-    final dbProvider,
+    final DatabaseProvider? dbProvider,
     final bool forceRefresh,
     final DateTime nextLessonAvailableDate,
   ) async {
@@ -104,7 +108,7 @@ class ProviderHelper {
         nextLessonAvailableDate.isBefore(DateTime.now());
 
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (forceRefresh ||
           await _shouldGetDataFromAPI(dbProvider, TABLE_MODULE)) {
@@ -112,17 +116,17 @@ class ProviderHelper {
         await ProviderHelper()
             .fetchAndSaveQuestions(dbProvider, TABLE_WIKI, TABLE_WIKI);
         //now get the modules, lessons etc
-        final List<ModuleExport> moduleExport =
+        final List<ModuleExport>? moduleExport =
             await WebServices().getModulesExport();
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(TABLE_MODULE);
-        await dbProvider.deleteAll(TABLE_LESSON);
-        await dbProvider.deleteAll(TABLE_LESSON_CONTENT);
-        await dbProvider.deleteAll(TABLE_LESSON_TASK);
-        await dbProvider.deleteAll(TABLE_LESSON_LINK);
-        await dbProvider.deleteAll(TABLE_QUIZ);
-        await dbProvider.deleteAll(TABLE_QUIZ_QUESTION);
-        await dbProvider.deleteAll(TABLE_QUIZ_ANSWER);
+        await dbProvider?.deleteAll(TABLE_MODULE);
+        await dbProvider?.deleteAll(TABLE_LESSON);
+        await dbProvider?.deleteAll(TABLE_LESSON_CONTENT);
+        await dbProvider?.deleteAll(TABLE_LESSON_TASK);
+        await dbProvider?.deleteAll(TABLE_LESSON_LINK);
+        await dbProvider?.deleteAll(TABLE_QUIZ);
+        await dbProvider?.deleteAll(TABLE_QUIZ_QUESTION);
+        await dbProvider?.deleteAll(TABLE_QUIZ_ANSWER);
 
         //add modules to database
         await _addModulesAndLessonsToDatabase(dbProvider, moduleExport);
@@ -132,7 +136,7 @@ class ProviderHelper {
       }
 
       // get items from database
-      final List<Module> modulesFromDB = await getAllData(
+      final List modulesFromDB = await getAllData(
         dbProvider,
         TABLE_MODULE,
         orderByColumn: "orderIndex",
@@ -142,39 +146,39 @@ class ProviderHelper {
         dbProvider,
         TABLE_LESSON,
         orderByColumn: "moduleID, orderIndex",
-      );
+      ) as List<Lesson>;
       final List<LessonContent> lessonContentFromDB = await getAllData(
         dbProvider,
         TABLE_LESSON_CONTENT,
         orderByColumn: "lessonID, orderIndex",
-      );
+      ) as List<LessonContent>;
       final List<LessonTask> lessonTasksFromDB = await getAllData(
         dbProvider,
         TABLE_LESSON_TASK,
         orderByColumn: "lessonID, orderIndex",
         incompleteOnly: true,
-      );
+      ) as List<LessonTask>;
 
       //get and add the Quizzes including questions and answers to the DB
       //do this after modules and lessons so we can check the lesson links to see which quizzes are for this member
-      final List<LessonTask> lessonQuizTasks =
+      final List<LessonTask>? lessonQuizTasks =
           await WebServices().getQuizTasks();
-      debugPrint("Got Lesson Quiz TASKS count = ${lessonQuizTasks.length}");
+      debugPrint("Got Lesson Quiz TASKS count = ${lessonQuizTasks?.length}");
       await _addQuizzesToDatabase(dbProvider, lessonQuizTasks);
 
-      final List<Quiz> quizzesFromDB = await getAllData(
+      final List quizzesFromDB = await getAllData(
         dbProvider,
         TABLE_QUIZ,
         orderByColumn: "quizID",
       );
 
-      final List<QuizQuestion> quizQuestionsFromDB = await getAllData(
+      final List quizQuestionsFromDB = await getAllData(
         dbProvider,
         TABLE_QUIZ_QUESTION,
         orderByColumn: "quizID, orderIndex",
       );
 
-      final List<QuizAnswer> quizAnswersFromDB = await getAllData(
+      final List quizAnswersFromDB = await getAllData(
         dbProvider,
         TABLE_QUIZ_ANSWER,
         orderByColumn: "quizQuestionID, orderIndex",
@@ -191,7 +195,7 @@ class ProviderHelper {
           for (QuizAnswer answer in quizAnswersFromDB) {
             if (answer.quizQuestionID == question.quizQuestionID) {
               thisQuestionAnswers.add(answer);
-              if (answer.isCorrect) {
+              if (answer.isCorrect == true) {
                 trueAnswerCount++;
               }
             }
@@ -204,12 +208,6 @@ class ProviderHelper {
         }
         quiz.questions = thisQuizQuestions;
       }
-
-      debugPrint(
-          "HOW MANY QUIZ QUESTIONS? ${quizzesFromDB[0].questions.length}");
-      debugPrint(
-          "HOW MANY ANSWERS? ${quizzesFromDB[0].questions[0].answers.length}");
-
       //only return complete lessons and the first incomplete lesson, also check whether first incomplete lesson should be visible yet
       List<Lesson> lessonsToReturn = [];
       List<int> lessonIDs = [];
@@ -244,29 +242,29 @@ class ProviderHelper {
       //only return the lessonTasks for lessons in lessonsToReturn
       List<LessonTask> lessonTasksToReturn = [];
       for (LessonTask lessonTask in lessonTasksFromDB) {
-        if (lessonIDs.contains(lessonTask.lessonID) && !lessonTask.isComplete)
-          lessonTasksToReturn.add(lessonTask);
+        if (lessonIDs.contains(lessonTask.lessonID) &&
+            lessonTask.isComplete == false) lessonTasksToReturn.add(lessonTask);
       }
 
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonWikis for lessons in lessonsToReturn
-      final wikiList = await dbProvider.getDataQueryWithJoin(
+      final wikiList = await dbProvider?.getDataQueryWithJoin(
         "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID, $TABLE_LESSON_LINK.ModuleID",
         "$TABLE_WIKI INNER JOIN $TABLE_LESSON_LINK ON $TABLE_WIKI.id = $TABLE_LESSON_LINK.objectID",
         "WHERE objectType = 'wiki'",
       );
 
       final List<LessonWiki> lessonWikisToReturn =
-          mapDataToList(wikiList, "LessonWiki");
+          mapDataToList(wikiList, "LessonWiki") as List<LessonWiki>;
 
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonWikis for lessons in lessonsToReturn
-      final recipeList = await dbProvider.getDataQueryWithJoin(
+      final recipeList = await dbProvider?.getDataQueryWithJoin(
         "$TABLE_RECIPE.*, $TABLE_LESSON_LINK.LessonID",
         "$TABLE_RECIPE INNER JOIN $TABLE_LESSON_LINK ON $TABLE_RECIPE.recipeId = $TABLE_LESSON_LINK.objectID",
         "WHERE objectType = 'recipe'",
       );
 
       final List<LessonRecipe> lessonRecipesToReturn =
-          mapDataToList(recipeList, "LessonRecipe");
+          mapDataToList(recipeList, "LessonRecipe") as List<LessonRecipe>;
 
       //TODO: need to check whether complete when available
       final List<Quiz> quizzesToReturn = [];
@@ -308,51 +306,52 @@ class ProviderHelper {
   }
 
   Future<void> _addModulesAndLessonsToDatabase(
-      final dbProvider, final List<ModuleExport> moduleExport) async {
-    moduleExport.forEach((ModuleExport moduleExport) async {
-      Module module = moduleExport.module;
-      await dbProvider.insert(TABLE_MODULE, {
-        'moduleID': module.moduleID,
-        'title': module.title,
-        'isComplete': module.isComplete ? 1 : 0,
-        'orderIndex': module.orderIndex,
-        'dateCreatedUTC': module.dateCreatedUTC.toIso8601String(),
+      final DatabaseProvider? dbProvider,
+      final List<ModuleExport>? moduleExport) async {
+    moduleExport?.forEach((ModuleExport moduleExport) async {
+      Module? module = moduleExport.module;
+      await dbProvider?.insert(TABLE_MODULE, {
+        'moduleID': module?.moduleID,
+        'title': module?.title,
+        'isComplete': module?.isComplete == true ? 1 : 0,
+        'orderIndex': module?.orderIndex,
+        'dateCreatedUTC': module?.dateCreatedUTC?.toIso8601String(),
       });
     });
 
     //add lessons, lesson content and lesson tasks to database
-    moduleExport.forEach((ModuleExport moduleExport) async {
-      List<LessonExport> lessons = moduleExport.lessons;
-      lessons.forEach((LessonExport lessonExport) async {
-        Lesson lesson = lessonExport.lesson;
-        List<LessonContent> lessonContent = lessonExport.content;
-        List<LessonTask> lessonTasks = lessonExport.tasks;
-        List<LessonLink> lessonLinks = lessonExport.links;
+    moduleExport?.forEach((ModuleExport moduleExport) async {
+      List<LessonExport>? lessons = moduleExport.lessons;
+      lessons?.forEach((LessonExport lessonExport) async {
+        Lesson? lesson = lessonExport.lesson;
+        List<LessonContent>? lessonContent = lessonExport.content;
+        List<LessonTask>? lessonTasks = lessonExport.tasks;
+        List<LessonLink>? lessonLinks = lessonExport.links;
         //add lesson to database
-        await dbProvider.insert(TABLE_LESSON, {
-          'lessonID': lesson.lessonID,
-          'moduleID': lesson.moduleID,
-          'title': lesson.title,
-          'introduction': lesson.introduction,
-          'orderIndex': lesson.orderIndex,
-          'isFavorite': lesson.isFavorite ? 1 : 0,
-          'isComplete': lesson.isComplete ? 1 : 0,
-          'isToolkit': lesson.isToolkit ? 1 : 0,
-          'dateCreatedUTC': lesson.dateCreatedUTC.toIso8601String(),
+        await dbProvider?.insert(TABLE_LESSON, {
+          'lessonID': lesson?.lessonID,
+          'moduleID': moduleExport.module?.moduleID,
+          'title': lesson?.title,
+          'introduction': lesson?.introduction,
+          'orderIndex': lesson?.orderIndex,
+          'isFavorite': lesson?.isFavorite == true ? 1 : 0,
+          'isComplete': lesson?.isComplete == true ? 1 : 0,
+          'isToolkit': lesson?.isToolkit == true ? 1 : 0,
+          'dateCreatedUTC': lesson?.dateCreatedUTC.toIso8601String(),
         });
         //add lesson content to database
         await _addLessonContentToDatabase(dbProvider, lessonContent);
         await _addLessonTasksToDatabase(dbProvider, lessonTasks);
         await _addLessonLinkToDatabase(
-            dbProvider, lessonLinks, lesson.moduleID);
+            dbProvider, lessonLinks, moduleExport.module?.moduleID);
       });
     });
   }
 
-  Future<void> _addLessonContentToDatabase(
-      final dbProvider, List<LessonContent> lessonContents) async {
-    lessonContents.forEach((LessonContent lessonContent) async {
-      await dbProvider.insert(TABLE_LESSON_CONTENT, {
+  Future<void> _addLessonContentToDatabase(final DatabaseProvider? dbProvider,
+      List<LessonContent>? lessonContents) async {
+    lessonContents?.forEach((LessonContent lessonContent) async {
+      await dbProvider?.insert(TABLE_LESSON_CONTENT, {
         'lessonContentID': lessonContent.lessonContentID,
         'lessonID': lessonContent.lessonID,
         'title': lessonContent.title,
@@ -361,15 +360,15 @@ class ProviderHelper {
         'body': lessonContent.body,
         'summary': lessonContent.summary,
         'orderIndex': lessonContent.orderIndex,
-        'dateCreatedUTC': lessonContent.dateCreatedUTC.toIso8601String(),
+        'dateCreatedUTC': lessonContent.dateCreatedUTC?.toIso8601String(),
       });
     });
   }
 
   Future<void> _addLessonTasksToDatabase(
-      final dbProvider, List<LessonTask> lessonTasks) async {
-    lessonTasks.forEach((LessonTask lessonTask) async {
-      await dbProvider.insert(TABLE_LESSON_TASK, {
+      final DatabaseProvider? dbProvider, List<LessonTask>? lessonTasks) async {
+    lessonTasks?.forEach((LessonTask lessonTask) async {
+      await dbProvider?.insert(TABLE_LESSON_TASK, {
         'lessonTaskID': lessonTask.lessonTaskID,
         'lessonID': lessonTask.lessonID,
         'metaName': lessonTask.metaName,
@@ -377,82 +376,82 @@ class ProviderHelper {
         'description': lessonTask.description,
         'taskType': lessonTask.taskType,
         'orderIndex': lessonTask.orderIndex,
-        'isComplete': lessonTask.isComplete ? 1 : 0,
-        'dateCreatedUTC': lessonTask.dateCreatedUTC.toIso8601String(),
+        'isComplete': lessonTask.isComplete == true ? 1 : 0,
+        'dateCreatedUTC': lessonTask.dateCreatedUTC?.toIso8601String(),
       });
     });
   }
 
-  Future<void> _addLessonLinkToDatabase(final dbProvider,
-      final List<LessonLink> lessonLinks, final int moduleID) async {
-    lessonLinks.forEach((LessonLink lessonLink) async {
-      await dbProvider.insert(TABLE_LESSON_LINK, {
+  Future<void> _addLessonLinkToDatabase(final DatabaseProvider? dbProvider,
+      final List<LessonLink>? lessonLinks, final int? moduleID) async {
+    lessonLinks?.forEach((LessonLink lessonLink) async {
+      await dbProvider?.insert(TABLE_LESSON_LINK, {
         'lessonLinkID': lessonLink.lessonLinkID,
         'lessonID': lessonLink.lessonID,
         'moduleID': moduleID,
         'objectID': lessonLink.objectID,
         'objectType': lessonLink.objectType,
         'orderIndex': lessonLink.orderIndex,
-        'dateCreatedUTC': lessonLink.dateCreatedUTC.toIso8601String(),
+        'dateCreatedUTC': lessonLink.dateCreatedUTC?.toIso8601String(),
       });
     });
   }
 
-  Future<void> _addQuizzesToDatabase(
-      final dbProvider, final List<LessonTask> lessonQuizTasks) async {
+  Future<void> _addQuizzesToDatabase(final DatabaseProvider? dbProvider,
+      final List<LessonTask>? lessonQuizTasks) async {
     final List<LessonLink> lessonLinksFromDB = mapDataToList(
-        await dbProvider.getDataQuery(
+        await dbProvider?.getDataQuery(
           TABLE_LESSON_LINK,
           "WHERE objectType = 'quiz'",
         ),
-        TABLE_LESSON_LINK);
+        TABLE_LESSON_LINK) as List<LessonLink>;
     //using TaskType split the tasks into five groups, quiz, quiz-question, quiz-question-resp, quiz-answer, quiz-answer-resp
-    final List<LessonTask> quizzes =
-        lessonQuizTasks.where((task) => task.taskType == "quiz").toList();
-    final List<LessonTask> quizMessages =
-        lessonQuizTasks.where((task) => task.taskType == "quiz-msg").toList();
-    final List<LessonTask> quizQuestions = lessonQuizTasks
-        .where((task) => task.taskType == "quiz-question")
+    final List<LessonTask>? quizzes =
+        lessonQuizTasks?.where((task) => task.taskType == "quiz").toList();
+    final List<LessonTask>? quizMessages =
+        lessonQuizTasks?.where((task) => task.taskType == "quiz-msg").toList();
+    final List<LessonTask>? quizQuestions = lessonQuizTasks
+        ?.where((task) => task.taskType == "quiz-question")
         .toList();
-    final List<LessonTask> quizQuestionResponses = lessonQuizTasks
-        .where((task) => task.taskType == "quiz-question-resp")
+    final List<LessonTask>? quizQuestionResponses = lessonQuizTasks
+        ?.where((task) => task.taskType == "quiz-question-resp")
         .toList();
-    final List<LessonTask> quizAnswers = lessonQuizTasks
-        .where((task) => task.taskType == "quiz-answer")
+    final List<LessonTask>? quizAnswers = lessonQuizTasks
+        ?.where((task) => task.taskType == "quiz-answer")
         .toList();
-    final List<LessonTask> quizAnswerResponses = lessonQuizTasks
-        .where((task) => task.taskType == "quiz-answer-resp")
+    final List<LessonTask>? quizAnswerResponses = lessonQuizTasks
+        ?.where((task) => task.taskType == "quiz-answer-resp")
         .toList();
 
-    debugPrint("QUIZ=${quizzes.length}");
-    debugPrint("QUIZ MSGS=${quizMessages.length}");
-    debugPrint("QUESTIONS=${quizQuestions.length}");
-    debugPrint("Q RESPS=${quizQuestionResponses.length}");
-    debugPrint("ANSWERS=${quizAnswers.length}");
-    debugPrint("A RESPS=${quizAnswerResponses.length}");
+    debugPrint("QUIZ=${quizzes?.length}");
+    debugPrint("QUIZ MSGS=${quizMessages?.length}");
+    debugPrint("QUESTIONS=${quizQuestions?.length}");
+    debugPrint("Q RESPS=${quizQuestionResponses?.length}");
+    debugPrint("ANSWERS=${quizAnswers?.length}");
+    debugPrint("A RESPS=${quizAnswerResponses?.length}");
 
-    quizzes.forEach((LessonTask quiz) async {
+    quizzes?.forEach((LessonTask quiz) async {
       //only insert if there is a lesson link in the LessonLink table
-      final LessonLink quizLink = lessonLinksFromDB.firstWhere(
-          (link) => link.objectID == quiz.lessonTaskID,
-          orElse: () => null);
+      final LessonLink? quizLink = lessonLinksFromDB.firstWhereOrNull(
+        (link) => link.objectID == quiz.lessonTaskID,
+      );
       if (quizLink != null) {
         debugPrint(
             "FOUND QUIZ LINK quizid=${quizLink.objectID} lessonID=${quizLink.lessonID}");
         //has this quiz got an end title and message?
         String quizEndTitle = "";
         String quizEndMessage = "";
-        final LessonTask quizMsg = quizMessages.firstWhere(
-            (task) => task.metaName.startsWith(quiz.metaName),
-            orElse: () => null);
+        final LessonTask? quizMsg = quizMessages?.firstWhereOrNull(
+          (task) => task.metaName?.startsWith(quiz.metaName ?? "") ?? false,
+        );
 
         if (quizMsg != null) {
-          quizEndTitle = quizMessages[0].title;
-          quizEndMessage = quizMessages[0].description;
+          quizEndTitle = quizMessages?[0].title ?? "";
+          quizEndMessage = quizMessages?[0].description ?? "";
         }
 
         //insert the quiz with the lessonID
-        await dbProvider.insert(TABLE_QUIZ, {
+        await dbProvider?.insert(TABLE_QUIZ, {
           'quizID': quiz.lessonTaskID,
           'lessonID': quizLink.lessonID,
           'title': quiz.title,
@@ -461,21 +460,23 @@ class ProviderHelper {
           'endMessage': quizEndMessage,
         });
         //insert the questions for this quiz
-        final List<LessonTask> thisQuizQuestions = quizQuestions
-            .where((question) => question.metaName.startsWith(quiz.metaName))
+        final List<LessonTask>? thisQuizQuestions = quizQuestions
+            ?.where((question) =>
+                question.metaName?.startsWith(quiz.metaName ?? "") ?? false)
             .toList();
 
-        thisQuizQuestions.forEach((LessonTask question) async {
+        thisQuizQuestions?.forEach((LessonTask question) async {
           //get the question response if there is one
-          final LessonTask thisQuestionResponse =
-              quizQuestionResponses.firstWhere(
-                  (response) => response.metaName.startsWith(question.metaName),
-                  orElse: () => null);
+          final LessonTask? thisQuestionResponse =
+              quizQuestionResponses?.firstWhereOrNull(
+            (response) =>
+                response.metaName?.startsWith(question.metaName ?? "") ?? false,
+          );
           if (thisQuestionResponse != null)
             debugPrint(
                 "found a question response id=${thisQuestionResponse.lessonTaskID}");
           //insert the question with the response
-          await dbProvider.insert(TABLE_QUIZ_QUESTION, {
+          await dbProvider?.insert(TABLE_QUIZ_QUESTION, {
             'quizQuestionID': question.lessonTaskID,
             'quizID': quiz.lessonTaskID,
             'questionType': question.description,
@@ -486,25 +487,27 @@ class ProviderHelper {
           });
 
           //now get the answers for this question
-          final List<LessonTask> thisQuestionAnswers = quizAnswers
-              .where((answer) => answer.metaName.startsWith(question.metaName))
+          final List<LessonTask>? thisQuestionAnswers = quizAnswers
+              ?.where((answer) =>
+                  answer.metaName?.startsWith(question.metaName ?? "") ?? false)
               .toList();
 
-          thisQuestionAnswers.forEach((LessonTask answer) async {
+          thisQuestionAnswers?.forEach((LessonTask answer) async {
             //get the answer response if there is one
-            final LessonTask thisAnswerResponse =
-                quizAnswerResponses.firstWhere(
-                    (response) => response.metaName.startsWith(answer.metaName),
-                    orElse: () => null);
+            final LessonTask? thisAnswerResponse =
+                quizAnswerResponses?.firstWhereOrNull(
+              (response) =>
+                  response.metaName?.startsWith(answer.metaName ?? "") ?? false,
+            );
             if (thisAnswerResponse != null)
               debugPrint(
                   "found a answer response id=${thisAnswerResponse.lessonTaskID}");
             //insert the answer with the response
-            await dbProvider.insert(TABLE_QUIZ_ANSWER, {
+            await dbProvider?.insert(TABLE_QUIZ_ANSWER, {
               'quizAnswerID': answer.lessonTaskID,
               'quizQuestionID': question.lessonTaskID,
               'answerText': answer.title,
-              'isCorrect': answer.description.toLowerCase() == "true" ? 1 : 0,
+              'isCorrect': answer.description?.toLowerCase() == "true" ? 1 : 0,
               'response':
                   thisAnswerResponse == null ? "" : thisAnswerResponse.title,
               'orderIndex': answer.orderIndex,
@@ -516,25 +519,25 @@ class ProviderHelper {
   }
 
   Future<List<Message>> fetchAndSaveMessages(
-      final dbProvider, final bool refreshFromAPI) async {
+      final DatabaseProvider? dbProvider, final bool refreshFromAPI) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (refreshFromAPI ||
           await _shouldGetDataFromAPI(dbProvider, TABLE_MESSAGE)) {
         final messages = await WebServices().getAllUserNotifications();
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(TABLE_MESSAGE);
+        await dbProvider?.deleteAll(TABLE_MESSAGE);
         //add items to database
-        messages.forEach((Message message) async {
-          await dbProvider.insert(TABLE_MESSAGE, {
+        messages?.forEach((Message message) async {
+          await dbProvider?.insert(TABLE_MESSAGE, {
             'notificationId': message.notificationId,
             'title': message.title,
             'message': message.message,
-            'isRead': message.isRead ? 1 : 0,
+            'isRead': message.isRead == true ? 1 : 0,
             'action': message.action,
-            'dateReadUTC': message.dateReadUTC.toIso8601String(),
-            'dateCreatedUTC': message.dateCreatedUTC.toIso8601String(),
+            'dateReadUTC': message.dateReadUTC?.toIso8601String(),
+            'dateCreatedUTC': message.dateCreatedUTC?.toIso8601String(),
           });
         });
 
@@ -543,33 +546,35 @@ class ProviderHelper {
       }
 
       // get items from database
-      return await getAllData(dbProvider, TABLE_MESSAGE);
+      List message = await getAllData(dbProvider, TABLE_MESSAGE);
+      return message as List<Message>;
     }
     return [];
   }
 
-  Future<List<String>> fetchAndSaveCMSText(final dbProvider) async {
+  Future<List<String>> fetchAndSaveCMSText(
+      final DatabaseProvider? dbProvider) async {
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, TABLE_CMS_TEXT)) {
-        final String gettingStarted =
+        final String? gettingStarted =
             await WebServices().getCmsAssetByReference("GettingStarted");
-        final String privacyStatement =
+        final String? privacyStatement =
             await WebServices().getCmsAssetByReference("Privacy");
-        final String termsAndConditions =
+        final String? termsAndConditions =
             await WebServices().getCmsAssetByReference("Terms");
-        List<String> cmsItems = [
+        List<String?> cmsItems = [
           gettingStarted,
           privacyStatement,
           termsAndConditions
         ];
 
         //delete all old records before adding new ones
-        await dbProvider.deleteAll(TABLE_CMS_TEXT);
+        await dbProvider?.deleteAll(TABLE_CMS_TEXT);
         //add items to database
-        cmsItems.forEach((String cmsItem) async {
-          await dbProvider.insert(TABLE_CMS_TEXT, {
+        cmsItems.forEach((String? cmsItem) async {
+          await dbProvider?.insert(TABLE_CMS_TEXT, {
             'cmsText': cmsItem,
           });
         });
@@ -579,36 +584,37 @@ class ProviderHelper {
       }
 
       // get items from database
-      return await getAllData(dbProvider, TABLE_CMS_TEXT);
+      List data = await getAllData(dbProvider, TABLE_CMS_TEXT);
+      return data as List<String>;
     }
     return [];
   }
 
-  Future<AllFavourites> getFavourites(final dbProvider) async {
-    List<Lesson> toolkits =
+  Future<AllFavourites> getFavourites(
+      final DatabaseProvider? dbProvider) async {
+    List toolkits =
         await getAllData(dbProvider, TABLE_LESSON, toolkitsOnly: true);
-    List<Lesson> lessons =
+    List lessons =
         await getAllData(dbProvider, TABLE_LESSON, favouritesOnly: true);
-    List<LessonWiki> wikis =
-        await getAllData(dbProvider, TABLE_WIKI, favouritesOnly: true);
-    List<Recipe> recipes =
+    List wikis = await getAllData(dbProvider, TABLE_WIKI, favouritesOnly: true);
+    List recipes =
         await getAllData(dbProvider, TABLE_RECIPE, favouritesOnly: true);
 
     return AllFavourites(
-      toolkits: toolkits,
-      lessons: lessons,
-      lessonWikis: wikis,
-      recipes: recipes,
+      toolkits: toolkits as List<Lesson>,
+      lessons: lessons as List<Lesson>,
+      lessonWikis: wikis as List<LessonWiki>,
+      recipes: recipes as List<Recipe>,
     );
   }
 
   Future<List<dynamic>> filterAndSearch(
-      final dbProvider,
+      final DatabaseProvider? dbProvider,
       final String tableName,
       final String searchText,
       final String tag,
       final List<String> secondaryTags) async {
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       if (searchText.length > 0 || (tag.length > 0 && tag != "All")) {
         String searchQuery = "";
         if (searchText.length > 0) {
@@ -640,7 +646,7 @@ class ProviderHelper {
             searchQuery += ")";
           }
         }
-        final dataList = await dbProvider.getDataQuery(tableName, searchQuery);
+        final dataList = await dbProvider?.getDataQuery(tableName, searchQuery);
         return mapDataToList(dataList, tableName);
       } else {
         return getAllData(dbProvider, tableName);
@@ -650,12 +656,12 @@ class ProviderHelper {
   }
 
   Future<void> markNotificationAsRead(
-      final dbProvider, final int notificationId) async {
+      final DatabaseProvider? dbProvider, final int? notificationId) async {
     //update on server
     WebServices().markNotificationAsRead(notificationId);
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //update in sqlite
-      await dbProvider.updateQuery(
+      await dbProvider?.updateQuery(
         table: TABLE_MESSAGE,
         setFields: "isRead = 1",
         whereClause: "notificationId = $notificationId",
@@ -665,12 +671,12 @@ class ProviderHelper {
   }
 
   Future<void> markNotificationAsDeleted(
-      final dbProvider, final int notificationId) async {
+      final DatabaseProvider? dbProvider, final int? notificationId) async {
     //update on server
     WebServices().markNotificationAsDeleted(notificationId);
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //update in sqlite
-      await dbProvider.deleteQuery(
+      await dbProvider?.deleteQuery(
         table: TABLE_MESSAGE,
         whereClause: "notificationId = $notificationId",
         limitRowCount: 1,
@@ -678,15 +684,15 @@ class ProviderHelper {
     }
   }
 
-  Future<bool> markTaskAsCompleted(
-      final dbProvider, final int lessonTaskID, final String value) async {
+  Future<bool> markTaskAsCompleted(final DatabaseProvider? dbProvider,
+      final int? lessonTaskID, final String value) async {
     //update on server
     final bool setComplete =
         await WebServices().setTaskComplete(lessonTaskID, value);
     //refresh the data from the API
-    if (setComplete && dbProvider.db != null) {
+    if (setComplete && dbProvider?.db != null) {
       //set isComplete in local database and delete from displayLessonTasks
-      await dbProvider.deleteQuery(
+      await dbProvider?.deleteQuery(
         table: TABLE_LESSON_TASK,
         whereClause: "lessonTaskID = $lessonTaskID",
         limitRowCount: 1,
@@ -697,11 +703,11 @@ class ProviderHelper {
 
   Future<void> addToFavourites(
     final bool isAdd,
-    final dbProvider,
+    final DatabaseProvider? dbProvider,
     final FavouriteType favouriteType,
-    final int itemId,
+    final int? itemId,
   ) async {
-    int updateId = 0;
+    int? updateId = 0;
     String tableName = "";
     String assetType = "";
     String updateColumn = "";
@@ -729,9 +735,9 @@ class ProviderHelper {
         break;
     }
     //update in sqlite
-    if (dbProvider.db != null && tableName.length > 0) {
+    if (dbProvider?.db != null && tableName.length > 0) {
       final int isFavorite = isAdd ? 1 : 0;
-      await dbProvider.updateQuery(
+      await dbProvider?.updateQuery(
         table: tableName,
         setFields: "isFavorite = $isFavorite",
         whereClause: "$updateColumn = $updateId",
@@ -747,14 +753,14 @@ class ProviderHelper {
   }
 
   Future<bool> _shouldGetDataFromAPI(
-      final dbProvider, final String tableName) async {
-    final int rowCount = await dbProvider.getTableRowCount(tableName);
+      final DatabaseProvider? dbProvider, final String tableName) async {
+    final int? rowCount = await dbProvider?.getTableRowCount(tableName);
 
     //no data in table so get data from API
     if (rowCount == 0) return true;
 
     final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-    final int savedTimestamp = await getTimestamp(tableName);
+    final int? savedTimestamp = await getTimestamp(tableName);
     final int cacheSeconds = tableName == TABLE_MESSAGE ? 300 : 900;
 
     //we have data, so check if the data is older than 15 minutes (900 seconds) or 5 mins for messages
@@ -767,15 +773,15 @@ class ProviderHelper {
     return false;
   }
 
-  Future<List<dynamic>> getAllData(
-    final dbProvider,
+  Future<List> getAllData(
+    final DatabaseProvider? dbProvider,
     final String tableName, {
     final String orderByColumn = "",
     final bool incompleteOnly = false,
     final bool favouritesOnly = false,
     final bool toolkitsOnly = false,
   }) async {
-    final dataList = await dbProvider.getData(
+    final dataList = await dbProvider?.getData(
         tableName, orderByColumn, incompleteOnly, favouritesOnly, toolkitsOnly);
     final mapName =
         tableName == TABLE_WIKI && favouritesOnly ? "LessonWiki" : tableName;
@@ -826,7 +832,7 @@ class ProviderHelper {
           dataList.map<CMSText>((item) => CMSText.fromJson(item)).toList();
       List<String> cmsStrings = [];
       for (CMSText cmsText in cmsItems) {
-        cmsStrings.add(cmsText.cmsText);
+        cmsStrings.add(cmsText.cmsText ?? "");
       }
       return cmsStrings;
     }
@@ -844,25 +850,25 @@ class ProviderHelper {
   }
 
   List<Question> _convertCMSToQuestions(
-      final List<CMS> cmsItems, final String cmsType) {
+      final List<CMS>? cmsItems, final String cmsType) {
     List<Question> questionList = [];
 
-    if (cmsItems.length.isOdd) {
+    if ((cmsItems?.length ?? 0).isOdd) {
       //an odd number of items, so remove the last one as they should be in pairs
-      cmsItems.removeAt(cmsItems.length);
+      cmsItems?.removeAt(cmsItems.length);
     }
 
-    for (var i = 0; i < cmsItems.length - 1; i = i + 2) {
-      final question = cmsItems[i];
-      final answer = cmsItems[i + 1];
+    for (var i = 0; i < (cmsItems?.length ?? 0) - 1; i = i + 2) {
+      final question = cmsItems?[i];
+      final answer = cmsItems?[i + 1];
 
       Question newQuestion = Question(
-        id: question.cmsId,
-        reference: question.reference,
-        question: question.body,
-        answer: answer.body,
-        tags: question.tags,
-        isFavorite: question.isFavorite,
+        id: question?.cmsId,
+        reference: question?.reference,
+        question: question?.body,
+        answer: answer?.body,
+        tags: question?.tags,
+        isFavorite: question?.isFavorite,
       );
 
       questionList.add(newQuestion);
@@ -882,7 +888,7 @@ class ProviderHelper {
     }
   }
 
-  Future<int> getTimestamp(final String tableName) async {
+  Future<int?> getTimestamp(final String tableName) async {
     try {
       final String key =
           "${tableName}_${SharedPreferencesKeys.DB_SAVED_TIMESTAMP}";
@@ -891,5 +897,14 @@ class ProviderHelper {
     } catch (ex) {
       return 0;
     }
+  }
+}
+
+extension IterableExtension<T> on Iterable<T> {
+  T? firstWhereOrNull(bool Function(T element) test) {
+    for (var element in this) {
+      if (test(element)) return element;
+    }
+    return null;
   }
 }

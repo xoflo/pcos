@@ -11,17 +11,17 @@ class TaskCard extends StatelessWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function(int, String, bool) onSubmit;
+  final Function(int?, String, bool) onSubmit;
 
   TaskCard({
-    @required this.screenSize,
-    @required this.isHorizontal,
-    @required this.lessonTask,
-    @required this.onSubmit,
+    required this.screenSize,
+    required this.isHorizontal,
+    required this.lessonTask,
+    required this.onSubmit,
   });
 
-  void _onSubmit(final int taskID, final String value) {
-    final bool isYourWhy = lessonTask.metaName.toLowerCase() == "why" &&
+  void _onSubmit(final int? taskID, final String value) {
+    final bool isYourWhy = (lessonTask.metaName ?? "").toLowerCase() == "why" &&
         lessonTask.taskType == TaskType.Text;
     onSubmit(taskID, value, isYourWhy);
   }

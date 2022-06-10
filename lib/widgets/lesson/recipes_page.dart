@@ -19,10 +19,10 @@ class RecipesPage extends StatelessWidget {
   final BuildContext parentContext;
 
   RecipesPage({
-    @required this.screenSize,
-    @required this.isHorizontal,
-    @required this.recipes,
-    @required this.parentContext,
+    required this.screenSize,
+    required this.isHorizontal,
+    required this.recipes,
+    required this.parentContext,
   });
 
   void _openRecipeDetails(BuildContext context, dynamic lessonRecipe) async {

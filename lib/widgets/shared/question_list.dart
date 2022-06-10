@@ -8,12 +8,12 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/question_list_item.dart';
 
 class QuestionList extends StatefulWidget {
-  final List<Question> questions;
-  final List<LessonWiki> wikis;
+  final List<Question>? questions;
+  final List<LessonWiki>? wikis;
   final bool showIcon;
-  final IconData iconData;
-  final IconData iconDataOn;
-  final Function(FavouriteType, dynamic, bool) iconAction;
+  final IconData? iconData;
+  final IconData? iconDataOn;
+  final Function(FavouriteType, dynamic, bool)? iconAction;
 
   QuestionList({
     this.questions,
@@ -37,20 +37,22 @@ class _QuestionListState extends State<QuestionList> {
     return ExpansionPanelList(
       expansionCallback: (int index, bool isExpanded) {
         //remove the focus from the searchbox if necessary, to hide the keyboard
-        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
         setState(() {
-          widget.questions.length > 0
-              ? widget.questions[index].isExpanded = !isExpanded
-              : widget.wikis[index].isExpanded = !isExpanded;
+          if ((widget.questions?.length ?? 0) > 0) {
+            widget.questions?[index].isExpanded = !isExpanded;
+          } else {
+            widget.wikis?[index].isExpanded = !isExpanded;
+          }
         });
       },
-      children: widget.questions.length > 0
-          ? widget.questions.map<ExpansionPanel>((Question item) {
+      children: (widget.questions?.length ?? 0) > 0
+          ? widget.questions!.map<ExpansionPanel>((Question item) {
               return ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
                     title: Text(
-                      item.question,
+                      item.question ?? "",
                       style: TextStyle(
                         color: primaryColor,
                         fontWeight: FontWeight.w500,
@@ -71,12 +73,12 @@ class _QuestionListState extends State<QuestionList> {
                 canTapOnHeader: true,
               );
             }).toList()
-          : widget.wikis.map<ExpansionPanel>((LessonWiki item) {
+          : widget.wikis!.map<ExpansionPanel>((LessonWiki item) {
               return ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
                     title: Text(
-                      item.question,
+                      item.question ?? "",
                       style: TextStyle(
                         color: primaryColor,
                         fontWeight: FontWeight.w500,

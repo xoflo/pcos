@@ -1,14 +1,14 @@
 import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 
 class QuizQuestion {
-  final int quizQuestionID;
-  final int quizID;
-  final String questionType;
-  final String questionText;
-  final String response;
-  final int orderIndex;
-  List<QuizAnswer> answers;
-  bool isMultiChoice;
+  final int? quizQuestionID;
+  final int? quizID;
+  final String? questionType;
+  final String? questionText;
+  final String? response;
+  final int? orderIndex;
+  List<QuizAnswer>? answers;
+  bool? isMultiChoice;
 
   QuizQuestion({
     this.quizQuestionID,

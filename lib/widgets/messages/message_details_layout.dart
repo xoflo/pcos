@@ -11,9 +11,9 @@ class MessageDetailsLayout extends StatelessWidget {
   final Function(Message) deleteMessage;
 
   MessageDetailsLayout(
-      {@required this.message,
-      @required this.closeMessage,
-      @required this.deleteMessage});
+      {required this.message,
+      required this.closeMessage,
+      required this.deleteMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +51,12 @@ class MessageDetailsLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        message.title,
+                        message.title ?? "",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline6,
                       ),
                     ),
-                    Text(message.message, textAlign: TextAlign.justify),
+                    Text(message.message ?? "", textAlign: TextAlign.justify),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Row(
@@ -64,7 +64,8 @@ class MessageDetailsLayout extends StatelessWidget {
                         children: [
                           Text(
                             DateTimeUtils.longDate(
-                                message.dateCreatedUTC.toLocal()),
+                                (message.dateCreatedUTC ?? DateTime.now())
+                                    .toLocal()),
                             style: TextStyle(fontSize: 12.0, color: textColor),
                             textAlign: TextAlign.left,
                           ),

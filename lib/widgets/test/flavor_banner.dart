@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/widgets/test/device_info_dialog.dart';
 class FlavorBanner extends StatelessWidget {
   final Widget child;
 
-  FlavorBanner({@required this.child});
+  FlavorBanner({required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,7 @@ class FlavorBanner extends StatelessWidget {
   }
 
   Widget _buildBanner(BuildContext context) {
-    BannerConfig bannerConfig;
-    bannerConfig ??= _getDefaultBanner();
+    BannerConfig bannerConfig = _getDefaultBanner();
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -55,5 +54,5 @@ class BannerConfig {
   final String bannerName;
   final Color bannerColor;
 
-  BannerConfig({@required this.bannerName, @required this.bannerColor});
+  BannerConfig({required this.bannerName, required this.bannerColor});
 }

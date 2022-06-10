@@ -16,9 +16,9 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
 class ModulesProvider with ChangeNotifier {
-  final DatabaseProvider dbProvider;
+  final DatabaseProvider? dbProvider;
 
-  ModulesProvider({@required this.dbProvider}) {
+  ModulesProvider({required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData(false);
   }
 
@@ -33,17 +33,17 @@ class ModulesProvider with ChangeNotifier {
   List<LessonRecipe> _lessonRecipes = [];
   List<Quiz> _lessonQuizzes = [];
 
-  Module _currentModule;
+  late Module _currentModule;
   List<Module> _previousModules = [];
   List<Lesson> _currentModuleLessons = [];
-  Lesson _currentLesson;
+  Lesson? _currentLesson;
   List<LessonTask> _displayLessonTasks = [];
   List<Lesson> _searchLessons = [];
   List<LessonWiki> _initialLessonWikis = [];
   List<LessonRecipe> _initialLessonRecipes = [];
 
-  Module get currentModule => _currentModule;
-  Lesson get currentLesson => _currentLesson;
+  Module? get currentModule => _currentModule;
+  Lesson? get currentLesson => _currentLesson;
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
   List<Module> get allModules => [..._modules];
   List<Module> get previousModules => [..._previousModules];
@@ -64,18 +64,18 @@ class ModulesProvider with ChangeNotifier {
       nextLessonAvailableDate = DateTime.parse(nextLessonAvailableDateString);
     }
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       final ModulesAndLessons modulesAndLessons = await ProviderHelper()
           .fetchAndSaveModuleExport(
               dbProvider, forceRefresh, nextLessonAvailableDate);
-      _modules = modulesAndLessons.modules;
-      _lessons = modulesAndLessons.lessons;
-      _lessonContent = modulesAndLessons.lessonContent;
-      _lessonTasks = modulesAndLessons.lessonTasks;
-      _lessonWikis = modulesAndLessons.lessonWikis;
-      _lessonRecipes = modulesAndLessons.lessonRecipes;
-      _lessonQuizzes = modulesAndLessons.lessonQuizzes;
+      _modules = modulesAndLessons.modules ?? [];
+      _lessons = modulesAndLessons.lessons ?? [];
+      _lessonContent = modulesAndLessons.lessonContent ?? [];
+      _lessonTasks = modulesAndLessons.lessonTasks ?? [];
+      _lessonWikis = modulesAndLessons.lessonWikis ?? [];
+      _lessonRecipes = modulesAndLessons.lessonRecipes ?? [];
+      _lessonQuizzes = modulesAndLessons.lessonQuizzes ?? [];
 
       if (_modules.length > 0) {
         _currentModule = _modules.last;
@@ -87,8 +87,8 @@ class ModulesProvider with ChangeNotifier {
       //display the past lesson tasks not completed, and the current lesson if the lesson is complete
       _displayLessonTasks.clear();
       for (LessonTask lessonTask in _lessonTasks) {
-        if (lessonTask.lessonID == currentLesson.lessonID) {
-          if (currentLesson.isComplete) {
+        if (lessonTask.lessonID == currentLesson?.lessonID) {
+          if (currentLesson?.isComplete == true) {
             _displayLessonTasks.add(lessonTask);
           }
         } else {
@@ -99,7 +99,7 @@ class ModulesProvider with ChangeNotifier {
       if (_initialLessonWikis.length == 0) {
         for (LessonWiki lessonWiki in _lessonWikis) {
           if (currentLesson != null) {
-            if (lessonWiki.lessonId == currentLesson.lessonID) {
+            if (lessonWiki.lessonId == currentLesson?.lessonID) {
               _initialLessonWikis.add(lessonWiki);
             }
           }
@@ -108,7 +108,7 @@ class ModulesProvider with ChangeNotifier {
       if (_initialLessonRecipes.length == 0) {
         for (LessonRecipe lessonRecipe in _lessonRecipes) {
           if (currentLesson != null) {
-            if (lessonRecipe.lessonId == currentLesson.lessonID) {
+            if (lessonRecipe.lessonId == currentLesson?.lessonID) {
               _initialLessonRecipes.add(lessonRecipe);
             }
           }
@@ -122,7 +122,7 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Lesson>> getModuleLessons(final int moduleID) async {
+  Future<List<Lesson>> getModuleLessons(final int? moduleID) async {
     List<Lesson> moduleLessons = [];
     for (Lesson lesson in _lessons) {
       if (lesson.moduleID == moduleID) {
@@ -133,11 +133,11 @@ class ModulesProvider with ChangeNotifier {
   }
 
   String getModuleTitleByModuleID(final int moduleID) {
-    Module moduleFound = _modules.firstWhere(
-        (module) => module.moduleID == moduleID,
-        orElse: () => null);
+    Module? moduleFound = _modules.firstWhereOrNull(
+      (module) => module.moduleID == moduleID,
+    );
     if (moduleFound != null) {
-      return moduleFound.title;
+      return moduleFound.title ?? "";
     }
     return "";
   }
@@ -178,14 +178,14 @@ class ModulesProvider with ChangeNotifier {
     List<int> questionIDs = [];
     for (LessonWiki lessonWiki in _lessonWikis) {
       if ((lessonWiki.moduleId == moduleID || moduleID == 0) &&
-          (lessonWiki.question
+          ((lessonWiki.question ?? "")
                   .toLowerCase()
                   .contains(searchText.toLowerCase()) ||
               searchText.length == 0)) {
         //check if this question has already been added
         if (!questionIDs.contains(lessonWiki.questionId)) {
           searchLessonWikis.add(lessonWiki);
-          questionIDs.add(lessonWiki.questionId);
+          questionIDs.add(lessonWiki.questionId ?? -1);
         }
       }
     }
@@ -216,7 +216,7 @@ class ModulesProvider with ChangeNotifier {
     fetchAndSaveData(true);
   }
 
-  Future<void> setTaskAsComplete(final int taskID, final String value) async {
+  Future<void> setTaskAsComplete(final int? taskID, final String value) async {
     final bool markTaskComplete =
         await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value);
     if (markTaskComplete) {
@@ -239,9 +239,9 @@ class ModulesProvider with ChangeNotifier {
   Future<void> filterAndSearch(final String searchText) async {
     searchStatus = LoadingStatus.loading;
     notifyListeners();
-    if (dbProvider.db != null) {
-      _searchLessons = await ProviderHelper()
-          .filterAndSearch(dbProvider, "Lesson", searchText, "", []);
+    if (dbProvider?.db != null) {
+      _searchLessons = await ProviderHelper().filterAndSearch(
+          dbProvider, "Lesson", searchText, "", []) as List<Lesson>;
     }
     searchStatus =
         _searchLessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;

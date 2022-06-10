@@ -6,12 +6,12 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 class RecipeCard extends StatelessWidget {
   final double width;
   final LessonRecipe lessonRecipe;
-  final Function(BuildContext, int) openRecipe;
+  final Function(BuildContext, int?) openRecipe;
 
   RecipeCard({
-    @required this.width,
-    @required this.lessonRecipe,
-    @required this.openRecipe,
+    required this.width,
+    required this.lessonRecipe,
+    required this.openRecipe,
   });
 
   @override
@@ -39,7 +39,7 @@ class RecipeCard extends StatelessWidget {
                   FadeInImage.memoryNetwork(
                     alignment: Alignment.center,
                     placeholder: kTransparentImage,
-                    image: lessonRecipe.thumbnail,
+                    image: lessonRecipe.thumbnail ?? "",
                     fit: BoxFit.fitWidth,
                     width: double.maxFinite,
                     height: 200,
@@ -57,11 +57,11 @@ class RecipeCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, top: 4.0),
                       child: Text(
-                        lessonRecipe.title,
+                        lessonRecipe.title ?? "",
                         style: Theme.of(context)
                             .textTheme
                             .headline5
-                            .copyWith(color: Colors.black87),
+                            ?.copyWith(color: Colors.black87),
                       ),
                     ),
                   ),

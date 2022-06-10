@@ -1,8 +1,8 @@
 class LessonCompleteResponse {
-  final String status;
-  final String message;
-  final String info;
-  final String payload;
+  final String? status;
+  final String? message;
+  final String? info;
+  final String? payload;
 
   LessonCompleteResponse({this.status, this.message, this.info, this.payload});
 

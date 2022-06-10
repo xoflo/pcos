@@ -7,13 +7,13 @@ import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/quiz.dart';
 
 class ModulesAndLessons {
-  final List<Module> modules;
-  final List<Lesson> lessons;
-  final List<LessonContent> lessonContent;
-  final List<LessonTask> lessonTasks;
-  final List<LessonWiki> lessonWikis;
-  final List<LessonRecipe> lessonRecipes;
-  final List<Quiz> lessonQuizzes;
+  final List<Module>? modules;
+  final List<Lesson>? lessons;
+  final List<LessonContent>? lessonContent;
+  final List<LessonTask>? lessonTasks;
+  final List<LessonWiki>? lessonWikis;
+  final List<LessonRecipe>? lessonRecipes;
+  final List<Quiz>? lessonQuizzes;
 
   ModulesAndLessons({
     this.modules,

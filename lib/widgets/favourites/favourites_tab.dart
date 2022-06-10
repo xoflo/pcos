@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_wiki_list.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -10,7 +13,7 @@ import 'package:thepcosprotocol_app/widgets/favourites/favourites_recipes_list.d
 
 class FavouritesTab extends StatelessWidget {
   final Size screenSize;
-  final List<dynamic> favourites;
+  final List<dynamic>? favourites;
   final LoadingStatus status;
   final FavouriteType favouriteType;
   final bool isToolkit;
@@ -18,13 +21,13 @@ class FavouritesTab extends StatelessWidget {
   final Function(FavouriteType, dynamic) removeFavourite;
 
   FavouritesTab({
-    @required this.screenSize,
-    @required this.favourites,
-    @required this.status,
-    @required this.favouriteType,
-    @required this.isToolkit,
-    @required this.openFavourite,
-    @required this.removeFavourite,
+    required this.screenSize,
+    required this.favourites,
+    required this.status,
+    required this.favouriteType,
+    required this.isToolkit,
+    required this.openFavourite,
+    required this.removeFavourite,
   });
 
   String _getNoResultsMessage(
@@ -49,7 +52,7 @@ class FavouritesTab extends StatelessWidget {
 
   Widget _getContent(
     final BuildContext context,
-    final List<dynamic> favourites,
+    final List<dynamic>? favourites,
     final FavouriteType favouriteType,
     final bool isToolkit,
     final double width,
@@ -57,7 +60,7 @@ class FavouritesTab extends StatelessWidget {
     switch (favouriteType) {
       case FavouriteType.Lesson:
         return FavouritesLessonsList(
-          lessons: favourites,
+          lessons: favourites as List<Lesson>,
           width: width,
           isToolkit: isToolkit,
           removeFavourite: removeFavourite,
@@ -65,7 +68,7 @@ class FavouritesTab extends StatelessWidget {
         );
       case FavouriteType.Wiki:
         return FavouritesWikiList(
-          lessonWikis: favourites,
+          lessonWikis: favourites as List<LessonWiki>,
           width: width,
           isToolkit: isToolkit,
           removeFavourite: removeFavourite,
@@ -73,7 +76,7 @@ class FavouritesTab extends StatelessWidget {
         );
       case FavouriteType.Recipe:
         return FavouritesRecipesList(
-          recipes: favourites,
+          recipes: favourites as List<Recipe>,
           width: width,
           removeFavourite: removeFavourite,
           openFavourite: openFavourite,
@@ -81,7 +84,6 @@ class FavouritesTab extends StatelessWidget {
       case FavouriteType.None:
         return Container();
     }
-    return Container();
   }
 
   Widget _getFavouritesList(final BuildContext context) {
@@ -91,7 +93,7 @@ class FavouritesTab extends StatelessWidget {
       case LoadingStatus.empty:
         return NoResults(message: _getNoResultsMessage(context, favouriteType));
       case LoadingStatus.success:
-        return favourites == null || favourites.length == 0
+        return favourites == null || favourites?.length == 0
             ? NoResults(message: _getNoResultsMessage(context, favouriteType))
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -104,7 +106,6 @@ class FavouritesTab extends StatelessWidget {
                 ),
               );
     }
-    return Container();
   }
 
   @override

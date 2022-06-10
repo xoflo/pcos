@@ -3,7 +3,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 
 class GotoSignIn extends StatelessWidget {
-  final Function navigateToSignIn;
+  final Function? navigateToSignIn;
 
   GotoSignIn({this.navigateToSignIn});
 
@@ -32,7 +32,7 @@ class GotoSignIn extends StatelessWidget {
                 child: ColorButton(
                   isUpdating: false,
                   label: S.current.returnToSignInTitle,
-                  onTap: navigateToSignIn,
+                  onTap: () => navigateToSignIn?.call(),
                 ),
               ),
             ],

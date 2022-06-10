@@ -8,8 +8,8 @@ class NotificationsPermissions extends StatelessWidget {
   final Function requestNotificationPermission;
 
   NotificationsPermissions({
-    @required this.notificationPermissions,
-    @required this.requestNotificationPermission,
+    required this.notificationPermissions,
+    required this.requestNotificationPermission,
   });
 
   Widget getNotificationPermissions(BuildContext context) {
@@ -36,7 +36,6 @@ class NotificationsPermissions extends StatelessWidget {
           ],
         );
     }
-    return Container();
   }
 
   @override

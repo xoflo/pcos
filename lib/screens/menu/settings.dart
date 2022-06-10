@@ -8,7 +8,8 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SettingsArguments args = ModalRoute.of(context).settings.arguments;
+    final SettingsArguments args =
+        ModalRoute.of(context)?.settings.arguments as SettingsArguments;
 
     return Scaffold(
       backgroundColor: primaryColor,

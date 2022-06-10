@@ -1,7 +1,7 @@
 import 'package:thepcosprotocol_app/models/cms.dart';
 
 class CMSMultiResponse {
-  List<CMS> results;
+  List<CMS>? results;
 
   CMSMultiResponse({this.results});
 

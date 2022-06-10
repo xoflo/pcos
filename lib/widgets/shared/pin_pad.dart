@@ -9,19 +9,19 @@ class PinPad extends StatelessWidget {
   final String headerText;
   final List<bool> progress;
   final int currentPosition;
-  final bool showForgottenPin;
+  final bool? showForgottenPin;
   final Function(String) pinButtonPressed;
   final Function resetPinPad;
-  final Function(BuildContext) forgotPin;
+  final Function(BuildContext)? forgotPin;
 
   PinPad({
-    @required this.pinButtonSize,
-    @required this.headerText,
-    @required this.progress,
-    @required this.currentPosition,
-    @required this.showForgottenPin,
-    @required this.pinButtonPressed,
-    @required this.resetPinPad,
+    required this.pinButtonSize,
+    required this.headerText,
+    required this.progress,
+    required this.currentPosition,
+    required this.showForgottenPin,
+    required this.pinButtonPressed,
+    required this.resetPinPad,
     this.forgotPin,
   });
 
@@ -124,7 +124,7 @@ class PinPad extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 10),
           child: Text(
             headerText,
-            style: Theme.of(context).textTheme.headline6.copyWith(
+            style: Theme.of(context).textTheme.headline6?.copyWith(
                   color: Colors.white,
                 ),
           ),
@@ -149,10 +149,10 @@ class PinPad extends StatelessWidget {
             ),
           ),
         ),
-        showForgottenPin
+        showForgottenPin == true
             ? GestureDetector(
                 onTap: () {
-                  forgotPin(context);
+                  forgotPin?.call(context);
                 },
                 child: Text(
                   S.current.pinForgottenTitle,

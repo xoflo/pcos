@@ -15,12 +15,12 @@ class DialogHeader extends StatefulWidget {
   final bool isToolkit;
 
   DialogHeader({
-    @required this.screenSize,
-    @required this.favouriteType,
-    @required this.title,
-    @required this.isFavourite,
-    @required this.closeItem,
-    @required this.onAction,
+    required this.screenSize,
+    required this.favouriteType,
+    required this.title,
+    required this.isFavourite,
+    required this.closeItem,
+    required this.onAction,
     this.item,
     this.isToolkit = false,
   });

@@ -47,7 +47,7 @@ class _AppState extends State<App> {
   bool appError = false;
   GlobalVars refreshMessages = GlobalVars();
 
-  FirebaseAnalyticsObserver observer;
+  FirebaseAnalyticsObserver? observer;
 
   @override
   void initState() {
@@ -174,7 +174,7 @@ class _AppState extends State<App> {
           QuizScreen.id: (context) => QuizScreen(),
         },
         navigatorObservers:
-            (null == observer) ? [] : <NavigatorObserver>[observer],
+            (observer == null) ? [] : <NavigatorObserver>[observer!],
       ),
     );
   }

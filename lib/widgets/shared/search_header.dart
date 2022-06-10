@@ -14,22 +14,22 @@ class SearchHeader extends StatelessWidget {
   final Function(String) onTagSelected;
   final Function onSearchClicked;
   final bool isSearching;
-  final List<MultiSelectItem<String>> tagValuesSecondary;
-  final List<String> tagValuesSelectedSecondary;
-  final Function(List<String>) onSecondaryTagSelected;
-  final List<Module> modules;
-  final int selectedModule;
-  final String selectedModuleTitle;
-  final Function(String) onModuleSelected;
+  final List<MultiSelectItem<String>>? tagValuesSecondary;
+  final List<String>? tagValuesSelectedSecondary;
+  final Function(List<String>)? onSecondaryTagSelected;
+  final List<Module>? modules;
+  final int? selectedModule;
+  final String? selectedModuleTitle;
+  final Function(String)? onModuleSelected;
 
   SearchHeader({
-    @required this.formKey,
-    @required this.searchController,
-    @required this.tagValues,
-    @required this.tagValueSelected,
-    @required this.onTagSelected,
-    @required this.onSearchClicked,
-    @required this.isSearching,
+    required this.formKey,
+    required this.searchController,
+    required this.tagValues,
+    required this.tagValueSelected,
+    required this.onTagSelected,
+    required this.onSearchClicked,
+    required this.isSearching,
     this.tagValuesSecondary,
     this.tagValuesSelectedSecondary,
     this.onSecondaryTagSelected,
@@ -49,8 +49,9 @@ class SearchHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMultiFilter =
-        tagValuesSecondary != null && tagValuesSecondary.length > 0;
-    final bool hasModulesDropdown = modules != null && modules.length > 0;
+        tagValuesSecondary != null && (tagValuesSecondary?.length ?? 0) > 0;
+    final bool hasModulesDropdown =
+        modules != null && (modules?.length ?? 0) > 0;
     var size = MediaQuery.of(context).size;
 
     return SizedBox(
@@ -117,8 +118,8 @@ class SearchHeader extends StatelessWidget {
                                     height: 2,
                                     color: primaryColor,
                                   ),
-                                  onChanged: (String newValue) {
-                                    onTagSelected(newValue);
+                                  onChanged: (String? newValue) {
+                                    onTagSelected(newValue ?? "");
                                   },
                                   items: tagValues
                                       .map<DropdownMenuItem<String>>(
@@ -162,13 +163,13 @@ class SearchHeader extends StatelessWidget {
                                         height: 2,
                                         color: primaryColor,
                                       ),
-                                      onChanged: (String newValue) {
-                                        onModuleSelected(newValue);
+                                      onChanged: (String? newValue) {
+                                        onModuleSelected?.call(newValue ?? "");
                                       },
-                                      items: modules.map((Module module) {
+                                      items: modules?.map((Module module) {
                                         return DropdownMenuItem<String>(
                                           value: module.moduleID.toString(),
-                                          child: Text(module.title),
+                                          child: Text(module.title ?? ""),
                                         );
                                       }).toList(),
                                     ),

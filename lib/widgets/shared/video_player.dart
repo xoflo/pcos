@@ -6,9 +6,9 @@ import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class VideoPlayer extends StatefulWidget {
-  final Size screenSize;
-  final bool isHorizontal;
-  final String videoUrl;
+  final Size? screenSize;
+  final bool? isHorizontal;
+  final String? videoUrl;
 
   VideoPlayer({
     this.screenSize,
@@ -21,7 +21,7 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  BetterPlayerController _betterPlayerController;
+  late BetterPlayerController _betterPlayerController;
   bool analyticsPlayEventSent = false;
   bool analyticsFullscreenEventSent = false;
 
@@ -32,14 +32,14 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> initializePlayer() async {
-    final String videoUrl = widget.videoUrl;
+    final String? videoUrl = widget.videoUrl;
     List<DeviceOrientation> fullscreenOrientations = [
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ];
-    List<DeviceOrientation> normalOrientations = widget.isHorizontal
+    List<DeviceOrientation> normalOrientations = widget.isHorizontal == true
         ? [
             DeviceOrientation.portraitUp,
             DeviceOrientation.portraitDown,
@@ -48,8 +48,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
           ]
         : [DeviceOrientation.portraitUp];
 
-    BetterPlayerDataSource betterPlayerDataSource =
-        BetterPlayerDataSource(BetterPlayerDataSourceType.network, videoUrl);
+    BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network, videoUrl ?? "");
 
     BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
         BetterPlayerControlsConfiguration(
@@ -91,7 +91,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         ]);
       } else if (event.betterPlayerEventType ==
           BetterPlayerEventType.hideFullscreen) {
-        if (widget.isHorizontal) {
+        if (widget.isHorizontal == true) {
           SystemChrome.setPreferredOrientations([
             DeviceOrientation.landscapeLeft,
             DeviceOrientation.landscapeRight,

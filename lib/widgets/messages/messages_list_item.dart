@@ -9,9 +9,9 @@ class MessagesListItem extends StatelessWidget {
   final Function(BuildContext, Message) openMessageDetails;
 
   MessagesListItem(
-      {@required this.message,
-      @required this.width,
-      @required this.openMessageDetails});
+      {required this.message,
+      required this.width,
+      required this.openMessageDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,8 @@ class MessagesListItem extends StatelessWidget {
                 width: 10,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: message.isRead ? Colors.white : secondaryColor,
+                    color:
+                        message.isRead == true ? Colors.white : secondaryColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(5.0),
                       bottomLeft: Radius.circular(5.0),
@@ -54,7 +55,7 @@ class MessagesListItem extends StatelessWidget {
                           SizedBox(
                             width: width - 90,
                             child: Text(
-                              message.title,
+                              message.title ?? "",
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.headline6,
                             ),
@@ -70,12 +71,13 @@ class MessagesListItem extends StatelessWidget {
                     SizedBox(
                       width: width - 40,
                       child: Text(
-                        message.message,
+                        message.message ?? "",
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
-                      DateTimeUtils.longDate(message.dateCreatedUTC.toLocal()),
+                      DateTimeUtils.longDate(
+                          (message.dateCreatedUTC ?? DateTime.now()).toLocal()),
                       style: TextStyle(fontSize: 12.0, color: textColor),
                     ),
                   ],

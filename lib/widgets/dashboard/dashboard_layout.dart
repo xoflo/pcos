@@ -44,9 +44,9 @@ class DashboardLayout extends StatefulWidget {
   final Function(bool) updateYourWhy;
 
   DashboardLayout({
-    @required this.showYourWhy,
-    @required this.showLessonRecipes,
-    @required this.updateYourWhy,
+    required this.showYourWhy,
+    required this.showLessonRecipes,
+    required this.updateYourWhy,
   });
 
   @override
@@ -235,7 +235,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         //ask the member if they would like notifications after closing a lesson after a period of time has passed
         final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
         final int firstAppUseTimestamp = await PreferencesController()
-            .getInt(SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP);
+                .getInt(SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP) ??
+            0;
         try {
           if ((currentTimestamp - firstAppUseTimestamp) / 1000 > 259200) {
             //longer than three days (259200 seconds) since app first used
@@ -303,9 +304,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final FavouritesProvider favouritesProvider,
   ) {
     if (modulesProvider.currentLesson != null && _selectedLessonId == 0) {
-      _selectedLessonIsComplete = modulesProvider.currentLesson.isComplete;
+      _selectedLessonIsComplete =
+          modulesProvider.currentLesson?.isComplete ?? false;
     }
-    final bool showPreviousModule = modulesProvider.previousModules == null
+    final bool showPreviousModule = modulesProvider.previousModules.isEmpty
         ? false
         : modulesProvider.previousModules.length > 0
             ? true
@@ -329,7 +331,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final bool isHorizontal,
     final ModulesProvider modulesProvider,
   ) {
-    if (modulesProvider.displayLessonTasks != null &&
+    if (modulesProvider.displayLessonTasks.isNotEmpty &&
         modulesProvider.displayLessonTasks.length > 0) {
       return Tasks(
         screenSize: screenSize,
@@ -372,7 +374,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final FavouritesProvider favouritesProvider,
   ) {
     //function for opening the recipe details
-    void _openRecipeDetails(final BuildContext context, final int recipeId) {
+    void _openRecipeDetails(final BuildContext context, final int? recipeId) {
       void _closeRecipeDetails() {
         Navigator.pop(context);
       }

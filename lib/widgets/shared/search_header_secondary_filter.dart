@@ -3,14 +3,14 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class SearchHeaderSecondaryFilter extends StatefulWidget {
-  final List<MultiSelectItem<String>> tagValuesSecondary;
-  final List<String> tagValuesSelectedSecondary;
-  final Function(List<String>) onSecondaryTagSelected;
+  final List<MultiSelectItem<String>>? tagValuesSecondary;
+  final List<String>? tagValuesSelectedSecondary;
+  final Function(List<String>)? onSecondaryTagSelected;
 
   SearchHeaderSecondaryFilter({
-    @required this.tagValuesSecondary,
-    @required this.tagValuesSelectedSecondary,
-    @required this.onSecondaryTagSelected,
+    required this.tagValuesSecondary,
+    required this.tagValuesSelectedSecondary,
+    required this.onSecondaryTagSelected,
   });
 
   @override
@@ -26,13 +26,13 @@ class _SearchHeaderSecondaryFilterState
   void initState() {
     super.initState();
 
-    if (widget.tagValuesSelectedSecondary.length > 0) {
+    if ((widget.tagValuesSelectedSecondary?.length ?? 0) > 0) {
       setState(() {
         _isVisible = true;
       });
     } else {
       //use this to trigger animation on load
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         setState(() {
           _isVisible = true;
         });
@@ -46,10 +46,10 @@ class _SearchHeaderSecondaryFilterState
       builder: (ctx) {
         return MultiSelectDialog(
           backgroundColor: backgroundColor,
-          items: widget.tagValuesSecondary,
+          items: widget.tagValuesSecondary ?? [],
           initialValue: widget.tagValuesSelectedSecondary,
           onConfirm: (values) {
-            widget.onSecondaryTagSelected(values);
+            widget.onSecondaryTagSelected?.call(values as List<String>);
           },
           searchIcon: Icon(
             Icons.search,
@@ -93,7 +93,7 @@ class _SearchHeaderSecondaryFilterState
                   ),
                 ),
               ),
-              widget.tagValuesSelectedSecondary.length > 0
+              (widget.tagValuesSelectedSecondary?.length ?? 0) > 0
                   ? Padding(
                       padding: const EdgeInsets.only(left: 4.0),
                       child: SizedBox(
@@ -102,7 +102,8 @@ class _SearchHeaderSecondaryFilterState
                         child: CircleAvatar(
                           backgroundColor: primaryColor,
                           child: Text(
-                            widget.tagValuesSelectedSecondary.length.toString(),
+                            (widget.tagValuesSelectedSecondary?.length)
+                                .toString(),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,

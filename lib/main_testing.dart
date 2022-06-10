@@ -8,7 +8,7 @@ import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-NotificationAppLaunchDetails notificationAppLaunchDetails;
+NotificationAppLaunchDetails? notificationAppLaunchDetails;
 
 Future<void> main() async {
   FlavorConfig(

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 
 class HeaderImage extends StatelessWidget {
-  final Size screenSize;
+  final Size? screenSize;
   final bool isOrange;
   final double verticalTopPadding;
 
   HeaderImage({
-    @required this.screenSize,
-    @required this.isOrange,
-    @required this.verticalTopPadding,
+    required this.screenSize,
+    required this.isOrange,
+    required this.verticalTopPadding,
   });
 
   @override
@@ -19,7 +19,7 @@ class HeaderImage extends StatelessWidget {
         : 'assets/images/pcos_protocol.png';
 
     if (DeviceUtils.isHorizontalWideScreen(
-        screenSize.width, screenSize.height)) {
+        screenSize?.width ?? 0, screenSize?.height ?? 0)) {
       //iPad horizontal
       return Padding(
         padding: const EdgeInsets.all(20.0),
@@ -30,7 +30,7 @@ class HeaderImage extends StatelessWidget {
       );
     } else {
       //iPad vertical
-      if (screenSize.width > 700) {
+      if ((screenSize?.width ?? 0) > 700) {
         //ipad vertical
         return Padding(
           padding: EdgeInsets.only(

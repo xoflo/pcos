@@ -19,15 +19,15 @@ class PreviousModulesCarousel extends StatelessWidget {
   final Function refreshPreviousModules;
 
   PreviousModulesCarousel({
-    @required this.screenSize,
-    @required this.isHorizontal,
-    @required this.modules,
-    @required this.lessons,
-    @required this.selectedModuleID,
-    @required this.lessonCarouselController,
-    @required this.moduleChanged,
-    @required this.openLesson,
-    @required this.refreshPreviousModules,
+    required this.screenSize,
+    required this.isHorizontal,
+    required this.modules,
+    required this.lessons,
+    required this.selectedModuleID,
+    required this.lessonCarouselController,
+    required this.moduleChanged,
+    required this.openLesson,
+    required this.refreshPreviousModules,
   });
 
   @override
@@ -67,7 +67,7 @@ class PreviousModulesCarousel extends StatelessWidget {
                       return ModuleCard(
                         screenSize: screenSize,
                         moduleNumber: moduleNumber,
-                        moduleName: module.title,
+                        moduleName: module.title ?? "",
                         isSelected: isSelected,
                       );
                     },

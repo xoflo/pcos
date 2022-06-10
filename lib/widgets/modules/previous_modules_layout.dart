@@ -17,7 +17,7 @@ class PreviousModulesLayout extends StatefulWidget {
   final ModulesProvider modulesProvider;
 
   PreviousModulesLayout({
-    @required this.modulesProvider,
+    required this.modulesProvider,
   });
   @override
   _PreviousModulesLayoutState createState() => _PreviousModulesLayoutState();
@@ -46,7 +46,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
     }
 
     setState(() {
-      _selectedModuleID = initialModule.moduleID;
+      _selectedModuleID = initialModule.moduleID ?? 0;
       _moduleLessons = allLessons;
       _selectedModuleLessons = allLessons.last;
       _moduleIndex = widget.modulesProvider.previousModules.length - 1;
@@ -57,7 +57,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
     final Module selectedModule = widget.modulesProvider.previousModules[index];
     setState(() {
       _moduleIndex = index;
-      _selectedModuleID = selectedModule.moduleID;
+      _selectedModuleID = selectedModule.moduleID ?? 0;
       _selectedModuleLessons = _moduleLessons[index];
       lessonCarouselController.jumpToPage(0);
     });

@@ -1,7 +1,7 @@
 import 'package:thepcosprotocol_app/models/lesson_link.dart';
 
 class LessonLinkList {
-  List<LessonLink> results;
+  List<LessonLink>? results;
 
   LessonLinkList({this.results});
 

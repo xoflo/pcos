@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class NoResults extends StatelessWidget {
-  final String message;
+  final String? message;
 
   NoResults({this.message});
 
@@ -13,7 +13,7 @@ class NoResults extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            message,
+            message ?? "",
             style: Theme.of(context).textTheme.headline5,
             textAlign: TextAlign.center,
           ),

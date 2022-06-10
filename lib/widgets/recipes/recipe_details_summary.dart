@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 
 class RecipeDetailsSummary extends StatelessWidget {
-  final Recipe recipe;
+  final Recipe? recipe;
 
   RecipeDetailsSummary({this.recipe});
 
@@ -17,14 +17,15 @@ class RecipeDetailsSummary extends StatelessWidget {
       context,
       Icons.restaurant,
       primaryColor,
-      recipe.servings.toString(),
+      (recipe?.servings).toString(),
     ));
 
     summaryIcons.add(_iconColumn(
       context,
       Icons.timer,
       primaryColor,
-      DateTimeUtils.convertMillisecondsToMinutes(recipe.duration).toString() +
+      DateTimeUtils.convertMillisecondsToMinutes(recipe?.duration ?? 0)
+              .toString() +
           " " +
           S.current.minutesShort,
     ));
@@ -32,10 +33,10 @@ class RecipeDetailsSummary extends StatelessWidget {
     summaryIcons.add(_iconColumn(
       context,
       Icons.sort,
-      _getDifficultyColor(recipe.difficulty),
+      _getDifficultyColor(recipe?.difficulty ?? -1),
       _getDifficultyText(
         context,
-        recipe.difficulty,
+        recipe?.difficulty ?? -1,
       ),
     ));
 
@@ -54,7 +55,7 @@ class RecipeDetailsSummary extends StatelessWidget {
         padding: const EdgeInsets.only(top: 4.0),
         child: Text(
           displayText,
-          style: Theme.of(context).textTheme.headline4.copyWith(
+          style: Theme.of(context).textTheme.headline4?.copyWith(
                 color: iconColor,
               ),
         ),
@@ -100,7 +101,7 @@ class RecipeDetailsSummary extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-          child: Text(recipe.description),
+          child: Text(recipe?.description ?? ""),
         ),
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 500),
@@ -109,7 +110,7 @@ class RecipeDetailsSummary extends StatelessWidget {
             child: FadeInImage.memoryNetwork(
               alignment: Alignment.center,
               placeholder: kTransparentImage,
-              image: recipe.thumbnail,
+              image: recipe?.thumbnail ?? "",
               fit: BoxFit.fitWidth,
               width: double.maxFinite,
               height: 300,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class MessagesBell extends StatelessWidget {
-  final int messagesCount;
+  final int? messagesCount;
 
-  MessagesBell({@required this.messagesCount});
+  MessagesBell({required this.messagesCount});
 
   @override
   Widget build(BuildContext context) {

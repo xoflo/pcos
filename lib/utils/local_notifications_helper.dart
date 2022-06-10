@@ -20,9 +20,12 @@ Future<void> initNotifications(
       requestBadgePermission: false,
       requestSoundPermission: false,
       onDidReceiveLocalNotification:
-          (int id, String title, String body, String payload) async {
+          (int id, String? title, String? body, String? payload) async {
         didReceiveLocalNotificationSubject.add(LocalNotification(
-            id: id, title: title, body: body, payload: payload));
+            id: id,
+            title: title ?? "",
+            body: body ?? "",
+            payload: payload ?? ""));
       });
   var initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,

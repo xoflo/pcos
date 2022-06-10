@@ -1,7 +1,7 @@
 import 'package:thepcosprotocol_app/models/lesson.dart';
 
 class LessonResponse {
-  List<Lesson> results;
+  List<Lesson>? results;
 
   LessonResponse({this.results});
 

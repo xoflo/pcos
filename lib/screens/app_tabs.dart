@@ -41,9 +41,9 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 
 class AppTabs extends StatefulWidget {
-  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalyticsObserver? observer;
 
-  AppTabs({@required this.observer});
+  AppTabs({required this.observer});
 
   static const String id = "app_tabs_screen";
   @override
@@ -53,7 +53,7 @@ class AppTabs extends StatefulWidget {
 class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   int _currentIndex = 0;
   bool _intercomInitialised = false;
-  AppLifecycleState _appLifecycleState;
+  late AppLifecycleState _appLifecycleState;
   bool _showYourWhy = false;
   bool _showLessonRecipes = false;
   bool _isLocked = false;
@@ -61,13 +61,13 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
     initialize();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -79,7 +79,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
       androidApiKey: intercomIds[1],
       iosApiKey: intercomIds[2],
     );
-    final String userId = await AuthenticationController().getUserId();
+    final String? userId = await AuthenticationController().getUserId();
     if (!await AuthenticationController().getIntercomRegistered()) {
       Intercom.registerIdentifiedUser(userId: userId);
       await AuthenticationController().saveIntercomRegistered();
@@ -94,7 +94,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
         .getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
     //register external userId and pcos_type (as tag) with OneSignal if not done before on this device
     if (!oneSignalDataSent) {
-      await OneSignal.shared.setExternalUserId(userId);
+      await OneSignal.shared.setExternalUserId(userId ?? "");
       final String pcosType = await PreferencesController()
           .getString(SharedPreferencesKeys.PCOS_TYPE);
       await OneSignal.shared.sendTag("pcos_type", pcosType);
@@ -112,6 +112,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //backgrounded - app was active (resumed) and is now inactive
+    _appLifecycleState = state;
     if (_appLifecycleState == AppLifecycleState.resumed &&
         state == AppLifecycleState.inactive) {
       AuthenticationController()
@@ -138,7 +139,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     } else if (!_isLocked) {
       //only lock if not already locked
       final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-      final int backgroundedTimestamp =
+      final int? backgroundedTimestamp =
           await AuthenticationController().getBackgroundedTimestamp();
       //check if app was backgrounded over five minutes (300 seconds) ago, and display lock screen if necessary
       final int lockoutSeconds = 300;
@@ -245,10 +246,10 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
     }
   }
 
-  Future<bool> onBackPressed() {
+  Future<bool> onBackPressed() async {
     if (Platform.isIOS) return Future.value(false);
 
-    return showDialog(
+    return await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
             title: new Text(S.current.areYouSureText,
@@ -304,7 +305,7 @@ class _AppTabsState extends State<AppTabs> with WidgetsBindingObserver {
           openDrawerMenuItem: openDrawerMenuItem,
         ),
         body: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyText1!,
           child: Platform.isIOS
               ? MainScreens(
                   currentIndex: _currentIndex,

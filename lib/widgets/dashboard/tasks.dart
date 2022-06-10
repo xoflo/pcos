@@ -14,10 +14,10 @@ class Tasks extends StatefulWidget {
   final Function(String) updateWhatsYourWhy;
 
   Tasks({
-    @required this.screenSize,
-    @required this.isHorizontal,
-    @required this.modulesProvider,
-    @required this.updateWhatsYourWhy,
+    required this.screenSize,
+    required this.isHorizontal,
+    required this.modulesProvider,
+    required this.updateWhatsYourWhy,
   });
 
   @override
@@ -30,7 +30,7 @@ class _TasksState extends State<Tasks> {
   Color _containerColor = Colors.white;
 
   void _onSubmit(
-      final int taskID, final String value, final bool isYourWhy) async {
+      final int? taskID, final String value, final bool isYourWhy) async {
     final bool playAnimation =
         widget.modulesProvider.displayLessonTasks.length == 1;
     if (playAnimation) {

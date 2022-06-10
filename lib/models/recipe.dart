@@ -1,16 +1,16 @@
 class Recipe {
-  final int recipeId;
-  final String title;
-  final String description;
-  final String thumbnail;
-  final String ingredients;
-  final String method;
-  final String tips;
-  final String tags;
-  final int difficulty;
-  final int servings;
-  final int duration;
-  final bool isFavorite;
+  final int? recipeId;
+  final String? title;
+  final String? description;
+  final String? thumbnail;
+  final String? ingredients;
+  final String? method;
+  final String? tips;
+  final String? tags;
+  final int? difficulty;
+  final int? servings;
+  final int? duration;
+  final bool? isFavorite;
 
   Recipe({
     this.recipeId,

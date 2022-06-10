@@ -8,10 +8,10 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class QuestionTab extends StatelessWidget {
   final bool isHorizontal;
-  final AppHelpProvider faqProvider;
+  final AppHelpProvider? faqProvider;
 
   QuestionTab({
-    @required this.isHorizontal,
+    required this.isHorizontal,
     this.faqProvider,
   });
 

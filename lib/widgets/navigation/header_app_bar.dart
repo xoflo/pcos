@@ -11,8 +11,8 @@ class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function displayChat;
 
   HeaderAppBar({
-    @required this.currentIndex,
-    @required this.displayChat,
+    required this.currentIndex,
+    required this.displayChat,
   });
 
   @override

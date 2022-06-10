@@ -68,7 +68,7 @@ class _LessonSearchLayoutState extends State<LessonSearchLayout> {
         _hasSearchRun = true;
       });
       modulesProvider.filterAndSearch(searchText);
-      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+      WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
     }
   }
 

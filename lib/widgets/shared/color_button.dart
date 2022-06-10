@@ -10,9 +10,9 @@ class ColorButton extends StatelessWidget {
   final double width;
 
   ColorButton({
-    @required this.isUpdating,
-    @required this.label,
-    @required this.onTap,
+    required this.isUpdating,
+    required this.label,
+    required this.onTap,
     this.color = primaryColor,
     this.textColor = Colors.white,
     this.width = 90,

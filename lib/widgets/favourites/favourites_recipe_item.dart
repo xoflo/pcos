@@ -13,10 +13,10 @@ class FavouritesRecipeItem extends StatelessWidget {
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesRecipeItem({
-    @required this.recipe,
-    @required this.width,
-    @required this.removeFavourite,
-    @required this.openFavourite,
+    required this.recipe,
+    required this.width,
+    required this.removeFavourite,
+    required this.openFavourite,
   });
 
   String _getThumbnailUrl(final String imageUrl) {
@@ -38,7 +38,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 4.0),
                   child: Text(
-                    recipe.title,
+                    recipe.title ?? "",
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
@@ -70,7 +70,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                     child: FadeInImage.memoryNetwork(
                       alignment: Alignment.center,
                       placeholder: kTransparentImage,
-                      image: _getThumbnailUrl(recipe.thumbnail),
+                      image: _getThumbnailUrl(recipe.thumbnail ?? ""),
                       fit: BoxFit.fitWidth,
                       width: double.maxFinite,
                       height: 60,
@@ -82,7 +82,7 @@ class FavouritesRecipeItem extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 4.0),
                 child: Container(
                   width: width - 224,
-                  child: Text(recipe.description),
+                  child: Text(recipe.description ?? ""),
                 ),
               ),
               Container(

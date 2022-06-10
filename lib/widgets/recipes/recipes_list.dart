@@ -8,9 +8,9 @@ class RecipesList extends StatelessWidget {
   final Function(BuildContext, dynamic) openRecipeDetails;
 
   RecipesList({
-    @required this.screenSize,
-    @required this.recipes,
-    @required this.openRecipeDetails,
+    required this.screenSize,
+    required this.recipes,
+    required this.openRecipeDetails,
   });
 
   @override

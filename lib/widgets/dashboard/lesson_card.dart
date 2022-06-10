@@ -18,17 +18,17 @@ class LessonCard extends StatelessWidget {
   final FavouritesProvider favouritesProvider;
   final Function(Lesson) openLesson;
   final Function refreshPreviousModules;
-  final ModulesProvider modulesProvider;
+  final ModulesProvider? modulesProvider;
 
   LessonCard({
-    @required this.lessonNumber,
-    @required this.lesson,
-    @required this.isNew,
+    required this.lessonNumber,
+    required this.lesson,
+    required this.isNew,
     this.isSearch = false,
     this.isPreviousModules = false,
-    @required this.favouritesProvider,
-    @required this.openLesson,
-    @required this.refreshPreviousModules,
+    required this.favouritesProvider,
+    required this.openLesson,
+    required this.refreshPreviousModules,
     this.modulesProvider,
   });
 
@@ -72,8 +72,9 @@ class LessonCard extends StatelessWidget {
                         Container(width: 32),
                         isSearch
                             ? Text(
-                                modulesProvider.getModuleTitleByModuleID(
-                                    this.lesson.moduleID),
+                                modulesProvider?.getModuleTitleByModuleID(
+                                        this.lesson.moduleID) ??
+                                    "",
                                 style: Theme.of(context).textTheme.headline6,
                               )
                             : Text(
@@ -115,7 +116,7 @@ class LessonCard extends StatelessWidget {
                               : Theme.of(context)
                                   .textTheme
                                   .headline5
-                                  .copyWith(color: Colors.white70),
+                                  ?.copyWith(color: Colors.white70),
                         ),
                       ),
                     ),

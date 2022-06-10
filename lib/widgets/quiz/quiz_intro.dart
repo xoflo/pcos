@@ -3,12 +3,12 @@ import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class QuizIntro extends StatelessWidget {
-  final String introduction;
+  final String? introduction;
   final Function hideIntro;
 
   QuizIntro({
-    @required this.introduction,
-    @required this.hideIntro,
+    required this.introduction,
+    required this.hideIntro,
   });
 
   @override
@@ -19,7 +19,6 @@ class QuizIntro extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: Text(introduction),
           ),
           ColorButton(
             isUpdating: false,

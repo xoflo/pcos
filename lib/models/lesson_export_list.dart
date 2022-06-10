@@ -1,7 +1,7 @@
 import 'package:thepcosprotocol_app/models/lesson_export.dart';
 
 class LessonExportList {
-  List<LessonExport> results;
+  List<LessonExport>? results;
 
   LessonExportList({this.results});
 

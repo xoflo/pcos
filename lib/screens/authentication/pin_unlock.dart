@@ -35,10 +35,10 @@ class PinUnlockState extends State<PinUnlock> {
   PinEntry _pinEntry = PinEntry.NONE;
   int _pinAttempts = 0;
 
-  Future<bool> onBackPressed(BuildContext context) {
+  Future<bool> onBackPressed(BuildContext context) async {
     if (Platform.isIOS) return Future.value(false);
 
-    return showDialog(
+    return await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
             title: new Text(S.current.areYouSureText,
@@ -157,7 +157,7 @@ class PinUnlockState extends State<PinUnlock> {
     final Member memberDetails = await WebServices().getMemberDetails();
     await PreferencesController().saveString(
         SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
-        memberDetails.dateNextLessonAvailableLocal.toIso8601String());
+        memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ?? "");
   }
 
   void startPinAgain() {
@@ -171,7 +171,8 @@ class PinUnlockState extends State<PinUnlock> {
   }
 
   void openAppTabs() {
-    final PinUnlockArguments args = ModalRoute.of(context).settings.arguments;
+    final PinUnlockArguments args =
+        ModalRoute.of(context)?.settings.arguments as PinUnlockArguments;
     args.setIsLocked(false);
     if (args.isAppTabsOpen) {
       Navigator.pop(context);

@@ -6,9 +6,9 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 
 class MessagesProvider with ChangeNotifier {
-  final DatabaseProvider dbProvider;
+  final DatabaseProvider? dbProvider;
 
-  MessagesProvider({@required this.dbProvider}) {
+  MessagesProvider({required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData();
   }
 
@@ -24,7 +24,7 @@ class MessagesProvider with ChangeNotifier {
     status = LoadingStatus.loading;
     notifyListeners();
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       _items = await ProviderHelper()
           .fetchAndSaveMessages(dbProvider, refreshFromAPI);
@@ -38,16 +38,18 @@ class MessagesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateNotificationAsRead(final int notificationId) async {
+  Future<void> updateNotificationAsRead(final int? notificationId) async {
     await ProviderHelper().markNotificationAsRead(dbProvider, notificationId);
-    _items = await ProviderHelper().getAllData(dbProvider, tableName);
+    _items = await ProviderHelper().getAllData(dbProvider, tableName)
+        as List<Message>;
     notifyListeners();
   }
 
-  Future<void> updateNotificationAsDeleted(final int notificationId) async {
+  Future<void> updateNotificationAsDeleted(final int? notificationId) async {
     await ProviderHelper()
         .markNotificationAsDeleted(dbProvider, notificationId);
-    _items = await ProviderHelper().getAllData(dbProvider, tableName);
+    _items = await ProviderHelper().getAllData(dbProvider, tableName)
+        as List<Message>;
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
     notifyListeners();
   }
@@ -57,7 +59,7 @@ class MessagesProvider with ChangeNotifier {
 
     int unreadCount = 0;
     _items.forEach((Message message) {
-      if (!message.isRead) unreadCount++;
+      if (message.isRead == false) unreadCount++;
     });
     return unreadCount;
   }

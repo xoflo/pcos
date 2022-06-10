@@ -9,9 +9,9 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class FavouritesProvider with ChangeNotifier {
-  final DatabaseProvider dbProvider;
+  final DatabaseProvider? dbProvider;
 
-  FavouritesProvider({@required this.dbProvider}) {
+  FavouritesProvider({required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData();
   }
 
@@ -31,7 +31,7 @@ class FavouritesProvider with ChangeNotifier {
     status = LoadingStatus.loading;
     notifyListeners();
 
-    if (dbProvider.db != null) {
+    if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       final AllFavourites allFavourites =
           await ProviderHelper().getFavourites(dbProvider);
@@ -47,34 +47,34 @@ class FavouritesProvider with ChangeNotifier {
   }
 
   Future<void> addToFavourites(
-      final FavouriteType favouriteType, final int itemId) async {
+      final FavouriteType favouriteType, final int? itemId) async {
     await ProviderHelper().addToFavourites(
         !isFavourite(favouriteType, itemId), dbProvider, favouriteType, itemId);
     fetchAndSaveData();
   }
 
-  bool isFavourite(final FavouriteType favouriteType, final int itemId) {
+  bool isFavourite(final FavouriteType favouriteType, final int? itemId) {
     switch (favouriteType) {
       case FavouriteType.Lesson:
-        Lesson lessonFound = _lessons.firstWhere(
-            (lesson) => lesson.lessonID == itemId,
-            orElse: () => null);
+        Lesson? lessonFound = _lessons.firstWhereOrNull(
+          (lesson) => lesson.lessonID == itemId,
+        );
         if (lessonFound != null) {
           return true;
         }
         return false;
       case FavouriteType.Wiki:
-        LessonWiki wikiFound = _lessonWikis.firstWhere(
-            (wiki) => wiki.questionId == itemId,
-            orElse: () => null);
+        LessonWiki? wikiFound = _lessonWikis.firstWhereOrNull(
+          (wiki) => wiki.questionId == itemId,
+        );
         if (wikiFound != null) {
           return true;
         }
         return false;
       case FavouriteType.Recipe:
-        Recipe recipeFound = _recipes.firstWhere(
-            (recipe) => recipe.recipeId == itemId,
-            orElse: () => null);
+        Recipe? recipeFound = _recipes.firstWhereOrNull(
+          (recipe) => recipe.recipeId == itemId,
+        );
         if (recipeFound != null) {
           return true;
         }
@@ -82,6 +82,5 @@ class FavouritesProvider with ChangeNotifier {
       case FavouriteType.None:
         return false;
     }
-    return false;
   }
 }

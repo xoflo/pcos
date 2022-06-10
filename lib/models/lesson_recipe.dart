@@ -1,16 +1,16 @@
 class LessonRecipe {
-  final int recipeId;
-  final int lessonId;
-  final String title;
-  final String description;
-  final String thumbnail;
-  final String ingredients;
-  final String method;
-  final String tips;
-  final String tags;
-  final int difficulty;
-  final int servings;
-  final int duration;
+  final int? recipeId;
+  final int? lessonId;
+  final String? title;
+  final String? description;
+  final String? thumbnail;
+  final String? ingredients;
+  final String? method;
+  final String? tips;
+  final String? tags;
+  final int? difficulty;
+  final int? servings;
+  final int? duration;
 
   LessonRecipe({
     this.recipeId,

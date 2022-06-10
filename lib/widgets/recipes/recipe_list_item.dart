@@ -8,10 +8,10 @@ class RecipeListItem extends StatelessWidget {
   final Size screenSize;
 
   RecipeListItem({
-    @required this.recipe,
-    @required this.itemsPerRow,
-    @required this.openRecipeDetails,
-    @required this.screenSize,
+    required this.recipe,
+    required this.itemsPerRow,
+    required this.openRecipeDetails,
+    required this.screenSize,
   });
 
   @override

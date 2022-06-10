@@ -16,9 +16,9 @@ class WikiCard extends StatefulWidget {
   final bool isLessonComplete;
 
   WikiCard({
-    @required this.wiki,
-    @required this.screenSize,
-    @required this.isLessonComplete,
+    required this.wiki,
+    required this.screenSize,
+    required this.isLessonComplete,
   });
 
   @override
@@ -72,7 +72,8 @@ class _WikiCardState extends State<WikiCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                    child: HtmlWidget(isAnswer ? wiki.answer : wiki.question),
+                    child: HtmlWidget(
+                        isAnswer ? wiki.answer ?? "" : wiki.question ?? ""),
                   ),
                 ],
               ),
@@ -82,7 +83,7 @@ class _WikiCardState extends State<WikiCard> {
             padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: GestureDetector(
               onTap: () {
-                if (wiki.isLongAnswer) {
+                if (wiki.isLongAnswer == true) {
                   _openWiki(context, wiki);
                 } else {
                   _switchQuestionAnswer();
@@ -108,7 +109,7 @@ class _WikiCardState extends State<WikiCard> {
                             ),
                           )
                         : Icon(
-                            wiki.isLongAnswer
+                            wiki.isLongAnswer == true
                                 ? Icons.open_in_new
                                 : Icons.present_to_all,
                             color: secondaryColor,
@@ -168,7 +169,7 @@ class _WikiCardState extends State<WikiCard> {
                                         widget.wiki,
                                         _containerHeight,
                                         S.current.swipeUpForAnswer),
-                                    widget.wiki.isLongAnswer
+                                    widget.wiki.isLongAnswer == true
                                         ? Container()
                                         : _getContainer(
                                             favouritesProvider,

@@ -7,9 +7,9 @@ class Dashboard extends StatelessWidget {
   final Function(bool) updateYourWhy;
 
   Dashboard(
-      {@required this.showYourWhy,
-      @required this.showLessonRecipes,
-      @required this.updateYourWhy});
+      {required this.showYourWhy,
+      required this.showLessonRecipes,
+      required this.updateYourWhy});
 
   @override
   Widget build(BuildContext context) {

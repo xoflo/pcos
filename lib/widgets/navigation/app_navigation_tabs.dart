@@ -7,17 +7,17 @@ import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 class AppNavigationTabs extends StatelessWidget {
   final int currentIndex;
   final Function(int selectedIndex) onTapped;
-  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalyticsObserver? observer;
 
   AppNavigationTabs({
-    @required this.currentIndex,
-    @required this.onTapped,
-    @required this.observer,
+    required this.currentIndex,
+    required this.onTapped,
+    required this.observer,
   });
 
   void _sendCurrentTabToAnalytics(final int selectedIndex) {
     final String indexName = AnalyticsUtils.getAppTabName(selectedIndex);
-    observer.analytics.setCurrentScreen(
+    observer?.analytics.setCurrentScreen(
       screenName: "${AppTabs.id}/$indexName",
     );
   }

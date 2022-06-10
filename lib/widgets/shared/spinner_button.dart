@@ -8,12 +8,13 @@ class SpinnerButton extends StatelessWidget {
   final Color borderColor;
   final Color spinnerColor;
 
-  SpinnerButton(
-      {@required this.width,
-      @required this.height,
-      this.backgroundColor = Colors.white,
-      this.borderColor = primaryColor,
-      this.spinnerColor = primaryColor});
+  SpinnerButton({
+    required this.width,
+    required this.height,
+    this.backgroundColor = Colors.white,
+    this.borderColor = primaryColor,
+    this.spinnerColor = primaryColor,
+  });
 
   @override
   Widget build(BuildContext context) {

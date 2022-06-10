@@ -1,11 +1,11 @@
 class CMS {
-  final int cmsId;
-  final String reference;
-  final String groupId;
-  final String body;
-  final String tags;
-  final int orderIndex;
-  final bool isFavorite;
+  final int? cmsId;
+  final String? reference;
+  final String? groupId;
+  final String? body;
+  final String? tags;
+  final int? orderIndex;
+  final bool? isFavorite;
 
   CMS({
     this.cmsId,

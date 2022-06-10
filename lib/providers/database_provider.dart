@@ -7,22 +7,22 @@ class DatabaseProvider with ChangeNotifier {
   //increment this number whenever the database tables change
   static const DB_VERSION = 5;
   static const DATABASE_NAME = "ThePCOSProtocol.db";
-  sql.Database db;
+  sql.Database? db;
 
   DatabaseProvider() {
     // this will run when provider is instantiate the first time
     init();
   }
 
-  void init() async {
+  Future init() async {
     final dbPath = await sql.getDatabasesPath();
     final fullPath = path.join(dbPath, DATABASE_NAME);
 
     db = await sql.openDatabase(fullPath);
 
-    if (await db.getVersion() < DB_VERSION) {
+    if ((await db?.getVersion() ?? 0) < DB_VERSION) {
       //there is a new version of the db so close and delete the old database so you can create the new one
-      db.close();
+      db?.close();
       await sql.deleteDatabase(fullPath);
       //re-open with the onCreate as the database has changed
       db = await sql.openDatabase(
@@ -163,12 +163,12 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   Future<void> insert(
-      final String table, final Map<String, Object> data) async {
-    await db.insert(table, data,
+      final String table, final Map<String, Object?> data) async {
+    await db?.insert(table, data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  Future<List<Map<String, dynamic>>> getData(
+  Future<List<Map<String, Object?>>?> getData(
       final String table,
       final String orderByColumn,
       final bool incompleteOnly,
@@ -176,71 +176,71 @@ class DatabaseProvider with ChangeNotifier {
       final bool toolkitsOnly) async {
     if (orderByColumn.length > 0) {
       if (incompleteOnly) {
-        return await db.query(table,
+        return await db?.query(table,
             orderBy: orderByColumn, where: 'isComplete = 0');
       }
       if (favouritesOnly) {
-        return await db.query(table,
+        return await db?.query(table,
             orderBy: orderByColumn, where: 'isFavorite = 1');
       }
       if (table == TABLE_LESSON && toolkitsOnly) {
-        return await db.query(table,
+        return await db?.query(table,
             orderBy: orderByColumn, where: 'isToolkit = 1 AND isComplete = 1');
       }
-      return await db.query(table, orderBy: orderByColumn);
+      return await db?.query(table, orderBy: orderByColumn);
     }
     if (incompleteOnly) {
-      return await db.query(table, where: 'isComplete = 0');
+      return await db?.query(table, where: 'isComplete = 0');
     }
     if (favouritesOnly) {
-      return await db.query(table, where: 'isFavorite = 1');
+      return await db?.query(table, where: 'isFavorite = 1');
     }
     if (table == TABLE_LESSON && toolkitsOnly) {
-      return await db.query(table, where: 'isToolkit = 1 AND isComplete = 1');
+      return await db?.query(table, where: 'isToolkit = 1 AND isComplete = 1');
     }
-    return await db.query(table);
+    return await db?.query(table);
   }
 
-  Future<List<Map<String, dynamic>>> getDataQuery(
+  Future<List<Map<String, Object?>>?> getDataQuery(
       final String table, final String where) async {
-    return await db.rawQuery("SELECT * FROM $table $where");
+    return await db?.rawQuery("SELECT * FROM $table $where");
   }
 
-  Future<List<Map<String, dynamic>>> getDataQueryWithJoin(final String select,
+  Future<List<Map<String, Object?>>?> getDataQueryWithJoin(final String select,
       final String tablesAndJoin, final String where) async {
-    return await db.rawQuery("SELECT $select FROM $tablesAndJoin $where");
+    return await db?.rawQuery("SELECT $select FROM $tablesAndJoin $where");
   }
 
-  Future<int> getTableRowCount(final String table) async {
+  Future<int?> getTableRowCount(final String table) async {
     return sql.Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM $table'));
+        await db?.rawQuery('SELECT COUNT(*) FROM $table') ?? []);
   }
 
   Future<void> deleteAll(final String table) async {
-    db.delete(table);
+    db?.delete(table);
   }
 
   Future<void> updateQuery({
-    final String table,
-    final String setFields,
-    final String whereClause,
-    final int limitRowCount,
+    final String? table,
+    final String? setFields,
+    final String? whereClause,
+    final int? limitRowCount,
   }) async {
     String updateStatement = "UPDATE $table SET $setFields WHERE $whereClause";
-    await db.rawQuery(updateStatement);
+    await db?.rawQuery(updateStatement);
   }
 
   Future<void> deleteQuery({
-    final String table,
-    final String whereClause,
-    final int limitRowCount,
+    final String? table,
+    final String? whereClause,
+    final int? limitRowCount,
   }) async {
     String deleteStatement = "DELETE FROM $table";
-    if (whereClause.length > 0) {
+    if ((whereClause ?? "").length > 0) {
       deleteStatement += " WHERE $whereClause";
     }
 
-    await db.rawQuery(deleteStatement);
+    await db?.rawQuery(deleteStatement);
   }
 
   Future<void> deleteAllData() async {

@@ -7,15 +7,15 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
 class LessonWikiFull extends StatelessWidget {
   final BuildContext parentContext;
-  final LessonWiki wiki;
+  final LessonWiki? wiki;
   final bool isFavourite;
   final Function closeWiki;
 
   LessonWikiFull({
-    @required this.parentContext,
-    @required this.wiki,
-    @required this.isFavourite,
-    @required this.closeWiki,
+    required this.parentContext,
+    required this.wiki,
+    required this.isFavourite,
+    required this.closeWiki,
   });
 
   @override
@@ -52,14 +52,14 @@ class LessonWikiFull extends StatelessWidget {
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
                           width: screenSize.width,
-                          child: HtmlWidget(this.wiki.question),
+                          child: HtmlWidget(this.wiki?.question ?? ""),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
                           width: screenSize.width,
-                          child: HtmlWidget(this.wiki.answer),
+                          child: HtmlWidget(this.wiki?.answer ?? ""),
                         ),
                       ),
                     ],

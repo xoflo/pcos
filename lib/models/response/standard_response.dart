@@ -1,8 +1,8 @@
 class StandardResponse {
-  final String status;
-  final String message;
-  final String info;
-  final Map<String, dynamic> payload;
+  final String? status;
+  final String? message;
+  final String? info;
+  final Map<String, dynamic>? payload;
 
   StandardResponse({this.status, this.message, this.info, this.payload});
 

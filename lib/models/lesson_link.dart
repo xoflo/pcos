@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 
 class LessonLink {
-  final int lessonLinkID;
-  final int lessonID;
-  final int objectID;
-  final String objectType;
-  final int orderIndex;
-  final DateTime dateCreatedUTC;
+  final int? lessonLinkID;
+  final int? lessonID;
+  final int? objectID;
+  final String? objectType;
+  final int? orderIndex;
+  final DateTime? dateCreatedUTC;
 
   LessonLink({
     this.lessonLinkID,

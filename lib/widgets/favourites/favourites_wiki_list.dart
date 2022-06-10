@@ -7,15 +7,15 @@ class FavouritesWikiList extends StatelessWidget {
   final List<LessonWiki> lessonWikis;
   final double width;
   final bool isToolkit;
-  final Function(FavouriteType, int) removeFavourite;
+  final Function(FavouriteType, dynamic) removeFavourite;
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesWikiList({
-    @required this.lessonWikis,
-    @required this.width,
-    @required this.isToolkit,
-    @required this.removeFavourite,
-    @required this.openFavourite,
+    required this.lessonWikis,
+    required this.width,
+    required this.isToolkit,
+    required this.removeFavourite,
+    required this.openFavourite,
   });
 
   @override

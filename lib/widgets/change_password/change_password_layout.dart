@@ -25,7 +25,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
   bool isComplete = false;
 
   void _savePassword(BuildContext context) async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState?.validate() == true) {
       analytics.logEvent(
         name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
         parameters: {
@@ -40,7 +40,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
 
       //check old password is correct, this is like logging in, so will return a new token that replaces the old one
       try {
-        email = await AuthenticationController().getEmail();
+        email = await AuthenticationController().getEmail() ?? "";
         await AuthenticationController().signIn(email, oldPassword);
       } catch (ex) {
         if (ex == SIGN_IN_CREDENTIALS) {
@@ -124,7 +124,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                                 labelText: S.current.changePasswordOldLabel,
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value?.isEmpty == true) {
                                   return S.current.changePasswordOldMessage;
                                 }
                                 return null;
@@ -141,7 +141,8 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                                 labelText: S.current.changePasswordNewLabel,
                               ),
                               validator: (value) {
-                                if (value.isEmpty || value.length < 6) {
+                                if (value != null &&
+                                    (value.isEmpty || value.length < 6)) {
                                   return S.current.changePasswordNewMessage;
                                 }
                                 return null;
@@ -158,7 +159,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                                 labelText: S.current.changePasswordConfirmLabel,
                               ),
                               validator: (value) {
-                                if (value.isEmpty) {
+                                if (value?.isEmpty == true) {
                                   return S
                                       .of(context)
                                       .changePasswordConfirmMessage;

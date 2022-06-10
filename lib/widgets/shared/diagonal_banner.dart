@@ -4,7 +4,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 class DiagonalBanner extends StatelessWidget {
   final String bannerText;
 
-  DiagonalBanner({@required this.bannerText});
+  DiagonalBanner({required this.bannerText});
 
   @override
   Widget build(BuildContext context) {

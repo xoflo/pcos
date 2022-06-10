@@ -8,13 +8,13 @@ class TaskText extends StatefulWidget {
   final Size screenSize;
   final bool isHorizontal;
   final LessonTask lessonTask;
-  final Function(int, String) onSubmit;
+  final Function(int?, String) onSubmit;
 
   TaskText({
-    @required this.screenSize,
-    @required this.isHorizontal,
-    @required this.lessonTask,
-    @required this.onSubmit,
+    required this.screenSize,
+    required this.isHorizontal,
+    required this.lessonTask,
+    required this.onSubmit,
   });
 
   @override
@@ -26,7 +26,7 @@ class _TaskTextState extends State<TaskText> {
   final TextEditingController textController = TextEditingController();
 
   void _submitText() {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState?.validate() == true) {
       widget.onSubmit(
           widget.lessonTask.lessonTaskID, textController.text.trim());
     }
@@ -43,7 +43,7 @@ class _TaskTextState extends State<TaskText> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              widget.lessonTask.title,
+              widget.lessonTask.title ?? "",
               style: Theme.of(context).textTheme.headline6,
             ),
             Padding(
@@ -51,7 +51,7 @@ class _TaskTextState extends State<TaskText> {
                 horizontal: 16.0,
                 vertical: 12.0,
               ),
-              child: HtmlWidget(widget.lessonTask.description),
+              child: HtmlWidget(widget.lessonTask.description ?? ""),
             ),
             SizedBox(
               width: widget.screenSize.width - 80,
@@ -64,7 +64,7 @@ class _TaskTextState extends State<TaskText> {
                   fillColor: Colors.white,
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value?.isEmpty == true) {
                     return S.current.textTaskValidation;
                   }
                   return null;

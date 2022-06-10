@@ -8,10 +8,11 @@ class MessageDetails extends StatelessWidget {
   final Function closeMessage;
   final Function(Message) deleteMessage;
 
-  MessageDetails(
-      {@required this.message,
-      @required this.closeMessage,
-      @required this.deleteMessage});
+  MessageDetails({
+    required this.message,
+    required this.closeMessage,
+    required this.deleteMessage,
+  });
 
   @override
   Widget build(BuildContext context) {

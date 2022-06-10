@@ -12,29 +12,29 @@ final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 class AuthenticationController {
   Future<bool> signIn(String emailOrUsername, String password) async {
     final token = await WebServices().signIn(emailOrUsername, password);
-    if (token.accessToken.length > 0) {
+    if ((token?.accessToken ?? "").length > 0) {
       //save the username or email in secure storage so it can be used during change password process
       await secureStorage.write(
-          key: SecureStorageKeys.EMAIL, value: token.profile.email);
+          key: SecureStorageKeys.EMAIL, value: token?.profile?.email);
       await secureStorage.write(
-          key: SecureStorageKeys.USERNAME, value: token.profile.alias);
+          key: SecureStorageKeys.USERNAME, value: token?.profile?.alias);
       await secureStorage.write(
-          key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
+          key: SecureStorageKeys.ACCESS_TOKEN, value: token?.accessToken);
       await secureStorage.write(
-          key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
+          key: SecureStorageKeys.REFRESH_TOKEN, value: token?.refreshToken);
       await secureStorage.write(
-          key: SecureStorageKeys.USER_ID, value: token.profile.id.toString());
+          key: SecureStorageKeys.USER_ID, value: token?.profile?.id.toString());
       //use the SharedPreferences not controller for this as want to check for null
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      final bool isUserSignedIn =
+      final bool? isUserSignedIn =
           prefs.getBool(SharedPreferencesKeys.IS_USER_SIGNED_IN);
       PreferencesController()
           .saveBool(SharedPreferencesKeys.IS_USER_SIGNED_IN, true);
-      PreferencesController()
-          .saveString(SharedPreferencesKeys.PCOS_TYPE, token.profile.pcosType);
-      if (token.profile.whatsMyWhy.length > 0) {
+      PreferencesController().saveString(
+          SharedPreferencesKeys.PCOS_TYPE, token?.profile?.pcosType);
+      if ((token?.profile?.whatsMyWhy ?? "").length > 0) {
         await PreferencesController().saveString(
-            SharedPreferencesKeys.WHATS_YOUR_WHY, token.profile.whatsMyWhy);
+            SharedPreferencesKeys.WHATS_YOUR_WHY, token?.profile?.whatsMyWhy);
         //if this is first time logging in on this device, but they already have a whatsMyWhy, default the showMyWhy to true as they have previously used the app and saved a what my why
         if (isUserSignedIn == null) {
           await PreferencesController()
@@ -59,19 +59,19 @@ class AuthenticationController {
     try {
       final token = await WebServices().refreshToken();
 
-      if (token.accessToken.length > 0) {
+      if ((token?.accessToken ?? "").length > 0) {
         //save the tokens to secure storage
         await secureStorage.write(
-            key: SecureStorageKeys.ACCESS_TOKEN, value: token.accessToken);
+            key: SecureStorageKeys.ACCESS_TOKEN, value: token?.accessToken);
         await secureStorage.write(
-            key: SecureStorageKeys.REFRESH_TOKEN, value: token.refreshToken);
+            key: SecureStorageKeys.REFRESH_TOKEN, value: token?.refreshToken);
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        if (token.profile.whatsMyWhy.length > 0) {
-          await prefs.setString(
-              SharedPreferencesKeys.WHATS_YOUR_WHY, token.profile.whatsMyWhy);
+        if ((token?.profile?.whatsMyWhy ?? "").length > 0) {
+          await prefs.setString(SharedPreferencesKeys.WHATS_YOUR_WHY,
+              token?.profile?.whatsMyWhy ?? "");
         }
         await prefs.setString(
-            SharedPreferencesKeys.PCOS_TYPE, token.profile.pcosType);
+            SharedPreferencesKeys.PCOS_TYPE, token?.profile?.pcosType ?? "");
         return true;
       }
       return false;
@@ -80,9 +80,9 @@ class AuthenticationController {
     }
   }
 
-  Future<String> getAccessToken() async {
+  Future<String?> getAccessToken() async {
     try {
-      final String token =
+      final String? token =
           await secureStorage.read(key: SecureStorageKeys.ACCESS_TOKEN);
       return token;
     } catch (ex) {
@@ -90,9 +90,9 @@ class AuthenticationController {
     }
   }
 
-  Future<String> getRefreshToken() async {
+  Future<String?> getRefreshToken() async {
     try {
-      final String refreshToken =
+      final String? refreshToken =
           await secureStorage.read(key: SecureStorageKeys.REFRESH_TOKEN);
       return refreshToken;
     } catch (ex) {
@@ -100,9 +100,9 @@ class AuthenticationController {
     }
   }
 
-  Future<String> getUsername() async {
+  Future<String?> getUsername() async {
     try {
-      final String username =
+      final String? username =
           await secureStorage.read(key: SecureStorageKeys.USERNAME);
       return username;
     } catch (ex) {
@@ -110,9 +110,9 @@ class AuthenticationController {
     }
   }
 
-  Future<String> getEmail() async {
+  Future<String?> getEmail() async {
     try {
-      final String email =
+      final String? email =
           await secureStorage.read(key: SecureStorageKeys.EMAIL);
       return email;
     } catch (ex) {
@@ -120,9 +120,9 @@ class AuthenticationController {
     }
   }
 
-  Future<String> getUserId() async {
+  Future<String?> getUserId() async {
     try {
-      final String email =
+      final String? email =
           await secureStorage.read(key: SecureStorageKeys.USER_ID);
       return email;
     } catch (ex) {
@@ -132,16 +132,13 @@ class AuthenticationController {
 
   Future<bool> isUserLoggedIn() async {
     try {
-      final String refreshToken =
+      final String? refreshToken =
           await secureStorage.read(key: SecureStorageKeys.REFRESH_TOKEN);
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      if (refreshToken.length > 0 &&
-          prefs.getBool(SharedPreferencesKeys.IS_USER_SIGNED_IN)) {
-        return true;
-      }
-
-      return false;
+      return refreshToken != null &&
+          refreshToken.length > 0 &&
+          prefs.getBool(SharedPreferencesKeys.IS_USER_SIGNED_IN) == true;
     } catch (ex) {
       return false;
     }
@@ -173,12 +170,10 @@ class AuthenticationController {
 
   Future<bool> checkPin(final String pinEntered) async {
     try {
-      final String pinFromSecureStorage =
+      final String? pinFromSecureStorage =
           await secureStorage.read(key: SecureStorageKeys.PIN);
-      if (pinFromSecureStorage == pinEntered) {
-        return true;
-      }
-      return false;
+
+      return pinFromSecureStorage == pinEntered;
     } catch (ex) {
       return false;
     }
@@ -220,14 +215,13 @@ class AuthenticationController {
 
   Future<bool> isUserPinSet() async {
     try {
-      final String userPin =
+      final String? userPin =
           await secureStorage.read(key: SecureStorageKeys.PIN);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (userPin.length > 0 &&
-          prefs.getBool(SharedPreferencesKeys.IS_USER_PIN_SET)) {
-        return true;
-      }
-      return false;
+
+      return userPin != null &&
+          userPin.length > 0 &&
+          prefs.getBool(SharedPreferencesKeys.IS_USER_PIN_SET) == true;
     } catch (ex) {
       return false;
     }
@@ -245,7 +239,7 @@ class AuthenticationController {
     }
   }
 
-  Future<int> getBackgroundedTimestamp() async {
+  Future<int?> getBackgroundedTimestamp() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       return prefs.getInt(SharedPreferencesKeys.BACKGROUNDED_TIMESTAMP);
@@ -267,9 +261,10 @@ class AuthenticationController {
   Future<bool> getIntercomRegistered() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      final bool isRegistered =
+      final bool? isRegistered =
           prefs.getBool(SharedPreferencesKeys.INTERCOM_REGISTERED);
-      return isRegistered != null ? isRegistered : false;
+
+      return isRegistered == true;
     } catch (ex) {
       return false;
     }

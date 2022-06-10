@@ -13,7 +13,7 @@ class Tutorial extends StatefulWidget {
   final bool isStartUp;
   final Function closeTutorial;
 
-  Tutorial({@required this.isStartUp, @required this.closeTutorial});
+  Tutorial({required this.isStartUp, required this.closeTutorial});
 
   @override
   _TutorialState createState() => _TutorialState();

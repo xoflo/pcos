@@ -14,7 +14,7 @@ import 'package:thepcosprotocol_app/constants/table_names.dart';
 class DrawerMenu extends StatefulWidget {
   final Function(DrawerMenuItem) openDrawerMenuItem;
 
-  DrawerMenu({@required this.openDrawerMenuItem});
+  DrawerMenu({required this.openDrawerMenuItem});
 
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
@@ -70,13 +70,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle drawerItemStyle =
-        Theme.of(context).textTheme.headline4.copyWith(
+    final TextStyle? drawerItemStyle =
+        Theme.of(context).textTheme.headline4?.copyWith(
               fontSize: 20.0,
               color: primaryColor,
             );
-    final TextStyle footerStyle =
-        Theme.of(context).textTheme.headline4.copyWith(
+    final TextStyle? footerStyle =
+        Theme.of(context).textTheme.headline4?.copyWith(
               fontSize: 14.0,
               color: primaryColor,
             );
@@ -94,7 +94,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 children: [
                   Text(
                     S.current.appTitle,
-                    style: Theme.of(context).textTheme.headline4.copyWith(
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
                           color: primaryColor,
                         ),
                   ),

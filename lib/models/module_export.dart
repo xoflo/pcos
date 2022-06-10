@@ -3,8 +3,8 @@ import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/lesson_export.dart';
 
 class ModuleExport {
-  final Module module;
-  final List<LessonExport> lessons;
+  final Module? module;
+  final List<LessonExport>? lessons;
 
   ModuleExport({
     this.module,

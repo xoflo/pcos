@@ -7,8 +7,8 @@ class LessonRecipes extends StatelessWidget {
   final Function(bool) saveLessonRecipes;
 
   LessonRecipes({
-    @required this.isLessonRecipesOn,
-    @required this.saveLessonRecipes,
+    required this.isLessonRecipesOn,
+    required this.saveLessonRecipes,
   });
 
   @override

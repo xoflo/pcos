@@ -10,10 +10,10 @@ class FavouritesRecipesList extends StatelessWidget {
   final Function(FavouriteType, dynamic) openFavourite;
 
   FavouritesRecipesList({
-    @required this.recipes,
-    @required this.width,
-    @required this.removeFavourite,
-    @required this.openFavourite,
+    required this.recipes,
+    required this.width,
+    required this.removeFavourite,
+    required this.openFavourite,
   });
 
   @override

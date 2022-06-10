@@ -4,7 +4,7 @@ class DrawCircle extends CustomPainter {
   final Color circleColor;
   final bool isFilled;
 
-  DrawCircle({@required this.circleColor, @required this.isFilled});
+  DrawCircle({required this.circleColor, required this.isFilled});
 
   @override
   void paint(Canvas canvas, Size size) {

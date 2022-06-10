@@ -70,7 +70,8 @@ class _SignInState extends State<SignIn> {
           final Member memberDetails = await WebServices().getMemberDetails();
           await PreferencesController().saveString(
               SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
-              memberDetails.dateNextLessonAvailableLocal.toIso8601String());
+              memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ??
+                  "");
           return;
         } else {
           showErrorDialog = true;
@@ -162,6 +163,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
+        bottom: false,
         child: showSignUp
             ? Column(
                 children: [
@@ -175,10 +177,12 @@ class _SignInState extends State<SignIn> {
                       width: 250,
                     ),
                   ),
-                  SizedBox(
-                    width: screenSize.width,
-                    height: screenSize.height - heightDeduction,
-                    child: RegisterWebView(),
+                  Expanded(
+                    child: SizedBox(
+                      width: screenSize.width,
+                      height: screenSize.height - heightDeduction,
+                      child: RegisterWebView(),
+                    ),
                   ),
                 ],
               )

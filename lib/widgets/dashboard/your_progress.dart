@@ -23,7 +23,7 @@ class YourProgress extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline6
-                        .copyWith(fontSize: 16),
+                        ?.copyWith(fontSize: 16),
                   ),
                 ),
               ),
