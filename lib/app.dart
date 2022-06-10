@@ -7,24 +7,25 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
-import 'package:thepcosprotocol_app/screens/menu/app_help.dart';
+import 'package:thepcosprotocol_app/screens/more/app_help.dart';
+import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/screens/header/messages.dart';
-import 'package:thepcosprotocol_app/screens/menu/change_password.dart';
-import 'package:thepcosprotocol_app/screens/menu/privacy.dart';
-import 'package:thepcosprotocol_app/screens/menu/profile.dart';
-import 'package:thepcosprotocol_app/screens/menu/terms_and_conditions.dart';
+import 'package:thepcosprotocol_app/screens/notifications/notifications.dart';
+import 'package:thepcosprotocol_app/screens/more/change_password.dart';
+import 'package:thepcosprotocol_app/screens/more/privacy.dart';
+import 'package:thepcosprotocol_app/screens/more/profile.dart';
+import 'package:thepcosprotocol_app/screens/more/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/app_loading.dart';
-import 'package:thepcosprotocol_app/screens/menu/settings.dart';
+import 'package:thepcosprotocol_app/screens/more/settings.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -38,6 +39,8 @@ import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 
 class App extends StatefulWidget {
@@ -173,11 +176,14 @@ class _AppState extends State<App> {
           AppHelp.id: (context) => AppHelp(),
           Privacy.id: (context) => Privacy(),
           TermsAndConditions.id: (context) => TermsAndConditions(),
-          Messages.id: (context) => Messages(),
+          Notifications.id: (context) => Notifications(),
           PreviousModules.id: (context) => PreviousModules(),
           LessonSearch.id: (context) => LessonSearch(),
           WikiSearch.id: (context) => WikiSearch(),
           QuizScreen.id: (context) => QuizScreen(),
+          ProfileDeletePage.id: (context) => ProfileDeletePage(),
+          ProfilePersonalDetails.id: (context) => ProfilePersonalDetails(),
+          NotificationSettings.id: (context) => NotificationSettings(),
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

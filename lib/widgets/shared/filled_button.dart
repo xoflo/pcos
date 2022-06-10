@@ -8,12 +8,14 @@ class FilledButton extends StatelessWidget {
     required this.margin,
     required this.foregroundColor,
     required this.backgroundColor,
+    this.icon,
     this.onPressed,
     this.width = double.infinity,
     this.isUpdating = false,
   }) : super(key: key);
 
   final Function()? onPressed;
+  final Widget? icon;
   final String text;
   final double width;
   final EdgeInsetsGeometry margin;
@@ -28,7 +30,7 @@ class FilledButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: isUpdating ? null : onPressed,
           child: Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(icon != null ? 7.5 : 15),
             child: isUpdating
                 ? SizedBox(
                     child: CircularProgressIndicator(
@@ -39,8 +41,19 @@ class FilledButton extends StatelessWidget {
                     height: 20.0,
                     width: 20.0,
                   )
-                : Text(
-                    text,
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (icon != null) ...{
+                        icon!,
+                        SizedBox(
+                          width: 10,
+                        )
+                      },
+                      Text(
+                        text,
+                      ),
+                    ],
                   ),
           ),
           style: ButtonStyle(
@@ -55,7 +68,7 @@ class FilledButton extends StatelessWidget {
             }),
             textStyle: MaterialStateProperty.resolveWith(
               (states) => const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),

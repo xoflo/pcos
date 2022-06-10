@@ -123,7 +123,6 @@ class _QuizDisplayState extends State<QuizDisplay> {
                   closeItem: () {
                     Navigator.pop(context);
                   },
-                  showMessagesIcon: false,
                 ),
                 SizedBox(
                   height: containerHeight,

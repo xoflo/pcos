@@ -31,7 +31,7 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/screens/menu/settings.dart';
+import 'package:thepcosprotocol_app/screens/more/settings.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/current_module.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
@@ -94,9 +94,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     if (!await PreferencesController()
         .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
       analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-      // TODO: Uncomment once settled
-      // PreferencesController()
-      //     .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
+      PreferencesController()
+          .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
       await Future.delayed(Duration(seconds: 2), () {
         Navigator.pushNamed(
           context,
@@ -113,7 +112,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     void openSettings(BuildContext context) {
       Navigator.of(context).pop();
       Navigator.pushNamed(context, Settings.id,
-          arguments: SettingsArguments((bool) {}, (bool) {}, true));
+          arguments: SettingsArguments((bool) {}, (bool) {}, (bool) {}));
     }
 
     void displaySetupLaterMessage(BuildContext context) {

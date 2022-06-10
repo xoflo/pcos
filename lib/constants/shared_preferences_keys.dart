@@ -18,3 +18,4 @@ const String WHATS_YOUR_WHY = "whats_your_why";
 const String PCOS_TYPE = "pcos_type";
 const String LESSON_RECIPES_DISPLAYED_DASHBOARD =
     "lesson_recipes_displayed_dashboard";
+const String USERNAME_USED = "username_used";

@@ -4,7 +4,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/messages_bell.dart';
-import 'package:thepcosprotocol_app/screens/header/messages.dart';
+import 'package:thepcosprotocol_app/screens/notifications/notifications.dart';
 
 class HeaderAppBar extends StatefulWidget implements PreferredSizeWidget {
   final int currentIndex;
@@ -35,7 +35,7 @@ class _HeaderAppBarState extends State<HeaderAppBar> {
   }
 
   void _openNotifications(final BuildContext context) {
-    Navigator.pushNamed(context, Messages.id);
+    Navigator.pushNamed(context, Notifications.id);
   }
 
   @override

@@ -8,20 +8,18 @@ class Profile extends StatelessWidget {
   static const String id = "profile_screen";
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: ChangeNotifierProvider(
-            create: (context) => MemberViewModel(),
-            child: ProfileLayout(),
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: primaryColor,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
+            ),
+            child: ChangeNotifierProvider(
+              create: (context) => MemberViewModel(),
+              child: ProfileLayout(),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

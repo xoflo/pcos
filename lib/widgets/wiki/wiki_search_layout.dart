@@ -96,7 +96,6 @@ class _WikiSearchLayoutState extends State<WikiSearchLayout> {
             closeItem: () {
               Navigator.pop(context);
             },
-            showMessagesIcon: false,
           ),
           Consumer<ModulesProvider>(
             builder: (context, model, child) => Expanded(
