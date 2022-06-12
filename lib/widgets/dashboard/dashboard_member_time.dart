@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -17,35 +15,26 @@ class DashboardMemberTime extends StatefulWidget {
 }
 
 class _DashboardMemberTimeState extends State<DashboardMemberTime> {
-  Timer? timer;
   String asset = '';
   @override
   void initState() {
     super.initState();
     widget.memberViewModel.populateMember();
 
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
-      setState(() {
-        final hourNow = DateTime.now().hour;
-        // If the time is from 6:00PM to 6:00AM, then the background screen
-        // should be night time. If the hour is from 6:00AM to 12:00PM,
-        // then the background should be morning time. Otherwise, the
-        // default is a day screen.
-        if (hourNow > 16 || hourNow < 6) {
-          asset = 'assets/night.png';
-        } else if (hourNow >= 6 && hourNow < 11) {
-          asset = 'assets/morning.png';
-        } else {
-          asset = 'assets/day.png';
-        }
-      });
+    setState(() {
+      final hourNow = DateTime.now().hour;
+      // If the time is from 6:00PM to 6:00AM, then the background screen
+      // should be night time. If the hour is from 6:00AM to 12:00PM,
+      // then the background should be morning time. Otherwise, the
+      // default is a day screen.
+      if (hourNow > 16 || hourNow < 6) {
+        asset = 'assets/night.png';
+      } else if (hourNow >= 6 && hourNow < 11) {
+        asset = 'assets/morning.png';
+      } else {
+        asset = 'assets/day.png';
+      }
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer?.cancel();
   }
 
   Widget getItem() {
