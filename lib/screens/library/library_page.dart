@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/screens/library/library_previous_modules_knowledge_base_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -42,12 +43,6 @@ class _LibraryPageState extends State<LibraryPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              validator: (value) {
-                if (value?.isEmpty == true) {
-                  return "Please enter your new username";
-                }
-                return null;
-              },
             ),
           ),
           Expanded(
@@ -57,6 +52,11 @@ class _LibraryPageState extends State<LibraryPage> {
                 child: Column(
                   children: [
                     GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        LibraryPreviousModulesKnowledgeBasePage.id,
+                        arguments: true,
+                      ),
                       child: Container(
                         decoration: BoxDecoration(
                           color: secondaryColor,
@@ -81,7 +81,7 @@ class _LibraryPageState extends State<LibraryPage> {
                               margin: EdgeInsets.only(top: 15),
                               child: Image(
                                 image: AssetImage(
-                                    'assets/library_knowledge_base.png'),
+                                    'assets/library_previous_modules.png'),
                                 height: 52,
                                 width: 52,
                                 fit: BoxFit.contain,
@@ -93,6 +93,11 @@ class _LibraryPageState extends State<LibraryPage> {
                     ),
                     SizedBox(height: 15),
                     GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        LibraryPreviousModulesKnowledgeBasePage.id,
+                        arguments: false,
+                      ),
                       child: Container(
                         decoration: BoxDecoration(
                           color: secondaryColor,
