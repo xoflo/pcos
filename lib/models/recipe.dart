@@ -1,31 +1,34 @@
-class Recipe {
-  final int? recipeId;
-  final String? title;
-  final String? description;
-  final String? thumbnail;
-  final String? ingredients;
-  final String? method;
-  final String? tips;
-  final String? tags;
-  final int? difficulty;
-  final int? servings;
-  final int? duration;
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+
+class Recipe extends LessonRecipe {
   final bool? isFavorite;
 
   Recipe({
-    this.recipeId,
-    this.title,
-    this.description,
-    this.thumbnail,
-    this.ingredients,
-    this.method,
-    this.tips,
-    this.tags,
-    this.difficulty,
-    this.servings,
-    this.duration,
+    int? recipeId,
+    String? title,
+    String? description,
+    String? thumbnail,
+    String? ingredients,
+    String? method,
+    String? tips,
+    String? tags,
+    int? difficulty,
+    int? servings,
+    int? duration,
     this.isFavorite,
-  });
+  }) : super(
+          recipeId: recipeId,
+          title: title,
+          description: description,
+          thumbnail: thumbnail,
+          ingredients: ingredients,
+          method: method,
+          tips: tips,
+          tags: tags,
+          difficulty: difficulty,
+          servings: servings,
+          duration: duration,
+        );
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(

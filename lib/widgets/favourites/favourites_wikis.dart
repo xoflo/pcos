@@ -34,7 +34,7 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
           itemBuilder: (context, item) {
             final wiki = widget.favouritesProvider.lessonWikis[item];
 
-            final isFavoriteLesson = widget.favouritesProvider.isFavourite(
+            final isFavouriteWiki = widget.favouritesProvider.isFavourite(
               FavouriteType.Wiki,
               wiki.questionId,
             );
@@ -76,7 +76,7 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
                             );
                           },
                           icon: Icon(
-                            isFavoriteLesson
+                            isFavouriteWiki
                                 ? Icons.favorite
                                 : Icons.favorite_outline,
                             color: redColor,

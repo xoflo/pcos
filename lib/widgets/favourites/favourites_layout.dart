@@ -8,7 +8,7 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wiki_full.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_lessons.dart';
-import 'package:thepcosprotocol_app/widgets/favourites/favourites_tab.dart';
+import 'package:thepcosprotocol_app/widgets/favourites/favourites_recipes.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_toolkits.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_wikis.dart';
@@ -143,8 +143,6 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -195,23 +193,8 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
                     FavouritesWikis(
                       favouritesProvider: favouritesProvider,
                     ),
-                    // FavouritesTab(
-                    //   screenSize: screenSize,
-                    //   favourites: favouritesProvider.lessonWikis,
-                    //   status: favouritesProvider.status,
-                    //   favouriteType: FavouriteType.Wiki,
-                    //   isToolkit: false,
-                    //   openFavourite: _openFavourite,
-                    //   removeFavourite: _removeFavourite,
-                    // ),
-                    FavouritesTab(
-                      screenSize: screenSize,
-                      favourites: favouritesProvider.recipes,
-                      status: favouritesProvider.status,
-                      favouriteType: FavouriteType.Recipe,
-                      isToolkit: false,
-                      openFavourite: _openFavourite,
-                      removeFavourite: _removeFavourite,
+                    FavouritesRecipes(
+                      favouritesProvider: favouritesProvider,
                     ),
                   ],
                 ),

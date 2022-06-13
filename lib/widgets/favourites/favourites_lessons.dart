@@ -48,7 +48,7 @@ class _FavouritesLessonsState extends State<FavouritesLessons> {
                 modulesProvider.getLessonContent(lesson.lessonID);
             final lessonWikis = modulesProvider.getLessonWikis(lesson.lessonID);
             final lessonTasks = modulesProvider.getLessonTasks(lesson.lessonID);
-            final isFavoriteLesson = widget.favouritesProvider
+            final isFavouriteLesson = widget.favouritesProvider
                 .isFavourite(FavouriteType.Lesson, lesson.lessonID);
 
             return GestureDetector(
@@ -91,7 +91,7 @@ class _FavouritesLessonsState extends State<FavouritesLessons> {
                         );
                       },
                       icon: Icon(
-                        isFavoriteLesson
+                        isFavouriteLesson
                             ? Icons.favorite
                             : Icons.favorite_outline,
                         color: redColor,
