@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -15,12 +17,24 @@ class DashboardMemberTime extends StatefulWidget {
 }
 
 class _DashboardMemberTimeState extends State<DashboardMemberTime> {
+  Timer? timer;
   String asset = '';
   @override
   void initState() {
     super.initState();
     widget.memberViewModel.populateMember();
 
+    // Assign a day/night background the first time that the dashboard page is
+    // presented
+    _updateDayNightBackground();
+
+    // Check day/night every minute. This applies as long as the user is in the
+    // dashboard page
+    timer = Timer.periodic(
+        Duration(minutes: 1), (_) => _updateDayNightBackground());
+  }
+
+  void _updateDayNightBackground() {
     setState(() {
       final hourNow = DateTime.now().hour;
       // If the time is from 6:00PM to 6:00AM, then the background screen
@@ -35,6 +49,12 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
         asset = 'assets/day.png';
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
   }
 
   Widget getItem() {
