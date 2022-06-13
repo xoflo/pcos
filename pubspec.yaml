@@ -59,6 +59,7 @@ dependencies:
   multi_select_flutter: ^4.0.0
   webview_flutter: ^3.0.1
   pigeon: ^2.0.3
+  audioplayers: ^0.20.1
 
 dev_dependencies:
   integration_test:

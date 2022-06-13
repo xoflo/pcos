@@ -38,9 +38,16 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_page.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 
 class App extends StatefulWidget {
@@ -184,6 +191,13 @@ class _AppState extends State<App> {
           ProfileDeletePage.id: (context) => ProfileDeletePage(),
           ProfilePersonalDetails.id: (context) => ProfilePersonalDetails(),
           NotificationSettings.id: (context) => NotificationSettings(),
+          RecipeListPage.id: (context) => RecipeListPage(),
+          RecipeDetailsPage.id: (context) => RecipeDetailsPage(),
+          RecipeMethodTipsPage.id: (context) => RecipeMethodTipsPage(),
+          LessonPage.id: (context) => LessonPage(),
+          LessonWikiPage.id: (context) => LessonWikiPage(),
+          LessonContentPage.id: (context) => LessonContentPage(),
+          LessonVideoPage.id: (context) => LessonVideoPage()
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

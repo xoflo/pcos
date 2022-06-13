@@ -5,7 +5,6 @@ import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -13,7 +12,6 @@ import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/constants/drawer_menu_item.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/tabs/more_page.dart';
@@ -22,13 +20,8 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/tabs/dashboard.dart';
 import 'package:thepcosprotocol_app/tabs/favourites.dart';
 import 'package:thepcosprotocol_app/tabs/recipes.dart';
-import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/navigation/app_navigation_tabs.dart';
 import 'package:thepcosprotocol_app/screens/more/profile.dart';
-import 'package:thepcosprotocol_app/screens/more/change_password.dart';
-import 'package:thepcosprotocol_app/screens/more/app_help.dart';
-import 'package:thepcosprotocol_app/screens/more/privacy.dart';
-import 'package:thepcosprotocol_app/screens/more/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
@@ -175,48 +168,6 @@ class _AppTabsState extends State<AppTabs>
     setState(() {
       _isLocked = isLocked;
     });
-  }
-
-  void openDrawerMenuItem(final DrawerMenuItem drawerMenuItem) {
-    //close the drawer menu
-    Navigator.pop(context);
-
-    switch (drawerMenuItem) {
-      case DrawerMenuItem.LOCK:
-        Navigator.pushNamed(
-          context,
-          PinUnlock.id,
-          arguments: PinUnlockArguments(true, _setIsLocked),
-        );
-        _setIsLocked(true);
-        break;
-      case DrawerMenuItem.SETTINGS:
-        break;
-      case DrawerMenuItem.PROFILE:
-        Navigator.pushNamed(context, Profile.id);
-        break;
-      case DrawerMenuItem.CHANGE_PASSWORD:
-        Navigator.pushNamed(context, ChangePassword.id);
-        break;
-      case DrawerMenuItem.APP_HELP:
-        Navigator.pushNamed(context, AppHelp.id);
-        break;
-      case DrawerMenuItem.PRIVACY:
-        Navigator.pushNamed(context, Privacy.id);
-        break;
-      case DrawerMenuItem.TERMS_OF_USE:
-        Navigator.pushNamed(context, TermsAndConditions.id);
-        break;
-      case DrawerMenuItem.TUTORIAL:
-        Navigator.pushNamed(
-          context,
-          AppTutorialPage.id,
-          arguments: AppTutorialArguments(
-            showBackButton: true,
-          ),
-        );
-        break;
-    }
   }
 
   void openChat() {

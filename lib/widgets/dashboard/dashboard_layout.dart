@@ -18,14 +18,16 @@ import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
+import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_member_time.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_why_community.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/your_why.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -77,6 +79,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
     final String whatsYourWhy = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
       _yourWhy = whatsYourWhy;
@@ -415,51 +418,57 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     final Size screenSize = MediaQuery.of(context).size;
     final isHorizontal =
         DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+
     return Column(
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child: Consumer2<ModulesProvider, FavouritesProvider>(
-              builder: (context, modulesProvider, favouritesProvider, child) =>
+            child: Consumer4<ModulesProvider, FavouritesProvider,
+                RecipesProvider, MemberViewModel>(
+              builder: (context, modulesProvider, favouritesProvider,
+                      recipesProvider, memberViewModel, child) =>
                   Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  widget.showYourWhy
-                      ? YourWhy(width: screenSize.width, whatsYourWhy: _yourWhy)
-                      : Container(height: 20),
-                  getTasks(screenSize, isHorizontal, modulesProvider),
+                  DashboardMemberTime(memberViewModel: memberViewModel),
+                  DashboardWhyCommunity(yourWhy: _yourWhy),
+                  SizedBox(height: 25),
+                  DashboardLessonCarousel(modulesProvider: modulesProvider),
+
+                  // getTasks(screenSize, isHorizontal, modulesProvider),
                   getCurrentModule(screenSize, isHorizontal, modulesProvider,
                       favouritesProvider),
-                  getLessonWikis(screenSize, isHorizontal, modulesProvider),
-                  widget.showLessonRecipes
-                      ? getLessonRecipes(screenSize, isHorizontal,
-                          modulesProvider, favouritesProvider)
-                      : Container(),
-                  modulesProvider.lessonQuizzes.length > 0
-                      ? GestureDetector(
-                          onTap: () {
-                            _openQuiz(context, modulesProvider);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Open Quiz",
-                                    style: TextStyle(color: secondaryColor)),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 4.0),
-                                  child: Icon(
-                                    Icons.quiz,
-                                    color: secondaryColor,
-                                    size: 32,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container(),
+                  // getLessonWikis(screenSize, isHorizontal, modulesProvider),
+                  // widget.showLessonRecipes
+                  //     ? getLessonRecipes(screenSize, isHorizontal,
+                  //         modulesProvider, favouritesProvider)
+                  //     : Container(),
+                  // modulesProvider.lessonQuizzes.length > 0
+                  //     ? GestureDetector(
+                  //         onTap: () {
+                  //           _openQuiz(context, modulesProvider);
+                  //         },
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.only(right: 16.0),
+                  //           child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.center,
+                  //             children: [
+                  //               Text("Open Quiz",
+                  //                   style: TextStyle(color: secondaryColor)),
+                  //               Padding(
+                  //                 padding: const EdgeInsets.only(left: 4.0),
+                  //                 child: Icon(
+                  //                   Icons.quiz,
+                  //                   color: secondaryColor,
+                  //                   size: 32,
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       )
+                  //     : Container(),
                 ],
               ),
             ),

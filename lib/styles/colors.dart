@@ -17,8 +17,11 @@ const onboardingBackground = Color(0xfffff9f3);
 const textColor = Color(0xff202020);
 const secondaryColor = Color(0xffedb687);
 const tertiaryColor = Color(0xffffc6c2);
+const lessonBackgroundColor = Color(0xFFFDD8B8);
+const completedBackgroundColor = Color(0xFF018946);
 
 final dividerColor = Color(0xFF202020).withOpacity(0.2);
 const selectedIndicatorColor = Color(0xffedb687);
 final unselectedIndicatorColor = Color(0xFF202020).withOpacity(0.5);
 final unselectedIndicatorIconColor = Color(0xFF202020).withOpacity(0.8);
+final redColor = Color(0xFFFB4A44);

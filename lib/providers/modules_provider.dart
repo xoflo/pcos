@@ -142,7 +142,17 @@ class ModulesProvider with ChangeNotifier {
     return "";
   }
 
-  Future<List<LessonTask>> getLessonTasks(final int lessonID) async {
+  String getLessonTitleByLessonID(final int lessonID) {
+    Lesson? lessonFound = _lessons.firstWhereOrNull(
+      (lesson) => lesson.lessonID == lessonID,
+    );
+    if (lessonFound != null) {
+      return lessonFound.title;
+    }
+    return "";
+  }
+
+  List<LessonTask> getLessonTasks(final int lessonID) {
     List<LessonTask> lessonTasks = [];
     for (LessonTask lessonTask in _lessonTasks) {
       if (lessonTask.lessonID == lessonID) {
@@ -152,7 +162,7 @@ class ModulesProvider with ChangeNotifier {
     return lessonTasks;
   }
 
-  Future<List<LessonContent>> getLessonContent(final int lessonID) async {
+  List<LessonContent> getLessonContent(final int lessonID) {
     List<LessonContent> lessonContent = [];
     for (LessonContent content in _lessonContent) {
       if (content.lessonID == lessonID) {
