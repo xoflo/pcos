@@ -80,7 +80,7 @@ class ModulesProvider with ChangeNotifier {
       if (_modules.length > 0) {
         _currentModule = _modules.last;
         _previousModules = await _getPreviousModules();
-        _currentModuleLessons = await getModuleLessons(_currentModule.moduleID);
+        _currentModuleLessons = getModuleLessons(_currentModule.moduleID);
         _currentLesson = _currentModuleLessons.last;
       }
 
@@ -122,7 +122,7 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Lesson>> getModuleLessons(final int? moduleID) async {
+  List<Lesson> getModuleLessons(final int? moduleID) {
     List<Lesson> moduleLessons = [];
     for (Lesson lesson in _lessons) {
       if (lesson.moduleID == moduleID) {

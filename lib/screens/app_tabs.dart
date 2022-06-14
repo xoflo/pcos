@@ -248,6 +248,7 @@ class _AppTabsState extends State<AppTabs>
                     onPressed: () => Navigator.pushNamed(context, Profile.id),
                   )
                 : null,
+            automaticallyImplyLeading: showAppBarItems,
             actions: showAppBarItems
                 ? [
                     IconButton(

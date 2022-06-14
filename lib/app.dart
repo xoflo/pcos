@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
+import 'package:thepcosprotocol_app/screens/library/library_previous_module_item.dart';
 import 'package:thepcosprotocol_app/screens/library/library_previous_modules_knowledge_base_page.dart';
 import 'package:thepcosprotocol_app/screens/more/app_help.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
@@ -202,7 +203,8 @@ class _AppState extends State<App> {
           LessonVideoPage.id: (context) => LessonVideoPage(),
           FavouritesToolkitDetails.id: (context) => FavouritesToolkitDetails(),
           LibraryPreviousModulesKnowledgeBasePage.id: (context) =>
-              LibraryPreviousModulesKnowledgeBasePage()
+              LibraryPreviousModulesKnowledgeBasePage(),
+          LibraryPreviousModuleItem.id: (context) => LibraryPreviousModuleItem()
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

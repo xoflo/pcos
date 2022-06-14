@@ -41,8 +41,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
     final List<List<Lesson>> allLessons = [];
 
     for (Module module in widget.modulesProvider.previousModules) {
-      allLessons
-          .add(await widget.modulesProvider.getModuleLessons(module.moduleID));
+      allLessons.add(widget.modulesProvider.getModuleLessons(module.moduleID));
     }
 
     setState(() {
@@ -86,8 +85,7 @@ class _PreviousModulesLayoutState extends State<PreviousModulesLayout> {
     final List<List<Lesson>> allLessons = [];
 
     for (Module module in widget.modulesProvider.previousModules) {
-      allLessons
-          .add(await widget.modulesProvider.getModuleLessons(module.moduleID));
+      allLessons.add(widget.modulesProvider.getModuleLessons(module.moduleID));
     }
 
     setState(() {

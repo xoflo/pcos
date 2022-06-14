@@ -60,7 +60,7 @@ class _CourseLessonState extends State<CourseLesson> {
 
   void initializeLesson() async {
     List<LessonContent> lessonContents =
-        await widget.modulesProvider.getLessonContent(widget.lesson.lessonID);
+        widget.modulesProvider.getLessonContent(widget.lesson.lessonID);
     setState(() {
       _lessonContent = lessonContents;
       _lessonRecipes = widget.lessonRecipes;
