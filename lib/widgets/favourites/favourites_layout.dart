@@ -24,6 +24,12 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
     super.initState();
     tabController = TabController(initialIndex: index, length: 4, vsync: this);
     pageController = PageController(initialPage: index);
+    // fetchData();
+  }
+
+  Future fetchData() async {
+    await Provider.of<FavouritesProvider>(context, listen: false)
+        .fetchAndSaveData();
   }
 
   Tab generateTab(int itemNumber, String title) => Tab(
@@ -84,28 +90,30 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
             child: Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Consumer<FavouritesProvider>(
-                builder: (context, favouritesProvider, child) => PageView(
-                  controller: pageController,
-                  onPageChanged: (value) {
-                    setState(() => index = value);
-                    tabController.index = value;
-                  },
-                  children: [
-                    FavouritesToolkits(
-                      toolkits: favouritesProvider.toolkits,
-                      status: favouritesProvider.status,
-                    ),
-                    FavouritesLessons(
-                      favouritesProvider: favouritesProvider,
-                    ),
-                    FavouritesWikis(
-                      favouritesProvider: favouritesProvider,
-                    ),
-                    FavouritesRecipes(
-                      favouritesProvider: favouritesProvider,
-                    ),
-                  ],
-                ),
+                builder: (context, favouritesProvider, child) {
+                  return PageView(
+                    controller: pageController,
+                    onPageChanged: (value) {
+                      setState(() => index = value);
+                      tabController.index = value;
+                    },
+                    children: [
+                      FavouritesToolkits(
+                        toolkits: favouritesProvider.toolkits,
+                        status: favouritesProvider.status,
+                      ),
+                      FavouritesLessons(
+                        favouritesProvider: favouritesProvider,
+                      ),
+                      FavouritesWikis(
+                        favouritesProvider: favouritesProvider,
+                      ),
+                      FavouritesRecipes(
+                        favouritesProvider: favouritesProvider,
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
