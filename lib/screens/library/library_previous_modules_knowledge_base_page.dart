@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
-import 'package:thepcosprotocol_app/screens/library/library_previous_module_item.dart';
+import 'package:thepcosprotocol_app/screens/library/library_previous_modules_knowledge_item.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -22,11 +23,14 @@ class LibraryPreviousModulesKnowledgeBasePage extends StatefulWidget {
 class _LibraryPreviousModulesKnowledgeBasePageState
     extends State<LibraryPreviousModulesKnowledgeBasePage> {
   late ModulesProvider modulesProvider;
+  late FavouritesProvider favouritesProvider;
 
   @override
   void initState() {
     super.initState();
     modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
+    favouritesProvider =
+        Provider.of<FavouritesProvider>(context, listen: false);
   }
 
   Widget getLoadingStatus() {
@@ -66,36 +70,14 @@ class _LibraryPreviousModulesKnowledgeBasePageState
                     padding: EdgeInsets.all(15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: modulesProvider.previousModules
+                      children: (isPreviousModules
+                              ? modulesProvider.previousModules
+                              : modulesProvider.lessonWikis)
                           .map(
-                            (e) => GestureDetector(
-                              onTap: () {
-                                final lessons = modulesProvider
-                                    .getModuleLessons(e.moduleID);
-                                Navigator.pushNamed(
-                                  context,
-                                  LibraryPreviousModuleItem.id,
-                                  arguments: lessons,
-                                );
-                              },
-                              child: Container(
-                                width: double.maxFinite,
-                                margin: EdgeInsets.only(bottom: 15),
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12)),
-                                ),
-                                child: Text(
-                                  e.title ?? "",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: backgroundColor,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
+                            (item) => LibraryPreviousModulesKnowledgeItem(
+                              modulesProvider: modulesProvider,
+                              favouritesProvider: favouritesProvider,
+                              item: item,
                             ),
                           )
                           .toList(),

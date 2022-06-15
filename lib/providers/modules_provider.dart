@@ -52,6 +52,7 @@ class ModulesProvider with ChangeNotifier {
   List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
   List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
   List<Quiz> get lessonQuizzes => [..._lessonQuizzes];
+  List<LessonWiki> get lessonWikis => [..._lessonWikis];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;

@@ -57,7 +57,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
               children: [
                 Header(
                   title: "Wikis",
-                  closeItem: () => Navigator.pop(context),
+                  closeItem: () => Navigator.pop(context, isFavorite),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -112,8 +112,8 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               ),
                               SizedBox(width: 10),
                               HtmlWidget(
-                                modulesProvider.getLessonTitleByQuestionID(
-                                    wiki?.questionId ?? -1),
+                                modulesProvider.getLessonTitleByLessonID(
+                                    wiki?.lessonId ?? -1),
                                 textStyle: TextStyle(
                                   color: textColor.withOpacity(0.5),
                                   fontSize: 14,
