@@ -212,50 +212,39 @@ class _LessonPageState extends State<LessonPage> {
                           ),
                         ),
                         SizedBox(height: 15),
-                        if ((firstLessonContent?.body ?? "").length > 200) ...[
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: HtmlWidget(
-                              "${firstLessonContent?.body?.substring(0, 200)}...",
-                              textStyle: TextStyle(
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: HtmlWidget(
+                            args?.lesson.introduction ?? "",
+                            textStyle: TextStyle(
+                              fontSize: 16,
+                              color: textColor.withOpacity(0.8),
+                            ),
+                            isSelectable: true,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: InkWell(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              LessonContentPage.id,
+                              arguments: args?.lesson,
+                            ).then((value) {
+                              if (value is bool) {
+                                setState(() => isFavorite = value);
+                              }
+                            }),
+                            child: Text(
+                              "Read More",
+                              style: TextStyle(
                                 fontSize: 16,
-                                color: textColor.withOpacity(0.8),
+                                color: backgroundColor,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: InkWell(
-                              onTap: () => Navigator.pushNamed(
-                                context,
-                                LessonContentPage.id,
-                                arguments: args?.lesson,
-                              ).then((value) {
-                                if (value is bool) {
-                                  setState(() => isFavorite = value);
-                                }
-                              }),
-                              child: Text(
-                                "Read More",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: backgroundColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ] else if ((firstLessonContent?.body ?? "").length > 0)
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: HtmlWidget(
-                              firstLessonContent?.body ?? "",
-                              textStyle: TextStyle(
-                                fontSize: 16,
-                                color: textColor.withOpacity(0.8),
-                              ),
-                            ),
-                          ),
+                        ),
                         if (contentType == 'Video') ...[
                           SizedBox(height: 15),
                           Padding(
@@ -337,17 +326,19 @@ class _LessonPageState extends State<LessonPage> {
                                                         ),
                                                       ),
                                                       SizedBox(height: 10),
-                                                      Text(
-                                                        element.answer ?? "",
-                                                        style: TextStyle(
+                                                      HtmlWidget(
+                                                        "<p style='max-lines:2; text-overflow: ellipsis;'>" +
+                                                            (element.answer ??
+                                                                "") +
+                                                            "</p>",
+                                                        textStyle: TextStyle(
                                                           fontSize: 14,
                                                           color: textColor
                                                               .withOpacity(0.8),
                                                           height: 1.25,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                         ),
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
                                                       ),
                                                     ],
                                                   ),
@@ -398,9 +389,9 @@ class _LessonPageState extends State<LessonPage> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Text(
+                                                      HtmlWidget(
                                                         element.title ?? "",
-                                                        style: TextStyle(
+                                                        textStyle: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
                                                               FontWeight.bold,
