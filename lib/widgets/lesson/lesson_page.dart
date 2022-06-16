@@ -10,11 +10,11 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_plan_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_component.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/video_component.dart';
 
 class LessonPage extends StatefulWidget {
   const LessonPage({Key? key}) : super(key: key);
@@ -50,19 +50,15 @@ class _LessonPageState extends State<LessonPage> {
       for (final content in lessonContent) {
         switch (content.mediaMimeType) {
           case 'video':
-            contentIcon = "assets/lesson_video.png";
             contentType = "Video";
             contentUrl = content.mediaUrl ?? '';
             break;
           case 'audio':
-            contentIcon = "assets/lesson_audio.png";
             contentType = "Audio";
             contentUrl = content.mediaUrl ?? '';
-
             break;
           default:
             contentIcon = "assets/lesson_reading.png";
-            contentType = "Reading";
             break;
         }
       }
@@ -93,8 +89,11 @@ class _LessonPageState extends State<LessonPage> {
       isFavorite = favouritesProvider.isFavourite(
           FavouriteType.Lesson, args?.lesson.lessonID);
 
-      for (final content in args?.lessonContents ?? []) {
-        if (content.body.isNotEmpty) {
+      final lessonContents = args?.lessonContents ?? [];
+      _getContentType(lessonContents);
+
+      for (final content in lessonContents) {
+        if (content.body?.isNotEmpty == true) {
           hasContents = true;
           break;
         }
@@ -149,50 +148,18 @@ class _LessonPageState extends State<LessonPage> {
                         SizedBox(height: 15),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: HtmlWidget(
-                            args?.lesson.title ?? "",
-                            textStyle: TextStyle(
-                              color: textColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Row(
-                                    children: _getContentType(
-                                        args?.lessonContents ?? []),
+                              Expanded(
+                                child: HtmlWidget(
+                                  args?.lesson.title ?? "",
+                                  textStyle: TextStyle(
+                                    color: textColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 28,
                                   ),
-                                  SizedBox(width: 15),
-                                  Row(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.schedule,
-                                            size: 20,
-                                            color: textColor.withOpacity(0.5),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            "5 mins",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: textColor.withOpacity(0.8),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  )
-                                ],
+                                ),
                               ),
                               IconButton(
                                 onPressed: () {
@@ -209,17 +176,17 @@ class _LessonPageState extends State<LessonPage> {
                                   size: 20,
                                   color: redColor,
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),
-                        SizedBox(height: 30),
+                        SizedBox(height: 25),
                         LessonPlanComponent(
                           lessonContents: args?.lessonContents ?? [],
                           lessonWikis: args?.lessonWikis ?? [],
                           lessonTasks: args?.lessonTasks ?? [],
                         ),
-                        SizedBox(height: 15),
+                        SizedBox(height: 25),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: HtmlWidget(
@@ -237,9 +204,14 @@ class _LessonPageState extends State<LessonPage> {
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             child: FilledButton(
                               text: "READ MORE",
-                              icon: Icon(Icons.play_arrow_outlined, size: 18),
+                              icon: Image(
+                                image:
+                                    AssetImage("assets/lesson_read_more.png"),
+                                height: 20,
+                                width: 20,
+                              ),
                               margin: EdgeInsets.zero,
-                              width: 180,
+                              width: 175,
                               isRoundedButton: true,
                               foregroundColor: Colors.white,
                               backgroundColor: backgroundColor,
@@ -256,26 +228,13 @@ class _LessonPageState extends State<LessonPage> {
                           ),
                         ],
                         if (contentType == 'Video') ...[
-                          SizedBox(height: 10),
+                          SizedBox(height: 25),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: FilledButton(
-                              text: "PLAY VIDEO",
-                              icon: Icon(Icons.play_arrow_outlined, size: 18),
-                              margin: EdgeInsets.zero,
-                              width: 180,
-                              isRoundedButton: true,
-                              foregroundColor: Colors.white,
-                              backgroundColor: backgroundColor,
-                              onPressed: () => Navigator.pushNamed(
-                                context,
-                                LessonVideoPage.id,
-                                arguments: contentUrl,
-                              ),
-                            ),
+                            child: VideoComponent(videoUrl: contentUrl),
                           ),
                         ] else if (contentType == 'Audio') ...[
-                          SizedBox(height: 15),
+                          SizedBox(height: 25),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             child: SoundPlayer(link: contentUrl),
