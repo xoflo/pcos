@@ -8,8 +8,10 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_plan_component.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
@@ -28,13 +30,12 @@ class _LessonPageState extends State<LessonPage> {
   String contentType = 'Reading';
   String contentUrl = '';
   bool isFavorite = false;
+  bool hasContents = false;
 
   late ModulesProvider modulesProvider;
   late FavouritesProvider favouritesProvider;
 
   LessonArguments? args;
-  LessonContent? firstLessonContent;
-  List<LessonContent>? otherLessonContent;
 
   @override
   void initState() {
@@ -46,17 +47,17 @@ class _LessonPageState extends State<LessonPage> {
 
   List<Widget> _getContentType(List<LessonContent> lessonContent) {
     setState(() {
-      lessonContent.forEach((element) {
-        switch (element.mediaMimeType) {
+      for (final content in lessonContent) {
+        switch (content.mediaMimeType) {
           case 'video':
             contentIcon = "assets/lesson_video.png";
             contentType = "Video";
-            contentUrl = element.mediaUrl ?? '';
+            contentUrl = content.mediaUrl ?? '';
             break;
           case 'audio':
             contentIcon = "assets/lesson_audio.png";
             contentType = "Audio";
-            contentUrl = element.mediaUrl ?? '';
+            contentUrl = content.mediaUrl ?? '';
 
             break;
           default:
@@ -64,7 +65,7 @@ class _LessonPageState extends State<LessonPage> {
             contentType = "Reading";
             break;
         }
-      });
+      }
     });
 
     return [
@@ -89,14 +90,15 @@ class _LessonPageState extends State<LessonPage> {
   Widget build(BuildContext context) {
     if (args == null) {
       args = ModalRoute.of(context)?.settings.arguments as LessonArguments;
-      final lessonContents = args?.lessonContents;
-      if (lessonContents?.isNotEmpty == true) {
-        firstLessonContent = lessonContents?.first;
-        otherLessonContent = lessonContents?.sublist(1, lessonContents.length);
-      }
-
       isFavorite = favouritesProvider.isFavourite(
           FavouriteType.Lesson, args?.lesson.lessonID);
+
+      for (final content in args?.lessonContents ?? []) {
+        if (content.body.isNotEmpty) {
+          hasContents = true;
+          break;
+        }
+      }
     }
 
     return Scaffold(
@@ -147,9 +149,9 @@ class _LessonPageState extends State<LessonPage> {
                         SizedBox(height: 15),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Text(
+                          child: HtmlWidget(
                             args?.lesson.title ?? "",
-                            style: TextStyle(
+                            textStyle: TextStyle(
                               color: textColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 28,
@@ -211,6 +213,12 @@ class _LessonPageState extends State<LessonPage> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 30),
+                        LessonPlanComponent(
+                          lessonContents: args?.lessonContents ?? [],
+                          lessonWikis: args?.lessonWikis ?? [],
+                          lessonTasks: args?.lessonTasks ?? [],
+                        ),
                         SizedBox(height: 15),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
@@ -223,50 +231,49 @@ class _LessonPageState extends State<LessonPage> {
                             isSelectable: true,
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: InkWell(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              LessonContentPage.id,
-                              arguments: args?.lesson,
-                            ).then((value) {
-                              if (value is bool) {
-                                setState(() => isFavorite = value);
-                              }
-                            }),
-                            child: Text(
-                              "Read More",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: backgroundColor,
-                                fontWeight: FontWeight.w500,
+                        if (hasContents) ...[
+                          SizedBox(height: 25),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: FilledButton(
+                              text: "READ MORE",
+                              icon: Icon(Icons.play_arrow_outlined, size: 18),
+                              margin: EdgeInsets.zero,
+                              width: 180,
+                              isRoundedButton: true,
+                              foregroundColor: Colors.white,
+                              backgroundColor: backgroundColor,
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                LessonContentPage.id,
+                                arguments: args?.lesson,
+                              ).then((value) {
+                                if (value is bool) {
+                                  setState(() => isFavorite = value);
+                                }
+                              }),
+                            ),
+                          ),
+                        ],
+                        if (contentType == 'Video') ...[
+                          SizedBox(height: 10),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: FilledButton(
+                              text: "PLAY VIDEO",
+                              icon: Icon(Icons.play_arrow_outlined, size: 18),
+                              margin: EdgeInsets.zero,
+                              width: 180,
+                              isRoundedButton: true,
+                              foregroundColor: Colors.white,
+                              backgroundColor: backgroundColor,
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                LessonVideoPage.id,
+                                arguments: contentUrl,
                               ),
                             ),
                           ),
-                        ),
-                        if (contentType == 'Video') ...[
-                          SizedBox(height: 15),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: FilledButton(
-                                text: "Play Video",
-                                icon: Icon(Icons.play_arrow_outlined, size: 18),
-                                margin: EdgeInsets.zero,
-                                width: 160,
-                                isRoundedButton: true,
-                                foregroundColor: Colors.white,
-                                backgroundColor: backgroundColor,
-                                onPressed: () => Navigator.pushNamed(
-                                  context,
-                                  LessonVideoPage.id,
-                                  arguments: contentUrl,
-                                ),
-                              ),
-                            ),
-                          )
                         ] else if (contentType == 'Audio') ...[
                           SizedBox(height: 15),
                           Padding(
@@ -274,149 +281,12 @@ class _LessonPageState extends State<LessonPage> {
                             child: SoundPlayer(link: contentUrl),
                           )
                         ],
-                        if (args?.lessonWikis.isNotEmpty == true) ...[
-                          SizedBox(height: 30),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Wikis",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                ...args?.lessonWikis
-                                        .map(
-                                          (element) => GestureDetector(
-                                            onTap: () => Navigator.pushNamed(
-                                              context,
-                                              LessonWikiPage.id,
-                                              arguments: element,
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                SizedBox(height: 15),
-                                                Container(
-                                                  width: double.maxFinite,
-                                                  padding: EdgeInsets.all(15),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(16),
-                                                    ),
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        element.question ?? "",
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              backgroundColor,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 10),
-                                                      HtmlWidget(
-                                                        "<p style='max-lines:2; text-overflow: ellipsis;'>" +
-                                                            (element.answer ??
-                                                                "") +
-                                                            "</p>",
-                                                        textStyle: TextStyle(
-                                                          fontSize: 14,
-                                                          color: textColor
-                                                              .withOpacity(0.8),
-                                                          height: 1.25,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                        .toList() ??
-                                    []
-                              ],
-                            ),
-                          )
-                        ],
-                        if (args?.lessonTasks.isNotEmpty == true) ...[
-                          SizedBox(height: 30),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Tasks",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                ...args?.lessonTasks
-                                        .map(
-                                          (element) => GestureDetector(
-                                            child: Column(
-                                              children: [
-                                                SizedBox(height: 15),
-                                                Container(
-                                                  width: double.maxFinite,
-                                                  padding: EdgeInsets.all(15),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(16),
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      HtmlWidget(
-                                                        element.title ?? "",
-                                                        textStyle: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              backgroundColor,
-                                                        ),
-                                                      ),
-                                                      Icon(
-                                                        Icons.arrow_forward_ios,
-                                                        color: backgroundColor,
-                                                        size: 10,
-                                                      )
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                        .toList() ??
-                                    []
-                              ],
-                            ),
-                          )
-                        ],
+                        if (args?.lessonWikis.isNotEmpty == true)
+                          LessonWikiComponent(
+                              lessonWikis: args?.lessonWikis ?? []),
+                        if (args?.lessonTasks.isNotEmpty == true)
+                          LessonTaskComponent(
+                              lessonTasks: args?.lessonTasks ?? []),
                         SizedBox(height: 30),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
