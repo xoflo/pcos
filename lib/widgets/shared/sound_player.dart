@@ -21,6 +21,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   int currentPosition = 0;
 
   bool isPlaying = false;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
     audioPlayer.onDurationChanged.listen((dur) {
       setState(() {
+        isLoading = false;
         durationLabel = convertToHmsLabel(dur);
         duration = dur.inSeconds;
       });
@@ -90,7 +92,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: primaryColorLight,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: Stack(
@@ -98,37 +100,39 @@ class _SoundPlayerState extends State<SoundPlayer> {
           Row(
             children: [
               InkWell(
-                onTap: () async {
-                  if (!isPlaying) {
-                    int results = await audioPlayer.resume();
-                    if (results == 1) {
-                      setState(() => isPlaying = true);
-                    } else {
-                      showFlushBar(
-                        context,
-                        "Error",
-                        "Something went wrong with your audio. Please try again",
-                        backgroundColor: primaryColor,
-                        borderColor: backgroundColor,
-                        primaryColor: backgroundColor,
-                      );
-                    }
-                  } else {
-                    int results = await audioPlayer.pause();
-                    if (results == 1) {
-                      setState(() => isPlaying = false);
-                    } else {
-                      showFlushBar(
-                        context,
-                        "Error",
-                        "Something went wrong with your audio. Please try again",
-                        backgroundColor: primaryColor,
-                        borderColor: backgroundColor,
-                        primaryColor: backgroundColor,
-                      );
-                    }
-                  }
-                },
+                onTap: isLoading
+                    ? null
+                    : () async {
+                        if (!isPlaying) {
+                          int results = await audioPlayer.resume();
+                          if (results == 1) {
+                            setState(() => isPlaying = true);
+                          } else {
+                            showFlushBar(
+                              context,
+                              "Error",
+                              "Something went wrong with your audio. Please try again",
+                              backgroundColor: primaryColor,
+                              borderColor: backgroundColor,
+                              primaryColor: backgroundColor,
+                            );
+                          }
+                        } else {
+                          int results = await audioPlayer.pause();
+                          if (results == 1) {
+                            setState(() => isPlaying = false);
+                          } else {
+                            showFlushBar(
+                              context,
+                              "Error",
+                              "Something went wrong with your audio. Please try again",
+                              backgroundColor: primaryColor,
+                              borderColor: backgroundColor,
+                              primaryColor: backgroundColor,
+                            );
+                          }
+                        }
+                      },
                 child: Container(
                   width: 32,
                   height: 32,
@@ -137,10 +141,19 @@ class _SoundPlayerState extends State<SoundPlayer> {
                     color: backgroundColor,
                     borderRadius: BorderRadius.all(Radius.circular(16)),
                   ),
-                  child: Icon(
-                    !isPlaying ? Icons.play_arrow : Icons.pause,
-                    size: 18,
-                  ),
+                  child: isLoading
+                      ? Container(
+                          padding: EdgeInsets.all(10),
+                          child: CircularProgressIndicator(
+                            backgroundColor: backgroundColor,
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(primaryColor),
+                          ),
+                        )
+                      : Icon(
+                          !isPlaying ? Icons.play_arrow : Icons.pause,
+                          size: 18,
+                        ),
                 ),
               ),
               Expanded(

@@ -18,7 +18,6 @@ class _VideoComponentState extends State<VideoComponent> {
   int? minutes;
 
   bool isVideoAvailable = false;
-  bool isVideoFinishedLoading = false;
 
   @override
   void initState() {
@@ -39,64 +38,67 @@ class _VideoComponentState extends State<VideoComponent> {
       );
 
       _betterPlayerController.addEventsListener((event) {
-        if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
+        final duration = event.parameters?['duration'] as Duration?;
+        if (duration != null && mounted) {
           setState(() {
             isVideoAvailable = true;
-          });
-        }
-        final duration = event.parameters?['duration'] as Duration?;
-        if (duration != null) {
-          setState(() {
-            isVideoFinishedLoading = true;
             minutes = duration.inMinutes;
           });
         }
       });
-    } else {
-      setState(() {
-        isVideoAvailable = false;
-        isVideoFinishedLoading = true;
-      });
+    } else if (mounted) {
+      setState(() => isVideoAvailable = false);
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    _betterPlayerController.dispose();
+    _betterPlayerController
+        .removeEventsListener((p0) => _betterPlayerController.dispose());
   }
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: minutes == null
-            ? null
-            : () => Navigator.pushNamed(
+        onTap: isVideoAvailable
+            ? () => Navigator.pushNamed(
                   context,
                   LessonVideoPage.id,
                   arguments: widget.videoUrl,
+                )
+            : null,
+        child: Opacity(
+          opacity: isVideoAvailable ? 1 : 0.5,
+          child: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.all(25),
+            decoration: BoxDecoration(
+              color: primaryColorLight,
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.play_circle,
+                      color: backgroundColor,
+                      size: 25,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Watch Video",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: backgroundColor,
+                      ),
+                    ),
+                  ],
                 ),
-        child: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.all(25),
-          decoration: BoxDecoration(
-            color: primaryColorLight,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Watch Video",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: textColor,
-                ),
-              ),
-              SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                if (isVideoAvailable) ...[
+                  SizedBox(height: 15),
                   Row(
                     children: [
                       Row(
@@ -117,50 +119,30 @@ class _VideoComponentState extends State<VideoComponent> {
                         ],
                       ),
                       SizedBox(width: 15),
-                      if (isVideoFinishedLoading)
-                        Row(
-                          children: [
-                            Icon(
-                              isVideoAvailable ? Icons.schedule : Icons.warning,
-                              size: 20,
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.schedule,
+                            size: 20,
+                            color: textColor.withOpacity(0.8),
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            "$minutes mins",
+                            style: TextStyle(
+                              fontSize: 14,
                               color: minutes != null
                                   ? textColor.withOpacity(0.8)
                                   : redColor,
                             ),
-                            SizedBox(width: 5),
-                            Text(
-                              isVideoAvailable
-                                  ? "$minutes mins"
-                                  : "Video unavailable",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: minutes != null
-                                    ? textColor.withOpacity(0.8)
-                                    : redColor,
-                              ),
-                            ),
-                          ],
-                        )
-                      else
-                        Container(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            backgroundColor: backgroundColor,
-                            valueColor:
-                                new AlwaysStoppedAnimation<Color>(primaryColor),
                           ),
-                        )
+                        ],
+                      )
                     ],
                   ),
-                  Icon(
-                    Icons.play_circle_outline,
-                    color: backgroundColor,
-                    size: 25,
-                  )
-                ],
-              )
-            ],
+                ]
+              ],
+            ),
           ),
         ),
       );

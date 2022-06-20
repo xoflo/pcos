@@ -9,6 +9,7 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_component.dart';
 
@@ -56,31 +57,26 @@ class _LessonContentPageState extends State<LessonContentPage> {
       case MediaType.Image:
         return [
           SizedBox(height: 20),
-          Image.network(
-            content?.mediaUrl ?? "",
-            width: double.maxFinite,
-            height: 200,
-            fit: BoxFit.cover,
-            color: Colors.black,
-          ),
+          ImageComponent(imageUrl: content?.mediaUrl ?? "")
         ];
     }
     return [Container()];
   }
 
-  List<Widget> generateIndicators() =>
-      List<Widget>.generate(lessonContent?.length ?? 0, (index) {
-        return Container(
-            margin: const EdgeInsets.all(3),
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-              color: activePage == index
-                  ? selectedIndicatorColor
-                  : unselectedIndicatorColor,
-              shape: BoxShape.circle,
-            ));
-      });
+  List<Widget> generateIndicators() => List<Widget>.generate(
+        lessonContent?.length ?? 0,
+        (index) => Container(
+          margin: const EdgeInsets.all(3),
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: activePage == index
+                ? selectedIndicatorColor
+                : unselectedIndicatorColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {

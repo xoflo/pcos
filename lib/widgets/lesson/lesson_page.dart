@@ -12,6 +12,7 @@ import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 
 class LessonPage extends StatefulWidget {
   const LessonPage({Key? key}) : super(key: key);
@@ -82,28 +83,7 @@ class _LessonPageState extends State<LessonPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (args?.lesson.imageUrl.isNotEmpty == true)
-                          Image.network(
-                            args?.lesson.imageUrl ?? "",
-                            width: double.maxFinite,
-                            height: 200,
-                            fit: BoxFit.cover,
-                            color: Colors.black,
-                          )
-                        else
-                          Container(
-                            width: double.maxFinite,
-                            height: 200,
-                            color: Colors.white,
-                            child: Center(
-                              child: Image(
-                                image: AssetImage('assets/logo_pink.png'),
-                                fit: BoxFit.contain,
-                                width: 100,
-                                height: 50,
-                              ),
-                            ),
-                          ),
+                        ImageComponent(imageUrl: args?.lesson.imageUrl ?? ""),
                         SizedBox(height: 15),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
