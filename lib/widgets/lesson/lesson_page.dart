@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -11,10 +10,8 @@ import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_plan_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_component.dart';
-import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/widgets/shared/video_component.dart';
 
 class LessonPage extends StatefulWidget {
   const LessonPage({Key? key}) : super(key: key);
@@ -45,43 +42,6 @@ class _LessonPageState extends State<LessonPage> {
         Provider.of<FavouritesProvider>(context, listen: false);
   }
 
-  List<Widget> _getContentType(List<LessonContent> lessonContent) {
-    setState(() {
-      for (final content in lessonContent) {
-        switch (content.mediaMimeType) {
-          case 'video':
-            contentType = "Video";
-            contentUrl = content.mediaUrl ?? '';
-            break;
-          case 'audio':
-            contentType = "Audio";
-            contentUrl = content.mediaUrl ?? '';
-            break;
-          default:
-            contentIcon = "assets/lesson_reading.png";
-            break;
-        }
-      }
-    });
-
-    return [
-      Image(
-        image: AssetImage(contentIcon),
-        width: 20,
-        height: 20,
-        color: textColor.withOpacity(0.5),
-      ),
-      SizedBox(width: 5),
-      Text(
-        contentType,
-        style: TextStyle(
-          fontSize: 14,
-          color: textColor.withOpacity(0.8),
-        ),
-      )
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     if (args == null) {
@@ -90,7 +50,6 @@ class _LessonPageState extends State<LessonPage> {
           FavouriteType.Lesson, args?.lesson.lessonID);
 
       final lessonContents = args?.lessonContents ?? [];
-      _getContentType(lessonContents);
 
       for (final content in lessonContents) {
         if (content.body?.isNotEmpty == true) {
@@ -203,7 +162,7 @@ class _LessonPageState extends State<LessonPage> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             child: FilledButton(
-                              text: "READ MORE",
+                              text: "LESSON PAGES",
                               icon: Image(
                                 image:
                                     AssetImage("assets/lesson_read_more.png"),
@@ -211,8 +170,8 @@ class _LessonPageState extends State<LessonPage> {
                                 width: 20,
                               ),
                               margin: EdgeInsets.zero,
-                              width: 175,
-                              isRoundedButton: true,
+                              width: 200,
+                              isRoundedButton: false,
                               foregroundColor: Colors.white,
                               backgroundColor: backgroundColor,
                               onPressed: () => Navigator.pushNamed(
@@ -226,19 +185,6 @@ class _LessonPageState extends State<LessonPage> {
                               }),
                             ),
                           ),
-                        ],
-                        if (contentType == 'Video') ...[
-                          SizedBox(height: 25),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: VideoComponent(videoUrl: contentUrl),
-                          ),
-                        ] else if (contentType == 'Audio') ...[
-                          SizedBox(height: 25),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: SoundPlayer(link: contentUrl),
-                          )
                         ],
                         if (args?.lessonWikis.isNotEmpty == true)
                           LessonWikiComponent(

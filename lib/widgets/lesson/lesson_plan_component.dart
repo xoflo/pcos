@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
@@ -20,21 +19,9 @@ class LessonPlanComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> planTitles = [];
-    if (lessonContents.first.mediaMimeType == MediaType.Video) {
-      planTitles.add("Watch video");
-    } else if (lessonContents.first.mediaMimeType == MediaType.Audio) {
-      planTitles.add("Listen to audio");
-    } else {
-      planTitles.add("Read content");
-      for (final content in lessonContents) {
-        if (content.mediaMimeType == MediaType.Video &&
-            !planTitles.contains("Watch video")) {
-          planTitles.add("Watch video");
-        } else if (content.mediaMimeType == MediaType.Audio &&
-            !planTitles.contains("Listen to audio")) {
-          planTitles.add("Listen to audio");
-        }
-      }
+
+    if (lessonContents.isNotEmpty) {
+      planTitles.add("Lesson Pages");
     }
 
     if (lessonWikis.isNotEmpty) {
