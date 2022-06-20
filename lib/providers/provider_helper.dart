@@ -706,12 +706,15 @@ class ProviderHelper {
     final bool isAdd,
     final DatabaseProvider? dbProvider,
     final FavouriteType favouriteType,
-    final int? itemId,
-  ) async {
+    final int? itemId, {
+    int? moduleId,
+    int? lessonId,
+  }) async {
     int? updateId = 0;
     String tableName = "";
     String assetType = "";
     String updateColumn = "";
+    String setField = "";
 
     switch (favouriteType) {
       case FavouriteType.Recipe:
@@ -725,6 +728,7 @@ class ProviderHelper {
         tableName = TABLE_WIKI;
         assetType = "CMS";
         updateColumn = "id";
+        setField = "lessonID = $lessonId, moduleID = $moduleId";
         break;
       case FavouriteType.Lesson:
         updateId = itemId;
@@ -740,7 +744,8 @@ class ProviderHelper {
       final int isFavorite = isAdd ? 1 : 0;
       await dbProvider?.updateQuery(
         table: tableName,
-        setFields: "isFavorite = $isFavorite",
+        setFields: "isFavorite = $isFavorite" +
+            (setField.isEmpty ? "" : ", $setField"),
         whereClause: "$updateColumn = $updateId",
         limitRowCount: 1,
       );

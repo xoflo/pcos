@@ -234,18 +234,22 @@ class _AppTabsState extends State<AppTabs>
     });
   }
 
+  bool get showAppBarItems => _currentIndex == 0 || _currentIndex == 4;
+
   @override
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
-        appBar: _currentIndex == 0 || _currentIndex == 4
-            ? AppBar(
-                leading: IconButton(
+        appBar: AppBar(
+          leading: showAppBarItems
+              ? IconButton(
                   icon: Icon(Icons.person_outline,
                       color: unselectedIndicatorIconColor),
                   onPressed: () => Navigator.pushNamed(context, Profile.id),
-                ),
-                actions: [
+                )
+              : null,
+          actions: showAppBarItems
+              ? [
                   IconButton(
                     icon: Icon(
                       Icons.chat_outlined,
@@ -253,11 +257,11 @@ class _AppTabsState extends State<AppTabs>
                     ),
                     onPressed: openChat,
                   ),
-                ],
-                backgroundColor: Colors.transparent,
-                elevation: 0.0,
-              )
-            : null,
+                ]
+              : null,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         backgroundColor: primaryColor,
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText1!,

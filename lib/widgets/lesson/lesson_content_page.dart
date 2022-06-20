@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
+import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
@@ -131,12 +132,23 @@ class _LessonContentPageState extends State<LessonContentPage> {
                                     (element) => Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 15),
-                                      child: HtmlWidget(
-                                        element.body ?? "",
-                                        textStyle: TextStyle(
-                                          fontSize: 14,
-                                          color: textColor.withOpacity(0.8),
-                                        ),
+                                      child: Column(
+                                        children: [
+                                          HtmlWidget(
+                                            element.body ?? "",
+                                            textStyle: TextStyle(
+                                              fontSize: 14,
+                                              color: textColor.withOpacity(0.8),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          if (element.mediaMimeType ==
+                                              MediaType.Image) ...[
+                                            Image.network(
+                                                element.mediaUrl ?? ""),
+                                            SizedBox(height: 10),
+                                          ],
+                                        ],
                                       ),
                                     ),
                                   )
