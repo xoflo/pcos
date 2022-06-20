@@ -120,9 +120,9 @@ class _LessonContentPageState extends State<LessonContentPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(
+                          child: HtmlWidget(
                             lesson?.title ?? "",
-                            style: TextStyle(
+                            textStyle: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: textColor.withOpacity(0.8),
@@ -160,7 +160,17 @@ class _LessonContentPageState extends State<LessonContentPage> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                HtmlWidget(
+                                  content?.title ?? "",
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: textColor.withOpacity(0.8),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
                                 HtmlWidget(
                                   content?.body ?? "",
                                   textStyle: TextStyle(
@@ -169,8 +179,15 @@ class _LessonContentPageState extends State<LessonContentPage> {
                                   ),
                                 ),
                                 ...getContentUrlType(content),
-                                if (content?.summary != null) ...[
-                                  SizedBox(height: 20)
+                                if (content?.summary?.isNotEmpty == true) ...[
+                                  SizedBox(height: 20),
+                                  HtmlWidget(
+                                    content?.summary ?? "",
+                                    textStyle: TextStyle(
+                                      fontSize: 14,
+                                      color: textColor.withOpacity(0.8),
+                                    ),
+                                  )
                                 ]
                               ],
                             ),

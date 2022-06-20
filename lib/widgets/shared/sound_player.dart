@@ -50,7 +50,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   String convertToHmsLabel(Duration pos) {
     final hours = pos.inHours;
     final minutes = pos.inMinutes;
-    final seconds = pos.inSeconds;
+    final seconds = pos.inSeconds % 60;
 
     String label = '';
     if (hours > 0) {
@@ -85,11 +85,8 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Replace this with the actual audio link
-    final link =
-        "https://file-examples.com/storage/fea82d62d362a2656b7aaf5/2017/11/file_example_MP3_700KB.mp3";
+    setDetails(widget.link);
 
-    setDetails(link);
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
