@@ -116,8 +116,8 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               ),
                               SizedBox(width: 10),
                               HtmlWidget(
-                                modulesProvider.getLessonTitleByLessonID(
-                                    wiki?.lessonId ?? -1),
+                                modulesProvider.getLessonTitleByQuestionID(
+                                    wiki?.questionId ?? -1),
                                 textStyle: TextStyle(
                                   color: textColor.withOpacity(0.5),
                                   fontSize: 14,

@@ -152,6 +152,15 @@ class ModulesProvider with ChangeNotifier {
     return "";
   }
 
+  String getLessonTitleByQuestionID(final int questionId) {
+    for (LessonWiki wiki in _lessonWikis) {
+      if (wiki.questionId == questionId) {
+        return getLessonTitleByLessonID(wiki.lessonId ?? -1);
+      }
+    }
+    return "";
+  }
+
   List<LessonTask> getLessonTasks(final int lessonID) {
     List<LessonTask> lessonTasks = [];
     for (LessonTask lessonTask in _lessonTasks) {
