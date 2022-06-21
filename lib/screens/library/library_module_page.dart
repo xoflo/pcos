@@ -83,6 +83,7 @@ class _LibraryModulePageState extends State<LibraryModulePage> {
                           lessonContents,
                           lessonTasks,
                           lessonWikis,
+                          showTasks: false,
                         ),
                       ),
                       child: Container(

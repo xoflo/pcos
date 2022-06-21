@@ -29,7 +29,10 @@ class _VideoComponentState extends State<VideoComponent> {
 
       BetterPlayerConfiguration betterPlayerConfiguration =
           BetterPlayerConfiguration(
+        autoPlay: false,
         autoDispose: true,
+        looping: false,
+        fullScreenByDefault: false,
       );
 
       _betterPlayerController = BetterPlayerController(

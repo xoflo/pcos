@@ -8,11 +8,13 @@ class LessonArguments {
   final List<LessonContent> lessonContents;
   final List<LessonTask> lessonTasks;
   final List<LessonWiki> lessonWikis;
+  final bool showTasks;
 
   LessonArguments(
     this.lesson,
     this.lessonContents,
     this.lessonTasks,
-    this.lessonWikis,
-  );
+    this.lessonWikis, {
+    this.showTasks = true,
+  });
 }
