@@ -105,6 +105,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
                   title: "Lesson",
                   closeItem: () => Navigator.pop(context),
                 ),
+                SizedBox(height: 25),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
