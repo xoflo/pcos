@@ -1,41 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/models/lesson.dart';
-import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/models/navigation/lesson_wiki_arguments.dart';
+import 'package:thepcosprotocol_app/models/navigation/library_wiki_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
-import 'package:thepcosprotocol_app/screens/library/library_previous_module_Item_lesson.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
-class LibraryPreviousModuleItem extends StatefulWidget {
-  const LibraryPreviousModuleItem({Key? key}) : super(key: key);
+class LibraryWikiPage extends StatefulWidget {
+  const LibraryWikiPage({Key? key}) : super(key: key);
 
-  static const id = "library_previous_module_item";
+  static const id = "library_wiki_page";
 
   @override
-  State<LibraryPreviousModuleItem> createState() =>
-      _LibraryPreviousModuleItemState();
+  State<LibraryWikiPage> createState() => _LibraryWikiPageState();
 }
 
-class _LibraryPreviousModuleItemState extends State<LibraryPreviousModuleItem> {
+class _LibraryWikiPageState extends State<LibraryWikiPage> {
   late ModulesProvider modulesProvider;
-  late FavouritesProvider favouritesProvider;
+
   @override
   void initState() {
     super.initState();
     modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
-    favouritesProvider =
-        Provider.of<FavouritesProvider>(context, listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final lessons = ModalRoute.of(context)?.settings.arguments as List<Lesson>;
-    final title = lessons.isNotEmpty
-        ? modulesProvider.getModuleTitleByModuleID(lessons.first.moduleID)
-        : "";
+    final args =
+        ModalRoute.of(context)?.settings.arguments as LibraryWikiArguments;
+
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -47,7 +42,7 @@ class _LibraryPreviousModuleItemState extends State<LibraryPreviousModuleItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Header(
-                title: "Previous Modules",
+                title: "Wiki Library",
                 closeItem: () => Navigator.pop(context),
               ),
               Padding(
@@ -56,7 +51,7 @@ class _LibraryPreviousModuleItemState extends State<LibraryPreviousModuleItem> {
                   vertical: 30,
                 ),
                 child: Text(
-                  title,
+                  args.moduleTitle,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: textColor,
@@ -67,27 +62,15 @@ class _LibraryPreviousModuleItemState extends State<LibraryPreviousModuleItem> {
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  itemCount: lessons.length,
+                  itemCount: args.lessonWikis.length,
                   itemBuilder: (context, index) {
-                    final lesson = lessons[index];
-
-                    final lessonContents =
-                        modulesProvider.getLessonContent(lesson.lessonID);
-                    final lessonTasks =
-                        modulesProvider.getLessonTasks(lesson.lessonID);
-                    final lessonWikis =
-                        modulesProvider.getLessonWikis(lesson.lessonID);
+                    final wiki = args.lessonWikis[index];
 
                     return GestureDetector(
                       onTap: () => Navigator.pushNamed(
                         context,
-                        LessonPage.id,
-                        arguments: LessonArguments(
-                          lesson,
-                          lessonContents,
-                          lessonTasks,
-                          lessonWikis,
-                        ),
+                        LessonWikiPage.id,
+                        arguments: LessonWikiArguments(true, wiki),
                       ),
                       child: Container(
                         margin: EdgeInsets.only(bottom: 15),
@@ -96,9 +79,13 @@ class _LibraryPreviousModuleItemState extends State<LibraryPreviousModuleItem> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(16)),
                         ),
-                        child: LibraryPreviousModuleItemLesson(
-                          favouritesProvider: favouritesProvider,
-                          lesson: lesson,
+                        child: HtmlWidget(
+                          wiki.question ?? "",
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: backgroundColor,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/models/navigation/lesson_wiki_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
@@ -37,7 +38,7 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
               onTap: () => Navigator.pushNamed(
                 context,
                 LessonWikiPage.id,
-                arguments: wiki,
+                arguments: LessonWikiArguments(false, wiki),
               ),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/models/navigation/lesson_wiki_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 
@@ -33,7 +34,7 @@ class LessonWikiComponent extends StatelessWidget {
                         onTap: () => Navigator.pushNamed(
                           context,
                           LessonWikiPage.id,
-                          arguments: element,
+                          arguments: LessonWikiArguments(false, element),
                         ),
                         child: Column(
                           children: [

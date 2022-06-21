@@ -7,8 +7,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
-import 'package:thepcosprotocol_app/screens/library/library_previous_module_item.dart';
-import 'package:thepcosprotocol_app/screens/library/library_previous_modules_knowledge_base_page.dart';
+import 'package:thepcosprotocol_app/screens/library/library_module_page.dart';
+import 'package:thepcosprotocol_app/screens/library/library_module_wiki_page.dart';
+import 'package:thepcosprotocol_app/screens/library/library_wiki_page.dart';
 import 'package:thepcosprotocol_app/screens/more/app_help.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
@@ -202,9 +203,9 @@ class _AppState extends State<App> {
           LessonContentPage.id: (context) => LessonContentPage(),
           LessonVideoPage.id: (context) => LessonVideoPage(),
           FavouritesToolkitDetails.id: (context) => FavouritesToolkitDetails(),
-          LibraryPreviousModulesKnowledgeBasePage.id: (context) =>
-              LibraryPreviousModulesKnowledgeBasePage(),
-          LibraryPreviousModuleItem.id: (context) => LibraryPreviousModuleItem()
+          LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),
+          LibraryModulePage.id: (context) => LibraryModulePage(),
+          LibraryWikiPage.id: (context) => LibraryWikiPage()
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

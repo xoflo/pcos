@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/screens/library/library_previous_modules_knowledge_base_page.dart';
+import 'package:thepcosprotocol_app/screens/library/library_module_wiki_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -54,7 +54,7 @@ class _LibraryPageState extends State<LibraryPage> {
                     GestureDetector(
                       onTap: () => Navigator.pushNamed(
                         context,
-                        LibraryPreviousModulesKnowledgeBasePage.id,
+                        LibraryModuleWikiPage.id,
                         arguments: true,
                       ),
                       child: Container(
@@ -69,7 +69,7 @@ class _LibraryPageState extends State<LibraryPage> {
                             Padding(
                               padding: EdgeInsets.all(15),
                               child: Text(
-                                "Previous Modules",
+                                "Module Library",
                                 style: TextStyle(
                                   color: backgroundColor,
                                   fontWeight: FontWeight.bold,
@@ -95,7 +95,7 @@ class _LibraryPageState extends State<LibraryPage> {
                     GestureDetector(
                       onTap: () => Navigator.pushNamed(
                         context,
-                        LibraryPreviousModulesKnowledgeBasePage.id,
+                        LibraryModuleWikiPage.id,
                         arguments: false,
                       ),
                       child: Container(
@@ -110,7 +110,7 @@ class _LibraryPageState extends State<LibraryPage> {
                             Padding(
                               padding: EdgeInsets.all(15),
                               child: Text(
-                                "Knowledge Base",
+                                "Wiki Library",
                                 style: TextStyle(
                                   color: backgroundColor,
                                   fontWeight: FontWeight.bold,

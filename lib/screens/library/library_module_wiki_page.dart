@@ -4,24 +4,22 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
-import 'package:thepcosprotocol_app/screens/library/library_previous_modules_knowledge_item.dart';
+import 'package:thepcosprotocol_app/screens/library/library_module_wiki_item.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
-class LibraryPreviousModulesKnowledgeBasePage extends StatefulWidget {
-  const LibraryPreviousModulesKnowledgeBasePage({Key? key}) : super(key: key);
+class LibraryModuleWikiPage extends StatefulWidget {
+  const LibraryModuleWikiPage({Key? key}) : super(key: key);
 
   static const id = "library_previous_modules_knowledge_base_page";
 
   @override
-  State<LibraryPreviousModulesKnowledgeBasePage> createState() =>
-      _LibraryPreviousModulesKnowledgeBasePageState();
+  State<LibraryModuleWikiPage> createState() => _LibraryModuleWikiPageState();
 }
 
-class _LibraryPreviousModulesKnowledgeBasePageState
-    extends State<LibraryPreviousModulesKnowledgeBasePage> {
+class _LibraryModuleWikiPageState extends State<LibraryModuleWikiPage> {
   late ModulesProvider modulesProvider;
   late FavouritesProvider favouritesProvider;
 
@@ -60,8 +58,7 @@ class _LibraryPreviousModulesKnowledgeBasePageState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Header(
-                title:
-                    isPreviousModules ? "Previous Modules" : "Knowledge Base",
+                title: "${isPreviousModules ? 'Module' : 'Wiki'} Library",
                 closeItem: () => Navigator.pop(context),
               ),
               Expanded(
@@ -70,14 +67,13 @@ class _LibraryPreviousModulesKnowledgeBasePageState
                     padding: EdgeInsets.all(15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: (isPreviousModules
-                              ? modulesProvider.previousModules
-                              : modulesProvider.lessonWikis)
+                      children: modulesProvider.previousModules
                           .map(
-                            (item) => LibraryPreviousModulesKnowledgeItem(
+                            (item) => LibraryModuleWikiItem(
                               modulesProvider: modulesProvider,
                               favouritesProvider: favouritesProvider,
                               item: item,
+                              isPreviousModules: isPreviousModules,
                             ),
                           )
                           .toList(),

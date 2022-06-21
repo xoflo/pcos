@@ -133,6 +133,16 @@ class ModulesProvider with ChangeNotifier {
     return moduleLessons;
   }
 
+  List<LessonWiki> getModuleWikis(final int? moduleID) {
+    List<LessonWiki> moduleWikis = [];
+    for (LessonWiki wiki in _lessonWikis) {
+      if (wiki.moduleId == moduleID) {
+        moduleWikis.add(wiki);
+      }
+    }
+    return moduleWikis;
+  }
+
   String getModuleTitleByModuleID(final int moduleID) {
     Module? moduleFound = _modules.firstWhereOrNull(
       (module) => module.moduleID == moduleID,
