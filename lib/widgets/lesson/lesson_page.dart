@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_plan_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
@@ -27,11 +24,9 @@ class _LessonPageState extends State<LessonPage> {
   String contentIcon = 'assets/lesson_reading.png';
   String contentType = 'Reading';
   String contentUrl = '';
-  bool isFavorite = false;
   bool hasContents = false;
 
   late ModulesProvider modulesProvider;
-  late FavouritesProvider favouritesProvider;
 
   LessonArguments? args;
 
@@ -39,16 +34,12 @@ class _LessonPageState extends State<LessonPage> {
   void initState() {
     super.initState();
     modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
-    favouritesProvider =
-        Provider.of<FavouritesProvider>(context, listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
     if (args == null) {
       args = ModalRoute.of(context)?.settings.arguments as LessonArguments;
-      isFavorite = favouritesProvider.isFavourite(
-          FavouriteType.Lesson, args?.lesson.lessonID);
 
       final lessonContents = args?.lessonContents ?? [];
 
@@ -87,43 +78,14 @@ class _LessonPageState extends State<LessonPage> {
                         SizedBox(height: 15),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: HtmlWidget(
-                                  args?.lesson.title ?? "",
-                                  textStyle: TextStyle(
-                                    color: textColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 28,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  favouritesProvider.addToFavourites(
-                                    FavouriteType.Lesson,
-                                    args?.lesson.lessonID,
-                                  );
-                                  setState(() => isFavorite = !isFavorite);
-                                },
-                                icon: Icon(
-                                  isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_outline,
-                                  size: 20,
-                                  color: redColor,
-                                ),
-                              )
-                            ],
+                          child: HtmlWidget(
+                            args?.lesson.title ?? "",
+                            textStyle: TextStyle(
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 25),
-                        LessonPlanComponent(
-                          lessonContents: args?.lessonContents ?? [],
-                          lessonWikis: args?.lessonWikis ?? [],
-                          lessonTasks: args?.lessonTasks ?? [],
                         ),
                         SizedBox(height: 25),
                         Padding(
@@ -158,11 +120,7 @@ class _LessonPageState extends State<LessonPage> {
                                 context,
                                 LessonContentPage.id,
                                 arguments: args?.lesson,
-                              ).then((value) {
-                                if (value is bool) {
-                                  setState(() => isFavorite = value);
-                                }
-                              }),
+                              ),
                             ),
                           ),
                         ],

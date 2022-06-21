@@ -60,7 +60,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
           ImageComponent(imageUrl: content?.mediaUrl ?? "")
         ];
     }
-    return [Container()];
+    return [];
   }
 
   List<Widget> generateIndicators() => List<Widget>.generate(
@@ -87,119 +87,110 @@ class _LessonContentPageState extends State<LessonContentPage> {
       isFavorite = favouritesProvider.isFavourite(
           FavouriteType.Lesson, lesson?.lessonID);
     }
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pop(context, isFavorite);
-        return false;
-      },
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 12.0,
+    return Scaffold(
+      backgroundColor: primaryColor,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 12.0,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Header(
-                    title: "Lesson",
-                    closeItem: () => Navigator.pop(context, isFavorite),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: HtmlWidget(
-                            lesson?.title ?? "",
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: textColor.withOpacity(0.8),
-                            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Header(
+                  title: "Lesson",
+                  closeItem: () => Navigator.pop(context),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: HtmlWidget(
+                          lesson?.title ?? "",
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: textColor.withOpacity(0.8),
                           ),
                         ),
-                        IconButton(
-                          icon: Icon(
-                            isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite_outline,
-                            size: 20,
-                            color: redColor,
-                          ),
-                          onPressed: () {
-                            favouritesProvider.addToFavourites(
-                                FavouriteType.Lesson, lesson?.lessonID);
-                            setState(() => isFavorite = !isFavorite);
-                          },
-                        )
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_outline,
+                          size: 20,
+                          color: redColor,
+                        ),
+                        onPressed: () {
+                          favouritesProvider.addToFavourites(
+                              FavouriteType.Lesson, lesson?.lessonID);
+                          setState(() => isFavorite = !isFavorite);
+                        },
+                      )
+                    ],
                   ),
-                  SizedBox(height: 15),
-                  Expanded(
-                    child: PageView.builder(
-                      controller: controller,
-                      itemCount: lessonContent?.length,
-                      pageSnapping: true,
-                      onPageChanged: (page) =>
-                          setState(() => activePage = page),
-                      itemBuilder: (context, index) {
-                        final content = lessonContent?[index];
-                        return SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                HtmlWidget(
-                                  content?.title ?? "",
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: textColor.withOpacity(0.8),
-                                  ),
+                ),
+                SizedBox(height: 15),
+                Expanded(
+                  child: PageView.builder(
+                    controller: controller,
+                    itemCount: lessonContent?.length,
+                    pageSnapping: true,
+                    onPageChanged: (page) => setState(() => activePage = page),
+                    itemBuilder: (context, index) {
+                      final content = lessonContent?[index];
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HtmlWidget(
+                                content?.title ?? "",
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: textColor.withOpacity(0.8),
                                 ),
+                              ),
+                              SizedBox(height: 20),
+                              HtmlWidget(
+                                content?.body ?? "",
+                                textStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: textColor.withOpacity(0.8),
+                                ),
+                              ),
+                              ...getContentUrlType(content),
+                              if (content?.summary?.isNotEmpty == true) ...[
                                 SizedBox(height: 20),
                                 HtmlWidget(
-                                  content?.body ?? "",
+                                  content?.summary ?? "",
                                   textStyle: TextStyle(
                                     fontSize: 14,
                                     color: textColor.withOpacity(0.8),
                                   ),
-                                ),
-                                ...getContentUrlType(content),
-                                if (content?.summary?.isNotEmpty == true) ...[
-                                  SizedBox(height: 20),
-                                  HtmlWidget(
-                                    content?.summary ?? "",
-                                    textStyle: TextStyle(
-                                      fontSize: 14,
-                                      color: textColor.withOpacity(0.8),
-                                    ),
-                                  )
-                                ]
-                              ],
-                            ),
+                                )
+                              ]
+                            ],
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: generateIndicators(),
-                  ),
-                  SizedBox(height: 25)
-                ],
-              ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: generateIndicators(),
+                ),
+                SizedBox(height: 25)
+              ],
             ),
           ),
         ),
