@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
@@ -40,7 +42,9 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
       },
     );
     setState(() => isSearchFinished = true);
-    await modulesProvider.filterAndSearch(searchText);
+    await modulesProvider.filterAndSearch(searchText).then((_) async =>
+        await PreferencesController()
+            .addToStringList(SEARCH_ITEMS, searchText));
     WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
   }
 

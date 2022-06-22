@@ -33,6 +33,35 @@ class PreferencesController {
     }
   }
 
+  Future<bool> addToStringList(
+      final String sharedPreferencesKey, final String? newValue) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final List<String>? prefValue = prefs.getStringList(sharedPreferencesKey);
+      if (prefValue?.contains(newValue ?? "") == false) {
+        prefValue?.add(newValue ?? "");
+        prefs.setStringList(sharedPreferencesKey, prefValue ?? []);
+      }
+
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  Future<List<String>> removeFromStringList(
+      final String sharedPreferencesKey, final String? newValue) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final List<String>? prefValue = prefs.getStringList(sharedPreferencesKey);
+      prefValue?.remove(newValue ?? "");
+      prefs.setStringList(sharedPreferencesKey, prefValue ?? []);
+      return prefValue ?? [];
+    } catch (ex) {
+      return [];
+    }
+  }
+
   Future<String> getString(final String sharedPreferencesKey) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -40,6 +69,16 @@ class PreferencesController {
       return prefValue != null ? prefValue : "";
     } catch (ex) {
       return "";
+    }
+  }
+
+  Future<List<String>> getStringList(final String sharedPreferencesKey) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final List<String>? prefValue = prefs.getStringList(sharedPreferencesKey);
+      return prefValue ?? [];
+    } catch (ex) {
+      return [];
     }
   }
 
