@@ -9,6 +9,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:device_info/device_info.dart';
 import 'package:thepcosprotocol_app/screens/library/library_module_page.dart';
 import 'package:thepcosprotocol_app/screens/library/library_module_wiki_page.dart';
+import 'package:thepcosprotocol_app/screens/library/library_search_page.dart';
 import 'package:thepcosprotocol_app/screens/library/library_wiki_page.dart';
 import 'package:thepcosprotocol_app/screens/more/app_help.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
@@ -205,7 +206,8 @@ class _AppState extends State<App> {
           FavouritesToolkitDetails.id: (context) => FavouritesToolkitDetails(),
           LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),
           LibraryModulePage.id: (context) => LibraryModulePage(),
-          LibraryWikiPage.id: (context) => LibraryWikiPage()
+          LibraryWikiPage.id: (context) => LibraryWikiPage(),
+          LibrarySearchPage.id: (context) => LibrarySearchPage()
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],

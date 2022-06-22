@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/screens/library/library_module_wiki_page.dart';
+import 'package:thepcosprotocol_app/screens/library/library_search_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({Key? key}) : super(key: key);
@@ -17,7 +23,12 @@ class _LibraryPageState extends State<LibraryPage> {
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
             color: primaryColorLight,
             child: TextFormField(
-              // controller: usernameController,
+              onTap: () => Navigator.pushNamed(
+                context,
+                LibrarySearchPage.id,
+              ),
+              focusNode:
+                  AlwaysDisabledFocusNode(), // Tappable text field, but not editable
               style: TextStyle(
                 fontSize: 16,
                 color: textColor,
