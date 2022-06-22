@@ -272,7 +272,6 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> filterAndSearch(final String searchText) async {
     searchStatus = LoadingStatus.loading;
-    notifyListeners();
     if (dbProvider?.db != null) {
       _searchLessons = await ProviderHelper().filterAndSearch(
           dbProvider, "Lesson", searchText, "", []) as List<Lesson>;

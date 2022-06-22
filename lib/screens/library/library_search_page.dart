@@ -25,6 +25,8 @@ class LibrarySearchPage extends StatefulWidget {
 class _LibrarySearchPageState extends State<LibrarySearchPage> {
   final TextEditingController searchController = TextEditingController();
 
+  String? searchText;
+
   bool isSearchFinished = false;
   bool isSearchDisabled = true;
 
@@ -49,150 +51,161 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: primaryColor,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
+  Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as String?;
+
+    if (searchText == null && args != null && args.isNotEmpty) {
+      searchText = args;
+      searchController.text = args;
+      isSearchDisabled = false;
+      search();
+    }
+
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: backgroundColor,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        centerTitle: true,
+        title: Text("Search"),
+        titleTextStyle: Theme.of(context).textTheme.headline5?.copyWith(
               color: backgroundColor,
             ),
-            onPressed: () => Navigator.pop(context),
-          ),
-          centerTitle: true,
-          title: Text("Search"),
-          titleTextStyle: Theme.of(context).textTheme.headline5?.copyWith(
-                color: backgroundColor,
-              ),
-          backgroundColor: primaryColorLight,
-          elevation: 0.0,
-        ),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-                width: double.maxFinite,
-                color: primaryColorLight,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: searchController,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: textColor,
-                        ),
-                        textInputAction: TextInputAction.search,
-                        onFieldSubmitted: (_) => search(),
-                        onChanged: (text) =>
-                            setState(() => isSearchDisabled = text.isEmpty),
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            icon: Opacity(
-                              opacity: isSearchDisabled ? 0.5 : 1,
-                              child: Icon(
-                                Icons.search,
-                                color: backgroundColor,
-                                size: 20,
-                              ),
+        backgroundColor: primaryColorLight,
+        elevation: 0.0,
+      ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+              width: double.maxFinite,
+              color: primaryColorLight,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: searchController,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: textColor,
+                      ),
+                      textInputAction: TextInputAction.search,
+                      onFieldSubmitted: (_) => search(),
+                      onChanged: (text) =>
+                          setState(() => isSearchDisabled = text.isEmpty),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Opacity(
+                            opacity: isSearchDisabled ? 0.5 : 1,
+                            child: Icon(
+                              Icons.search,
+                              color: backgroundColor,
+                              size: 20,
                             ),
-                            onPressed: isSearchDisabled ? null : search,
                           ),
-                          hintText: "Search",
-                          isDense: true,
-                          contentPadding: EdgeInsets.all(12),
-                          border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: backgroundColor, width: 2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: backgroundColor, width: 2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: backgroundColor, width: 2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: backgroundColor, width: 2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                          onPressed: isSearchDisabled ? null : search,
+                        ),
+                        hintText: "Search",
+                        isDense: true,
+                        contentPadding: EdgeInsets.all(12),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: backgroundColor, width: 2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: backgroundColor, width: 2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: backgroundColor, width: 2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: backgroundColor, width: 2),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: !isSearchFinished
-                    ? Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 100),
-                          child: Text(
-                            "Search any subjects, lessons or Wikis.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: textColor.withOpacity(0.5),
-                            ),
+            ),
+            Expanded(
+              child: !isSearchFinished
+                  ? Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 100),
+                        child: Text(
+                          "Search any subjects, lessons or Wikis.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: textColor.withOpacity(0.5),
                           ),
                         ),
-                      )
-                    : Consumer<ModulesProvider>(
-                        builder: (context, modulesProvider, child) {
-                          switch (modulesProvider.searchStatus) {
-                            case LoadingStatus.loading:
-                              return PcosLoadingSpinner();
-                            case LoadingStatus.empty:
-                              return NoResults(
-                                  message: S.current.noResultsLessonsSearch);
-                            case LoadingStatus.success:
-                              return ListView.builder(
-                                padding: EdgeInsets.all(15),
-                                itemCount: modulesProvider.searchLessons.length,
-                                itemBuilder: (context, index) {
-                                  final searchLesson =
-                                      modulesProvider.searchLessons[index];
-
-                                  return GestureDetector(
-                                    onTap: () => Navigator.pushNamed(
-                                      context,
-                                      LessonContentPage.id,
-                                      arguments: searchLesson,
-                                    ),
-                                    child: Container(
-                                      margin: EdgeInsets.only(bottom: 10),
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 20, horizontal: 15),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(16)),
-                                      ),
-                                      child: HtmlWidget(
-                                        searchLesson.title,
-                                        textStyle: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          color: backgroundColor,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                          }
-                        },
                       ),
-              )
-            ],
-          ),
+                    )
+                  : Consumer<ModulesProvider>(
+                      builder: (context, modulesProvider, child) {
+                        switch (modulesProvider.searchStatus) {
+                          case LoadingStatus.loading:
+                            return PcosLoadingSpinner();
+                          case LoadingStatus.empty:
+                            return NoResults(
+                                message: S.current.noResultsLessonsSearch);
+                          case LoadingStatus.success:
+                            return ListView.builder(
+                              padding: EdgeInsets.all(15),
+                              itemCount: modulesProvider.searchLessons.length,
+                              itemBuilder: (context, index) {
+                                final searchLesson =
+                                    modulesProvider.searchLessons[index];
+
+                                return GestureDetector(
+                                  onTap: () => Navigator.pushNamed(
+                                    context,
+                                    LessonContentPage.id,
+                                    arguments: searchLesson,
+                                  ),
+                                  child: Container(
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 20, horizontal: 15),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(16)),
+                                    ),
+                                    child: HtmlWidget(
+                                      searchLesson.title,
+                                      textStyle: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: backgroundColor,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                        }
+                      },
+                    ),
+            )
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

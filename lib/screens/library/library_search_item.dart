@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class LibrarySearchItem extends StatefulWidget {
-  const LibrarySearchItem(
-      {Key? key, required this.searchItem, required this.onCloseTapped})
-      : super(key: key);
+  const LibrarySearchItem({
+    Key? key,
+    required this.searchItem,
+    required this.onCloseTapped,
+    required this.onSearchItemTapped,
+  }) : super(key: key);
 
   final String searchItem;
   final Function onCloseTapped;
+  final Function onSearchItemTapped;
 
   @override
   State<LibrarySearchItem> createState() => _LibrarySearchItemState();
@@ -18,6 +22,7 @@ class _LibrarySearchItemState extends State<LibrarySearchItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () => widget.onSearchItemTapped.call(),
       onLongPress: () => setState(() => showClose = !showClose),
       child: Stack(
         clipBehavior: Clip.none,

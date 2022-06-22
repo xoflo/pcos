@@ -27,6 +27,10 @@ class _LibraryPageState extends State<LibraryPage> {
     });
   }
 
+  void goToLibrarySearchPage({String? searchText}) =>
+      Navigator.pushNamed(context, LibrarySearchPage.id, arguments: searchText)
+          .then((value) => loadSearchItems());
+
   @override
   Widget build(BuildContext context) {
     loadSearchItems();
@@ -36,10 +40,7 @@ class _LibraryPageState extends State<LibraryPage> {
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
           color: primaryColorLight,
           child: TextFormField(
-            onTap: () => Navigator.pushNamed(
-              context,
-              LibrarySearchPage.id,
-            ).then((value) => loadSearchItems()),
+            onTap: () => goToLibrarySearchPage(),
             focusNode:
                 AlwaysDisabledFocusNode(), // Tappable text field, but not editable
             style: TextStyle(
@@ -86,6 +87,8 @@ class _LibraryPageState extends State<LibraryPage> {
 
                         return LibrarySearchItem(
                           searchItem: searchItem,
+                          onSearchItemTapped: () =>
+                              goToLibrarySearchPage(searchText: searchItem),
                           onCloseTapped: () async {
                             final updatedItems = await PreferencesController()
                                 .removeFromStringList(SEARCH_ITEMS, searchItem);
