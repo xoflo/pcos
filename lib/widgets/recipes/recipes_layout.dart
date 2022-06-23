@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
-import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
-import 'package:thepcosprotocol_app/widgets/recipes/recipes_list.dart';
-import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -103,29 +100,6 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       final Size screenSize,
       final RecipesProvider recipesProvider,
       final FavouritesProvider favouritesProvider) {
-    //functions to open a recipe
-    void _openRecipeDetails(BuildContext context, dynamic recipe) async {
-      void _closeRecipeDetails() {
-        Navigator.pop(context);
-      }
-
-      //remove the focus from the searchbox if necessary, to hide the keyboard
-      WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
-      final bool isFavourite =
-          favouritesProvider.isFavourite(FavouriteType.Recipe, recipe.recipeId);
-
-      openBottomSheet(
-        context,
-        RecipeDetails(
-          recipe: recipe,
-          isFavourite: isFavourite,
-          closeRecipeDetails: _closeRecipeDetails,
-        ),
-        Analytics.ANALYTICS_SCREEN_RECIPE_DETAIL,
-        recipe.recipeId.toString(),
-      );
-    }
-
     if (_tagSelectedValue.length == 0) {
       _tagSelectedValue = S.current.tagAll;
     }
@@ -135,10 +109,18 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       case LoadingStatus.empty:
         return NoResults(message: S.current.noResultsRecipes);
       case LoadingStatus.success:
-        return RecipesList(
-            screenSize: screenSize,
-            recipes: recipesProvider.items,
-            openRecipeDetails: _openRecipeDetails);
+        return Expanded(
+          child: GridView.count(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(15),
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            children: recipesProvider.items
+                .map((recipe) => RecipeItem(recipe: recipe))
+                .toList(),
+          ),
+        );
     }
   }
 
