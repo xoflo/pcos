@@ -76,30 +76,32 @@ class _LibraryPageState extends State<LibraryPage> {
               padding: EdgeInsets.all(15),
               child: Column(
                 children: [
-                  Container(
-                    height: 90,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(vertical: 25),
-                      itemCount: searchItems.length,
-                      itemBuilder: (context, index) {
-                        final searchItem = searchItems[index];
+                  if (searchItems.isNotEmpty)
+                    Container(
+                      height: 90,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.symmetric(vertical: 25),
+                        itemCount: searchItems.length,
+                        itemBuilder: (context, index) {
+                          final searchItem = searchItems[index];
 
-                        return LibrarySearchItem(
-                          searchItem: searchItem,
-                          onSearchItemTapped: () =>
-                              goToLibrarySearchPage(searchText: searchItem),
-                          onCloseTapped: () async {
-                            final updatedItems = await PreferencesController()
-                                .removeFromStringList(SEARCH_ITEMS, searchItem);
-                            setState(() {
-                              searchItems = updatedItems;
-                            });
-                          },
-                        );
-                      },
+                          return LibrarySearchItem(
+                            searchItem: searchItem,
+                            onSearchItemTapped: () =>
+                                goToLibrarySearchPage(searchText: searchItem),
+                            onCloseTapped: () async {
+                              final updatedItems = await PreferencesController()
+                                  .removeFromStringList(
+                                      SEARCH_ITEMS, searchItem);
+                              setState(() {
+                                searchItems = updatedItems;
+                              });
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
                   GestureDetector(
                     onTap: () => Navigator.pushNamed(
                       context,

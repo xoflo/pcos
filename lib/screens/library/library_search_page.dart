@@ -12,6 +12,7 @@ import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
 
 class LibrarySearchPage extends StatefulWidget {
   const LibrarySearchPage({Key? key}) : super(key: key);
@@ -81,65 +82,11 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
       ),
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-              width: double.maxFinite,
-              color: primaryColorLight,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: searchController,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: textColor,
-                      ),
-                      textInputAction: TextInputAction.search,
-                      onFieldSubmitted: (_) => search(),
-                      onChanged: (text) =>
-                          setState(() => isSearchDisabled = text.isEmpty),
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Opacity(
-                            opacity: isSearchDisabled ? 0.5 : 1,
-                            child: Icon(
-                              Icons.search,
-                              color: backgroundColor,
-                              size: 20,
-                            ),
-                          ),
-                          onPressed: isSearchDisabled ? null : search,
-                        ),
-                        hintText: "Search",
-                        isDense: true,
-                        contentPadding: EdgeInsets.all(12),
-                        border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: backgroundColor, width: 2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: backgroundColor, width: 2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: backgroundColor, width: 2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: backgroundColor, width: 2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            SearchComponent(
+              searchController: searchController,
+              searchBackgroundColor: primaryColorLight,
+              onSearchPressed: search,
             ),
             Expanded(
               child: !isSearchFinished
