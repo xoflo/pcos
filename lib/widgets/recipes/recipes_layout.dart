@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_item.dart';
-import 'package:thepcosprotocol_app/widgets/shared/search_header.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -20,6 +20,7 @@ class RecipesLayout extends StatefulWidget {
 class _RecipesLayoutState extends State<RecipesLayout> {
   final TextEditingController _searchController = TextEditingController();
   bool _isSearching = false;
+  bool isSearchDisabled = true;
   String _tagSelectedValue = "All";
   List<String> _tagValuesSelectedSecondary = [];
   List<MultiSelectItem<String>> _tagValuesSecondary = [];
@@ -124,26 +125,74 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     }
   }
 
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
     return Column(
       children: [
-        SearchHeader(
-          formKey: _formKey,
-          searchController: _searchController,
-          tagValues: _getTagValues(),
-          tagValueSelected: _tagSelectedValue,
-          onTagSelected: _onTagSelected,
-          onSearchClicked: _onSearchClicked,
-          isSearching: _isSearching,
-          tagValuesSecondary: _tagValuesSecondary,
-          tagValuesSelectedSecondary: _tagValuesSelectedSecondary,
-          onSecondaryTagSelected: _onSecondaryTagSelected,
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+          width: double.maxFinite,
+          color: primaryColor,
+          child: TextFormField(
+            controller: _searchController,
+            style: TextStyle(
+              fontSize: 16,
+              color: textColor,
+            ),
+            textInputAction: TextInputAction.search,
+            onFieldSubmitted: (_) => _onSearchClicked(),
+            onChanged: (text) =>
+                setState(() => isSearchDisabled = text.isEmpty),
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                icon: Opacity(
+                  opacity: isSearchDisabled ? 0.5 : 1,
+                  child: Icon(
+                    Icons.search,
+                    color: backgroundColor,
+                    size: 20,
+                  ),
+                ),
+                onPressed: isSearchDisabled ? null : _onSearchClicked,
+              ),
+              hintText: "Search",
+              isDense: true,
+              contentPadding: EdgeInsets.all(12),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: backgroundColor, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: backgroundColor, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: backgroundColor, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: backgroundColor, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
         ),
+
+        // SearchHeader(
+        //   formKey: _formKey,
+        //   searchController: _searchController,
+        //   tagValues: _getTagValues(),
+        //   tagValueSelected: _tagSelectedValue,
+        //   onTagSelected: _onTagSelected,
+        //   onSearchClicked: _onSearchClicked,
+        //   isSearching: _isSearching,
+        //   tagValuesSecondary: _tagValuesSecondary,
+        //   tagValuesSelectedSecondary: _tagValuesSelectedSecondary,
+        //   onSecondaryTagSelected: _onSecondaryTagSelected,
+        // ),
+
         Consumer2<RecipesProvider, FavouritesProvider>(
           builder: (context, recipesProvider, favouritesProvider, child) =>
               _getRecipesList(screenSize, recipesProvider, favouritesProvider),
