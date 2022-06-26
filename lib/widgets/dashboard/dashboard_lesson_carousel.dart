@@ -131,13 +131,16 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               if (isPreviousLessonComplete)
-                                Text(
-                                  widget.modulesProvider.currentModule?.title ??
-                                      "",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: textColor,
-                                    fontSize: 24,
+                                Expanded(
+                                  child: Text(
+                                    widget.modulesProvider.currentModule
+                                            ?.title ??
+                                        "",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                      fontSize: 24,
+                                    ),
                                   ),
                                 )
                               else
@@ -159,7 +162,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                           SizedBox(height: 25),
                           DashboardLessonCarouselItemCard(
                             onTapCard:
-                                isPreviousLessonComplete && isLessonComplete
+                                isPreviousLessonComplete // && isLessonComplete
                                     ? () => Navigator.pushNamed(
                                           context,
                                           LessonPage.id,

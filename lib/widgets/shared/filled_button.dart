@@ -32,7 +32,7 @@ class FilledButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: isUpdating ? null : onPressed,
           child: Padding(
-            padding: EdgeInsets.all(icon != null ? 7.5 : 15),
+            padding: EdgeInsets.all(icon != null ? 10 : 15),
             child: isUpdating
                 ? SizedBox(
                     child: CircularProgressIndicator(
