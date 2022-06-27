@@ -33,21 +33,25 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
 
   void search() async {
     final searchText = searchController.text.trim();
-    final modulesProvider =
-        Provider.of<ModulesProvider>(context, listen: false);
+    if (searchText.isNotEmpty) {
+      final modulesProvider =
+          Provider.of<ModulesProvider>(context, listen: false);
 
-    analytics.logEvent(
-      name: Analytics.ANALYTICS_EVENT_SEARCH,
-      parameters: {
-        Analytics.ANALYTICS_PARAMETER_SEARCH_TYPE:
-            Analytics.ANALYTICS_SEARCH_LESSON,
-        Analytics.ANALYTICS_PARAMETER_LESSON_SEARCH_TEXT: searchText
-      },
-    );
-    setState(() => isSearchFinished = true);
-    await modulesProvider.filterAndSearch(searchText).then((_) async =>
-        await PreferencesController()
-            .addToStringList(SEARCH_ITEMS, searchText));
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_EVENT_SEARCH,
+        parameters: {
+          Analytics.ANALYTICS_PARAMETER_SEARCH_TYPE:
+              Analytics.ANALYTICS_SEARCH_LESSON,
+          Analytics.ANALYTICS_PARAMETER_LESSON_SEARCH_TEXT: searchText
+        },
+      );
+      setState(() => isSearchFinished = true);
+      await modulesProvider.filterAndSearch(searchText).then((_) async =>
+          await PreferencesController()
+              .addToStringList(SEARCH_ITEMS, searchText));
+    } else {
+      setState(() => isSearchFinished = false);
+    }
     WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
   }
 

@@ -7,11 +7,13 @@ class SearchComponent extends StatefulWidget {
     required this.searchController,
     required this.searchBackgroundColor,
     required this.onSearchPressed,
+    this.focusNode,
   }) : super(key: key);
 
   final TextEditingController searchController;
   final Color searchBackgroundColor;
   final Function() onSearchPressed;
+  final FocusNode? focusNode;
 
   @override
   State<SearchComponent> createState() => _SearchComponentState();
@@ -28,6 +30,7 @@ class _SearchComponentState extends State<SearchComponent> {
         color: widget.searchBackgroundColor,
         child: TextFormField(
           controller: widget.searchController,
+          focusNode: widget.focusNode,
           style: TextStyle(
             fontSize: 16,
             color: textColor,
@@ -36,16 +39,41 @@ class _SearchComponentState extends State<SearchComponent> {
           onFieldSubmitted: (_) => widget.onSearchPressed.call(),
           onChanged: (text) => setState(() => isSearchDisabled = text.isEmpty),
           decoration: InputDecoration(
-            suffixIcon: IconButton(
-              icon: Opacity(
-                opacity: isSearchDisabled ? 0.5 : 1,
-                child: Icon(
-                  Icons.search,
-                  color: backgroundColor,
-                  size: 20,
+            suffixIcon: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, // added line
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Opacity(
+                    opacity: widget.searchController.text.isEmpty ? 0.5 : 1,
+                    child: Icon(
+                      Icons.close,
+                      color: backgroundColor,
+                      size: 20,
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      widget.focusNode?.unfocus();
+                      widget.searchController.clear();
+                      widget.onSearchPressed.call();
+                    });
+                  },
                 ),
-              ),
-              onPressed: isSearchDisabled ? null : widget.onSearchPressed,
+                IconButton(
+                  icon: Opacity(
+                    opacity: widget.searchController.text.isEmpty ? 0.5 : 1,
+                    child: Icon(
+                      Icons.search,
+                      color: backgroundColor,
+                      size: 20,
+                    ),
+                  ),
+                  onPressed: widget.searchController.text.isEmpty
+                      ? null
+                      : widget.onSearchPressed,
+                ),
+              ],
             ),
             hintText: "Search",
             isDense: true,

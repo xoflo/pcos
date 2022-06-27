@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/widgets/recipes/recipe_filter_sheet.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_item.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -11,6 +12,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
+import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -18,69 +20,28 @@ class RecipesLayout extends StatefulWidget {
 }
 
 class _RecipesLayoutState extends State<RecipesLayout> {
+  final FocusNode _focusNode = FocusNode();
   final TextEditingController _searchController = TextEditingController();
+
   bool _isSearching = false;
-  bool isSearchDisabled = true;
-  String _tagSelectedValue = "All";
-  List<String> _tagValuesSelectedSecondary = [];
-  List<MultiSelectItem<String>> _tagValuesSecondary = [];
+  String _mealTag = "All";
+  List<String> _dietTags = [];
 
-  List<String> _getTagValues() {
-    final stringContext = S.of(context);
-    return <String>[
-      stringContext.tagAll,
-      stringContext.recipesTagBreakfast,
-      stringContext.recipesTagLunch,
-      stringContext.recipesTagDinner,
-      stringContext.recipesTagSnack,
-      stringContext.recipesTagDessert,
-      stringContext.recipesTagCondiments,
-      stringContext.recipesTagDrinks,
-    ];
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_onFocusChanged);
   }
 
-  List<MultiSelectItem<String>> _getTagValuesSecondary(
-      final String tagSelected) {
-    //TODO: need to update these once info is available
-    final stringContext = S.of(context);
-    final String plantBased = stringContext.recipesTagSecondaryPlantBased;
-    final String vegetarian = stringContext.recipesTagSecondaryVegetarian;
-    final String dairyFree = stringContext.recipesTagSecondaryDairyFree;
-    final String nutFree = stringContext.recipesTagSecondaryNutFree;
-    final String eggFree = stringContext.recipesTagSecondaryEggFree;
-
-    if (tagSelected == stringContext.recipesTagBreakfast) {
-      return [
-        MultiSelectItem(vegetarian, vegetarian),
-        MultiSelectItem(nutFree, nutFree),
-        MultiSelectItem(eggFree, eggFree),
-      ];
-    }
-
-    if (tagSelected == stringContext.recipesTagLunch) {
-      return [
-        MultiSelectItem(plantBased, plantBased),
-        MultiSelectItem(dairyFree, dairyFree),
-      ];
-    }
-
-    return [];
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.removeListener(_onFocusChanged);
+    _focusNode.dispose();
   }
 
-  void _onTagSelected(String tagValue) {
-    setState(() {
-      _tagSelectedValue = tagValue;
-      _tagValuesSecondary = _getTagValuesSecondary(tagValue);
-      _tagValuesSelectedSecondary.clear();
-    });
-    _onSearchClicked();
-  }
-
-  void _onSecondaryTagSelected(List<String> tagValues) {
-    setState(() {
-      _tagValuesSelectedSecondary = tagValues;
-    });
-    _onSearchClicked();
+  void _onFocusChanged() {
+    setState(() => _isSearching = _focusNode.hasFocus);
   }
 
   void _onSearchClicked() async {
@@ -92,112 +53,102 @@ class _RecipesLayoutState extends State<RecipesLayout> {
       },
     );
     final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
-    recipeProvider.filterAndSearch(_searchController.text.trim(),
-        _tagSelectedValue, _tagValuesSelectedSecondary);
+    recipeProvider.filterAndSearch(
+        _searchController.text.trim(), _mealTag, _dietTags);
     WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
   }
 
-  Widget _getRecipesList(
-      final Size screenSize,
-      final RecipesProvider recipesProvider,
-      final FavouritesProvider favouritesProvider) {
-    if (_tagSelectedValue.length == 0) {
-      _tagSelectedValue = S.current.tagAll;
-    }
-    switch (recipesProvider.status) {
-      case LoadingStatus.loading:
-        return PcosLoadingSpinner();
-      case LoadingStatus.empty:
-        return NoResults(message: S.current.noResultsRecipes);
-      case LoadingStatus.success:
-        return Expanded(
-          child: GridView.count(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(15),
-            crossAxisCount: 2,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            children: recipesProvider.items
-                .map((recipe) => RecipeItem(recipe: recipe))
-                .toList(),
-          ),
-        );
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-          width: double.maxFinite,
-          color: primaryColor,
-          child: TextFormField(
-            controller: _searchController,
-            style: TextStyle(
-              fontSize: 16,
-              color: textColor,
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => _focusNode.unfocus(),
+        child: Column(
+          children: [
+            SearchComponent(
+              searchController: _searchController,
+              focusNode: _focusNode,
+              searchBackgroundColor: primaryColor,
+              onSearchPressed: _onSearchClicked,
             ),
-            textInputAction: TextInputAction.search,
-            onFieldSubmitted: (_) => _onSearchClicked(),
-            onChanged: (text) =>
-                setState(() => isSearchDisabled = text.isEmpty),
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                icon: Opacity(
-                  opacity: isSearchDisabled ? 0.5 : 1,
-                  child: Icon(
-                    Icons.search,
-                    color: backgroundColor,
-                    size: 20,
+            if (_isSearching && _searchController.text.trim().isEmpty)
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 70),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Search any ingredients, recipes names, or meal types.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: textColor.withOpacity(0.5),
+                    ),
                   ),
                 ),
-                onPressed: isSearchDisabled ? null : _onSearchClicked,
-              ),
-              hintText: "Search",
-              isDense: true,
-              contentPadding: EdgeInsets.all(12),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: backgroundColor, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: backgroundColor, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: backgroundColor, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: backgroundColor, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
-        ),
+              )
+            else ...[
+              GestureDetector(
+                onTap: () => openBottomSheet(
+                  context,
+                  RecipeFilterSheet(
+                    selectedMealType: _mealTag,
+                    selectedDietType: _dietTags,
+                    onSearchPressed: (meal, diet) {
+                      setState(() {
+                        _mealTag = meal;
+                        _dietTags = diet ?? [];
+                      });
 
-        // SearchHeader(
-        //   formKey: _formKey,
-        //   searchController: _searchController,
-        //   tagValues: _getTagValues(),
-        //   tagValueSelected: _tagSelectedValue,
-        //   onTagSelected: _onTagSelected,
-        //   onSearchClicked: _onSearchClicked,
-        //   isSearching: _isSearching,
-        //   tagValuesSecondary: _tagValuesSecondary,
-        //   tagValuesSelectedSecondary: _tagValuesSelectedSecondary,
-        //   onSecondaryTagSelected: _onSecondaryTagSelected,
-        // ),
-
-        Consumer2<RecipesProvider, FavouritesProvider>(
-          builder: (context, recipesProvider, favouritesProvider, child) =>
-              _getRecipesList(screenSize, recipesProvider, favouritesProvider),
+                      _onSearchClicked();
+                    },
+                  ),
+                  Analytics.ANALYTICS_RECIPE_FILTER,
+                  null,
+                ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(
+                        Icons.filter_list,
+                        color: backgroundColor,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        "Filters",
+                        style: TextStyle(
+                          color: backgroundColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Consumer2<RecipesProvider, FavouritesProvider>(
+                builder: (context, recipesProvider, favouritesProvider, child) {
+                  switch (recipesProvider.status) {
+                    case LoadingStatus.loading:
+                      return PcosLoadingSpinner();
+                    case LoadingStatus.empty:
+                      return NoResults(message: S.current.noResultsRecipes);
+                    case LoadingStatus.success:
+                      return Expanded(
+                        child: GridView.count(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(15),
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          children: recipesProvider.items
+                              .map((recipe) => RecipeItem(recipe: recipe))
+                              .toList(),
+                        ),
+                      );
+                  }
+                },
+              ),
+            ],
+          ],
         ),
-      ],
-    );
-  }
+      );
 }
