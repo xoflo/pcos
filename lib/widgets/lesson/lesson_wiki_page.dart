@@ -89,11 +89,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                                 ),
                                 onPressed: () {
                                   favouritesProvider.addToFavourites(
-                                    FavouriteType.Wiki,
-                                    wiki?.questionId,
-                                    moduleId: wiki?.moduleId,
-                                    lessonId: wiki?.lessonId,
-                                  );
+                                      FavouriteType.Wiki, wiki?.questionId);
                                   setState(() => isFavorite = !isFavorite);
                                 },
                               )

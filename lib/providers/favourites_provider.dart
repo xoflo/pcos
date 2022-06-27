@@ -47,16 +47,9 @@ class FavouritesProvider with ChangeNotifier {
   }
 
   Future<void> addToFavourites(
-      final FavouriteType favouriteType, final int? itemId,
-      {int? moduleId, int? lessonId}) async {
+      final FavouriteType favouriteType, final int? itemId) async {
     await ProviderHelper().addToFavourites(
-      !isFavourite(favouriteType, itemId),
-      dbProvider,
-      favouriteType,
-      itemId,
-      moduleId: moduleId,
-      lessonId: lessonId,
-    );
+        !isFavourite(favouriteType, itemId), dbProvider, favouriteType, itemId);
     fetchAndSaveData();
   }
 
