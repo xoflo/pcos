@@ -223,6 +223,8 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
+    status = LoadingStatus.loading;
+    notifyListeners();
     final DateTime nextLessonAvailable =
         await WebServices().setLessonComplete(lessonID);
     await PreferencesController().saveString(
@@ -231,6 +233,8 @@ class ModulesProvider with ChangeNotifier {
     if (setModuleComplete) {
       await WebServices().setModuleComplete(moduleID);
     }
+    status = LoadingStatus.success;
+    notifyListeners();
     //refresh the data from the API
     fetchAndSaveData(true);
   }
