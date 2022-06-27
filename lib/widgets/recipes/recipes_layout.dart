@@ -140,7 +140,10 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           children: recipesProvider.items
-                              .map((recipe) => RecipeItem(recipe: recipe))
+                              .map((recipe) => RecipeItem(
+                                    recipe: recipe,
+                                    isFromLesson: false,
+                                  ))
                               .toList(),
                         ),
                       );

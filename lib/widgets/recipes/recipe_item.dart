@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
+import 'package:thepcosprotocol_app/models/navigation/lesson_recipe_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
 
@@ -8,9 +9,11 @@ class RecipeItem extends StatefulWidget {
   const RecipeItem({
     Key? key,
     required this.recipe,
+    this.isFromLesson = true,
     this.onPressFavourite,
   }) : super(key: key);
 
+  final bool isFromLesson;
   final LessonRecipe recipe;
   final Function()? onPressFavourite;
 
@@ -24,7 +27,7 @@ class _RecipeItemState extends State<RecipeItem> {
         onTap: () => Navigator.pushNamed(
           context,
           RecipeDetailsPage.id,
-          arguments: widget.recipe,
+          arguments: LessonRecipeArguments(widget.isFromLesson, widget.recipe),
         ),
         child: Stack(
           children: [
