@@ -3,6 +3,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
+import 'package:thepcosprotocol_app/models/navigation/lesson_wiki_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -35,8 +36,11 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as LessonWikiArguments;
+
     if (wiki == null) {
-      wiki = ModalRoute.of(context)?.settings.arguments as LessonWiki;
+      wiki = args.lessonWiki;
       isFavorite =
           favouritesProvider.isFavourite(FavouriteType.Wiki, wiki?.questionId);
     }
@@ -57,7 +61,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
               children: [
                 Header(
                   title: "Wikis",
-                  closeItem: () => Navigator.pop(context),
+                  closeItem: () => Navigator.pop(context, isFavorite),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -112,8 +116,8 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               ),
                               SizedBox(width: 10),
                               HtmlWidget(
-                                modulesProvider.getLessonTitleByQuestionID(
-                                    wiki?.questionId ?? -1),
+                                modulesProvider.getLessonTitleByLessonID(
+                                    wiki?.lessonId ?? -1),
                                 textStyle: TextStyle(
                                   color: textColor.withOpacity(0.5),
                                   fontSize: 14,

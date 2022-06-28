@@ -14,14 +14,17 @@ class NoResults extends StatelessWidget {
         children: [
           Text(
             message ?? "",
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                ?.copyWith(color: textColor),
             textAlign: TextAlign.center,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 30.0),
             child: Icon(
               Icons.block,
-              color: primaryColor,
+              color: textColor,
               size: 60.0,
             ),
           ),

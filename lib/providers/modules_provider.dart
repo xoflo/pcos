@@ -52,6 +52,7 @@ class ModulesProvider with ChangeNotifier {
   List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
   List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
   List<Quiz> get lessonQuizzes => [..._lessonQuizzes];
+  List<LessonWiki> get lessonWikis => [..._lessonWikis];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -80,7 +81,7 @@ class ModulesProvider with ChangeNotifier {
       if (_modules.length > 0) {
         _currentModule = _modules.last;
         _previousModules = await _getPreviousModules();
-        _currentModuleLessons = await getModuleLessons(_currentModule.moduleID);
+        _currentModuleLessons = getModuleLessons(_currentModule.moduleID);
         _currentLesson = _currentModuleLessons.last;
       }
 
@@ -122,7 +123,7 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Lesson>> getModuleLessons(final int? moduleID) async {
+  List<Lesson> getModuleLessons(final int? moduleID) {
     List<Lesson> moduleLessons = [];
     for (Lesson lesson in _lessons) {
       if (lesson.moduleID == moduleID) {
@@ -130,6 +131,16 @@ class ModulesProvider with ChangeNotifier {
       }
     }
     return moduleLessons;
+  }
+
+  List<LessonWiki> getModuleWikis(final int? moduleID) {
+    List<LessonWiki> moduleWikis = [];
+    for (LessonWiki wiki in _lessonWikis) {
+      if (wiki.moduleId == moduleID) {
+        moduleWikis.add(wiki);
+      }
+    }
+    return moduleWikis;
   }
 
   String getModuleTitleByModuleID(final int moduleID) {
@@ -261,7 +272,6 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> filterAndSearch(final String searchText) async {
     searchStatus = LoadingStatus.loading;
-    notifyListeners();
     if (dbProvider?.db != null) {
       _searchLessons = await ProviderHelper().filterAndSearch(
           dbProvider, "Lesson", searchText, "", []) as List<Lesson>;

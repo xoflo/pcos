@@ -14,6 +14,7 @@ import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
+import 'package:thepcosprotocol_app/screens/library/library_page.dart';
 import 'package:thepcosprotocol_app/tabs/more_page.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -247,6 +248,7 @@ class _AppTabsState extends State<AppTabs>
                     onPressed: () => Navigator.pushNamed(context, Profile.id),
                   )
                 : null,
+            automaticallyImplyLeading: showAppBarItems,
             actions: showAppBarItems
                 ? [
                     IconButton(
@@ -275,9 +277,7 @@ class _AppTabsState extends State<AppTabs>
                     showLessonRecipes: _showLessonRecipes,
                     updateYourWhy: _updateYourWhy,
                   ),
-                  Center(
-                    child: Text("Library"),
-                  ),
+                  LibraryPage(),
                   Recipes(),
                   Favourites(),
                   MorePage(onLockApp: _setIsLocked),

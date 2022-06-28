@@ -19,3 +19,4 @@ const String PCOS_TYPE = "pcos_type";
 const String LESSON_RECIPES_DISPLAYED_DASHBOARD =
     "lesson_recipes_displayed_dashboard";
 const String USERNAME_USED = "username_used";
+const String SEARCH_ITEMS = "search_items";
