@@ -31,6 +31,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChanged);
+    Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
   }
 
   @override

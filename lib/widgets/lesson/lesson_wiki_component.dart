@@ -51,9 +51,9 @@ class LessonWikiComponent extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  HtmlWidget(
                                     element.question ?? "",
-                                    style: TextStyle(
+                                    textStyle: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       color: backgroundColor,

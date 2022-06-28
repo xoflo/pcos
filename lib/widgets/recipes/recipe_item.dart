@@ -66,7 +66,9 @@ class _RecipeItemState extends State<RecipeItem> {
                     right: 20,
                     bottom: 20,
                     child: HtmlWidget(
-                      widget.recipe.title ?? "",
+                      "<p style='max-lines:2; text-overflow: ellipsis;'>" +
+                          (widget.recipe.title ?? "") +
+                          "</p>",
                       textStyle:
                           Theme.of(context).textTheme.subtitle1?.copyWith(
                                 fontWeight: FontWeight.w500,
@@ -79,8 +81,8 @@ class _RecipeItemState extends State<RecipeItem> {
             ),
             if (widget.onPressFavourite != null)
               Positioned(
-                top: 20,
-                right: 20,
+                top: 0,
+                right: 0,
                 child: IconButton(
                   onPressed: () => widget.onPressFavourite?.call(),
                   icon: Icon(

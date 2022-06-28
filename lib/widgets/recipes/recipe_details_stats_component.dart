@@ -61,7 +61,8 @@ class RecipeDetailsStatsComponent extends StatelessWidget {
                     ),
                     SizedBox(height: 15),
                     Text(
-                      DateTimeUtils.convertMillisecondsToMinutes(duration ?? 0)
+                      Duration(milliseconds: duration ?? 0)
+                              .inMinutes
                               .toString() +
                           " " +
                           S.current.minutesShort,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
@@ -106,6 +107,11 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                       .getLessonRecipes(currentLesson.lessonID);
                   final isLessonComplete = currentLesson.isComplete;
 
+                  int lessonRecipeDuration = 0;
+                  currentLessonRecipes.forEach((element) {
+                    lessonRecipeDuration += element.duration ?? 0;
+                  });
+
                   // If the previous lesson is already complete, then we must lock
                   // the current lesson. But when the item is the first one, then
                   // we should set to true so that the current index will not
@@ -194,7 +200,9 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                       : null,
                               isLocked: isPreviousLessonComplete,
                               title: "Lesson Recipes",
-                              duration: "5 mins",
+                              duration:
+                                  "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
+                                      S.current.minutesShort,
                               asset: 'assets/dashboard_recipes.png',
                               assetSize: Size(84, 90),
                             ),

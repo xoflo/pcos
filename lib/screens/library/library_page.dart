@@ -28,7 +28,7 @@ class _LibraryPageState extends State<LibraryPage> {
 
   void loadSearchItems() async {
     await PreferencesController().getStringList(SEARCH_ITEMS).then((value) {
-      setState(() => searchItems = value);
+      if (mounted) setState(() => searchItems = value);
     });
   }
 
