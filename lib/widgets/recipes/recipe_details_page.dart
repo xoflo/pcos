@@ -71,19 +71,19 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
             decoration: BoxDecoration(
               color: primaryColor,
             ),
-            child: Stack(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    if (isFromLessonsPage)
-                      Header(
-                        title: "Lesson Recipe",
-                        closeItem: () => Navigator.pop(context),
-                      ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
+                if (isFromLessonsPage)
+                  Header(
+                    title: "Lesson Recipe",
+                    closeItem: () => Navigator.pop(context),
+                  ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Stack(
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image.network(
@@ -95,13 +95,13 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                             if (tags.isNotEmpty) ...[
                               SizedBox(height: 30),
                               Container(
-                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                margin: EdgeInsets.symmetric(horizontal: 15),
                                 child: Wrap(
+                                  spacing: 10,
+                                  runSpacing: 10,
                                   children: tags
                                       .map(
                                         (tag) => Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 10),
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                               color: textColor.withOpacity(0.5),
@@ -228,29 +228,30 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                             SizedBox(height: 25),
                           ],
                         ),
-                      ),
-                    )
-                  ],
-                ),
-                if (!isFromLessonsPage)
-                  Positioned(
-                    left: 15,
-                    top: 15,
-                    child: InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: backgroundColor,
-                        ),
-                      ),
+                        if (!isFromLessonsPage)
+                          Positioned(
+                            left: 15,
+                            top: 15,
+                            child: InkWell(
+                              onTap: () => Navigator.pop(context),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50)),
+                                ),
+                                padding: EdgeInsets.all(8),
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: backgroundColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
+                )
               ],
             ),
           ),
