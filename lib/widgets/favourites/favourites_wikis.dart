@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
@@ -34,11 +33,6 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
           itemBuilder: (context, item) {
             final wiki = widget.favouritesProvider.lessonWikis[item];
 
-            final isFavouriteWiki = widget.favouritesProvider.isFavourite(
-              FavouriteType.Wiki,
-              wiki.questionId,
-            );
-
             return GestureDetector(
               onTap: () => Navigator.pushNamed(
                 context,
@@ -53,47 +47,26 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
                   color: Colors.white,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: HtmlWidget(
-                            wiki.question ?? "",
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: backgroundColor,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 15),
-                        IconButton(
-                          onPressed: () {
-                            widget.favouritesProvider.addToFavourites(
-                              FavouriteType.Wiki,
-                              wiki.questionId,
-                            );
-                          },
-                          icon: Icon(
-                            isFavouriteWiki
-                                ? Icons.favorite
-                                : Icons.favorite_outline,
-                            color: redColor,
-                            size: 20,
-                          ),
-                        ),
-                      ],
+                    HtmlWidget(
+                      wiki.question ?? "",
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: backgroundColor,
+                      ),
                     ),
-                    Text(
-                      wiki.answer ?? "",
-                      style: TextStyle(
+                    SizedBox(height: 10),
+                    HtmlWidget(
+                      "<p style='max-lines:2; text-overflow: ellipsis;'>" +
+                          (wiki.answer ?? "") +
+                          "</p>",
+                      textStyle: TextStyle(
                         fontSize: 14,
                         color: textColor.withOpacity(0.8),
                         height: 1.25,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     )
                   ],
                 ),

@@ -89,11 +89,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                                 ),
                                 onPressed: () {
                                   favouritesProvider.addToFavourites(
-                                    FavouriteType.Wiki,
-                                    wiki?.questionId,
-                                    moduleId: wiki?.moduleId,
-                                    lessonId: wiki?.lessonId,
-                                  );
+                                      FavouriteType.Wiki, wiki?.questionId);
                                   setState(() => isFavorite = !isFavorite);
                                 },
                               )
@@ -116,8 +112,8 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               ),
                               SizedBox(width: 10),
                               HtmlWidget(
-                                modulesProvider.getLessonTitleByLessonID(
-                                    wiki?.lessonId ?? -1),
+                                modulesProvider.getLessonTitleByQuestionID(
+                                    wiki?.questionId ?? -1),
                                 textStyle: TextStyle(
                                   color: textColor.withOpacity(0.5),
                                   fontSize: 14,

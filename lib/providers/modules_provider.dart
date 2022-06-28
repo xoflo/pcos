@@ -152,6 +152,15 @@ class ModulesProvider with ChangeNotifier {
     return "";
   }
 
+  String getLessonTitleByQuestionID(final int questionId) {
+    for (LessonWiki wiki in _lessonWikis) {
+      if (wiki.questionId == questionId) {
+        return getLessonTitleByLessonID(wiki.lessonId ?? -1);
+      }
+    }
+    return "";
+  }
+
   List<LessonTask> getLessonTasks(final int lessonID) {
     List<LessonTask> lessonTasks = [];
     for (LessonTask lessonTask in _lessonTasks) {
@@ -214,6 +223,8 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
+    status = LoadingStatus.loading;
+    notifyListeners();
     final DateTime nextLessonAvailable =
         await WebServices().setLessonComplete(lessonID);
     await PreferencesController().saveString(
@@ -222,6 +233,8 @@ class ModulesProvider with ChangeNotifier {
     if (setModuleComplete) {
       await WebServices().setModuleComplete(moduleID);
     }
+    status = LoadingStatus.success;
+    notifyListeners();
     //refresh the data from the API
     fetchAndSaveData(true);
   }

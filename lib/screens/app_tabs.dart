@@ -237,62 +237,60 @@ class _AppTabsState extends State<AppTabs>
   bool get showAppBarItems => _currentIndex == 0 || _currentIndex == 4;
 
   @override
-  Widget build(BuildContext context) {
-    return FlavorBanner(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: showAppBarItems
-              ? IconButton(
-                  icon: Icon(Icons.person_outline,
-                      color: unselectedIndicatorIconColor),
-                  onPressed: () => Navigator.pushNamed(context, Profile.id),
-                )
-              : null,
-          actions: showAppBarItems
-              ? [
-                  IconButton(
-                    icon: Icon(
-                      Icons.chat_outlined,
-                      color: unselectedIndicatorColor,
+  Widget build(BuildContext context) => FlavorBanner(
+        child: Scaffold(
+          appBar: AppBar(
+            leading: showAppBarItems
+                ? IconButton(
+                    icon: Icon(Icons.person_outline,
+                        color: unselectedIndicatorIconColor),
+                    onPressed: () => Navigator.pushNamed(context, Profile.id),
+                  )
+                : null,
+            actions: showAppBarItems
+                ? [
+                    IconButton(
+                      icon: Icon(
+                        Icons.chat_outlined,
+                        color: unselectedIndicatorColor,
+                      ),
+                      onPressed: openChat,
                     ),
-                    onPressed: openChat,
+                  ]
+                : null,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+          ),
+          backgroundColor: primaryColor,
+          body: DefaultTextStyle(
+            style: Theme.of(context).textTheme.bodyText1!,
+            child: WillPopScope(
+              onWillPop: onBackPressed,
+              child: TabBarView(
+                controller: tabController,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  Dashboard(
+                    showYourWhy: _showYourWhy,
+                    showLessonRecipes: _showLessonRecipes,
+                    updateYourWhy: _updateYourWhy,
                   ),
-                ]
-              : null,
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-        backgroundColor: primaryColor,
-        body: DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText1!,
-          child: WillPopScope(
-            onWillPop: onBackPressed,
-            child: TabBarView(
-              controller: tabController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Dashboard(
-                  showYourWhy: _showYourWhy,
-                  showLessonRecipes: _showLessonRecipes,
-                  updateYourWhy: _updateYourWhy,
-                ),
-                Center(
-                  child: Text("Library"),
-                ),
-                Recipes(),
-                Favourites(),
-                MorePage(onLockApp: _setIsLocked),
-              ],
+                  Center(
+                    child: Text("Library"),
+                  ),
+                  Recipes(),
+                  Favourites(),
+                  MorePage(onLockApp: _setIsLocked),
+                ],
+              ),
             ),
           ),
+          bottomNavigationBar: AppNavigationTabs(
+            currentIndex: _currentIndex,
+            tabController: tabController,
+            onTapped: (index) => setState(() => _currentIndex = index),
+            observer: widget.observer,
+          ),
         ),
-        bottomNavigationBar: AppNavigationTabs(
-          currentIndex: _currentIndex,
-          tabController: tabController,
-          onTapped: (index) => setState(() => _currentIndex = index),
-          observer: widget.observer,
-        ),
-      ),
-    );
-  }
+      );
 }
