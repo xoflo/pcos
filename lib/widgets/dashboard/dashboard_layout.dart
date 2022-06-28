@@ -436,9 +436,13 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                   SizedBox(height: 25),
                   DashboardLessonCarousel(modulesProvider: modulesProvider),
 
+                  // TODO: Remove this once the lesson items have been mostly
+                  // finalized. A separate MR will be needed for cleaning out
+                  // most of the files, including this one.
+
                   // getTasks(screenSize, isHorizontal, modulesProvider),
-                  getCurrentModule(screenSize, isHorizontal, modulesProvider,
-                      favouritesProvider),
+                  // getCurrentModule(screenSize, isHorizontal, modulesProvider,
+                  //     favouritesProvider),
                   // getLessonWikis(screenSize, isHorizontal, modulesProvider),
                   // widget.showLessonRecipes
                   //     ? getLessonRecipes(screenSize, isHorizontal,

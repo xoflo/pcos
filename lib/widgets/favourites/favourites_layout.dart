@@ -24,12 +24,6 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
     super.initState();
     tabController = TabController(initialIndex: index, length: 4, vsync: this);
     pageController = PageController(initialPage: index);
-    // fetchData();
-  }
-
-  Future fetchData() async {
-    await Provider.of<FavouritesProvider>(context, listen: false)
-        .fetchAndSaveData();
   }
 
   Tab generateTab(int itemNumber, String title) => Tab(
@@ -56,69 +50,65 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
       );
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(color: primaryColor),
-          child: Align(
-            alignment: Alignment.center,
-            child: TabBar(
-              onTap: (value) {
-                setState(() => index = value);
-                pageController.animateToPage(value,
-                    duration: Duration(milliseconds: 400),
-                    curve: Curves.easeIn);
-              },
-              labelPadding: EdgeInsets.symmetric(horizontal: 10),
-              controller: tabController,
-              indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
-              isScrollable: true,
-              tabs: [
-                generateTab(0, S.current.toolkitTitle),
-                generateTab(1, S.current.lessonsTitle),
-                generateTab(2, S.current.wikiTitle),
-                generateTab(3, S.current.recipesTitle),
-              ],
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Consumer<FavouritesProvider>(
-                builder: (context, favouritesProvider, child) {
-                  return PageView(
-                    controller: pageController,
-                    onPageChanged: (value) {
-                      setState(() => index = value);
-                      tabController.index = value;
-                    },
-                    children: [
-                      FavouritesToolkits(
-                        toolkits: favouritesProvider.toolkits,
-                        status: favouritesProvider.status,
-                      ),
-                      FavouritesLessons(
-                        favouritesProvider: favouritesProvider,
-                      ),
-                      FavouritesWikis(
-                        favouritesProvider: favouritesProvider,
-                      ),
-                      FavouritesRecipes(
-                        favouritesProvider: favouritesProvider,
-                      ),
-                    ],
-                  );
+  Widget build(BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(color: primaryColor),
+            child: Align(
+              alignment: Alignment.center,
+              child: TabBar(
+                onTap: (value) {
+                  setState(() => index = value);
+                  pageController.jumpToPage(value);
                 },
+                labelPadding: EdgeInsets.symmetric(horizontal: 10),
+                controller: tabController,
+                indicator: UnderlineTabIndicator(borderSide: BorderSide.none),
+                isScrollable: true,
+                tabs: [
+                  generateTab(0, S.current.toolkitTitle),
+                  generateTab(1, S.current.lessonsTitle),
+                  generateTab(2, S.current.wikiTitle),
+                  generateTab(3, S.current.recipesTitle),
+                ],
               ),
             ),
           ),
-        ),
-      ],
-    );
-  }
+          Expanded(
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: Consumer<FavouritesProvider>(
+                  builder: (context, favouritesProvider, child) {
+                    return PageView(
+                      controller: pageController,
+                      onPageChanged: (value) {
+                        setState(() => index = value);
+                        tabController.index = value;
+                      },
+                      children: [
+                        FavouritesToolkits(
+                          toolkits: favouritesProvider.toolkits,
+                          status: favouritesProvider.status,
+                        ),
+                        FavouritesLessons(
+                          favouritesProvider: favouritesProvider,
+                        ),
+                        FavouritesWikis(
+                          favouritesProvider: favouritesProvider,
+                        ),
+                        FavouritesRecipes(
+                          favouritesProvider: favouritesProvider,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
 }

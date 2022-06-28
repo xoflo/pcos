@@ -27,6 +27,9 @@ class _PinSetState extends State<PinSet> with BasePin {
       : S.current.pinConfirmTitle;
 
   @override
+  String get headerText => "SET YOUR PIN";
+
+  @override
   void validatePin() {
     if (pinEntry == PinEntry.ENTERED) {
       resetPinPad();

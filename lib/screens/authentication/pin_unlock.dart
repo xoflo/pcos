@@ -31,6 +31,9 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
   int _pinAttempts = 0;
 
   @override
+  String get headerText => "ENTER YOUR PIN";
+
+  @override
   String get subheaderText => S.current.pinUnlockTitle;
 
   Future<bool> onBackPressed(BuildContext context) async {
