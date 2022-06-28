@@ -12,6 +12,8 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
   String pinEntered = "";
   PinEntry pinEntry = PinEntry.NONE;
 
+  String get headerText;
+
   String get subheaderText;
 
   void pinButtonPressed(final String pinNumber) async {
@@ -62,6 +64,7 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
         SizedBox(height: 10.0),
         PinPad(
           pinButtonSize: pinButtonSize,
+          headerText: headerText,
           subheaderText: subheaderText,
           progress: progress,
           currentPosition: currentPosition,

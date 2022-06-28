@@ -5,6 +5,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class PinPad extends StatelessWidget {
   final double pinButtonSize;
+  final String headerText;
   final String subheaderText;
   final List<bool> progress;
   final int currentPosition;
@@ -15,6 +16,7 @@ class PinPad extends StatelessWidget {
 
   PinPad({
     required this.pinButtonSize,
+    required this.headerText,
     required this.subheaderText,
     required this.progress,
     required this.currentPosition,
@@ -134,65 +136,63 @@ class PinPad extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 30),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: primaryColor,
+  Widget build(BuildContext context) => Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 30),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: primaryColor,
+            ),
+            child: Image(
+              image: AssetImage("assets/pin_lock.png"),
+              width: 24,
+              height: 24,
+            ),
           ),
-          child: Image(
-            image: AssetImage("assets/pin_lock.png"),
-            width: 24,
-            height: 24,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(
-            bottom: 5,
-          ),
-          child: Text(
-            "SET YOUR PIN",
-            style: Theme.of(context).textTheme.headline3?.copyWith(
-                  color: textColor,
-                ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: Text(
-            subheaderText,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: textColor.withOpacity(0.5),
-                ),
-          ),
-        ),
-        pinProgress(),
-        SizedBox(
-          height: 30,
-        ),
-        pinPadRow([1, 2, 3].map((e) => e.toString()).toList()),
-        pinPadRow([4, 5, 6].map((e) => e.toString()).toList()),
-        pinPadRow([7, 8, 9].map((e) => e.toString()).toList()),
-        pinPadRow(["", 0, "<"].map((e) => e.toString()).toList()),
-        showForgottenPin == true
-            ? GestureDetector(
-                onTap: () {
-                  forgotPin?.call(context);
-                },
-                child: Text(
-                  S.current.pinForgottenTitle,
-                  style: TextStyle(
-                    color: backgroundColor,
-                    fontWeight: FontWeight.w500,
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 5,
+            ),
+            child: Text(
+              headerText,
+              style: Theme.of(context).textTheme.headline3?.copyWith(
+                    color: textColor,
                   ),
-                ),
-              )
-            : Container(),
-      ],
-    );
-  }
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              subheaderText,
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    color: textColor.withOpacity(0.5),
+                  ),
+            ),
+          ),
+          pinProgress(),
+          SizedBox(
+            height: 30,
+          ),
+          pinPadRow([1, 2, 3].map((e) => e.toString()).toList()),
+          pinPadRow([4, 5, 6].map((e) => e.toString()).toList()),
+          pinPadRow([7, 8, 9].map((e) => e.toString()).toList()),
+          pinPadRow(["", 0, "<"].map((e) => e.toString()).toList()),
+          showForgottenPin == true
+              ? GestureDetector(
+                  onTap: () {
+                    forgotPin?.call(context);
+                  },
+                  child: Text(
+                    S.current.pinForgottenTitle,
+                    style: TextStyle(
+                      color: backgroundColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                )
+              : Container(),
+        ],
+      );
 }
