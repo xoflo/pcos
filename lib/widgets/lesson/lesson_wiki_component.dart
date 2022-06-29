@@ -62,7 +62,10 @@ class LessonWikiComponent extends StatelessWidget {
                                   SizedBox(height: 10),
                                   HtmlWidget(
                                     "<p style='max-lines:2; text-overflow: ellipsis;'>" +
-                                        (element.answer ?? "") +
+                                        ((element.answer ?? "").length > 200
+                                            ? (element.answer ?? "")
+                                                .substring(0, 200)
+                                            : (element.answer ?? "")) +
                                         "</p>",
                                     textStyle: TextStyle(
                                       fontSize: 14,
