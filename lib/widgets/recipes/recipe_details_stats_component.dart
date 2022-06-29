@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 
 class RecipeDetailsStatsComponent extends StatelessWidget {
   const RecipeDetailsStatsComponent({

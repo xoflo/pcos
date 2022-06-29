@@ -202,29 +202,33 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                               ),
                             ),
                             SizedBox(height: 25),
-                            RecipeMethodTipsComponent(
-                              onPressed: () => Navigator.pushNamed(
-                                context,
-                                RecipeMethodTipsPage.id,
-                                arguments: RecipeMethodTipsArguments(
-                                  false,
-                                  args?.recipe.method ?? "",
+                            if (args?.recipe.method?.isNotEmpty == true)
+                              RecipeMethodTipsComponent(
+                                onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  RecipeMethodTipsPage.id,
+                                  arguments: RecipeMethodTipsArguments(
+                                    false,
+                                    args?.recipe.method ?? "",
+                                  ),
                                 ),
+                                title: "Method",
+                                isBottomDividerVisible:
+                                    args?.recipe.tips?.isEmpty == true,
                               ),
-                              title: "Method",
-                            ),
-                            RecipeMethodTipsComponent(
-                              onPressed: () => Navigator.pushNamed(
-                                context,
-                                RecipeMethodTipsPage.id,
-                                arguments: RecipeMethodTipsArguments(
-                                  true,
-                                  args?.recipe.tips ?? "",
+                            if (args?.recipe.tips?.isNotEmpty == true)
+                              RecipeMethodTipsComponent(
+                                onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  RecipeMethodTipsPage.id,
+                                  arguments: RecipeMethodTipsArguments(
+                                    true,
+                                    args?.recipe.tips ?? "",
+                                  ),
                                 ),
+                                title: "Tips",
+                                isBottomDividerVisible: true,
                               ),
-                              title: "Tips",
-                              isBottomDividerVisible: true,
-                            ),
                             SizedBox(height: 25),
                           ],
                         ),
