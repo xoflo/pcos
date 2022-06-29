@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -66,9 +65,7 @@ class AppNavigationTabs extends StatelessWidget {
                               (element) => !element.isComplete,
                             )
                             .length;
-                    final showLessonCount =
-                        modulesProvider.status == LoadingStatus.success &&
-                            incompleteLessonCount != 0;
+                    final showLessonCount = incompleteLessonCount != 0;
                     return Positioned(
                       right: 0,
                       top: 5,

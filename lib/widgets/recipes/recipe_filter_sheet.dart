@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_filter_list_sheet.dart';
@@ -35,46 +34,33 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
     selectedDietType = widget.selectedDietType ?? [];
   }
 
-  List<String> _getTagValues() {
-    final stringContext = S.of(context);
-    return <String>[
-      stringContext.tagAll,
-      stringContext.recipesTagBreakfast,
-      stringContext.recipesTagLunch,
-      stringContext.recipesTagDinner,
-      stringContext.recipesTagSnack,
-      stringContext.recipesTagDessert,
-      stringContext.recipesTagCondiments,
-      stringContext.recipesTagDrinks,
-    ];
-  }
-
-  List<String> _getTagValuesSecondary() {
-    //TODO: need to update these once info is available
-    final stringContext = S.of(context);
-    final String plantBased = stringContext.recipesTagSecondaryPlantBased;
-    final String vegetarian = stringContext.recipesTagSecondaryVegetarian;
-    final String dairyFree = stringContext.recipesTagSecondaryDairyFree;
-    final String nutFree = stringContext.recipesTagSecondaryNutFree;
-    final String eggFree = stringContext.recipesTagSecondaryEggFree;
-
-    if (selectedMealType == stringContext.recipesTagBreakfast) {
-      return [
-        vegetarian,
-        nutFree,
-        eggFree,
+  List<String> get mealValues => <String>[
+        "All",
+        "Breakfast",
+        "Lunch",
+        "Dinner",
+        "Snacks",
+        "Sweets",
+        "Condiments",
+        "Sides",
+        // We need the blank state, which will not be selectable. Not having
+        // this tends to cut the last element off from the list for some reason
+        "",
       ];
-    }
 
-    if (selectedMealType == stringContext.recipesTagLunch) {
-      return [
-        plantBased,
-        dairyFree,
+  List<String> get dietaryRequirementValues => [
+        "Gluten Free",
+        "Dairy Free",
+        "Nut Free",
+        "Egg Free",
+        "Soy Free",
+        "Vegetarian",
+        "Vegan",
+        "Insulin Friendly",
+        // We need the blank state, which will not be selectable. Not having
+        // this tends to cut the last element off from the list for some reason
+        "",
       ];
-    }
-
-    return [];
-  }
 
   @override
   Widget build(BuildContext context) => Container(
@@ -113,7 +99,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
               ),
               SizedBox(height: 35),
               Text(
-                "Types of meal",
+                "Meals",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -126,12 +112,9 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                   openBottomSheet(
                     context,
                     RecipeFilterList(
-                      values: _getTagValues(),
+                      values: mealValues,
                       onSelectItem: (tag) {
-                        setState(() {
-                          selectedDietType.clear();
-                          selectedMealType = tag;
-                        });
+                        setState(() => selectedMealType = tag);
                       },
                     ),
                     Analytics.ANALYTICS_SEARCH_RECIPE_MEAL,
@@ -155,11 +138,10 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                   ),
                 ),
               ),
-              if (selectedMealType == S.of(context).recipesTagBreakfast ||
-                  selectedMealType == S.of(context).recipesTagLunch) ...[
+              if (selectedMealType != 'All') ...[
                 SizedBox(height: 25),
                 Text(
-                  "Types of diets",
+                  "Dietary Requirements",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -172,7 +154,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                     openBottomSheet(
                       context,
                       RecipeFilterList(
-                        values: _getTagValuesSecondary(),
+                        values: dietaryRequirementValues,
                         onSelectItem: (tag) => setState(() {
                           if (!selectedDietType.contains(tag)) {
                             selectedDietType.add(tag);
