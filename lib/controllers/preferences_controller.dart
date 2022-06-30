@@ -39,9 +39,11 @@ class PreferencesController {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final List<String> prefValue =
           prefs.getStringList(sharedPreferencesKey) ?? [];
-      if (prefValue.contains(newValue ?? "") == false) {
-        prefValue.add(newValue ?? "");
-        prefs.setStringList(sharedPreferencesKey, prefValue);
+      if (newValue != null) {
+        if (!prefValue.contains(newValue)) {
+          prefValue.add(newValue);
+          prefs.setStringList(sharedPreferencesKey, prefValue);
+        }
       }
 
       return true;
