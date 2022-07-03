@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
+import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/more/change_password.dart';
 import 'package:thepcosprotocol_app/screens/more/settings.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -157,7 +161,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ),
             ),
             HollowButton(
-              onPressed: () {},
+              onPressed: () {
+                DatabaseProvider dbProvider =
+                    Provider.of<DatabaseProvider>(context, listen: false);
+                AuthenticationController authController =
+                    AuthenticationController();
+                authController.deleteCredentials();
+                authController.deletePin();
+                authController.deleteOtherPrefs();
+                dbProvider.deleteAllData();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    SignIn.id, (Route<dynamic> route) => false);
+              },
               text: "LOG OUT",
               style: OutlinedButton.styleFrom(
                 primary: backgroundColor,

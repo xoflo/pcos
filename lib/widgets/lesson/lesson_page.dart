@@ -142,48 +142,53 @@ class _LessonPageState extends State<LessonPage> {
                                 if (args?.lessonWikis.isNotEmpty == true)
                                   LessonWikiComponent(
                                       lessonWikis: args?.lessonWikis ?? []),
-                                if (args?.lessonTasks.isNotEmpty == true)
+                                if (args?.lessonTasks.isNotEmpty == true &&
+                                    args?.showTasks == true)
                                   LessonTaskComponent(
                                       lessonTasks: args?.lessonTasks ?? []),
-                                SizedBox(height: 30),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Divider(
-                                    thickness: 1,
-                                    height: 1,
-                                    color: textColor.withOpacity(0.5),
+                                if (args?.showTasks == true) ...[
+                                  SizedBox(height: 30),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15),
+                                    child: Divider(
+                                      thickness: 1,
+                                      height: 1,
+                                      color: textColor.withOpacity(0.5),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 20),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: FilledButton(
-                                    text: "Complete Lesson",
-                                    icon: Icon(Icons.check_circle_outline),
-                                    margin: EdgeInsets.zero,
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: backgroundColor,
-                                    onPressed: isTaskComplete
-                                        ? () {
-                                            final bool setModuleComplete =
-                                                modulesProvider
-                                                        .currentModuleLessons
-                                                        .last
-                                                        .lessonID ==
-                                                    args?.lesson.lessonID;
+                                  SizedBox(height: 20),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15),
+                                    child: FilledButton(
+                                      text: "Complete Lesson",
+                                      icon: Icon(Icons.check_circle_outline),
+                                      margin: EdgeInsets.zero,
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: backgroundColor,
+                                      onPressed: isTaskComplete
+                                          ? () {
+                                              final bool setModuleComplete =
+                                                  modulesProvider
+                                                          .currentModuleLessons
+                                                          .last
+                                                          .lessonID ==
+                                                      args?.lesson.lessonID;
 
-                                            modulesProvider
-                                                .setLessonAsComplete(
-                                                  args?.lesson.lessonID ?? -1,
-                                                  args?.lesson.moduleID ?? -1,
-                                                  setModuleComplete,
-                                                )
-                                                .then((value) =>
-                                                    Navigator.pop(context));
-                                          }
-                                        : null,
+                                              modulesProvider
+                                                  .setLessonAsComplete(
+                                                    args?.lesson.lessonID ?? -1,
+                                                    args?.lesson.moduleID ?? -1,
+                                                    setModuleComplete,
+                                                  )
+                                                  .then((value) =>
+                                                      Navigator.pop(context));
+                                            }
+                                          : null,
+                                    ),
                                   ),
-                                ),
+                                ],
                                 SizedBox(height: 40),
                               ],
                             ),

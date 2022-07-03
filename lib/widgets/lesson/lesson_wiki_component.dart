@@ -51,9 +51,9 @@ class LessonWikiComponent extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  HtmlWidget(
                                     element.question ?? "",
-                                    style: TextStyle(
+                                    textStyle: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       color: backgroundColor,
@@ -62,7 +62,10 @@ class LessonWikiComponent extends StatelessWidget {
                                   SizedBox(height: 10),
                                   HtmlWidget(
                                     "<p style='max-lines:2; text-overflow: ellipsis;'>" +
-                                        (element.answer ?? "") +
+                                        ((element.answer ?? "").length > 200
+                                            ? (element.answer ?? "")
+                                                .substring(0, 200)
+                                            : (element.answer ?? "")) +
                                         "</p>",
                                     textStyle: TextStyle(
                                       fontSize: 14,

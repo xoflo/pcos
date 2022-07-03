@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 
 class RecipeDetailsStatsComponent extends StatelessWidget {
   const RecipeDetailsStatsComponent({
@@ -61,7 +60,8 @@ class RecipeDetailsStatsComponent extends StatelessWidget {
                     ),
                     SizedBox(height: 15),
                     Text(
-                      DateTimeUtils.convertMillisecondsToMinutes(duration ?? 0)
+                      Duration(milliseconds: duration ?? 0)
+                              .inMinutes
                               .toString() +
                           " " +
                           S.current.minutesShort,
