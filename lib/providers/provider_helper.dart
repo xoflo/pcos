@@ -239,13 +239,6 @@ class ProviderHelper {
         }
       }
 
-      //only return the lessonTasks for lessons in lessonsToReturn
-      List<LessonTask> lessonTasksToReturn = [];
-      for (LessonTask lessonTask in lessonTasksFromDB) {
-        if (lessonIDs.contains(lessonTask.lessonID) &&
-            lessonTask.isComplete == false) lessonTasksToReturn.add(lessonTask);
-      }
-
       //get the lesson wikis by joining the wiki and lesson table and only return the lessonWikis for lessons in lessonsToReturn
       final wikiList = await dbProvider?.getDataQueryWithJoin(
         "$TABLE_WIKI.*, $TABLE_LESSON_LINK.LessonID, $TABLE_LESSON_LINK.ModuleID",
@@ -256,7 +249,7 @@ class ProviderHelper {
       final List<LessonWiki> lessonWikisToReturn =
           mapDataToList(wikiList, "LessonWiki") as List<LessonWiki>;
 
-      //get the lesson wikis by joining the wiki and lesson table and only return the lessonWikis for lessons in lessonsToReturn
+      //get the lesson recipes by joining the recipe and lesson table and only return the lessonRecipes for lessons in lessonsToReturn
       final recipeList = await dbProvider?.getDataQueryWithJoin(
         "$TABLE_RECIPE.*, $TABLE_LESSON_LINK.LessonID",
         "$TABLE_RECIPE INNER JOIN $TABLE_LESSON_LINK ON $TABLE_RECIPE.recipeId = $TABLE_LESSON_LINK.objectID",
@@ -265,6 +258,16 @@ class ProviderHelper {
 
       final List<LessonRecipe> lessonRecipesToReturn =
           mapDataToList(recipeList, "LessonRecipe") as List<LessonRecipe>;
+
+      //get the lesson tasks by joining the tasks and lesson table and only return the lessonTasks for lessons in lessonsToReturn
+      final taskList = await dbProvider?.getDataQueryWithJoin(
+        "$TABLE_LESSON_TASK.*, $TABLE_LESSON_LINK.LessonID",
+        "$TABLE_LESSON_TASK INNER JOIN $TABLE_LESSON_LINK ON $TABLE_LESSON_TASK.lessonTaskID = $TABLE_LESSON_LINK.objectID",
+        "WHERE objectType = 'task'",
+      );
+
+      final List<LessonTask> lessonTasksToReturn =
+          mapDataToList(taskList, "LessonTask") as List<LessonTask>;
 
       //TODO: need to check whether complete when available
       final List<Quiz> quizzesToReturn = [];
@@ -815,6 +818,10 @@ class ProviderHelper {
     } else if (tableName == "LessonRecipe") {
       return dataList
           .map<LessonRecipe>((item) => LessonRecipe.fromJson(item))
+          .toList();
+    } else if (tableName == "LessonTask") {
+      return dataList
+          .map<LessonTask>((item) => LessonTask.fromJson(item))
           .toList();
     } else if (tableName == TABLE_QUIZ) {
       return dataList.map<Quiz>((item) => Quiz.fromJson(item)).toList();

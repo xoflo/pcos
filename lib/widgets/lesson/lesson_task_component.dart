@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_page.dart';
 
 class LessonTaskComponent extends StatelessWidget {
   const LessonTaskComponent({Key? key, required this.lessonTasks})
@@ -29,6 +30,11 @@ class LessonTaskComponent extends StatelessWidget {
                 ...lessonTasks
                     .map(
                       (element) => GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          LessonTaskPage.id,
+                          arguments: element,
+                        ),
                         child: Column(
                           children: [
                             SizedBox(height: 15),

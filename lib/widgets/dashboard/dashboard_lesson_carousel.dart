@@ -77,7 +77,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.current.noResultsLessons);
+        return Center(child: NoResults(message: S.current.noResultsLessons));
       case LoadingStatus.success:
         if (controller == null) {
           activePage = widget.modulesProvider.currentModuleLessons.indexWhere(

@@ -45,6 +45,7 @@ import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart'
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_toolkit_details.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
@@ -207,7 +208,8 @@ class _AppState extends State<App> {
           LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),
           LibraryModulePage.id: (context) => LibraryModulePage(),
           LibraryWikiPage.id: (context) => LibraryWikiPage(),
-          LibrarySearchPage.id: (context) => LibrarySearchPage()
+          LibrarySearchPage.id: (context) => LibrarySearchPage(),
+          LessonTaskPage.id: (context) => LessonTaskPage(),
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],
