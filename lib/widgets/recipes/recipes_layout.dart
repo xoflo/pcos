@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
@@ -24,14 +27,14 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   final TextEditingController _searchController = TextEditingController();
 
   bool _isSearching = false;
-  String _mealTag = "All";
+  String _mealTag = "";
   List<String> _dietTags = [];
 
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChanged);
-    Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
+    _initializeMealDietTags();
   }
 
   @override
@@ -39,6 +42,24 @@ class _RecipesLayoutState extends State<RecipesLayout> {
     super.dispose();
     _focusNode.removeListener(_onFocusChanged);
     _focusNode.dispose();
+  }
+
+  void _initializeMealDietTags() async {
+    if (await PreferencesController()
+        .getBool(SharedPreferencesKeys.RECIPE_SEARCH_DEFAULT)) {
+      final meals = await PreferencesController()
+          .getString(SharedPreferencesKeys.RECIPE_SEARCH_MEALS);
+      final diets = await PreferencesController()
+          .getStringList(SharedPreferencesKeys.RECIPE_SEARCH_DIETS);
+
+      _mealTag = meals;
+      _dietTags = diets;
+    } else {
+      _mealTag = "All";
+      _dietTags = [];
+    }
+
+    _onSearchClicked();
   }
 
   void _onFocusChanged() {

@@ -20,3 +20,6 @@ const String LESSON_RECIPES_DISPLAYED_DASHBOARD =
     "lesson_recipes_displayed_dashboard";
 const String USERNAME_USED = "username_used";
 const String SEARCH_ITEMS = "search_items";
+const String RECIPE_SEARCH_MEALS = "recipe_search_meals";
+const String RECIPE_SEARCH_DIETS = "recipe_search_diets";
+const String RECIPE_SEARCH_DEFAULT = "recipe_search_default";

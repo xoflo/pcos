@@ -11,8 +11,7 @@ class ImageComponent extends StatelessWidget {
       return Image.network(
         imageUrl,
         width: double.maxFinite,
-        height: 200,
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
       );
     return Container(
       width: double.maxFinite,
