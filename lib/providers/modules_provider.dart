@@ -251,12 +251,15 @@ class ModulesProvider with ChangeNotifier {
   }
 
   Future<void> setTaskAsComplete(final int? taskID, final String value) async {
+    status = LoadingStatus.loading;
+    notifyListeners();
     final bool markTaskComplete =
         await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value);
     if (markTaskComplete) {
       _lessonTasks.removeWhere((task) => task.lessonTaskID == taskID);
       _displayLessonTasks.removeWhere((task) => task.lessonTaskID == taskID);
     }
+    status = LoadingStatus.success;
     notifyListeners();
   }
 

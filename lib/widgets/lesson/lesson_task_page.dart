@@ -1,14 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/constants/task_type.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_text.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
-class LessonTaskPage extends StatelessWidget {
-  LessonTaskPage({Key? key}) : super(key: key);
+class LessonTaskPage extends StatefulWidget {
+  const LessonTaskPage({Key? key}) : super(key: key);
 
   static const id = "lesson_task_page";
 
-  final TextEditingController _textController = TextEditingController();
+  @override
+  State<LessonTaskPage> createState() => _LessonTaskPageState();
+}
+
+class _LessonTaskPageState extends State<LessonTaskPage> {
+  Widget getTaskType(ModulesProvider modulesProvider, LessonTask task) {
+    switch (task.taskType) {
+      case TaskType.Text:
+        return LessonTaskText(
+          onSave: (text) {
+            onSubmit(modulesProvider, task.lessonTaskID, "");
+          },
+        );
+      default:
+        return Container();
+    }
+  }
+
+  void onSubmit(ModulesProvider modulesProvider, int? taskID, String value) {
+    modulesProvider
+        .setTaskAsComplete(taskID, value)
+        .then((value) => Navigator.pop(context));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +54,7 @@ class LessonTaskPage extends StatelessWidget {
           ),
           child: Container(
             decoration: BoxDecoration(
-              color: primaryColor,
+              color: Colors.white,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -31,6 +62,41 @@ class LessonTaskPage extends StatelessWidget {
                 Header(
                   title: "Lesson",
                   closeItem: () => Navigator.pop(context),
+                ),
+                Consumer<ModulesProvider>(
+                  builder: (context, modulesProvider, child) {
+                    switch (modulesProvider.status) {
+                      case LoadingStatus.loading:
+                        return Center(child: PcosLoadingSpinner());
+                      case LoadingStatus.empty:
+                        return NoResults(message: S.current.noItemsFound);
+                      case LoadingStatus.success:
+                        return Expanded(
+                          child: SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 25, horizontal: 15),
+                              child: Column(
+                                children: [
+                                  HtmlWidget(
+                                    task.description ?? "",
+                                    textStyle: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: textColor,
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  getTaskType(modulesProvider, task),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      default:
+                        return Container();
+                    }
+                  },
                 ),
               ],
             ),
