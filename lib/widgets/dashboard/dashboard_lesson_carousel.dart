@@ -14,9 +14,13 @@ import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class DashboardLessonCarousel extends StatefulWidget {
-  DashboardLessonCarousel({Key? key, required this.modulesProvider})
-      : super(key: key);
+  DashboardLessonCarousel({
+    Key? key,
+    required this.modulesProvider,
+    required this.showLessonRecipes,
+  }) : super(key: key);
   final ModulesProvider modulesProvider;
+  final bool showLessonRecipes;
 
   @override
   State<DashboardLessonCarousel> createState() =>
@@ -186,7 +190,8 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             asset: 'assets/dashboard_lesson.png',
                             assetSize: Size(84, 84),
                           ),
-                          if (currentLessonRecipes.length > 0) ...[
+                          if (widget.showLessonRecipes &&
+                              currentLessonRecipes.length > 0) ...[
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
                               onTapCard:

@@ -18,7 +18,6 @@ import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel.dart';
@@ -27,7 +26,6 @@ import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_why_community.da
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_wikis.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/lesson_recipes.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/course_lesson.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/tasks.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -42,15 +40,12 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class DashboardLayout extends StatefulWidget {
-  final bool showYourWhy;
-  final bool showLessonRecipes;
-  final Function(bool) updateYourWhy;
+  DashboardLayout(
+      {Key? key, required this.showYourWhy, required this.showLessonReicpes})
+      : super(key: key);
 
-  DashboardLayout({
-    required this.showYourWhy,
-    required this.showLessonRecipes,
-    required this.updateYourWhy,
-  });
+  final bool showYourWhy;
+  final bool showLessonReicpes;
 
   @override
   _DashboardLayoutState createState() => _DashboardLayoutState();
@@ -65,6 +60,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   int _selectedRecipe = 0;
   String _yourWhy = "";
   List<LessonWiki> _lessonWikis = [];
+  bool _showWhy = false;
+  bool _showRecipes = false;
 
   //#region Initialisation
   @override
@@ -79,17 +76,16 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
     final String whatsYourWhy = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+    final bool showRecipes = await PreferencesController()
+        .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
+    final bool showYourWhy = await PreferencesController()
+        .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
 
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
       _yourWhy = whatsYourWhy;
-    });
-  }
-
-  void _updateWhatsYourWhy(final String whatsYourWhy) {
-    widget.updateYourWhy(true);
-    setState(() {
-      _yourWhy = whatsYourWhy;
+      _showWhy = showYourWhy;
+      _showRecipes = showRecipes;
     });
   }
 
@@ -324,23 +320,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     );
   }
 
-  Widget getTasks(
-    final Size screenSize,
-    final bool isHorizontal,
-    final ModulesProvider modulesProvider,
-  ) {
-    if (modulesProvider.displayLessonTasks.isNotEmpty &&
-        modulesProvider.displayLessonTasks.length > 0) {
-      return Tasks(
-        screenSize: screenSize,
-        isHorizontal: isHorizontal,
-        modulesProvider: modulesProvider,
-        updateWhatsYourWhy: _updateWhatsYourWhy,
-      );
-    }
-    return Container();
-  }
-
   Widget getLessonWikis(
     final Size screenSize,
     final bool isHorizontal,
@@ -415,9 +394,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+    _showRecipes = widget.showLessonReicpes;
+    _showWhy = widget.showYourWhy;
 
     return Column(
       children: [
@@ -432,9 +410,13 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DashboardMemberTime(memberViewModel: memberViewModel),
-                  DashboardWhyCommunity(yourWhy: _yourWhy),
+                  if (_showWhy && _yourWhy.isNotEmpty)
+                    DashboardWhyCommunity(yourWhy: _yourWhy),
                   SizedBox(height: 25),
-                  DashboardLessonCarousel(modulesProvider: modulesProvider),
+                  DashboardLessonCarousel(
+                    modulesProvider: modulesProvider,
+                    showLessonRecipes: _showRecipes,
+                  ),
 
                   // TODO: Remove this once the lesson items have been mostly
                   // finalized. A separate MR will be needed for cleaning out
