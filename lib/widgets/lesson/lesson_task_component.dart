@@ -61,11 +61,18 @@ class LessonTaskComponent extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: backgroundColor,
-                                    size: 10,
-                                  )
+                                  if (element.isComplete == true)
+                                    Icon(
+                                      Icons.check_circle,
+                                      color: completedBackgroundColor,
+                                      size: 32.5,
+                                    )
+                                  else
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: backgroundColor,
+                                      size: 10,
+                                    )
                                 ],
                               ),
                             )
