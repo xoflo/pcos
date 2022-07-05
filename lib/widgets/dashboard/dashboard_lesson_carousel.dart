@@ -174,6 +174,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                               LessonArguments(currentLesson),
                                         )
                                     : null,
+                            showCompletedTag: isLessonComplete,
                             isLocked: isPreviousLessonComplete,
                             title: "Lesson ${index + 1}",
                             subtitle: currentLesson.title,
@@ -186,7 +187,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
                               onTapCard:
-                                  isPreviousLessonComplete && isLessonComplete
+                                  isPreviousLessonComplete // && isLessonComplete
                                       ? () => Navigator.pushNamed(
                                             context,
                                             RecipeListPage.id,

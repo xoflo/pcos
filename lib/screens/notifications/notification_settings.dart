@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/settings/toggle_switch.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -53,32 +54,42 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                     ),
                     elevation: 0,
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "Daily message",
-                              style: TextStyle(fontSize: 16, color: textColor),
-                            ),
-                          ),
-                          CupertinoSwitch(
-                            value: isDailyReminderSet,
-                            activeColor: backgroundColor,
-                            trackColor: secondaryColor,
-                            onChanged: (isOn) {
-                              PreferencesController().saveBool(
-                                  SharedPreferencesKeys
-                                      .REQUESTED_DAILY_REMINDER,
-                                  isOn);
-                              setState(() => isDailyReminderSet = isOn);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                        child: ToggleSwitch(
+                          title: "Daily message",
+                          value: isDailyReminderSet,
+                          onToggle: (isOn) {
+                            PreferencesController().saveBool(
+                                SharedPreferencesKeys.REQUESTED_DAILY_REMINDER,
+                                isOn);
+                            setState(() => isDailyReminderSet = isOn);
+                          },
+                        )
+                        // child: Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Flexible(
+                        //       child: Text(
+                        //         "Daily message",
+                        //         style: TextStyle(fontSize: 16, color: textColor),
+                        //       ),
+                        //     ),
+                        //     CupertinoSwitch(
+                        //       value: isDailyReminderSet,
+                        //       activeColor: backgroundColor,
+                        //       trackColor: secondaryColor,
+                        //       onChanged: (isOn) {
+                        // PreferencesController().saveBool(
+                        //     SharedPreferencesKeys
+                        //         .REQUESTED_DAILY_REMINDER,
+                        //     isOn);
+                        // setState(() => isDailyReminderSet = isOn);
+                        //       },
+                        //     ),
+                        //   ],
+                        // ),
+                        ),
                   )
                 ],
               ),
