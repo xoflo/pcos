@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/settings/toggle_switch.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
@@ -87,46 +87,30 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) => Column(
                   children: <Widget>[
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child:
-                                Text(_preferenceOptions.keys.elementAt(index)),
-                          ),
-                          CupertinoSwitch(
-                            value: _preferenceOptions.values.elementAt(index),
-                            activeColor: backgroundColor,
-                            trackColor: secondaryColor,
-                            onChanged: (isOn) {
-                              final key =
-                                  _preferenceOptions.keys.elementAt(index);
+                    ToggleSwitch(
+                        title: _preferenceOptions.keys.elementAt(index),
+                        value: _preferenceOptions.values.elementAt(index),
+                        onToggle: (isOn) {
+                          final key = _preferenceOptions.keys.elementAt(index);
 
-                              setState(() {
-                                _preferenceOptions.addAll({key: isOn});
-                              });
+                          setState(() {
+                            _preferenceOptions.addAll({key: isOn});
+                          });
 
-                              switch (index) {
-                                case 0:
-                                  _saveDisplayWhy(isOn);
-                                  break;
-                                case 1:
-                                  _saveLessonRecipes(isOn);
-                                  break;
-                                case 2:
-                                  _saveUseUsername(isOn);
-                                  break;
-                                default:
-                                  break;
-                              }
-                            },
-                          )
-                        ],
-                      ),
-                    ),
+                          switch (index) {
+                            case 0:
+                              _saveDisplayWhy(isOn);
+                              break;
+                            case 1:
+                              _saveLessonRecipes(isOn);
+                              break;
+                            case 2:
+                              _saveUseUsername(isOn);
+                              break;
+                            default:
+                              break;
+                          }
+                        }),
                     Divider(thickness: 1, height: 1, color: dividerColor),
                   ],
                 ),
