@@ -10,6 +10,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_bool.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_rating.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_text.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -39,6 +40,14 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
         return LessonTaskBool(
           onSave: (isTrue) =>
               onSubmit(modulesProvider, task.lessonTaskID, isTrue.toString()),
+        );
+      case TaskType.Okay:
+        return FilledButton(
+          onPressed: () => onSubmit(modulesProvider, task.lessonTaskID, "Okay"),
+          text: "Okay",
+          margin: EdgeInsets.zero,
+          foregroundColor: Colors.white,
+          backgroundColor: backgroundColor,
         );
       default:
         return Container();
