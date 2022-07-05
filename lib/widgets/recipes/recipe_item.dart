@@ -4,6 +4,8 @@ import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_recipe_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
+import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class RecipeItem extends StatefulWidget {
   const RecipeItem({
@@ -40,10 +42,17 @@ class _RecipeItemState extends State<RecipeItem> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      widget.recipe.thumbnail ?? "",
-                      fit: BoxFit.cover,
-                    ),
+                    child: widget.recipe.thumbnail?.isNotEmpty == true
+                        ? Image.network(
+                            widget.recipe.thumbnail ?? "",
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => BlankImage(),
+                            loadingBuilder: (_, __, ___) => Padding(
+                              padding: EdgeInsets.only(bottom: 30),
+                              child: PcosLoadingSpinner(),
+                            ),
+                          )
+                        : BlankImage(),
                   ),
                   Positioned.fill(
                     child: Container(
