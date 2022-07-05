@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_rating.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_text.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -26,9 +27,12 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     switch (task.taskType) {
       case TaskType.Text:
         return LessonTaskText(
-          onSave: (text) {
-            onSubmit(modulesProvider, task.lessonTaskID, "");
-          },
+          onSave: (text) => onSubmit(modulesProvider, task.lessonTaskID, ""),
+        );
+      case TaskType.Rating:
+        return LessonTaskRating(
+          onSave: (rate) =>
+              onSubmit(modulesProvider, task.lessonTaskID, rate.toString()),
         );
       default:
         return Container();
@@ -77,6 +81,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 25, horizontal: 15),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   HtmlWidget(
                                     task.description ?? "",

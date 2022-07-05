@@ -152,12 +152,6 @@ class ProviderHelper {
         TABLE_LESSON_CONTENT,
         orderByColumn: "lessonID, orderIndex",
       ) as List<LessonContent>;
-      final List<LessonTask> lessonTasksFromDB = await getAllData(
-        dbProvider,
-        TABLE_LESSON_TASK,
-        orderByColumn: "lessonID, orderIndex",
-        incompleteOnly: true,
-      ) as List<LessonTask>;
 
       //get and add the Quizzes including questions and answers to the DB
       //do this after modules and lessons so we can check the lesson links to see which quizzes are for this member
