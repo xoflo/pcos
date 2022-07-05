@@ -100,12 +100,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                 itemBuilder: (context, index) {
                   final currentLesson =
                       widget.modulesProvider.currentModuleLessons[index];
-                  final currentLessonContent = widget.modulesProvider
-                      .getLessonContent(currentLesson.lessonID);
-                  final currentLessonWikis = widget.modulesProvider
-                      .getLessonWikis(currentLesson.lessonID);
-                  final currentLessonTasks = widget.modulesProvider
-                      .getLessonTasks(currentLesson.lessonID);
+
                   final currentLessonRecipes = widget.modulesProvider
                       .getLessonRecipes(currentLesson.lessonID);
                   final isLessonComplete = currentLesson.isComplete;
@@ -175,12 +170,8 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                     ? () => Navigator.pushNamed(
                                           context,
                                           LessonPage.id,
-                                          arguments: LessonArguments(
-                                            currentLesson,
-                                            currentLessonContent,
-                                            currentLessonTasks,
-                                            currentLessonWikis,
-                                          ),
+                                          arguments:
+                                              LessonArguments(currentLesson),
                                         )
                                     : null,
                             isLocked: isPreviousLessonComplete,

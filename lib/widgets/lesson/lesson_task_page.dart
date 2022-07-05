@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_bool.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_rating.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_text.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
@@ -33,6 +34,11 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
         return LessonTaskRating(
           onSave: (rate) =>
               onSubmit(modulesProvider, task.lessonTaskID, rate.toString()),
+        );
+      case TaskType.Bool:
+        return LessonTaskBool(
+          onSave: (isTrue) =>
+              onSubmit(modulesProvider, task.lessonTaskID, isTrue.toString()),
         );
       default:
         return Container();

@@ -15,68 +15,66 @@ class _LessonTaskRatingState extends State<LessonTaskRating> {
   double currentValue = 4;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-          child: Column(
-            children: [
-              SliderTheme(
-                child: Slider(
-                  value: currentValue,
-                  divisions: 8,
-                  max: 8,
-                  min: 0,
-                  onChanged: (value) => setState(() => currentValue = value),
-                ),
-                data: SliderTheme.of(context).copyWith(
-                  inactiveTickMarkColor: backgroundColor,
-                  activeTrackColor: backgroundColor,
-                  inactiveTrackColor: Colors.white,
-                  trackHeight: 5,
-                  trackShape: ExpandedTrackShape(),
-                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10),
-                  thumbColor: backgroundColor,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Scale 0",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: textColor.withOpacity(0.8),
-                    ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            decoration: BoxDecoration(
+              color: primaryColor,
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
+            child: Column(
+              children: [
+                SliderTheme(
+                  child: Slider(
+                    value: currentValue,
+                    divisions: 8,
+                    max: 8,
+                    min: 0,
+                    onChanged: (value) => setState(() => currentValue = value),
                   ),
-                  Text(
-                    "Scale 8",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: textColor.withOpacity(0.8),
+                  data: SliderTheme.of(context).copyWith(
+                    inactiveTickMarkColor: backgroundColor,
+                    activeTrackColor: backgroundColor,
+                    inactiveTrackColor: Colors.white,
+                    trackHeight: 5,
+                    trackShape: ExpandedTrackShape(),
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10),
+                    thumbColor: backgroundColor,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Scale 0",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: textColor.withOpacity(0.8),
+                      ),
                     ),
-                  )
-                ],
-              )
-            ],
+                    Text(
+                      "Scale 8",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: textColor.withOpacity(0.8),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 25),
-        FilledButton(
-          onPressed: () => widget.onSave(currentValue),
-          text: "SAVE",
-          margin: EdgeInsets.zero,
-          foregroundColor: Colors.white,
-          backgroundColor: backgroundColor,
-        )
-      ],
-    );
-  }
+          SizedBox(height: 25),
+          FilledButton(
+            onPressed: () => widget.onSave(currentValue),
+            text: "SAVE",
+            margin: EdgeInsets.zero,
+            foregroundColor: Colors.white,
+            backgroundColor: backgroundColor,
+          )
+        ],
+      );
 }
 
 class ExpandedTrackShape extends RoundedRectSliderTrackShape {

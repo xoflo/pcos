@@ -51,12 +51,14 @@ class LessonTaskComponent extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  HtmlWidget(
-                                    element.title ?? "",
-                                    textStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: backgroundColor,
+                                  Expanded(
+                                    child: HtmlWidget(
+                                      element.title ?? "",
+                                      textStyle: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: backgroundColor,
+                                      ),
                                     ),
                                   ),
                                   Icon(

@@ -253,14 +253,16 @@ class ModulesProvider with ChangeNotifier {
   Future<void> setTaskAsComplete(final int? taskID, final String value) async {
     status = LoadingStatus.loading;
     notifyListeners();
-    final bool markTaskComplete =
-        await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value);
-    if (markTaskComplete) {
-      _lessonTasks.removeWhere((task) => task.lessonTaskID == taskID);
-      _displayLessonTasks.removeWhere((task) => task.lessonTaskID == taskID);
-    }
+
+    await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value);
+
     status = LoadingStatus.success;
     notifyListeners();
+
+    // Set this to false because the Task/set-complete API does not update the
+    // isComplete value in the backend
+    // TODO: Update the data every time so that we depend more on the latest update
+    fetchAndSaveData(false);
   }
 
   Future<List<Module>> _getPreviousModules() async {

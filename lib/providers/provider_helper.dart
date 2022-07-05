@@ -690,8 +690,9 @@ class ProviderHelper {
     //refresh the data from the API
     if (setComplete && dbProvider?.db != null) {
       //set isComplete in local database and delete from displayLessonTasks
-      await dbProvider?.deleteQuery(
+      await dbProvider?.updateQuery(
         table: TABLE_LESSON_TASK,
+        setFields: "isComplete = 1",
         whereClause: "lessonTaskID = $lessonTaskID",
         limitRowCount: 1,
       );

@@ -25,36 +25,9 @@ class LessonPage extends StatefulWidget {
 }
 
 class _LessonPageState extends State<LessonPage> {
-  String contentIcon = 'assets/lesson_reading.png';
-  String contentType = 'Reading';
-  String contentUrl = '';
-  bool hasContents = false;
-
-  // A lesson can be completed if the lesson doesn't have any lesson tasks,
-  // or if the lesson has a task, and each one of the tasks is already completed.
-  // Otherwise, the user cannot proceed to the next lesson.
-  bool get isTaskComplete =>
-      args?.lessonTasks.isEmpty == true ||
-      (args?.lessonTasks.isNotEmpty == true &&
-          args?.lessonTasks.every((element) => element.isComplete == true) ==
-              true);
-
-  LessonArguments? args;
-
   @override
   Widget build(BuildContext context) {
-    if (args == null) {
-      args = ModalRoute.of(context)?.settings.arguments as LessonArguments;
-
-      final lessonContents = args?.lessonContents ?? [];
-
-      for (final content in lessonContents) {
-        if (content.body?.isNotEmpty == true) {
-          hasContents = true;
-          break;
-        }
-      }
-    }
+    final args = ModalRoute.of(context)?.settings.arguments as LessonArguments?;
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -82,6 +55,30 @@ class _LessonPageState extends State<LessonPage> {
                       case LoadingStatus.empty:
                         return NoResults(message: S.current.noItemsFound);
                       case LoadingStatus.success:
+                        final wikis = modulesProvider
+                            .getLessonWikis(args?.lesson.lessonID ?? 0);
+                        final contents = modulesProvider
+                            .getLessonContent(args?.lesson.lessonID ?? 0);
+                        final tasks = modulesProvider
+                            .getLessonTasks(args?.lesson.lessonID ?? 0);
+
+                        // A lesson can be completed if the lesson doesn't have
+                        // any lesson tasks, or if the lesson has a task, and
+                        // each one of the tasks is already completed.
+                        // Otherwise, the user cannot proceed to the next lesson.
+                        final isTaskComplete = tasks.isEmpty ||
+                            (tasks.isNotEmpty &&
+                                tasks.every(
+                                    (element) => element.isComplete == true));
+                        bool hasContents = false;
+
+                        for (final content in contents) {
+                          if (content.body?.isNotEmpty == true) {
+                            hasContents = true;
+                            break;
+                          }
+                        }
+
                         return Expanded(
                           child: SingleChildScrollView(
                             child: Column(
@@ -139,13 +136,11 @@ class _LessonPageState extends State<LessonPage> {
                                     ),
                                   ),
                                 ],
-                                if (args?.lessonWikis.isNotEmpty == true)
-                                  LessonWikiComponent(
-                                      lessonWikis: args?.lessonWikis ?? []),
-                                if (args?.lessonTasks.isNotEmpty == true &&
+                                if (wikis.isNotEmpty == true)
+                                  LessonWikiComponent(lessonWikis: wikis),
+                                if (tasks.isNotEmpty == true &&
                                     args?.showTasks == true)
-                                  LessonTaskComponent(
-                                      lessonTasks: args?.lessonTasks ?? []),
+                                  LessonTaskComponent(lessonTasks: tasks),
                                 if (args?.showTasks == true) ...[
                                   SizedBox(height: 30),
                                   Padding(
