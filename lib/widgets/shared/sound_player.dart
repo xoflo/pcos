@@ -188,7 +188,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
                       activeTrackColor: backgroundColor,
                       inactiveTrackColor: textColor.withOpacity(0.2),
                       trackHeight: 10,
-                      trackShape: CustomTrackShape(),
+                      trackShape: SoundPlayerTrackShape(),
                       thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5),
                       thumbColor: backgroundColor),
                 ),
@@ -212,7 +212,22 @@ class _SoundPlayerState extends State<SoundPlayer> {
   }
 }
 
-class CustomTrackShape extends RoundedRectSliderTrackShape {
+class SoundPlayerTrackShape extends RoundedRectSliderTrackShape {
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    Offset offset = Offset.zero,
+    required SliderThemeData sliderTheme,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double trackHeight = sliderTheme.trackHeight ?? 0;
+    final double trackLeft = offset.dx + 20;
+    final double trackTop =
+        offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackWidth = parentBox.size.width - 40;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
+  }
+
   @override
   void paint(PaintingContext context, Offset offset,
       {required RenderBox parentBox,
