@@ -29,7 +29,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     switch (task.taskType) {
       case TaskType.Text:
         return LessonTaskText(
-          onSave: (text) => onSubmit(modulesProvider, task.lessonTaskID, ""),
+          onSave: (text) => onSubmit(modulesProvider, task.lessonTaskID, text),
         );
       case TaskType.Rating:
         return LessonTaskRating(
@@ -113,8 +113,6 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                             ),
                           ),
                         );
-                      default:
-                        return Container();
                     }
                   },
                 ),
