@@ -11,6 +11,7 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_stats_compone
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_component.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
   const RecipeDetailsPage({Key? key}) : super(key: key);
@@ -86,12 +87,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.network(
-                              args?.recipe.thumbnail ?? "",
-                              width: double.maxFinite,
-                              height: 360,
-                              fit: BoxFit.cover,
-                            ),
+                            ImageComponent(
+                                imageUrl: args?.recipe.thumbnail ?? ""),
                             if (tags.isNotEmpty) ...[
                               SizedBox(height: 30),
                               Container(

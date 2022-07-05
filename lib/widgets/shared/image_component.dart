@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
+import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class ImageComponent extends StatelessWidget {
   const ImageComponent({Key? key, required this.imageUrl}) : super(key: key);
@@ -11,21 +13,14 @@ class ImageComponent extends StatelessWidget {
       return Image.network(
         imageUrl,
         width: double.maxFinite,
-        height: 200,
-        fit: BoxFit.cover,
-      );
-    return Container(
-      width: double.maxFinite,
-      height: 200,
-      color: Colors.white,
-      child: Center(
-        child: Image(
-          image: AssetImage('assets/logo_pink.png'),
-          fit: BoxFit.contain,
-          width: 100,
-          height: 50,
+        fit: BoxFit.fill,
+        errorBuilder: (_, __, ___) => BlankImage(height: 300),
+        loadingBuilder: (_, __, ___) => Container(
+          height: 300,
+          padding: EdgeInsets.only(bottom: 30),
+          child: PcosLoadingSpinner(),
         ),
-      ),
-    );
+      );
+    return BlankImage(height: 200);
   }
 }

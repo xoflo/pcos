@@ -229,12 +229,6 @@ class _AppTabsState extends State<AppTabs>
         false;
   }
 
-  void _updateYourWhy(final bool isOn) {
-    setState(() {
-      _showYourWhy = isOn;
-    });
-  }
-
   bool get showAppBarItems => _currentIndex == 0 || _currentIndex == 4;
 
   @override
@@ -245,7 +239,19 @@ class _AppTabsState extends State<AppTabs>
                 ? IconButton(
                     icon: Icon(Icons.person_outline,
                         color: unselectedIndicatorIconColor),
-                    onPressed: () => Navigator.pushNamed(context, Profile.id),
+                    onPressed: () => Navigator.pushNamed(context, Profile.id)
+                        .then((_) async {
+                      final bool isLessonRecipesOn =
+                          await PreferencesController().getBool(
+                              SharedPreferencesKeys
+                                  .LESSON_RECIPES_DISPLAYED_DASHBOARD);
+                      final bool isYourWhyOn = await PreferencesController()
+                          .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+                      setState(() {
+                        _showYourWhy = isYourWhyOn;
+                        _showLessonRecipes = isLessonRecipesOn;
+                      });
+                    }),
                   )
                 : null,
             automaticallyImplyLeading: showAppBarItems,
@@ -273,10 +279,8 @@ class _AppTabsState extends State<AppTabs>
                 physics: NeverScrollableScrollPhysics(),
                 children: [
                   Dashboard(
-                    showYourWhy: _showYourWhy,
-                    showLessonRecipes: _showLessonRecipes,
-                    updateYourWhy: _updateYourWhy,
-                  ),
+                      showYourWhy: _showYourWhy,
+                      showLessonReicpes: _showLessonRecipes),
                   LibraryPage(),
                   Recipes(),
                   Favourites(),

@@ -57,7 +57,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
       case MediaType.Image:
         return [
           SizedBox(height: 20),
-          ImageComponent(imageUrl: content?.mediaUrl ?? "")
+          ImageComponent(imageUrl: content?.mediaUrl?.trim() ?? "")
         ];
     }
     return [];

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_filter_list_sheet.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class RecipeFilterSheet extends StatefulWidget {
   const RecipeFilterSheet(
@@ -32,6 +35,15 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
     super.initState();
     selectedMealType = widget.selectedMealType;
     selectedDietType = widget.selectedDietType ?? [];
+
+    initializeDefaultFilter();
+  }
+
+  void initializeDefaultFilter() async {
+    final isDefault = await PreferencesController()
+        .getBool(SharedPreferencesKeys.RECIPE_SEARCH_DEFAULT);
+
+    setState(() => isDefaultFilter = isDefault);
   }
 
   List<String> get mealValues => <String>[
@@ -219,6 +231,20 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                 backgroundColor: backgroundColor,
                 onPressed: () {
                   Navigator.pop(context);
+
+                  PreferencesController().saveBool(
+                      SharedPreferencesKeys.RECIPE_SEARCH_DEFAULT,
+                      isDefaultFilter);
+
+                  PreferencesController().saveString(
+                      SharedPreferencesKeys.RECIPE_SEARCH_MEALS,
+                      selectedMealType);
+
+                  selectedDietType.forEach(
+                    (diet) => PreferencesController().addToStringList(
+                        SharedPreferencesKeys.RECIPE_SEARCH_DIETS, diet),
+                  );
+
                   widget.onSearchPressed
                       ?.call(selectedMealType, selectedDietType);
                 },

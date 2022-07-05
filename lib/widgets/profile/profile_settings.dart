@@ -12,6 +12,7 @@ import 'package:thepcosprotocol_app/screens/more/settings.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
+import 'package:thepcosprotocol_app/widgets/profile/profile_settings_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -69,24 +70,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget _renderItems(int index) {
     switch (index) {
       case 0:
-        return ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
-          title: Text("Personal details"),
-          trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () => Navigator.pushNamed(context, ProfilePersonalDetails.id)
-              .then((value) {
-            if (value is bool && value == true) {
-              widget.onRefreshUserDetails?.call();
-            }
-          }),
+        return ProfileSettingsItem(
+          title: "Personal details",
+          onTap: () =>
+              Navigator.pushNamed(context, ProfilePersonalDetails.id).then(
+            (value) {
+              if (value is bool && value == true) {
+                widget.onRefreshUserDetails?.call();
+              }
+            },
+          ),
         );
+
       case 1:
-        return ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
-          title: Text("Account preferences"),
-          trailing: Icon(Icons.keyboard_arrow_right),
+        return ProfileSettingsItem(
+          title: "Account preferences",
           onTap: () => Navigator.pushNamed(
             context,
             Settings.id,
@@ -97,28 +95,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
           ),
         );
+
       case 2:
-        return ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
-          title: Text("Change pin number"),
-          trailing: Icon(Icons.keyboard_arrow_right),
+        return ProfileSettingsItem(
+          title: "Change PIN number",
           onTap: () => Navigator.pushNamed(context, PinSet.id),
         );
       case 3:
-        return ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
-          title: Text("Change password"),
-          trailing: Icon(Icons.keyboard_arrow_right),
+        return ProfileSettingsItem(
+          title: "Change password",
           onTap: () => Navigator.pushNamed(context, ChangePassword.id),
         );
+
       case 4:
-        return ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
-          title: Text("Delete account"),
-          trailing: Icon(Icons.keyboard_arrow_right),
+        return ProfileSettingsItem(
+          title: "Delete account",
           onTap: () => Navigator.pushNamed(context, ProfileDeletePage.id),
         );
       default:
