@@ -46,7 +46,7 @@ class _RecipeItemState extends State<RecipeItem> {
                         ? Image.network(
                             widget.recipe.thumbnail ?? "",
                             key: GlobalKey(),
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             errorBuilder: (_, __, ___) => BlankImage(),
                             loadingBuilder: (_, child, loadingProgress) {
                               if (loadingProgress == null) return child;
