@@ -14,12 +14,14 @@ class ImageComponent extends StatelessWidget {
         imageUrl,
         width: double.maxFinite,
         fit: BoxFit.fill,
-        errorBuilder: (_, __, ___) => BlankImage(height: 300),
-        loadingBuilder: (_, __, ___) => Container(
-          height: 300,
-          padding: EdgeInsets.only(bottom: 30),
-          child: PcosLoadingSpinner(),
-        ),
+        errorBuilder: (_, __, ___) => BlankImage(height: 200),
+        loadingBuilder: (_, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Padding(
+            padding: EdgeInsets.only(bottom: 30),
+            child: PcosLoadingSpinner(),
+          );
+        },
       );
     return BlankImage(height: 200);
   }

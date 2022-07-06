@@ -45,12 +45,16 @@ class _RecipeItemState extends State<RecipeItem> {
                     child: widget.recipe.thumbnail?.isNotEmpty == true
                         ? Image.network(
                             widget.recipe.thumbnail ?? "",
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => BlankImage(),
-                            loadingBuilder: (_, __, ___) => Padding(
-                              padding: EdgeInsets.only(bottom: 30),
-                              child: PcosLoadingSpinner(),
-                            ),
+                            key: GlobalKey(),
+                            fit: BoxFit.fill,
+                            errorBuilder: (_, __, stackTrace) => BlankImage(),
+                            loadingBuilder: (_, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 30),
+                                child: PcosLoadingSpinner(),
+                              );
+                            },
                           )
                         : BlankImage(),
                   ),
