@@ -47,7 +47,7 @@ class _RecipeItemState extends State<RecipeItem> {
                             widget.recipe.thumbnail ?? "",
                             key: GlobalKey(),
                             fit: BoxFit.fill,
-                            errorBuilder: (_, __, stackTrace) => BlankImage(),
+                            errorBuilder: (_, __, ___) => BlankImage(),
                             loadingBuilder: (_, child, loadingProgress) {
                               if (loadingProgress == null) return child;
                               return Padding(
