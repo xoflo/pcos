@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeItem extends StatefulWidget {
   const RecipeItem({
@@ -24,87 +25,103 @@ class RecipeItem extends StatefulWidget {
 }
 
 class _RecipeItemState extends State<RecipeItem> {
+  bool canLaunchUrl = false;
+
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: () => Navigator.pushNamed(
-          context,
-          RecipeDetailsPage.id,
-          arguments: LessonRecipeArguments(widget.isFromLesson, widget.recipe),
-        ),
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: widget.recipe.thumbnail?.isNotEmpty == true
-                        ? Image.network(
-                            widget.recipe.thumbnail ?? "",
-                            key: GlobalKey(),
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => BlankImage(),
-                            loadingBuilder: (_, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: 30),
-                                child: PcosLoadingSpinner(),
-                              );
-                            },
-                          )
-                        : BlankImage(),
-                  ),
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment(1, 0.8),
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.7)
-                          ],
-                          tileMode: TileMode.clamp,
-                        ),
+  void initState() {
+    super.initState();
+
+    setCanLaunch();
+  }
+
+  void setCanLaunch() async {
+    final canLaunchThumbnail = await canLaunch(widget.recipe.thumbnail ?? "");
+    setState(() => canLaunchUrl = canLaunchThumbnail);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+        context,
+        RecipeDetailsPage.id,
+        arguments: LessonRecipeArguments(widget.isFromLesson, widget.recipe),
+      ),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: widget.recipe.thumbnail?.isNotEmpty == true &&
+                          canLaunchUrl
+                      ? Image.network(
+                          widget.recipe.thumbnail ?? "",
+                          key: GlobalKey(),
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => BlankImage(),
+                          loadingBuilder: (_, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 30),
+                              child: PcosLoadingSpinner(),
+                            );
+                          },
+                        )
+                      : BlankImage(),
+                ),
+                Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment(1, 0.8),
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.7)
+                        ],
+                        tileMode: TileMode.clamp,
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 20,
-                    right: 20,
-                    bottom: 20,
-                    child: HtmlWidget(
-                      "<p style='max-lines:2; text-overflow: ellipsis;'>" +
-                          (widget.recipe.title ?? "") +
-                          "</p>",
-                      textStyle:
-                          Theme.of(context).textTheme.subtitle1?.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (widget.onPressFavourite != null)
-              Positioned(
-                top: 0,
-                right: 0,
-                child: IconButton(
-                  onPressed: () => widget.onPressFavourite?.call(),
-                  icon: Icon(
-                    Icons.favorite,
-                    color: redColor,
+                ),
+                Positioned(
+                  left: 20,
+                  right: 20,
+                  bottom: 20,
+                  child: HtmlWidget(
+                    "<p style='max-lines:2; text-overflow: ellipsis;'>" +
+                        (widget.recipe.title ?? "") +
+                        "</p>",
+                    textStyle: Theme.of(context).textTheme.subtitle1?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
                   ),
                 ),
-              )
-          ],
-        ),
-      );
+              ],
+            ),
+          ),
+          if (widget.onPressFavourite != null)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: IconButton(
+                onPressed: () => widget.onPressFavourite?.call(),
+                icon: Icon(
+                  Icons.favorite,
+                  color: redColor,
+                ),
+              ),
+            )
+        ],
+      ),
+    );
+  }
 }
