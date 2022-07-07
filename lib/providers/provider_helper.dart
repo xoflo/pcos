@@ -99,6 +99,42 @@ class ProviderHelper {
     return [];
   }
 
+  Future<List<LessonTask>> fetchAndSaveTaskForLesson(
+      final DatabaseProvider? dbProvider,
+      {final int? lessonID}) async {
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
+    if (dbProvider?.db != null) {
+      //first get the data from the api if we have no data yet
+      if (await _shouldGetDataFromAPI(dbProvider, TABLE_LESSON_TASK,
+          where: "WHERE lessonID = $lessonID")) {
+        final tasks = await WebServices().getTasksForLesson(lessonID ?? -1);
+        //delete all old records before adding new ones
+        await dbProvider?.deleteAll(TABLE_LESSON_TASK);
+        //add items to database
+        tasks?.forEach((LessonTask lessonTask) async {
+          await dbProvider?.insert(TABLE_LESSON_TASK, {
+            'lessonTaskID': lessonTask.lessonTaskID,
+            'lessonID': lessonTask.lessonID ?? lessonID,
+            'metaName': lessonTask.metaName,
+            'title': lessonTask.title,
+            'description': lessonTask.description,
+            'taskType': lessonTask.taskType,
+            'orderIndex': lessonTask.orderIndex,
+            'isComplete': lessonTask.isComplete == true ? 1 : 0,
+            'dateCreatedUTC': lessonTask.dateCreatedUTC?.toIso8601String(),
+          });
+        });
+
+        //save when we got the data
+        saveTimestamp(TABLE_LESSON_TASK);
+      }
+      // get items from database
+      List lessonTasks = await getAllData(dbProvider, TABLE_LESSON_TASK);
+      return lessonTasks as List<LessonTask>;
+    }
+    return [];
+  }
+
   Future<ModulesAndLessons> fetchAndSaveModuleExport(
     final DatabaseProvider? dbProvider,
     final bool forceRefresh,
@@ -253,16 +289,6 @@ class ProviderHelper {
       final List<LessonRecipe> lessonRecipesToReturn =
           mapDataToList(recipeList, "LessonRecipe") as List<LessonRecipe>;
 
-      //get the lesson tasks by joining the tasks and lesson table and only return the lessonTasks for lessons in lessonsToReturn
-      final taskList = await dbProvider?.getDataQueryWithJoin(
-        "$TABLE_LESSON_TASK.*, $TABLE_LESSON_LINK.LessonID",
-        "$TABLE_LESSON_TASK INNER JOIN $TABLE_LESSON_LINK ON $TABLE_LESSON_TASK.lessonTaskID = $TABLE_LESSON_LINK.objectID",
-        "WHERE objectType = 'task'",
-      );
-
-      final List<LessonTask> lessonTasksToReturn =
-          mapDataToList(taskList, "LessonTask") as List<LessonTask>;
-
       //TODO: need to check whether complete when available
       final List<Quiz> quizzesToReturn = [];
       for (Quiz quiz in quizzesFromDB) {
@@ -292,7 +318,6 @@ class ProviderHelper {
         modules: modulesToReturn,
         lessons: lessonsToReturn,
         lessonContent: lessonContentToReturn,
-        lessonTasks: lessonTasksToReturn,
         lessonWikis: lessonWikisToReturn,
         lessonRecipes: lessonRecipesToReturn,
         lessonQuizzes: quizzesToReturn,
@@ -322,7 +347,6 @@ class ProviderHelper {
       lessons?.forEach((LessonExport lessonExport) async {
         Lesson? lesson = lessonExport.lesson;
         List<LessonContent>? lessonContent = lessonExport.content;
-        List<LessonTask>? lessonTasks = lessonExport.tasks;
         List<LessonLink>? lessonLinks = lessonExport.links;
         //add lesson to database
         await dbProvider?.insert(TABLE_LESSON, {
@@ -339,7 +363,6 @@ class ProviderHelper {
         });
         //add lesson content to database
         await _addLessonContentToDatabase(dbProvider, lessonContent);
-        await _addLessonTasksToDatabase(dbProvider, lessonTasks);
         await _addLessonLinkToDatabase(
             dbProvider, lessonLinks, moduleExport.module?.moduleID);
       });
@@ -359,23 +382,6 @@ class ProviderHelper {
         'summary': lessonContent.summary,
         'orderIndex': lessonContent.orderIndex,
         'dateCreatedUTC': lessonContent.dateCreatedUTC?.toIso8601String(),
-      });
-    });
-  }
-
-  Future<void> _addLessonTasksToDatabase(
-      final DatabaseProvider? dbProvider, List<LessonTask>? lessonTasks) async {
-    lessonTasks?.forEach((LessonTask lessonTask) async {
-      await dbProvider?.insert(TABLE_LESSON_TASK, {
-        'lessonTaskID': lessonTask.lessonTaskID,
-        'lessonID': lessonTask.lessonID,
-        'metaName': lessonTask.metaName,
-        'title': lessonTask.title,
-        'description': lessonTask.description,
-        'taskType': lessonTask.taskType,
-        'orderIndex': lessonTask.orderIndex,
-        'isComplete': lessonTask.isComplete == true ? 1 : 0,
-        'dateCreatedUTC': lessonTask.dateCreatedUTC?.toIso8601String(),
       });
     });
   }
@@ -752,8 +758,10 @@ class ProviderHelper {
   }
 
   Future<bool> _shouldGetDataFromAPI(
-      final DatabaseProvider? dbProvider, final String tableName) async {
-    final int? rowCount = await dbProvider?.getTableRowCount(tableName);
+      final DatabaseProvider? dbProvider, final String tableName,
+      {final String? where}) async {
+    final int? rowCount =
+        (await dbProvider?.getDataQuery(tableName, where ?? ""))?.length;
 
     //no data in table so get data from API
     if (rowCount == 0) return true;

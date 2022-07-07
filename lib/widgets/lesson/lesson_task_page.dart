@@ -29,21 +29,23 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     switch (task.taskType) {
       case TaskType.Text:
         return LessonTaskText(
-          onSave: (text) => onSubmit(modulesProvider, task.lessonTaskID, text),
+          onSave: (text) =>
+              onSubmit(modulesProvider, task.lessonID, task.lessonTaskID, text),
         );
       case TaskType.Rating:
         return LessonTaskRating(
-          onSave: (rate) =>
-              onSubmit(modulesProvider, task.lessonTaskID, rate.toString()),
+          onSave: (rate) => onSubmit(modulesProvider, task.lessonID,
+              task.lessonTaskID, rate.toString()),
         );
       case TaskType.Bool:
         return LessonTaskBool(
-          onSave: (isTrue) =>
-              onSubmit(modulesProvider, task.lessonTaskID, isTrue.toString()),
+          onSave: (isTrue) => onSubmit(modulesProvider, task.lessonID,
+              task.lessonTaskID, isTrue.toString()),
         );
       case TaskType.Okay:
         return FilledButton(
-          onPressed: () => onSubmit(modulesProvider, task.lessonTaskID, "Okay"),
+          onPressed: () => onSubmit(
+              modulesProvider, task.lessonID, task.lessonTaskID, "Okay"),
           text: "Okay",
           margin: EdgeInsets.zero,
           foregroundColor: Colors.white,
@@ -54,9 +56,10 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     }
   }
 
-  void onSubmit(ModulesProvider modulesProvider, int? taskID, String value) {
+  void onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
+      String value) {
     modulesProvider
-        .setTaskAsComplete(taskID, value)
+        .setTaskAsComplete(taskID, value, lessonID: lessonID)
         .then((value) => Navigator.pop(context));
   }
 

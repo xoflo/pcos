@@ -53,6 +53,7 @@ class ModulesProvider with ChangeNotifier {
   List<LessonRecipe> get initialLessonRecipes => [..._initialLessonRecipes];
   List<Quiz> get lessonQuizzes => [..._lessonQuizzes];
   List<LessonWiki> get lessonWikis => [..._lessonWikis];
+  List<LessonTask> get lessonTasks => [..._lessonTasks];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
@@ -73,7 +74,6 @@ class ModulesProvider with ChangeNotifier {
       _modules = modulesAndLessons.modules ?? [];
       _lessons = modulesAndLessons.lessons ?? [];
       _lessonContent = modulesAndLessons.lessonContent ?? [];
-      _lessonTasks = modulesAndLessons.lessonTasks ?? [];
       _lessonWikis = modulesAndLessons.lessonWikis ?? [];
       _lessonRecipes = modulesAndLessons.lessonRecipes ?? [];
       _lessonQuizzes = modulesAndLessons.lessonQuizzes ?? [];
@@ -85,17 +85,6 @@ class ModulesProvider with ChangeNotifier {
         _currentLesson = _currentModuleLessons.last;
       }
 
-      //display the past lesson tasks not completed, and the current lesson if the lesson is complete
-      _displayLessonTasks.clear();
-      for (LessonTask lessonTask in _lessonTasks) {
-        if (lessonTask.lessonID == currentLesson?.lessonID) {
-          if (currentLesson?.isComplete == true) {
-            _displayLessonTasks.add(lessonTask);
-          }
-        } else {
-          _displayLessonTasks.add(lessonTask);
-        }
-      }
       //set initial lesson wikis & recipes to display on dashboard when it loads
       if (_initialLessonWikis.length == 0) {
         for (LessonWiki lessonWiki in _lessonWikis) {
@@ -172,16 +161,6 @@ class ModulesProvider with ChangeNotifier {
     return "";
   }
 
-  List<LessonTask> getLessonTasks(final int lessonID) {
-    List<LessonTask> lessonTasks = [];
-    for (LessonTask lessonTask in _lessonTasks) {
-      if (lessonTask.lessonID == lessonID) {
-        lessonTasks.add(lessonTask);
-      }
-    }
-    return lessonTasks;
-  }
-
   List<LessonContent> getLessonContent(final int lessonID) {
     List<LessonContent> lessonContent = [];
     for (LessonContent content in _lessonContent) {
@@ -250,7 +229,34 @@ class ModulesProvider with ChangeNotifier {
     fetchAndSaveData(true);
   }
 
-  Future<void> setTaskAsComplete(final int? taskID, final String value) async {
+  Future<void> fetchLessonTasks(final int lessonID) async {
+    status = LoadingStatus.loading;
+
+    if (dbProvider?.db != null) {
+      //first get the data from the api if we have no data yet
+      final List<LessonTask> lessonTasks = await ProviderHelper()
+          .fetchAndSaveTaskForLesson(dbProvider, lessonID: lessonID);
+      _lessonTasks = lessonTasks;
+
+      //display the past lesson tasks not completed, and the current lesson if the lesson is complete
+      _displayLessonTasks.clear();
+      for (LessonTask lessonTask in _lessonTasks) {
+        if (lessonTask.lessonID == currentLesson?.lessonID) {
+          if (currentLesson?.isComplete == true) {
+            _displayLessonTasks.add(lessonTask);
+          }
+        } else {
+          _displayLessonTasks.add(lessonTask);
+        }
+      }
+
+      status = LoadingStatus.success;
+      notifyListeners();
+    }
+  }
+
+  Future<void> setTaskAsComplete(final int? taskID, final String value,
+      {final int? lessonID}) async {
     status = LoadingStatus.loading;
     notifyListeners();
 
@@ -258,11 +264,7 @@ class ModulesProvider with ChangeNotifier {
 
     status = LoadingStatus.success;
     notifyListeners();
-
-    // Set this to false because the Task/set-complete API does not update the
-    // isComplete value in the backend
-    // TODO: Update the data every time so that we depend more on the latest update
-    fetchAndSaveData(false);
+    fetchLessonTasks(lessonID ?? -1);
   }
 
   Future<List<Module>> _getPreviousModules() async {

@@ -378,6 +378,25 @@ class WebServices {
     }
   }
 
+  Future<List<LessonTask>?> getTasksForLesson(final int lessonId) async {
+    final url = Uri.parse(_baseUrl + "Task/all/$lessonId");
+    final String? token = await AuthenticationController().getAccessToken();
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    if (response.statusCode == 200) {
+      return LessonTaskResponse.fromList(
+              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+          .results;
+    } else {
+      throw GET_LESSON_TASKS_FAILED;
+    }
+  }
+
   Future<List<LessonTask>?> getQuizTasks() async {
     final url = Uri.parse(_baseUrl + "Task/all/0");
     final String? token = await AuthenticationController().getAccessToken();

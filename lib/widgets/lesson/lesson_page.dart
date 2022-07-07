@@ -25,9 +25,22 @@ class LessonPage extends StatefulWidget {
 }
 
 class _LessonPageState extends State<LessonPage> {
+  LessonArguments? args;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as LessonArguments?;
+    if (args == null) {
+      args = ModalRoute.of(context)?.settings.arguments as LessonArguments?;
+    }
+
+    if (args?.showTasks == true) {
+      Provider.of<ModulesProvider>(context, listen: false)
+          .fetchLessonTasks(args?.lesson.lessonID ?? -1);
+    }
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -59,8 +72,7 @@ class _LessonPageState extends State<LessonPage> {
                             .getLessonWikis(args?.lesson.lessonID ?? 0);
                         final contents = modulesProvider
                             .getLessonContent(args?.lesson.lessonID ?? 0);
-                        final tasks = modulesProvider
-                            .getLessonTasks(args?.lesson.lessonID ?? 0);
+                        final tasks = modulesProvider.lessonTasks;
 
                         // A lesson can be completed if the lesson doesn't have
                         // any lesson tasks, or if the lesson has a task, and
