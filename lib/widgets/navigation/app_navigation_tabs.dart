@@ -59,10 +59,14 @@ class AppNavigationTabs extends StatelessWidget {
                 ),
                 Consumer<ModulesProvider>(
                   builder: (context, modulesProvider, child) {
+                    // Count a lesson as incomplete if they are not yet
+                    // complete, and they are already available for use
                     final incompleteLessonCount =
                         modulesProvider.currentModuleLessons
                             .where(
-                              (element) => !element.isComplete,
+                              (element) =>
+                                  !element.isComplete &&
+                                  element.hoursToNextLesson == 0,
                             )
                             .length;
                     final showLessonCount = incompleteLessonCount != 0;

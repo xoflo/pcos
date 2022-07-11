@@ -4,6 +4,7 @@ class Lesson {
   final String imageUrl;
   final String title;
   final String introduction;
+  final int hoursToNextLesson;
   final int orderIndex;
   final bool isComplete;
   final bool isToolkit;
@@ -15,6 +16,7 @@ class Lesson {
     required this.moduleID,
     required this.imageUrl,
     required this.title,
+    required this.hoursToNextLesson,
     required this.introduction,
     required this.orderIndex,
     required this.isFavorite,
@@ -29,6 +31,7 @@ class Lesson {
       moduleID: json['moduleID'] ?? 0,
       imageUrl: json['imageUrl'],
       title: json['title'],
+      hoursToNextLesson: json['hoursToNextLesson'],
       introduction: json['introduction'],
       orderIndex: json['orderIndex'],
       isFavorite:

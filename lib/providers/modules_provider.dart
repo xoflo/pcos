@@ -82,7 +82,10 @@ class ModulesProvider with ChangeNotifier {
         _currentModule = _modules.last;
         _previousModules = await _getPreviousModules();
         _currentModuleLessons = getModuleLessons(_currentModule.moduleID);
-        _currentLesson = _currentModuleLessons.last;
+        _currentLesson = _currentModuleLessons.firstWhere(
+          (element) => !element.isComplete,
+          orElse: () => _currentModuleLessons.last,
+        );
       }
 
       //set initial lesson wikis & recipes to display on dashboard when it loads

@@ -110,15 +110,19 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                     lessonRecipeDuration += element.duration ?? 0;
                   });
 
-                  // If the previous lesson is already complete, then we must lock
-                  // the current lesson. But when the item is the first one, then
-                  // we should set to true so that the current index will not
-                  // be locked. It doesn't make sense to lock the first lesson,
-                  // after all.
+                  // We must lock the current lesson, if and only if the
+                  // previous lesson is not yet complete or if the current
+                  // lesson is not yet available. But when the item is the
+                  // first one, then we should set to true so that the current
+                  // index will not be locked. It doesn't make sense to lock
+                  // the first lesson, after all.
                   final isPreviousLessonComplete = index == 0
                       ? true
-                      : widget.modulesProvider.currentModuleLessons[index - 1]
-                          .isComplete;
+                      : (widget.modulesProvider.currentModuleLessons[index - 1]
+                              .isComplete ||
+                          widget.modulesProvider.currentModuleLessons[index - 1]
+                                  .hoursToNextLesson ==
+                              0);
 
                   return Card(
                     shape: RoundedRectangleBorder(
