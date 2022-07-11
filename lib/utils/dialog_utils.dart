@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart' as colors;
-import 'package:thepcosprotocol_app/widgets/shared/color_button.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
 void showFlushBar(final BuildContext scaffoldContext, final String title,
     final String message,
@@ -62,19 +62,24 @@ showAlertDialog(
     parameters: {Analytics.ANALYTICS_PARAMETER_DIALOG_TITLE: title},
   );
   // set up the buttons
-  Widget cancelButton = ColorButton(
-    isUpdating: false,
-    label: cancelText,
-    onTap: () {
+  Widget cancelButton = FilledButton(
+    margin: EdgeInsets.zero,
+    text: cancelText,
+    foregroundColor: Colors.white,
+    backgroundColor: colors.backgroundColor,
+    onPressed: () {
+      Navigator.pop(context);
       cancelAction(context);
     },
   );
 
-  Widget continueButton = ColorButton(
-    isUpdating: false,
-    label: continueText,
-    onTap: () {
-      //log user out and clear credentials etc
+  Widget continueButton = FilledButton(
+    margin: EdgeInsets.zero,
+    text: continueText,
+    foregroundColor: Colors.white,
+    backgroundColor: colors.backgroundColor,
+    onPressed: () {
+      Navigator.pop(context);
       continueAction?.call(context);
     },
   );
@@ -82,18 +87,42 @@ showAlertDialog(
   List<Widget> actions = [];
   if (continueText.length > 0) {
     actions.add(continueButton);
+    actions.add(SizedBox(height: 10));
   }
   actions.add(cancelButton);
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text(title),
-    content: Text(message),
+    titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+    contentPadding: EdgeInsets.symmetric(horizontal: 15),
+    actionsPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+    ),
+    alignment: Alignment.center,
+    title: Text(
+      title,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: colors.textColor,
+      ),
+    ),
+    content: Text(
+      message,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 16,
+        color: colors.textColor,
+      ),
+    ),
     actions: actions,
   );
   // show the dialog
   showDialog(
     context: context,
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return alert;
     },
