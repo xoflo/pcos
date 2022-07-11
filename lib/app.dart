@@ -56,6 +56,8 @@ import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_page.dart';
 import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 
+import 'package:timezone/data/latest.dart' as tz;
+
 class App extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
@@ -75,6 +77,7 @@ class _AppState extends State<App> {
   }
 
   void initializeApp() async {
+    tz.initializeTimeZones();
     initializeFlutterFire();
     initializeOneSignal();
     setDeviceOrientations();
