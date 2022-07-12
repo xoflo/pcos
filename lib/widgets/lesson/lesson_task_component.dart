@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/lesson_task.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_page.dart';
 
 class LessonTaskComponent extends StatelessWidget {
   const LessonTaskComponent({Key? key, required this.lessonTasks})
@@ -29,6 +30,11 @@ class LessonTaskComponent extends StatelessWidget {
                 ...lessonTasks
                     .map(
                       (element) => GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          LessonTaskPage.id,
+                          arguments: element,
+                        ),
                         child: Column(
                           children: [
                             SizedBox(height: 15),
@@ -45,19 +51,28 @@ class LessonTaskComponent extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  HtmlWidget(
-                                    element.title ?? "",
-                                    textStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: backgroundColor,
+                                  Expanded(
+                                    child: HtmlWidget(
+                                      element.title ?? "",
+                                      textStyle: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: backgroundColor,
+                                      ),
                                     ),
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: backgroundColor,
-                                    size: 10,
-                                  )
+                                  if (element.isComplete == true)
+                                    Icon(
+                                      Icons.check_circle,
+                                      color: completedBackgroundColor,
+                                      size: 32.5,
+                                    )
+                                  else
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: backgroundColor,
+                                      size: 10,
+                                    )
                                 ],
                               ),
                             )

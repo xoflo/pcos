@@ -67,22 +67,12 @@ class _LibraryModulePageState extends State<LibraryModulePage> {
                   itemBuilder: (context, index) {
                     final lesson = lessons[index];
 
-                    final lessonContents =
-                        modulesProvider.getLessonContent(lesson.lessonID);
-                    final lessonTasks =
-                        modulesProvider.getLessonTasks(lesson.lessonID);
-                    final lessonWikis =
-                        modulesProvider.getLessonWikis(lesson.lessonID);
-
                     return GestureDetector(
                       onTap: () => Navigator.pushNamed(
                         context,
                         LessonPage.id,
                         arguments: LessonArguments(
                           lesson,
-                          lessonContents,
-                          lessonTasks,
-                          lessonWikis,
                           showTasks: false,
                         ),
                       ),
