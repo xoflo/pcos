@@ -140,7 +140,7 @@ class _LessonPageState extends State<LessonPage> {
               children: [
                 Header(
                   title: "Lesson",
-                  closeItem: _closeLesson,
+                  closeItem: () => Navigator.pop(context),
                 ),
                 Consumer<ModulesProvider>(
                   builder: (context, modulesProvider, child) {
@@ -272,7 +272,7 @@ class _LessonPageState extends State<LessonPage> {
                                                     setModuleComplete,
                                                   )
                                                   .then((value) =>
-                                                      Navigator.pop(context));
+                                                      _closeLesson());
                                             }
                                           : null,
                                     ),
