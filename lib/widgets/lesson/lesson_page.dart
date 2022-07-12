@@ -60,14 +60,14 @@ class _LessonPageState extends State<LessonPage> {
       } else {
         // Close the lesson page normally when the daily reminder is
         // turned on
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       }
     }
   }
 
   void _askUserForDailyReminder() {
     void openSettings(BuildContext context) {
-      Navigator.of(context).pop();
+      Navigator.pop(context, true);
       Navigator.pushNamed(context, NotificationSettings.id);
     }
 
@@ -79,7 +79,7 @@ class _LessonPageState extends State<LessonPage> {
         S.current.okayText,
         "",
         null,
-        (BuildContext context) => Navigator.of(context).pop(),
+        (BuildContext context) => Navigator.pop(context, true),
       );
     }
 
