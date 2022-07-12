@@ -420,8 +420,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                   // most of the files, including this one.
 
                   // getTasks(screenSize, isHorizontal, modulesProvider),
-                  getCurrentModule(MediaQuery.of(context).size, false,
-                      modulesProvider, favouritesProvider),
+                  // getCurrentModule(MediaQuery.of(context).size, false,
+                  //     modulesProvider, favouritesProvider),
                   // getLessonWikis(screenSize, isHorizontal, modulesProvider),
                   // widget.showLessonRecipes
                   //     ? getLessonRecipes(screenSize, isHorizontal,
