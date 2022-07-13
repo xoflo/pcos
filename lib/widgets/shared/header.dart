@@ -10,6 +10,8 @@ class Header extends StatelessWidget {
   final Function()? onToggleSelectAll;
   final int unreadCount;
   final Function()? onToggleMarkAsRead;
+  final int? questionNumber;
+  final int? questionCount;
 
   Header({
     this.title,
@@ -17,6 +19,8 @@ class Header extends StatelessWidget {
     this.showDivider = false,
     this.isAllSelected = false,
     this.unreadCount = 0,
+    this.questionNumber,
+    this.questionCount,
     this.onToggleMarkAsRead,
     this.onToggleSelectAll,
   });
@@ -99,6 +103,10 @@ class Header extends StatelessWidget {
                       onPressed: () =>
                           Navigator.pushNamed(context, NotificationSettings.id),
                     )
+                  ] else if (questionCount != null &&
+                      questionNumber != null) ...[
+                    Spacer(flex: 2),
+                    Text("$questionNumber of $questionCount"),
                   ] else ...[
                     Spacer(flex: 2),
                     SizedBox(width: 35, height: 35, child: Container())
