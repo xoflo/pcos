@@ -162,7 +162,18 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8)),
                                   ),
-                                  child: Icon(Icons.restaurant),
+                                  child: widget.modulesProvider.currentModule
+                                              ?.iconUrl?.isNotEmpty ==
+                                          true
+                                      ? Image.network(
+                                          widget.modulesProvider.currentModule
+                                                  ?.iconUrl ??
+                                              "",
+                                          fit: BoxFit.contain,
+                                          height: 24,
+                                          width: 24,
+                                        )
+                                      : Icon(Icons.restaurant),
                                 ),
                               )
                             ],
@@ -182,7 +193,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             isLocked: isPreviousLessonComplete,
                             title: "Lesson ${index + 1}",
                             subtitle: currentLesson.title,
-                            duration: "5 mins",
+                            duration: "${currentLesson.minsToComplete} mins",
                             asset: 'assets/dashboard_lesson.png',
                             assetSize: Size(84, 84),
                           ),
