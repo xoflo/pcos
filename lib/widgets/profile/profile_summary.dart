@@ -11,6 +11,7 @@ class ProfileSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Expanded(
         child: Container(
+          width: double.maxFinite,
           margin: EdgeInsets.only(top: 25),
           color: Colors.white,
           child: SingleChildScrollView(
@@ -23,15 +24,17 @@ class ProfileSummary extends StatelessWidget {
                       (tag) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Type ${tag.tag}",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: textColor,
+                          if (tag.tag?.isNotEmpty == true) ...[
+                            Text(
+                              "Type ${tag.tag}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: textColor,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 10),
+                            SizedBox(height: 10),
+                          ],
                           if (tag.summary?.isNotEmpty == true) ...[
                             HtmlWidget(
                               tag.summary ?? "",
@@ -43,14 +46,16 @@ class ProfileSummary extends StatelessWidget {
                             ),
                             SizedBox(height: 10)
                           ],
-                          HtmlWidget(
-                            tag.description ?? "",
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              color: textColor.withOpacity(0.8),
+                          if (tag.description?.isNotEmpty == true) ...[
+                            HtmlWidget(
+                              tag.description ?? "",
+                              textStyle: TextStyle(
+                                fontSize: 16,
+                                color: textColor.withOpacity(0.8),
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 30)
+                            SizedBox(height: 30)
+                          ]
                         ],
                       ),
                     )
