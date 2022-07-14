@@ -239,16 +239,14 @@ class ProviderHelper {
         quiz.questions = thisQuizQuestions;
       }
       //only return complete lessons and the first incomplete lesson, also check whether first incomplete lesson should be visible yet
-      List<Lesson> lessonsToReturn = [];
-      List<int> lessonIDs = [];
+      List<Lesson> lessonsToReturn = lessonsFromDB;
+      List<int> lessonIDs = lessonsFromDB.map((e) => e.lessonID).toList();
       List<int> moduleIDs = [];
       bool foundIncompleteLesson = false;
       for (Lesson lesson in lessonsFromDB) {
         if (foundIncompleteLesson) break;
         if (lesson.isComplete ||
             (!lesson.isComplete && isNextLessonAvailable)) {
-          lessonsToReturn.add(lesson);
-          lessonIDs.add(lesson.lessonID);
           if (!moduleIDs.contains(lesson.moduleID))
             moduleIDs.add(lesson.moduleID);
         }
@@ -354,6 +352,7 @@ class ProviderHelper {
           'moduleID': moduleExport.module?.moduleID,
           'title': lesson?.title,
           'introduction': lesson?.introduction,
+          'hoursToNextLesson': lesson?.hoursToNextLesson,
           'imageUrl': lesson?.imageUrl,
           'orderIndex': lesson?.orderIndex,
           'isFavorite': lesson?.isFavorite == true ? 1 : 0,

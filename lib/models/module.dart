@@ -1,5 +1,6 @@
 class Module {
   final int? moduleID;
+  final String? iconUrl;
   final String? title;
   final bool? isComplete;
   final int? orderIndex;
@@ -7,6 +8,7 @@ class Module {
 
   Module({
     this.moduleID,
+    this.iconUrl,
     this.title,
     this.isComplete,
     this.orderIndex,
@@ -16,6 +18,7 @@ class Module {
   factory Module.fromJson(Map<String, dynamic> json) {
     return Module(
       moduleID: json['moduleID'],
+      iconUrl: json['iconUrl'],
       title: json['title'],
       isComplete:
           json['isComplete'] == 1 || json['isComplete'] == true ? true : false,

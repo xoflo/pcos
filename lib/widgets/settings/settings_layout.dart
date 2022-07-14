@@ -87,30 +87,35 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) => Column(
                   children: <Widget>[
-                    ToggleSwitch(
-                        title: _preferenceOptions.keys.elementAt(index),
-                        value: _preferenceOptions.values.elementAt(index),
-                        onToggle: (isOn) {
-                          final key = _preferenceOptions.keys.elementAt(index);
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+                      child: ToggleSwitch(
+                          title: _preferenceOptions.keys.elementAt(index),
+                          value: _preferenceOptions.values.elementAt(index),
+                          onToggle: (isOn) {
+                            final key =
+                                _preferenceOptions.keys.elementAt(index);
 
-                          setState(() {
-                            _preferenceOptions.addAll({key: isOn});
-                          });
+                            setState(() {
+                              _preferenceOptions.addAll({key: isOn});
+                            });
 
-                          switch (index) {
-                            case 0:
-                              _saveDisplayWhy(isOn);
-                              break;
-                            case 1:
-                              _saveLessonRecipes(isOn);
-                              break;
-                            case 2:
-                              _saveUseUsername(isOn);
-                              break;
-                            default:
-                              break;
-                          }
-                        }),
+                            switch (index) {
+                              case 0:
+                                _saveDisplayWhy(isOn);
+                                break;
+                              case 1:
+                                _saveLessonRecipes(isOn);
+                                break;
+                              case 2:
+                                _saveUseUsername(isOn);
+                                break;
+                              default:
+                                break;
+                            }
+                          }),
+                    ),
                     Divider(thickness: 1, height: 1, color: dividerColor),
                   ],
                 ),

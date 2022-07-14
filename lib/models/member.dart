@@ -1,3 +1,5 @@
+import 'package:thepcosprotocol_app/models/member_type_tag.dart';
+
 class Member {
   final int? id;
   final String? preRegistrationCode;
@@ -14,23 +16,26 @@ class Member {
   final bool? isEnabled;
   final DateTime? dateNextLessonAvailableLocal;
   final DateTime? dateCreatedUTC;
+  final List<MemberTypeTag>? typeTags;
 
-  Member(
-      {this.id,
-      this.preRegistrationCode,
-      this.firstName,
-      this.lastName,
-      this.alias,
-      this.email,
-      this.twitter,
-      this.facebook,
-      this.countryID,
-      this.contactPhone,
-      this.adminNotes,
-      this.isEmailVerified,
-      this.isEnabled,
-      this.dateNextLessonAvailableLocal,
-      this.dateCreatedUTC});
+  Member({
+    this.id,
+    this.preRegistrationCode,
+    this.firstName,
+    this.lastName,
+    this.alias,
+    this.email,
+    this.twitter,
+    this.facebook,
+    this.countryID,
+    this.contactPhone,
+    this.adminNotes,
+    this.isEmailVerified,
+    this.isEnabled,
+    this.typeTags,
+    this.dateNextLessonAvailableLocal,
+    this.dateCreatedUTC,
+  });
 
   factory Member.fromJson(Map<String, dynamic> json) {
     String nextLessonDateString = json['dateNextLessonAvailableUTC'];
@@ -51,6 +56,7 @@ class Member {
         adminNotes: json['adminNotes'],
         isEmailVerified: json['isEmailVerified'],
         isEnabled: json['isEnabled'],
+        typeTags: MemberTypeTagList.fromList(json['typeTags']).results,
         dateNextLessonAvailableLocal:
             DateTime.parse(nextLessonDateString).toLocal(),
         dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']));

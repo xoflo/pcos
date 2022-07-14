@@ -110,15 +110,19 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                     lessonRecipeDuration += element.duration ?? 0;
                   });
 
-                  // If the previous lesson is already complete, then we must lock
-                  // the current lesson. But when the item is the first one, then
-                  // we should set to true so that the current index will not
-                  // be locked. It doesn't make sense to lock the first lesson,
-                  // after all.
+                  // We must lock the current lesson, if and only if the
+                  // previous lesson is not yet complete or if the current
+                  // lesson is not yet available. But when the item is the
+                  // first one, then we should set to true so that the current
+                  // index will not be locked. It doesn't make sense to lock
+                  // the first lesson, after all.
                   final isPreviousLessonComplete = index == 0
                       ? true
-                      : widget.modulesProvider.currentModuleLessons[index - 1]
-                          .isComplete;
+                      : (widget.modulesProvider.currentModuleLessons[index - 1]
+                              .isComplete ||
+                          widget.modulesProvider.currentModuleLessons[index - 1]
+                                  .hoursToNextLesson ==
+                              0);
 
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -158,7 +162,18 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8)),
                                   ),
-                                  child: Icon(Icons.restaurant),
+                                  child: widget.modulesProvider.currentModule
+                                              ?.iconUrl?.isNotEmpty ==
+                                          true
+                                      ? Image.network(
+                                          widget.modulesProvider.currentModule
+                                                  ?.iconUrl ??
+                                              "",
+                                          fit: BoxFit.contain,
+                                          height: 24,
+                                          width: 24,
+                                        )
+                                      : Icon(Icons.restaurant),
                                 ),
                               )
                             ],
@@ -174,10 +189,11 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                               LessonArguments(currentLesson),
                                         )
                                     : null,
+                            showCompletedTag: isLessonComplete,
                             isLocked: isPreviousLessonComplete,
                             title: "Lesson ${index + 1}",
                             subtitle: currentLesson.title,
-                            duration: "5 mins",
+                            duration: "${currentLesson.minsToComplete} mins",
                             asset: 'assets/dashboard_lesson.png',
                             assetSize: Size(84, 84),
                           ),
@@ -186,7 +202,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
                               onTapCard:
-                                  isPreviousLessonComplete && isLessonComplete
+                                  isPreviousLessonComplete // && isLessonComplete
                                       ? () => Navigator.pushNamed(
                                             context,
                                             RecipeListPage.id,

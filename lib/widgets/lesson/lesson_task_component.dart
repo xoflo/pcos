@@ -61,6 +61,7 @@ class LessonTaskComponent extends StatelessWidget {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(width: 10),
                                   if (element.isComplete == true)
                                     Icon(
                                       Icons.check_circle,
