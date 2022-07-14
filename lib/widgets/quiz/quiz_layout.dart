@@ -65,6 +65,8 @@ class _QuizLayoutState extends State<QuizLayout> {
                                     duration: const Duration(milliseconds: 300),
                                     curve: Curves.easeIn);
                                 setState(() => questionNumber += 1);
+                              } else {
+                                Navigator.pop(context);
                               }
                             },
                           );

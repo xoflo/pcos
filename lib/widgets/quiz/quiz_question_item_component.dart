@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
+import 'package:intl/intl.dart';
 
 class QuizQuestionItemComponent extends StatefulWidget {
   const QuizQuestionItemComponent(
@@ -21,10 +22,16 @@ class QuizQuestionItemComponent extends StatefulWidget {
 }
 
 class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
-  List<QuizAnswer> answers = [];
+  Set<QuizAnswer> answers = {};
 
   bool isAnswerChecked = false;
   bool? isCorrect;
+
+  @override
+  void initState() {
+    super.initState();
+    isAnswerChecked = widget.question?.answers?.length == 0;
+  }
 
   List<Widget> generateChoices() {
     return widget.question?.answers?.map((answer) {
@@ -88,11 +95,12 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
 
     final correctAnswers = widget.question?.answers
             ?.where((element) => element.isCorrect == true)
-            .toList() ??
-        [];
+            .toSet() ??
+        {};
 
-    final intersection =
-        answers.toSet().intersection(correctAnswers.toSet()).length;
+    final intersection = answers.intersection(correctAnswers).length;
+
+    final missedAnswers = correctAnswers.length - intersection;
 
     return Container(
       width: double.maxFinite,
@@ -102,7 +110,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
           Text(
             isCorrect == true
                 ? "Correct!"
-                : "Whoops! Missed ${correctAnswers.length - intersection} correct answer",
+                : "Whoops! Missed $missedAnswers correct ${Intl.plural(missedAnswers, one: 'answer', other: 'answers')}",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 16,
@@ -126,50 +134,70 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
   }
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+  Widget build(BuildContext context) {
+    final isMultiChoice = widget.question?.isMultiChoice == true;
+    final answerCount = widget.question?.answers?.length;
+    final corrects = widget.question?.answers
+        ?.where((element) => element.isCorrect == true)
+        .length;
+    final selectedAnswers = answers.length;
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              widget.question?.questionText ?? "",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: textColor,
+              ),
+            ),
+            if (isMultiChoice) ...[
+              SizedBox(height: 10),
               Text(
-                widget.question?.questionText ?? "",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: textColor,
-                ),
-              ),
-              SizedBox(height: 15),
-              ...generateChoices(),
-              if (isAnswerChecked) ...[
-                generateResponse(),
-                SizedBox(height: 25),
-              ] else
-                SizedBox(height: 10),
-              FilledButton(
-                onPressed: answers.isEmpty
-                    ? null
-                    : () {
-                        if (!isAnswerChecked) {
-                          final correctAnswers = widget.question?.answers
-                              ?.where((answer) => answer.isCorrect == true)
-                              .toList();
-                          setState(() {
-                            isCorrect = listEquals(correctAnswers, answers);
-                            isAnswerChecked = true;
-                          });
-                        } else {
-                          widget.onPressNext.call();
-                        }
-                      },
-                text: !isAnswerChecked ? "CHECK ANSWERS" : "NEXT",
-                margin: EdgeInsets.zero,
-                foregroundColor: Colors.white,
-                backgroundColor: backgroundColor,
-              ),
+                "(Choose $corrects answers)",
+                style:
+                    TextStyle(fontSize: 14, color: textColor.withOpacity(0.8)),
+              )
             ],
-          ),
+            SizedBox(height: 15),
+            ...generateChoices(),
+            if (isAnswerChecked && answerCount != 0) ...[
+              generateResponse(),
+              SizedBox(height: 25),
+            ] else
+              SizedBox(height: 10),
+            FilledButton(
+              onPressed: answers.length != corrects
+                  ? null
+                  : () {
+                      if (!isAnswerChecked) {
+                        final correctAnswers = widget.question?.answers
+                            ?.where((answer) => answer.isCorrect == true)
+                            .toSet();
+                        setState(() {
+                          isCorrect = setEquals(correctAnswers, answers);
+                          isAnswerChecked = true;
+                        });
+                      } else {
+                        widget.onPressNext.call();
+                      }
+                    },
+              text: !isAnswerChecked
+                  ? "CHECK ANSWERS${isMultiChoice ? " ($selectedAnswers/$corrects)" : ''}"
+                  : "NEXT",
+              margin: EdgeInsets.zero,
+              foregroundColor: Colors.white,
+              backgroundColor: backgroundColor,
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
