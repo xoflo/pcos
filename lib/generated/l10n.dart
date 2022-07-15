@@ -46,7 +46,7 @@ class S {
     );
   }
 
-  /// `Ovie`
+  /// `The PCOS Nutritionist`
   String get companyTitle {
     return Intl.message(
       'Ovie',

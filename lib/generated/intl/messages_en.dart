@@ -67,7 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "coachChatHeading":
             MessageLookupByLibrary.simpleMessage("Chat to your Coach"),
         "coachChatTitle": MessageLookupByLibrary.simpleMessage("Coach Chat"),
-        "companyTitle": MessageLookupByLibrary.simpleMessage("Ovie"),
+        "companyTitle":
+            MessageLookupByLibrary.simpleMessage("The PCOS Nutritionist"),
         "courseQuestions":
             MessageLookupByLibrary.simpleMessage("Course questions"),
         "dailyReminderText": MessageLookupByLibrary.simpleMessage(
