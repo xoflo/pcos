@@ -26,26 +26,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   void initState() {
     super.initState();
 
-    audioPlayer.onDurationChanged.listen((dur) {
-      setState(() {
-        isLoading = false;
-        durationLabel = convertToHmsLabel(dur);
-        duration = dur.inSeconds;
-      });
-    });
-
-    audioPlayer.onPositionChanged.listen((pos) {
-      setState(() {
-        if (pos.inSeconds == duration) {
-          isPlaying = false;
-          currentPosition = 0;
-          currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
-        } else {
-          currentPosition = pos.inSeconds;
-          currentPositionLabel = convertToHmsLabel(pos);
-        }
-      });
-    });
+    setAudioPlayerDetails(widget.link);
   }
 
   String convertToHmsLabel(Duration pos) {
@@ -64,8 +45,38 @@ class _SoundPlayerState extends State<SoundPlayer> {
     return label;
   }
 
-  Future setDetails(String link) async {
-    await audioPlayer.setSourceUrl(link);
+  Future setAudioPlayerDetails(String link) async {
+    await audioPlayer.setSource(UrlSource(link));
+
+    audioPlayer.onPlayerComplete.listen((event) {
+      setState(() {
+        isPlaying = false;
+        currentPosition = 0;
+        currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
+      });
+    });
+
+    audioPlayer.onDurationChanged.listen((dur) {
+      setState(() {
+        isLoading = false;
+        durationLabel = convertToHmsLabel(dur);
+        duration = dur.inSeconds;
+      });
+    });
+
+    audioPlayer.onPositionChanged.listen((pos) async {
+      debugPrint((await audioPlayer.getDuration()).toString());
+      setState(() {
+        if (pos.inSeconds == duration) {
+          isPlaying = false;
+          currentPosition = 0;
+          currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
+        } else {
+          currentPosition = pos.inSeconds;
+          currentPositionLabel = convertToHmsLabel(pos);
+        }
+      });
+    });
   }
 
   @override
@@ -76,8 +87,6 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    setDetails(widget.link);
-
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -94,12 +103,12 @@ class _SoundPlayerState extends State<SoundPlayer> {
                     : () async {
                         if (!isPlaying) {
                           await audioPlayer.resume();
-
-                          setState(() => isPlaying = true);
                         } else {
                           await audioPlayer.pause();
-                          setState(() => isPlaying = false);
                         }
+
+                        setState(() => isPlaying =
+                            audioPlayer.state == PlayerState.playing);
                       },
                 child: Container(
                   width: 32,

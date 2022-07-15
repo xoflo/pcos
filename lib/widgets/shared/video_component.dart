@@ -57,8 +57,7 @@ class _VideoComponentState extends State<VideoComponent> {
   @override
   void dispose() {
     super.dispose();
-    _betterPlayerController
-        .removeEventsListener((p0) => _betterPlayerController.dispose());
+    _betterPlayerController.dispose(forceDispose: true);
   }
 
   @override
