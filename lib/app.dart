@@ -64,7 +64,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final appTitle = "The PCOS Protocol";
+  final appTitle = "Ovie";
   bool appError = false;
   GlobalVars refreshMessages = GlobalVars();
 
