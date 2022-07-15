@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class RecipeItem extends StatefulWidget {
   const RecipeItem({
@@ -35,7 +35,8 @@ class _RecipeItemState extends State<RecipeItem> {
   }
 
   void setCanLaunch() async {
-    final canLaunchThumbnail = await canLaunch(widget.recipe.thumbnail ?? "");
+    final canLaunchThumbnail =
+        await canLaunchUrlString(widget.recipe.thumbnail ?? "");
     setState(() => canLaunchUrl = canLaunchThumbnail);
   }
 

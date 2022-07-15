@@ -54,7 +54,7 @@ android {
 
     defaultConfig {
         applicationId "com.thepcosnutritionist.app"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

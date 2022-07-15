@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 
 class SoundPlayer extends StatefulWidget {
   const SoundPlayer({Key? key, required this.link}) : super(key: key);
@@ -35,7 +34,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
       });
     });
 
-    audioPlayer.onAudioPositionChanged.listen((pos) {
+    audioPlayer.onPositionChanged.listen((pos) {
       setState(() {
         if (pos.inSeconds == duration) {
           isPlaying = false;
@@ -66,17 +65,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   }
 
   Future setDetails(String link) async {
-    final result = await audioPlayer.setUrl(link);
-    if (result != 1) {
-      showFlushBar(
-        context,
-        "Error",
-        "Something went wrong with your audio. Please try again",
-        backgroundColor: primaryColor,
-        borderColor: backgroundColor,
-        primaryColor: backgroundColor,
-      );
-    }
+    await audioPlayer.setSourceUrl(link);
   }
 
   @override
@@ -104,33 +93,12 @@ class _SoundPlayerState extends State<SoundPlayer> {
                     ? null
                     : () async {
                         if (!isPlaying) {
-                          int results = await audioPlayer.resume();
-                          if (results == 1) {
-                            setState(() => isPlaying = true);
-                          } else {
-                            showFlushBar(
-                              context,
-                              "Error",
-                              "Something went wrong with your audio. Please try again",
-                              backgroundColor: primaryColor,
-                              borderColor: backgroundColor,
-                              primaryColor: backgroundColor,
-                            );
-                          }
+                          await audioPlayer.resume();
+
+                          setState(() => isPlaying = true);
                         } else {
-                          int results = await audioPlayer.pause();
-                          if (results == 1) {
-                            setState(() => isPlaying = false);
-                          } else {
-                            showFlushBar(
-                              context,
-                              "Error",
-                              "Something went wrong with your audio. Please try again",
-                              backgroundColor: primaryColor,
-                              borderColor: backgroundColor,
-                              primaryColor: backgroundColor,
-                            );
-                          }
+                          await audioPlayer.pause();
+                          setState(() => isPlaying = false);
                         }
                       },
                 child: Container(
@@ -165,23 +133,13 @@ class _SoundPlayerState extends State<SoundPlayer> {
                     onChanged: (double value) async {
                       final seekValue = value.round();
                       final positionDuration = Duration(seconds: seekValue);
-                      final result = await audioPlayer.seek(positionDuration);
-                      if (result == 1) {
-                        setState(() {
-                          currentPosition = seekValue;
-                          currentPositionLabel =
-                              convertToHmsLabel(positionDuration);
-                        });
-                      } else {
-                        showFlushBar(
-                          context,
-                          "Error",
-                          "Something went wrong with your audio. Please try again",
-                          backgroundColor: primaryColor,
-                          borderColor: backgroundColor,
-                          primaryColor: backgroundColor,
-                        );
-                      }
+                      await audioPlayer.seek(positionDuration);
+
+                      setState(() {
+                        currentPosition = seekValue;
+                        currentPositionLabel =
+                            convertToHmsLabel(positionDuration);
+                      });
                     },
                   ),
                   data: SliderTheme.of(context).copyWith(

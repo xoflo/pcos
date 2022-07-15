@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ImageComponent extends StatefulWidget {
   ImageComponent({Key? key, required this.imageUrl}) : super(key: key);
@@ -23,7 +23,7 @@ class _ImageComponentState extends State<ImageComponent> {
   }
 
   void setCanLaunch() async {
-    final canLaunchThumbnail = await canLaunch(widget.imageUrl);
+    final canLaunchThumbnail = await canLaunchUrlString(widget.imageUrl);
     setState(() => canLaunchUrl = canLaunchThumbnail);
   }
 

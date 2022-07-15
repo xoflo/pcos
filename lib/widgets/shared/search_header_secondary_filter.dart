@@ -47,7 +47,7 @@ class _SearchHeaderSecondaryFilterState
         return MultiSelectDialog(
           backgroundColor: backgroundColor,
           items: widget.tagValuesSecondary ?? [],
-          initialValue: widget.tagValuesSelectedSecondary,
+          initialValue: widget.tagValuesSelectedSecondary as List<Object?>,
           onConfirm: (values) {
             widget.onSecondaryTagSelected?.call(values as List<String>);
           },
