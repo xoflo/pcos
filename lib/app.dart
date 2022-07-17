@@ -42,6 +42,7 @@ import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_why_settings_page.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_toolkit_details.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
@@ -216,6 +217,7 @@ class _AppState extends State<App> {
           LibraryWikiPage.id: (context) => LibraryWikiPage(),
           LibrarySearchPage.id: (context) => LibrarySearchPage(),
           LessonTaskPage.id: (context) => LessonTaskPage(),
+          DashboardWhySettingsPage.id: (context) => DashboardWhySettingsPage(),
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],
