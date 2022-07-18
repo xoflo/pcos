@@ -151,9 +151,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
               sound: true, badge: true, alert: true));
     }
 
-    PreferencesController().saveBool(
-        SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
-
     showAlertDialog(
       context,
       S.current.requestNotificationPermissionTitle,
@@ -423,8 +420,8 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                   // most of the files, including this one.
 
                   // getTasks(screenSize, isHorizontal, modulesProvider),
-                  // getCurrentModule(screenSize, isHorizontal, modulesProvider,
-                  //     favouritesProvider),
+                  // getCurrentModule(MediaQuery.of(context).size, false,
+                  //     modulesProvider, favouritesProvider),
                   // getLessonWikis(screenSize, isHorizontal, modulesProvider),
                   // widget.showLessonRecipes
                   //     ? getLessonRecipes(screenSize, isHorizontal,

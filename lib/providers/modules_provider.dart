@@ -228,8 +228,6 @@ class ModulesProvider with ChangeNotifier {
     }
     status = LoadingStatus.success;
     notifyListeners();
-    //refresh the data from the API
-    fetchAndSaveData(true);
   }
 
   Future<void> fetchLessonTasks(final int lessonID) async {

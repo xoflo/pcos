@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_component.dart';
@@ -14,6 +18,8 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class LessonPage extends StatefulWidget {
   const LessonPage({Key? key}) : super(key: key);
@@ -26,9 +32,85 @@ class LessonPage extends StatefulWidget {
 
 class _LessonPageState extends State<LessonPage> {
   LessonArguments? args;
-  @override
-  void initState() {
-    super.initState();
+
+  void _closeLesson() async {
+    final bool requestedDailyReminder = await PreferencesController()
+        .getBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
+
+    final bool isNotificationPermissionGranted =
+        await NotificationPermissions.getNotificationPermissionStatus() ==
+            PermissionStatus.granted;
+
+    // If user has disabled daily reminders, the app will ssk the user if
+    // they would like a daily reminder after closing a lesson
+    if (!requestedDailyReminder) {
+      _askUserForDailyReminder();
+    } else {
+      if (!isNotificationPermissionGranted) {
+        if (!await PreferencesController().getBool(
+            SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION)) {
+          // Just in case the device doesn't allow checking of notifications,
+          // we include a pop-up here
+          try {
+            _askUserForNotificationPermission();
+          } catch (ex) {
+            _askUserForNotificationPermission();
+          }
+        }
+      } else {
+        // Close the lesson page normally when the daily reminder is
+        // turned on
+        Navigator.pop(context, true);
+      }
+    }
+  }
+
+  void _askUserForDailyReminder() {
+    void openSettings(BuildContext context) {
+      Navigator.pop(context, true);
+      Navigator.pushNamed(context, NotificationSettings.id);
+    }
+
+    void displaySetupLaterMessage(BuildContext context) {
+      showAlertDialog(
+        context,
+        S.current.requestDailyReminderTitle,
+        S.current.requestDailyReminderNoText,
+        S.current.okayText,
+        "",
+        null,
+        (BuildContext context) => Navigator.pop(context, true),
+      );
+    }
+
+    showAlertDialog(
+      context,
+      S.current.requestDailyReminderTitle,
+      S.current.requestDailyReminderText,
+      S.current.noText,
+      S.current.yesText,
+      openSettings,
+      displaySetupLaterMessage,
+    );
+  }
+
+  void _askUserForNotificationPermission() {
+    void requestNotificationPermission(BuildContext context) async {
+      Navigator.of(context).pop();
+      await NotificationPermissions.requestNotificationPermissions(
+          iosSettings: const NotificationSettingsIos(
+              sound: true, badge: true, alert: true));
+    }
+
+    showAlertDialog(
+      context,
+      S.current.requestNotificationPermissionTitle,
+      S.current.requestNotificationPermissionText,
+      S.current.noText,
+      S.current.yesText,
+      requestNotificationPermission,
+      (context) => Navigator.of(context).pop(),
+    );
   }
 
   @override
@@ -190,7 +272,7 @@ class _LessonPageState extends State<LessonPage> {
                                                     setModuleComplete,
                                                   )
                                                   .then((value) =>
-                                                      Navigator.pop(context));
+                                                      _closeLesson());
                                             }
                                           : null,
                                     ),
