@@ -29,7 +29,8 @@ class HighlightText extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = this.text;
     if ((highlight.isEmpty) || text.isEmpty) {
-      return Text(text, style: style);
+      return Text(text,
+          maxLines: 4, overflow: TextOverflow.ellipsis, style: style);
     }
 
     var sourceText = ignoreCase ? text.toLowerCase() : text;
@@ -53,7 +54,11 @@ class HighlightText extends StatelessWidget {
       spans.add(_highlightSpan(text.substring(indexOfHighlight, start)));
     } while (true);
 
-    return Text.rich(TextSpan(children: spans));
+    return Text.rich(
+      TextSpan(children: spans),
+      maxLines: 4,
+      overflow: TextOverflow.ellipsis,
+    );
   }
 
   TextSpan _highlightSpan(String content) {

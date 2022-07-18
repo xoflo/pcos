@@ -10,20 +10,18 @@ class DashboardWhySettingsPage extends StatelessWidget {
   static const id = "dashboard_why_settings_page";
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: ChangeNotifierProvider(
-            create: (context) => MemberViewModel(),
-            child: DashboardWhySettingsLayout(),
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: primaryColor,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
+            ),
+            child: ChangeNotifierProvider(
+              create: (context) => MemberViewModel(),
+              child: DashboardWhySettingsLayout(),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

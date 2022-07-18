@@ -135,6 +135,29 @@ class WebServices {
     }
   }
 
+  Future<bool> setMemberWhy(String memberId, String why) async {
+    final url = Uri.parse(_baseUrl + "Member/setwhatsmywhy");
+    final String? token = await AuthenticationController().getAccessToken();
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(
+        <String, String>{'MemberId': memberId, 'StringValue': why},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw SET_MEMBER_WHY_FAILED;
+    }
+  }
+
   Future<bool> updateMemberDetails(final String encodedMemberDetails) async {
     final url = Uri.parse(_baseUrl + "account_services/update_profile");
     final String? token = await AuthenticationController().getAccessToken();
