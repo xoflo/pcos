@@ -6,9 +6,7 @@
 	<string>development</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.thepcosnutritionist.app.dev.onesignal</string>
-		<string>group.com.thepcosnutritionist.app.onesignal</string>
-		<string>group.com.thepcosnutritionist.app.staging.onesignal</string>
+		<string>group.com.puttiapps.ovie.OneSignalNotificationServiceExtension</string>
 	</array>
 </dict>
 </plist>
