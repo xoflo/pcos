@@ -185,11 +185,13 @@ class _LessonContentPageState extends State<LessonContentPage> {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: generateIndicators(),
-                ),
+                if ((lessonContent?.length ?? 0) > 1) ...[
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: generateIndicators(),
+                  ),
+                ],
                 SizedBox(height: 25)
               ],
             ),

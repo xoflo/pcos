@@ -31,6 +31,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
     initializePlayer();
   }
 
+  void dispose() {
+    super.dispose();
+    _betterPlayerController.pause();
+    _betterPlayerController.dispose(forceDispose: true);
+  }
+
   Future<void> initializePlayer() async {
     final String? videoUrl = widget.videoUrl;
     List<DeviceOrientation> fullscreenOrientations = [
@@ -65,7 +71,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     BetterPlayerConfiguration betterPlayerConfiguration =
         BetterPlayerConfiguration(
-      autoPlay: false,
+      autoPlay: true,
       autoDispose: true,
       looping: false,
       fullScreenByDefault: false,

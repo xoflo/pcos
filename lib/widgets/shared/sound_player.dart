@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 
 class SoundPlayer extends StatefulWidget {
   const SoundPlayer({Key? key, required this.link}) : super(key: key);
@@ -27,26 +26,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   void initState() {
     super.initState();
 
-    audioPlayer.onDurationChanged.listen((dur) {
-      setState(() {
-        isLoading = false;
-        durationLabel = convertToHmsLabel(dur);
-        duration = dur.inSeconds;
-      });
-    });
-
-    audioPlayer.onAudioPositionChanged.listen((pos) {
-      setState(() {
-        if (pos.inSeconds == duration) {
-          isPlaying = false;
-          currentPosition = 0;
-          currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
-        } else {
-          currentPosition = pos.inSeconds;
-          currentPositionLabel = convertToHmsLabel(pos);
-        }
-      });
-    });
+    setAudioPlayerDetails(widget.link);
   }
 
   String convertToHmsLabel(Duration pos) {
@@ -65,18 +45,38 @@ class _SoundPlayerState extends State<SoundPlayer> {
     return label;
   }
 
-  Future setDetails(String link) async {
-    final result = await audioPlayer.setUrl(link);
-    if (result != 1) {
-      showFlushBar(
-        context,
-        "Error",
-        "Something went wrong with your audio. Please try again",
-        backgroundColor: primaryColor,
-        borderColor: backgroundColor,
-        primaryColor: backgroundColor,
-      );
-    }
+  Future setAudioPlayerDetails(String link) async {
+    await audioPlayer.setSource(UrlSource(link));
+
+    audioPlayer.onPlayerComplete.listen((event) {
+      setState(() {
+        isPlaying = false;
+        currentPosition = 0;
+        currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
+      });
+    });
+
+    audioPlayer.onDurationChanged.listen((dur) {
+      setState(() {
+        isLoading = false;
+        durationLabel = convertToHmsLabel(dur);
+        duration = dur.inSeconds;
+      });
+    });
+
+    audioPlayer.onPositionChanged.listen((pos) async {
+      debugPrint((await audioPlayer.getDuration()).toString());
+      setState(() {
+        if (pos.inSeconds == duration) {
+          isPlaying = false;
+          currentPosition = 0;
+          currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
+        } else {
+          currentPosition = pos.inSeconds;
+          currentPositionLabel = convertToHmsLabel(pos);
+        }
+      });
+    });
   }
 
   @override
@@ -87,8 +87,6 @@ class _SoundPlayerState extends State<SoundPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    setDetails(widget.link);
-
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -104,34 +102,13 @@ class _SoundPlayerState extends State<SoundPlayer> {
                     ? null
                     : () async {
                         if (!isPlaying) {
-                          int results = await audioPlayer.resume();
-                          if (results == 1) {
-                            setState(() => isPlaying = true);
-                          } else {
-                            showFlushBar(
-                              context,
-                              "Error",
-                              "Something went wrong with your audio. Please try again",
-                              backgroundColor: primaryColor,
-                              borderColor: backgroundColor,
-                              primaryColor: backgroundColor,
-                            );
-                          }
+                          await audioPlayer.resume();
                         } else {
-                          int results = await audioPlayer.pause();
-                          if (results == 1) {
-                            setState(() => isPlaying = false);
-                          } else {
-                            showFlushBar(
-                              context,
-                              "Error",
-                              "Something went wrong with your audio. Please try again",
-                              backgroundColor: primaryColor,
-                              borderColor: backgroundColor,
-                              primaryColor: backgroundColor,
-                            );
-                          }
+                          await audioPlayer.pause();
                         }
+
+                        setState(() => isPlaying =
+                            audioPlayer.state == PlayerState.playing);
                       },
                 child: Container(
                   width: 32,
@@ -165,23 +142,13 @@ class _SoundPlayerState extends State<SoundPlayer> {
                     onChanged: (double value) async {
                       final seekValue = value.round();
                       final positionDuration = Duration(seconds: seekValue);
-                      final result = await audioPlayer.seek(positionDuration);
-                      if (result == 1) {
-                        setState(() {
-                          currentPosition = seekValue;
-                          currentPositionLabel =
-                              convertToHmsLabel(positionDuration);
-                        });
-                      } else {
-                        showFlushBar(
-                          context,
-                          "Error",
-                          "Something went wrong with your audio. Please try again",
-                          backgroundColor: primaryColor,
-                          borderColor: backgroundColor,
-                          primaryColor: backgroundColor,
-                        );
-                      }
+                      await audioPlayer.seek(positionDuration);
+
+                      setState(() {
+                        currentPosition = seekValue;
+                        currentPositionLabel =
+                            convertToHmsLabel(positionDuration);
+                      });
                     },
                   ),
                   data: SliderTheme.of(context).copyWith(

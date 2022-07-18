@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "pcos",
+            "name": "ovie",
             "request": "launch",
             "type": "dart",
             "program": "lib/main_dev.dart",
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "name": "pcos (profile mode)",
+            "name": "ovie (profile mode)",
             "request": "launch",
             "type": "dart",
             "program": "lib/main_staging.dart",
@@ -25,7 +25,7 @@
             ]
         },
         {
-            "name": "pcos (release mode)",
+            "name": "ovie (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",

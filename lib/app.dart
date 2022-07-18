@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:device_info/device_info.dart';
 import 'package:thepcosprotocol_app/screens/library/library_module_page.dart';
 import 'package:thepcosprotocol_app/screens/library/library_module_wiki_page.dart';
 import 'package:thepcosprotocol_app/screens/library/library_search_page.dart';
@@ -59,12 +59,16 @@ import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 class App extends StatefulWidget {
+  App({required this.app});
+
+  final FirebaseApp app;
+
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  final appTitle = "The PCOS Protocol";
+  final appTitle = "Ovie";
   bool appError = false;
   GlobalVars refreshMessages = GlobalVars();
 
@@ -86,10 +90,9 @@ class _AppState extends State<App> {
   //initialise Crashlytics for app
   Future<void> initializeFlutterFire() async {
     try {
-      Firebase.initializeApp().then((app) {
-        FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);
-        observer = FirebaseAnalyticsObserver(analytics: analytics);
-      });
+      FirebaseAnalytics analytics =
+          FirebaseAnalytics.instanceFor(app: widget.app);
+      observer = FirebaseAnalyticsObserver(analytics: analytics);
     } catch (e) {
       // Set `_error` state to true if Firebase initialization fails
       setState(() {
@@ -124,7 +127,7 @@ class _AppState extends State<App> {
   void setDeviceOrientations() async {
     if (Platform.isIOS) {
       final IosDeviceInfo iosDeviceInfo = await DeviceUtils.iosDeviceInfo();
-      if (!iosDeviceInfo.model.toLowerCase().contains("ipad")) {
+      if (iosDeviceInfo.model?.toLowerCase().contains("ipad") == false) {
         //this is iOS but not a iPad so DO NOT allow landscape mode all the time
         //this gets allowed when the video player goes full screen
         //and converts back after the video goes out of fullscreen mode

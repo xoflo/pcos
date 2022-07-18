@@ -1,6 +1,8 @@
 PODS:
   - audio_session (0.0.1):
     - Flutter
+  - audioplayers_darwin (0.0.1):
+    - Flutter
   - better_player (0.0.1):
     - Cache (~> 6.0.0)
     - Flutter
@@ -11,74 +13,73 @@ PODS:
   - connectivity (0.0.1):
     - Flutter
     - Reachability
-  - device_info (0.0.1):
-    - Flutter
   - device_info_plus (0.0.1):
     - Flutter
-  - Firebase/Analytics (8.14.0):
+  - Firebase/Analytics (9.2.0):
     - Firebase/Core
-  - Firebase/Core (8.14.0):
+  - Firebase/Core (9.2.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 8.14.0)
-  - Firebase/CoreOnly (8.14.0):
-    - FirebaseCore (= 8.14.0)
-  - Firebase/Crashlytics (8.14.0):
+    - FirebaseAnalytics (~> 9.2.0)
+  - Firebase/CoreOnly (9.2.0):
+    - FirebaseCore (= 9.2.0)
+  - Firebase/Crashlytics (9.2.0):
     - Firebase/CoreOnly
-    - FirebaseCrashlytics (~> 8.14.0)
-  - firebase_analytics (9.1.4):
-    - Firebase/Analytics (= 8.14.0)
+    - FirebaseCrashlytics (~> 9.2.0)
+  - firebase_analytics (9.2.0):
+    - Firebase/Analytics (= 9.2.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.14.0):
-    - Firebase/CoreOnly (= 8.14.0)
+  - firebase_core (1.19.2):
+    - Firebase/CoreOnly (= 9.2.0)
     - Flutter
-  - firebase_crashlytics (2.6.1):
-    - Firebase/Crashlytics (= 8.14.0)
+  - firebase_crashlytics (2.8.5):
+    - Firebase/Crashlytics (= 9.2.0)
     - firebase_core
     - Flutter
-  - FirebaseAnalytics (8.14.0):
-    - FirebaseAnalytics/AdIdSupport (= 8.14.0)
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
+  - FirebaseAnalytics (9.2.0):
+    - FirebaseAnalytics/AdIdSupport (= 9.2.0)
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseAnalytics/AdIdSupport (8.14.0):
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
-    - GoogleAppMeasurement (= 8.14.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (9.2.0):
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleAppMeasurement (= 9.2.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseCore (8.14.0):
-    - FirebaseCoreDiagnostics (~> 8.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCore (9.2.0):
+    - FirebaseCoreDiagnostics (~> 9.0)
+    - FirebaseCoreInternal (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.14.0):
-    - GoogleDataTransport (~> 9.1)
+  - FirebaseCoreDiagnostics (9.3.0):
+    - GoogleDataTransport (< 10.0.0, >= 9.1.4)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-    - nanopb (~> 2.30908.0)
-  - FirebaseCrashlytics (8.14.0):
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
-    - GoogleDataTransport (~> 9.1)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCoreInternal (9.3.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+  - FirebaseCrashlytics (9.2.0):
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleDataTransport (< 10.0.0, >= 9.1.4)
     - GoogleUtilities/Environment (~> 7.7)
-    - nanopb (~> 2.30908.0)
-    - PromisesObjC (< 3.0, >= 1.2)
-  - FirebaseInstallations (8.14.0):
-    - FirebaseCore (~> 8.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (~> 2.1)
+  - FirebaseInstallations (9.3.0):
+    - FirebaseCore (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
-    - PromisesObjC (< 3.0, >= 1.2)
+    - PromisesObjC (~> 2.1)
   - Flutter (1.0.0)
   - flutter_local_notifications (0.0.1):
-    - Flutter
-  - flutter_native_timezone (0.0.1):
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
@@ -88,29 +89,29 @@ PODS:
   - GCDWebServer (3.5.4):
     - GCDWebServer/Core (= 3.5.4)
   - GCDWebServer/Core (3.5.4)
-  - GoogleAppMeasurement (8.14.0):
-    - GoogleAppMeasurement/AdIdSupport (= 8.14.0)
+  - GoogleAppMeasurement (9.2.0):
+    - GoogleAppMeasurement/AdIdSupport (= 9.2.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (8.14.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.14.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (9.2.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.2.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (8.14.0):
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (9.2.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.1.2):
-    - GoogleUtilities/Environment (~> 7.2)
-    - nanopb (~> 2.30908.0)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleDataTransport (9.1.4):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
@@ -138,30 +139,37 @@ PODS:
     - Flutter
   - integration_test (0.0.1):
     - Flutter
-  - Intercom (12.0.0)
+  - Intercom (12.4.3)
   - intercom_flutter (5.0.0):
     - Flutter
-    - Intercom (~> 12.0.0)
+    - Intercom (~> 12.4.2)
   - just_audio (0.0.1):
     - Flutter
   - launch_review (0.0.1):
     - Flutter
-  - nanopb (2.30908.0):
-    - nanopb/decode (= 2.30908.0)
-    - nanopb/encode (= 2.30908.0)
-  - nanopb/decode (2.30908.0)
-  - nanopb/encode (2.30908.0)
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
   - notification_permissions (0.4.4):
     - Flutter
-  - onesignal_flutter (3.3.0):
+  - onesignal_flutter (3.3.2):
     - Flutter
-    - OneSignalXCFramework (= 3.10.1)
-  - OneSignalXCFramework (3.10.1)
+    - OneSignalXCFramework (= 3.11.2)
+  - OneSignalXCFramework (3.11.2):
+    - OneSignalXCFramework/OneSignalCore (= 3.11.2)
+    - OneSignalXCFramework/OneSignalExtension (= 3.11.2)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.11.2)
+  - OneSignalXCFramework/OneSignalCore (3.11.2)
+  - OneSignalXCFramework/OneSignalExtension (3.11.2):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
+    - OneSignalXCFramework/OneSignalCore
   - package_info (0.0.1):
     - Flutter
   - path_provider_ios (0.0.1):
-    - Flutter
-  - pdfx (1.0.0):
     - Flutter
   - PINCache (3.0.3):
     - PINCache/Arc-exception-safe (= 3.0.3)
@@ -171,16 +179,16 @@ PODS:
   - PINCache/Core (3.0.3):
     - PINOperation (~> 1.2.1)
   - PINOperation (1.2.1)
-  - PromisesObjC (2.1.0)
+  - PromisesObjC (2.1.1)
   - Reachability (3.2)
-  - shared_preferences (0.0.1):
+  - shared_preferences_ios (0.0.1):
     - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - url_launcher (0.0.1):
+  - url_launcher_ios (0.0.1):
     - Flutter
-  - video_player (0.0.1):
+  - video_player_avfoundation (0.0.1):
     - Flutter
   - wakelock (0.0.1):
     - Flutter
@@ -189,16 +197,15 @@ PODS:
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
+  - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - better_player (from `.symlinks/plugins/better_player/ios`)
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
-  - device_info (from `.symlinks/plugins/device_info/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
-  - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - image_downloader (from `.symlinks/plugins/image_downloader/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
@@ -207,14 +214,12 @@ DEPENDENCIES:
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - notification_permissions (from `.symlinks/plugins/notification_permissions/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
-  - OneSignalXCFramework (< 4.0, >= 3.4.3)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
-  - pdfx (from `.symlinks/plugins/pdfx/ios`)
-  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
-  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
-  - video_player (from `.symlinks/plugins/video_player/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
@@ -225,6 +230,7 @@ SPEC REPOS:
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCoreInternal
     - FirebaseCrashlytics
     - FirebaseInstallations
     - FMDB
@@ -244,12 +250,12 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   audio_session:
     :path: ".symlinks/plugins/audio_session/ios"
+  audioplayers_darwin:
+    :path: ".symlinks/plugins/audioplayers_darwin/ios"
   better_player:
     :path: ".symlinks/plugins/better_player/ios"
   connectivity:
     :path: ".symlinks/plugins/connectivity/ios"
-  device_info:
-    :path: ".symlinks/plugins/device_info/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_analytics:
@@ -262,8 +268,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
-  flutter_native_timezone:
-    :path: ".symlinks/plugins/flutter_native_timezone/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   image_downloader:
@@ -284,16 +288,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
-  pdfx:
-    :path: ".symlinks/plugins/pdfx/ios"
-  shared_preferences:
-    :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
-  url_launcher:
-    :path: ".symlinks/plugins/url_launcher/ios"
-  video_player:
-    :path: ".symlinks/plugins/video_player/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
   webview_flutter_wkwebview:
@@ -301,54 +303,53 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
+  audioplayers_darwin: 387322cb364026a1782298c982693b1b6aa9fa1b
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
-  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
-  Firebase: 7e8fe528c161b9271d365217a74c16aaf834578e
-  firebase_analytics: 3d3cbbe452befde99014d7f6fd281bbb4e6f96da
-  firebase_core: b0b382f1497ab407aceb25e41e3036c8798c1609
-  firebase_crashlytics: 4855a96241cfc4cb92a81bebedc29ea29488373a
-  FirebaseAnalytics: 2fc3876e2eb347673ad2f35e249ae7b15d6c88f5
-  FirebaseCore: b84a44ee7ba999e0f9f76d198a9c7f60a797b848
-  FirebaseCoreDiagnostics: fd0c8490f34287229c1d6c103d3a55f81ec85712
-  FirebaseCrashlytics: 079ef36f5c4b7161188928faec40fa276ebefd84
-  FirebaseInstallations: 7d1d967a307c12f1aadd76844fc321cef699b1ce
+  Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
+  firebase_analytics: e6754d7dd82bd2006b002d88c0f44f8f50da26e6
+  firebase_core: ada8be870601fe3c2684dae2356f634189bd598f
+  firebase_crashlytics: c07347255e8609dbe65a72feb82a76943827730d
+  FirebaseAnalytics: af5a03a8dff7648c7b8486f6a78b1368e0268dd3
+  FirebaseCore: 0e27f2a15d8f7b7ef11e7d93e23b1cbab55d748c
+  FirebaseCoreDiagnostics: 060eb57cc56dfaf40b1b1b5874a5c17c41ce79f8
+  FirebaseCoreInternal: 635d1c9a612a6502b6377a0c92af83758076ffff
+  FirebaseCrashlytics: 9fff819edb2bfc9d3eff612225b207d41945a935
+  FirebaseInstallations: 54b40022cb06e462740c9f2b9fbe38b5e78a825a
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
-  flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
-  GoogleAppMeasurement: 71156240babd3cc6ced03e0d54816f01a880c730
-  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleAppMeasurement: 7a33224321f975d58c166657260526775d9c6b1a
+  GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   HLSCachingReverseProxyServer: 59935e1e0244ad7f3375d75b5ef46e8eb26ab181
   image_downloader: 73e190d6c9f286f2649554051348d9cb319cd4b3
   integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
-  Intercom: d706bc52b0e80758b38ceadce9143b76577100fb
-  intercom_flutter: 91a425a6271b43c9ede1df31fb4528b91e142c2c
+  Intercom: 43bfacc55b1c93cce9ec569833696d3f15678430
+  intercom_flutter: f3b72d3a5b6fbd22b2bc7c01487a3cc8f44d0c53
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
-  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   notification_permissions: 825ea1bf2a52ab585c53fd7b5e8e96876d735d4b
-  onesignal_flutter: a89207b9d7e97cc9d7d12bcfb4a25f62aedc445b
-  OneSignalXCFramework: fe027712118f2862ab193b72270487f11450ea63
+  onesignal_flutter: f3ff66c97498f9131481441a362ef5f0e6cb6d16
+  OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
-  pdfx: 1cf9d07304b44d47676e6c6c4e13707eff394847
   PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
-  PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: 5079f6bb53f4e0dae5984130261abbebc190bef6
+PODFILE CHECKSUM: 98365cf68e6018fb84300c05f311956651befd4e
 
 COCOAPODS: 1.11.3

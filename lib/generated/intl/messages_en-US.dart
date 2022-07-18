@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function>{
         "allModules": MessageLookupByLibrary.simpleMessage("All Modules"),
         "appHelpTitle": MessageLookupByLibrary.simpleMessage("App Help"),
-        "appTitle": MessageLookupByLibrary.simpleMessage("The PCOS Protocol"),
+        "appTitle": MessageLookupByLibrary.simpleMessage("Ovie"),
         "areYouSureText": MessageLookupByLibrary.simpleMessage("Close app"),
         "boolTaskValidation": MessageLookupByLibrary.simpleMessage(
             "Please make a selection above"),
@@ -121,9 +121,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "gettingStarted":
             MessageLookupByLibrary.simpleMessage("Getting started"),
         "gotoSigninText": MessageLookupByLibrary.simpleMessage(
-            "Already have an account for The PCOS Protocol?"),
-        "gotoSignupText": MessageLookupByLibrary.simpleMessage(
-            "Sign up for The PCOS Protocol."),
+            "Already have an account for Ovie?"),
+        "gotoSignupText":
+            MessageLookupByLibrary.simpleMessage("Sign up for Ovie."),
         "helpTitle": MessageLookupByLibrary.simpleMessage("Help"),
         "internetConnectionText": MessageLookupByLibrary.simpleMessage(
             "Please ensure you are connected to the internet."),
@@ -189,11 +189,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "okayText": MessageLookupByLibrary.simpleMessage("Okay"),
         "onText": MessageLookupByLibrary.simpleMessage("On"),
         "openWebsiteText": MessageLookupByLibrary.simpleMessage(
-            "To register for The PCOS Protocol on your device click the \'Sign Up\' button below to visit the PCOS Questionnaire website."),
+            "To register for Ovie on your device click the \'Sign Up\' button below to visit the Ovie Questionnaire website."),
         "openWebsiteTitle":
             MessageLookupByLibrary.simpleMessage("Open Questionnaire"),
         "openWebsiteWhy": MessageLookupByLibrary.simpleMessage(
-            "The PCOS Protocol is a personalized programme, delivered according to your own goals."),
+            "Ovie is a personalized programme, delivered according to your own goals."),
         "passwordForgottenCancel":
             MessageLookupByLibrary.simpleMessage("Cancel"),
         "passwordForgottenCompleteMessage": MessageLookupByLibrary.simpleMessage(
@@ -333,13 +333,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestDailyReminderNoText": MessageLookupByLibrary.simpleMessage(
             "You can set a daily reminder later by clicking the Settings icon in the main menu."),
         "requestDailyReminderText": MessageLookupByLibrary.simpleMessage(
-            "To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?"),
+            "To help you get the most from Ovie, we can send you a daily reminder. Would you like to set a daily reminder?"),
         "requestDailyReminderTitle":
             MessageLookupByLibrary.simpleMessage("Daily Reminder"),
         "requestDataTitle":
             MessageLookupByLibrary.simpleMessage("Request Data"),
         "requestNotificationPermissionText": MessageLookupByLibrary.simpleMessage(
-            "To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?"),
+            "To help you get the most from Ovie, we may send you notifications from time to time. Would you like to receive notifications?"),
         "requestNotificationPermissionTitle":
             MessageLookupByLibrary.simpleMessage("Notifications"),
         "returnToSignInTitle":
@@ -418,7 +418,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialWelcomeTailor": MessageLookupByLibrary.simpleMessage(
             "We tailor the programme to meet your specific needs using the information provided in the questionnaire."),
         "tutorialWelcomeThankYou": MessageLookupByLibrary.simpleMessage(
-            "Thank you for signing up to our programme. We are here to help you get the most from The PCOS Protocol."),
+            "Thank you for signing up to our programme. We are here to help you get the most from Ovie."),
         "tutorialWelcomeWelcome":
             MessageLookupByLibrary.simpleMessage("Welcome to"),
         "tutorialYourCourseDesc": MessageLookupByLibrary.simpleMessage(
@@ -434,10 +434,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "validatePasswordMessage":
             MessageLookupByLibrary.simpleMessage("Please enter your password"),
         "versionDialogDesc": MessageLookupByLibrary.simpleMessage(
-            "Please open the app store on your device, and upgrade The PCOS Protocol app."),
+            "Please open the app store on your device, and upgrade the Ovie app."),
         "versionDialogTitle": MessageLookupByLibrary.simpleMessage("App Store"),
         "versionText1": MessageLookupByLibrary.simpleMessage(
-            "This version of The PCOS Protocol app is no longer supported."),
+            "This version of the Ovie app is no longer supported."),
         "versionText2": MessageLookupByLibrary.simpleMessage(
             "Please visit the app store to upgrade your app version."),
         "viewNow": MessageLookupByLibrary.simpleMessage("View lesson"),

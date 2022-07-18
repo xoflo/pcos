@@ -36,10 +36,10 @@ class S {
     return Localizations.of<S>(context, S) ?? S();
   }
 
-  /// `The PCOS Protocol`
+  /// `Ovie`
   String get appTitle {
     return Intl.message(
-      'The PCOS Protocol',
+      'Ovie',
       name: 'appTitle',
       desc: '',
       args: [],
@@ -49,7 +49,7 @@ class S {
   /// `The PCOS Nutritionist`
   String get companyTitle {
     return Intl.message(
-      'The PCOS Nutritionist',
+      'Ovie',
       name: 'companyTitle',
       desc: '',
       args: [],
@@ -246,20 +246,20 @@ class S {
     );
   }
 
-  /// `Sign up for The PCOS Protocol.`
+  /// `Sign up for Ovie.`
   String get gotoSignupText {
     return Intl.message(
-      'Sign up for The PCOS Protocol.',
+      'Sign up for Ovie.',
       name: 'gotoSignupText',
       desc: '',
       args: [],
     );
   }
 
-  /// `Already have an account for The PCOS Protocol?`
+  /// `Already have an account for Ovie?`
   String get gotoSigninText {
     return Intl.message(
-      'Already have an account for The PCOS Protocol?',
+      'Already have an account for Ovie?',
       name: 'gotoSigninText',
       desc: '',
       args: [],
@@ -306,20 +306,20 @@ class S {
     );
   }
 
-  /// `To register for The PCOS Protocol on your device click the 'Sign Up' button below to visit the PCOS Questionnaire website.`
+  /// `To register for Ovie on your device click the 'Sign Up' button below to visit the Ovie Questionnaire website.`
   String get openWebsiteText {
     return Intl.message(
-      'To register for The PCOS Protocol on your device click the \'Sign Up\' button below to visit the PCOS Questionnaire website.',
+      'To register for Ovie on your device click the \'Sign Up\' button below to visit the Ovie Questionnaire website.',
       name: 'openWebsiteText',
       desc: '',
       args: [],
     );
   }
 
-  /// `The PCOS Protocol is a personalised programme, delivered according to your own goals.`
+  /// `Ovie is a personalised programme, delivered according to your own goals.`
   String get openWebsiteWhy {
     return Intl.message(
-      'The PCOS Protocol is a personalised programme, delivered according to your own goals.',
+      'Ovie is a personalised programme, delivered according to your own goals.',
       name: 'openWebsiteWhy',
       desc: '',
       args: [],
@@ -1516,20 +1516,20 @@ class S {
     );
   }
 
-  /// `Please open the app store on your device, and upgrade The PCOS Protocol app.`
+  /// `Please open the app store on your device, and upgrade the Ovie app.`
   String get versionDialogDesc {
     return Intl.message(
-      'Please open the app store on your device, and upgrade The PCOS Protocol app.',
+      'Please open the app store on your device, and upgrade the Ovie app.',
       name: 'versionDialogDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `This version of The PCOS Protocol app is no longer supported.`
+  /// `This version of the Ovie app is no longer supported.`
   String get versionText1 {
     return Intl.message(
-      'This version of The PCOS Protocol app is no longer supported.',
+      'This version of the Ovie app is no longer supported.',
       name: 'versionText1',
       desc: '',
       args: [],
@@ -1706,10 +1706,10 @@ class S {
     );
   }
 
-  /// `To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?`
+  /// `To help you get the most from Ovie, we can send you a daily reminder. Would you like to set a daily reminder?`
   String get requestDailyReminderText {
     return Intl.message(
-      'To help you get the most from The PCOS Protocol, we can send you a daily reminder. Would you like to set a daily reminder?',
+      'To help you get the most from Ovie, we can send you a daily reminder. Would you like to set a daily reminder?',
       name: 'requestDailyReminderText',
       desc: '',
       args: [],
@@ -1816,10 +1816,10 @@ class S {
     );
   }
 
-  /// `To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?`
+  /// `To help you get the most from Ovie, we may send you notifications from time to time. Would you like to receive notifications?`
   String get requestNotificationPermissionText {
     return Intl.message(
-      'To help you get the most from The PCOS Protocol, we may send you notifications from time to time. Would you like to receive notifications?',
+      'To help you get the most from Ovie, we may send you notifications from time to time. Would you like to receive notifications?',
       name: 'requestNotificationPermissionText',
       desc: '',
       args: [],
@@ -2016,10 +2016,10 @@ class S {
     );
   }
 
-  /// `Thank you for signing up to our programme. We are here to help you get the most from The PCOS Protocol.`
+  /// `Thank you for signing up to our programme. We are here to help you get the most from Ovie.`
   String get tutorialWelcomeThankYou {
     return Intl.message(
-      'Thank you for signing up to our programme. We are here to help you get the most from The PCOS Protocol.',
+      'Thank you for signing up to our programme. We are here to help you get the most from Ovie.',
       name: 'tutorialWelcomeThankYou',
       desc: '',
       args: [],

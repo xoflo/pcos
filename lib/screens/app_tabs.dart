@@ -72,14 +72,14 @@ class _AppTabsState extends State<AppTabs>
 
     //intercom
     final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
-    await Intercom.initialize(
+    await Intercom.instance.initialize(
       intercomIds[0],
       androidApiKey: intercomIds[1],
       iosApiKey: intercomIds[2],
     );
     final String? userId = await AuthenticationController().getUserId();
     if (!await AuthenticationController().getIntercomRegistered()) {
-      Intercom.registerIdentifiedUser(userId: userId);
+      Intercom.instance.loginIdentifiedUser(userId: userId);
       await AuthenticationController().saveIntercomRegistered();
     }
 
@@ -176,7 +176,7 @@ class _AppTabsState extends State<AppTabs>
       analytics.setCurrentScreen(
         screenName: Analytics.ANALYTICS_SCREEN_COACH_CHAT,
       );
-      Intercom.displayMessenger();
+      Intercom.instance.displayMessenger();
     } else {
       //Intercom failed to initialise
       analytics.logEvent(
