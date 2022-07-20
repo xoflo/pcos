@@ -46,6 +46,19 @@ class MemberViewModel extends ChangeNotifier {
     this.member.alias = alias;
   }
 
+  Future<bool> setWhy(String why) async {
+    status = LoadingStatus.loading;
+    notifyListeners();
+
+    final bool didSetWhy =
+        await WebServices().setMemberWhy(member.id.toString(), why);
+
+    status = LoadingStatus.success;
+    notifyListeners();
+
+    return didSetWhy;
+  }
+
   Future<void> populateMember() async {
     status = LoadingStatus.loading;
     try {

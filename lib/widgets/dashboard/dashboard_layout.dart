@@ -407,8 +407,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DashboardMemberTime(memberViewModel: memberViewModel),
-                  if (_showWhy && _yourWhy.isNotEmpty)
-                    DashboardWhyCommunity(yourWhy: _yourWhy),
+                  if (_showWhy) DashboardWhyCommunity(yourWhy: _yourWhy),
                   SizedBox(height: 25),
                   DashboardLessonCarousel(
                     modulesProvider: modulesProvider,

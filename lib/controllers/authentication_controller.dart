@@ -35,11 +35,12 @@ class AuthenticationController {
       if ((token?.profile?.whatsMyWhy ?? "").length > 0) {
         await PreferencesController().saveString(
             SharedPreferencesKeys.WHATS_YOUR_WHY, token?.profile?.whatsMyWhy);
-        //if this is first time logging in on this device, but they already have a whatsMyWhy, default the showMyWhy to true as they have previously used the app and saved a what my why
-        if (isUserSignedIn == null) {
-          await PreferencesController()
-              .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, true);
-        }
+      }
+      // Automatically show the what's your why, regardless if they are
+      // available or not, so that they can edit it later on
+      if (isUserSignedIn == null) {
+        await PreferencesController()
+            .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, true);
       }
       //set the dashboard to NOT show lesson recipes by default
       if (prefs.getBool(
