@@ -101,6 +101,9 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                   final currentLesson =
                       widget.modulesProvider.currentModuleLessons[index];
 
+                  final currentLessonQuiz = widget.modulesProvider
+                      .getQuizByLessonID(currentLesson.lessonID);
+
                   final currentLessonRecipes = widget.modulesProvider
                       .getLessonRecipes(currentLesson.lessonID);
                   final isLessonComplete = currentLesson.isComplete;
@@ -223,8 +226,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                               assetSize: Size(84, 90),
                             ),
                           ],
-                          if (widget.modulesProvider.lessonQuizzes.length >
-                              0) ...[
+                          if (currentLessonQuiz != null) ...[
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
                               onTapCard: isPreviousLessonComplete &&
@@ -234,7 +236,10 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                           name:
                                               Analytics.ANALYTICS_SCREEN_QUIZ);
                                       Navigator.pushNamed(
-                                          context, QuizScreen.id);
+                                        context,
+                                        QuizScreen.id,
+                                        arguments: currentLessonQuiz,
+                                      );
                                     }
                                   : null,
                               isLocked: isPreviousLessonComplete,

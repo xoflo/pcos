@@ -214,6 +214,15 @@ class ModulesProvider with ChangeNotifier {
     return displayLessonRecipes;
   }
 
+  Quiz? getQuizByLessonID(final int lessonID) {
+    for (Quiz quiz in _lessonQuizzes) {
+      if (quiz.lessonID == lessonID) {
+        return quiz;
+      }
+    }
+    return null;
+  }
+
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
     status = LoadingStatus.loading;

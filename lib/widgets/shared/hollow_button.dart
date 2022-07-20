@@ -13,7 +13,7 @@ class HollowButton extends StatelessWidget {
     this.isUpdating = false,
   }) : super(key: key);
 
-  final Function() onPressed;
+  final Function()? onPressed;
   final String text;
   final ButtonStyle style;
   final EdgeInsetsGeometry margin;
