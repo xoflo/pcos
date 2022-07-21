@@ -108,7 +108,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            isCorrect == true
+            missedAnswers == 0
                 ? "Correct!"
                 : "Whoops! Missed $missedAnswers correct ${Intl.plural(missedAnswers, one: 'answer', other: 'answers')}",
             textAlign: TextAlign.left,
