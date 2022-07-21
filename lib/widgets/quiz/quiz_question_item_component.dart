@@ -173,7 +173,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
             ] else
               SizedBox(height: 10),
             FilledButton(
-              onPressed: answers.length != corrects
+              onPressed: answers.length != corrects && corrects != 0
                   ? null
                   : () {
                       if (!isAnswerChecked) {
