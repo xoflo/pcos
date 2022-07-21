@@ -49,7 +49,7 @@ class _AppTabsState extends State<AppTabs>
   int _currentIndex = 0;
   bool _intercomInitialised = false;
   late AppLifecycleState _appLifecycleState;
-  bool _showYourWhy = false;
+  bool _showYourWhy = true;
   bool _showLessonRecipes = false;
   bool _isLocked = false;
   late TabController tabController;
