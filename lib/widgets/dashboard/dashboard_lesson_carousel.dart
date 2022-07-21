@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel_item_card.dart';
+import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_locked_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -31,30 +32,6 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
   PageController? controller;
 
   int activePage = 0;
-
-  Widget getLockedComponent(String text) => Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 5,
-        ),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.lock_outline),
-            SizedBox(width: 10),
-            Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-      );
 
   List<Widget> generateIndicators() =>
       List<Widget>.generate(widget.modulesProvider.currentModuleLessons.length,
@@ -92,7 +69,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
         return Column(
           children: [
             Container(
-              height: 500,
+              height: 505,
               child: PageView.builder(
                 controller: controller,
                 itemCount: widget.modulesProvider.currentModuleLessons.length,
@@ -155,7 +132,8 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                   ),
                                 )
                               else
-                                getLockedComponent("Complete the early lesson"),
+                                DashboardLessonLockedComponent(
+                                    title: "Complete the early lesson"),
                               Opacity(
                                 opacity: isPreviousLessonComplete ? 1 : 0.5,
                                 child: Container(
@@ -198,7 +176,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                         })
                                     : null,
                             showCompletedTag: isLessonComplete,
-                            isLocked: isPreviousLessonComplete,
+                            isUnlocked: isPreviousLessonComplete,
                             title: "Lesson ${index + 1}",
                             subtitle: currentLesson.title,
                             duration: "${currentLesson.minsToComplete} mins",
@@ -217,7 +195,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                             arguments: currentLessonRecipes,
                                           )
                                       : null,
-                              isLocked: isPreviousLessonComplete,
+                              isUnlocked: isPreviousLessonComplete,
                               title: "Lesson Recipes",
                               duration:
                                   "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
@@ -242,7 +220,11 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                       );
                                     }
                                   : null,
-                              isLocked: isPreviousLessonComplete,
+                              showCompletedTag:
+                                  currentLessonQuiz.isComplete == true,
+                              showCompleteLesson: !isLessonComplete,
+                              isUnlocked:
+                                  isPreviousLessonComplete && isLessonComplete,
                               title: "Quiz",
                               duration: "5 mins",
                               asset: 'assets/dashboard_quiz.png',

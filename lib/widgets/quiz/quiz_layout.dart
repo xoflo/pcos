@@ -35,8 +35,10 @@ class _QuizLayoutState extends State<QuizLayout> {
           setState(() => questionNumber += 1);
         } else {
           modulesProvider
-              .setTaskAsComplete(widget.quiz?.quizID)
-              .then((value) => Navigator.pop(context));
+              .setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
+              .then((value) {
+            Navigator.pop(context);
+          });
         }
       },
     );

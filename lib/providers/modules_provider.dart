@@ -266,7 +266,9 @@ class ModulesProvider with ChangeNotifier {
   }
 
   Future<void> setTaskAsComplete(final int? taskID,
-      {final String? value, final int? lessonID}) async {
+      {final String? value,
+      final int? lessonID,
+      final bool? forceRefresh}) async {
     status = LoadingStatus.loading;
     notifyListeners();
 
@@ -277,6 +279,9 @@ class ModulesProvider with ChangeNotifier {
 
     if (lessonID != null) {
       fetchLessonTasks(lessonID);
+    }
+    if (forceRefresh != null) {
+      fetchAndSaveData(forceRefresh);
     }
   }
 

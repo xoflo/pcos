@@ -457,6 +457,7 @@ class ProviderHelper {
         await dbProvider?.insert(TABLE_QUIZ, {
           'quizID': quiz.lessonTaskID,
           'lessonID': quizLink.lessonID,
+          'isComplete': quiz.isComplete == true ? 1 : 0,
           'title': quiz.title,
           'description': quiz.description,
           'endTitle': quizEndTitle,
