@@ -44,7 +44,7 @@ class _TasksState extends State<Tasks> {
       });
     }
     await Future.delayed(const Duration(milliseconds: 750), () {});
-    widget.modulesProvider.setTaskAsComplete(taskID, value);
+    widget.modulesProvider.setTaskAsComplete(taskID, value: value);
     //if this is the whats your why and it hasn't already been set, set it now locally
     //backend updates the member whats your why automatically based on MetaName of the LessonTask
     final String whatsYourWhy = await PreferencesController()
