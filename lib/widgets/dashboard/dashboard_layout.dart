@@ -279,11 +279,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     Navigator.pushNamed(context, WikiSearch.id);
   }
 
-  void _openQuiz(
-      final BuildContext context, final ModulesProvider modulesProvider) {
-    analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_QUIZ);
-    Navigator.pushNamed(context, QuizScreen.id);
-  }
+  // void _openQuiz(
+  //     final BuildContext context, final ModulesProvider modulesProvider) {
+  //   analytics.logEvent(name: Analytics.ANALYTICS_SCREEN_QUIZ);
+  //   Navigator.pushNamed(context, QuizScreen.id);
+  // }
 
   //#endregion
 

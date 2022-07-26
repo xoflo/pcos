@@ -23,7 +23,7 @@ class QuizDisplay extends StatefulWidget {
 
 class _QuizDisplayState extends State<QuizDisplay> {
   bool _isLoading = true;
-  int _currentQuestionID = 0;
+  // int _currentQuestionID = 0;
   int _selectedQuestion = 0;
   bool _displayIntro = true;
   bool _displayQuestions = false;
@@ -41,7 +41,7 @@ class _QuizDisplayState extends State<QuizDisplay> {
     }
 
     setState(() {
-      _currentQuestionID = quiz.questions?[0].quizQuestionID ?? 0;
+      // _currentQuestionID = quiz.questions?[0].quizQuestionID ?? 0;
       _isLoading = false;
     });
   }
