@@ -265,16 +265,24 @@ class ModulesProvider with ChangeNotifier {
     }
   }
 
-  Future<void> setTaskAsComplete(final int? taskID, final String value,
-      {final int? lessonID}) async {
+  Future<void> setTaskAsComplete(final int? taskID,
+      {final String? value,
+      final int? lessonID,
+      final bool? forceRefresh}) async {
     status = LoadingStatus.loading;
     notifyListeners();
 
-    await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value);
+    await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value ?? "");
 
     status = LoadingStatus.success;
     notifyListeners();
-    fetchLessonTasks(lessonID ?? -1);
+
+    if (lessonID != null) {
+      fetchLessonTasks(lessonID);
+    }
+    if (forceRefresh != null) {
+      fetchAndSaveData(forceRefresh);
+    }
   }
 
   Future<List<Module>> _getPreviousModules() async {

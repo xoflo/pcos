@@ -21,64 +21,70 @@ class QuizLayout extends StatefulWidget {
 class _QuizLayoutState extends State<QuizLayout> {
   PageController controller = PageController();
   int questionNumber = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: primaryColor,
-      ),
-      child: Consumer<ModulesProvider>(
-        builder: (context, model, child) {
-          switch (model.status) {
-            case LoadingStatus.empty:
-              return NoResults(message: "Quiz not available");
-            case LoadingStatus.loading:
-              return PcosLoadingSpinner();
-            case LoadingStatus.success:
-              return Container(
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Header(
-                      title: "Quiz",
-                      closeItem: () => Navigator.pop(context),
-                      questionNumber: questionNumber + 1,
-                      questionCount: widget.quiz?.questions?.length,
-                    ),
-                    Expanded(
-                      child: PageView.builder(
-                        controller: controller,
-                        itemCount: widget.quiz?.questions?.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        pageSnapping: true,
-                        itemBuilder: (context, index) {
-                          final question = widget.quiz?.questions?[index];
-                          return QuizQuestionItemComponent(
-                            question: question,
-                            onPressNext: () {
-                              if (questionNumber + 1 <
-                                  (widget.quiz?.questions?.length ?? 0)) {
-                                controller.nextPage(
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeIn);
-                                setState(() => questionNumber += 1);
-                              } else {
-                                Navigator.pop(context);
-                              }
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              );
-          }
-        },
-      ),
+
+  Widget getQuestionItemComponent(int index, ModulesProvider modulesProvider) {
+    final question = widget.quiz?.questions?[index];
+
+    return QuizQuestionItemComponent(
+      question: question,
+      onPressNext: () {
+        if (questionNumber + 1 < (widget.quiz?.questions?.length ?? 0)) {
+          controller.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn);
+          setState(() => questionNumber += 1);
+        } else {
+          modulesProvider
+              .setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
+              .then((value) {
+            Navigator.pop(context);
+          });
+        }
+      },
     );
   }
+
+  @override
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          color: primaryColor,
+        ),
+        child: Consumer<ModulesProvider>(
+          builder: (context, modulesProvider, child) {
+            switch (modulesProvider.status) {
+              case LoadingStatus.empty:
+                return NoResults(message: "Quiz not available");
+              case LoadingStatus.loading:
+                return PcosLoadingSpinner();
+              case LoadingStatus.success:
+                return Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Header(
+                        title: "Quiz",
+                        closeItem: () => Navigator.pop(context),
+                        questionNumber: questionNumber + 1,
+                        questionCount: widget.quiz?.questions?.length,
+                      ),
+                      Expanded(
+                        child: PageView.builder(
+                          controller: controller,
+                          itemCount: widget.quiz?.questions?.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          pageSnapping: true,
+                          itemBuilder: (context, index) =>
+                              getQuestionItemComponent(index, modulesProvider),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+            }
+          },
+        ),
+      );
 }

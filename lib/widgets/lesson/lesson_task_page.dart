@@ -59,7 +59,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
   void onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
       String value) {
     modulesProvider
-        .setTaskAsComplete(taskID, value, lessonID: lessonID)
+        .setTaskAsComplete(taskID, value: value, lessonID: lessonID)
         .then((value) => Navigator.pop(context));
   }
 

@@ -139,6 +139,7 @@ class DatabaseProvider with ChangeNotifier {
               "quizID INTEGER PRIMARY KEY,"
               "lessonID INTEGER,"
               "title TEXT,"
+              "isComplete INTEGER,"
               "description TEXT,"
               "endTitle TEXT,"
               "endMessage TEXT"

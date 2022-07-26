@@ -421,7 +421,7 @@ class WebServices {
   }
 
   Future<List<LessonTask>?> getQuizTasks() async {
-    final url = Uri.parse(_baseUrl + "Task/all/0");
+    final url = Uri.parse(_baseUrl + "Task/all/quizzes");
     final String? token = await AuthenticationController().getAccessToken();
 
     final response = await http.get(url, headers: {
