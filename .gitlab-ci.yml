@@ -22,10 +22,11 @@ analyze_project:
     - ios
     - android
 
-test_project:
-  stage: test
-  script:
-    - sudo -u moa flutter test
-  tags:
-    - ios
-    - android
+# Uncomment if there is at least 1 test already
+# test_project:
+#   stage: test
+#   script:
+#     - sudo -u moa flutter test
+#   tags:
+#     - ios
+#     - android
