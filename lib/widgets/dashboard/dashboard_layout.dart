@@ -16,7 +16,6 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
-import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';

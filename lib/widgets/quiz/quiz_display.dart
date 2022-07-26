@@ -35,13 +35,7 @@ class _QuizDisplayState extends State<QuizDisplay> {
   }
 
   Future<void> _initialise() async {
-    Quiz quiz = Quiz();
-    if (widget.modulesProvider.lessonQuizzes.length > 0) {
-      quiz = widget.modulesProvider.lessonQuizzes[0];
-    }
-
     setState(() {
-      // _currentQuestionID = quiz.questions?[0].quizQuestionID ?? 0;
       _isLoading = false;
     });
   }
