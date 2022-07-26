@@ -1,6 +1,9 @@
+variables:
+ FLAVOR: "prod"
+
 stages:
   - analyze
-  - test
+  - archive
 
 before_script:
   # Change the ownership of the project directory, so gradle run as a
@@ -14,19 +17,37 @@ before_script:
   # Hence the need for `chown` here.
   - chown -R moa .
 
-# Uncomment this part once the Gitlab dart version is already upgraded to version 2.16.0
 analyze_project:
   stage: analyze
   script:
-    - sudo -u moa flutter drive --flavor testing
+    - sudo -u moa flutter analyze
   tags:
     - ios
     - android
 
-test_project:
-  stage: test
+# Try generating at least Android (for now)
+android:debug:
+  stage: archive
+  before_script:
+    - flutter packages get
+    - flutter clean
   script:
-    - sudo -u moa flutter test
-  tags:
-    - ios
-    - android
+    - flutter doctor --android-licenses
+    - flutter build apk --flavor ${FLAVOR} --debug
+  artifacts:
+    paths:
+      - "*.apk"
+    expire_in: 1 day
+
+android:release:
+  stage: archive
+  before_script:
+    - flutter packages get
+    - flutter clean
+  script:
+    - flutter doctor --android-licenses
+    - flutter build apk --flavor ${FLAVOR} --release
+  artifacts:
+    paths:
+      - "*.apk"
+    expire_in: 1 day
