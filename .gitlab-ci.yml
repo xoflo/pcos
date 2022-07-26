@@ -1,9 +1,6 @@
-variables:
- FLAVOR: "prod"
-
 stages:
   - analyze
-  - archive
+  - test
 
 before_script:
   # Change the ownership of the project directory, so gradle run as a
@@ -21,6 +18,14 @@ analyze_project:
   stage: analyze
   script:
     - sudo -u moa flutter analyze
+  tags:
+    - ios
+    - android
+
+test_project:
+  stage: test
+  script:
+    - sudo -u moa flutter test
   tags:
     - ios
     - android
