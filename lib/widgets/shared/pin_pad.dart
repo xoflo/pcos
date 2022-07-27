@@ -70,16 +70,16 @@ class PinPad extends StatelessWidget {
     );
   }
 
-  Row pinPadRow(final List<String> pinNumbers) {
+  Row pinPadRow(BuildContext context, final List<String> pinNumbers) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: pinNumbers.map((number) {
-          return pinButton(number);
+          return pinButton(context, number);
         }).toList());
   }
 
-  SizedBox pinButton(final String pinNumber) {
+  SizedBox pinButton(BuildContext context, final String pinNumber) {
     final double pinButtonPadding = pinButtonSize / 6;
 
     var pinButton = SizedBox(
@@ -122,11 +122,7 @@ class PinPad extends StatelessWidget {
                       )
                     : Text(
                         pinNumber,
-                        style: TextStyle(
-                          color: textColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.headline1,
                       ),
               ),
       ),
@@ -175,10 +171,10 @@ class PinPad extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
-          pinPadRow([1, 2, 3].map((e) => e.toString()).toList()),
-          pinPadRow([4, 5, 6].map((e) => e.toString()).toList()),
-          pinPadRow([7, 8, 9].map((e) => e.toString()).toList()),
-          pinPadRow(["", 0, "<"].map((e) => e.toString()).toList()),
+          pinPadRow(context, [1, 2, 3].map((e) => e.toString()).toList()),
+          pinPadRow(context, [4, 5, 6].map((e) => e.toString()).toList()),
+          pinPadRow(context, [7, 8, 9].map((e) => e.toString()).toList()),
+          pinPadRow(context, ["", 0, "<"].map((e) => e.toString()).toList()),
           showForgottenPin == true
               ? GestureDetector(
                   onTap: () {
@@ -186,10 +182,10 @@ class PinPad extends StatelessWidget {
                   },
                   child: Text(
                     S.current.pinForgottenTitle,
-                    style: TextStyle(
-                      color: backgroundColor,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        ?.copyWith(color: backgroundColor),
                   ),
                 )
               : Container(),

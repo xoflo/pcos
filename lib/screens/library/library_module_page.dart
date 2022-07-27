@@ -53,11 +53,7 @@ class _LibraryModulePageState extends State<LibraryModulePage> {
                 ),
                 child: Text(
                   title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontSize: 24,
-                  ),
+                  style: Theme.of(context).textTheme.headline3,
                 ),
               ),
               Expanded(
@@ -85,11 +81,10 @@ class _LibraryModulePageState extends State<LibraryModulePage> {
                         ),
                         child: HtmlWidget(
                           lesson.title,
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: backgroundColor,
-                            fontSize: 16,
-                          ),
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              ?.copyWith(color: backgroundColor),
                         ),
                       ),
                     );

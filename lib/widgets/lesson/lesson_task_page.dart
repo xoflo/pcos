@@ -103,11 +103,8 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                                 children: [
                                   HtmlWidget(
                                     task.description ?? "",
-                                    textStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: textColor,
-                                    ),
+                                    textStyle:
+                                        Theme.of(context).textTheme.headline4,
                                   ),
                                   SizedBox(height: 15),
                                   getTaskType(modulesProvider, task),

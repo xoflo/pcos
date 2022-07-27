@@ -23,11 +23,7 @@ class CustomTextField extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           SizedBox(height: 10),
           TextFormField(

@@ -52,22 +52,21 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
                   children: [
                     HtmlWidget(
                       wiki.question ?? "",
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: backgroundColor,
-                      ),
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: backgroundColor),
                     ),
                     SizedBox(height: 10),
                     HtmlWidget(
                       "<p style='max-lines:2; text-overflow: ellipsis;'>" +
                           (wiki.answer ?? "") +
                           "</p>",
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        color: textColor.withOpacity(0.8),
-                        height: 1.25,
-                      ),
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(
+                              height: 1.25, color: textColor.withOpacity(0.8)),
                     )
                   ],
                 ),

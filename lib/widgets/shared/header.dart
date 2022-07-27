@@ -52,9 +52,15 @@ class Header extends StatelessWidget {
                               color: backgroundColor,
                             ),
                             SizedBox(width: 10),
-                            Text("Select all",
-                                style: TextStyle(
-                                    fontSize: 16, color: backgroundColor))
+                            Text(
+                              "Select all",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: backgroundColor),
+                            )
                           ],
                         ),
                       ),
@@ -79,9 +85,10 @@ class Header extends StatelessWidget {
                     Text(
                       title ?? "",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
-                            color: backgroundColor,
-                          ),
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: backgroundColor,
+                      ),
                     ),
                   ],
                   if (onToggleMarkAsRead != null) ...[

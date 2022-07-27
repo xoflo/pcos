@@ -110,10 +110,12 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                               vertical: 5, horizontal: 15),
                                           child: Text(
                                             tag,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: textColor.withOpacity(0.5),
-                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2
+                                                ?.copyWith(
+                                                    color: textColor
+                                                        .withOpacity(0.5)),
                                           ),
                                         ),
                                       )
@@ -132,11 +134,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                   Expanded(
                                     child: Text(
                                       args?.recipe.title ?? "",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 28,
-                                        color: textColor,
-                                      ),
+                                      style:
+                                          Theme.of(context).textTheme.headline1,
                                     ),
                                   ),
                                   GestureDetector(
@@ -180,20 +179,20 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                 children: [
                                   Text(
                                     "Ingredients",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: textColor,
-                                    ),
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
                                   ),
                                   SizedBox(height: 10),
                                   HtmlWidget(
                                     args?.recipe.ingredients ?? "",
-                                    textStyle: TextStyle(
-                                      fontSize: 16,
-                                      color: textColor.withOpacity(0.8),
-                                      height: 1.25,
-                                    ),
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.normal,
+                                          height: 1.25,
+                                          color: textColor.withOpacity(0.8),
+                                        ),
                                   )
                                 ],
                               ),

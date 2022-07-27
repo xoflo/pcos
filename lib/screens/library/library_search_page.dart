@@ -78,9 +78,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         ),
         centerTitle: true,
         title: Text("Search"),
-        titleTextStyle: Theme.of(context).textTheme.headline5?.copyWith(
-              color: backgroundColor,
-            ),
+        titleTextStyle: TextStyle(fontSize: 20, color: backgroundColor),
         backgroundColor: primaryColorLight,
         elevation: 0.0,
       ),
@@ -100,10 +98,10 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                         child: Text(
                           "Search any subjects, lessons or Wikis.",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: textColor.withOpacity(0.5),
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(color: textColor.withOpacity(0.5)),
                         ),
                       ),
                     )
@@ -140,11 +138,10 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                                     ),
                                     child: HtmlWidget(
                                       searchLesson.title,
-                                      textStyle: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: backgroundColor,
-                                      ),
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1
+                                          ?.copyWith(color: backgroundColor),
                                     ),
                                   ),
                                 );

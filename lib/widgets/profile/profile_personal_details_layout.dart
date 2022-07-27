@@ -56,11 +56,7 @@ class _ProfilePersonalDetailsLayoutState
             children: [
               Text(
                 "Username",
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               SizedBox(height: 10),
               Stack(
@@ -82,10 +78,10 @@ class _ProfilePersonalDetailsLayoutState
                     margin: EdgeInsets.only(left: 48),
                     child: TextFormField(
                       controller: usernameController,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: textColor,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(fontWeight: FontWeight.normal),
                       decoration: InputDecoration(
                         isDense: true,
                         contentPadding: EdgeInsets.all(12),

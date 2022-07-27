@@ -64,11 +64,10 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
             Expanded(
               child: HtmlWidget(
                 item.title ?? "",
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: backgroundColor,
-                  fontSize: 18,
-                ),
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(color: backgroundColor),
               ),
             ),
           ],

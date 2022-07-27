@@ -27,32 +27,26 @@ class ProfileSummary extends StatelessWidget {
                           if (tag.tag?.isNotEmpty == true) ...[
                             Text(
                               "Type ${tag.tag}",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: textColor,
-                              ),
+                              style: Theme.of(context).textTheme.headline4,
                             ),
                             SizedBox(height: 10),
                           ],
                           if (tag.summary?.isNotEmpty == true) ...[
                             HtmlWidget(
                               tag.summary ?? "",
-                              textStyle: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: textColor.withOpacity(0.8),
-                              ),
+                              textStyle: Theme.of(context).textTheme.subtitle1,
                             ),
                             SizedBox(height: 10)
                           ],
                           if (tag.description?.isNotEmpty == true) ...[
                             HtmlWidget(
                               tag.description ?? "",
-                              textStyle: TextStyle(
-                                fontSize: 16,
-                                color: textColor.withOpacity(0.8),
-                              ),
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: textColor.withOpacity(0.8)),
                             ),
                             SizedBox(height: 30)
                           ]
