@@ -133,7 +133,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                 )
                               else
                                 DashboardLessonLockedComponent(
-                                    title: "Complete the early lesson"),
+                                    title: "Complete the previous lesson"),
                               Opacity(
                                 opacity: isPreviousLessonComplete ? 1 : 0.5,
                                 child: Container(
