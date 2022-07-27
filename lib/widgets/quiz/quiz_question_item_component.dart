@@ -150,7 +150,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
           children: [
             Text(
               widget.question?.questionText ?? "",
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
