@@ -27,14 +27,14 @@ class _QuizLayoutState extends State<QuizLayout> {
 
     return QuizQuestionItemComponent(
       question: question,
-      onPressNext: () {
+      onPressNext: () async {
         if (questionNumber + 1 < (widget.quiz?.questions?.length ?? 0)) {
           controller.nextPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeIn);
           setState(() => questionNumber += 1);
         } else {
-          modulesProvider
+          await modulesProvider
               .setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
               .then((value) {
             Navigator.pop(context);
@@ -49,28 +49,28 @@ class _QuizLayoutState extends State<QuizLayout> {
         decoration: BoxDecoration(
           color: primaryColor,
         ),
-        child: Consumer<ModulesProvider>(
-          builder: (context, modulesProvider, child) {
-            switch (modulesProvider.status) {
-              case LoadingStatus.empty:
-                return NoResults(message: "Quiz not available");
-              case LoadingStatus.loading:
-                return PcosLoadingSpinner();
-              case LoadingStatus.success:
-                return Container(
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Header(
-                        title: "Quiz",
-                        closeItem: () => Navigator.pop(context),
-                        questionNumber: questionNumber + 1,
-                        questionCount: widget.quiz?.questions?.length,
-                      ),
-                      Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Header(
+              title: "Quiz",
+              closeItem: () => Navigator.pop(context),
+              questionNumber: questionNumber + 1,
+              questionCount: widget.quiz?.questions?.length,
+            ),
+            Consumer<ModulesProvider>(
+              builder: (context, modulesProvider, child) {
+                switch (modulesProvider.status) {
+                  case LoadingStatus.empty:
+                    return NoResults(message: "Quiz not available");
+                  case LoadingStatus.loading:
+                    return PcosLoadingSpinner();
+                  case LoadingStatus.success:
+                    return Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                        ),
                         child: PageView.builder(
                           controller: controller,
                           itemCount: widget.quiz?.questions?.length,
@@ -80,11 +80,11 @@ class _QuizLayoutState extends State<QuizLayout> {
                               getQuestionItemComponent(index, modulesProvider),
                         ),
                       ),
-                    ],
-                  ),
-                );
-            }
-          },
+                    );
+                }
+              },
+            ),
+          ],
         ),
       );
 }

@@ -168,12 +168,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                           LessonPage.id,
                                           arguments:
                                               LessonArguments(currentLesson),
-                                        ).then((value) {
-                                          if (value is bool) {
-                                            widget.modulesProvider
-                                                .fetchAndSaveData(value);
-                                          }
-                                        })
+                                        )
                                     : null,
                             showCompletedTag: isLessonComplete,
                             isUnlocked: isPreviousLessonComplete,

@@ -60,7 +60,7 @@ class _LessonPageState extends State<LessonPage> {
       } else {
         // Close the lesson page normally when the daily reminder is
         // turned on
-        Navigator.pop(context, true);
+        Navigator.pop(context);
       }
     }
   }
@@ -257,7 +257,7 @@ class _LessonPageState extends State<LessonPage> {
                                       foregroundColor: Colors.white,
                                       backgroundColor: backgroundColor,
                                       onPressed: isTaskComplete
-                                          ? () {
+                                          ? () async {
                                               final bool setModuleComplete =
                                                   modulesProvider
                                                           .currentModuleLessons
@@ -265,7 +265,7 @@ class _LessonPageState extends State<LessonPage> {
                                                           .lessonID ==
                                                       args?.lesson.lessonID;
 
-                                              modulesProvider
+                                              await modulesProvider
                                                   .setLessonAsComplete(
                                                     args?.lesson.lessonID ?? -1,
                                                     args?.lesson.moduleID ?? -1,

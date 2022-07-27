@@ -56,9 +56,9 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     }
   }
 
-  void onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
-      String value) {
-    modulesProvider
+  Future onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
+      String value) async {
+    await modulesProvider
         .setTaskAsComplete(taskID, value: value, lessonID: lessonID)
         .then((value) => Navigator.pop(context));
   }
