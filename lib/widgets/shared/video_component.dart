@@ -40,17 +40,19 @@ class _VideoComponentState extends State<VideoComponent> {
         betterPlayerDataSource: betterPlayerDataSource,
       );
 
-      _betterPlayerController.addEventsListener((event) {
-        final duration = event.parameters?['duration'] as Duration?;
-        if (duration != null && mounted) {
-          setState(() {
-            isVideoAvailable = true;
-            minutes = duration.inMinutes;
-          });
-        }
-      });
+      _betterPlayerController.addEventsListener(_setDuration);
     } else if (mounted) {
       setState(() => isVideoAvailable = false);
+    }
+  }
+
+  void _setDuration(BetterPlayerEvent event) {
+    final duration = event.parameters?['duration'] as Duration?;
+    if (duration != null && mounted) {
+      setState(() {
+        isVideoAvailable = true;
+        minutes = duration.inMinutes;
+      });
     }
   }
 
@@ -58,6 +60,7 @@ class _VideoComponentState extends State<VideoComponent> {
   void dispose() {
     super.dispose();
     _betterPlayerController.dispose(forceDispose: true);
+    _betterPlayerController.removeEventsListener(_setDuration);
   }
 
   @override
