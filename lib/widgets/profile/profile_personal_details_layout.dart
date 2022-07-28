@@ -71,8 +71,14 @@ class _ProfilePersonalDetailsLayoutState
                         bottomLeft: Radius.circular(8),
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Text("@"),
+                    padding: EdgeInsets.symmetric(vertical: 11, horizontal: 15),
+                    child: Text(
+                      "@",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(fontWeight: FontWeight.normal),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 48),

@@ -54,6 +54,7 @@ class FilledButton extends StatelessWidget {
                       },
                       Text(
                         text,
+                        style: TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
