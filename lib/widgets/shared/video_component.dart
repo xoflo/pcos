@@ -59,6 +59,7 @@ class _VideoComponentState extends State<VideoComponent> {
   @override
   void dispose() {
     super.dispose();
+    _betterPlayerController.pause();
     _betterPlayerController.dispose(forceDispose: true);
     _betterPlayerController.removeEventsListener(_setDuration);
   }
