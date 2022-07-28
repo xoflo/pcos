@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
-import 'package:thepcosprotocol_app/widgets/quiz/quiz_choice.dart';
+import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:intl/intl.dart';
 
 class QuizQuestionItemComponent extends StatefulWidget {
@@ -40,7 +40,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
               : (isCorrect == false ? redColor : completedBackgroundColor);
           return Column(
             children: [
-              QuizChoice(
+              HollowButton(
                 onPressed: isAnswerChecked
                     ? null
                     : () {
@@ -82,6 +82,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
                       : null,
                 ),
                 margin: EdgeInsets.zero,
+                textAlignment: Alignment.centerLeft,
               ),
               SizedBox(height: 15),
             ],
