@@ -31,9 +31,10 @@ class CustomTextField extends StatelessWidget {
             enabled: isEnabled,
             obscureText: isObscure,
             obscuringCharacter: '*',
-            style: TextStyle(
-                fontSize: 16,
-                color: textColor.withOpacity(isEnabled ? 1 : 0.5)),
+            style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: textColor.withOpacity(isEnabled ? 1 : 0.5),
+                ),
             decoration: InputDecoration(
               isDense: true,
               contentPadding: EdgeInsets.all(15),

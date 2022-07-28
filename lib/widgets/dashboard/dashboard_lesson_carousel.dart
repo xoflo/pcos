@@ -124,11 +124,8 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                     widget.modulesProvider.currentModule
                                             ?.title ??
                                         "",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: textColor,
-                                      fontSize: 24,
-                                    ),
+                                    style:
+                                        Theme.of(context).textTheme.headline3,
                                   ),
                                 )
                               else

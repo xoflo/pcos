@@ -69,10 +69,7 @@ class FilledButton extends StatelessWidget {
               return backgroundColor;
             }),
             textStyle: MaterialStateProperty.resolveWith(
-              (states) => const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              (states) => Theme.of(context).textTheme.button,
             ),
             shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
               (states) => RoundedRectangleBorder(

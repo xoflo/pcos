@@ -78,7 +78,10 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         ),
         centerTitle: true,
         title: Text("Search"),
-        titleTextStyle: TextStyle(fontSize: 20, color: backgroundColor),
+        titleTextStyle: Theme.of(context)
+            .textTheme
+            .bodyText1
+            ?.copyWith(color: textColor, fontWeight: FontWeight.normal),
         backgroundColor: primaryColorLight,
         elevation: 0.0,
       ),
