@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
@@ -19,6 +20,7 @@ import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 
 class PinUnlock extends StatefulWidget {
   static const String id = "pin_unlock_screen";
@@ -165,14 +167,27 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     resetPinPad();
   }
 
-  void openAppTabs() {
+  void openAppTabs() async {
     final PinUnlockArguments args =
         ModalRoute.of(context)?.settings.arguments as PinUnlockArguments;
     args.setIsLocked(false);
     if (args.isAppTabsOpen) {
       Navigator.pop(context);
     } else {
-      Navigator.pushReplacementNamed(context, AppTabs.id);
+      if (!await PreferencesController()
+          .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
+        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
+
+        await Future.delayed(Duration(seconds: 2), () {
+          Navigator.pushNamed(
+            context,
+            AppTutorialPage.id,
+            arguments: AppTutorialArguments(),
+          );
+        });
+      } else {
+        Navigator.pushReplacementNamed(context, AppTabs.id);
+      }
     }
   }
 
