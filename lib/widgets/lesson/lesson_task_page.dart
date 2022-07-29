@@ -12,8 +12,8 @@ import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_rating.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_text.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class LessonTaskPage extends StatefulWidget {
   const LessonTaskPage({Key? key}) : super(key: key);
@@ -56,9 +56,9 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     }
   }
 
-  void onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
-      String value) {
-    modulesProvider
+  Future onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
+      String value) async {
+    await modulesProvider
         .setTaskAsComplete(taskID, value: value, lessonID: lessonID)
         .then((value) => Navigator.pop(context));
   }
@@ -70,30 +70,30 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
+        child: Container(
+          decoration: BoxDecoration(
+            color: primaryColor,
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+          child: Consumer<ModulesProvider>(
+            builder: (context, modulesProvider, child) => Stack(
+              clipBehavior: Clip.none,
               children: [
-                Header(
-                  title: "Lesson",
-                  closeItem: () => Navigator.pop(context),
-                ),
-                Consumer<ModulesProvider>(
-                  builder: (context, modulesProvider, child) {
-                    switch (modulesProvider.status) {
-                      case LoadingStatus.loading:
-                        return Center(child: PcosLoadingSpinner());
-                      case LoadingStatus.empty:
-                        return NoResults(message: S.current.noItemsFound);
-                      case LoadingStatus.success:
-                        return Expanded(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Header(
+                        title: "Lesson",
+                        closeItem: () => Navigator.pop(context),
+                      ),
+                    ),
+                    if (modulesProvider.status == LoadingStatus.empty)
+                      NoResults(message: S.current.noItemsFound)
+                    else
+                      Expanded(
+                        child: Container(
+                          color: Colors.white,
                           child: SingleChildScrollView(
                             child: Padding(
                               padding: EdgeInsets.symmetric(
@@ -115,10 +115,12 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                               ),
                             ),
                           ),
-                        );
-                    }
-                  },
+                        ),
+                      )
+                  ],
                 ),
+                if (modulesProvider.status == LoadingStatus.loading)
+                  LoaderOverlay()
               ],
             ),
           ),

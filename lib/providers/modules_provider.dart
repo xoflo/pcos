@@ -237,6 +237,8 @@ class ModulesProvider with ChangeNotifier {
     }
     status = LoadingStatus.success;
     notifyListeners();
+
+    await fetchAndSaveData(true);
   }
 
   Future<void> fetchLessonTasks(final int lessonID) async {
@@ -278,10 +280,10 @@ class ModulesProvider with ChangeNotifier {
     notifyListeners();
 
     if (lessonID != null) {
-      fetchLessonTasks(lessonID);
+      await fetchLessonTasks(lessonID);
     }
     if (forceRefresh != null) {
-      fetchAndSaveData(forceRefresh);
+      await fetchAndSaveData(forceRefresh);
     }
   }
 

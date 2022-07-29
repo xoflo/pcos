@@ -12,12 +12,7 @@ class QuizScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: QuizLayout(quiz: quiz),
-        ),
+        child: QuizLayout(quiz: quiz),
       ),
     );
   }
