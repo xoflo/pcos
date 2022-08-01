@@ -72,6 +72,7 @@ class _DashboardWhySettingsLayoutState
                   TextFormField(
                     controller: textController,
                     maxLength: 100,
+                    maxLines: null,
                     style: TextStyle(
                       fontSize: 16,
                       color: textColor,
