@@ -76,13 +76,15 @@ class _MessagesListState extends State<MessagesList> {
                                 GestureDetector(
                                   child: Text(
                                     message.title ?? "",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: textColor,
-                                      fontWeight: message.isRead == true
-                                          ? FontWeight.normal
-                                          : FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          color: textColor.withOpacity(0.8),
+                                          fontWeight: message.isRead == true
+                                              ? FontWeight.normal
+                                              : FontWeight.bold,
+                                        ),
                                   ),
                                   onTap: () => _openMessage(context, message),
                                 ),

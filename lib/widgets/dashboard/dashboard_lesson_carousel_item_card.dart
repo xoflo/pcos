@@ -74,10 +74,10 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
                                 vertical: 2, horizontal: 8),
                             child: Text(
                               "Completed",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ),
                         ],
@@ -107,11 +107,12 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
                           ),
                           Text(
                             duration,
-                            style: TextStyle(
-                              color:
-                                  textColor.withOpacity(isUnlocked ? 0.8 : 0.5),
-                              fontSize: 14,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    color: textColor
+                                        .withOpacity(isUnlocked ? 0.8 : 0.5)),
                           )
                         ],
                       )

@@ -39,43 +39,56 @@ ThemeData appThemeData() {
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
+      subtitle1: TextStyle(
+        color: textColor,
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+      ),
+      subtitle2: TextStyle(
+        color: textColor,
+        fontSize: 16,
+      ),
       headline1: TextStyle(
-        color: primaryColor,
-        fontSize: 28.0,
+        color: textColor,
+        fontSize: 28,
         fontWeight: FontWeight.bold,
       ),
       headline2: TextStyle(
-        color: primaryColor,
-        fontSize: 26.0,
+        color: textColor,
+        fontSize: 26,
         fontWeight: FontWeight.bold,
       ),
       headline3: TextStyle(
-        color: primaryColor,
-        fontSize: 24.0,
+        color: textColor,
+        fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
       headline4: TextStyle(
-        color: primaryColor,
-        fontSize: 22.0,
+        color: textColor,
+        fontSize: 20,
         fontWeight: FontWeight.w600,
       ),
       headline5: TextStyle(
-        color: primaryColor,
-        fontSize: 20.0,
+        color: textColor,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
       ),
       headline6: TextStyle(
-        color: primaryColor,
-        fontSize: 18.0,
+        color: textColor,
+        fontSize: 18,
       ),
       bodyText1: TextStyle(
         color: textColor,
-        fontSize: 16.0,
-        fontWeight: FontWeight.normal,
+        fontSize: 18,
       ),
       bodyText2: TextStyle(
         color: textColor,
-        fontSize: 18.0,
-        fontWeight: FontWeight.normal,
+        fontSize: 16,
+      ),
+      caption: TextStyle(fontSize: 12),
+      button: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 18,
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(

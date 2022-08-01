@@ -65,11 +65,11 @@ class _FavouritesToolkitDetailsState extends State<FavouritesToolkitDetails> {
                               Expanded(
                                 child: HtmlWidget(
                                   toolkit.title,
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: textColor.withOpacity(0.8),
-                                  ),
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      ?.copyWith(
+                                          color: textColor.withOpacity(0.8)),
                                 ),
                               ),
                               SizedBox(width: 15),
@@ -88,10 +88,11 @@ class _FavouritesToolkitDetailsState extends State<FavouritesToolkitDetails> {
                               children: [
                                 HtmlWidget(
                                   element.body ?? "",
-                                  textStyle: TextStyle(
-                                    fontSize: 14,
-                                    color: textColor.withOpacity(0.8),
-                                  ),
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2
+                                      ?.copyWith(
+                                          color: textColor.withOpacity(0.8)),
                                 ),
                                 SizedBox(height: 10),
                                 if (element.mediaMimeType == MediaType.Image)

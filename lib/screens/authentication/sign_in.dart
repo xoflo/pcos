@@ -184,7 +184,8 @@ class _SignInState extends State<SignIn> {
                                 ),
                                 labelText: S.current.emailLabel,
                                 labelStyle: TextStyle(
-                                  color: Colors.black,
+                                  fontSize: 16,
+                                  color: textColor,
                                 ),
                               ),
                               validator: (value) {
@@ -241,7 +242,8 @@ class _SignInState extends State<SignIn> {
                                 ),
                                 labelText: S.current.passwordLabel,
                                 labelStyle: TextStyle(
-                                  color: Colors.black,
+                                  fontSize: 16,
+                                  color: textColor,
                                 ),
                               ),
                               validator: (value) {
@@ -265,7 +267,7 @@ class _SignInState extends State<SignIn> {
                               child: Text(
                                 S.current.passwordForgottenTitle,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                   color: backgroundColor,
                                   fontSize: 14,
                                 ),

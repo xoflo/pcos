@@ -113,20 +113,18 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
                 ? "Correct!"
                 : "Whoops! Missed $missedAnswers correct ${Intl.plural(missedAnswers, one: 'answer', other: 'answers')}",
             textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: titleColor,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(color: titleColor),
           ),
           if (widget.question?.response?.isNotEmpty == true) ...[
             SizedBox(height: 10),
             HtmlWidget(
               widget.question?.response ?? "",
-              textStyle: TextStyle(
-                fontSize: 14,
-                color: textColor.withOpacity(0.8),
-              ),
+              textStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  fontWeight: FontWeight.normal,
+                  color: textColor.withOpacity(0.8)),
             ),
           ],
         ],
@@ -152,18 +150,16 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
             Text(
               widget.question?.questionText ?? "",
               textAlign: TextAlign.left,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: textColor,
-              ),
+              style: Theme.of(context).textTheme.headline4,
             ),
             if (isMultiChoice) ...[
               SizedBox(height: 10),
               Text(
                 "(Choose $corrects answers)",
-                style:
-                    TextStyle(fontSize: 14, color: textColor.withOpacity(0.8)),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    ?.copyWith(color: textColor.withOpacity(0.8)),
               )
             ],
             SizedBox(height: 15),

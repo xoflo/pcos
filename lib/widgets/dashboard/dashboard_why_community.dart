@@ -37,7 +37,7 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
                 }
               }),
               child: Container(
-                height: 135,
+                height: 125,
                 child: Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -52,11 +52,8 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
                           ? localWhy
                           : "Please input your why to motivate yourself every day.",
                       highlight: "want",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.5,
-                      ),
-                      highlightColor: Colors.red,
+                      style: Theme.of(context).textTheme.headline5!,
+                      highlightColor: redColor,
                     ),
                   ),
                 ),
@@ -66,7 +63,7 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
           SizedBox(width: 5),
           Expanded(
             child: Container(
-              height: 135,
+              height: 125,
               child: Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -83,11 +80,11 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
                         SizedBox(height: 5),
                         Text(
                           "Open community",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            fontSize: 25,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.subtitle1?.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
                         )
                       ],
                     ),

@@ -34,21 +34,17 @@ class AppTutorialGetStartedItem extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: textColor,
-                  ),
+                  style: Theme.of(context).textTheme.headline5,
                 ),
                 SizedBox(
                   height: 5,
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: textColor.withOpacity(0.8),
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(color: textColor.withOpacity(0.8)),
                 )
               ],
             ),

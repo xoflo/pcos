@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class HollowButton extends StatelessWidget {
-  const HollowButton({
-      Key? key,
+  const HollowButton(
+      {Key? key,
       required this.onPressed,
       required this.text,
       required this.style,
@@ -11,8 +11,8 @@ class HollowButton extends StatelessWidget {
       this.verticalPadding = 15,
       this.width = double.infinity,
       this.isUpdating = false,
-      this.textAlignment = Alignment.center
-  }) : super(key: key);
+      this.textAlignment = Alignment.center})
+      : super(key: key);
 
   final Function()? onPressed;
   final String text;
@@ -45,11 +45,9 @@ class HollowButton extends StatelessWidget {
                     alignment: textAlignment,
                     child: Text(
                       text,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )),
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                  ),
           ),
           style: style,
         ),

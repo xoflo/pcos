@@ -146,11 +146,7 @@ class _LessonPageState extends State<LessonPage> {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: HtmlWidget(
                 args?.lesson.title ?? "",
-                textStyle: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
-                ),
+                textStyle: Theme.of(context).textTheme.headline1,
               ),
             ),
             SizedBox(height: 25),
@@ -158,10 +154,10 @@ class _LessonPageState extends State<LessonPage> {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: HtmlWidget(
                 args?.lesson.introduction ?? "",
-                textStyle: TextStyle(
-                  fontSize: 16,
-                  color: textColor.withOpacity(0.8),
-                ),
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(fontWeight: FontWeight.normal),
                 isSelectable: true,
               ),
             ),

@@ -62,21 +62,17 @@ class _DashboardWhySettingsLayoutState
                 children: [
                   Text(
                     "What is your why?",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.headline4,
                   ),
                   SizedBox(height: 25),
                   TextFormField(
                     controller: textController,
                     maxLength: 100,
                     maxLines: null,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: textColor,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(fontWeight: FontWeight.normal),
                     onChanged: (value) =>
                         setState(() => textLength = value.length),
                     decoration: InputDecoration(

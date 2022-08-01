@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class HighlightText extends StatelessWidget {
   final String text;
   final String highlight;
-  final TextStyle style;
+  final TextStyle? style;
   final TextStyle? highlightStyle;
   final Color? highlightColor;
   final bool ignoreCase;
@@ -12,7 +12,7 @@ class HighlightText extends StatelessWidget {
     Key? key,
     required this.text,
     required this.highlight,
-    required this.style,
+    this.style,
     this.highlightColor,
     highlightStyle,
     this.ignoreCase = false,
@@ -21,7 +21,7 @@ class HighlightText extends StatelessWidget {
           'highlightColor and highlightStyle cannot be provided at same time.',
         ),
         highlightStyle = highlightStyle ??
-            style.copyWith(color: highlightColor) ??
+            style?.copyWith(color: highlightColor) ??
             TextStyle(color: highlightColor),
         super(key: key);
 

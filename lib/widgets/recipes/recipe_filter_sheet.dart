@@ -101,22 +101,18 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                     }),
                     child: Text(
                       "Clear All",
-                      style: TextStyle(
-                        color: backgroundColor,
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: backgroundColor),
                     ),
                   )
                 ],
               ),
               SizedBox(height: 35),
               Text(
-                "Meals",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: textColor,
-                ),
+                "Types of meal",
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               SizedBox(height: 10),
               GestureDetector(
@@ -143,22 +139,18 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                   ),
                   child: Text(
                     selectedMealType,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(fontWeight: FontWeight.normal),
                   ),
                 ),
               ),
               if (selectedMealType != 'All') ...[
                 SizedBox(height: 25),
                 Text(
-                  "Dietary Requirements",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
-                  ),
+                  "Types of diets",
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: 10),
                 GestureDetector(
@@ -193,10 +185,10 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                           ? selectedDietType.reduce(
                               (value, element) => value + ", " + element)
                           : "",
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 16,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(fontWeight: FontWeight.normal),
                     ),
                   ),
                 ),
@@ -215,10 +207,9 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                     SizedBox(width: 10),
                     Text(
                       "Set as default filter",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: textColor.withOpacity(0.8),
-                      ),
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          fontWeight: FontWeight.normal,
+                          color: textColor.withOpacity(0.8)),
                     )
                   ],
                 ),

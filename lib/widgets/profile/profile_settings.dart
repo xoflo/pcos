@@ -140,16 +140,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             Spacer(),
             Text(
               "Signed in as ${widget.email}",
-              style: TextStyle(fontSize: 14, color: textColor),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  ?.copyWith(color: textColor.withOpacity(0.8)),
             ),
             SizedBox(height: 10),
             Text(
               "Version $_appVersion",
-              style: TextStyle(
-                fontSize: 14,
-                color: textColor.withOpacity(0.8),
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2
+                  ?.copyWith(color: textColor.withOpacity(0.8)),
             ),
             HollowButton(
               onPressed: () {

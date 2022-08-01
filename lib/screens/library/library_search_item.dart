@@ -40,11 +40,10 @@ class _LibrarySearchItemState extends State<LibrarySearchItem> {
               ),
               child: Text(
                 widget.searchItem,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: textColor.withOpacity(0.8),
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    ?.copyWith(color: textColor.withOpacity(0.8)),
               ),
             ),
             if (widget.showClose)

@@ -38,10 +38,11 @@ class RecipeMethodTipsPage extends StatelessWidget {
                       padding: EdgeInsets.all(15),
                       child: HtmlWidget(
                         args.text,
-                        textStyle: TextStyle(
-                          fontSize: 16,
-                          color: textColor.withOpacity(0.8),
-                        ),
+                        textStyle:
+                            Theme.of(context).textTheme.bodyText1?.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  color: textColor.withOpacity(0.8),
+                                ),
                       ),
                     ),
                   ),
