@@ -88,18 +88,12 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
                       },
                       children: [
                         FavouritesToolkits(
-                          toolkits: favouritesProvider.toolkits,
-                          status: favouritesProvider.status,
-                        ),
+                            favouritesProvider: favouritesProvider),
                         FavouritesLessons(
-                          favouritesProvider: favouritesProvider,
-                        ),
-                        FavouritesWikis(
-                          favouritesProvider: favouritesProvider,
-                        ),
+                            favouritesProvider: favouritesProvider),
+                        FavouritesWikis(favouritesProvider: favouritesProvider),
                         FavouritesRecipes(
-                          favouritesProvider: favouritesProvider,
-                        ),
+                            favouritesProvider: favouritesProvider),
                       ],
                     );
                   },

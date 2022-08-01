@@ -65,19 +65,26 @@ class _LibraryModuleWikiPageState extends State<LibraryModuleWikiPage> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: modulesProvider.previousModules
-                          .map(
-                            (item) => LibraryModuleWikiItem(
-                              modulesProvider: modulesProvider,
-                              favouritesProvider: favouritesProvider,
-                              item: item,
-                              isPreviousModules: isPreviousModules,
+                    child: modulesProvider.previousModules.isEmpty
+                        ? Center(
+                            child: NoResults(
+                              message:
+                                  "No ${isPreviousModules ? 'modules' : 'wikis'} found",
                             ),
                           )
-                          .toList(),
-                    ),
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: modulesProvider.previousModules
+                                .map(
+                                  (item) => LibraryModuleWikiItem(
+                                    modulesProvider: modulesProvider,
+                                    favouritesProvider: favouritesProvider,
+                                    item: item,
+                                    isPreviousModules: isPreviousModules,
+                                  ),
+                                )
+                                .toList(),
+                          ),
                   ),
                 ),
               )
