@@ -69,7 +69,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
         return Column(
           children: [
             Container(
-              height: 505,
+              height: 530,
               child: PageView.builder(
                 controller: controller,
                 itemCount: widget.modulesProvider.currentModuleLessons.length,
@@ -96,13 +96,11 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                   // first one, then we should set to true so that the current
                   // index will not be locked. It doesn't make sense to lock
                   // the first lesson, after all.
-                  final isPreviousLessonComplete = index == 0
+                  final isLessonUnlocked = index == 0
                       ? true
                       : (widget.modulesProvider.currentModuleLessons[index - 1]
                               .isComplete ||
-                          widget.modulesProvider.currentModuleLessons[index - 1]
-                                  .hoursToNextLesson ==
-                              0);
+                          currentLesson.hoursUntilAvailable == 0);
 
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -118,7 +116,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (isPreviousLessonComplete)
+                              if (isLessonUnlocked)
                                 Expanded(
                                   child: Text(
                                     widget.modulesProvider.currentModule
@@ -132,7 +130,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                 DashboardLessonLockedComponent(
                                     title: "Complete the previous lesson"),
                               Opacity(
-                                opacity: isPreviousLessonComplete ? 1 : 0.5,
+                                opacity: isLessonUnlocked ? 1 : 0.5,
                                 child: Container(
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -158,17 +156,15 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                           ),
                           SizedBox(height: 25),
                           DashboardLessonCarouselItemCard(
-                            onTapCard:
-                                isPreviousLessonComplete // && isLessonComplete
-                                    ? () => Navigator.pushNamed(
-                                          context,
-                                          LessonPage.id,
-                                          arguments:
-                                              LessonArguments(currentLesson),
-                                        )
-                                    : null,
+                            onTapCard: isLessonUnlocked
+                                ? () => Navigator.pushNamed(
+                                      context,
+                                      LessonPage.id,
+                                      arguments: LessonArguments(currentLesson),
+                                    )
+                                : null,
                             showCompletedTag: isLessonComplete,
-                            isUnlocked: isPreviousLessonComplete,
+                            isUnlocked: isLessonUnlocked,
                             title: "Lesson ${index + 1}",
                             subtitle: currentLesson.title,
                             duration: "${currentLesson.minsToComplete} mins",
@@ -179,15 +175,14 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                               currentLessonRecipes.length > 0) ...[
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
-                              onTapCard:
-                                  isPreviousLessonComplete // && isLessonComplete
-                                      ? () => Navigator.pushNamed(
-                                            context,
-                                            RecipeListPage.id,
-                                            arguments: currentLessonRecipes,
-                                          )
-                                      : null,
-                              isUnlocked: isPreviousLessonComplete,
+                              onTapCard: isLessonUnlocked
+                                  ? () => Navigator.pushNamed(
+                                        context,
+                                        RecipeListPage.id,
+                                        arguments: currentLessonRecipes,
+                                      )
+                                  : null,
+                              isUnlocked: isLessonUnlocked,
                               title: "Lesson Recipes",
                               duration:
                                   "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
@@ -199,8 +194,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                           if (currentLessonQuiz != null) ...[
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
-                              onTapCard: isPreviousLessonComplete &&
-                                      isLessonComplete
+                              onTapCard: isLessonUnlocked && isLessonComplete
                                   ? () {
                                       analytics.logEvent(
                                           name:
@@ -215,14 +209,12 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                               showCompletedTag:
                                   currentLessonQuiz.isComplete == true,
                               showCompleteLesson: !isLessonComplete,
-                              isUnlocked:
-                                  isPreviousLessonComplete && isLessonComplete,
+                              isUnlocked: isLessonUnlocked && isLessonComplete,
                               title: "Quiz",
                               duration: "5 mins",
                               asset: 'assets/dashboard_quiz.png',
                               assetSize: Size(88, 95),
                             ),
-                            //
                           ]
                         ],
                       ),

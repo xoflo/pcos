@@ -353,6 +353,7 @@ class ProviderHelper {
           'title': lesson?.title,
           'introduction': lesson?.introduction,
           'hoursToNextLesson': lesson?.hoursToNextLesson,
+          'hoursUntilAvailable': lesson?.hoursUntilAvailable,
           'imageUrl': lesson?.imageUrl,
           'orderIndex': lesson?.orderIndex,
           'isFavorite': lesson?.isFavorite == true ? 1 : 0,

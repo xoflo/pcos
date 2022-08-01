@@ -96,6 +96,7 @@ class DatabaseProvider with ChangeNotifier {
               "title TEXT,"
               "introduction TEXT,"
               "hoursToNextLesson INTEGER,"
+              "hoursUntilAvailable INTEGER,"
               "minsToComplete INTEGER,"
               "imageUrl TEXT,"
               "orderIndex INTEGER,"
