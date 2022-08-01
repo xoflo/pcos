@@ -90,16 +90,13 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                     lessonRecipeDuration += element.duration ?? 0;
                   });
 
-                  // We must lock the current lesson, if and only if the
-                  // previous lesson is not yet complete or if the current
-                  // lesson is not yet available. But when the item is the
-                  // first one, then we should set to true so that the current
-                  // index will not be locked. It doesn't make sense to lock
-                  // the first lesson, after all.
+                  // If the previous lesson is not yet complete AND the current
+                  // lesson is not yet available, then the lesson is still
+                  // locked. But if it's the first lesson, then we unlock it
                   final isLessonUnlocked = index == 0
                       ? true
                       : (widget.modulesProvider.currentModuleLessons[index - 1]
-                              .isComplete ||
+                              .isComplete &&
                           currentLesson.hoursUntilAvailable == 0);
 
                   return Card(
