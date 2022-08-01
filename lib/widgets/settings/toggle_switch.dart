@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class ToggleSwitch extends StatefulWidget {
@@ -33,10 +34,10 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
           Flexible(
             child: Text(
               widget.title,
-              style: TextStyle(
-                fontSize: 16,
-                color: textColor,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(fontWeight: FontWeight.normal),
             ),
           ),
           CupertinoSwitch(

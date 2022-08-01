@@ -51,10 +51,7 @@ class _LibraryPageState extends State<LibraryPage> {
             onTap: () => goToLibrarySearchPage(),
             focusNode:
                 AlwaysDisabledFocusNode(), // Tappable text field, but not editable
-            style: TextStyle(
-              fontSize: 16,
-              color: textColor,
-            ),
+            style: Theme.of(context).textTheme.bodyText1,
             decoration: InputDecoration(
               hintText: "Search",
               isDense: true,
@@ -115,11 +112,10 @@ class _LibraryPageState extends State<LibraryPage> {
                             padding: EdgeInsets.all(15),
                             child: Text(
                               "Module Library",
-                              style: TextStyle(
-                                color: backgroundColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5
+                                  ?.copyWith(color: backgroundColor),
                             ),
                           ),
                           Container(
@@ -158,11 +154,10 @@ class _LibraryPageState extends State<LibraryPage> {
                             padding: EdgeInsets.all(15),
                             child: Text(
                               "Wiki Library",
-                              style: TextStyle(
-                                color: backgroundColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5
+                                  ?.copyWith(color: backgroundColor),
                             ),
                           ),
                           Container(

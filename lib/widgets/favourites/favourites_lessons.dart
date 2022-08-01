@@ -58,11 +58,10 @@ class _FavouritesLessonsState extends State<FavouritesLessons> {
                 ),
                 child: HtmlWidget(
                   lesson.title,
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    color: backgroundColor,
-                  ),
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(color: backgroundColor),
                 ),
               ),
             );

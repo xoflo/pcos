@@ -42,7 +42,7 @@ class AppNavigationTabs extends StatelessWidget {
           ),
           labelColor: backgroundColor,
           unselectedLabelColor: unselectedIndicatorColor,
-          labelStyle: TextStyle(fontSize: 12),
+          labelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
           tabs: [
             Stack(
               children: [

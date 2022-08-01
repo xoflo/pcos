@@ -22,11 +22,7 @@ class LessonWikiComponent extends StatelessWidget {
               children: [
                 Text(
                   "Wikis",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontSize: 20,
-                  ),
+                  style: Theme.of(context).textTheme.headline4,
                 ),
                 ...lessonWikis
                     .map(
@@ -53,11 +49,10 @@ class LessonWikiComponent extends StatelessWidget {
                                 children: [
                                   HtmlWidget(
                                     element.question ?? "",
-                                    textStyle: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: backgroundColor,
-                                    ),
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1
+                                        ?.copyWith(color: backgroundColor),
                                   ),
                                   SizedBox(height: 10),
                                   HtmlWidget(
@@ -67,12 +62,13 @@ class LessonWikiComponent extends StatelessWidget {
                                                 .substring(0, 200)
                                             : (element.answer ?? "")) +
                                         "</p>",
-                                    textStyle: TextStyle(
-                                      fontSize: 14,
-                                      color: textColor.withOpacity(0.8),
-                                      height: 1.25,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                          height: 1.25,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                   ),
                                 ],
                               ),

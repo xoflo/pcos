@@ -37,10 +37,7 @@ class RecipeFilterList extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   tag,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: textColor,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyText2,
                                 ),
                               ),
                               if (selectedItems != null &&

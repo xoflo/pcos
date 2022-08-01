@@ -91,11 +91,10 @@ class _VideoComponentState extends State<VideoComponent> {
                     SizedBox(width: 10),
                     Text(
                       "Watch Video",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: backgroundColor,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          ?.copyWith(color: backgroundColor),
                     ),
                   ],
                 ),
@@ -113,10 +112,12 @@ class _VideoComponentState extends State<VideoComponent> {
                           SizedBox(width: 5),
                           Text(
                             "Video",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: textColor.withOpacity(0.8),
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: textColor.withOpacity(0.8)),
                           ),
                         ],
                       ),
@@ -131,12 +132,12 @@ class _VideoComponentState extends State<VideoComponent> {
                           SizedBox(width: 5),
                           Text(
                             "$minutes mins",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: minutes != null
-                                  ? textColor.withOpacity(0.8)
-                                  : redColor,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: textColor.withOpacity(0.8)),
                           ),
                         ],
                       )

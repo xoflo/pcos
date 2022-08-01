@@ -23,10 +23,10 @@ class DashboardLessonLockedComponent extends StatelessWidget {
             SizedBox(width: 10),
             Text(
               title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  ?.copyWith(color: Colors.white),
             ),
           ],
         ),

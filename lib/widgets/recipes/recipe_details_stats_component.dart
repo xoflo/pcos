@@ -32,19 +32,18 @@ class RecipeDetailsStatsComponent extends StatelessWidget {
                   children: [
                     Text(
                       "Serves",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: textColor.withOpacity(0.8),
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     ),
                     SizedBox(height: 15),
                     Text(
                       "$servings",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: textColor.withOpacity(0.8),
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     )
                   ],
                 ),
@@ -52,11 +51,10 @@ class RecipeDetailsStatsComponent extends StatelessWidget {
                   children: [
                     Text(
                       "Duration",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: textColor.withOpacity(0.8),
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     ),
                     SizedBox(height: 15),
                     Text(
@@ -65,10 +63,10 @@ class RecipeDetailsStatsComponent extends StatelessWidget {
                               .toString() +
                           " " +
                           S.current.minutesShort,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: textColor.withOpacity(0.8),
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     )
                   ],
                 ),
@@ -76,19 +74,18 @@ class RecipeDetailsStatsComponent extends StatelessWidget {
                   children: [
                     Text(
                       "Difficulty",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: textColor.withOpacity(0.8),
-                        fontSize: 14,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     ),
                     SizedBox(height: 15),
                     Text(
                       difficulty,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: textColor.withOpacity(0.8),
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     )
                   ],
                 ),

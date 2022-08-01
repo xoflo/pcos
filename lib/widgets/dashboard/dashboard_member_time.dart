@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
@@ -57,23 +56,6 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
     timer?.cancel();
   }
 
-  Widget getItem() {
-    switch (widget.memberViewModel.status) {
-      case LoadingStatus.success:
-        return Padding(
-          padding: EdgeInsets.all(15),
-          child: Text(
-            "Hello ${widget.memberViewModel.firstName}",
-            style: TextStyle(
-                color: textColor, fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-        );
-      default:
-        break;
-    }
-    return Container();
-  }
-
   @override
   Widget build(BuildContext context) => Stack(
         children: [
@@ -92,10 +74,7 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
               padding: EdgeInsets.all(15),
               child: Text(
                 "Hello ${widget.memberViewModel.firstName}",
-                style: TextStyle(
-                    color: textColor,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headline1,
               ),
             )
           else if (asset.isEmpty ||

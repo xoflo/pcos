@@ -37,13 +37,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
             alignment: Alignment.center,
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: index == itemNumber
-                    ? Colors.white
-                    : textColor.withOpacity(0.5),
-              ),
+              style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                    color: index == itemNumber
+                        ? Colors.white
+                        : textColor.withOpacity(0.5),
+                  ),
             ),
           ),
         ),

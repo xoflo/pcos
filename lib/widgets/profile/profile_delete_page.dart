@@ -34,7 +34,9 @@ class _ProfileDeletePageState extends State<ProfileDeletePage> {
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
                   child: Text(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    style: TextStyle(fontSize: 16, color: textColor),
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        fontWeight: FontWeight.normal,
+                        color: textColor.withOpacity(0.8)),
                   ),
                 ),
                 Spacer(),
@@ -43,7 +45,7 @@ class _ProfileDeletePageState extends State<ProfileDeletePage> {
                   isUpdating: isUpdating,
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   foregroundColor: Colors.white,
-                  backgroundColor: backgroundColor,
+                  backgroundColor: redColor,
                   onPressed: () {
                     FocusManager.instance.primaryFocus?.unfocus();
                     setState(() => isUpdating = true);

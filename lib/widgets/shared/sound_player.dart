@@ -167,10 +167,10 @@ class _SoundPlayerState extends State<SoundPlayer> {
             right: 20,
             child: Text(
               '$currentPositionLabel / $durationLabel',
-              style: TextStyle(
-                fontSize: 12,
-                color: textColor.withOpacity(0.5),
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .caption
+                  ?.copyWith(color: textColor.withOpacity(0.8)),
             ),
           )
         ],

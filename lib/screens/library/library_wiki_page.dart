@@ -52,11 +52,7 @@ class _LibraryWikiPageState extends State<LibraryWikiPage> {
                 ),
                 child: Text(
                   args.moduleTitle,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontSize: 24,
-                  ),
+                  style: Theme.of(context).textTheme.headline3,
                 ),
               ),
               Expanded(
@@ -81,11 +77,10 @@ class _LibraryWikiPageState extends State<LibraryWikiPage> {
                         ),
                         child: HtmlWidget(
                           wiki.question ?? "",
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: backgroundColor,
-                            fontSize: 16,
-                          ),
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .subtitle1
+                              ?.copyWith(color: backgroundColor),
                         ),
                       ),
                     );

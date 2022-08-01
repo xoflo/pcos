@@ -31,10 +31,7 @@ class _SearchComponentState extends State<SearchComponent> {
         child: TextFormField(
           controller: widget.searchController,
           focusNode: widget.focusNode,
-          style: TextStyle(
-            fontSize: 16,
-            color: textColor,
-          ),
+          style: Theme.of(context).textTheme.bodyText1,
           textInputAction: TextInputAction.search,
           onFieldSubmitted: (_) => widget.onSearchPressed.call(),
           onChanged: (text) => setState(() => isSearchDisabled = text.isEmpty),

@@ -76,11 +76,10 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               Expanded(
                                 child: Text(
                                   wiki?.question ?? "",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: backgroundColor,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      ?.copyWith(color: backgroundColor),
                                 ),
                               ),
                               IconButton(
@@ -118,20 +117,23 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               HtmlWidget(
                                 modulesProvider.getLessonTitleByQuestionID(
                                     wiki?.questionId ?? -1),
-                                textStyle: TextStyle(
-                                  color: textColor.withOpacity(0.5),
-                                  fontSize: 14,
-                                ),
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(
+                                        color: textColor.withOpacity(0.5)),
                               )
                             ],
                           ),
                           SizedBox(height: 20),
                           HtmlWidget(
                             wiki?.answer ?? "",
-                            textStyle: TextStyle(
-                              color: textColor.withOpacity(0.8),
-                              fontSize: 16,
-                            ),
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: textColor.withOpacity(0.8)),
                           )
                         ],
                       ),

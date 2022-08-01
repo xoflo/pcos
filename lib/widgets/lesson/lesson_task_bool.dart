@@ -32,15 +32,12 @@ class _LessonTaskBoolState extends State<LessonTaskBool> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
-              alignment: Alignment.center,
               child: Text(
                 "Yes",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: isTrue == true
-                      ? backgroundColor
-                      : textColor.withOpacity(0.8),
-                ),
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: isTrue == true
+                        ? backgroundColor
+                        : textColor.withOpacity(0.8)),
               ),
             ),
           ),
@@ -61,15 +58,12 @@ class _LessonTaskBoolState extends State<LessonTaskBool> {
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
-              alignment: Alignment.center,
               child: Text(
                 "No",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: isTrue == false
-                      ? backgroundColor
-                      : textColor.withOpacity(0.8),
-                ),
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: isTrue == false
+                        ? backgroundColor
+                        : textColor.withOpacity(0.8)),
               ),
             ),
           ),

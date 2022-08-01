@@ -48,17 +48,17 @@ class _LessonTaskRatingState extends State<LessonTaskRating> {
                   children: [
                     Text(
                       "Scale 0",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: textColor.withOpacity(0.8),
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     ),
                     Text(
                       "Scale 8",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: textColor.withOpacity(0.8),
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     )
                   ],
                 )

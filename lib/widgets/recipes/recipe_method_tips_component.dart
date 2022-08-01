@@ -31,11 +31,7 @@ class RecipeMethodTipsComponent extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: textColor,
-                      fontSize: 18,
-                    ),
+                    style: Theme.of(context).textTheme.headline5,
                   ),
                   Icon(
                     Icons.arrow_forward_ios,

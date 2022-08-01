@@ -21,11 +21,7 @@ class LessonTaskComponent extends StatelessWidget {
               children: [
                 Text(
                   "Tasks",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: textColor,
-                    fontSize: 20,
-                  ),
+                  style: Theme.of(context).textTheme.headline4,
                 ),
                 ...lessonTasks
                     .map(
@@ -54,11 +50,10 @@ class LessonTaskComponent extends StatelessWidget {
                                   Expanded(
                                     child: HtmlWidget(
                                       element.title ?? "",
-                                      textStyle: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: backgroundColor,
-                                      ),
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .headline5
+                                          ?.copyWith(color: backgroundColor),
                                     ),
                                   ),
                                   SizedBox(width: 10),

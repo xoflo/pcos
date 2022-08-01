@@ -100,7 +100,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                     "Search any ingredients, recipes names, or meal types.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       color: textColor.withOpacity(0.5),
                     ),
                   ),
@@ -137,10 +137,10 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                       SizedBox(width: 10),
                       Text(
                         "Filters",
-                        style: TextStyle(
-                          color: backgroundColor,
-                          fontSize: 16,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(color: backgroundColor),
                       ),
                     ],
                   ),

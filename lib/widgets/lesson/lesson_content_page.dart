@@ -114,11 +114,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
                       Expanded(
                         child: HtmlWidget(
                           lesson?.title ?? "",
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: textColor.withOpacity(0.8),
-                          ),
+                          textStyle: Theme.of(context).textTheme.headline4,
                         ),
                       ),
                       IconButton(
@@ -153,29 +149,31 @@ class _LessonContentPageState extends State<LessonContentPage> {
                             children: [
                               HtmlWidget(
                                 content?.title ?? "",
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: textColor.withOpacity(0.8),
-                                ),
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    ?.copyWith(
+                                        color: textColor.withOpacity(0.8)),
                               ),
                               SizedBox(height: 20),
                               HtmlWidget(
                                 content?.body ?? "",
-                                textStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: textColor.withOpacity(0.8),
-                                ),
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    ?.copyWith(
+                                        color: textColor.withOpacity(0.8)),
                               ),
                               ...getContentUrlType(content),
                               if (content?.summary?.isNotEmpty == true) ...[
                                 SizedBox(height: 20),
                                 HtmlWidget(
                                   content?.summary ?? "",
-                                  textStyle: TextStyle(
-                                    fontSize: 14,
-                                    color: textColor.withOpacity(0.8),
-                                  ),
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      ?.copyWith(
+                                          color: textColor.withOpacity(0.8)),
                                 )
                               ]
                             ],
