@@ -37,7 +37,7 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
                 }
               }),
               child: Container(
-                height: 135,
+                height: 125,
                 child: Card(
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -53,7 +53,7 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
                           : "Please input your why to motivate yourself every day.",
                       highlight: "want",
                       style: Theme.of(context).textTheme.headline5!,
-                      highlightColor: Colors.red,
+                      highlightColor: redColor,
                     ),
                   ),
                 ),
@@ -63,7 +63,7 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
           SizedBox(width: 5),
           Expanded(
             child: Container(
-              height: 135,
+              height: 125,
               child: Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -83,7 +83,7 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
                           style:
                               Theme.of(context).textTheme.subtitle1?.copyWith(
                                     color: Colors.white,
-                                    fontSize: 25,
+                                    fontSize: 20,
                                   ),
                         )
                       ],
