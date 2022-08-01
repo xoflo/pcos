@@ -105,7 +105,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       } else {
         if (_pinAttempts < 5) {
           startPinAgain(
-              S.current.pinEntryErrorTitle, S.current.pinEntryErrorText);
+              S.current.pinUnlockErrorTitle, S.current.pinEntryErrorText);
         } else {
           //have tried pin five times, clear pin, and send back to sign in
           sendToSignIn(false);
