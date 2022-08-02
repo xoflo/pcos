@@ -68,6 +68,7 @@ class _DashboardWhySettingsLayoutState
                   TextFormField(
                     controller: textController,
                     maxLength: 100,
+                    maxLines: null,
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
