@@ -20,7 +20,7 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
     HapticFeedback.lightImpact();
     updatePin(pinNumber);
 
-    if (currentPosition > 3) {
+    if (currentPosition == 4) {
       await Future.delayed(const Duration(milliseconds: 200), () {});
       updatePinEntryState();
       validatePin();
