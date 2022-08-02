@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -9,6 +10,8 @@ import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item_widget
 import 'package:thepcosprotocol_app/widgets/shared/circle_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class AppTutorialPage extends StatefulWidget {
   const AppTutorialPage({Key? key}) : super(key: key);
@@ -114,6 +117,8 @@ class _AppTutorialPageState extends State<AppTutorialPage>
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeIn);
           } else {
+            PreferencesController()
+                .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
             Navigator.pushReplacementNamed(context, AppTabs.id);
           }
 

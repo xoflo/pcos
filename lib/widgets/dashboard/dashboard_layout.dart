@@ -6,7 +6,6 @@ import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
-import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/previous_modules_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
@@ -18,7 +17,6 @@ import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
-import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_member_time.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_why_community.dart';
@@ -67,7 +65,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   void initState() {
     super.initState();
     _initialise();
-    _checkShowTutorial();
   }
 
   Future<void> _initialise() async {
@@ -88,21 +85,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
     });
   }
 
-  Future<void> _checkShowTutorial() async {
-    if (!await PreferencesController()
-        .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
-      analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-      PreferencesController()
-          .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
-      await Future.delayed(Duration(seconds: 2), () {
-        Navigator.pushNamed(
-          context,
-          AppTutorialPage.id,
-          arguments: AppTutorialArguments(),
-        );
-      });
-    }
-  }
   //#endregion
 
   //#region User Alerts

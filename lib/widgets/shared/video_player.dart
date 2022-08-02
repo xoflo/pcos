@@ -35,6 +35,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     super.dispose();
     _betterPlayerController.pause();
     _betterPlayerController.dispose(forceDispose: true);
+    _betterPlayerController.removeEventsListener(_setEventListener);
   }
 
   Future<void> initializePlayer() async {
@@ -87,57 +88,55 @@ class _VideoPlayerState extends State<VideoPlayer> {
     );
 
     //add analytics events for play and fullscreen
-    _betterPlayerController.addEventsListener((event) {
-      if (event.betterPlayerEventType == BetterPlayerEventType.openFullscreen) {
+    _betterPlayerController.addEventsListener(_setEventListener);
+
+    setState(() {});
+  }
+
+  void _setEventListener(BetterPlayerEvent event) {
+    if (event.betterPlayerEventType == BetterPlayerEventType.openFullscreen) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    } else if (event.betterPlayerEventType ==
+        BetterPlayerEventType.hideFullscreen) {
+      if (widget.isHorizontal == true) {
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.landscapeLeft,
           DeviceOrientation.landscapeRight,
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
         ]);
-      } else if (event.betterPlayerEventType ==
-          BetterPlayerEventType.hideFullscreen) {
-        if (widget.isHorizontal == true) {
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.landscapeLeft,
-            DeviceOrientation.landscapeRight,
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.portraitDown,
-          ]);
-        } else {
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.portraitUp,
-          ]);
-        }
+      } else {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+        ]);
       }
+    }
 
-      if (event.betterPlayerEventType == BetterPlayerEventType.play &&
-          !analyticsPlayEventSent) {
-        analytics.logEvent(
-          name: Analytics.ANALYTICS_VIDEO_PLAY,
-          parameters: {
-            Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoUrl
-          },
-        );
-        setState(() {
-          analyticsPlayEventSent = true;
-        });
-      } else if (event.betterPlayerEventType ==
-              BetterPlayerEventType.openFullscreen &&
-          !analyticsFullscreenEventSent) {
-        analytics.logEvent(
-          name: Analytics.ANALYTICS_VIDEO_FULLSCREEN,
-          parameters: {
-            Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoUrl
-          },
-        );
-        setState(() {
-          analyticsFullscreenEventSent = true;
-        });
-      }
-    });
-
-    setState(() {});
+    if (event.betterPlayerEventType == BetterPlayerEventType.play &&
+        !analyticsPlayEventSent) {
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_VIDEO_PLAY,
+        parameters: {Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoUrl},
+      );
+      setState(() {
+        analyticsPlayEventSent = true;
+      });
+    } else if (event.betterPlayerEventType ==
+            BetterPlayerEventType.openFullscreen &&
+        !analyticsFullscreenEventSent) {
+      analytics.logEvent(
+        name: Analytics.ANALYTICS_VIDEO_FULLSCREEN,
+        parameters: {Analytics.ANALYTICS_PARAMETER_VIDEO_NAME: widget.videoUrl},
+      );
+      setState(() {
+        analyticsFullscreenEventSent = true;
+      });
+    }
   }
 
   @override

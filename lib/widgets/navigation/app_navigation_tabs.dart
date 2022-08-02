@@ -66,7 +66,7 @@ class AppNavigationTabs extends StatelessWidget {
                             .where(
                               (element) =>
                                   !element.isComplete &&
-                                  element.hoursToNextLesson == 0,
+                                  element.hoursUntilAvailable == 0,
                             )
                             .length;
                     final showLessonCount = incompleteLessonCount != 0;
