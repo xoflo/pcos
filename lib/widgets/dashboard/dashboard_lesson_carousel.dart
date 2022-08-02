@@ -90,16 +90,20 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                     lessonRecipeDuration += element.duration ?? 0;
                   });
 
-                  // To determine if the lesson is already unlocked, we must
-                  // first check if the current lesson is already available
-                  // by determining if the hoursUntilAvailable variable is
-                  // 0 to indicate that it is already available. This computation
-                  // was made in the API server, so that the client side will
-                  // just check if the value is already 0. If it is, then we
-                  // also check if the previous lesson is already complete.
-                  // Only then will the lesson be unlocked. Note also that the
-                  // lesson is automatically unlocked if it is the first lesson
-                  // in the module.
+                  // Initially, all lessons in the current module are already
+                  // loaded. However, each lesson needs to be checked if
+                  // they are already unlocked. The first lesson of the module is
+                  // automatically unlocked. But for the rest of the lessons
+                  // to be unlocked, the previous one must be completed first.
+                  // But the app still needs to check if the lesson is already
+                  // available to access for the user. The server determines the
+                  // availability of the lesson so that the user will not
+                  // be able to simultaneously finish all the lessons and all
+                  // the modules in one sitting. This also allows other users
+                  // to save the lessons for later and go over them on their
+                  // own pace. The computation for this value is already done
+                  // in the server, based on the number of hours since the user
+                  // completed the very first lesson in the module.
                   final isLessonUnlocked = index == 0
                       ? true
                       : (widget.modulesProvider.currentModuleLessons[index - 1]
