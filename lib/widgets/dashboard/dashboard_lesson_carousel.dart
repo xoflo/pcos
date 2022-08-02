@@ -90,9 +90,16 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                     lessonRecipeDuration += element.duration ?? 0;
                   });
 
-                  // If the previous lesson is not yet complete AND the current
-                  // lesson is not yet available, then the lesson is still
-                  // locked. But if it's the first lesson, then we unlock it
+                  // To determine if the lesson is already unlocked, we must
+                  // first check if the current lesson is already available
+                  // by determining if the hoursUntilAvailable variable is
+                  // 0 to indicate that it is already available. This computation
+                  // was made in the API server, so that the client side will
+                  // just check if the value is already 0. If it is, then we
+                  // also check if the previous lesson is already complete.
+                  // Only then will the lesson be unlocked. Note also that the
+                  // lesson is automatically unlocked if it is the first lesson
+                  // in the module.
                   final isLessonUnlocked = index == 0
                       ? true
                       : (widget.modulesProvider.currentModuleLessons[index - 1]
