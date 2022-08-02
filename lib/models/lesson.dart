@@ -5,6 +5,7 @@ class Lesson {
   final String title;
   final String introduction;
   final int hoursToNextLesson;
+  final int hoursUntilAvailable;
   final int minsToComplete;
   final int orderIndex;
   final bool isComplete;
@@ -18,6 +19,7 @@ class Lesson {
     required this.imageUrl,
     required this.title,
     required this.hoursToNextLesson,
+    required this.hoursUntilAvailable,
     required this.minsToComplete,
     required this.introduction,
     required this.orderIndex,
@@ -34,6 +36,7 @@ class Lesson {
       imageUrl: json['imageUrl'],
       title: json['title'],
       hoursToNextLesson: json['hoursToNextLesson'],
+      hoursUntilAvailable: json['hoursUntilAvailable'],
       minsToComplete: json['minsToComplete'] ?? 0,
       introduction: json['introduction'],
       orderIndex: json['orderIndex'],

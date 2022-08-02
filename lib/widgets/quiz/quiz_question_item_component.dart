@@ -145,12 +145,11 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            HtmlWidget(
               widget.question?.questionText ?? "",
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.headline4,
+              textStyle: Theme.of(context).textTheme.headline4,
             ),
             if (isMultiChoice) ...[
               SizedBox(height: 10),

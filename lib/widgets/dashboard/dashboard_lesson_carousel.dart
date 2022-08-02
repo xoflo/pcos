@@ -69,7 +69,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
         return Column(
           children: [
             Container(
-              height: 505,
+              height: 530,
               child: PageView.builder(
                 controller: controller,
                 itemCount: widget.modulesProvider.currentModuleLessons.length,
@@ -90,19 +90,25 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                     lessonRecipeDuration += element.duration ?? 0;
                   });
 
-                  // We must lock the current lesson, if and only if the
-                  // previous lesson is not yet complete or if the current
-                  // lesson is not yet available. But when the item is the
-                  // first one, then we should set to true so that the current
-                  // index will not be locked. It doesn't make sense to lock
-                  // the first lesson, after all.
-                  final isPreviousLessonComplete = index == 0
+                  // Initially, all lessons in the current module are already
+                  // loaded. However, each lesson needs to be checked if
+                  // they are already unlocked. The first lesson of the module is
+                  // automatically unlocked. But for the rest of the lessons
+                  // to be unlocked, the previous one must be completed first.
+                  // But the app still needs to check if the lesson is already
+                  // available to access for the user. The server determines the
+                  // availability of the lesson so that the user will not
+                  // be able to simultaneously finish all the lessons and all
+                  // the modules in one sitting. This also allows other users
+                  // to save the lessons for later and go over them on their
+                  // own pace. The computation for this value is already done
+                  // in the server, based on the number of hours since the user
+                  // completed the very first lesson in the module.
+                  final isLessonUnlocked = index == 0
                       ? true
                       : (widget.modulesProvider.currentModuleLessons[index - 1]
-                              .isComplete ||
-                          widget.modulesProvider.currentModuleLessons[index - 1]
-                                  .hoursToNextLesson ==
-                              0);
+                              .isComplete &&
+                          currentLesson.hoursUntilAvailable == 0);
 
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -118,7 +124,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (isPreviousLessonComplete)
+                              if (isLessonUnlocked)
                                 Expanded(
                                   child: Text(
                                     widget.modulesProvider.currentModule
@@ -132,7 +138,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                 DashboardLessonLockedComponent(
                                     title: "Complete the previous lesson"),
                               Opacity(
-                                opacity: isPreviousLessonComplete ? 1 : 0.5,
+                                opacity: isLessonUnlocked ? 1 : 0.5,
                                 child: Container(
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -158,17 +164,15 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                           ),
                           SizedBox(height: 25),
                           DashboardLessonCarouselItemCard(
-                            onTapCard:
-                                isPreviousLessonComplete // && isLessonComplete
-                                    ? () => Navigator.pushNamed(
-                                          context,
-                                          LessonPage.id,
-                                          arguments:
-                                              LessonArguments(currentLesson),
-                                        )
-                                    : null,
+                            onTapCard: isLessonUnlocked
+                                ? () => Navigator.pushNamed(
+                                      context,
+                                      LessonPage.id,
+                                      arguments: LessonArguments(currentLesson),
+                                    )
+                                : null,
                             showCompletedTag: isLessonComplete,
-                            isUnlocked: isPreviousLessonComplete,
+                            isUnlocked: isLessonUnlocked,
                             title: "Lesson ${index + 1}",
                             subtitle: currentLesson.title,
                             duration: "${currentLesson.minsToComplete} mins",
@@ -179,15 +183,14 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                               currentLessonRecipes.length > 0) ...[
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
-                              onTapCard:
-                                  isPreviousLessonComplete // && isLessonComplete
-                                      ? () => Navigator.pushNamed(
-                                            context,
-                                            RecipeListPage.id,
-                                            arguments: currentLessonRecipes,
-                                          )
-                                      : null,
-                              isUnlocked: isPreviousLessonComplete,
+                              onTapCard: isLessonUnlocked
+                                  ? () => Navigator.pushNamed(
+                                        context,
+                                        RecipeListPage.id,
+                                        arguments: currentLessonRecipes,
+                                      )
+                                  : null,
+                              isUnlocked: isLessonUnlocked,
                               title: "Lesson Recipes",
                               duration:
                                   "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
@@ -199,8 +202,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                           if (currentLessonQuiz != null) ...[
                             SizedBox(height: 15),
                             DashboardLessonCarouselItemCard(
-                              onTapCard: isPreviousLessonComplete &&
-                                      isLessonComplete
+                              onTapCard: isLessonUnlocked && isLessonComplete
                                   ? () {
                                       analytics.logEvent(
                                           name:
@@ -215,14 +217,12 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                               showCompletedTag:
                                   currentLessonQuiz.isComplete == true,
                               showCompleteLesson: !isLessonComplete,
-                              isUnlocked:
-                                  isPreviousLessonComplete && isLessonComplete,
+                              isUnlocked: isLessonUnlocked && isLessonComplete,
                               title: "Quiz",
                               duration: "5 mins",
                               asset: 'assets/dashboard_quiz.png',
                               assetSize: Size(88, 95),
                             ),
-                            //
                           ]
                         ],
                       ),
