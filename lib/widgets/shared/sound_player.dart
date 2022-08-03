@@ -46,8 +46,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   }
 
   void setAudioPlayerDetails(String link) {
-    audioPlayer.setSource(UrlSource(
-        "https://file-examples.com/storage/feed60275962ead9d986847/2017/11/file_example_MP3_700KB.mp3"));
+    audioPlayer.setSource(UrlSource(widget.link));
 
     // We need to pause here because in iOS, there is a tendency
     // to autoplay the video
