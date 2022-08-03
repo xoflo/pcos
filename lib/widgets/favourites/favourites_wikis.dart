@@ -21,6 +21,13 @@ class FavouritesWikis extends StatefulWidget {
 
 class _FavouritesWikisState extends State<FavouritesWikis> {
   @override
+  void initState() {
+    super.initState();
+
+    widget.favouritesProvider.fetchLessonWikisStatus();
+  }
+
+  @override
   Widget build(BuildContext context) {
     switch (widget.favouritesProvider.status) {
       case LoadingStatus.loading:

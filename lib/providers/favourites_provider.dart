@@ -46,6 +46,22 @@ class FavouritesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void fetchToolkitStatus() {
+    status = _toolkits.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+  }
+
+  void fetchLessonStatus() {
+    status = _lessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+  }
+
+  void fetchLessonWikisStatus() {
+    status = _lessonWikis.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+  }
+
+  void fetchRecipesStatus() {
+    status = _recipes.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+  }
+
   Future<void> addToFavourites(
       final FavouriteType favouriteType, final int? itemId) async {
     await ProviderHelper().addToFavourites(

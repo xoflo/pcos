@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
-import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -21,12 +19,11 @@ class FavouritesLessons extends StatefulWidget {
 }
 
 class _FavouritesLessonsState extends State<FavouritesLessons> {
-  late ModulesProvider modulesProvider;
-
   @override
   void initState() {
     super.initState();
-    modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
+
+    widget.favouritesProvider.fetchLessonStatus();
   }
 
   @override
