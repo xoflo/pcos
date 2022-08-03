@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
+import 'package:thepcosprotocol_app/screens/onboarding/onboarding_page.dart';
 
 class AppLoading extends StatefulWidget {
   static const String id = "app_loading_screen";

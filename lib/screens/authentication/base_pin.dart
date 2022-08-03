@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
-import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pin_pad.dart';
 

@@ -7,12 +7,12 @@ import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
-import 'package:thepcosprotocol_app/screens/more/change_password.dart';
-import 'package:thepcosprotocol_app/screens/more/settings.dart';
+import 'package:thepcosprotocol_app/screens/profile/profile_delete_page.dart';
+import 'package:thepcosprotocol_app/screens/profile/profile_personal_details.dart';
+import 'package:thepcosprotocol_app/screens/profile/profile_settings_item.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/change_password.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/settings.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
-import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
-import 'package:thepcosprotocol_app/widgets/profile/profile_settings_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;

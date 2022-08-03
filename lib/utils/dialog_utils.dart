@@ -3,7 +3,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart' as colors;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
 void showFlushBar(final BuildContext scaffoldContext, final String title,

@@ -7,28 +7,27 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:thepcosprotocol_app/screens/library/library_module_page.dart';
-import 'package:thepcosprotocol_app/screens/library/library_module_wiki_page.dart';
-import 'package:thepcosprotocol_app/screens/library/library_search_page.dart';
-import 'package:thepcosprotocol_app/screens/library/library_wiki_page.dart';
-import 'package:thepcosprotocol_app/screens/more/app_help.dart';
+import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_toolkit_details.dart';
+import 'package:thepcosprotocol_app/screens/tabs/library/library_module_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/library/library_search_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/library/library_wiki_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/app_help.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
-import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
-import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
-import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/quiz.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notifications.dart';
-import 'package:thepcosprotocol_app/screens/more/change_password.dart';
-import 'package:thepcosprotocol_app/screens/more/privacy.dart';
-import 'package:thepcosprotocol_app/screens/more/profile.dart';
-import 'package:thepcosprotocol_app/screens/more/terms_and_conditions.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/change_password.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/privacy.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/profile.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
-import 'package:thepcosprotocol_app/screens/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/app_loading.dart';
-import 'package:thepcosprotocol_app/screens/more/settings.dart';
+import 'package:thepcosprotocol_app/screens/tabs/more/settings.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -40,22 +39,20 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
-import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_why_settings_page.dart';
-import 'package:thepcosprotocol_app/widgets/favourites/favourites_toolkit_details.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_content_page.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_task_page.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
-import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
-import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
-import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
-import 'package:thepcosprotocol_app/widgets/quiz/quiz_page.dart';
-import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
-import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
-import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_page.dart';
-import 'package:thepcosprotocol_app/widgets/sign_in/register_web_view.dart';
+import 'package:thepcosprotocol_app/screens/app_tutorial/app_tutorial_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/lesson_content_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/lesson_task_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/lesson_video_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/lesson_wiki_page.dart';
+import 'package:thepcosprotocol_app/screens/onboarding/onboarding_page.dart';
+import 'package:thepcosprotocol_app/screens/profile/profile_delete_page.dart';
+import 'package:thepcosprotocol_app/screens/profile/profile_personal_details.dart';
+import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_details_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_method_tips_page.dart';
+import 'package:thepcosprotocol_app/screens/sign_in/register_web_view.dart';
 
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -197,10 +194,7 @@ class _AppState extends State<App> {
           Privacy.id: (context) => Privacy(),
           TermsAndConditions.id: (context) => TermsAndConditions(),
           Notifications.id: (context) => Notifications(),
-          PreviousModules.id: (context) => PreviousModules(),
-          LessonSearch.id: (context) => LessonSearch(),
-          WikiSearch.id: (context) => WikiSearch(),
-          QuizPage.id: (context) => QuizPage(),
+          QuizScreen.id: (context) => QuizScreen(),
           ProfileDeletePage.id: (context) => ProfileDeletePage(),
           ProfilePersonalDetails.id: (context) => ProfilePersonalDetails(),
           NotificationSettings.id: (context) => NotificationSettings(),
