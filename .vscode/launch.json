@@ -28,7 +28,7 @@
             "name": "ovie (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
+            // "flutterMode": "release",
             "program": "lib/main_prod.dart",
             "args": [
                 "--flavor",

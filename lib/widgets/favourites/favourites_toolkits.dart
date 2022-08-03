@@ -32,7 +32,7 @@ class _FavouritesToolkitsState extends State<FavouritesToolkits> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.current.noFavouriteLesson);
+        return NoResults(message: "No toolkits to display");
       case LoadingStatus.success:
         return ListView.builder(
           padding: EdgeInsets.all(15),

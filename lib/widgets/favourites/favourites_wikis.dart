@@ -33,7 +33,7 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.current.noFavouriteLesson);
+        return NoResults(message: S.current.noFavouriteWikis);
       case LoadingStatus.success:
         return ListView.builder(
           padding: EdgeInsets.all(15),
