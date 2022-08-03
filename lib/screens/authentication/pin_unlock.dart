@@ -20,6 +20,7 @@ import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
 import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 
 class PinUnlock extends StatefulWidget {
@@ -280,7 +281,13 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       child: getBaseWidget(
         context,
         SafeArea(
-          child: getPinPad(forgotPin: forgottenPin),
+          child: Stack(
+            children: [
+              getPinPad(forgotPin: forgottenPin),
+              if(pinEntry == PinEntry.ENTERED) LoaderOverlay()
+            ],
+          )
+          
         ),
       ),
     );
