@@ -14,21 +14,25 @@ class DashboardLessonLockedComponent extends StatelessWidget {
           color: backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.lock_outline,
-              size: 18,
-            ),
-            SizedBox(width: 10),
-            Text(
-              title,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  ?.copyWith(color: Colors.white),
-            ),
-          ],
+        child: FittedBox(
+          child: Row(
+            children: [
+              Icon(
+                Icons.lock_outline,
+                size: 18,
+              ),
+              SizedBox(width: 10),
+              FittedBox(
+                child: Text(
+                  title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

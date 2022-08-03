@@ -40,6 +40,7 @@ class AppNavigationTabs extends StatelessWidget {
             borderSide:
                 BorderSide(color: Theme.of(context).backgroundColor, width: 2),
           ),
+          labelPadding: EdgeInsets.zero,
           labelColor: backgroundColor,
           unselectedLabelColor: unselectedIndicatorColor,
           labelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),

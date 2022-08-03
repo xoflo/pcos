@@ -45,43 +45,55 @@ class _SoundPlayerState extends State<SoundPlayer> {
     return label;
   }
 
-  Future setAudioPlayerDetails(String link) async {
-    await audioPlayer.setSource(UrlSource(link));
+  void setAudioPlayerDetails(String link) {
+    audioPlayer.setSource(UrlSource(
+        "https://file-examples.com/storage/feed60275962ead9d986847/2017/11/file_example_MP3_700KB.mp3"));
+
+    // We need to pause here because in iOS, there is a tendency
+    // to autoplay the video
+    audioPlayer.pause();
 
     audioPlayer.onPlayerComplete.listen((event) {
-      setState(() {
-        isPlaying = false;
-        currentPosition = 0;
-        currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
-      });
-    });
-
-    audioPlayer.onDurationChanged.listen((dur) {
-      setState(() {
-        isLoading = false;
-        durationLabel = convertToHmsLabel(dur);
-        duration = dur.inSeconds;
-      });
-    });
-
-    audioPlayer.onPositionChanged.listen((pos) async {
-      debugPrint((await audioPlayer.getDuration()).toString());
-      setState(() {
-        if (pos.inSeconds == duration) {
+      if (mounted) {
+        setState(() {
           isPlaying = false;
           currentPosition = 0;
           currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
-        } else {
-          currentPosition = pos.inSeconds;
-          currentPositionLabel = convertToHmsLabel(pos);
-        }
-      });
+        });
+      }
+    });
+
+    audioPlayer.onDurationChanged.listen((dur) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+          durationLabel = convertToHmsLabel(dur);
+          duration = dur.inSeconds;
+        });
+      }
+    });
+
+    audioPlayer.onPositionChanged.listen((pos) {
+      if (mounted) {
+        setState(() {
+          if (pos.inSeconds == duration) {
+            isPlaying = false;
+            currentPosition = 0;
+            currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
+          } else {
+            currentPosition = pos.inSeconds;
+            currentPositionLabel = convertToHmsLabel(pos);
+          }
+        });
+      }
     });
   }
 
   @override
   void dispose() {
     super.dispose();
+    audioPlayer.stop();
+    audioPlayer.release();
     audioPlayer.dispose();
   }
 

@@ -31,33 +31,35 @@ class FilledButton extends StatelessWidget {
         margin: margin,
         child: ElevatedButton(
           onPressed: isUpdating ? null : onPressed,
-          child: Padding(
-            padding: EdgeInsets.all(icon != null ? 10 : 15),
-            child: isUpdating
-                ? SizedBox(
-                    child: CircularProgressIndicator(
-                      backgroundColor: backgroundColor,
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(primaryColor),
-                    ),
-                    height: 20.0,
-                    width: 20.0,
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (icon != null) ...{
-                        icon!,
-                        SizedBox(
-                          width: 10,
-                        )
-                      },
-                      Text(
-                        text,
-                        style: TextStyle(fontSize: 16),
+          child: FittedBox(
+            child: Padding(
+              padding: EdgeInsets.all(icon != null ? 10 : 15),
+              child: isUpdating
+                  ? SizedBox(
+                      child: CircularProgressIndicator(
+                        backgroundColor: backgroundColor,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(primaryColor),
                       ),
-                    ],
-                  ),
+                      height: 20.0,
+                      width: 20.0,
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (icon != null) ...{
+                          icon!,
+                          SizedBox(
+                            width: 10,
+                          )
+                        },
+                        Text(
+                          text,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+            ),
           ),
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
