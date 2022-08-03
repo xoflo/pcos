@@ -43,17 +43,11 @@ dependencies:
   another_flushbar: ^1.10.5
   provider: ^6.0.3
   flutter_widget_from_html: ^0.8.5
-  transparent_image: ^2.0.0
   better_player: ^0.0.82
   sqflite: ^2.0.2+1
   intercom_flutter: ^7.3.0
   launch_review: ^3.0.1
-  carousel_slider: ^4.1.1
   notification_permissions: ^0.6.1
-  avatar_glow: ^2.0.2
-  full_screen_image_null_safe: ^2.0.0
-  image_downloader: ^0.31.0
-  multi_select_flutter: ^4.1.2
   webview_flutter: ^3.0.4
   audioplayers: ^1.0.1
 
