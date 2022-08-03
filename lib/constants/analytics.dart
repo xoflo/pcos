@@ -19,6 +19,7 @@ const String ANALYTICS_EVENT_INTERCOM_INIT_FAILED = "intercom_init_failed";
 const String ANALYTICS_EVENT_DAILY_REMINDER = "daily_reminder";
 const String ANALYTICS_VIDEO_PLAY = "video_play";
 const String ANALYTICS_VIDEO_FULLSCREEN = "video_fullscreen";
+const String ANALYTICS_EVENT_ANSWER_QUESTION = "answer_question";
 
 //PARAMETERS
 const String ANALYTICS_PARAMETER_BUTTON = "button";
@@ -28,6 +29,8 @@ const String ANALYTICS_PARAMETER_FLUSHBAR_TITLE = "flushbar_title";
 const String ANALYTICS_PARAMETER_VIDEO_NAME = "video_name";
 const String ANALYTICS_PARAMETER_LESSON_PAGE_NUMBER = "lesson_page_number";
 const String ANALYTICS_PARAMETER_LESSON_SEARCH_TEXT = "lesson_search_text";
+const String ANALYTICS_PARAMETER_QUIZ_QUESTION_NUMBER = "quiz_question_number";
+const String ANALYTICS_PARAMETER_QUIZ_QUESTION_ANSWER = "quiz_question_answer";
 
 //SCREENS
 const String ANALYTICS_SCREEN_LESSON = "lesson";

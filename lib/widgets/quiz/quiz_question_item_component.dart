@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 import 'package:thepcosprotocol_app/models/quiz_question.dart';
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:intl/intl.dart';
+
+import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class QuizQuestionItemComponent extends StatefulWidget {
   const QuizQuestionItemComponent(
@@ -173,6 +176,15 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
                   ? null
                   : () {
                       if (!isAnswerChecked) {
+                        analytics.logEvent(
+                          name: Analytics.ANALYTICS_EVENT_ANSWER_QUESTION,
+                          parameters: {
+                            Analytics.ANALYTICS_PARAMETER_QUIZ_QUESTION_NUMBER:
+                                widget.question?.quizQuestionID.toString(),
+                            Analytics.ANALYTICS_PARAMETER_QUIZ_QUESTION_ANSWER:
+                                answers.map((e) => e.quizAnswerID).join(",")
+                          },
+                        );
                         final correctAnswers = widget.question?.answers
                             ?.where((answer) => answer.isCorrect == true)
                             .toSet();
