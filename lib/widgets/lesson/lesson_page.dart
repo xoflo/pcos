@@ -246,34 +246,38 @@ class _LessonPageState extends State<LessonPage> {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            color: primaryColor,
-          ),
-          child: Consumer<ModulesProvider>(
-            builder: (context, modulesProvider, child) => Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Header(
-                        title: "Lesson",
-                        closeItem: () => Navigator.pop(context),
+      body: Consumer<ModulesProvider>(
+        builder: (context, modulesProvider, child) => WillPopScope(
+          onWillPop: () async =>
+              modulesProvider.status != LoadingStatus.loading,
+          child: Stack(
+            children: [
+              SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12),
+                        child: Header(
+                          title: "Lesson",
+                          closeItem: () => Navigator.pop(context),
+                        ),
                       ),
-                    ),
-                    if (modulesProvider.status == LoadingStatus.empty)
-                      NoResults(message: S.current.noItemsFound)
-                    else
-                      getSuccessWidget(modulesProvider)
-                  ],
+                      if (modulesProvider.status == LoadingStatus.empty)
+                        NoResults(message: S.current.noItemsFound)
+                      else
+                        getSuccessWidget(modulesProvider)
+                    ],
+                  ),
                 ),
-                if (modulesProvider.status == LoadingStatus.loading)
-                  LoaderOverlay()
-              ],
-            ),
+              ),
+              if (modulesProvider.status == LoadingStatus.loading)
+                LoaderOverlay()
+            ],
           ),
         ),
       ),

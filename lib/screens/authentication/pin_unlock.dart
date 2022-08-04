@@ -273,23 +273,15 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return onBackPressed(context);
-      },
-      child: getBaseWidget(
-        context,
-        SafeArea(
-          child: Stack(
-            children: [
-              getPinPad(forgotPin: forgottenPin),
-              if(pinEntry == PinEntry.ENTERED) LoaderOverlay()
-            ],
-          )
-          
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: () => onBackPressed(context),
+        child: getBaseWidget(
+            context,
+            Stack(
+              children: [
+                SafeArea(child: getPinPad(forgotPin: forgottenPin)),
+                if (pinEntry == PinEntry.ENTERED) LoaderOverlay()
+              ],
+            )),
+      );
 }
