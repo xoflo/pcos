@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/favourites/favourites_toolkit_details.dart';
@@ -32,7 +31,7 @@ class _FavouritesToolkitsState extends State<FavouritesToolkits> {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: S.current.noFavouriteLesson);
+        return NoResults(message: "No toolkits to display");
       case LoadingStatus.success:
         return ListView.builder(
           padding: EdgeInsets.all(15),
