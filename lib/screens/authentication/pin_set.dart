@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/base_pin.dart';
-import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
-import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 import 'package:thepcosprotocol_app/widgets/pin_set/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
-import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class PinSet extends StatefulWidget {
   static const String id = "pin_set_screen";
@@ -130,16 +126,7 @@ class _PinSetState extends State<PinSet> with BasePin {
         displayDuration: 3,
       );
     } else {
-      // Technically, app tutorial has not yet been shown here. So after
-      // setting the PIN, it is a good idea to view it here.
-      analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-      await Future.delayed(Duration(seconds: 2), () {
-        Navigator.pushNamed(
-          context,
-          AppTutorialPage.id,
-          arguments: AppTutorialArguments(),
-        );
-      });
+      navigateToNextPage();
     }
   }
 
