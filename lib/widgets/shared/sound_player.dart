@@ -76,15 +76,9 @@ class _SoundPlayerState extends State<SoundPlayer> {
     audioPlayer.onPositionChanged.listen((pos) {
       if (mounted) {
         setState(() {
-          if (pos.inSeconds == duration) {
-            isPlaying = false;
-            currentPosition = 0;
-            currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
-          } else {
-            if (isPlaying) {
-              currentPosition = pos.inSeconds;
-              currentPositionLabel = convertToHmsLabel(pos);
-            }
+          if (isPlaying) {
+            currentPosition = pos.inSeconds;
+            currentPositionLabel = convertToHmsLabel(pos);
           }
         });
       }
