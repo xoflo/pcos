@@ -37,25 +37,27 @@ class _LessonPageState extends State<LessonPage> {
     final bool requestedDailyReminder = await PreferencesController()
         .getBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
 
-    final bool isNotificationPermissionGranted =
-        await NotificationPermissions.getNotificationPermissionStatus() ==
-            PermissionStatus.granted;
+    final bool requestedNotifPermissions = await PreferencesController()
+        .getBool(SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION);
 
-    // If user has disabled daily reminders, the app will ssk the user if
-    // they would like a daily reminder after closing a lesson
-    if (!requestedDailyReminder) {
+    // If user has disabled daily reminders and if this is the first time that
+    // they have set it up,  the app will ask the user if they would like a
+    // daily reminder after closing a lesson. This will pop up only once to
+    // remind the user.
+    if (!requestedDailyReminder && !requestedNotifPermissions) {
       _askUserForDailyReminder();
     } else {
+      final bool isNotificationPermissionGranted =
+          await NotificationPermissions.getNotificationPermissionStatus() ==
+              PermissionStatus.granted;
+
       if (!isNotificationPermissionGranted) {
-        if (!await PreferencesController().getBool(
-            SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION)) {
-          // Just in case the device doesn't allow checking of notifications,
-          // we include a pop-up here
-          try {
-            _askUserForNotificationPermission();
-          } catch (ex) {
-            _askUserForNotificationPermission();
-          }
+        // Just in case the device doesn't allow checking of notifications,
+        // we include a pop-up here
+        try {
+          _askUserForNotificationPermission();
+        } catch (ex) {
+          _askUserForNotificationPermission();
         }
       } else {
         // Close the lesson page normally when the daily reminder is
@@ -66,12 +68,15 @@ class _LessonPageState extends State<LessonPage> {
   }
 
   void _askUserForDailyReminder() {
+    PreferencesController().saveBool(
+        SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
+
     void openSettings(BuildContext context) {
       Navigator.pop(context, true);
       Navigator.pushNamed(context, NotificationSettings.id);
     }
 
-    void displaySetupLaterMessage(BuildContext context) {
+    void displaySetupLaterMessage(BuildContext context) async {
       showAlertDialog(
         context,
         S.current.requestDailyReminderTitle,
