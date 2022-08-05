@@ -24,11 +24,14 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
   void initState() {
     super.initState();
 
-    widget.favouritesProvider.fetchLessonWikisStatus();
+    widget.favouritesProvider.fetchLessonWikisStatus(notifyListener: false);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.favouritesProvider.lessonWikis.isEmpty) {
+      return NoResults(message: S.current.noFavouriteWikis);
+    }
     switch (widget.favouritesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -46,7 +49,7 @@ class _FavouritesWikisState extends State<FavouritesWikis> {
                 context,
                 LessonWikiPage.id,
                 arguments: LessonWikiArguments(false, wiki),
-              ),
+              ).then((_) => widget.favouritesProvider.fetchLessonWikisStatus()),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 margin: EdgeInsets.only(bottom: 15),

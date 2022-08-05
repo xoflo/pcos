@@ -18,20 +18,25 @@ class FavouritesToolkits extends StatefulWidget {
 }
 
 class _FavouritesToolkitsState extends State<FavouritesToolkits> {
+  final noToolkitsText = "No toolkits to display";
+
   @override
   void initState() {
     super.initState();
 
-    widget.favouritesProvider.fetchToolkitStatus();
+    widget.favouritesProvider.fetchToolkitStatus(notifyListener: false);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.favouritesProvider.toolkits.isEmpty) {
+      return NoResults(message: noToolkitsText);
+    }
     switch (widget.favouritesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
       case LoadingStatus.empty:
-        return NoResults(message: "No toolkits to display");
+        return NoResults(message: noToolkitsText);
       case LoadingStatus.success:
         return ListView.builder(
           padding: EdgeInsets.all(15),
@@ -42,7 +47,7 @@ class _FavouritesToolkitsState extends State<FavouritesToolkits> {
                 context,
                 FavouritesToolkitDetails.id,
                 arguments: widget.favouritesProvider.toolkits[item],
-              ),
+              ).then((_) => widget.favouritesProvider.fetchToolkitStatus),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 margin: EdgeInsets.only(bottom: 15),

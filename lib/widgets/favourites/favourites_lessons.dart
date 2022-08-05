@@ -23,11 +23,14 @@ class _FavouritesLessonsState extends State<FavouritesLessons> {
   void initState() {
     super.initState();
 
-    widget.favouritesProvider.fetchLessonStatus();
+    widget.favouritesProvider.fetchLessonStatus(notifyListener: false);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.favouritesProvider.lessons.isEmpty) {
+      return NoResults(message: S.current.noFavouriteLesson);
+    }
     switch (widget.favouritesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -45,7 +48,7 @@ class _FavouritesLessonsState extends State<FavouritesLessons> {
                 context,
                 LessonContentPage.id,
                 arguments: lesson,
-              ),
+              ).then((_) => widget.favouritesProvider.fetchLessonStatus()),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 margin: EdgeInsets.only(bottom: 15),

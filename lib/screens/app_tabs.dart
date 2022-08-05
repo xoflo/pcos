@@ -48,7 +48,6 @@ class _AppTabsState extends State<AppTabs>
     with WidgetsBindingObserver, TickerProviderStateMixin {
   int _currentIndex = 0;
   bool _intercomInitialised = false;
-  late AppLifecycleState _appLifecycleState;
   bool _showYourWhy = true;
   bool _showLessonRecipes = false;
   bool _isLocked = false;
@@ -68,6 +67,7 @@ class _AppTabsState extends State<AppTabs>
   }
 
   void initialize() async {
+    _setIsLocked(false);
     tabController = TabController(initialIndex: 0, length: 5, vsync: this);
 
     //intercom
@@ -110,23 +110,15 @@ class _AppTabsState extends State<AppTabs>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //backgrounded - app was active (resumed) and is now inactive
-    _appLifecycleState = state;
-    if (_appLifecycleState == AppLifecycleState.resumed &&
-        state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.inactive) {
       AuthenticationController()
           .saveBackgroundedTimestamp(DateTime.now().millisecondsSinceEpoch);
     }
 
     //foregrounded - app was inactive and is now active (resumed)
-    if ((_appLifecycleState == AppLifecycleState.inactive ||
-            _appLifecycleState == AppLifecycleState.paused) &&
-        state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed) {
       appForegroundingCheck();
     }
-
-    setState(() {
-      _appLifecycleState = state;
-    });
   }
 
 // This function controls which screen the users sees when they foreground the app
@@ -166,9 +158,7 @@ class _AppTabsState extends State<AppTabs>
           .fetchAndSaveData();
     }
 
-    setState(() {
-      _isLocked = isLocked;
-    });
+    setState(() => _isLocked = isLocked);
   }
 
   void openChat() {

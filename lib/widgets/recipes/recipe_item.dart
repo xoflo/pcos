@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_recipe_arguments.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -13,12 +14,10 @@ class RecipeItem extends StatefulWidget {
     Key? key,
     required this.recipe,
     this.isFromLesson = true,
-    this.onPressFavourite,
   }) : super(key: key);
 
   final bool isFromLesson;
   final LessonRecipe recipe;
-  final Function()? onPressFavourite;
 
   @override
   State<RecipeItem> createState() => _RecipeItemState();
@@ -47,7 +46,8 @@ class _RecipeItemState extends State<RecipeItem> {
         context,
         RecipeDetailsPage.id,
         arguments: LessonRecipeArguments(widget.isFromLesson, widget.recipe),
-      ),
+      ).then((value) => Provider.of<FavouritesProvider>(context, listen: false)
+          .fetchRecipesStatus()),
       child: Stack(
         children: [
           Container(
@@ -109,18 +109,6 @@ class _RecipeItemState extends State<RecipeItem> {
               ],
             ),
           ),
-          if (widget.onPressFavourite != null)
-            Positioned(
-              top: 0,
-              right: 0,
-              child: IconButton(
-                onPressed: () => widget.onPressFavourite?.call(),
-                icon: Icon(
-                  Icons.favorite,
-                  color: redColor,
-                ),
-              ),
-            )
         ],
       ),
     );
