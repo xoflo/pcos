@@ -50,6 +50,7 @@ dependencies:
   notification_permissions: ^0.6.1
   webview_flutter: ^3.0.4
   audioplayers: ^1.0.1
+  full_screen_image_null_safe: ^2.0.0
 
 dev_dependencies:
   integration_test:
