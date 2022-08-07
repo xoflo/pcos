@@ -45,138 +45,145 @@ class _SoundPlayerState extends State<SoundPlayer> {
     return label;
   }
 
-  Future setAudioPlayerDetails(String link) async {
-    await audioPlayer.setSource(UrlSource(link));
+  void setAudioPlayerDetails(String link) {
+    audioPlayer.setSource(UrlSource(widget.link));
+
+    // We need to pause here because in iOS, there is a tendency
+    // to autoplay the video
+    audioPlayer.pause();
 
     audioPlayer.onPlayerComplete.listen((event) {
-      setState(() {
-        isPlaying = false;
-        currentPosition = 0;
-        currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
-      });
-    });
-
-    audioPlayer.onDurationChanged.listen((dur) {
-      setState(() {
-        isLoading = false;
-        durationLabel = convertToHmsLabel(dur);
-        duration = dur.inSeconds;
-      });
-    });
-
-    audioPlayer.onPositionChanged.listen((pos) async {
-      debugPrint((await audioPlayer.getDuration()).toString());
-      setState(() {
-        if (pos.inSeconds == duration) {
+      if (mounted) {
+        setState(() {
           isPlaying = false;
           currentPosition = 0;
           currentPositionLabel = convertToHmsLabel(Duration(seconds: 0));
-        } else {
-          currentPosition = pos.inSeconds;
-          currentPositionLabel = convertToHmsLabel(pos);
-        }
-      });
+        });
+      }
+    });
+
+    audioPlayer.onDurationChanged.listen((dur) {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+          durationLabel = convertToHmsLabel(dur);
+          duration = dur.inSeconds;
+          currentPosition = 0;
+        });
+      }
+    });
+
+    audioPlayer.onPositionChanged.listen((pos) {
+      if (mounted) {
+        setState(() {
+          if (isPlaying) {
+            currentPosition = pos.inSeconds;
+            currentPositionLabel = convertToHmsLabel(pos);
+          }
+        });
+      }
     });
   }
 
   @override
   void dispose() {
     super.dispose();
+    audioPlayer.stop();
+    audioPlayer.release();
     audioPlayer.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: primaryColorLight,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Stack(
-        children: [
-          Row(
-            children: [
-              InkWell(
-                onTap: isLoading
-                    ? null
-                    : () async {
-                        if (!isPlaying) {
-                          await audioPlayer.resume();
-                        } else {
-                          await audioPlayer.pause();
-                        }
+  Widget build(BuildContext context) => Container(
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: primaryColorLight,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                InkWell(
+                  onTap: isLoading
+                      ? null
+                      : () async {
+                          if (!isPlaying) {
+                            await audioPlayer.resume();
+                          } else {
+                            await audioPlayer.pause();
+                          }
 
-                        setState(() => isPlaying =
-                            audioPlayer.state == PlayerState.playing);
-                      },
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: backgroundColor,
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                  ),
-                  child: isLoading
-                      ? Container(
-                          padding: EdgeInsets.all(10),
-                          child: CircularProgressIndicator(
-                            backgroundColor: backgroundColor,
-                            valueColor:
-                                new AlwaysStoppedAnimation<Color>(primaryColor),
+                          setState(() => isPlaying =
+                              audioPlayer.state == PlayerState.playing);
+                        },
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: backgroundColor,
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
+                    child: isLoading
+                        ? Container(
+                            padding: EdgeInsets.all(10),
+                            child: CircularProgressIndicator(
+                              backgroundColor: backgroundColor,
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  primaryColor),
+                            ),
+                          )
+                        : Icon(
+                            !isPlaying ? Icons.play_arrow : Icons.pause,
+                            size: 18,
                           ),
-                        )
-                      : Icon(
-                          !isPlaying ? Icons.play_arrow : Icons.pause,
-                          size: 18,
-                        ),
-                ),
-              ),
-              Expanded(
-                child: SliderTheme(
-                  child: Slider(
-                    value: currentPosition.toDouble(),
-                    max: duration.toDouble(),
-                    min: 0,
-                    onChanged: (double value) async {
-                      final seekValue = value.round();
-                      final positionDuration = Duration(seconds: seekValue);
-                      await audioPlayer.seek(positionDuration);
-
-                      setState(() {
-                        currentPosition = seekValue;
-                        currentPositionLabel =
-                            convertToHmsLabel(positionDuration);
-                      });
-                    },
                   ),
-                  data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: backgroundColor,
-                      inactiveTrackColor: textColor.withOpacity(0.2),
-                      trackHeight: 10,
-                      trackShape: SoundPlayerTrackShape(),
-                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 5),
-                      thumbColor: backgroundColor),
                 ),
-              )
-            ],
-          ),
-          Positioned(
-            top: 32.5,
-            right: 20,
-            child: Text(
-              '$currentPositionLabel / $durationLabel',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  ?.copyWith(color: textColor.withOpacity(0.8)),
+                Expanded(
+                  child: SliderTheme(
+                    child: Slider(
+                      value: currentPosition.toDouble(),
+                      max: duration.toDouble(),
+                      min: 0,
+                      onChanged: (double value) async {
+                        final seekValue = value.round();
+                        final positionDuration = Duration(seconds: seekValue);
+                        await audioPlayer.seek(positionDuration);
+
+                        setState(() {
+                          currentPosition = seekValue;
+                          currentPositionLabel =
+                              convertToHmsLabel(positionDuration);
+                        });
+                      },
+                    ),
+                    data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: backgroundColor,
+                        inactiveTrackColor: textColor.withOpacity(0.2),
+                        trackHeight: 10,
+                        trackShape: SoundPlayerTrackShape(),
+                        thumbShape:
+                            RoundSliderThumbShape(enabledThumbRadius: 5),
+                        thumbColor: backgroundColor),
+                  ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
-    );
-  }
+            Positioned(
+              top: 32.5,
+              right: 20,
+              child: Text(
+                '$currentPositionLabel / $durationLabel',
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    ?.copyWith(color: textColor.withOpacity(0.8)),
+              ),
+            )
+          ],
+        ),
+      );
 }
 
 class SoundPlayerTrackShape extends RoundedRectSliderTrackShape {

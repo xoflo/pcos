@@ -15,7 +15,6 @@ import 'package:thepcosprotocol_app/screens/more/app_help.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notification_settings.dart';
 import 'package:thepcosprotocol_app/screens/other/lesson_search.dart';
 import 'package:thepcosprotocol_app/screens/other/previous_modules.dart';
-import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/screens/other/wiki_search.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/screens/notifications/notifications.dart';
@@ -52,6 +51,7 @@ import 'package:thepcosprotocol_app/widgets/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/widgets/onboarding/onboarding_page.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_delete_page.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details.dart';
+import 'package:thepcosprotocol_app/widgets/quiz/quiz_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_details_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_method_tips_page.dart';
@@ -200,7 +200,7 @@ class _AppState extends State<App> {
           PreviousModules.id: (context) => PreviousModules(),
           LessonSearch.id: (context) => LessonSearch(),
           WikiSearch.id: (context) => WikiSearch(),
-          QuizScreen.id: (context) => QuizScreen(),
+          QuizPage.id: (context) => QuizPage(),
           ProfileDeletePage.id: (context) => ProfileDeletePage(),
           ProfilePersonalDetails.id: (context) => ProfilePersonalDetails(),
           NotificationSettings.id: (context) => NotificationSettings(),

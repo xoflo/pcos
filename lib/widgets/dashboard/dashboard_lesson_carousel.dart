@@ -3,11 +3,11 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
-import 'package:thepcosprotocol_app/screens/other/quiz.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_carousel_item_card.dart';
 import 'package:thepcosprotocol_app/widgets/dashboard/dashboard_lesson_locked_component.dart';
 import 'package:thepcosprotocol_app/widgets/lesson/lesson_page.dart';
+import 'package:thepcosprotocol_app/widgets/quiz/quiz_page.dart';
 import 'package:thepcosprotocol_app/widgets/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -209,7 +209,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                               Analytics.ANALYTICS_SCREEN_QUIZ);
                                       Navigator.pushNamed(
                                         context,
-                                        QuizScreen.id,
+                                        QuizPage.id,
                                         arguments: currentLessonQuiz,
                                       );
                                     }

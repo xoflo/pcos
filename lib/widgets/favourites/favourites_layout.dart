@@ -80,9 +80,11 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Consumer<FavouritesProvider>(
                   builder: (context, favouritesProvider, child) {
-                    favouritesProvider.fetchToolkitStatus();
+                    favouritesProvider.fetchToolkitStatus(
+                        notifyListener: false);
                     return PageView(
                       controller: pageController,
+                      physics: NeverScrollableScrollPhysics(),
                       onPageChanged: (value) {
                         setState(() => index = value);
                         tabController.index = value;

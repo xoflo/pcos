@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -29,21 +30,31 @@ class _ImageComponentState extends State<ImageComponent> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.imageUrl.isNotEmpty && canLaunchUrl)
-      return Image.network(
-        widget.imageUrl,
-        width: double.maxFinite,
-        height: 300,
-        fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => BlankImage(height: 200),
-        loadingBuilder: (_, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Padding(
-            padding: EdgeInsets.only(bottom: 30),
-            child: PcosLoadingSpinner(),
-          );
-        },
+    if (widget.imageUrl.isNotEmpty && canLaunchUrl) {
+      return FullScreenWidget(
+        disposeLevel: DisposeLevel.High,
+        backgroundIsTransparent: true,
+        backgroundColor: Colors.grey.withOpacity(0.5),
+        child: InteractiveViewer(
+          child: Hero(
+            tag: 'image',
+            child: Image.network(
+              widget.imageUrl,
+              width: double.maxFinite,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => BlankImage(height: 200),
+              loadingBuilder: (_, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 30),
+                  child: PcosLoadingSpinner(),
+                );
+              },
+            ),
+          ),
+        ),
       );
+    }
     return BlankImage(height: 200);
   }
 }

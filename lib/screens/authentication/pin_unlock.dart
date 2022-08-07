@@ -2,10 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/models/navigation/app_tutorial_arguments.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
-import 'package:thepcosprotocol_app/screens/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/authentication/base_pin.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
@@ -21,7 +19,6 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
-import 'package:thepcosprotocol_app/widgets/app_tutorial/app_tutorial_page.dart';
 
 class PinUnlock extends StatefulWidget {
   static const String id = "pin_unlock_screen";
@@ -175,20 +172,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     if (args.isAppTabsOpen) {
       Navigator.pop(context);
     } else {
-      if (!await PreferencesController()
-          .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
-        analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
-
-        await Future.delayed(Duration(seconds: 2), () {
-          Navigator.pushNamed(
-            context,
-            AppTutorialPage.id,
-            arguments: AppTutorialArguments(),
-          );
-        });
-      } else {
-        Navigator.pushReplacementNamed(context, AppTabs.id);
-      }
+      navigateToNextPage();
     }
   }
 
@@ -273,23 +257,16 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return onBackPressed(context);
-      },
-      child: getBaseWidget(
-        context,
-        SafeArea(
-          child: Stack(
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: () => onBackPressed(context),
+        child: getBaseWidget(
+          context,
+          Stack(
             children: [
-              getPinPad(forgotPin: forgottenPin),
-              if(pinEntry == PinEntry.ENTERED) LoaderOverlay()
+              SafeArea(child: getPinPad(forgotPin: forgottenPin)),
+              if (pinEntry == PinEntry.ENTERED) LoaderOverlay()
             ],
-          )
-          
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

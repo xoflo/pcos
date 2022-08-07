@@ -69,57 +69,60 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            color: primaryColor,
-          ),
-          child: Consumer<ModulesProvider>(
-            builder: (context, modulesProvider, child) => Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Header(
-                        title: "Lesson",
-                        closeItem: () => Navigator.pop(context),
+      body: Consumer<ModulesProvider>(
+        builder: (context, modulesProvider, child) => WillPopScope(
+          onWillPop: () async =>
+              modulesProvider.status != LoadingStatus.loading,
+          child: Stack(
+            children: [
+              SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12),
+                        child: Header(
+                          title: "Lesson",
+                          closeItem: () => Navigator.pop(context),
+                        ),
                       ),
-                    ),
-                    if (modulesProvider.status == LoadingStatus.empty)
-                      NoResults(message: S.current.noItemsFound)
-                    else
-                      Expanded(
-                        child: Container(
-                          color: Colors.white,
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 25, horizontal: 15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  HtmlWidget(
-                                    task.description ?? "",
-                                    textStyle:
-                                        Theme.of(context).textTheme.headline4,
-                                  ),
-                                  SizedBox(height: 15),
-                                  getTaskType(modulesProvider, task),
-                                ],
+                      if (modulesProvider.status == LoadingStatus.empty)
+                        NoResults(message: S.current.noItemsFound)
+                      else
+                        Expanded(
+                          child: Container(
+                            color: Colors.white,
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 25, horizontal: 15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    HtmlWidget(
+                                      task.description ?? "",
+                                      textStyle:
+                                          Theme.of(context).textTheme.headline4,
+                                    ),
+                                    SizedBox(height: 15),
+                                    getTaskType(modulesProvider, task),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                  ],
+                        )
+                    ],
+                  ),
                 ),
-                if (modulesProvider.status == LoadingStatus.loading)
-                  LoaderOverlay()
-              ],
-            ),
+              ),
+              if (modulesProvider.status == LoadingStatus.loading)
+                LoaderOverlay()
+            ],
           ),
         ),
       ),

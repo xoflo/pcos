@@ -29,7 +29,6 @@ class FavouritesProvider with ChangeNotifier {
 
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;
-    notifyListeners();
 
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
@@ -42,29 +41,40 @@ class FavouritesProvider with ChangeNotifier {
       _recipes = allFavourites.recipes;
     }
 
-    status = LoadingStatus.success;
-    notifyListeners();
+    // status = LoadingStatus.success;
   }
 
-  void fetchToolkitStatus() {
+  void fetchToolkitStatus({bool notifyListener = true}) {
     status = _toolkits.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    if (notifyListener) {
+      notifyListeners();
+    }
   }
 
-  void fetchLessonStatus() {
+  void fetchLessonStatus({bool notifyListener = true}) {
     status = _lessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    if (notifyListener) {
+      notifyListeners();
+    }
   }
 
-  void fetchLessonWikisStatus() {
+  void fetchLessonWikisStatus({bool notifyListener = true}) {
     status = _lessonWikis.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    if (notifyListener) {
+      notifyListeners();
+    }
   }
 
-  void fetchRecipesStatus() {
+  void fetchRecipesStatus({bool notifyListener = true}) {
     status = _recipes.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    if (notifyListener) {
+      notifyListeners();
+    }
   }
 
   Future<void> addToFavourites(
       final FavouriteType favouriteType, final int? itemId) async {
-    await ProviderHelper().addToFavourites(
+    ProviderHelper().addToFavourites(
         !isFavourite(favouriteType, itemId), dbProvider, favouriteType, itemId);
     fetchAndSaveData();
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
@@ -22,11 +21,14 @@ class _FavouritesRecipesState extends State<FavouritesRecipes> {
   void initState() {
     super.initState();
 
-    widget.favouritesProvider.fetchRecipesStatus();
+    widget.favouritesProvider.fetchRecipesStatus(notifyListener: false);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.favouritesProvider.recipes.isEmpty) {
+      return NoResults(message: S.current.noFavouriteRecipe);
+    }
     switch (widget.favouritesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -44,15 +46,7 @@ class _FavouritesRecipesState extends State<FavouritesRecipes> {
             (index) {
               final recipe = widget.favouritesProvider.recipes[index];
 
-              return RecipeItem(
-                recipe: recipe,
-                onPressFavourite: () {
-                  widget.favouritesProvider.addToFavourites(
-                    FavouriteType.Recipe,
-                    recipe.recipeId,
-                  );
-                },
-              );
+              return RecipeItem(recipe: recipe);
             },
             growable: false,
           ),

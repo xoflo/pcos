@@ -57,7 +57,7 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
-    notifyListeners();
+
     final String nextLessonAvailableDateString = await PreferencesController()
         .getString(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
     DateTime nextLessonAvailableDate =

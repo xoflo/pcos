@@ -24,7 +24,6 @@ class RecipesProvider with ChangeNotifier {
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    notifyListeners();
   }
 
   Future<void> filterAndSearch(final String searchText, final String tag,
