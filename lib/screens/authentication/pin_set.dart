@@ -134,19 +134,24 @@ class _PinSetState extends State<PinSet> with BasePin {
   }
 
   @override
-  Widget build(BuildContext context) => WillPopScope(
-        onWillPop: () async => !Platform.isIOS,
-        child: getBaseWidget(
-          context,
-          SafeArea(
-            child: pinEntry == PinEntry.COMPLETE
-                ? PinCorrect(
-                    message: S.current.pinSetSuccessfulTitle,
-                    messageWhy: S.current.pinSetSuccessfulMessage,
-                  )
-                : Stack(
-                    children: [
-                      getPinPad(),
+  Widget build(BuildContext context) {
+    final showBackButton =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
+
+    return WillPopScope(
+      onWillPop: () async => !Platform.isIOS,
+      child: getBaseWidget(
+        context,
+        SafeArea(
+          child: pinEntry == PinEntry.COMPLETE
+              ? PinCorrect(
+                  message: S.current.pinSetSuccessfulTitle,
+                  messageWhy: S.current.pinSetSuccessfulMessage,
+                )
+              : Stack(
+                  children: [
+                    getPinPad(),
+                    if (showBackButton)
                       Padding(
                         padding: EdgeInsets.only(
                           left: 15,
@@ -161,9 +166,10 @@ class _PinSetState extends State<PinSet> with BasePin {
                           ),
                         ),
                       )
-                    ],
-                  ),
-          ),
+                  ],
+                ),
         ),
-      );
+      ),
+    );
+  }
 }
