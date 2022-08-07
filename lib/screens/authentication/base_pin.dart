@@ -83,6 +83,7 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
     final Size screenSize = MediaQuery.of(context).size;
     final double pinButtonSize =
         screenSize.width > 600 ? 100 : screenSize.width * .25;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -95,9 +96,7 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
           currentPosition: currentPosition,
           showForgottenPin: forgotPin != null,
           forgotPin: forgotPin,
-          pinButtonPressed: (pinNumber) {
-            pinButtonPressed(pinNumber);
-          },
+          pinButtonPressed: (pinNumber) => pinButtonPressed(pinNumber),
           removeLastPinCharacter: deletePinPadDigit,
         ),
       ],

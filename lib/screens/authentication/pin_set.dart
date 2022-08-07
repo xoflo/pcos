@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/screens/authentication/base_pin.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/pin_set/pin_correct.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/pin_entry.dart';
@@ -131,17 +134,36 @@ class _PinSetState extends State<PinSet> with BasePin {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return getBaseWidget(
-      context,
-      SafeArea(
-        child: pinEntry == PinEntry.COMPLETE
-            ? PinCorrect(
-                message: S.current.pinSetSuccessfulTitle,
-                messageWhy: S.current.pinSetSuccessfulMessage,
-              )
-            : getPinPad(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: () async => !Platform.isIOS,
+        child: getBaseWidget(
+          context,
+          SafeArea(
+            child: pinEntry == PinEntry.COMPLETE
+                ? PinCorrect(
+                    message: S.current.pinSetSuccessfulTitle,
+                    messageWhy: S.current.pinSetSuccessfulMessage,
+                  )
+                : Stack(
+                    children: [
+                      getPinPad(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 15,
+                          top: 25,
+                        ),
+                        child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: backgroundColor,
+                            size: 30,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+          ),
+        ),
+      );
 }
