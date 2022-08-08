@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
@@ -86,7 +87,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         elevation: 0.0,
       ),
       body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Column(
             children: [

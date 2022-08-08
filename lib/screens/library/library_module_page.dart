@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -35,7 +36,7 @@ class _LibraryModulePageState extends State<LibraryModulePage> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(

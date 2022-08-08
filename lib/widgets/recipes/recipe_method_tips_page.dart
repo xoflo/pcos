@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/navigation/recipe_method_tips_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -17,7 +18,7 @@ class RecipeMethodTipsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(

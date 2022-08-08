@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -9,7 +10,6 @@ import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
@@ -54,7 +54,7 @@ class _DashboardWhySettingsLayoutState
       case LoadingStatus.success:
         return Expanded(
           child: WillPopScope(
-            onWillPop: () async => false,
+            onWillPop: () async => Platform.isIOS ? false : true,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
               color: Colors.white,

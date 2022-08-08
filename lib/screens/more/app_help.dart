@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/app_help/app_help_layout.dart';
 
@@ -10,7 +11,7 @@ class AppHelp extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(

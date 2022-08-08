@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_recipe_arguments.dart';
@@ -64,7 +65,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(

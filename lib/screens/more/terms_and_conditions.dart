@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/policy/policy_layout.dart';
@@ -11,7 +12,7 @@ class TermsAndConditions extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(

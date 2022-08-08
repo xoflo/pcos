@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
@@ -90,7 +91,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(

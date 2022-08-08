@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
@@ -102,7 +103,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
         body: WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => Platform.isIOS ? false : true,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(top: 12),
