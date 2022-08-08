@@ -47,100 +47,103 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Header(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Header(
                   title: "Wikis",
-                  closeItem: () => Navigator.pop(context, isFavorite),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 25, horizontal: 15),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  wiki?.question ?? "",
-                                  style: Theme.of(context)
+                    closeItem: () => Navigator.pop(context, isFavorite),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    wiki?.question ?? "",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        ?.copyWith(color: backgroundColor),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_outline,
+                                    size: 20,
+                                    color: backgroundColor,
+                                  ),
+                                  onPressed: () {
+                                    favouritesProvider.addToFavourites(
+                                        FavouriteType.Wiki, wiki?.questionId);
+                                    setState(() => isFavorite = !isFavorite);
+                                  },
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: secondaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  child: Icon(
+                                    Icons.restaurant,
+                                    size: 15,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                HtmlWidget(
+                                  modulesProvider.getLessonTitleByQuestionID(
+                                      wiki?.questionId ?? -1),
+                                  textStyle: Theme.of(context)
                                       .textTheme
-                                      .headline4
-                                      ?.copyWith(color: backgroundColor),
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_outline,
-                                  size: 20,
-                                  color: backgroundColor,
-                                ),
-                                onPressed: () {
-                                  favouritesProvider.addToFavourites(
-                                      FavouriteType.Wiki, wiki?.questionId);
-                                  setState(() => isFavorite = !isFavorite);
-                                },
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 15),
-                          Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: secondaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                ),
-                                child: Icon(
-                                  Icons.restaurant,
-                                  size: 15,
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              HtmlWidget(
-                                modulesProvider.getLessonTitleByQuestionID(
-                                    wiki?.questionId ?? -1),
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(
-                                        color: textColor.withOpacity(0.5)),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 20),
-                          HtmlWidget(
-                            wiki?.answer ?? "",
-                            textStyle: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                ?.copyWith(
-                                    fontWeight: FontWeight.normal,
-                                    color: textColor.withOpacity(0.8)),
-                          )
-                        ],
+                                      .bodyText2
+                                      ?.copyWith(
+                                          color: textColor.withOpacity(0.5)),
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            HtmlWidget(
+                              wiki?.answer ?? "",
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: textColor.withOpacity(0.8)),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

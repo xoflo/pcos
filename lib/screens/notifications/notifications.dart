@@ -8,13 +8,16 @@ class Notifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 12,
+        body: WillPopScope(
+          onWillPop: () async => false,
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 12,
+                ),
+                child: MessagesLayout(),
+              ),
             ),
-            child: MessagesLayout(),
           ),
-        ),
       );
 }

@@ -85,78 +85,81 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         backgroundColor: primaryColorLight,
         elevation: 0.0,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            SearchComponent(
-              searchController: searchController,
-              searchBackgroundColor: primaryColorLight,
-              onSearchPressed: search,
-            ),
-            Expanded(
-              child: !isSearchFinished
-                  ? Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 100),
-                        child: Text(
-                          "Search any subjects, lessons or Wikis.",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              ?.copyWith(color: textColor.withOpacity(0.5)),
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Column(
+            children: [
+              SearchComponent(
+                searchController: searchController,
+                searchBackgroundColor: primaryColorLight,
+                onSearchPressed: search,
+              ),
+              Expanded(
+                child: !isSearchFinished
+                    ? Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 100),
+                          child: Text(
+                            "Search any subjects, lessons or Wikis.",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                ?.copyWith(color: textColor.withOpacity(0.5)),
+                          ),
                         ),
-                      ),
-                    )
-                  : Consumer<ModulesProvider>(
-                      builder: (context, modulesProvider, child) {
-                        switch (modulesProvider.searchStatus) {
-                          case LoadingStatus.loading:
-                            return PcosLoadingSpinner();
-                          case LoadingStatus.empty:
-                            return NoResults(
-                                message: S.current.noResultsLessonsSearch);
-                          case LoadingStatus.success:
-                            return ListView.builder(
-                              padding: EdgeInsets.all(15),
-                              itemCount: modulesProvider.searchLessons.length,
-                              itemBuilder: (context, index) {
-                                final searchLesson =
-                                    modulesProvider.searchLessons[index];
+                      )
+                    : Consumer<ModulesProvider>(
+                        builder: (context, modulesProvider, child) {
+                          switch (modulesProvider.searchStatus) {
+                            case LoadingStatus.loading:
+                              return PcosLoadingSpinner();
+                            case LoadingStatus.empty:
+                              return NoResults(
+                                  message: S.current.noResultsLessonsSearch);
+                            case LoadingStatus.success:
+                              return ListView.builder(
+                                padding: EdgeInsets.all(15),
+                                itemCount: modulesProvider.searchLessons.length,
+                                itemBuilder: (context, index) {
+                                  final searchLesson =
+                                      modulesProvider.searchLessons[index];
 
-                                return GestureDetector(
-                                  onTap: () => Navigator.pushNamed(
-                                    context,
-                                    LessonContentPage.id,
-                                    arguments: searchLesson,
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 15),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(16)),
+                                  return GestureDetector(
+                                    onTap: () => Navigator.pushNamed(
+                                      context,
+                                      LessonContentPage.id,
+                                      arguments: searchLesson,
                                     ),
-                                    child: HtmlWidget(
-                                      searchLesson.title,
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1
-                                          ?.copyWith(color: backgroundColor),
+                                    child: Container(
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 15),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.all(Radius.circular(16)),
+                                      ),
+                                      child: HtmlWidget(
+                                        searchLesson.title,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1
+                                            ?.copyWith(color: backgroundColor),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            );
-                        }
-                      },
-                    ),
-            )
-          ],
-        ),
+                                  );
+                                },
+                              );
+                          }
+                        },
+                      ),
+              )
+            ],
+          ),
       ),
+      )
     );
   }
 }

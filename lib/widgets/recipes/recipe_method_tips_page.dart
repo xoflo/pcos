@@ -16,38 +16,41 @@ class RecipeMethodTipsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Header(
-                  title: args.isTips ? "Tips" : "Method",
-                  closeItem: () => Navigator.pop(context),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: HtmlWidget(
-                        args.text,
-                        textStyle:
-                            Theme.of(context).textTheme.bodyText1?.copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  color: textColor.withOpacity(0.8),
-                                ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Header(
+                    title: args.isTips ? "Tips" : "Method",
+                    closeItem: () => Navigator.pop(context),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: HtmlWidget(
+                          args.text,
+                          textStyle:
+                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: textColor.withOpacity(0.8),
+                                  ),
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

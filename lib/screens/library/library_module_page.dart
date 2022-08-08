@@ -34,64 +34,67 @@ class _LibraryModulePageState extends State<LibraryModulePage> {
         : "";
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Header(
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Header(
                 title: "Module Library",
-                closeItem: () => Navigator.pop(context),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 30,
+                  closeItem: () => Navigator.pop(context),
                 ),
-                child: Text(
-                  title,
-                  style: Theme.of(context).textTheme.headline3,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 30,
+                  ),
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  itemCount: lessons.length,
-                  itemBuilder: (context, index) {
-                    final lesson = lessons[index];
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    itemCount: lessons.length,
+                    itemBuilder: (context, index) {
+                      final lesson = lessons[index];
 
-                    return GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        LessonPage.id,
-                        arguments: LessonArguments(
-                          lesson,
-                          showTasks: false,
+                      return GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          LessonPage.id,
+                          arguments: LessonArguments(
+                            lesson,
+                            showTasks: false,
+                          ),
                         ),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 15),
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 15),
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                          ),
+                          child: HtmlWidget(
+                            lesson.title,
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                ?.copyWith(color: backgroundColor),
+                          ),
                         ),
-                        child: HtmlWidget(
-                          lesson.title,
-                          textStyle: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              ?.copyWith(color: backgroundColor),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
-            ],
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

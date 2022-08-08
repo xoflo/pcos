@@ -101,7 +101,9 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
-        body: SafeArea(
+        body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(top: 12),
             child: Container(
@@ -155,6 +157,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
               ),
             ),
           ),
+        ),
         ),
       );
 }

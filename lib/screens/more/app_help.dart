@@ -9,12 +9,15 @@ class AppHelp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
+            ),
+            child: AppHelpLayout(),
           ),
-          child: AppHelpLayout(),
         ),
       ),
     );

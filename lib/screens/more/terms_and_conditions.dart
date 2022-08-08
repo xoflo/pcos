@@ -10,15 +10,18 @@ class TermsAndConditions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: PolicyLayout(
-            title: S.current.termsOfUseTitle,
-            cmsAssetName: "Terms",
-            tryAgainText: S.current.tryAgain,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
+            ),
+            child: PolicyLayout(
+              title: S.current.termsOfUseTitle,
+              cmsAssetName: "Terms",
+              tryAgainText: S.current.tryAgain,
+            ),
           ),
         ),
       ),
