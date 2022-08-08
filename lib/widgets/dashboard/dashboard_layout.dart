@@ -37,12 +37,16 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class DashboardLayout extends StatefulWidget {
-  DashboardLayout(
-      {Key? key, required this.showYourWhy, required this.showLessonReicpes})
-      : super(key: key);
+  DashboardLayout({
+    Key? key,
+    required this.showYourWhy,
+    required this.showLessonReicpes,
+    required this.isUsernameUsed,
+  }) : super(key: key);
 
   final bool showYourWhy;
   final bool showLessonReicpes;
+  final bool isUsernameUsed;
 
   @override
   _DashboardLayoutState createState() => _DashboardLayoutState();
@@ -57,8 +61,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   int _selectedRecipe = 0;
   String _yourWhy = "";
   List<LessonWiki> _lessonWikis = [];
-  bool _showWhy = false;
+  bool _showWhy = true;
   bool _showRecipes = false;
+  bool _isUsernameUsed = false;
 
   //#region Initialisation
   @override
@@ -76,12 +81,15 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     final bool showYourWhy = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+    final bool isUsernameUsed = await PreferencesController()
+        .getBool(SharedPreferencesKeys.USERNAME_USED);
 
     setState(() {
       _dataUsageWarningDisplayed = dataUsageWarningDisplayed;
       _yourWhy = whatsYourWhy;
       _showWhy = showYourWhy;
       _showRecipes = showRecipes;
+      _isUsernameUsed = isUsernameUsed;
     });
   }
 
@@ -374,6 +382,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   Widget build(BuildContext context) {
     _showRecipes = widget.showLessonReicpes;
     _showWhy = widget.showYourWhy;
+    _isUsernameUsed = widget.isUsernameUsed;
 
     return Column(
       children: [
@@ -387,7 +396,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DashboardMemberTime(memberViewModel: memberViewModel),
+                  DashboardMemberTime(
+                    memberViewModel: memberViewModel,
+                    isUsernameUsed: _isUsernameUsed,
+                  ),
                   if (_showWhy) DashboardWhyCommunity(yourWhy: _yourWhy),
                   SizedBox(height: 25),
                   DashboardLessonCarousel(

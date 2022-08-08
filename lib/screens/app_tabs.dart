@@ -50,6 +50,7 @@ class _AppTabsState extends State<AppTabs>
   bool _intercomInitialised = false;
   bool _showYourWhy = true;
   bool _showLessonRecipes = false;
+  bool _isUsernameUsed = false;
   bool _isLocked = false;
   late TabController tabController;
 
@@ -88,6 +89,8 @@ class _AppTabsState extends State<AppTabs>
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
     final bool isLessonRecipesOn = await PreferencesController()
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
+    final bool isUsernameUsed = await PreferencesController()
+        .getBool(SharedPreferencesKeys.USERNAME_USED);
     final bool oneSignalDataSent = await PreferencesController()
         .getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
     //register external userId and pcos_type (as tag) with OneSignal if not done before on this device
@@ -104,6 +107,7 @@ class _AppTabsState extends State<AppTabs>
       _intercomInitialised = true;
       _showYourWhy = isYourWhyOn;
       _showLessonRecipes = isLessonRecipesOn;
+      _isUsernameUsed = isUsernameUsed;
     });
   }
 
@@ -237,9 +241,13 @@ class _AppTabsState extends State<AppTabs>
                                   .LESSON_RECIPES_DISPLAYED_DASHBOARD);
                       final bool isYourWhyOn = await PreferencesController()
                           .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+                      final bool isUsernameUsed = await PreferencesController()
+                          .getBool(SharedPreferencesKeys.USERNAME_USED);
+
                       setState(() {
                         _showYourWhy = isYourWhyOn;
                         _showLessonRecipes = isLessonRecipesOn;
+                        _isUsernameUsed = isUsernameUsed;
                       });
                     }),
                   )
@@ -269,8 +277,10 @@ class _AppTabsState extends State<AppTabs>
                 physics: NeverScrollableScrollPhysics(),
                 children: [
                   Dashboard(
-                      showYourWhy: _showYourWhy,
-                      showLessonReicpes: _showLessonRecipes),
+                    showYourWhy: _showYourWhy,
+                    showLessonReicpes: _showLessonRecipes,
+                    isUsernameUsed: _isUsernameUsed,
+                  ),
                   LibraryPage(),
                   Recipes(),
                   Favourites(),
