@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
@@ -19,28 +20,31 @@ class _LessonVideoPageState extends State<LessonVideoPage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
+      body: WillPopScope(
+        onWillPop: () async => !Platform.isIOS,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Header(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Header(
                   title: "Video",
-                  closeItem: () => Navigator.pop(context),
-                ),
-                VideoPlayer(
-                  screenSize: size,
-                  isHorizontal: false,
-                  videoUrl: videoUrl,
-                )
-              ],
+                    closeItem: () => Navigator.pop(context),
+                  ),
+                  VideoPlayer(
+                    screenSize: size,
+                    isHorizontal: false,
+                    videoUrl: videoUrl,
+                  )
+                ],
+              ),
             ),
           ),
         ),

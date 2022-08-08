@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/notifications/messages_layout.dart';
 
@@ -8,13 +9,16 @@ class Notifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 12,
+        body: WillPopScope(
+          onWillPop: () async => !Platform.isIOS,
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 12,
+                ),
+                child: MessagesLayout(),
+              ),
             ),
-            child: MessagesLayout(),
           ),
-        ),
       );
 }

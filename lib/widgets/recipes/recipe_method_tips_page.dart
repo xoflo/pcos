@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:thepcosprotocol_app/models/navigation/recipe_method_tips_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -16,38 +17,41 @@ class RecipeMethodTipsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
+      body: WillPopScope(
+        onWillPop: () async => !Platform.isIOS,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Header(
-                  title: args.isTips ? "Tips" : "Method",
-                  closeItem: () => Navigator.pop(context),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: HtmlWidget(
-                        args.text,
-                        textStyle:
-                            Theme.of(context).textTheme.bodyText1?.copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  color: textColor.withOpacity(0.8),
-                                ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Header(
+                    title: args.isTips ? "Tips" : "Method",
+                    closeItem: () => Navigator.pop(context),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: HtmlWidget(
+                          args.text,
+                          textStyle:
+                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: textColor.withOpacity(0.8),
+                                  ),
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

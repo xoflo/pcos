@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/constants/media_type.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
@@ -89,109 +90,112 @@ class _LessonContentPageState extends State<LessonContentPage> {
     }
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
+      body: WillPopScope(
+        onWillPop: () async => !Platform.isIOS,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Header(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Header(
                   title: "Lesson",
-                  closeItem: () => Navigator.pop(context),
-                ),
-                SizedBox(height: 25),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: HtmlWidget(
-                          lesson?.title ?? "",
-                          textStyle: Theme.of(context).textTheme.headline4,
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_outline,
-                          size: 20,
-                          color: redColor,
-                        ),
-                        onPressed: () {
-                          favouritesProvider.addToFavourites(
-                              FavouriteType.Lesson, lesson?.lessonID);
-                          setState(() => isFavorite = !isFavorite);
-                        },
-                      )
-                    ],
+                    closeItem: () => Navigator.pop(context),
                   ),
-                ),
-                SizedBox(height: 15),
-                Expanded(
-                  child: PageView.builder(
-                    controller: controller,
-                    itemCount: lessonContent?.length,
-                    pageSnapping: true,
-                    onPageChanged: (page) => setState(() => activePage = page),
-                    itemBuilder: (context, index) {
-                      final content = lessonContent?[index];
-                      return SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              HtmlWidget(
-                                content?.title ?? "",
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .headline5
-                                    ?.copyWith(
-                                        color: textColor.withOpacity(0.8)),
-                              ),
-                              SizedBox(height: 20),
-                              HtmlWidget(
-                                content?.body ?? "",
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    ?.copyWith(
-                                        color: textColor.withOpacity(0.8)),
-                              ),
-                              ...getContentUrlType(content),
-                              if (content?.summary?.isNotEmpty == true) ...[
+                  SizedBox(height: 25),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: HtmlWidget(
+                            lesson?.title ?? "",
+                            textStyle: Theme.of(context).textTheme.headline4,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_outline,
+                            size: 20,
+                            color: redColor,
+                          ),
+                          onPressed: () {
+                            favouritesProvider.addToFavourites(
+                                FavouriteType.Lesson, lesson?.lessonID);
+                            setState(() => isFavorite = !isFavorite);
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Expanded(
+                    child: PageView.builder(
+                      controller: controller,
+                      itemCount: lessonContent?.length,
+                      pageSnapping: true,
+                      onPageChanged: (page) => setState(() => activePage = page),
+                      itemBuilder: (context, index) {
+                        final content = lessonContent?[index];
+                        return SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HtmlWidget(
+                                  content?.title ?? "",
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .headline5
+                                      ?.copyWith(
+                                          color: textColor.withOpacity(0.8)),
+                                ),
                                 SizedBox(height: 20),
                                 HtmlWidget(
-                                  content?.summary ?? "",
+                                  content?.body ?? "",
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .bodyText1
                                       ?.copyWith(
                                           color: textColor.withOpacity(0.8)),
-                                )
-                              ]
-                            ],
+                                ),
+                                ...getContentUrlType(content),
+                                if (content?.summary?.isNotEmpty == true) ...[
+                                  SizedBox(height: 20),
+                                  HtmlWidget(
+                                    content?.summary ?? "",
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                            color: textColor.withOpacity(0.8)),
+                                  )
+                                ]
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                if ((lessonContent?.length ?? 0) > 1) ...[
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: generateIndicators(),
-                  ),
+                  if ((lessonContent?.length ?? 0) > 1) ...[
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: generateIndicators(),
+                    ),
+                  ],
+                  SizedBox(height: 25)
                 ],
-                SizedBox(height: 25)
-              ],
+              ),
             ),
           ),
         ),

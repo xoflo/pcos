@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
@@ -49,46 +50,49 @@ class _LibraryModuleWikiPageState extends State<LibraryModuleWikiPage> {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 12.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Header(
+      body: WillPopScope(
+        onWillPop: () async => !Platform.isIOS,
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: 12.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Header(
                 title: "${isPreviousModules ? 'Module' : 'Wiki'} Library",
-                closeItem: () => Navigator.pop(context),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.all(15),
-                    child: modulesProvider.previousModules.isEmpty
-                        ? Center(
-                            child: NoResults(
-                              message:
-                                  "No ${isPreviousModules ? 'modules' : 'wikis'} found",
-                            ),
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: modulesProvider.previousModules
-                                .map(
-                                  (item) => LibraryModuleWikiItem(
-                                    modulesProvider: modulesProvider,
-                                    favouritesProvider: favouritesProvider,
-                                    item: item,
-                                    isPreviousModules: isPreviousModules,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                  ),
+                  closeItem: () => Navigator.pop(context),
                 ),
-              )
-            ],
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: modulesProvider.previousModules.isEmpty
+                          ? Center(
+                              child: NoResults(
+                                message:
+                                    "No ${isPreviousModules ? 'modules' : 'wikis'} found",
+                              ),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: modulesProvider.previousModules
+                                  .map(
+                                    (item) => LibraryModuleWikiItem(
+                                      modulesProvider: modulesProvider,
+                                      favouritesProvider: favouritesProvider,
+                                      item: item,
+                                      isPreviousModules: isPreviousModules,
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

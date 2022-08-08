@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
@@ -101,7 +102,9 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
-        body: SafeArea(
+        body: WillPopScope(
+        onWillPop: () async => !Platform.isIOS,
+        child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(top: 12),
             child: Container(
@@ -155,6 +158,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
               ),
             ),
           ),
+        ),
         ),
       );
 }
