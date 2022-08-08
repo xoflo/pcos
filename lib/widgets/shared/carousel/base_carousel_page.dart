@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item.dart';
 
@@ -68,6 +69,8 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 left: 0.0,
                 right: 0.0,
                 child: AppBar(
+                  systemOverlayStyle:
+                      SystemUiOverlayStyle(statusBarColor: primaryColor),
                   leading: new IconButton(
                     icon: new Icon(
                       Icons.arrow_back,

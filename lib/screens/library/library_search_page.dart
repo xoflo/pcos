@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
@@ -70,6 +71,8 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarColor: primaryColorLight),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,

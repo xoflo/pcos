@@ -229,6 +229,8 @@ class _AppTabsState extends State<AppTabs>
   Widget build(BuildContext context) => FlavorBanner(
         child: Scaffold(
           appBar: AppBar(
+            systemOverlayStyle:
+                SystemUiOverlayStyle(statusBarColor: primaryColor),
             leading: showAppBarItems
                 ? IconButton(
                     icon: Icon(Icons.person_outline,

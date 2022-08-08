@@ -106,25 +106,28 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
   Widget getBaseWidget(BuildContext context, Widget child) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: Stack(
-        children: [
-          CustomPaint(
-            painter: EllipsisPainter(
-              color: Colors.white,
-              heightMultiplier: 0.3,
-              x1Multiplier: 0.5,
-              y1Multiplier: 0.5,
-              y2Multiplier: 0.3,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(statusBarColor: Colors.white),
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        body: Stack(
+          children: [
+            CustomPaint(
+              painter: EllipsisPainter(
+                color: Colors.white,
+                heightMultiplier: 0.3,
+                x1Multiplier: 0.5,
+                y1Multiplier: 0.5,
+                y2Multiplier: 0.3,
+              ),
+              child: Container(
+                width: screenSize.width,
+                height: screenSize.height,
+              ),
             ),
-            child: Container(
-              width: screenSize.width,
-              height: screenSize.height,
-            ),
-          ),
-          child,
-        ],
+            child,
+          ],
+        ),
       ),
     );
   }
