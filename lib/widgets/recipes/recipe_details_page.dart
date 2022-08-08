@@ -65,7 +65,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
-        onWillPop: () async => Platform.isIOS ? false : true,
+        onWillPop: () async => !Platform.isIOS,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(

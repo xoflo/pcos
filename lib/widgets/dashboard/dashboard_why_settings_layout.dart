@@ -54,7 +54,7 @@ class _DashboardWhySettingsLayoutState
       case LoadingStatus.success:
         return Expanded(
           child: WillPopScope(
-            onWillPop: () async => Platform.isIOS ? false : true,
+            onWillPop: () async => !Platform.isIOS,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
               color: Colors.white,

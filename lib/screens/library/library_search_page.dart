@@ -87,7 +87,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
         elevation: 0.0,
       ),
       body: WillPopScope(
-        onWillPop: () async => Platform.isIOS ? false : true,
+        onWillPop: () async => !Platform.isIOS,
         child: SafeArea(
           child: Column(
             children: [
