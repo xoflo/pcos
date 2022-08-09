@@ -226,7 +226,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       S.current.pinForgottenCancel,
       S.current.pinForgottenContinue,
       continueForgottenPin,
-      (BuildContext context) {},
+      null,
     );
   }
 

@@ -55,7 +55,7 @@ showAlertDialog(
   final String cancelText,
   final String continueText,
   final Function? continueAction,
-  final Function cancelAction,
+  final Function? cancelAction,
 ) {
   analytics.logEvent(
     name: Analytics.ANALYTICS_EVENT_OPENDIALOG,
@@ -69,7 +69,9 @@ showAlertDialog(
     backgroundColor: colors.backgroundColor,
     onPressed: () {
       Navigator.pop(context);
-      cancelAction(context);
+      if (cancelAction != null) {
+        cancelAction(context);
+      }
     },
   );
 
