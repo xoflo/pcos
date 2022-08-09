@@ -51,7 +51,7 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     HtmlWidget(
-                      "<p style='max-lines:1; text-overflow: ellipsis;'>" +
+                      "<p style='max-lines:2; text-overflow: ellipsis;'>" +
                           (title) +
                           "</p>",
                       textStyle: Theme.of(context)

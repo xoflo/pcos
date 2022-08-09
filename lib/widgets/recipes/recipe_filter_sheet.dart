@@ -83,31 +83,36 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Icon(
-                      Icons.close,
-                      color: backgroundColor,
+              Padding(
+                padding: EdgeInsets.only(top: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: backgroundColor,
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () => setState(() {
-                      selectedDietType.clear();
-                      selectedMealType = "All";
-                      isDefaultFilter = false;
-                    }),
-                    child: Text(
-                      "Clear All",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: backgroundColor),
-                    ),
-                  )
-                ],
+                    GestureDetector(
+                      onTap: () => setState(() {
+                        selectedDietType.clear();
+                        selectedMealType = "All";
+                        isDefaultFilter = false;
+                      }),
+                      child: Text(
+                        "Clear All",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            ?.copyWith(color: backgroundColor),
+                      ),
+                    )
+                  ],
+                ),
               ),
               SizedBox(height: 35),
               Text(
