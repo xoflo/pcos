@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_settings.dart';
 import 'package:thepcosprotocol_app/widgets/profile/profile_summary.dart';
@@ -73,11 +74,14 @@ class _ProfileLayoutState extends State<ProfileLayout> {
     final vm = Provider.of<MemberViewModel>(context);
     final Size screenSize = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: primaryColor,
-      ),
-      child: _memberDetails(screenSize, vm),
+    return WillPopScope(
+          onWillPop: () async => !Platform.isIOS,
+          child: Container(
+            decoration: BoxDecoration(
+              color: primaryColor,
+            ),
+            child: _memberDetails(screenSize, vm),
+          ),
     );
   }
 }
