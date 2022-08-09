@@ -45,60 +45,52 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
-              child: Padding(
+              child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                            color: backgroundColor.withOpacity(unlockedOpacity),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (showCompletedTag) ...[
-                          SizedBox(width: 15),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: completedBackgroundColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 8),
-                            child: Text(
-                              "Completed",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(color: Colors.white),
-                            ),
-                          ),
-                        ],
-                      ],
+                    HtmlWidget(
+                      "<p style='max-lines:1; text-overflow: ellipsis;'>" +
+                          (title) +
+                          "</p>",
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          ?.copyWith(color: backgroundColor),
                     ),
                     if (subtitle != null) ...[
                       SizedBox(height: 10),
-                      HtmlWidget(
+                      Text(
                         subtitle ?? "",
-                        textStyle: TextStyle(
+                        style: TextStyle(
                           color: textColor.withOpacity(isUnlocked ? 0.8 : 0.5),
                           fontSize: 14,
                         ),
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 10),
                     ] else
                       SizedBox(height: 30),
-                    if (showCompleteLesson) ...[
+                    if (showCompleteLesson)
                       DashboardLessonLockedComponent(
                           title: "Complete the lesson")
-                    ] else
+                    else if (showCompletedTag)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: completedBackgroundColor,
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                        child: Text(
+                          "Completed",
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      )
+                    else
                       Row(
                         children: [
                           Icon(Icons.schedule, color: textColor, size: 15),
