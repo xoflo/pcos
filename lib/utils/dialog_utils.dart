@@ -69,9 +69,7 @@ showAlertDialog(
     backgroundColor: colors.backgroundColor,
     onPressed: () {
       Navigator.pop(context);
-      if (cancelAction != null) {
-        cancelAction(context);
-      }
+      cancelAction?.call(context);
     },
   );
 
