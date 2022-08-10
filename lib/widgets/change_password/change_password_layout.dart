@@ -10,6 +10,7 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
 
 class ChangePasswordLayout extends StatefulWidget {
   @override
@@ -92,68 +93,77 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(
-          color: primaryColor,
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Header(
-                title: S.current.changePasswordTitle,
-                closeItem: _cancel,
-                showDivider: true,
+  Widget build(BuildContext context) => Stack(
+        children: [
+          SafeArea(
+            child: Container(
+              padding: EdgeInsets.only(top: 12.0),
+              decoration: BoxDecoration(
+                color: primaryColor,
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10),
-                        CustomTextField(
-                          controller: oldPasswordController,
-                          title: S.current.changePasswordOldLabel,
-                          blankMessageError: S.current.changePasswordOldMessage,
-                          isObscure: true,
-                        ),
-                        SizedBox(height: 15),
-                        CustomTextField(
-                          controller: newPasswordController,
-                          title: S.current.changePasswordNewLabel,
-                          blankMessageError: S.current.changePasswordNewMessage,
-                          isObscure: true,
-                        ),
-                        SizedBox(height: 15),
-                        CustomTextField(
-                          controller: confirmPasswordController,
-                          title: S.current.changePasswordConfirmLabel,
-                          blankMessageError:
-                              S.current.changePasswordConfirmMessage,
-                          isObscure: true,
-                        ),
-                        FilledButton(
-                          text: "SAVE CHANGES",
-                          isUpdating: isUpdating,
-                          margin: EdgeInsets.only(top: 25),
-                          foregroundColor: Colors.white,
-                          backgroundColor: backgroundColor,
-                          onPressed: () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            setState(() => isUpdating = true);
-                            _savePassword(context);
-                          },
-                        ),
-                      ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Header(
+                      title: S.current.changePasswordTitle,
+                      closeItem: _cancel,
+                      showDivider: true,
                     ),
-                  ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              CustomTextField(
+                                controller: oldPasswordController,
+                                title: S.current.changePasswordOldLabel,
+                                blankMessageError:
+                                    S.current.changePasswordOldMessage,
+                                isObscure: true,
+                              ),
+                              SizedBox(height: 15),
+                              CustomTextField(
+                                controller: newPasswordController,
+                                title: S.current.changePasswordNewLabel,
+                                blankMessageError:
+                                    S.current.changePasswordNewMessage,
+                                isObscure: true,
+                              ),
+                              SizedBox(height: 15),
+                              CustomTextField(
+                                controller: confirmPasswordController,
+                                title: S.current.changePasswordConfirmLabel,
+                                blankMessageError:
+                                    S.current.changePasswordConfirmMessage,
+                                isObscure: true,
+                              ),
+                              FilledButton(
+                                text: "SAVE CHANGES",
+                                margin: EdgeInsets.only(top: 25),
+                                foregroundColor: Colors.white,
+                                backgroundColor: backgroundColor,
+                                onPressed: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  setState(() => isUpdating = true);
+                                  _savePassword(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          if (isUpdating) LoaderOverlay()
+        ],
       );
 }

@@ -33,7 +33,7 @@ class AppNavigationTabs extends StatelessWidget {
             onTapped(index);
             _sendCurrentTabToAnalytics(index);
           },
-          indicatorPadding: EdgeInsets.symmetric(horizontal: 20),
+          indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
           controller: tabController,
           indicator: UnderlineTabIndicator(
             insets: EdgeInsets.only(bottom: 75),
@@ -57,6 +57,7 @@ class AppNavigationTabs extends StatelessWidget {
                         : unselectedIndicatorIconColor,
                   ),
                   text: "Course",
+                  iconMargin: EdgeInsets.only(bottom: 5),
                 ),
                 Consumer<ModulesProvider>(
                   builder: (context, modulesProvider, child) {
@@ -108,6 +109,7 @@ class AppNavigationTabs extends StatelessWidget {
                     : unselectedIndicatorIconColor,
               ),
               text: "Library",
+              iconMargin: EdgeInsets.only(bottom: 5),
             ),
             Tab(
               icon: Image.asset(
@@ -119,6 +121,7 @@ class AppNavigationTabs extends StatelessWidget {
                     : unselectedIndicatorIconColor,
               ),
               text: "Recipes",
+              iconMargin: EdgeInsets.only(bottom: 5),
             ),
             Tab(
               icon: Image.asset(
@@ -130,6 +133,7 @@ class AppNavigationTabs extends StatelessWidget {
                     : unselectedIndicatorIconColor,
               ),
               text: "Favorites",
+              iconMargin: EdgeInsets.only(bottom: 5),
             ),
             Tab(
               icon: Image.asset(

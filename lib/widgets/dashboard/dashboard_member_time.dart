@@ -6,10 +6,14 @@ import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class DashboardMemberTime extends StatefulWidget {
-  const DashboardMemberTime({Key? key, required this.memberViewModel})
-      : super(key: key);
+  const DashboardMemberTime({
+    Key? key,
+    required this.memberViewModel,
+    required this.isUsernameUsed,
+  }) : super(key: key);
 
   final MemberViewModel memberViewModel;
+  final bool isUsernameUsed;
 
   @override
   State<DashboardMemberTime> createState() => _DashboardMemberTimeState();
@@ -18,6 +22,7 @@ class DashboardMemberTime extends StatefulWidget {
 class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   Timer? timer;
   String asset = '';
+
   @override
   void initState() {
     super.initState();
@@ -56,6 +61,10 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
     timer?.cancel();
   }
 
+  String get displayedName => widget.isUsernameUsed
+      ? widget.memberViewModel.alias
+      : widget.memberViewModel.firstName;
+
   @override
   Widget build(BuildContext context) => Stack(
         children: [
@@ -73,7 +82,7 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
             Padding(
               padding: EdgeInsets.all(15),
               child: Text(
-                "Hello ${widget.memberViewModel.firstName}",
+                "Hello $displayedName",
                 style: Theme.of(context).textTheme.headline1,
               ),
             )

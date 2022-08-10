@@ -5,9 +5,11 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ImageComponent extends StatefulWidget {
-  ImageComponent({Key? key, required this.imageUrl}) : super(key: key);
+  ImageComponent({Key? key, required this.imageUrl, this.tag = 'image'})
+      : super(key: key);
 
   final String imageUrl;
+  final String tag;
 
   @override
   State<ImageComponent> createState() => _ImageComponentState();
@@ -37,7 +39,7 @@ class _ImageComponentState extends State<ImageComponent> {
         backgroundColor: Colors.grey.withOpacity(0.5),
         child: InteractiveViewer(
           child: Hero(
-            tag: 'image',
+            tag: widget.tag,
             child: Image.network(
               widget.imageUrl,
               width: double.maxFinite,
