@@ -27,7 +27,7 @@ class DashboardWhySettingsLayout extends StatefulWidget {
 
 class _DashboardWhySettingsLayoutState
     extends State<DashboardWhySettingsLayout> {
-  late TextEditingController textController;
+  TextEditingController textController = TextEditingController();
 
   int textLength = 0;
 
@@ -44,7 +44,7 @@ class _DashboardWhySettingsLayoutState
     final String why = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
 
-    textController = TextEditingController(text: why);
+    textController.text = why;
     textLength = why.length;
   }
 

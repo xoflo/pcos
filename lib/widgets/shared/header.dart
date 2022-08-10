@@ -12,6 +12,7 @@ class Header extends StatelessWidget {
   final Function()? onToggleMarkAsRead;
   final int? questionNumber;
   final int? questionCount;
+  final Function()? onDelete;
 
   Header({
     this.title,
@@ -23,6 +24,7 @@ class Header extends StatelessWidget {
     this.questionCount,
     this.onToggleMarkAsRead,
     this.onToggleSelectAll,
+    this.onDelete,
   });
 
   @override
@@ -114,6 +116,16 @@ class Header extends StatelessWidget {
                       questionNumber != null) ...[
                     Spacer(flex: 2),
                     Text("$questionNumber of $questionCount"),
+                  ] else if (onDelete != null) ...[
+                    Spacer(flex: 2),
+                    IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        size: 24,
+                        color: backgroundColor,
+                      ),
+                      onPressed: () => onDelete?.call(),
+                    )
                   ] else ...[
                     Spacer(flex: 2),
                     SizedBox(width: 35, height: 35, child: Container())
