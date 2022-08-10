@@ -42,14 +42,14 @@ class _ProfilePersonalDetailsLayoutState
     widget.memberProvider.populateMember();
   }
 
-  List<Widget> _getChildren(MemberProvider memberViewModel) {
-    if (memberViewModel.status == LoadingStatus.empty) {
+  List<Widget> _getChildren() {
+    if (widget.memberProvider.status == LoadingStatus.empty) {
       return [NoResults(message: S.current.noMemberDetails)];
     }
-    usernameController.text = memberViewModel.alias;
-    firstNameController.text = memberViewModel.firstName;
-    lastNameController.text = memberViewModel.lastName;
-    emailController.text = memberViewModel.email;
+    usernameController.text = widget.memberProvider.alias;
+    firstNameController.text = widget.memberProvider.firstName;
+    lastNameController.text = widget.memberProvider.lastName;
+    emailController.text = widget.memberProvider.email;
 
     return [
       Column(
@@ -161,32 +161,34 @@ class _ProfilePersonalDetailsLayoutState
 
           setState(() {});
 
-          try {
-            if (_formKey.currentState?.validate() == true) {
-              analytics.logEvent(
-                name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
-                parameters: {
-                  Analytics.ANALYTICS_PARAMETER_BUTTON:
-                      Analytics.ANALYTICS_BUTTON_SAVE_PROFILE
-                },
-              );
-              if (memberViewModel.alias != usernameController.text.trim()) {
-                memberViewModel.alias = usernameController.text.trim();
-              }
-              if (memberViewModel.firstName !=
-                  firstNameController.text.trim()) {
-                memberViewModel.firstName = firstNameController.text.trim();
-              }
-              if (memberViewModel.lastName != lastNameController.text.trim()) {
-                memberViewModel.lastName = lastNameController.text.trim();
-              }
-              final bool saveMember =
-                  await Provider.of<MemberProvider>(context, listen: false)
-                      .saveMemberDetails();
+          if (_formKey.currentState?.validate() == true) {
+            analytics.logEvent(
+              name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
+              parameters: {
+                Analytics.ANALYTICS_PARAMETER_BUTTON:
+                    Analytics.ANALYTICS_BUTTON_SAVE_PROFILE
+              },
+            );
+            if (widget.memberProvider.alias != usernameController.text.trim()) {
+              widget.memberProvider.alias = usernameController.text.trim();
+            }
+            if (widget.memberProvider.firstName !=
+                firstNameController.text.trim()) {
+              widget.memberProvider.firstName = firstNameController.text.trim();
+            }
+            if (widget.memberProvider.lastName !=
+                lastNameController.text.trim()) {
+              widget.memberProvider.lastName = lastNameController.text.trim();
+            }
+          }
 
-              if (saveMember) {
-                Navigator.pop(context, true);
-              }
+          try {
+            final bool saveMember =
+                await Provider.of<MemberProvider>(context, listen: false)
+                    .saveMemberDetails();
+
+            if (saveMember) {
+              Navigator.pop(context, true);
             }
           } catch (ex) {
             showFlushBar(
@@ -231,7 +233,7 @@ class _ProfilePersonalDetailsLayoutState
                             padding: EdgeInsets.all(15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: _getChildren(widget.memberProvider),
+                              children: _getChildren(),
                             ),
                           ),
                         ),

@@ -258,13 +258,12 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
         onWillPop: () => onBackPressed(context),
         child: getBaseWidget(
           context,
-          SafeArea(
-              child: Stack(
+          Stack(
             children: [
               getPinPad(forgotPin: forgottenPin),
               if (pinEntry == PinEntry.ENTERED) LoaderOverlay()
             ],
-          )),
+          ),
         ),
       );
 }
