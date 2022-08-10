@@ -16,12 +16,16 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class DashboardLayout extends StatefulWidget {
-  DashboardLayout(
-      {Key? key, required this.showYourWhy, required this.showLessonReicpes})
-      : super(key: key);
+  DashboardLayout({
+    Key? key,
+    required this.showYourWhy,
+    required this.showLessonReicpes,
+    required this.isUsernameUsed,
+  }) : super(key: key);
 
   final bool showYourWhy;
   final bool showLessonReicpes;
+  final bool isUsernameUsed;
 
   @override
   _DashboardLayoutState createState() => _DashboardLayoutState();
@@ -29,8 +33,9 @@ class DashboardLayout extends StatefulWidget {
 
 class _DashboardLayoutState extends State<DashboardLayout> {
   String _yourWhy = "";
-  bool _showWhy = false;
+  bool _showWhy = true;
   bool _showRecipes = false;
+  bool _isUsernameUsed = false;
 
   @override
   void initState() {
@@ -45,11 +50,14 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     final bool showYourWhy = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+    final bool isUsernameUsed = await PreferencesController()
+        .getBool(SharedPreferencesKeys.USERNAME_USED);
 
     setState(() {
       _yourWhy = whatsYourWhy;
       _showWhy = showYourWhy;
       _showRecipes = showRecipes;
+      _isUsernameUsed = isUsernameUsed;
     });
   }
 
@@ -57,6 +65,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   Widget build(BuildContext context) {
     _showRecipes = widget.showLessonReicpes;
     _showWhy = widget.showYourWhy;
+    _isUsernameUsed = widget.isUsernameUsed;
 
     return Column(
       children: [
@@ -70,7 +79,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DashboardMemberTime(memberProvider: memberProvider),
+                  DashboardMemberTime(
+                    memberProvider: memberProvider,
+                    isUsernameUsed: _isUsernameUsed,
+                  ),
                   if (_showWhy) DashboardWhyCommunity(yourWhy: _yourWhy),
                   SizedBox(height: 25),
                   DashboardLessonCarousel(

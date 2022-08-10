@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/providers/member_provider.dart';
+import 'package:thepcosprotocol_app/screens/profile/profile_personal_details_layout.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/view_models/member_view_model.dart';
-import 'package:thepcosprotocol_app/widgets/profile/profile_personal_details_layout.dart';
 
 class ProfilePersonalDetails extends StatelessWidget {
   const ProfilePersonalDetails({Key? key}) : super(key: key);
@@ -13,10 +13,10 @@ class ProfilePersonalDetails extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
         body: ChangeNotifierProvider(
-          create: (context) => MemberViewModel(),
-          builder: (context, _) => Consumer<MemberViewModel>(
-            builder: (context, memberViewModel, child) =>
-                ProfilePersonalDetailsLayout(memberViewModel: memberViewModel),
+          create: (context) => MemberProvider(),
+          builder: (context, _) => Consumer<MemberProvider>(
+            builder: (context, memberProvider, child) =>
+                ProfilePersonalDetailsLayout(memberProvider: memberProvider),
           ),
         ),
       );

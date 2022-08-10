@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_settings.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_summary.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -75,13 +75,13 @@ class _ProfileLayoutState extends State<ProfileLayout> {
     final Size screenSize = MediaQuery.of(context).size;
 
     return WillPopScope(
-          onWillPop: () async => !Platform.isIOS,
-          child: Container(
-            decoration: BoxDecoration(
-              color: primaryColor,
-            ),
-            child: _memberDetails(screenSize, vm),
-          ),
+      onWillPop: () async => !Platform.isIOS,
+      child: Container(
+        decoration: BoxDecoration(
+          color: primaryColor,
+        ),
+        child: _memberDetails(screenSize, vm),
+      ),
     );
   }
 }

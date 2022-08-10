@@ -16,10 +16,10 @@ import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class ProfilePersonalDetailsLayout extends StatefulWidget {
-  const ProfilePersonalDetailsLayout({Key? key, required this.memberViewModel})
+  const ProfilePersonalDetailsLayout({Key? key, required this.memberProvider})
       : super(key: key);
 
-  final MemberViewModel memberViewModel;
+  final MemberProvider memberProvider;
 
   @override
   State<ProfilePersonalDetailsLayout> createState() =>
@@ -39,10 +39,10 @@ class _ProfilePersonalDetailsLayoutState
   void initState() {
     super.initState();
 
-    widget.memberViewModel.populateMember();
+    widget.memberProvider.populateMember();
   }
 
-  List<Widget> _getChildren(MemberViewModel memberViewModel) {
+  List<Widget> _getChildren(MemberProvider memberViewModel) {
     if (memberViewModel.status == LoadingStatus.empty) {
       return [NoResults(message: S.current.noMemberDetails)];
     }
@@ -181,7 +181,7 @@ class _ProfilePersonalDetailsLayoutState
                 memberViewModel.lastName = lastNameController.text.trim();
               }
               final bool saveMember =
-                  await Provider.of<MemberViewModel>(context, listen: false)
+                  await Provider.of<MemberProvider>(context, listen: false)
                       .saveMemberDetails();
 
               if (saveMember) {
@@ -209,7 +209,7 @@ class _ProfilePersonalDetailsLayoutState
           WillPopScope(
             onWillPop: () async =>
                 !Platform.isIOS &&
-                widget.memberViewModel.status != LoadingStatus.loading,
+                widget.memberProvider.status != LoadingStatus.loading,
             child: SafeArea(
               child: Container(
                 padding: EdgeInsets.only(top: 12),
@@ -231,7 +231,7 @@ class _ProfilePersonalDetailsLayoutState
                             padding: EdgeInsets.all(15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: _getChildren(widget.memberViewModel),
+                              children: _getChildren(widget.memberProvider),
                             ),
                           ),
                         ),
@@ -242,7 +242,7 @@ class _ProfilePersonalDetailsLayoutState
               ),
             ),
           ),
-          if (widget.memberViewModel.status == LoadingStatus.loading)
+          if (widget.memberProvider.status == LoadingStatus.loading)
             LoaderOverlay(),
         ],
       );

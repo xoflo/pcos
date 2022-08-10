@@ -8,11 +8,11 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 class DashboardMemberTime extends StatefulWidget {
   const DashboardMemberTime({
     Key? key,
-    required this.memberViewModel,
+    required this.memberProvider,
     required this.isUsernameUsed,
   }) : super(key: key);
 
-  final MemberViewModel memberViewModel;
+  final MemberProvider memberProvider;
   final bool isUsernameUsed;
 
   @override
@@ -26,7 +26,7 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   @override
   void initState() {
     super.initState();
-    widget.memberViewModel.populateMember();
+    widget.memberProvider.populateMember();
 
     // Assign a day/night background the first time that the dashboard page is
     // presented
@@ -62,8 +62,8 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   }
 
   String get displayedName => widget.isUsernameUsed
-      ? widget.memberViewModel.alias
-      : widget.memberViewModel.firstName;
+      ? widget.memberProvider.alias
+      : widget.memberProvider.firstName;
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -78,16 +78,16 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
                   )
                 : null,
           ),
-          if (widget.memberViewModel.status == LoadingStatus.success)
+          if (widget.memberProvider.status == LoadingStatus.success)
             Padding(
               padding: EdgeInsets.all(15),
               child: Text(
-                "Hello ${widget.memberViewModel.firstName}",
+                "Hello ${widget.memberProvider.firstName}",
                 style: Theme.of(context).textTheme.headline1,
               ),
             )
           else if (asset.isEmpty ||
-              widget.memberViewModel.status == LoadingStatus.loading)
+              widget.memberProvider.status == LoadingStatus.loading)
             PcosLoadingSpinner()
         ],
       );

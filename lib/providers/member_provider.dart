@@ -3,7 +3,7 @@ import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 
-class MemberViewModel extends ChangeNotifier {
+class MemberProvider extends ChangeNotifier {
   Member member = Member();
   Member memberOriginal = Member();
   LoadingStatus status = LoadingStatus.empty;

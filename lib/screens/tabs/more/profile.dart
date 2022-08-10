@@ -19,7 +19,7 @@ class Profile extends StatelessWidget {
                 top: 12.0,
               ),
               child: ChangeNotifierProvider(
-                create: (context) => MemberViewModel(),
+                create: (context) => MemberProvider(),
                 child: ProfileLayout(),
               ),
             ),
