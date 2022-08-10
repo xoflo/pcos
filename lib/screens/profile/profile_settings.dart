@@ -99,7 +99,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       case 2:
         return ProfileSettingsItem(
           title: "Change PIN number",
-          onTap: () => Navigator.pushNamed(context, PinSet.id),
+          onTap: () => Navigator.pushNamed(context, PinSet.id, arguments: true),
         );
       case 3:
         return ProfileSettingsItem(
