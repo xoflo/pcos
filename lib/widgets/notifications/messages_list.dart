@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-
+import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 class MessagesList extends StatefulWidget {
   const MessagesList({
     Key? key,
@@ -54,29 +54,34 @@ class _MessagesListState extends State<MessagesList> {
                             child: Row(
                               children: [
                                 if (widget.showMessageReadOption)
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (!_selectedMessages
-                                            .contains(message)) {
-                                          _selectedMessages.add(message);
-                                        } else {
-                                          _selectedMessages.remove(message);
-                                        }
-                                      });
-                                    },
-                                    icon: Icon(
-                                      _selectedMessages.contains(message)
-                                          ? Icons.check_box_outlined
-                                          : Icons
-                                              .check_box_outline_blank_outlined,
-                                      color: backgroundColor,
+                                    IconButton(
+                                      padding: EdgeInsets.only(top: 2.0),
+                                      alignment: Alignment.topCenter,
+                                      onPressed: () {
+                                        setState(() {
+                                          if (!_selectedMessages
+                                              .contains(message)) {
+                                            _selectedMessages.add(message);
+                                          } else {
+                                            _selectedMessages.remove(message);
+                                          }
+                                        });
+                                      },
+                                      icon: Icon(
+                                        _selectedMessages.contains(message)
+                                            ? Icons.check_box_outlined
+                                            : Icons
+                                                .check_box_outline_blank_outlined,
+                                        color: backgroundColor,
+                                      ),
                                     ),
-                                  ),
                                 GestureDetector(
-                                  child: Text(
-                                    message.title ?? "",
-                                    style: Theme.of(context)
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                      message.title ?? "",
+                                      style: Theme.of(context)
                                         .textTheme
                                         .bodyText1
                                         ?.copyWith(
@@ -85,7 +90,20 @@ class _MessagesListState extends State<MessagesList> {
                                               ? FontWeight.normal
                                               : FontWeight.bold,
                                         ),
-                                  ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        DateTimeUtils.shortDayDateMonthTime(message.dateCreatedUTC),
+                                        style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: textColor.withOpacity(0.8),
+                                          ),
+                                      ),
+                                    ),
+                                  ],),
                                   onTap: () => _openMessage(context, message),
                                 ),
                               ],
@@ -94,7 +112,7 @@ class _MessagesListState extends State<MessagesList> {
                           Divider(
                             height: 1,
                             thickness: 1,
-                            color: textColor,
+                            color: Colors.grey,
                           )
                         ],
                       );
