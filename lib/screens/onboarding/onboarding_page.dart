@@ -82,6 +82,7 @@ class _OnboardingPageState extends State<OnboardingPage> with BaseCarouselPage {
           ),
         ),
         margin: const EdgeInsets.all(15),
+        verticalPadding: 5,
       )
     ];
   }
