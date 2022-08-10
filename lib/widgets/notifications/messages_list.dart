@@ -3,6 +3,7 @@ import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
+
 class MessagesList extends StatefulWidget {
   const MessagesList({
     Key? key,
@@ -43,81 +44,88 @@ class _MessagesListState extends State<MessagesList> {
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: widget.messagesProvider?.items.map(
-                    (Message message) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 25, horizontal: 15),
-                            child: Row(
-                              children: [
-                                if (widget.showMessageReadOption)
-                                    IconButton(
-                                      padding: EdgeInsets.only(top: 2.0),
-                                      alignment: Alignment.topCenter,
-                                      onPressed: () {
-                                        setState(() {
-                                          if (!_selectedMessages
-                                              .contains(message)) {
-                                            _selectedMessages.add(message);
-                                          } else {
-                                            _selectedMessages.remove(message);
-                                          }
-                                        });
-                                      },
-                                      icon: Icon(
-                                        _selectedMessages.contains(message)
-                                            ? Icons.check_box_outlined
-                                            : Icons
-                                                .check_box_outline_blank_outlined,
-                                        color: backgroundColor,
-                                      ),
-                                    ),
-                                GestureDetector(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                      message.title ?? "",
-                                      style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
-                                          color: textColor.withOpacity(0.8),
-                                          fontWeight: message.isRead == true
-                                              ? FontWeight.normal
-                                              : FontWeight.bold,
+              children: widget.messagesProvider?.items
+                      .map(
+                        (message) => GestureDetector(
+                          onTap: () => _openMessage(context, message),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 25, horizontal: 15),
+                                child: Row(
+                                  children: [
+                                    if (widget.showMessageReadOption)
+                                      IconButton(
+                                        padding: EdgeInsets.only(top: 2.0),
+                                        alignment: Alignment.topCenter,
+                                        onPressed: () {
+                                          setState(() {
+                                            if (!_selectedMessages
+                                                .contains(message)) {
+                                              _selectedMessages.add(message);
+                                            } else {
+                                              _selectedMessages.remove(message);
+                                            }
+                                          });
+                                        },
+                                        icon: Icon(
+                                          _selectedMessages.contains(message)
+                                              ? Icons.check_box_outlined
+                                              : Icons
+                                                  .check_box_outline_blank_outlined,
+                                          color: backgroundColor,
                                         ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        DateTimeUtils.shortDayDateMonthTime(message.dateCreatedUTC),
-                                        style: Theme.of(context)
-                                          .textTheme
-                                          .caption
-                                          ?.copyWith(
-                                            color: textColor.withOpacity(0.8),
-                                          ),
                                       ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          message.title ?? "",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.copyWith(
+                                                color:
+                                                    textColor.withOpacity(0.8),
+                                                fontWeight:
+                                                    message.isRead == true
+                                                        ? FontWeight.normal
+                                                        : FontWeight.bold,
+                                              ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Text(
+                                            DateTimeUtils.shortDayDateMonthTime(
+                                                message.dateCreatedUTC),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption
+                                                ?.copyWith(
+                                                  color: textColor
+                                                      .withOpacity(0.8),
+                                                ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],),
-                                  onTap: () => _openMessage(context, message),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: textColor.withOpacity(0.2),
+                              )
+                            ],
                           ),
-                          Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: textColor.withOpacity(0.8),
-                          )
-                        ],
-                      );
-                    },
-                  ).toList() ??
+                        ),
+                      )
+                      .toList() ??
                   [],
             ),
           ),

@@ -55,16 +55,19 @@ class MessageDetailsLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0, bottom: 20.0),
                       child: Text(
-                            DateTimeUtils.shortDayDateMonthTime(message.dateCreatedUTC),
-                            style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              ?.copyWith(
-                                color: textColor.withOpacity(0.5),
-                              ),
-                          ),
+                        DateTimeUtils.shortDayDateMonthTime(
+                            message.dateCreatedUTC),
+                        style: Theme.of(context).textTheme.caption?.copyWith(
+                              color: textColor.withOpacity(0.5),
+                            ),
                       ),
-                    Text(message.message ?? "", textAlign: TextAlign.justify),
+                    ),
+                    Text(
+                      message.message ?? "",
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: textColor.withOpacity(0.8),
+                          ),
+                    ),
                   ],
                 ),
               ),
