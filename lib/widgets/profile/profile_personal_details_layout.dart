@@ -12,7 +12,6 @@ import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
