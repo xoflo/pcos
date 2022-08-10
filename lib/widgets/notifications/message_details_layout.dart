@@ -56,8 +56,12 @@ class MessageDetailsLayout extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 2.0, bottom: 20.0),
                       child: Text(
                             DateTimeUtils.shortDayDateMonthTime(message.dateCreatedUTC),
-                            style: TextStyle(fontSize: 12.0, color: Colors.grey),
-                            textAlign: TextAlign.left,
+                            style: Theme.of(context)
+                              .textTheme
+                              .caption
+                              ?.copyWith(
+                                color: textColor.withOpacity(0.5),
+                              ),
                           ),
                       ),
                     Text(message.message ?? "", textAlign: TextAlign.justify),

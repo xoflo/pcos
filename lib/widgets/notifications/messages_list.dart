@@ -97,7 +97,7 @@ class _MessagesListState extends State<MessagesList> {
                                         DateTimeUtils.shortDayDateMonthTime(message.dateCreatedUTC),
                                         style: Theme.of(context)
                                           .textTheme
-                                          .bodySmall
+                                          .caption
                                           ?.copyWith(
                                             color: textColor.withOpacity(0.8),
                                           ),
@@ -112,7 +112,7 @@ class _MessagesListState extends State<MessagesList> {
                           Divider(
                             height: 1,
                             thickness: 1,
-                            color: Colors.grey,
+                            color: textColor.withOpacity(0.8),
                           )
                         ],
                       );
