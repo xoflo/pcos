@@ -21,7 +21,7 @@ class MessageDetailsLayout extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: Colors.white,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -37,39 +37,36 @@ class MessageDetailsLayout extends StatelessWidget {
               width: screenSize.width,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5.0),
-                ),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 12.0, left: 10, right: 10, bottom: 20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                      padding: const EdgeInsets.only(bottom: 2.0),
                       child: Text(
                         message.title ?? "",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline6,
+                        style: Theme.of(context).textTheme.headline2,
                       ),
                     ),
-                    Text(message.message ?? "", textAlign: TextAlign.justify),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            DateTimeUtils.longDate(
-                                (message.dateCreatedUTC ?? DateTime.now())
-                                    .toLocal()),
-                            style: TextStyle(fontSize: 12.0, color: textColor),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
+                      padding: const EdgeInsets.only(top: 2.0, bottom: 20.0),
+                      child: Text(
+                        DateTimeUtils.shortDayDateMonthTime(
+                            message.dateCreatedUTC),
+                        style: Theme.of(context).textTheme.caption?.copyWith(
+                              color: textColor.withOpacity(0.5),
+                            ),
                       ),
+                    ),
+                    Text(
+                      message.message ?? "",
+                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                            color: textColor.withOpacity(0.8),
+                          ),
                     ),
                   ],
                 ),

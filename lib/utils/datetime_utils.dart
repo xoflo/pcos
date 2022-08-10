@@ -51,4 +51,20 @@ class DateTimeUtils {
     final format = DateFormat.jm(); //"6:00 AM"
     return TimeOfDay.fromDateTime(format.parse(tod));
   }
+
+  static String shortDayDateMonthTime(DateTime? dateTime) {
+    if (dateTime == null) {
+      return "";
+    }
+    if (dateTime.isSameDate(DateTime.now())) {
+      return DateFormat.jm().format(dateTime);
+    }
+    return "${DateFormat.E().format(dateTime)}, ${DateFormat('dd').format(dateTime)} ${DateFormat.MMM().format(dateTime)}, ${DateFormat.jm().format(dateTime)}";
+  }
+}
+
+extension DateOnlyCompare on DateTime {
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
 }
