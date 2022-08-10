@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/notifications/messages_layout.dart';
+import 'package:thepcosprotocol_app/screens/notifications/messages_layout.dart';
 
 class Notifications extends StatelessWidget {
   static const String id = "notifications_screen";

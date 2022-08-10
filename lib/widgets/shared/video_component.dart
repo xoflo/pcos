@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/lesson/lesson_video_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/lesson_video_page.dart';
 
 class VideoComponent extends StatefulWidget {
   const VideoComponent({Key? key, required this.videoUrl}) : super(key: key);

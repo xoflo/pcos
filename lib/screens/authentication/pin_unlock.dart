@@ -254,14 +254,13 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
         .pushNamedAndRemoveUntil(SignIn.id, (Route<dynamic> route) => false);
   }
 
-  @override
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () => onBackPressed(context),
         child: getBaseWidget(
           context,
           Stack(
             children: [
-              SafeArea(child: getPinPad(forgotPin: forgottenPin)),
+              getPinPad(forgotPin: forgottenPin),
               if (pinEntry == PinEntry.ENTERED) LoaderOverlay()
             ],
           ),

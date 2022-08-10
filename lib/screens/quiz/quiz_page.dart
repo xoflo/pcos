@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/models/quiz.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/screens/quiz/quiz_question_item_component.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/shared/header.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
+import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+
+class QuizPage extends StatefulWidget {
+  const QuizPage({Key? key}) : super(key: key);
+
+  static const String id = "quiz_page";
+
+  @override
+  State<QuizPage> createState() => _QuizPageState();
+}
+
+class _QuizPageState extends State<QuizPage> {
+  PageController controller = PageController();
+  int questionNumber = 0;
+
+  Widget getQuestionItemComponent(
+      Quiz? quiz, int index, ModulesProvider modulesProvider) {
+    final question = quiz?.questions?[index];
+
+    return QuizQuestionItemComponent(
+      question: question,
+      onPressNext: () async {
+        if (questionNumber + 1 < (quiz?.questions?.length ?? 0)) {
+          controller.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn);
+          setState(() => questionNumber += 1);
+        } else {
+          await modulesProvider
+              .setTaskAsComplete(quiz?.quizID, forceRefresh: true)
+              .then((value) {
+            Navigator.pop(context);
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final quiz = ModalRoute.of(context)?.settings.arguments as Quiz?;
+
+    return Scaffold(
+      backgroundColor: primaryColor,
+      body: Consumer<ModulesProvider>(
+        builder: (context, modulesProvider, child) => WillPopScope(
+          onWillPop: () async =>
+              modulesProvider.status != LoadingStatus.loading,
+          child: Stack(
+            children: [
+              SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12),
+                        child: Header(
+                          title: "Quiz",
+                          closeItem: () => Navigator.pop(context),
+                          questionNumber: questionNumber + 1,
+                          questionCount: quiz?.questions?.length,
+                        ),
+                      ),
+                      if (modulesProvider.status == LoadingStatus.empty)
+                        NoResults(message: "Quiz not available")
+                      else
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                            ),
+                            child: PageView.builder(
+                              controller: controller,
+                              itemCount: quiz?.questions?.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              pageSnapping: true,
+                              itemBuilder: (context, index) =>
+                                  getQuestionItemComponent(
+                                      quiz, index, modulesProvider),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                ),
+              ),
+              if (modulesProvider.status == LoadingStatus.loading)
+                LoaderOverlay()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

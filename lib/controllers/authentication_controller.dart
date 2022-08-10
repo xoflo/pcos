@@ -202,7 +202,6 @@ class AuthenticationController {
       prefs.remove(SharedPreferencesKeys.DAILY_REMINDER_TIME);
       prefs.remove(SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP);
       prefs.remove(SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION);
-      prefs.remove(SharedPreferencesKeys.DATA_USAGE_WARNING_DISPLAYED);
       prefs.remove(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
       prefs.remove(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
       prefs.remove(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);

@@ -135,8 +135,6 @@ PODS:
   - HLSCachingReverseProxyServer (0.1.0):
     - GCDWebServer (~> 3.5)
     - PINCache (>= 3.0.1-beta.3)
-  - image_downloader (0.0.1):
-    - Flutter
   - integration_test (0.0.1):
     - Flutter
   - Intercom (12.4.3)
@@ -207,7 +205,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - image_downloader (from `.symlinks/plugins/image_downloader/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - intercom_flutter (from `.symlinks/plugins/intercom_flutter/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
@@ -271,8 +268,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  image_downloader:
-    :path: ".symlinks/plugins/image_downloader/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
   intercom_flutter:
@@ -328,7 +323,6 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   HLSCachingReverseProxyServer: 59935e1e0244ad7f3375d75b5ef46e8eb26ab181
-  image_downloader: 73e190d6c9f286f2649554051348d9cb319cd4b3
   integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
   Intercom: 43bfacc55b1c93cce9ec569833696d3f15678430
   intercom_flutter: f3b72d3a5b6fbd22b2bc7c01487a3cc8f44d0c53
