@@ -11,9 +11,7 @@ class QuizScreen extends StatelessWidget {
     final quiz = ModalRoute.of(context)?.settings.arguments as Quiz?;
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SafeArea(
-        child: QuizLayout(quiz: quiz),
-      ),
+      body: QuizLayout(quiz: quiz),
     );
   }
 }

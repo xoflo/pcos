@@ -45,49 +45,51 @@ class _QuizLayoutState extends State<QuizLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(
-          color: primaryColor,
-        ),
-        child: Consumer<ModulesProvider>(
-          builder: (context, modulesProvider, child) => Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 12),
-                    child: Header(
-                      title: "Quiz",
-                      closeItem: () => Navigator.pop(context),
-                      questionNumber: questionNumber + 1,
-                      questionCount: widget.quiz?.questions?.length,
-                    ),
-                  ),
-                  if (modulesProvider.status == LoadingStatus.empty)
-                    NoResults(message: "Quiz not available")
-                  else
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                        ),
-                        child: PageView.builder(
-                          controller: controller,
-                          itemCount: widget.quiz?.questions?.length,
-                          physics: NeverScrollableScrollPhysics(),
-                          pageSnapping: true,
-                          itemBuilder: (context, index) =>
-                              getQuestionItemComponent(index, modulesProvider),
-                        ),
+  Widget build(BuildContext context) => Consumer<ModulesProvider>(
+        builder: (context, modulesProvider, child) => Stack(
+          children: [
+            SafeArea(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Header(
+                        title: "Quiz",
+                        closeItem: () => Navigator.pop(context),
+                        questionNumber: questionNumber + 1,
+                        questionCount: widget.quiz?.questions?.length,
                       ),
-                    )
-                ],
+                    ),
+                    if (modulesProvider.status == LoadingStatus.empty)
+                      NoResults(message: "Quiz not available")
+                    else
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                          ),
+                          child: PageView.builder(
+                            controller: controller,
+                            itemCount: widget.quiz?.questions?.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            pageSnapping: true,
+                            itemBuilder: (context, index) =>
+                                getQuestionItemComponent(
+                                    index, modulesProvider),
+                          ),
+                        ),
+                      )
+                  ],
+                ),
               ),
-              if (modulesProvider.status == LoadingStatus.loading)
-                LoaderOverlay()
-            ],
-          ),
+            ),
+            if (modulesProvider.status == LoadingStatus.loading) LoaderOverlay()
+          ],
         ),
       );
 }
