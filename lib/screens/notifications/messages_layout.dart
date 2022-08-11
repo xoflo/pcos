@@ -22,11 +22,8 @@ class MessagesLayout extends StatefulWidget {
 class _MessagesLayoutState extends State<MessagesLayout> {
   bool showMessageReadOption = false;
   bool selectAll = false;
-  Widget getMessagesList(
-    final BuildContext context,
-    final Size screenSize,
-    final MessagesProvider messagesProvider,
-  ) {
+
+  Widget getMessagesList(final MessagesProvider messagesProvider) {
     switch (messagesProvider.status) {
       case LoadingStatus.loading:
         return PcosLoadingSpinner();
@@ -92,34 +89,30 @@ class _MessagesLayoutState extends State<MessagesLayout> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
-    return Consumer<MessagesProvider>(
-      builder: (context, model, child) => Container(
-        decoration: BoxDecoration(
-          color: primaryColor,
+  Widget build(BuildContext context) => Consumer<MessagesProvider>(
+        builder: (context, model, child) => Container(
+          decoration: BoxDecoration(
+            color: primaryColor,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Header(
+                title: "Notifications",
+                closeItem: () => Navigator.pop(context),
+                showDivider: true,
+                isAllSelected: selectAll,
+                onToggleSelectAll: showMessageReadOption
+                    ? () => setState(() => selectAll = !selectAll)
+                    : null,
+                onToggleMarkAsRead: () => setState(() {
+                  showMessageReadOption = !showMessageReadOption;
+                  selectAll = false;
+                }),
+              ),
+              getMessagesList(model),
+            ],
+          ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Header(
-              title: "Notifications",
-              closeItem: () => Navigator.pop(context),
-              showDivider: true,
-              isAllSelected: selectAll,
-              onToggleSelectAll: showMessageReadOption
-                  ? () => setState(() => selectAll = !selectAll)
-                  : null,
-              onToggleMarkAsRead: () => setState(() {
-                showMessageReadOption = !showMessageReadOption;
-                selectAll = false;
-              }),
-            ),
-            getMessagesList(context, screenSize, model),
-          ],
-        ),
-      ),
-    );
-  }
+      );
 }
