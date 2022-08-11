@@ -45,7 +45,7 @@ class HollowButton extends StatelessWidget {
                     alignment: textAlignment,
                     child: Text(
                       text,
-                      style: Theme.of(context).textTheme.button,
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
           ),
