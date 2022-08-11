@@ -11,12 +11,14 @@ class MessagesList extends StatefulWidget {
     required this.isAllSelected,
     this.messagesProvider,
     this.openMessage,
+    this.onSelectItem,
     this.onPressMarkAsRead,
   }) : super(key: key);
 
   final MessagesProvider? messagesProvider;
   final Function(BuildContext, MessagesProvider?, Message)? openMessage;
   final Function()? onPressMarkAsRead;
+  final Function(bool)? onSelectItem;
   final bool showMessageReadOption;
   final bool isAllSelected;
 
@@ -32,11 +34,16 @@ class _MessagesListState extends State<MessagesList> {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.showMessageReadOption || !widget.isAllSelected) {
+    final messages = widget.messagesProvider?.items ?? [];
+
+    // If 'Select all' is pressed, then we add all the message
+    // items, whilst removing duplicate items. Otherwise, we
+    // clear the items when all the messages are selecte
+    if (widget.isAllSelected) {
+      _selectedMessages.addAll(messages);
+      _selectedMessages = _selectedMessages.toSet().toList();
+    } else if (messages.length == _selectedMessages.length) {
       _selectedMessages.clear();
-    } else if (widget.isAllSelected) {
-      setState(
-          () => _selectedMessages.addAll(widget.messagesProvider?.items ?? []));
     }
     return Expanded(
       child: Stack(
@@ -68,6 +75,9 @@ class _MessagesListState extends State<MessagesList> {
                                             } else {
                                               _selectedMessages.remove(message);
                                             }
+                                            widget.onSelectItem?.call(
+                                                _selectedMessages.length ==
+                                                    messages.length);
                                           });
                                         },
                                         icon: Icon(

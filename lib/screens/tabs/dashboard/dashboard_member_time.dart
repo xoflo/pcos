@@ -82,7 +82,7 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
             Padding(
               padding: EdgeInsets.all(15),
               child: Text(
-                "Hello ${widget.memberProvider.firstName}",
+                "Hello $displayedName",
                 style: Theme.of(context).textTheme.headline1,
               ),
             )

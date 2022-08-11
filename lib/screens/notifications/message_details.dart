@@ -16,24 +16,22 @@ class MessageDetails extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: WillPopScope(
-        onWillPop: () async => !Platform.isIOS,
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 12.0,
-            ),
-            child: MessageDetailsLayout(
-              message: message,
-              closeMessage: closeMessage,
-              deleteMessage: deleteMessage,
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: primaryColor,
+        body: WillPopScope(
+          onWillPop: () async => !Platform.isIOS,
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 12.0,
+              ),
+              child: MessageDetailsLayout(
+                message: message,
+                closeMessage: closeMessage,
+                deleteMessage: deleteMessage,
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

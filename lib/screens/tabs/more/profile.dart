@@ -14,7 +14,6 @@ class Profile extends StatelessWidget {
         child: Scaffold(
           backgroundColor: primaryColor,
           body: SafeArea(
-            bottom: false,
             child: Padding(
               padding: EdgeInsets.only(
                 top: 12.0,

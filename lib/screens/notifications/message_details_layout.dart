@@ -10,58 +10,47 @@ class MessageDetailsLayout extends StatelessWidget {
   final Function closeMessage;
   final Function(Message) deleteMessage;
 
-  MessageDetailsLayout(
-      {required this.message,
-      required this.closeMessage,
-      required this.deleteMessage});
+  MessageDetailsLayout({
+    required this.message,
+    required this.closeMessage,
+    required this.deleteMessage,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Header(
             title: S.current.messageTitle,
             closeItem: closeMessage,
-            unreadCount: 2,
+            onDelete: () => deleteMessage(message),
           ),
-          Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Container(
-              width: screenSize.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
+          Expanded(
+            child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 12.0, left: 10, right: 10, bottom: 20),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 2.0),
-                      child: Text(
-                        message.title ?? "",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline2,
-                      ),
+                    Text(
+                      message.title ?? "",
+                      style: Theme.of(context).textTheme.headline2,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2.0, bottom: 20.0),
-                      child: Text(
-                        DateTimeUtils.shortDayDateMonthTime(
-                            message.dateCreatedUTC),
-                        style: Theme.of(context).textTheme.caption?.copyWith(
-                              color: textColor.withOpacity(0.5),
-                            ),
-                      ),
+                    SizedBox(height: 10),
+                    Text(
+                      DateTimeUtils.shortDayDateMonthTime(
+                          message.dateCreatedUTC),
+                      style: Theme.of(context).textTheme.caption?.copyWith(
+                            color: textColor.withOpacity(0.5),
+                          ),
                     ),
+                    SizedBox(height: 20),
                     Text(
                       message.message ?? "",
                       style: Theme.of(context).textTheme.bodyText1?.copyWith(
@@ -73,16 +62,6 @@ class MessageDetailsLayout extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              deleteMessage(message);
-            },
-            child: Icon(
-              Icons.delete,
-              color: secondaryColor,
-              size: 36,
-            ),
-          )
         ],
       ),
     );
