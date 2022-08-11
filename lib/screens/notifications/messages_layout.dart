@@ -38,6 +38,8 @@ class _MessagesLayoutState extends State<MessagesLayout> {
           openMessage: openMessage,
           showMessageReadOption: showMessageReadOption,
           isAllSelected: selectAll,
+          onSelectItem: (shouldSelectAll) =>
+              setState(() => selectAll = shouldSelectAll),
           onPressMarkAsRead: () =>
               setState(() => showMessageReadOption = false),
         );
