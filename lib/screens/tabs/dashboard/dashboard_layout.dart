@@ -20,12 +20,12 @@ class DashboardLayout extends StatefulWidget {
     Key? key,
     required this.showYourWhy,
     required this.showLessonReicpes,
-    required this.isUsernameUsed,
+    required this.displayedName,
   }) : super(key: key);
 
   final bool showYourWhy;
   final bool showLessonReicpes;
-  final bool isUsernameUsed;
+  final String displayedName;
 
   @override
   _DashboardLayoutState createState() => _DashboardLayoutState();
@@ -34,7 +34,6 @@ class DashboardLayout extends StatefulWidget {
 class _DashboardLayoutState extends State<DashboardLayout> {
   bool _showWhy = true;
   bool _showRecipes = false;
-  bool _isUsernameUsed = false;
 
   @override
   void initState() {
@@ -47,13 +46,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     final bool showYourWhy = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
-    final bool isUsernameUsed = await PreferencesController()
-        .getBool(SharedPreferencesKeys.USERNAME_USED);
 
     setState(() {
       _showWhy = showYourWhy;
       _showRecipes = showRecipes;
-      _isUsernameUsed = isUsernameUsed;
     });
   }
 
@@ -61,7 +57,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   Widget build(BuildContext context) {
     _showRecipes = widget.showLessonReicpes;
     _showWhy = widget.showYourWhy;
-    _isUsernameUsed = widget.isUsernameUsed;
 
     return Column(
       children: [
@@ -75,10 +70,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DashboardMemberTime(
-                    memberProvider: memberProvider,
-                    isUsernameUsed: _isUsernameUsed,
-                  ),
+                  DashboardMemberTime(displayedName: widget.displayedName),
                   if (_showWhy) DashboardWhyCommunity(),
                   SizedBox(height: 25),
                   DashboardLessonCarousel(
