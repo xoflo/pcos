@@ -45,6 +45,10 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   }
 
   tz.TZDateTime _nextInstanceOfSelectedTime(final int hour, final int minute) {
+    // The now from the DateTime and the now converted to TZDateTime may not
+    // always be accurate, so we need to set the TZDateTime now independently.
+    // Using TZDateTime.now adjusts the time to the UTC time instead of the
+    // actual local time, which is an issue with the library itself.
     final now = DateTime.now();
 
     final tz.TZDateTime localizedNow = tz.TZDateTime(
