@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
 
 class MemberProvider extends ChangeNotifier {
   Member member = Member();
   Member memberOriginal = Member();
   LoadingStatus status = LoadingStatus.empty;
+
+  String _why = "";
+  String get why => _why;
 
   int? get id {
     return this.member.id;
@@ -51,6 +57,8 @@ class MemberProvider extends ChangeNotifier {
     final bool didSetWhy =
         await WebServices().setMemberWhy(member.id.toString(), why);
 
+    _why = why;
+
     status = LoadingStatus.success;
     notifyListeners();
 
@@ -69,6 +77,10 @@ class MemberProvider extends ChangeNotifier {
         this.memberOriginal.email = memberDetails.email;
         this.memberOriginal.alias = memberDetails.alias;
 
+        final String whatsYourWhy = await PreferencesController()
+            .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+        _why = whatsYourWhy;
+        
         status = LoadingStatus.success;
       } else {
         status = LoadingStatus.empty;

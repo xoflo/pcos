@@ -122,8 +122,7 @@ class _DashboardWhySettingsLayoutState
                           await PreferencesController()
                               .saveString(SharedPreferencesKeys.WHATS_YOUR_WHY,
                                   textController.text)
-                              .then((value) =>
-                                  Navigator.pop(context, textController.text));
+                              .then((value) => Navigator.pop(context));
                         }
                       },
               ),

@@ -36,6 +36,7 @@ import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
@@ -165,6 +166,7 @@ class _AppState extends State<App> {
           create: (context) => FavouritesProvider(dbProvider: null),
           update: (context, db, previous) => FavouritesProvider(dbProvider: db),
         ),
+        ChangeNotifierProvider(create: (context) => MemberProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
