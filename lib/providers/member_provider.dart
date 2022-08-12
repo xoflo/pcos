@@ -57,6 +57,10 @@ class MemberProvider extends ChangeNotifier {
     final bool didSetWhy =
         await WebServices().setMemberWhy(member.id.toString(), why);
 
+    if (didSetWhy) {
+      await PreferencesController().saveString(SharedPreferencesKeys.WHATS_YOUR_WHY, why);
+    }
+
     _why = why;
 
     status = LoadingStatus.success;
@@ -80,7 +84,7 @@ class MemberProvider extends ChangeNotifier {
         final String whatsYourWhy = await PreferencesController()
             .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
         _why = whatsYourWhy;
-        
+
         status = LoadingStatus.success;
       } else {
         status = LoadingStatus.empty;
