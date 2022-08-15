@@ -50,11 +50,25 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     // Using TZDateTime.now adjusts the time to the UTC time instead of the
     // actual local time, which is an issue with the library itself.
     final now = DateTime.now();
+    final timeZoneName = tz.local;
 
     final tz.TZDateTime localizedNow = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day, now.hour, now.minute);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+      timeZoneName,
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+    );
+
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+      timeZoneName,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
 
     if (scheduledDate.isBefore(localizedNow)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
