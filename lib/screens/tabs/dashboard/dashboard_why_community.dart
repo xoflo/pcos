@@ -43,13 +43,13 @@ class DashboardWhyCommunity extends StatelessWidget {
                             child: PcosLoadingSpinner(),
                           )
                         : Text(
-                            !memberProvider.why.isNotEmpty
+                            memberProvider.why.isNotEmpty
                                 ? memberProvider.why
                                 : "Please input your why to motivate yourself every day.",
-                            softWrap: false,
+                            style: Theme.of(context).textTheme.headline5,
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline5!),
+                          ),
                   ),
                 ),
               ),
