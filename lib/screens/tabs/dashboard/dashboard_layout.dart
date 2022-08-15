@@ -32,7 +32,6 @@ class DashboardLayout extends StatefulWidget {
 }
 
 class _DashboardLayoutState extends State<DashboardLayout> {
-  String _yourWhy = "";
   bool _showWhy = true;
   bool _showRecipes = false;
   bool _isUsernameUsed = false;
@@ -44,8 +43,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   }
 
   Future<void> _initialise() async {
-    final String whatsYourWhy = await PreferencesController()
-        .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
     final bool showRecipes = await PreferencesController()
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     final bool showYourWhy = await PreferencesController()
@@ -54,7 +51,6 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         .getBool(SharedPreferencesKeys.USERNAME_USED);
 
     setState(() {
-      _yourWhy = whatsYourWhy;
       _showWhy = showYourWhy;
       _showRecipes = showRecipes;
       _isUsernameUsed = isUsernameUsed;
@@ -83,7 +79,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                     memberProvider: memberProvider,
                     isUsernameUsed: _isUsernameUsed,
                   ),
-                  if (_showWhy) DashboardWhyCommunity(yourWhy: _yourWhy),
+                  if (_showWhy) DashboardWhyCommunity(),
                   SizedBox(height: 25),
                   DashboardLessonCarousel(
                     modulesProvider: modulesProvider,

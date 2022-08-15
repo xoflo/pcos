@@ -115,16 +115,8 @@ class _DashboardWhySettingsLayoutState
                     ? null
                     : () async {
                         FocusManager.instance.primaryFocus?.unfocus();
-
-                        final didSetWhy = await widget.memberProvider
-                            .setWhy(textController.text);
-                        if (didSetWhy) {
-                          await PreferencesController()
-                              .saveString(SharedPreferencesKeys.WHATS_YOUR_WHY,
-                                  textController.text)
-                              .then((value) =>
-                                  Navigator.pop(context, textController.text));
-                        }
+                        await widget.memberProvider
+                            .setWhy(textController.text).then((_) => Navigator.pop(context));
                       },
               ),
             ],

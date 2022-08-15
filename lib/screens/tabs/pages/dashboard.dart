@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_layout.dart';
 
 class Dashboard extends StatelessWidget {
@@ -15,12 +13,9 @@ class Dashboard extends StatelessWidget {
   final bool isUsernameUsed;
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => MemberProvider(),
-        child: DashboardLayout(
+  Widget build(BuildContext context) => DashboardLayout(
           showYourWhy: showYourWhy,
           showLessonReicpes: showLessonReicpes,
           isUsernameUsed: isUsernameUsed,
-        ),
       );
 }

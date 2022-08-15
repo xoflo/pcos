@@ -12,12 +12,9 @@ class DashboardWhySettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
-        body: ChangeNotifierProvider(
-          create: (context) => MemberProvider(),
-          builder: (context, _) => Consumer<MemberProvider>(
-            builder: (context, memberProvider, child) =>
+        body: Consumer<MemberProvider>(
+          builder: (context, memberProvider, child) =>
                 DashboardWhySettingsLayout(memberProvider: memberProvider),
-          ),
         ),
       );
 }
