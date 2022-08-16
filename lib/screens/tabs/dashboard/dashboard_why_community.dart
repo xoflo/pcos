@@ -36,15 +36,19 @@ class DashboardWhyCommunity extends StatelessWidget {
                     closedColor: tertiaryColor,
                     closedElevation: 0,
                     closedBuilder: (context, openContainer) {
+                      bool isWhyNotEmpty = memberViewModel.why.isNotEmpty;
                       return Container(
+                            height: 120,
                             alignment: Alignment.center,
-                            padding: EdgeInsets.all(15),
+                            padding: isWhyNotEmpty
+                                  ? EdgeInsets.all(15) : EdgeInsets.all(4),
                             child: HighlightText(
-                              text: memberViewModel.why.isNotEmpty
+                              text: isWhyNotEmpty
                                   ? memberViewModel.why
                                   : "Please input your why to motivate yourself every day.",
                               highlight: "want",
-                              style: Theme.of(context).textTheme.headline5!,
+                              style: isWhyNotEmpty
+                                  ? Theme.of(context).textTheme.headline5! : Theme.of(context).textTheme.headline6!,
                               highlightColor: redColor,
                             ),
                       );
