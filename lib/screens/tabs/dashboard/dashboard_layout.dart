@@ -49,19 +49,7 @@ class DashboardLayout extends StatelessWidget {
     // _isUsernameUsed = isUsernameUsed;
 
     // return ChangeNotifierProvider(create: (context) => PreferencesProvider(),
-    return ChangeNotifierProxyProvider<MemberProvider, PreferencesProvider>(
-                  create: (context) {
-                    PreferencesProvider prefsProvider = PreferencesProvider();
-                    prefsProvider.memberProvider =
-                        Provider.of<MemberProvider>(context, listen: false);
-                    prefsProvider.getIsShowYourWhy();
-                    return prefsProvider;
-                  },
-                  update: (context, memberProvider, prefsProvider) {
-                    prefsProvider!.memberProvider = memberProvider;
-                    return prefsProvider;
-                  },
-      child: Column(
+    return Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
@@ -79,7 +67,6 @@ class DashboardLayout extends StatelessWidget {
             )),
           ),
         ],
-      ),
-    );
+      );
   }
 }

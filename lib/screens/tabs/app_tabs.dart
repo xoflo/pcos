@@ -153,6 +153,7 @@ class _AppTabsState extends State<AppTabs>
   void _setIsLocked(final bool isLocked) {
     if (!isLocked) {
       //unlocking so force refresh modules data
+      Provider.of<MemberProvider>(context, listen: false).populateMember();
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<ModulesProvider>(context, listen: false)
           .fetchAndSaveData(true);
@@ -255,8 +256,6 @@ class _AppTabsState extends State<AppTabs>
                           _showLessonRecipes = isLessonRecipesOn;
                           _isUsernameUsed = isUsernameUsed;
                         });
-
-                        memberProvider.populateMember();
                       }),
                     )
                   : null,

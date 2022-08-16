@@ -3,7 +3,8 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/settings/toggle_switch.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
-
+import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/providers/preferences_provider.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
@@ -52,12 +53,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     widget.updateLessonRecipes(isOn);
   }
 
-  Future<void> _saveDisplayWhy(final bool isOn) async {
-    PreferencesController()
-        .saveBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED, isOn);
-    widget.updateYourWhy(isOn);
-  }
-
   Future<void> _saveUseUsername(final bool isOn) async {
     PreferencesController().saveBool(SharedPreferencesKeys.USERNAME_USED, isOn);
     widget.updateUseUsername(isOn);
@@ -100,7 +95,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
                             switch (index) {
                               case 0:
-                                _saveDisplayWhy(isOn);
+                                Provider.of<PreferencesProvider>(context, listen: false).saveDisplayWhy(isOn);
                                 break;
                               case 1:
                                 _saveLessonRecipes(isOn);
