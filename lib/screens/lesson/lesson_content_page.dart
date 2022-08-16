@@ -105,7 +105,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Header(
-                  title: "Lesson",
+                    title: "Lesson",
                     closeItem: () => Navigator.pop(context),
                   ),
                   SizedBox(height: 25),
@@ -122,7 +122,9 @@ class _LessonContentPageState extends State<LessonContentPage> {
                         ),
                         IconButton(
                           icon: Icon(
-                            isFavorite ? Icons.favorite : Icons.favorite_outline,
+                            isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
                             size: 20,
                             color: redColor,
                           ),
@@ -141,7 +143,8 @@ class _LessonContentPageState extends State<LessonContentPage> {
                       controller: controller,
                       itemCount: lessonContent?.length,
                       pageSnapping: true,
-                      onPageChanged: (page) => setState(() => activePage = page),
+                      onPageChanged: (page) =>
+                          setState(() => activePage = page),
                       itemBuilder: (context, index) {
                         final content = lessonContent?[index];
                         return SingleChildScrollView(
@@ -165,7 +168,9 @@ class _LessonContentPageState extends State<LessonContentPage> {
                                       .textTheme
                                       .bodyText1
                                       ?.copyWith(
-                                          color: textColor.withOpacity(0.8)),
+                                        color: textColor.withOpacity(0.8),
+                                        height: 1.5,
+                                      ),
                                 ),
                                 ...getContentUrlType(content),
                                 if (content?.summary?.isNotEmpty == true) ...[
@@ -176,7 +181,9 @@ class _LessonContentPageState extends State<LessonContentPage> {
                                         .textTheme
                                         .bodyText1
                                         ?.copyWith(
-                                            color: textColor.withOpacity(0.8)),
+                                          color: textColor.withOpacity(0.8),
+                                          height: 1.5,
+                                        ),
                                   )
                                 ]
                               ],

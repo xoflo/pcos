@@ -126,6 +126,8 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                               .isComplete &&
                           currentLesson.hoursUntilAvailable == 0);
 
+                  final lessonDuration = currentLesson.minsToComplete;
+
                   return Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -191,7 +193,9 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                             isUnlocked: isLessonUnlocked,
                             title: currentLesson.title,
                             subtitle: "Lesson ${index + 1}",
-                            duration: "${currentLesson.minsToComplete} mins",
+                            duration: lessonDuration == 0
+                                ? null
+                                : "$lessonDuration mins",
                             asset: 'assets/dashboard_lesson.png',
                             assetSize: Size(84, 84),
                           ),
