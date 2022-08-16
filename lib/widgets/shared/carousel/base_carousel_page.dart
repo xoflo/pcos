@@ -70,7 +70,9 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 right: 0.0,
                 child: AppBar(
                   systemOverlayStyle:
-                      SystemUiOverlayStyle(statusBarColor: primaryColor),
+                      SystemUiOverlayStyle(
+                        statusBarColor: primaryColor,
+                        statusBarIconBrightness: Brightness.dark),
                   leading: new IconButton(
                     icon: new Icon(
                       Icons.arrow_back,

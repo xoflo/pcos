@@ -230,7 +230,9 @@ class _AppTabsState extends State<AppTabs>
         child: Scaffold(
           appBar: AppBar(
             systemOverlayStyle:
-                SystemUiOverlayStyle(statusBarColor: primaryColor),
+                SystemUiOverlayStyle(
+                  statusBarColor: primaryColor,
+                  statusBarIconBrightness: Brightness.dark),
             leading: showAppBarItems
                 ? IconButton(
                     icon: Icon(Icons.person_outline,
