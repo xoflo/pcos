@@ -47,17 +47,6 @@ class _SettingsLayoutState extends State<SettingsLayout> {
     });
   }
 
-  Future<void> _saveLessonRecipes(final bool isOn) async {
-    PreferencesController().saveBool(
-        SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD, isOn);
-    widget.updateLessonRecipes(isOn);
-  }
-
-  Future<void> _saveUseUsername(final bool isOn) async {
-    PreferencesController().saveBool(SharedPreferencesKeys.USERNAME_USED, isOn);
-    widget.updateUseUsername(isOn);
-  }
-
   Map<String, bool> _preferenceOptions = {};
 
   @override
