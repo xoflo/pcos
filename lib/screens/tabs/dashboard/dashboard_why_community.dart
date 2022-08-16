@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
-import 'package:thepcosprotocol_app/widgets/shared/highlight_text.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key})
@@ -37,15 +36,14 @@ class DashboardWhyCommunity extends StatelessWidget {
                     closedElevation: 0,
                     closedBuilder: (context, openContainer) {
                       return Container(
+                            height: 125,
                             alignment: Alignment.center,
-                            padding: EdgeInsets.all(15),
-                            child: HighlightText(
-                              text: memberViewModel.why.isNotEmpty
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              memberViewModel.why.isNotEmpty
                                   ? memberViewModel.why
                                   : "Please input your why to motivate yourself every day.",
-                              highlight: "want",
-                              style: Theme.of(context).textTheme.headline5!,
-                              highlightColor: redColor,
+                              style: Theme.of(context).textTheme.headline5!
                             ),
                       );
                     },
