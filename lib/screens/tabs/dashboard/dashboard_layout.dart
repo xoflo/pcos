@@ -21,7 +21,7 @@ class DashboardLayout extends StatelessWidget {
 
   // final bool showYourWhy;
   // final bool showLessonReicpes;
-  // final bool isUsernameUsed;
+  // final String displayedName;
 
   // bool _showWhy = true;
   // bool _showRecipes = false;

@@ -5,12 +5,12 @@ class Dashboard extends StatelessWidget {
   Dashboard({
     required this.showYourWhy,
     required this.showLessonReicpes,
-    required this.isUsernameUsed,
+    required this.displayedName,
   });
 
   final bool showYourWhy;
   final bool showLessonReicpes;
-  final bool isUsernameUsed;
+  final String displayedName;
 
   @override
   Widget build(BuildContext context) => DashboardLayout(

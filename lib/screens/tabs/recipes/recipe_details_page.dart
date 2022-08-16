@@ -104,7 +104,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                           (tag) => Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: textColor.withOpacity(0.5),
+                                                color:
+                                                    textColor.withOpacity(0.5),
                                               ),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(24)),
@@ -135,10 +136,11 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
-                                      child: Text(
+                                      child: HtmlWidget(
                                         args?.recipe.title ?? "",
-                                        style:
-                                            Theme.of(context).textTheme.headline1,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .headline1,
                                       ),
                                     ),
                                     GestureDetector(
@@ -146,7 +148,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                         favouritesProvider.addToFavourites(
                                             FavouriteType.Recipe,
                                             args?.recipe.recipeId);
-                                        setState(() => isFavorite = !isFavorite);
+                                        setState(
+                                            () => isFavorite = !isFavorite);
                                       },
                                       child: Icon(
                                         isFavorite
@@ -170,8 +173,11 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                 SizedBox(height: 25),
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child:
-                                      HtmlWidget(args?.recipe.description ?? ""),
+                                  child: HtmlWidget(
+                                    args?.recipe.description ?? "",
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
                                 )
                               ],
                               SizedBox(height: 25),
@@ -211,7 +217,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                       args?.recipe.method ?? "",
                                     ),
                                   ),
-                                title: "Method",
+                                  title: "Method",
                                   isBottomDividerVisible:
                                       args?.recipe.tips?.isEmpty == true,
                                 ),
