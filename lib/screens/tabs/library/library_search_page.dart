@@ -72,7 +72,9 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
       backgroundColor: primaryColor,
       appBar: AppBar(
         systemOverlayStyle:
-            SystemUiOverlayStyle(statusBarColor: primaryColorLight),
+            SystemUiOverlayStyle(
+                  statusBarColor: primaryColor,
+                  statusBarIconBrightness: Brightness.dark),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
