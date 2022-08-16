@@ -33,6 +33,22 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
 
   int activePage = 0;
 
+  // This function is called when the user finishes a lesson/quiz. This way,
+  // after the item is finished, the controller is recreated
+  void jumpToPage() => setState(() {
+        activePage = widget.modulesProvider.currentModuleLessons.indexWhere(
+          (element) =>
+              element.lessonID ==
+              widget.modulesProvider.currentLesson?.lessonID,
+        );
+
+        controller = PageController(
+          initialPage: activePage,
+          keepPage: false,
+          viewportFraction: 0.9,
+        );
+      });
+
   List<Widget> generateIndicators() =>
       List<Widget>.generate(widget.modulesProvider.currentModuleLessons.length,
           (index) {
@@ -62,8 +78,8 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                 element.lessonID ==
                 widget.modulesProvider.currentLesson?.lessonID,
           );
-          controller =
-              PageController(initialPage: activePage, viewportFraction: 0.9);
+          controller = PageController(
+              initialPage: activePage, keepPage: false, viewportFraction: 0.9);
         }
 
         return Column(
@@ -169,7 +185,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                       context,
                                       LessonPage.id,
                                       arguments: LessonArguments(currentLesson),
-                                    )
+                                    ).then((_) => jumpToPage())
                                 : null,
                             showCompletedTag: isLessonComplete,
                             isUnlocked: isLessonUnlocked,
@@ -211,7 +227,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                         context,
                                         QuizScreen.id,
                                         arguments: currentLessonQuiz,
-                                      );
+                                      ).then((_) => jumpToPage());
                                     }
                                   : null,
                               showCompletedTag:
