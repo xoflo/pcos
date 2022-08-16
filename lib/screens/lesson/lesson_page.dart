@@ -16,7 +16,6 @@ import 'package:thepcosprotocol_app/screens/lesson/lesson_wiki_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
