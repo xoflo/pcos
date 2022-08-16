@@ -98,10 +98,10 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                                 Provider.of<PreferencesProvider>(context, listen: false).saveDisplayWhy(isOn);
                                 break;
                               case 1:
-                                _saveLessonRecipes(isOn);
+                                Provider.of<PreferencesProvider>(context, listen: false).saveIsShowLessonRecipes(isOn);
                                 break;
                               case 2:
-                                _saveUseUsername(isOn);
+                                Provider.of<PreferencesProvider>(context, listen: false).saveIsUsernameUsed(isOn);
                                 break;
                               default:
                                 break;

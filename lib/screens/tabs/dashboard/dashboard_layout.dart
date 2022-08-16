@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/providers/preferences_provider.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_lesson_carousel.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_member_time.dart';
