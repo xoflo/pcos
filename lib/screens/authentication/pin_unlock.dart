@@ -188,9 +188,6 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       context,
       title,
       message,
-      backgroundColor: Colors.white,
-      borderColor: primaryColorLight,
-      primaryColor: primaryColor,
       displayDuration: 5,
     );
 
