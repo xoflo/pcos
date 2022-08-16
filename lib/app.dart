@@ -166,7 +166,11 @@ class _AppState extends State<App> {
           create: (context) => FavouritesProvider(dbProvider: null),
           update: (context, db, previous) => FavouritesProvider(dbProvider: db),
         ),
-        ChangeNotifierProvider(create: (context) => MemberProvider()),
+        ChangeNotifierProvider(create: (context) {
+                  MemberProvider memberProvider = MemberProvider();
+                  memberProvider.populateMember();
+                  return memberProvider;
+                }),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

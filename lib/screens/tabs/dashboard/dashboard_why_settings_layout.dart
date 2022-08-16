@@ -39,7 +39,7 @@ class _DashboardWhySettingsLayoutState
   }
 
   void initialize() async {
-    widget.memberProvider.populateMember();
+    // widget.memberProvider.populateMember();
 
     final String why = await PreferencesController()
         .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);

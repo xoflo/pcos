@@ -52,6 +52,7 @@ dependencies:
   audioplayers: ^1.0.1
   full_screen_image_null_safe: ^2.0.0
   animations: ^2.0.0
+  property_change_notifier: ^0.3.0
 
 dev_dependencies:
   integration_test:
