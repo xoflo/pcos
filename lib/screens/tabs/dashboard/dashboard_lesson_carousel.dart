@@ -13,7 +13,6 @@ import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_lesson_lock
 import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
