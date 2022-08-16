@@ -140,9 +140,6 @@ class ProviderHelper {
     final bool forceRefresh,
     final DateTime nextLessonAvailableDate,
   ) async {
-    final bool isNextLessonAvailable =
-        nextLessonAvailableDate.isBefore(DateTime.now());
-
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
@@ -241,23 +238,6 @@ class ProviderHelper {
       //only return complete lessons and the first incomplete lesson, also check whether first incomplete lesson should be visible yet
       List<Lesson> lessonsToReturn = lessonsFromDB;
       List<int> lessonIDs = lessonsFromDB.map((e) => e.lessonID).toList();
-      List<int> moduleIDs = [];
-      bool foundIncompleteLesson = false;
-      for (Lesson lesson in lessonsFromDB) {
-        if (foundIncompleteLesson) break;
-        if (lesson.isComplete ||
-            (!lesson.isComplete && isNextLessonAvailable)) {
-          if (!moduleIDs.contains(lesson.moduleID))
-            moduleIDs.add(lesson.moduleID);
-        }
-        if (!lesson.isComplete) foundIncompleteLesson = true;
-      }
-
-      //only return complete modules and the first incomplete module
-      List<Module> modulesToReturn = [];
-      for (Module module in modulesFromDB) {
-        if (moduleIDs.contains(module.moduleID)) modulesToReturn.add(module);
-      }
 
       //only return the lessonContent for lessons in lessonsToReturn
       List<LessonContent> lessonContentToReturn = [];
@@ -310,6 +290,33 @@ class ProviderHelper {
           quiz.questions = thisQuizQuestions;
           quizzesToReturn.add(quiz);
         }
+      }
+
+      List<int> moduleIDs = [];
+      bool foundIncompleteLesson = false;
+      for (Lesson lesson in lessonsToReturn) {
+        if (foundIncompleteLesson) break;
+
+        if (lesson.isComplete ||
+            (!lesson.isComplete && lesson.hoursUntilAvailable == 0)) {
+          if (!moduleIDs.contains(lesson.moduleID))
+            moduleIDs.add(lesson.moduleID);
+        }
+
+        final quiz = quizzesToReturn
+            .firstWhereOrNull((element) => element.lessonID == lesson.lessonID);
+
+        // If a lesson is not yet complete, or if a quiz in the same lesson is
+        // not yet complete, then we stop adding items to modules and make the
+        // user complete the quiz on the module first.
+        if (!lesson.isComplete || quiz?.isComplete == false)
+          foundIncompleteLesson = true;
+      }
+
+      //only return complete modules and the first incomplete module
+      List<Module> modulesToReturn = [];
+      for (Module module in modulesFromDB) {
+        if (moduleIDs.contains(module.moduleID)) modulesToReturn.add(module);
       }
 
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(

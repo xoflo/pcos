@@ -33,6 +33,16 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
 
   int activePage = 0;
 
+  // This function is called when the user finishes a lesson/quiz. This way,
+  // after the item is finished, they are redirected to the current active page
+  void jumpToPage() {
+    activePage = widget.modulesProvider.currentModuleLessons.indexWhere(
+      (element) =>
+          element.lessonID == widget.modulesProvider.currentLesson?.lessonID,
+    );
+    controller?.jumpToPage(activePage);
+  }
+
   List<Widget> generateIndicators() =>
       List<Widget>.generate(widget.modulesProvider.currentModuleLessons.length,
           (index) {
@@ -169,7 +179,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                       context,
                                       LessonPage.id,
                                       arguments: LessonArguments(currentLesson),
-                                    )
+                                    ).then((_) => jumpToPage())
                                 : null,
                             showCompletedTag: isLessonComplete,
                             isUnlocked: isLessonUnlocked,
@@ -211,7 +221,7 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                                         context,
                                         QuizScreen.id,
                                         arguments: currentLessonQuiz,
-                                      );
+                                      ).then((_) => jumpToPage());
                                     }
                                   : null,
                               showCompletedTag:
