@@ -1,19 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class DashboardMemberTime extends StatefulWidget {
-  const DashboardMemberTime({
-    Key? key,
-    required this.memberProvider,
-    required this.isUsernameUsed,
-  }) : super(key: key);
+  const DashboardMemberTime({Key? key, required this.displayedName})
+      : super(key: key);
 
-  final MemberProvider memberProvider;
-  final bool isUsernameUsed;
+  final String displayedName;
 
   @override
   State<DashboardMemberTime> createState() => _DashboardMemberTimeState();
@@ -23,10 +20,14 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   Timer? timer;
   String asset = '';
 
+  late MemberProvider memberProvider;
+
   @override
   void initState() {
     super.initState();
-    widget.memberProvider.populateMember();
+
+    memberProvider = Provider.of<MemberProvider>(context, listen: false)
+      ..populateMember();
 
     // Assign a day/night background the first time that the dashboard page is
     // presented
@@ -61,10 +62,6 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
     timer?.cancel();
   }
 
-  String get displayedName => widget.isUsernameUsed
-      ? widget.memberProvider.alias
-      : widget.memberProvider.firstName;
-
   @override
   Widget build(BuildContext context) => Stack(
         children: [
@@ -78,16 +75,16 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
                   )
                 : null,
           ),
-          if (widget.memberProvider.status == LoadingStatus.success)
+          if (memberProvider.status == LoadingStatus.success)
             Padding(
               padding: EdgeInsets.all(15),
               child: Text(
-                "Hello $displayedName",
+                "Hello ${widget.displayedName}",
                 style: Theme.of(context).textTheme.headline1,
               ),
             )
           else if (asset.isEmpty ||
-              widget.memberProvider.status == LoadingStatus.loading)
+              memberProvider.status == LoadingStatus.loading)
             PcosLoadingSpinner()
         ],
       );

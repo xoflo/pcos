@@ -7,6 +7,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
@@ -227,77 +228,83 @@ class _AppTabsState extends State<AppTabs>
 
   @override
   Widget build(BuildContext context) => FlavorBanner(
-        child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle:
-                SystemUiOverlayStyle(
+        child: Consumer<MemberProvider>(
+          builder: (context, memberProvider, child) => Scaffold(
+            appBar: AppBar(
+              systemOverlayStyle: SystemUiOverlayStyle(
                   statusBarColor: primaryColor,
                   statusBarIconBrightness: Brightness.dark),
-            leading: showAppBarItems
-                ? IconButton(
-                    icon: Icon(Icons.person_outline,
-                        color: unselectedIndicatorIconColor),
-                    onPressed: () => Navigator.pushNamed(context, Profile.id)
-                        .then((_) async {
-                      final bool isLessonRecipesOn =
-                          await PreferencesController().getBool(
-                              SharedPreferencesKeys
-                                  .LESSON_RECIPES_DISPLAYED_DASHBOARD);
-                      final bool isYourWhyOn = await PreferencesController()
-                          .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
-                      final bool isUsernameUsed = await PreferencesController()
-                          .getBool(SharedPreferencesKeys.USERNAME_USED);
+              leading: showAppBarItems
+                  ? IconButton(
+                      icon: Icon(Icons.person_outline,
+                          color: unselectedIndicatorIconColor),
+                      onPressed: () => Navigator.pushNamed(context, Profile.id)
+                          .then((_) async {
+                        final bool isLessonRecipesOn =
+                            await PreferencesController().getBool(
+                                SharedPreferencesKeys
+                                    .LESSON_RECIPES_DISPLAYED_DASHBOARD);
+                        final bool isYourWhyOn = await PreferencesController()
+                            .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
+                        final bool isUsernameUsed =
+                            await PreferencesController()
+                                .getBool(SharedPreferencesKeys.USERNAME_USED);
 
-                      setState(() {
-                        _showYourWhy = isYourWhyOn;
-                        _showLessonRecipes = isLessonRecipesOn;
-                        _isUsernameUsed = isUsernameUsed;
-                      });
-                    }),
-                  )
-                : null,
-            automaticallyImplyLeading: showAppBarItems,
-            actions: showAppBarItems
-                ? [
-                    IconButton(
-                      icon: Icon(
-                        Icons.chat_outlined,
-                        color: unselectedIndicatorColor,
+                        setState(() {
+                          _showYourWhy = isYourWhyOn;
+                          _showLessonRecipes = isLessonRecipesOn;
+                          _isUsernameUsed = isUsernameUsed;
+                        });
+
+                        memberProvider.populateMember();
+                      }),
+                    )
+                  : null,
+              automaticallyImplyLeading: showAppBarItems,
+              actions: showAppBarItems
+                  ? [
+                      IconButton(
+                        icon: Icon(
+                          Icons.chat_outlined,
+                          color: unselectedIndicatorColor,
+                        ),
+                        onPressed: openChat,
                       ),
-                      onPressed: openChat,
+                    ]
+                  : null,
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+            ),
+            backgroundColor: primaryColor,
+            body: DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodyText1!,
+              child: WillPopScope(
+                onWillPop: onBackPressed,
+                child: TabBarView(
+                  controller: tabController,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    Dashboard(
+                      showYourWhy: _showYourWhy,
+                      showLessonReicpes: _showLessonRecipes,
+                      displayedName: _isUsernameUsed
+                          ? memberProvider.alias
+                          : memberProvider.firstName,
                     ),
-                  ]
-                : null,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-          ),
-          backgroundColor: primaryColor,
-          body: DefaultTextStyle(
-            style: Theme.of(context).textTheme.bodyText1!,
-            child: WillPopScope(
-              onWillPop: onBackPressed,
-              child: TabBarView(
-                controller: tabController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  Dashboard(
-                    showYourWhy: _showYourWhy,
-                    showLessonReicpes: _showLessonRecipes,
-                    isUsernameUsed: _isUsernameUsed,
-                  ),
-                  LibraryPage(),
-                  Recipes(),
-                  Favourites(),
-                  MorePage(onLockApp: _setIsLocked),
-                ],
+                    LibraryPage(),
+                    Recipes(),
+                    Favourites(),
+                    MorePage(onLockApp: _setIsLocked),
+                  ],
+                ),
               ),
             ),
-          ),
-          bottomNavigationBar: AppNavigationTabs(
-            currentIndex: _currentIndex,
-            tabController: tabController,
-            onTapped: (index) => setState(() => _currentIndex = index),
-            observer: widget.observer,
+            bottomNavigationBar: AppNavigationTabs(
+              currentIndex: _currentIndex,
+              tabController: tabController,
+              onTapped: (index) => setState(() => _currentIndex = index),
+              observer: widget.observer,
+            ),
           ),
         ),
       );
