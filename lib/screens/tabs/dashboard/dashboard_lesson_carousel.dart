@@ -32,12 +32,12 @@ class DashboardLessonCarousel extends StatelessWidget {
     return Consumer<ModulesProvider>(
         builder: (context, modulesProvider, child) {
       
-            if (controller == null) {
+            if (controller == null && modulesProvider.status == LoadingStatus.success) {
               activePage.value = modulesProvider.currentModuleLessons.indexWhere(
                 (element) =>
                     element.lessonID == modulesProvider.currentLesson?.lessonID,
               );
-              controller = PageController(initialPage: activePage.value, viewportFraction: 0.9);
+              controller = PageController(initialPage: activePage.value, keepPage: false, viewportFraction: 0.9);
             }
 
             PreferencesProvider prefsProvider =
