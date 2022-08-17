@@ -26,7 +26,7 @@ import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
-import 'package:thepcosprotocol_app/screens/app_loading.dart';
+import 'package:thepcosprotocol_app/screens/splash_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/more/settings.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
@@ -178,9 +178,9 @@ class _AppState extends State<App> {
         supportedLocales: S.delegate.supportedLocales,
         title: appTitle,
         theme: appThemeData(),
-        initialRoute: AppLoading.id,
+        initialRoute: SplashPage.id,
         routes: {
-          AppLoading.id: (context) => AppLoading(),
+          SplashPage.id: (context) => SplashPage(),
           AppTutorialPage.id: (context) => AppTutorialPage(),
           OnboardingPage.id: (context) => OnboardingPage(),
           SignIn.id: (context) => SignIn(),
