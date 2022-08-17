@@ -66,8 +66,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                   color: backgroundColor,
                   child: GestureDetector(
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                      padding: EdgeInsets.all(12.5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -77,8 +76,9 @@ class DashboardWhyCommunity extends StatelessWidget {
                             "Open community",
                             style:
                                 Theme.of(context).textTheme.subtitle1?.copyWith(
+                                      fontWeight: FontWeight.w600,
                                       color: Colors.white,
-                                      fontSize: 20,
+                                      fontSize: 24,
                                     ),
                           )
                         ],
