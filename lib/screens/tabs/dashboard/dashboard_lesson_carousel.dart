@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:animations/animations.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_arguments.dart';
@@ -30,12 +31,7 @@ class DashboardLessonCarousel extends StatelessWidget {
 
     return Consumer<ModulesProvider>(
         builder: (context, modulesProvider, child) {
-      switch (modulesProvider.status) {
-        case LoadingStatus.loading:
-          return PcosLoadingSpinner();
-        case LoadingStatus.empty:
-          return Center(child: NoResults(message: S.current.noResultsLessons));
-        case LoadingStatus.success: {
+      
             if (controller == null) {
               activePage.value = modulesProvider.currentModuleLessons.indexWhere(
                 (element) =>
@@ -140,22 +136,31 @@ class DashboardLessonCarousel extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(height: 25),
-                              DashboardLessonCarouselItemCard(
-                                onTapCard: isLessonUnlocked
-                                    ? () => Navigator.pushNamed(
-                                          context,
-                                          LessonPage.id,
-                                          arguments: LessonArguments(currentLesson),
-                                        )
-                                    : null,
-                                showCompletedTag: isLessonComplete,
-                                isUnlocked: isLessonUnlocked,
-                                title: currentLesson.title,
-                                subtitle: "Lesson ${index + 1}",
-                                duration:
-                                    "${currentLesson.minsToComplete} mins",
-                                asset: 'assets/dashboard_lesson.png',
-                                assetSize: Size(84, 84),
+                              OpenContainer(
+                                tappable: isLessonUnlocked,
+                                transitionDuration: Duration(milliseconds: 400),
+                                routeSettings: RouteSettings(
+                                  name: LessonPage.id,
+                                  arguments: LessonArguments(currentLesson)
+                                ),
+                                openBuilder: (context, closedContainer) {
+                                    return LessonPage();
+                                },
+                                closedBuilder: (context, openContainer) {
+                                  return Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.all(15),
+                                        child: DashboardLessonCarouselItemCard(
+                                          showCompletedTag: isLessonComplete,
+                                          isUnlocked: isLessonUnlocked,
+                                          title: currentLesson.title,
+                                          subtitle: "Lesson ${index + 1}",
+                                          duration: "${currentLesson.minsToComplete} mins",
+                                          asset: 'assets/dashboard_lesson.png',
+                                          assetSize: Size(84, 84),
+                                        ),
+                                  );
+                                },
                               ),
                               if (prefsProvider.isShowLessonRecipes &&
                                   currentLessonRecipes.length > 0) ...[
@@ -221,7 +226,6 @@ class DashboardLessonCarousel extends StatelessWidget {
               ],
             );
           }
-      }
-    });
+      );
   }
 }
