@@ -1,4 +1,4 @@
-import 'package:property_change_notifier/property_change_notifier.dart';
+import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
@@ -15,7 +15,7 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
-class ModulesProvider extends PropertyChangeNotifier<String> {
+class ModulesProvider with ChangeNotifier {
   final DatabaseProvider? dbProvider;
 
   ModulesProvider({required this.dbProvider}) {
@@ -263,7 +263,7 @@ class ModulesProvider extends PropertyChangeNotifier<String> {
       }
 
       status = LoadingStatus.success;
-      notifyListeners('status');
+      notifyListeners();
     }
   }
 
@@ -272,12 +272,12 @@ class ModulesProvider extends PropertyChangeNotifier<String> {
       final int? lessonID,
       final bool? forceRefresh}) async {
     status = LoadingStatus.loading;
-    notifyListeners('status');
+    notifyListeners();
 
     await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value ?? "");
 
     status = LoadingStatus.success;
-    notifyListeners('status');
+    notifyListeners();
 
     if (lessonID != null) {
       await fetchLessonTasks(lessonID);
@@ -305,12 +305,12 @@ class ModulesProvider extends PropertyChangeNotifier<String> {
     }
     searchStatus =
         _searchLessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    notifyListeners('searchStatus');
+    notifyListeners();
   }
 
   Future<void> clearSearch() async {
     _searchLessons.clear();
     searchStatus = LoadingStatus.empty;
-    notifyListeners('searchStatus');
+    notifyListeners();
   }
 }

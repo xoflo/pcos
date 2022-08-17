@@ -1,10 +1,10 @@
-import 'package:property_change_notifier/property_change_notifier.dart';
+import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 
-class PreferencesProvider extends PropertyChangeNotifier<String> {
+class PreferencesProvider extends ChangeNotifier {
   late MemberProvider _memberProvider;
   MemberProvider get memberProvider => _memberProvider;
 
@@ -25,7 +25,7 @@ class PreferencesProvider extends PropertyChangeNotifier<String> {
   void getIsShowYourWhy() async {
     _isShowYourWhy = await PreferencesController()
         .getBool(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
-    notifyListeners('isShowYourWhy');
+    notifyListeners();
   }
 
   Future<void> saveDisplayWhy(final bool isOn) async {
@@ -39,7 +39,7 @@ class PreferencesProvider extends PropertyChangeNotifier<String> {
   void _getIsShowLessonRecipes() async {
     _isShowLessonRecipes = await PreferencesController()
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
-    notifyListeners('isShowLessonRecipes');
+    notifyListeners();
   }
 
   Future<void> saveIsShowLessonRecipes(final bool isOn) async {
@@ -53,7 +53,7 @@ class PreferencesProvider extends PropertyChangeNotifier<String> {
   void _getIsUsernameUsed() async {
     _isUsernameUsed = await PreferencesController()
         .getBool(SharedPreferencesKeys.USERNAME_USED);
-    notifyListeners('isUsernameUsed');
+    notifyListeners();
   }
 
   Future<void> saveIsUsernameUsed(final bool isOn) async {
