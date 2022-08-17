@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/datetime_utils.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
@@ -16,9 +16,6 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 class NotificationSettings extends StatefulWidget {
   const NotificationSettings({Key? key}) : super(key: key);
@@ -81,13 +78,13 @@ class _NotificationSettingsState extends State<NotificationSettings> {
       name: Analytics.ANALYTICS_EVENT_DAILY_REMINDER,
     );
 
-    turnOffDailyReminderNotification(flutterLocalNotificationsPlugin);
+    turnOffDailyReminderNotification(localNotificationsPlugin);
     final tz.TZDateTime zonedSelectedTime = _nextInstanceOfSelectedTime(
       _dailyReminderTimeOfDay.hour,
       _dailyReminderTimeOfDay.minute,
     );
     scheduleDailyReminderNotification(
-      flutterLocalNotificationsPlugin,
+      localNotificationsPlugin,
       zonedSelectedTime,
       S.current.dailyReminderTitle,
       S.current.dailyReminderText,
@@ -162,7 +159,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
                                     _dailyReminderTimeOfDay.format(context));
                               } else {
                                 turnOffDailyReminderNotification(
-                                    flutterLocalNotificationsPlugin);
+                                    localNotificationsPlugin);
                                 await PreferencesController().saveString(
                                     SharedPreferencesKeys.DAILY_REMINDER_TIME,
                                     "");
