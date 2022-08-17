@@ -35,34 +35,34 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
 
   // This function is called when the user finishes a lesson/quiz. This way,
   // after the item is finished, the controller is recreated
-  void jumpToPage() => setState(() {
-        activePage = widget.modulesProvider.currentModuleLessons.indexWhere(
-          (element) =>
-              element.lessonID ==
-              widget.modulesProvider.currentLesson?.lessonID,
-        );
+  void jumpToPage() {
+    setState(() {
+      activePage = widget.modulesProvider.currentModuleLessons.indexWhere(
+        (element) =>
+            element.lessonID == widget.modulesProvider.currentLesson?.lessonID,
+      );
+    });
 
-        controller = PageController(
-          initialPage: activePage,
-          keepPage: false,
-          viewportFraction: 0.9,
-        );
-      });
+    // We need this so that we avoid the exception when there is no controller
+    // instance before the frame rendering is complete.
+    WidgetsBinding.instance?.addPostFrameCallback(
+        (timeStamp) => controller?.jumpToPage(activePage));
+  }
 
-  List<Widget> generateIndicators() =>
-      List<Widget>.generate(widget.modulesProvider.currentModuleLessons.length,
-          (index) {
-        return Container(
-            margin: const EdgeInsets.all(3),
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-              color: activePage == index
-                  ? selectedIndicatorColor
-                  : unselectedIndicatorColor,
-              shape: BoxShape.circle,
-            ));
-      });
+  List<Widget> generateIndicators() => List<Widget>.generate(
+        widget.modulesProvider.currentModuleLessons.length,
+        (index) => Container(
+          margin: const EdgeInsets.all(3),
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: activePage == index
+                ? selectedIndicatorColor
+                : unselectedIndicatorColor,
+            shape: BoxShape.circle,
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -120,11 +120,24 @@ class _DashboardLessonCarouselState extends State<DashboardLessonCarousel> {
                   // own pace. The computation for this value is already done
                   // in the server, based on the number of hours since the user
                   // completed the very first lesson in the module.
-                  final isLessonUnlocked = index == 0
-                      ? true
-                      : (widget.modulesProvider.currentModuleLessons[index - 1]
-                              .isComplete &&
-                          currentLesson.hoursUntilAvailable == 0);
+
+                  bool isLessonUnlocked = index == 0;
+
+                  if (index > 0) {
+                    final previousLesson =
+                        widget.modulesProvider.currentModuleLessons[index - 1];
+
+                    // If there is a quiz in the previous lesson, we must check
+                    // it first before the user proceeds to the next lesson.
+                    final isPreviousLessonQuizComplete = widget.modulesProvider
+                            .getQuizByLessonID(previousLesson.lessonID)
+                            ?.isComplete ??
+                        true;
+
+                    isLessonUnlocked = (previousLesson.isComplete &&
+                        isPreviousLessonQuizComplete &&
+                        currentLesson.hoursUntilAvailable == 0);
+                  }
 
                   final lessonDuration = currentLesson.minsToComplete;
 
