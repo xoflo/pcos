@@ -83,7 +83,9 @@ class ModulesProvider with ChangeNotifier {
         _previousModules = await _getPreviousModules();
         _currentModuleLessons = getModuleLessons(_currentModule.moduleID);
         _currentLesson = _currentModuleLessons.firstWhere(
-          (element) => !element.isComplete,
+          (element) =>
+              !element.isComplete ||
+              getQuizByLessonID(element.lessonID)?.isComplete == false,
           orElse: () => _currentModuleLessons.last,
         );
       }

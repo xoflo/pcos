@@ -203,6 +203,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
               foregroundColor: Colors.white,
               backgroundColor: backgroundColor,
             ),
+            SizedBox(height: 20)
           ],
         ),
       ),

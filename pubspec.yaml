@@ -32,7 +32,7 @@ dependencies:
   firebase_analytics: ^9.2.0
   firebase_crashlytics: ^2.8.5
   url_launcher: ^6.1.5
-  flutter_local_notifications: ^9.5.3+1
+  flutter_local_notifications: ^9.7.1
   shared_preferences: ^2.0.15
   device_info_plus: ^4.0.0
   connectivity: ^3.0.6
@@ -52,6 +52,7 @@ dependencies:
   audioplayers: ^1.0.1
   full_screen_image_null_safe: ^2.0.0
   animations: ^2.0.0
+  flutter_native_timezone: ^2.0.0
 
 dev_dependencies:
   integration_test:

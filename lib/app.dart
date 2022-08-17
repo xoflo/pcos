@@ -3,6 +3,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,7 +27,7 @@ import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
-import 'package:thepcosprotocol_app/screens/app_loading.dart';
+import 'package:thepcosprotocol_app/screens/splash_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/more/settings.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
@@ -56,7 +57,8 @@ import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_method_tips_page.dart';
 import 'package:thepcosprotocol_app/screens/sign_in/register_web_view.dart';
 
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class App extends StatefulWidget {
   App({required this.app});
@@ -82,6 +84,9 @@ class _AppState extends State<App> {
 
   void initializeApp() async {
     tz.initializeTimeZones();
+    final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
+
     initializeFlutterFire();
     initializeOneSignal();
     setDeviceOrientations();
@@ -192,9 +197,9 @@ class _AppState extends State<App> {
         supportedLocales: S.delegate.supportedLocales,
         title: appTitle,
         theme: appThemeData(),
-        initialRoute: AppLoading.id,
+        initialRoute: SplashPage.id,
         routes: {
-          AppLoading.id: (context) => AppLoading(),
+          SplashPage.id: (context) => SplashPage(),
           AppTutorialPage.id: (context) => AppTutorialPage(),
           OnboardingPage.id: (context) => OnboardingPage(),
           SignIn.id: (context) => SignIn(),
