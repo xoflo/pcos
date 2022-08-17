@@ -12,7 +12,7 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
     this.showCompleteLesson = false,
     required this.title,
     this.subtitle,
-    required this.duration,
+    this.duration,
     required this.asset,
     required this.assetSize,
   }) : super(key: key);
@@ -23,7 +23,7 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
   final bool showCompleteLesson;
   final String title;
   final String? subtitle;
-  final String duration;
+  final String? duration;
   final String asset;
   final Size assetSize;
 
@@ -90,7 +90,7 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
                               ?.copyWith(color: Colors.white),
                         ),
                       )
-                    else
+                    else if (duration != null)
                       Row(
                         children: [
                           Icon(Icons.schedule, color: textColor, size: 15),
@@ -98,7 +98,7 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
                             width: 5,
                           ),
                           Text(
-                            duration,
+                            duration ?? "",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText2
