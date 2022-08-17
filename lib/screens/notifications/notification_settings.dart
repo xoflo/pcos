@@ -45,10 +45,32 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   }
 
   tz.TZDateTime _nextInstanceOfSelectedTime(final int hour, final int minute) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-    if (scheduledDate.isBefore(now)) {
+    // The now from the DateTime and the now converted to TZDateTime may not
+    // always be accurate, so we need to set the TZDateTime now independently.
+    // Using TZDateTime.now adjusts the time to the UTC time instead of the
+    // actual local time, which is an issue with the library itself.
+    final now = DateTime.now();
+    final timeZoneName = tz.local;
+
+    final tz.TZDateTime localizedNow = tz.TZDateTime(
+      timeZoneName,
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+    );
+
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+      timeZoneName,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
+
+    if (scheduledDate.isBefore(localizedNow)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
     return scheduledDate;
@@ -103,62 +125,63 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: primaryColor,
         body: WillPopScope(
-        onWillPop: () async => !Platform.isIOS,
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(top: 12),
-            child: Container(
-              decoration: BoxDecoration(
-                color: primaryColor,
-              ),
-              child: Column(
-                children: [
-                  Header(
-                    title: "Notification Settings",
-                    closeItem: () => Navigator.pop(context),
-                  ),
-                  Card(
-                    margin: EdgeInsets.all(15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+          onWillPop: () async => !Platform.isIOS,
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                ),
+                child: Column(
+                  children: [
+                    Header(
+                      title: "Notification Settings",
+                      closeItem: () => Navigator.pop(context),
                     ),
-                    elevation: 0,
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                      child: ToggleSwitch(
-                        title: "Daily message",
-                        value: isDailyReminderSet,
-                        onToggle: (isOn) async {
-                          if (!(await isNotificationGranted)) {
-                            _askUserForNotificationPermission();
-                          } else {
-                            if (isOn) {
-                              _scheduleNotification();
-                              await PreferencesController().saveString(
-                                  SharedPreferencesKeys.DAILY_REMINDER_TIME,
-                                  _dailyReminderTimeOfDay.format(context));
-                            } else {
-                              turnOffDailyReminderNotification(
-                                  flutterLocalNotificationsPlugin);
-                              await PreferencesController().saveString(
-                                  SharedPreferencesKeys.DAILY_REMINDER_TIME,
-                                  "");
-                            }
-                            PreferencesController().saveBool(
-                                SharedPreferencesKeys.REQUESTED_DAILY_REMINDER,
-                                isOn);
-                            setState(() => isDailyReminderSet = isOn);
-                          }
-                        },
+                    Card(
+                      margin: EdgeInsets.all(15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                    ),
-                  )
-                ],
+                      elevation: 0,
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                        child: ToggleSwitch(
+                          title: "Daily message",
+                          value: isDailyReminderSet,
+                          onToggle: (isOn) async {
+                            if (!(await isNotificationGranted)) {
+                              _askUserForNotificationPermission();
+                            } else {
+                              if (isOn) {
+                                _scheduleNotification();
+                                await PreferencesController().saveString(
+                                    SharedPreferencesKeys.DAILY_REMINDER_TIME,
+                                    _dailyReminderTimeOfDay.format(context));
+                              } else {
+                                turnOffDailyReminderNotification(
+                                    flutterLocalNotificationsPlugin);
+                                await PreferencesController().saveString(
+                                    SharedPreferencesKeys.DAILY_REMINDER_TIME,
+                                    "");
+                              }
+                              PreferencesController().saveBool(
+                                  SharedPreferencesKeys
+                                      .REQUESTED_DAILY_REMINDER,
+                                  isOn);
+                              setState(() => isDailyReminderSet = isOn);
+                            }
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
         ),
       );
 }

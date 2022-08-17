@@ -116,7 +116,8 @@ class _DashboardWhySettingsLayoutState
                     : () async {
                         FocusManager.instance.primaryFocus?.unfocus();
                         await widget.memberProvider
-                            .setWhy(textController.text).then((_) => Navigator.pop(context));
+                            .setWhy(textController.text)
+                            .then((_) => Navigator.pop(context));
                       },
               ),
             ],
@@ -132,7 +133,7 @@ class _DashboardWhySettingsLayoutState
           WillPopScope(
             onWillPop: () async =>
                 !Platform.isIOS &&
-                widget.memberProvider.status != LoadingStatus.success,
+                widget.memberProvider.status != LoadingStatus.loading,
             child: SafeArea(
               bottom: false,
               child: Column(
