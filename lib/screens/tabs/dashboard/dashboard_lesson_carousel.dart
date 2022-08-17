@@ -41,8 +41,7 @@ class DashboardLessonCarousel extends StatelessWidget {
                 (element) =>
                     element.lessonID == modulesProvider.currentLesson?.lessonID,
               );
-              controller =
-                  PageController(initialPage: activePage.value, viewportFraction: 0.9);
+              controller = PageController(initialPage: activePage.value, viewportFraction: 0.9);
             }
 
             PreferencesProvider prefsProvider =
