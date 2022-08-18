@@ -279,8 +279,6 @@ class _LessonPageState extends State<LessonPage> {
                   ),
                 ),
               ),
-              // if (modulesProvider.status == LoadingStatus.loading)
-              //   LoaderOverlay()
             ],
           ),
         ),
