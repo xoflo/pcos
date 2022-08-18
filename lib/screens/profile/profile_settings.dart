@@ -128,9 +128,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) => Expanded(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ListView.builder(
               itemCount: 5,
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) => Column(
                 children: <Widget>[
@@ -139,53 +141,56 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ],
               ),
             ),
-            Spacer(),
-            Text(
-              "Signed in as ${widget.email}",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  ?.copyWith(color: textColor.withOpacity(0.8)),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Version $_appVersion",
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2
-                  ?.copyWith(color: textColor.withOpacity(0.8)),
-            ),
-            HollowButton(
-              onPressed: () {
-                DatabaseProvider dbProvider =
-                    Provider.of<DatabaseProvider>(context, listen: false);
-                AuthenticationController authController =
-                    AuthenticationController();
-                authController.deleteCredentials();
-                authController.deletePin();
-                authController.deleteOtherPrefs();
-                dbProvider.deleteAllData();
-                turnOffDailyReminderNotification(localNotificationsPlugin);
+            Column(
+              children: [
+                Text(
+                  "Signed in as ${widget.email}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(color: textColor.withOpacity(0.8)),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Version $_appVersion",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      ?.copyWith(color: textColor.withOpacity(0.8)),
+                ),
+                HollowButton(
+                  onPressed: () {
+                    DatabaseProvider dbProvider =
+                        Provider.of<DatabaseProvider>(context, listen: false);
+                    AuthenticationController authController =
+                        AuthenticationController();
+                    authController.deleteCredentials();
+                    authController.deletePin();
+                    authController.deleteOtherPrefs();
+                    dbProvider.deleteAllData();
+                    turnOffDailyReminderNotification(localNotificationsPlugin);
 
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    SignIn.id, (Route<dynamic> route) => false);
-              },
-              text: "LOG OUT",
-              style: OutlinedButton.styleFrom(
-                primary: backgroundColor,
-                backgroundColor: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        SignIn.id, (Route<dynamic> route) => false);
+                  },
+                  text: "LOG OUT",
+                  style: OutlinedButton.styleFrom(
+                    primary: backgroundColor,
+                    backgroundColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    side: const BorderSide(
+                      width: 1,
+                      color: backgroundColor,
+                    ),
+                  ),
+                  margin: const EdgeInsets.all(15),
+                  verticalPadding: 5,
                 ),
-                side: const BorderSide(
-                  width: 1,
-                  color: backgroundColor,
-                ),
-              ),
-              margin: const EdgeInsets.all(15),
-              verticalPadding: 5,
+                SizedBox(height: 10),
+              ],
             ),
-            SizedBox(height: 10),
           ],
         ),
       );

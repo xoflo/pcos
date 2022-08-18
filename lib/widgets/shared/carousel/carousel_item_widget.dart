@@ -18,9 +18,7 @@ class CarouselItemWidget extends StatelessWidget {
               height: 240,
               width: 240,
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Text(
               item.title,
               textAlign: TextAlign.center,
@@ -29,16 +27,12 @@ class CarouselItemWidget extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Text(
               item.subtitle,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+              style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
-            )
+            ),
           ],
         ),
       );

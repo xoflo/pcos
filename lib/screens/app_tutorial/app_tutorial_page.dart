@@ -25,6 +25,9 @@ class AppTutorialPage extends StatefulWidget {
 class _AppTutorialPageState extends State<AppTutorialPage>
     with BaseCarouselPage {
   @override
+  int get itemsLength => items.length + 1;
+
+  @override
   List<CarouselItem> get items => [
         CarouselItem(
           title: "Welcome to our programme!",
