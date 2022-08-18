@@ -16,6 +16,7 @@ import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -29,12 +30,16 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   bool _isSearching = false;
   String _mealTag = "";
   List<String> _dietTags = [];
+  List<Recipe> recipes = [];
 
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChanged);
     _initializeMealDietTags();
+
+    final recipeProvider = Provider.of<RecipesProvider>(context, listen: false);
+    recipes = [...recipeProvider.randomizedItems];
   }
 
   @override
@@ -161,8 +166,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                           crossAxisCount: 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
-                          children: recipesProvider.items
-                              .map((recipe) => RecipeItem(
+                          children: recipes.map((recipe) => RecipeItem(
                                     recipe: recipe,
                                     isFromLesson: false,
                                   ))

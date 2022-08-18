@@ -14,6 +14,11 @@ class RecipesProvider with ChangeNotifier {
   List<Recipe> _items = [];
   LoadingStatus status = LoadingStatus.empty;
   List<Recipe> get items => [..._items];
+  List<Recipe> get randomizedItems {
+    List<Recipe> tmpRandomizedItems = [...items];
+    tmpRandomizedItems.shuffle();
+    return tmpRandomizedItems;
+  }
 
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;
