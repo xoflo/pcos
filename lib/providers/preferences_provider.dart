@@ -36,7 +36,7 @@ class PreferencesProvider extends ChangeNotifier {
 
   // ///////
 
-  void _getIsShowLessonRecipes() async {
+  void getIsShowLessonRecipes() async {
     _isShowLessonRecipes = await PreferencesController()
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     notifyListeners();
@@ -45,12 +45,12 @@ class PreferencesProvider extends ChangeNotifier {
   Future<void> saveIsShowLessonRecipes(final bool isOn) async {
     PreferencesController().saveBool(
         SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD, isOn);
-    _getIsShowLessonRecipes();
+    getIsShowLessonRecipes();
   }
 
   // ///////
 
-  void _getIsUsernameUsed() async {
+  void getIsUsernameUsed() async {
     _isUsernameUsed = await PreferencesController()
         .getBool(SharedPreferencesKeys.USERNAME_USED);
     notifyListeners();
@@ -58,7 +58,7 @@ class PreferencesProvider extends ChangeNotifier {
 
   Future<void> saveIsUsernameUsed(final bool isOn) async {
     PreferencesController().saveBool(SharedPreferencesKeys.USERNAME_USED, isOn);
-    _getIsUsernameUsed();
+    getIsUsernameUsed();
   }
 
   // ////////

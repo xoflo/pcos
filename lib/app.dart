@@ -178,7 +178,6 @@ class _AppState extends State<App> {
             PreferencesProvider prefsProvider = PreferencesProvider();
             prefsProvider.memberProvider =
                 Provider.of<MemberProvider>(context, listen: false);
-            prefsProvider.getIsShowYourWhy();
             return prefsProvider;
           },
           update: (context, memberProvider, prefsProvider) {
