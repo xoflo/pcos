@@ -2,24 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/custom_text_field.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
 class ProfilePersonalDetailsLayout extends StatefulWidget {
-  const ProfilePersonalDetailsLayout({Key? key, required this.memberProvider})
+  const ProfilePersonalDetailsLayout({Key? key})
       : super(key: key);
-
-  final MemberProvider memberProvider;
 
   @override
   State<ProfilePersonalDetailsLayout> createState() =>
@@ -38,18 +32,14 @@ class _ProfilePersonalDetailsLayoutState
   @override
   void initState() {
     super.initState();
-
-    widget.memberProvider.populateMember();
   }
 
   List<Widget> _getChildren() {
-    if (widget.memberProvider.status == LoadingStatus.empty) {
-      return [NoResults(message: S.current.noMemberDetails)];
-    }
-    usernameController.text = widget.memberProvider.alias;
-    firstNameController.text = widget.memberProvider.firstName;
-    lastNameController.text = widget.memberProvider.lastName;
-    emailController.text = widget.memberProvider.email;
+    MemberProvider memberProvider = Provider.of<MemberProvider>(context, listen: false);
+    usernameController.text = memberProvider.alias;
+    firstNameController.text = memberProvider.firstName;
+    lastNameController.text = memberProvider.lastName;
+    emailController.text = memberProvider.email;
 
     return [
       Column(
@@ -169,16 +159,16 @@ class _ProfilePersonalDetailsLayoutState
                     Analytics.ANALYTICS_BUTTON_SAVE_PROFILE
               },
             );
-            if (widget.memberProvider.alias != usernameController.text.trim()) {
-              widget.memberProvider.alias = usernameController.text.trim();
+            if (memberProvider.alias != usernameController.text.trim()) {
+              memberProvider.alias = usernameController.text.trim();
             }
-            if (widget.memberProvider.firstName !=
+            if (memberProvider.firstName !=
                 firstNameController.text.trim()) {
-              widget.memberProvider.firstName = firstNameController.text.trim();
+              memberProvider.firstName = firstNameController.text.trim();
             }
-            if (widget.memberProvider.lastName !=
+            if (memberProvider.lastName !=
                 lastNameController.text.trim()) {
-              widget.memberProvider.lastName = lastNameController.text.trim();
+              memberProvider.lastName = lastNameController.text.trim();
             }
           }
 
@@ -210,8 +200,7 @@ class _ProfilePersonalDetailsLayoutState
         children: [
           WillPopScope(
             onWillPop: () async =>
-                !Platform.isIOS &&
-                widget.memberProvider.status != LoadingStatus.loading,
+                !Platform.isIOS,
             child: SafeArea(
               child: Container(
                 padding: EdgeInsets.only(top: 12),
@@ -244,8 +233,6 @@ class _ProfilePersonalDetailsLayoutState
               ),
             ),
           ),
-          if (widget.memberProvider.status == LoadingStatus.loading)
-            LoaderOverlay(),
         ],
       );
 }
