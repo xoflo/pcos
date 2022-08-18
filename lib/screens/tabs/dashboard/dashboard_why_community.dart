@@ -78,8 +78,9 @@ class DashboardWhyCommunity extends StatelessWidget {
                                 Theme.of(context).textTheme.subtitle1?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
-                                      fontSize: 24,
+                                      fontSize: 22,
                                     ),
+                            maxLines: 2,
                           )
                         ],
                       ),
