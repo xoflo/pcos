@@ -182,8 +182,12 @@ class _AppState extends State<App> {
             return prefsProvider;
           },
           update: (context, memberProvider, prefsProvider) {
-            prefsProvider!.memberProvider = memberProvider;
-            return prefsProvider;
+            if (prefsProvider != null) {
+              prefsProvider.memberProvider = memberProvider;
+              return prefsProvider;
+            } else {
+              return PreferencesProvider();
+            }
           },
         )
       ],
