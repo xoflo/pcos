@@ -31,42 +31,28 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   }
 
   Widget _memberDetails(Size screenSize, MemberProvider memberProvider) {
-    switch (memberProvider.status) {
-      case LoadingStatus.loading:
-        return Column(
-          children: [
-            Header(
-              closeItem: () => Navigator.pop(context),
-            ),
-            PcosLoadingSpinner(),
-          ],
-        );
-      case LoadingStatus.empty:
-        return NoResults(message: S.current.noMemberDetails);
-      case LoadingStatus.success:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Header(
-              title: "${memberProvider.firstName}'s Profile",
-              closeItem: () => Navigator.pop(context),
-            ),
-            ToggleSwitch(
-              leftText: "Summary",
-              rightText: "Settings",
-              onTapLeft: () => setState(() => isLeftVisible = true),
-              onTapRight: () => setState(() => isLeftVisible = false),
-            ),
-            if (isLeftVisible) ...[
-              ProfileSummary(tags: memberProvider.member.typeTags ?? [])
-            ] else
-              ProfileSettings(
-                email: memberProvider.email,
-                onRefreshUserDetails: _getMemberDetails,
-              )
-          ],
-        );
-    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Header(
+          title: "${memberProvider.firstName}'s Profile",
+          closeItem: () => Navigator.pop(context),
+        ),
+        ToggleSwitch(
+          leftText: "Summary",
+          rightText: "Settings",
+          onTapLeft: () => setState(() => isLeftVisible = true),
+          onTapRight: () => setState(() => isLeftVisible = false),
+        ),
+        if (isLeftVisible) ...[
+          ProfileSummary(tags: memberProvider.member.typeTags ?? [])
+        ] else
+          ProfileSettings(
+            email: memberProvider.email,
+            onRefreshUserDetails: _getMemberDetails,
+          )
+      ],
+    );
   }
 
   @override
