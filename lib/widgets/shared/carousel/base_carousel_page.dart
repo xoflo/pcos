@@ -18,6 +18,8 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
 
   int activePage = 0;
 
+  int get itemsLength;
+
   List<Widget> generateIndicators() {
     return List<Widget>.generate(items.length, (index) {
       return Container(
@@ -55,6 +57,7 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
       child: Scaffold(
         backgroundColor: primaryColorLight,
         body: Stack(
+          alignment: Alignment.center,
           children: [
             CustomPaint(
               painter: getPainter(),
@@ -69,10 +72,9 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 left: 0.0,
                 right: 0.0,
                 child: AppBar(
-                  systemOverlayStyle:
-                      SystemUiOverlayStyle(
-                        statusBarColor: primaryColor,
-                        statusBarIconBrightness: Brightness.dark),
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                      statusBarColor: primaryColor,
+                      statusBarIconBrightness: Brightness.dark),
                   leading: new IconButton(
                     icon: new Icon(
                       Icons.arrow_back,
@@ -95,23 +97,25 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: Container(
-                      height: height * 0.5,
-                      child: PageView.builder(
-                        controller: controller,
-                        itemCount: items.length + 1,
-                        pageSnapping: true,
-                        itemBuilder: getItemBuilder,
-                        onPageChanged: incrementPageCount,
-                      ),
+                  Container(
+                    height: height * 0.6,
+                    child: PageView.builder(
+                      controller: controller,
+                      itemCount: itemsLength,
+                      pageSnapping: true,
+                      itemBuilder: getItemBuilder,
+                      onPageChanged: incrementPageCount,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: generateIndicators(),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: generateIndicators(),
+                      ),
+                      ...getButtons(),
+                    ],
                   ),
-                  ...getButtons(),
                 ],
               ),
             ),

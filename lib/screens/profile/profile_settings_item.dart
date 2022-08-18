@@ -13,7 +13,7 @@ class ProfileSettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListTile(
         contentPadding:
-            EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 35),
+            EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 35),
         title: Text(
           title,
           style: Theme.of(context).textTheme.subtitle1,

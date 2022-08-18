@@ -41,6 +41,9 @@ class _OnboardingPageState extends State<OnboardingPage> with BaseCarouselPage {
       ];
 
   @override
+  int get itemsLength => items.length;
+
+  @override
   List<Widget> getButtons() {
     return [
       FilledButton(
