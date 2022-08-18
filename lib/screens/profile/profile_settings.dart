@@ -13,9 +13,11 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_delete_page.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_personal_details.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_settings_item.dart';
+import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/global_vars.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings(
@@ -163,6 +165,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 authController.deletePin();
                 authController.deleteOtherPrefs();
                 dbProvider.deleteAllData();
+                turnOffDailyReminderNotification(localNotificationsPlugin);
+
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     SignIn.id, (Route<dynamic> route) => false);
               },
