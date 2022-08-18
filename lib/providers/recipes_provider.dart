@@ -14,6 +14,7 @@ class RecipesProvider with ChangeNotifier {
   List<Recipe> _items = [];
   LoadingStatus status = LoadingStatus.empty;
   List<Recipe> get items => [..._items];
+  List<Recipe> get randomizedItems => randomizeItems();
 
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;
@@ -24,6 +25,12 @@ class RecipesProvider with ChangeNotifier {
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+  }
+
+  List<Recipe> randomizeItems() {
+    List<Recipe> randomizedItems = [...items];
+    randomizedItems.shuffle();
+    return randomizedItems;
   }
 
   Future<void> filterAndSearch(final String searchText, final String tag,
