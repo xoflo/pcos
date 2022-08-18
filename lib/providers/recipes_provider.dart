@@ -12,13 +12,10 @@ class RecipesProvider with ChangeNotifier {
   }
   final String tableName = "Recipe";
   List<Recipe> _items = [];
+  List<Recipe> _randomizedItems = [];
   LoadingStatus status = LoadingStatus.empty;
   List<Recipe> get items => [..._items];
-  List<Recipe> get randomizedItems {
-    List<Recipe> tmpRandomizedItems = [...items];
-    tmpRandomizedItems.shuffle();
-    return tmpRandomizedItems;
-  }
+  List<Recipe> get randomizedItems => [..._randomizedItems];
 
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;
@@ -26,6 +23,12 @@ class RecipesProvider with ChangeNotifier {
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       _items = await ProviderHelper().fetchAndSaveRecipes(dbProvider);
+
+      // By randomizing here, we ensure that as the user goes from tab to tab,
+      // the items do not get randomized (unless they unlock the app from the
+      // enter PIN screen)
+      _randomizedItems = [..._items];
+      _randomizedItems.shuffle();
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
