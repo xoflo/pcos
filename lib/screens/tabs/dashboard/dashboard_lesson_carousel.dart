@@ -166,22 +166,31 @@ class DashboardLessonCarousel extends StatelessWidget {
                         if (prefsProvider.isShowLessonRecipes &&
                             currentLessonRecipes.length > 0) ...[
                           SizedBox(height: 15),
-                          DashboardLessonCarouselItemCard(
-                            onTapCard: isLessonUnlocked
-                                ? () => Navigator.pushNamed(
-                                      context,
-                                      RecipeListPage.id,
-                                      arguments: currentLessonRecipes,
-                                    )
-                                : null,
-                            isUnlocked: isLessonUnlocked,
-                            title: "Lesson Recipes",
-                            duration:
-                                "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
-                                    S.current.minutesShort,
-                            asset: 'assets/dashboard_recipes.png',
-                            assetSize: Size(84, 90),
-                          ),
+                          OpenContainer(
+                          tappable: isLessonUnlocked,
+                          transitionDuration: Duration(milliseconds: 400),
+                          routeSettings: RouteSettings(
+                              name: RecipeListPage.id,
+                              arguments: currentLessonRecipes),
+                          openBuilder: (context, closedContainer) {
+                            return RecipeListPage();
+                          },
+                          closedBuilder: (context, openContainer) {
+                            return Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(15),
+                              child: DashboardLessonCarouselItemCard(
+                                  isUnlocked: isLessonUnlocked,
+                                  title: "Lesson Recipes",
+                                  duration:
+                                      "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
+                                          S.current.minutesShort,
+                                  asset: 'assets/dashboard_recipes.png',
+                                  assetSize: Size(84, 90),
+                                ),
+                            );
+                          },
+                        ),
                         ],
                         if (currentLessonQuiz != null) ...[
                           SizedBox(height: 15),
