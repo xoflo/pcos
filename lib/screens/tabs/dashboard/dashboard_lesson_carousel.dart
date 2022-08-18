@@ -13,8 +13,6 @@ import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_lesson_lock
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/carousel_page_indicator.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 
@@ -27,205 +25,205 @@ class DashboardLessonCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PageController? controller;
+    bool isPageScrollerInitialized = false;
+    PageController controller = PageController(
+        initialPage: activePage.value, keepPage: false, viewportFraction: 0.9);
 
     return Consumer<ModulesProvider>(
         builder: (context, modulesProvider, child) {
-      
-            if (controller == null && modulesProvider.status == LoadingStatus.success) {
-              activePage.value = modulesProvider.currentModuleLessons.indexWhere(
-                (element) =>
-                    element.lessonID == modulesProvider.currentLesson?.lessonID,
-              );
-              controller = PageController(initialPage: activePage.value, keepPage: false, viewportFraction: 0.9);
-            }
+      if (modulesProvider.status == LoadingStatus.success 
+        && controller.hasClients && !isPageScrollerInitialized) {
+          isPageScrollerInitialized = true;
+          activePage.value = modulesProvider.currentModuleLessons.indexWhere(
+            (element) =>
+                element.lessonID == modulesProvider.currentLesson?.lessonID,
+          );
+          controller.jumpToPage(activePage.value);
+      }
 
-            PreferencesProvider prefsProvider =
-                Provider.of<PreferencesProvider>(context);
-            return Column(
-              children: [
-                Container(
-                  height: 530,
-                  child: PageView.builder(
-                    controller: controller,
-                    itemCount: modulesProvider.currentModuleLessons.length,
-                    pageSnapping: true,
-                    itemBuilder: (context, index) {
-                      final currentLesson =
-                          modulesProvider.currentModuleLessons[index];
+      PreferencesProvider prefsProvider =
+          Provider.of<PreferencesProvider>(context);
+      return Column(
+        children: [
+          Container(
+            height: 530,
+            child: PageView.builder(
+              controller: controller,
+              itemCount: modulesProvider.currentModuleLessons.length,
+              pageSnapping: true,
+              itemBuilder: (context, index) {
+                final currentLesson =
+                    modulesProvider.currentModuleLessons[index];
 
-                      final currentLessonQuiz = modulesProvider
-                          .getQuizByLessonID(currentLesson.lessonID);
+                final currentLessonQuiz =
+                    modulesProvider.getQuizByLessonID(currentLesson.lessonID);
 
-                      final currentLessonRecipes = modulesProvider
-                          .getLessonRecipes(currentLesson.lessonID);
-                      final isLessonComplete = currentLesson.isComplete;
+                final currentLessonRecipes =
+                    modulesProvider.getLessonRecipes(currentLesson.lessonID);
+                final isLessonComplete = currentLesson.isComplete;
 
-                      int lessonRecipeDuration = 0;
-                      currentLessonRecipes.forEach((element) {
-                        lessonRecipeDuration += element.duration ?? 0;
-                      });
+                int lessonRecipeDuration = 0;
+                currentLessonRecipes.forEach((element) {
+                  lessonRecipeDuration += element.duration ?? 0;
+                });
 
-                      // Initially, all lessons in the current module are already
-                      // loaded. However, each lesson needs to be checked if
-                      // they are already unlocked. The first lesson of the module is
-                      // automatically unlocked. But for the rest of the lessons
-                      // to be unlocked, the previous one must be completed first.
-                      // But the app still needs to check if the lesson is already
-                      // available to access for the user. The server determines the
-                      // availability of the lesson so that the user will not
-                      // be able to simultaneously finish all the lessons and all
-                      // the modules in one sitting. This also allows other users
-                      // to save the lessons for later and go over them on their
-                      // own pace. The computation for this value is already done
-                      // in the server, based on the number of hours since the user
-                      // completed the very first lesson in the module.
-                      final isLessonUnlocked = index == 0
-                          ? true
-                          : (modulesProvider
-                                  .currentModuleLessons[index - 1].isComplete &&
-                              currentLesson.hoursUntilAvailable == 0);
+                // Initially, all lessons in the current module are already
+                // loaded. However, each lesson needs to be checked if
+                // they are already unlocked. The first lesson of the module is
+                // automatically unlocked. But for the rest of the lessons
+                // to be unlocked, the previous one must be completed first.
+                // But the app still needs to check if the lesson is already
+                // available to access for the user. The server determines the
+                // availability of the lesson so that the user will not
+                // be able to simultaneously finish all the lessons and all
+                // the modules in one sitting. This also allows other users
+                // to save the lessons for later and go over them on their
+                // own pace. The computation for this value is already done
+                // in the server, based on the number of hours since the user
+                // completed the very first lesson in the module.
+                final isLessonUnlocked = index == 0
+                    ? true
+                    : (modulesProvider
+                            .currentModuleLessons[index - 1].isComplete &&
+                        currentLesson.hoursUntilAvailable == 0);
 
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 25,
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  if (isLessonUnlocked)
-                                    Expanded(
-                                      child: Text(
-                                        modulesProvider.currentModule?.title ??
-                                            "",
-                                        style: Theme.of(context).textTheme.headline3,
-                                      ),
-                                    )
-                                  else
-                                    DashboardLessonLockedComponent(
-                                        title: "Complete the previous lesson"),
-                                  Opacity(
-                                    opacity: isLessonUnlocked ? 1 : 0.5,
-                                    child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: secondaryColor,
-                                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                                      ),
-                                      child: modulesProvider.currentModule
-                                                  ?.iconUrl?.isNotEmpty ==
-                                              true
-                                          ? Image.network(
-                                              modulesProvider.currentModule?.iconUrl ??
-                                                  "",
-                                              fit: BoxFit.contain,
-                                              height: 24,
-                                              width: 24,
-                                            )
-                                          : Icon(Icons.restaurant),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 25),
-                              OpenContainer(
-                                tappable: isLessonUnlocked,
-                                transitionDuration: Duration(milliseconds: 400),
-                                routeSettings: RouteSettings(
-                                  name: LessonPage.id,
-                                  arguments: LessonArguments(currentLesson)
-                                ),
-                                openBuilder: (context, closedContainer) {
-                                    return LessonPage();
-                                },
-                                closedBuilder: (context, openContainer) {
-                                  return Container(
-                                        alignment: Alignment.center,
-                                        padding: EdgeInsets.all(15),
-                                        child: DashboardLessonCarouselItemCard(
-                                          showCompletedTag: isLessonComplete,
-                                          isUnlocked: isLessonUnlocked,
-                                          title: currentLesson.title,
-                                          subtitle: "Lesson ${index + 1}",
-                                          duration: "${currentLesson.minsToComplete} mins",
-                                          asset: 'assets/dashboard_lesson.png',
-                                          assetSize: Size(84, 84),
-                                        ),
-                                  );
-                                },
-                              ),
-                              if (prefsProvider.isShowLessonRecipes &&
-                                  currentLessonRecipes.length > 0) ...[
-                                SizedBox(height: 15),
-                                DashboardLessonCarouselItemCard(
-                                  onTapCard: isLessonUnlocked
-                                      ? () => Navigator.pushNamed(
-                                            context,
-                                            RecipeListPage.id,
-                                            arguments: currentLessonRecipes,
-                                          )
-                                      : null,
-                                  isUnlocked: isLessonUnlocked,
-                                  title: "Lesson Recipes",
-                                  duration:
-                                      "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
-                                          S.current.minutesShort,
-                                  asset: 'assets/dashboard_recipes.png',
-                                  assetSize: Size(84, 90),
-                                ),
-                              ],
-                              if (currentLessonQuiz != null) ...[
-                                SizedBox(height: 15),
-                                DashboardLessonCarouselItemCard(
-                                  onTapCard:
-                                      isLessonUnlocked && isLessonComplete
-                                          ? () {
-                                              analytics.logEvent(
-                                                  name: Analytics.ANALYTICS_SCREEN_QUIZ);
-                                              Navigator.pushNamed(
-                                                context,
-                                                QuizScreen.id,
-                                                arguments: currentLessonQuiz,
-                                              );
-                                            }
-                                          : null,
-                                  showCompletedTag:
-                                      currentLessonQuiz.isComplete == true,
-                                  showCompleteLesson: !isLessonComplete,
-                                  isUnlocked: isLessonUnlocked && isLessonComplete,
-                                  title: "Quiz",
-                                  duration: "5 mins",
-                                  asset: 'assets/dashboard_quiz.png',
-                                  assetSize: Size(88, 95),
-                                ),
-                              ]
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    onPageChanged: (page) => activePage.value = page,
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ),
-                SizedBox(height: 15),
-                ValueListenableBuilder<int>(
-                  valueListenable: activePage,
-                  builder: (context, value, child) =>
-                    CarouselPageIndicator(numberOfPages: modulesProvider.currentModuleLessons.length, activePage: activePage)
-                )
-                ,
-                SizedBox(height: 30)
-              ],
-            );
-          }
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 25,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (isLessonUnlocked)
+                              Expanded(
+                                child: Text(
+                                  modulesProvider.currentModule?.title ?? "",
+                                  style: Theme.of(context).textTheme.headline3,
+                                ),
+                              )
+                            else
+                              DashboardLessonLockedComponent(
+                                  title: "Complete the previous lesson"),
+                            Opacity(
+                              opacity: isLessonUnlocked ? 1 : 0.5,
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                ),
+                                child: modulesProvider.currentModule?.iconUrl
+                                            ?.isNotEmpty ==
+                                        true
+                                    ? Image.network(
+                                        modulesProvider
+                                                .currentModule?.iconUrl ??
+                                            "",
+                                        fit: BoxFit.contain,
+                                        height: 24,
+                                        width: 24,
+                                      )
+                                    : Icon(Icons.restaurant),
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 25),
+                        OpenContainer(
+                          tappable: isLessonUnlocked,
+                          transitionDuration: Duration(milliseconds: 400),
+                          routeSettings: RouteSettings(
+                              name: LessonPage.id,
+                              arguments: LessonArguments(currentLesson)),
+                          openBuilder: (context, closedContainer) {
+                            return LessonPage();
+                          },
+                          closedBuilder: (context, openContainer) {
+                            return Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(15),
+                              child: DashboardLessonCarouselItemCard(
+                                showCompletedTag: isLessonComplete,
+                                isUnlocked: isLessonUnlocked,
+                                title: currentLesson.title,
+                                subtitle: "Lesson ${index + 1}",
+                                duration:
+                                    "${currentLesson.minsToComplete} mins",
+                                asset: 'assets/dashboard_lesson.png',
+                                assetSize: Size(84, 84),
+                              ),
+                            );
+                          },
+                        ),
+                        if (prefsProvider.isShowLessonRecipes &&
+                            currentLessonRecipes.length > 0) ...[
+                          SizedBox(height: 15),
+                          DashboardLessonCarouselItemCard(
+                            onTapCard: isLessonUnlocked
+                                ? () => Navigator.pushNamed(
+                                      context,
+                                      RecipeListPage.id,
+                                      arguments: currentLessonRecipes,
+                                    )
+                                : null,
+                            isUnlocked: isLessonUnlocked,
+                            title: "Lesson Recipes",
+                            duration:
+                                "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
+                                    S.current.minutesShort,
+                            asset: 'assets/dashboard_recipes.png',
+                            assetSize: Size(84, 90),
+                          ),
+                        ],
+                        if (currentLessonQuiz != null) ...[
+                          SizedBox(height: 15),
+                          DashboardLessonCarouselItemCard(
+                            onTapCard: isLessonUnlocked && isLessonComplete
+                                ? () {
+                                    analytics.logEvent(
+                                        name: Analytics.ANALYTICS_SCREEN_QUIZ);
+                                    Navigator.pushNamed(
+                                      context,
+                                      QuizScreen.id,
+                                      arguments: currentLessonQuiz,
+                                    );
+                                  }
+                                : null,
+                            showCompletedTag:
+                                currentLessonQuiz.isComplete == true,
+                            showCompleteLesson: !isLessonComplete,
+                            isUnlocked: isLessonUnlocked && isLessonComplete,
+                            title: "Quiz",
+                            duration: "5 mins",
+                            asset: 'assets/dashboard_quiz.png',
+                            assetSize: Size(88, 95),
+                          ),
+                        ]
+                      ],
+                    ),
+                  ),
+                );
+              },
+              onPageChanged: (page) => activePage.value = page,
+            ),
+          ),
+          SizedBox(height: 15),
+          ValueListenableBuilder<int>(
+              valueListenable: activePage,
+              builder: (context, value, child) => CarouselPageIndicator(
+                  numberOfPages: modulesProvider.currentModuleLessons.length,
+                  activePage: activePage)),
+          SizedBox(height: 30)
+        ],
       );
+    });
   }
 }
