@@ -171,7 +171,7 @@ class _LessonPageState extends State<LessonPage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: FilledButton(
-                  text: "LESSON PAGES",
+                  text: "OPEN LESSON PAGES",
                   icon: Image(
                     image: AssetImage("assets/lesson_read_more.png"),
                     height: 20,
