@@ -68,32 +68,6 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 height: height,
               ),
             ),
-            if (showBackButton)
-              Positioned(
-                top: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: AppBar(
-                  systemOverlayStyle: SystemUiOverlayStyle(
-                      statusBarColor: primaryColor,
-                      statusBarIconBrightness: Brightness.dark),
-                  leading: new IconButton(
-                    icon: new Icon(
-                      Icons.arrow_back,
-                      color: backgroundColor,
-                    ),
-                    onPressed: () {
-                      // We update the active page so that when popping,
-                      // we remove the big ellipsis painted earlier
-                      incrementPageCount(activePage + 1);
-
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0.0,
-                ),
-              ),
             SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,6 +100,32 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 ],
               ),
             ),
+            if (showBackButton)
+              Positioned(
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: AppBar(
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                      statusBarColor: primaryColor,
+                      statusBarIconBrightness: Brightness.dark),
+                  leading: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: backgroundColor,
+                    ),
+                    onPressed: () {
+                      // We update the active page so that when popping,
+                      // we remove the big ellipsis painted earlier
+                      incrementPageCount(activePage + 1);
+
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  backgroundColor: Colors.transparent,
+                  elevation: 0.0,
+                ),
+              ),
           ],
         ),
       ),
