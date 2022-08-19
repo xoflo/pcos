@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
 import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
+import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -15,7 +16,7 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
-class ModulesProvider with ChangeNotifier {
+class ModulesProvider extends LoadingStatusNotifier {
   final DatabaseProvider? dbProvider;
 
   ModulesProvider({required this.dbProvider}) {
@@ -57,6 +58,9 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
+
+    // LoadingStatusNotifier loadingStatusNotifier = LoadingStatusNotifier();
+    // loadingStatusNotifier.setLoadingStatus(LoadingStatus.loading);
 
     final String nextLessonAvailableDateString = await PreferencesController()
         .getString(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
@@ -114,7 +118,10 @@ class ModulesProvider with ChangeNotifier {
     status = _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
         ? LoadingStatus.empty
         : LoadingStatus.success;
+    
     notifyListeners();
+
+    setLoadingStatus(status);
   }
 
   List<Lesson> getModuleLessons(final int? moduleID) {
