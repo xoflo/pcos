@@ -14,14 +14,9 @@ class Profile extends StatelessWidget {
         child: Scaffold(
           backgroundColor: primaryColor,
           body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 12.0,
-              ),
-              child: ChangeNotifierProvider(
-                create: (context) => MemberProvider(),
-                child: ProfileLayout(),
-              ),
+            child: ChangeNotifierProvider(
+              create: (context) => MemberProvider(),
+              child: ProfileLayout(),
             ),
           ),
         ),
