@@ -17,7 +17,7 @@ Future<void> main() async {
     color: Colors.green,
     values: FlavorValues(
       baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
-      oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
+      oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
       questionnaireUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/about/you/8?mobile=1",
       imageStorageFolder: "/v1617670686/images/",

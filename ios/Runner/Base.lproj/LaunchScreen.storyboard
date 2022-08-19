@@ -19,20 +19,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Ovie" translatesAutoresizingMaskIntoConstraints="NO" id="hSf-sJ-g8Q">
                                 <rect key="frame" x="0.0" y="423" width="414" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="xkc-uP-29A"/>
+                                    <constraint firstAttribute="height" constant="50" id="Ue5-jO-23f"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.31372549019607843" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4X2-HB-R7a"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="mv9-7Y-t23"/>
-                            <constraint firstAttribute="trailing" secondItem="YRO-k0-Ey4" secondAttribute="trailing" id="voo-uP-MiS"/>
+                            <constraint firstItem="hSf-sJ-g8Q" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="BFN-xk-fXr"/>
+                            <constraint firstItem="hSf-sJ-g8Q" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="GOY-iW-uo0"/>
+                            <constraint firstItem="hSf-sJ-g8Q" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="bSG-K4-Psu"/>
+                            <constraint firstAttribute="trailing" secondItem="hSf-sJ-g8Q" secondAttribute="trailing" id="jIV-Ue-pG4"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -42,6 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="1143" height="464.5"/>
+        <image name="Ovie" width="1143" height="464.5"/>
     </resources>
 </document>
