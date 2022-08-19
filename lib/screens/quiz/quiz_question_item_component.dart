@@ -125,9 +125,10 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
             SizedBox(height: 10),
             HtmlWidget(
               widget.question?.response ?? "",
-              textStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontWeight: FontWeight.normal,
-                  color: textColor.withOpacity(0.8)),
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: textColor.withOpacity(0.8)),
             ),
           ],
         ],

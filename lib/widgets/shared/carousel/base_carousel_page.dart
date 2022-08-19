@@ -20,6 +20,8 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
 
   int get itemsLength;
 
+  int get carouselFlex => 1;
+
   List<Widget> generateIndicators() {
     return List<Widget>.generate(items.length, (index) {
       return Container(
@@ -97,24 +99,29 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: height * 0.6,
-                    child: PageView.builder(
-                      controller: controller,
-                      itemCount: itemsLength,
-                      pageSnapping: true,
-                      itemBuilder: getItemBuilder,
-                      onPageChanged: incrementPageCount,
+                  Flexible(
+                    flex: carouselFlex,
+                    child: Container(
+                      child: PageView.builder(
+                        controller: controller,
+                        itemCount: itemsLength,
+                        pageSnapping: true,
+                        itemBuilder: getItemBuilder,
+                        onPageChanged: incrementPageCount,
+                      ),
                     ),
                   ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: generateIndicators(),
-                      ),
-                      ...getButtons(),
-                    ],
+                  SizedBox(height: 20),
+                  Flexible(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: generateIndicators(),
+                        ),
+                        ...getButtons(),
+                      ],
+                    ),
                   ),
                 ],
               ),

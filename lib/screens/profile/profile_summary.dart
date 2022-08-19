@@ -44,9 +44,7 @@ class ProfileSummary extends StatelessWidget {
                               textStyle: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: textColor.withOpacity(0.8)),
+                                  ?.copyWith(color: textColor.withOpacity(0.8)),
                             ),
                             SizedBox(height: 30)
                           ]

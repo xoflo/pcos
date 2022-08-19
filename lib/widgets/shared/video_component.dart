@@ -41,11 +41,10 @@ class _VideoComponentState extends State<VideoComponent> {
               SizedBox(width: 10),
               Text(
                 "Watch Video",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: backgroundColor,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(color: backgroundColor),
               ),
             ],
           ),
