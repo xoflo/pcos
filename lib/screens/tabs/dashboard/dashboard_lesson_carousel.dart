@@ -15,6 +15,7 @@ import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay2.dart';
 
 class DashboardLessonCarousel extends StatelessWidget {
   DashboardLessonCarousel({
@@ -29,21 +30,22 @@ class DashboardLessonCarousel extends StatelessWidget {
     PageController controller = PageController(
         initialPage: activePage.value, keepPage: false, viewportFraction: 0.9);
 
-    return Consumer<ModulesProvider>(
-        builder: (context, modulesProvider, child) {
-      if (modulesProvider.status == LoadingStatus.success 
-        && controller.hasClients && !isPageScrollerInitialized) {
-          isPageScrollerInitialized = true;
-          activePage.value = modulesProvider.currentModuleLessons.indexWhere(
-            (element) =>
-                element.lessonID == modulesProvider.currentLesson?.lessonID,
-          );
-          controller.jumpToPage(activePage.value);
+    return LoaderOverlay(mainWidget:
+        Consumer<ModulesProvider>(builder: (context, modulesProvider, child) {
+      if (modulesProvider.status == LoadingStatus.success &&
+          controller.hasClients &&
+          !isPageScrollerInitialized) {
+        isPageScrollerInitialized = true;
+        activePage.value = modulesProvider.currentModuleLessons.indexWhere(
+          (element) =>
+              element.lessonID == modulesProvider.currentLesson?.lessonID,
+        );
+        controller.jumpToPage(activePage.value);
       }
 
       PreferencesProvider prefsProvider =
           Provider.of<PreferencesProvider>(context);
-      return Column(
+       return Column(
         children: [
           Container(
             height: 530,
@@ -67,20 +69,20 @@ class DashboardLessonCarousel extends StatelessWidget {
                   lessonRecipeDuration += element.duration ?? 0;
                 });
 
-                  // Initially, all lessons in the current module are already
-                  // loaded. However, each lesson needs to be checked if
-                  // they are already unlocked. The first lesson of the module is
-                  // automatically unlocked. But for the rest of the lessons
-                  // to be unlocked, the previous one must be completed first.
-                  // But the app still needs to check if the lesson is already
-                  // available to access for the user. The server determines the
-                  // availability of the lesson so that the user will not
-                  // be able to simultaneously finish all the lessons and all
-                  // the modules in one sitting. This also allows other users
-                  // to save the lessons for later and go over them on their
-                  // own pace. The computation for this value is already done
-                  // in the server, based on the number of hours since the user
-                  // completed the very first lesson in the module.
+                // Initially, all lessons in the current module are already
+                // loaded. However, each lesson needs to be checked if
+                // they are already unlocked. The first lesson of the module is
+                // automatically unlocked. But for the rest of the lessons
+                // to be unlocked, the previous one must be completed first.
+                // But the app still needs to check if the lesson is already
+                // available to access for the user. The server determines the
+                // availability of the lesson so that the user will not
+                // be able to simultaneously finish all the lessons and all
+                // the modules in one sitting. This also allows other users
+                // to save the lessons for later and go over them on their
+                // own pace. The computation for this value is already done
+                // in the server, based on the number of hours since the user
+                // completed the very first lesson in the module.
 
                 bool isLessonUnlocked = index == 0;
 
@@ -171,8 +173,8 @@ class DashboardLessonCarousel extends StatelessWidget {
                                 title: currentLesson.title,
                                 subtitle: "Lesson ${index + 1}",
                                 duration: lessonDuration == 0
-                                ? null
-                                : "$lessonDuration mins",
+                                    ? null
+                                    : "$lessonDuration mins",
                                 asset: 'assets/dashboard_lesson.png',
                                 assetSize: Size(84, 84),
                               ),
@@ -183,19 +185,19 @@ class DashboardLessonCarousel extends StatelessWidget {
                             currentLessonRecipes.length > 0) ...[
                           SizedBox(height: 15),
                           OpenContainer(
-                          tappable: isLessonUnlocked,
-                          transitionDuration: Duration(milliseconds: 400),
-                          routeSettings: RouteSettings(
-                              name: RecipeListPage.id,
-                              arguments: currentLessonRecipes),
-                          openBuilder: (context, closedContainer) {
-                            return RecipeListPage();
-                          },
-                          closedBuilder: (context, openContainer) {
-                            return Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(15),
-                              child: DashboardLessonCarouselItemCard(
+                            tappable: isLessonUnlocked,
+                            transitionDuration: Duration(milliseconds: 400),
+                            routeSettings: RouteSettings(
+                                name: RecipeListPage.id,
+                                arguments: currentLessonRecipes),
+                            openBuilder: (context, closedContainer) {
+                              return RecipeListPage();
+                            },
+                            closedBuilder: (context, openContainer) {
+                              return Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.all(15),
+                                child: DashboardLessonCarouselItemCard(
                                   isUnlocked: isLessonUnlocked,
                                   title: "Lesson Recipes",
                                   duration:
@@ -204,9 +206,9 @@ class DashboardLessonCarousel extends StatelessWidget {
                                   asset: 'assets/dashboard_recipes.png',
                                   assetSize: Size(84, 90),
                                 ),
-                            );
-                          },
-                        ),
+                              );
+                            },
+                          ),
                         ],
                         if (currentLessonQuiz != null) ...[
                           SizedBox(height: 15),
@@ -249,6 +251,7 @@ class DashboardLessonCarousel extends StatelessWidget {
           SizedBox(height: 30)
         ],
       );
-    });
+    })
+    );
   }
 }
