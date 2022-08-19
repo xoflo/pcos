@@ -58,9 +58,7 @@ class ModulesProvider extends LoadingStatusNotifier {
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     status = LoadingStatus.loading;
-
-    // LoadingStatusNotifier loadingStatusNotifier = LoadingStatusNotifier();
-    // loadingStatusNotifier.setLoadingStatus(LoadingStatus.loading);
+    setLoadingStatus(status, false);
 
     final String nextLessonAvailableDateString = await PreferencesController()
         .getString(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
@@ -119,9 +117,8 @@ class ModulesProvider extends LoadingStatusNotifier {
         ? LoadingStatus.empty
         : LoadingStatus.success;
     
+    setLoadingStatus(status, false);
     notifyListeners();
-
-    setLoadingStatus(status);
   }
 
   List<Lesson> getModuleLessons(final int? moduleID) {

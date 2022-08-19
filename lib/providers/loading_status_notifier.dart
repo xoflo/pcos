@@ -7,9 +7,9 @@ class LoadingStatusNotifier extends ChangeNotifier {
 
   // LoadingStatus status = LoadingStatus.empty;
 
-  void setLoadingStatus(LoadingStatus newLoadingStatus) {
+  void setLoadingStatus(LoadingStatus newLoadingStatus, bool isNotify) {
     // _loadingStatus = newLoadingStatus;
     loadingStatus = newLoadingStatus;
-    notifyListeners();
+    if(isNotify) notifyListeners();
   }
 }
