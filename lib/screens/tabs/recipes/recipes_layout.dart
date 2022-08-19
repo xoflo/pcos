@@ -94,7 +94,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
             if (_isSearching && _searchController.text.trim().isEmpty)
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 70),
+                  padding: EdgeInsets.symmetric(horizontal: 60),
                   alignment: Alignment.center,
                   child: Text(
                     "Search any ingredients, recipes names, or meal types.",
@@ -161,7 +161,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                           crossAxisCount: 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
-                          children: recipesProvider.items
+                          children: recipesProvider.randomizedItems
                               .map((recipe) => RecipeItem(
                                     recipe: recipe,
                                     isFromLesson: false,

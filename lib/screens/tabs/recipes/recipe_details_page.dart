@@ -15,9 +15,11 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
-  const RecipeDetailsPage({Key? key}) : super(key: key);
+  const RecipeDetailsPage({Key? key, this.args}) : super(key: key);
 
   static const id = "recipe_details_page";
+
+  final LessonRecipeArguments? args;
 
   @override
   State<RecipeDetailsPage> createState() => _RecipeDetailsPageState();
@@ -52,8 +54,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   @override
   Widget build(BuildContext context) {
     if (args == null) {
-      args =
-          ModalRoute.of(context)?.settings.arguments as LessonRecipeArguments;
+      args = widget.args;
       isFavorite = favouritesProvider.isFavourite(
           FavouriteType.Recipe, args?.recipe.recipeId);
     }

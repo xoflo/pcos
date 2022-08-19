@@ -13,9 +13,11 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_delete_page.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_personal_details.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_settings_item.dart';
+import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/global_vars.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings(
@@ -126,9 +128,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) => Expanded(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ListView.builder(
               itemCount: 5,
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) => Column(
                 children: <Widget>[
@@ -137,51 +141,56 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ],
               ),
             ),
-            Spacer(),
-            Text(
-              "Signed in as ${widget.email}",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  ?.copyWith(color: textColor.withOpacity(0.8)),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Version $_appVersion",
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2
-                  ?.copyWith(color: textColor.withOpacity(0.8)),
-            ),
-            HollowButton(
-              onPressed: () {
-                DatabaseProvider dbProvider =
-                    Provider.of<DatabaseProvider>(context, listen: false);
-                AuthenticationController authController =
-                    AuthenticationController();
-                authController.deleteCredentials();
-                authController.deletePin();
-                authController.deleteOtherPrefs();
-                dbProvider.deleteAllData();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    SignIn.id, (Route<dynamic> route) => false);
-              },
-              text: "LOG OUT",
-              style: OutlinedButton.styleFrom(
-                primary: backgroundColor,
-                backgroundColor: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+            Column(
+              children: [
+                Text(
+                  "Signed in as ${widget.email}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(color: textColor.withOpacity(0.8)),
                 ),
-                side: const BorderSide(
-                  width: 1,
-                  color: backgroundColor,
+                SizedBox(height: 10),
+                Text(
+                  "Version $_appVersion",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      ?.copyWith(color: textColor.withOpacity(0.8)),
                 ),
-              ),
-              margin: const EdgeInsets.all(15),
-              verticalPadding: 5,
+                HollowButton(
+                  onPressed: () {
+                    DatabaseProvider dbProvider =
+                        Provider.of<DatabaseProvider>(context, listen: false);
+                    AuthenticationController authController =
+                        AuthenticationController();
+                    authController.deleteCredentials();
+                    authController.deletePin();
+                    authController.deleteOtherPrefs();
+                    dbProvider.deleteAllData();
+                    turnOffDailyReminderNotification(localNotificationsPlugin);
+
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        SignIn.id, (Route<dynamic> route) => false);
+                  },
+                  text: "LOG OUT",
+                  style: OutlinedButton.styleFrom(
+                    primary: backgroundColor,
+                    backgroundColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    side: const BorderSide(
+                      width: 1,
+                      color: backgroundColor,
+                    ),
+                  ),
+                  margin: const EdgeInsets.all(15),
+                  verticalPadding: 5,
+                ),
+                SizedBox(height: 10),
+              ],
             ),
-            SizedBox(height: 10),
           ],
         ),
       );
