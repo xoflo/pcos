@@ -33,6 +33,7 @@ class DashboardLessonCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return LoaderOverlay(
         loadingStatusNotifier: Provider.of<ModulesProvider>(context, listen: true),
+        indicatorPosition: Alignment.topCenter,
         mainWidget: Consumer<ModulesProvider>(
             builder: (context, modulesProvider, child) {
           if (modulesProvider.loadingStatus == LoadingStatus.success
