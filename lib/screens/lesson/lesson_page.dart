@@ -178,7 +178,7 @@ class _LessonPageState extends State<LessonPage> {
                     width: 20,
                   ),
                   margin: EdgeInsets.zero,
-                  width: 200,
+                  width: 275,
                   isRoundedButton: false,
                   foregroundColor: Colors.white,
                   backgroundColor: backgroundColor,
