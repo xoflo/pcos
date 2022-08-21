@@ -23,8 +23,8 @@ class DashboardLessonCarousel extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final activePage = new ValueNotifier(0);
-  bool isPageScrollerInitialized = false;
+  final activePage = ValueNotifier(0);
+  final isPageScrollerInitialized = ValueNotifier(false);
 
   final PageController controller = PageController(
         initialPage: 0, keepPage: false, viewportFraction: 0.9);
@@ -36,8 +36,8 @@ class DashboardLessonCarousel extends StatelessWidget {
         mainWidget: Consumer<ModulesProvider>(
             builder: (context, modulesProvider, child) {
           if (modulesProvider.loadingStatus == LoadingStatus.success
-            && !isPageScrollerInitialized) {
-            isPageScrollerInitialized = true;
+            && !isPageScrollerInitialized.value) {
+            isPageScrollerInitialized.value = true;
             activePage.value = modulesProvider.currentModuleLessons.indexWhere(
               (element) =>
                   element.lessonID == modulesProvider.currentLesson?.lessonID,
