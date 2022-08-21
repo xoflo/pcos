@@ -7,6 +7,7 @@ import 'package:thepcosprotocol_app/screens/profile/profile_settings.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_summary.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/toggle_switch.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay2.dart';
 
 class ProfileLayout extends StatefulWidget {
   @override
@@ -53,17 +54,24 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<MemberProvider>(context);
     final Size screenSize = MediaQuery.of(context).size;
 
-    return WillPopScope(
-      onWillPop: () async => !Platform.isIOS,
-      child: Container(
-        decoration: BoxDecoration(
-          color: primaryColor,
+    return Consumer<MemberProvider>(builder: (context, memberProvider, child) {
+      return LoaderOverlay(
+        loadingStatusNotifier: memberProvider,
+        indicatorPosition: Alignment.center,
+        overlayBackgroundColor: primaryColor,
+        height: MediaQuery.of(context).size.height,
+        mainWidget: WillPopScope(
+          onWillPop: () async => !Platform.isIOS,
+          child: Container(
+            decoration: BoxDecoration(
+              color: primaryColor,
+            ),
+            child: _memberDetails(screenSize, memberProvider),
+          ),
         ),
-        child: _memberDetails(screenSize, vm),
-      ),
-    );
+      );
+    });
   }
 }

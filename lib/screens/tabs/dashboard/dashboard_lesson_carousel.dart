@@ -26,18 +26,20 @@ class DashboardLessonCarousel extends StatelessWidget {
   final activePage = ValueNotifier(0);
   final isPageScrollerInitialized = ValueNotifier(false);
 
-  final PageController controller = PageController(
-        initialPage: 0, keepPage: false, viewportFraction: 0.9);
+  final PageController controller =
+      PageController(initialPage: 0, keepPage: false, viewportFraction: 0.9);
 
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
-        loadingStatusNotifier: Provider.of<ModulesProvider>(context, listen: true),
+        loadingStatusNotifier:
+            Provider.of<ModulesProvider>(context, listen: true),
         indicatorPosition: Alignment.topCenter,
+        height: 530.0,
         mainWidget: Consumer<ModulesProvider>(
             builder: (context, modulesProvider, child) {
-          if (modulesProvider.loadingStatus == LoadingStatus.success
-            && !isPageScrollerInitialized.value) {
+          if (modulesProvider.loadingStatus == LoadingStatus.success &&
+              !isPageScrollerInitialized.value) {
             isPageScrollerInitialized.value = true;
             activePage.value = modulesProvider.currentModuleLessons.indexWhere(
               (element) =>
@@ -45,8 +47,11 @@ class DashboardLessonCarousel extends StatelessWidget {
             );
           }
 
-          WidgetsBinding.instance?.addPostFrameCallback(
-            (timeStamp) => controller.jumpToPage(activePage.value));
+          WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+            if (controller.hasClients) {
+              controller.jumpToPage(activePage.value);
+            }
+          });
 
           PreferencesProvider prefsProvider =
               Provider.of<PreferencesProvider>(context);

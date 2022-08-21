@@ -247,6 +247,7 @@ class LessonPage extends StatelessWidget {
         return LoaderOverlay(
           loadingStatusNotifier: modulesProvider,
           indicatorPosition: Alignment.center,
+          height: MediaQuery.of(context).size.height,
           mainWidget: Scaffold(
               backgroundColor: primaryColor,
               body: WillPopScope(

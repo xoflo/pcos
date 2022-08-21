@@ -13,16 +13,19 @@ class LoaderOverlay extends StatelessWidget {
       {Key? key,
       required this.mainWidget,
       required this.loadingStatusNotifier,
-      required this.indicatorPosition})
+      required this.indicatorPosition,
+      this.overlayBackgroundColor,
+      required this.height})
       : super(key: key);
 
   final Widget mainWidget;
   final LoadingStatusNotifier loadingStatusNotifier;
   final Alignment indicatorPosition;
+  final Color? overlayBackgroundColor;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
-    // return Consumer<ModulesProvider>(builder: (context, modulesProvider, child) =>
     return Stack(
       children: <Widget>[mainWidget, _loaderOverlay()],
     );
@@ -31,16 +34,14 @@ class LoaderOverlay extends StatelessWidget {
   Widget _loaderOverlay() {
     if (loadingStatusNotifier.loadingStatus == LoadingStatus.loading) {
       return Container(
-        height: 530,
-        // color: Colors.grey.withOpacity(0.5),
-        color: Colors.transparent,
+        height: height,
+        color: overlayBackgroundColor ?? Colors.transparent,
         child: Align(
           alignment: indicatorPosition,
           child: CircularProgressIndicator(
-              backgroundColor: backgroundColor,
-              valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
+            valueColor: new AlwaysStoppedAnimation<Color>(backgroundColor),
             // child: CircularProgressIndicator(),
-            ),
+          ),
         ),
       );
     } else if (loadingStatusNotifier.loadingStatus == LoadingStatus.empty) {
