@@ -16,7 +16,7 @@ Future<void> main() async {
     flavor: Flavor.DEV,
     color: Colors.green,
     values: FlavorValues(
-      baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
+      baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
       questionnaireUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/about/you/8?mobile=1",
