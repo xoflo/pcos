@@ -116,7 +116,7 @@ class ModulesProvider extends LoadingStatusNotifier {
     status = _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
         ? LoadingStatus.empty
         : LoadingStatus.success;
-    
+
     setLoadingStatus(status, false);
     notifyListeners();
   }
@@ -249,6 +249,7 @@ class ModulesProvider extends LoadingStatusNotifier {
 
   Future<void> fetchLessonTasks(final int lessonID) async {
     status = LoadingStatus.loading;
+    setLoadingStatus(status, false);
 
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
@@ -269,6 +270,7 @@ class ModulesProvider extends LoadingStatusNotifier {
       }
 
       status = LoadingStatus.success;
+      setLoadingStatus(status, false);
       notifyListeners();
     }
   }
