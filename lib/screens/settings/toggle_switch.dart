@@ -34,10 +34,7 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
           Flexible(
             child: Text(
               widget.title,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  ?.copyWith(fontWeight: FontWeight.normal),
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           ),
           CupertinoSwitch(

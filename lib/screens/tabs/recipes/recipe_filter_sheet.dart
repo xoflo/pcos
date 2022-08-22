@@ -144,10 +144,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                   ),
                   child: Text(
                     selectedMealType,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(fontWeight: FontWeight.normal),
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
               ),
@@ -190,10 +187,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                           ? selectedDietType.reduce(
                               (value, element) => value + ", " + element)
                           : "",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(fontWeight: FontWeight.normal),
+                      style: Theme.of(context).textTheme.bodyText1,
                     ),
                   ),
                 ),
@@ -212,9 +206,10 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                     SizedBox(width: 10),
                     Text(
                       "Set as default filter",
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          fontWeight: FontWeight.normal,
-                          color: textColor.withOpacity(0.8)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     )
                   ],
                 ),

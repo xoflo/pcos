@@ -70,10 +70,7 @@ class _DashboardWhySettingsLayoutState
                 controller: textController,
                 maxLength: 100,
                 maxLines: null,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(fontWeight: FontWeight.normal),
+                style: Theme.of(context).textTheme.bodyText1,
                 onChanged: (value) => setState(() => textLength = value.length),
                 decoration: InputDecoration(
                   isDense: true,

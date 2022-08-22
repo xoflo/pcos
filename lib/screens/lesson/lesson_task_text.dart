@@ -24,10 +24,7 @@ class _LessonTaskTextState extends State<LessonTaskText> {
             autofocus: false,
             autocorrect: false,
             enableSuggestions: false,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                ?.copyWith(fontWeight: FontWeight.normal),
+            style: Theme.of(context).textTheme.bodyText1,
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.transparent,

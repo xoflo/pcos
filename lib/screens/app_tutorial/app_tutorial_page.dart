@@ -28,6 +28,9 @@ class _AppTutorialPageState extends State<AppTutorialPage>
   int get itemsLength => items.length + 1;
 
   @override
+  int get carouselFlex => 2;
+
+  @override
   List<CarouselItem> get items => [
         CarouselItem(
           title: "Welcome to our programme!",

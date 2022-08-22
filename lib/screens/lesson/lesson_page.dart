@@ -159,10 +159,10 @@ class _LessonPageState extends State<LessonPage> {
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: HtmlWidget(
                 args?.lesson.introduction ?? "",
-                textStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontWeight: FontWeight.normal,
-                      height: 1.5,
-                    ),
+                textStyle: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(height: 1.5),
                 isSelectable: true,
               ),
             ),
@@ -178,7 +178,7 @@ class _LessonPageState extends State<LessonPage> {
                     width: 20,
                   ),
                   margin: EdgeInsets.zero,
-                  width: 200,
+                  width: 275,
                   isRoundedButton: false,
                   foregroundColor: Colors.white,
                   backgroundColor: backgroundColor,
