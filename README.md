@@ -6,7 +6,7 @@ Ovie App.
 
 The Ovie app is built using Flutter.
 
-There are three flavors for the app: - dev - prod
+There are two flavors for the app: - dev - prod
 
 To build and run the app locally using Android Studio you can use the Configurations dropdown to
 choose which flavor you wish to build and run.
