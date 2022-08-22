@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/utils/string_utils.dart';
 
-enum Flavor { DEV, STAGING, PROD }
+enum Flavor { DEV, PROD }
 
 class FlavorValues {
   FlavorValues({
@@ -43,6 +43,5 @@ class FlavorConfig {
   }
 
   static bool isDev() => _instance.flavor == Flavor.DEV;
-  static bool isStaging() => _instance.flavor == Flavor.STAGING;
   static bool isProd() => _instance.flavor == Flavor.PROD;
 }
