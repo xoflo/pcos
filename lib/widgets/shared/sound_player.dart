@@ -46,11 +46,15 @@ class _SoundPlayerState extends State<SoundPlayer> {
   }
 
   void setAudioPlayerDetails(String link) {
-    audioPlayer.setSource(UrlSource(widget.link));
+    // Filter out extra spaces that may be parsed from the backend (just so that
+    // we can be sure)
+    audioPlayer.setSource(UrlSource(widget.link.trim()));
 
     // We need to pause here because in iOS, there is a tendency
     // to autoplay the video
     audioPlayer.pause();
+
+    audioPlayer.setReleaseMode(ReleaseMode.stop);
 
     audioPlayer.onPlayerComplete.listen((event) {
       if (mounted) {
