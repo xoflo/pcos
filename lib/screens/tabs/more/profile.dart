@@ -18,12 +18,9 @@ class Profile extends StatelessWidget {
               padding: EdgeInsets.only(
                 top: 12.0,
               ),
-              child: ChangeNotifierProvider(
-                create: (context) => MemberProvider(),
-                child: ProfileLayout(),
+              child: ProfileLayout(),
               ),
             ),
           ),
-        ),
       );
 }
