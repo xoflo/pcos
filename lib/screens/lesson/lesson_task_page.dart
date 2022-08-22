@@ -58,8 +58,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
 
   Future onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
       String value) async {
-    await modulesProvider
-        .setTaskAsComplete(taskID, value: value, lessonID: lessonID)
+    await modulesProvider.setTaskAsComplete(taskID, value: value, lessonID: lessonID)
         .then((value) => Navigator.pop(context));
   }
 
@@ -72,7 +71,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
       body: Consumer<ModulesProvider>(
         builder: (context, modulesProvider, child) => WillPopScope(
           onWillPop: () async =>
-              modulesProvider.status != LoadingStatus.loading,
+              modulesProvider.setTaskAsCompleteStatus != LoadingStatus.loading,
           child: Stack(
             children: [
               SafeArea(
@@ -90,7 +89,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                           closeItem: () => Navigator.pop(context),
                         ),
                       ),
-                      if (modulesProvider.status == LoadingStatus.empty)
+                      if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.empty)
                         NoResults(message: S.current.noItemsFound)
                       else
                         Expanded(
@@ -120,7 +119,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                   ),
                 ),
               ),
-              if (modulesProvider.status == LoadingStatus.loading)
+              if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.loading)
                 LoaderOverlay()
             ],
           ),

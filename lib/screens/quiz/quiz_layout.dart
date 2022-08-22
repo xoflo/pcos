@@ -34,8 +34,7 @@ class _QuizLayoutState extends State<QuizLayout> {
               curve: Curves.easeIn);
           setState(() => questionNumber += 1);
         } else {
-          await modulesProvider
-              .setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
+          await modulesProvider.setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
               .then((value) {
             Navigator.pop(context);
           });
@@ -65,7 +64,7 @@ class _QuizLayoutState extends State<QuizLayout> {
                         questionCount: widget.quiz?.questions?.length,
                       ),
                     ),
-                    if (modulesProvider.status == LoadingStatus.empty)
+                    if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.empty)
                       NoResults(message: "Quiz not available")
                     else
                       Expanded(
@@ -88,7 +87,7 @@ class _QuizLayoutState extends State<QuizLayout> {
                 ),
               ),
             ),
-            if (modulesProvider.status == LoadingStatus.loading) LoaderOverlay()
+            if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.loading) LoaderOverlay()
           ],
         ),
       );

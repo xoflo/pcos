@@ -38,7 +38,7 @@ class DashboardLessonCarousel extends StatelessWidget {
         height: 530.0,
         mainWidget: Consumer<ModulesProvider>(
             builder: (context, modulesProvider, child) {
-          if (modulesProvider.loadingStatus == LoadingStatus.success &&
+          if (modulesProvider.fetchAndSaveDataStatus == LoadingStatus.success &&
               !isPageScrollerInitialized.value) {
             isPageScrollerInitialized.value = true;
             activePage.value = modulesProvider.currentModuleLessons.indexWhere(

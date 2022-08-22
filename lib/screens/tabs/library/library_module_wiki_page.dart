@@ -32,17 +32,6 @@ class _LibraryModuleWikiPageState extends State<LibraryModuleWikiPage> {
         Provider.of<FavouritesProvider>(context, listen: false);
   }
 
-  Widget getLoadingStatus() {
-    switch (modulesProvider.status) {
-      case LoadingStatus.loading:
-        return PcosLoadingSpinner();
-      case LoadingStatus.empty:
-        return NoResults(message: S.current.noItemsFound);
-      case LoadingStatus.success:
-        return Container();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final isPreviousModules =

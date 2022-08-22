@@ -252,7 +252,7 @@ class LessonPage extends StatelessWidget {
               backgroundColor: primaryColor,
               body: WillPopScope(
                 onWillPop: () async =>
-                    modulesProvider.status != LoadingStatus.loading,
+                    modulesProvider.fetchLessonTasksStatus != LoadingStatus.loading,
                 child: Stack(
                   children: [
                     SafeArea(

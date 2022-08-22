@@ -35,8 +35,7 @@ class _QuizPageState extends State<QuizPage> {
               curve: Curves.easeIn);
           setState(() => questionNumber += 1);
         } else {
-          await modulesProvider
-              .setTaskAsComplete(quiz?.quizID, forceRefresh: true)
+          await modulesProvider.setTaskAsComplete(quiz?.quizID, forceRefresh: true)
               .then((value) {
             Navigator.pop(context);
           });
@@ -54,7 +53,7 @@ class _QuizPageState extends State<QuizPage> {
       body: Consumer<ModulesProvider>(
         builder: (context, modulesProvider, child) => WillPopScope(
           onWillPop: () async =>
-              modulesProvider.status != LoadingStatus.loading,
+              modulesProvider.setTaskAsCompleteStatus != LoadingStatus.loading,
           child: Stack(
             children: [
               SafeArea(
@@ -74,7 +73,7 @@ class _QuizPageState extends State<QuizPage> {
                           questionCount: quiz?.questions?.length,
                         ),
                       ),
-                      if (modulesProvider.status == LoadingStatus.empty)
+                      if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.empty)
                         NoResults(message: "Quiz not available")
                       else
                         Expanded(
@@ -97,7 +96,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
               ),
-              if (modulesProvider.status == LoadingStatus.loading)
+              if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.loading)
                 LoaderOverlay()
             ],
           ),
