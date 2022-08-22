@@ -79,7 +79,7 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
               padding: EdgeInsets.all(15),
               child: Consumer<PreferencesProvider>(
                 builder: (context, prefsProvider, child) => Text(
-                  "Hello " + prefsProvider.getPreferredDisplayName(),
+                  "Hello " + prefsProvider.preferredDisplayName,
                   style: Theme.of(context).textTheme.headline1,
                 ),
               )

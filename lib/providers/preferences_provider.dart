@@ -59,6 +59,8 @@ class PreferencesProvider extends ChangeNotifier {
   void getIsUsernameUsed() async {
     _isUsernameUsed = await PreferencesController()
         .getBool(SharedPreferencesKeys.USERNAME_USED);
+    
+    _preferredDisplayName = _getPreferredDisplayNameValue();
     notifyListeners();
   }
 
@@ -69,12 +71,15 @@ class PreferencesProvider extends ChangeNotifier {
 
   // ////////
 
-  String getPreferredDisplayName() {
-    String displayedName = "";
-    if (memberProvider != null) {
-      displayedName = (isUsernameUsed ? memberProvider?.alias : memberProvider?.firstName) ?? "";
-    }
+  String _preferredDisplayName = "";
+  String get preferredDisplayName {
+    return _getPreferredDisplayNameValue();
+  }
 
-    return displayedName;
+  String _getPreferredDisplayNameValue() {
+    _preferredDisplayName =
+        (isUsernameUsed ? memberProvider?.alias : memberProvider?.firstName) ??
+            "";
+    return _preferredDisplayName;
   }
 }
