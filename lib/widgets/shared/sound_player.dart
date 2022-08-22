@@ -26,6 +26,7 @@ class _SoundPlayerState extends State<SoundPlayer> {
   void initState() {
     super.initState();
 
+    configureAudioVolume();
     setAudioPlayerDetails(widget.link);
   }
 
@@ -43,6 +44,29 @@ class _SoundPlayerState extends State<SoundPlayer> {
     }
 
     return label;
+  }
+
+  // For the sounds to properly work in Android and iOS, they must be run
+  // by default through the speaker
+  void configureAudioVolume() {
+    final AudioContext audioContext = AudioContext(
+      iOS: AudioContextIOS(
+        defaultToSpeaker: true,
+        category: AVAudioSessionCategory.playback,
+        options: [
+          AVAudioSessionOptions.defaultToSpeaker,
+          AVAudioSessionOptions.allowBluetooth,
+        ],
+      ),
+      android: AudioContextAndroid(
+        isSpeakerphoneOn: true,
+        stayAwake: true,
+        contentType: AndroidContentType.speech,
+        usageType: AndroidUsageType.media,
+        audioFocus: AndroidAudioFocus.gain,
+      ),
+    );
+    AudioPlayer.global.setGlobalAudioContext(audioContext);
   }
 
   void setAudioPlayerDetails(String link) {
