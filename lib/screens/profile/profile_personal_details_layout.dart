@@ -65,20 +65,14 @@ class _ProfilePersonalDetailsLayoutState
                 padding: EdgeInsets.symmetric(vertical: 11, horizontal: 15),
                 child: Text(
                   "@",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontWeight: FontWeight.normal),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 48),
                 child: TextFormField(
                   controller: usernameController,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontWeight: FontWeight.normal),
+                  style: Theme.of(context).textTheme.bodyText1,
                   decoration: InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.all(12),

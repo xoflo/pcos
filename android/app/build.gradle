@@ -68,6 +68,9 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -79,12 +82,6 @@ android {
             resValue "string", "app_name", "Ovie - Dev"
             versionNameSuffix "-dev"
             applicationId "com.thepcosnutritionist.app.dev"
-        }
-        staging {
-            dimension "app"
-            resValue "string", "app_name", "Ovie - Staging"
-            versionNameSuffix "-staging"
-                applicationId "com.thepcosnutritionist.app.staging"
         }
         prod {
             dimension "app"

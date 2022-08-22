@@ -65,7 +65,8 @@ class _QuestionListState extends State<QuestionList> {
                           item.question ?? "",
                           style: TextStyle(
                             color: textColor,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
                           ),
                         ),
                       ),
@@ -93,7 +94,8 @@ class _QuestionListState extends State<QuestionList> {
                       item.question ?? "",
                       style: TextStyle(
                         color: primaryColor,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
                       ),
                     ),
                   );

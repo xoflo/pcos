@@ -20,6 +20,8 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
 
   int get itemsLength;
 
+  int get carouselFlex => 1;
+
   List<Widget> generateIndicators() {
     return List<Widget>.generate(items.length, (index) {
       return Container(
@@ -66,6 +68,38 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                 height: height,
               ),
             ),
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: carouselFlex,
+                    child: Container(
+                      child: PageView.builder(
+                        controller: controller,
+                        itemCount: itemsLength,
+                        pageSnapping: true,
+                        itemBuilder: getItemBuilder,
+                        onPageChanged: incrementPageCount,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Flexible(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: generateIndicators(),
+                        ),
+                        ...getButtons(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             if (showBackButton)
               Positioned(
                 top: 0.0,
@@ -75,8 +109,8 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                   systemOverlayStyle: SystemUiOverlayStyle(
                       statusBarColor: primaryColor,
                       statusBarIconBrightness: Brightness.dark),
-                  leading: new IconButton(
-                    icon: new Icon(
+                  leading: IconButton(
+                    icon: Icon(
                       Icons.arrow_back,
                       color: backgroundColor,
                     ),
@@ -92,33 +126,6 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                   elevation: 0.0,
                 ),
               ),
-            SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: height * 0.6,
-                    child: PageView.builder(
-                      controller: controller,
-                      itemCount: itemsLength,
-                      pageSnapping: true,
-                      itemBuilder: getItemBuilder,
-                      onPageChanged: incrementPageCount,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: generateIndicators(),
-                      ),
-                      ...getButtons(),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

@@ -63,7 +63,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Header(
-                  title: "Wikis",
+                    title: "Wikis",
                     closeItem: () => Navigator.pop(context, isFavorite),
                   ),
                   Expanded(
@@ -134,9 +134,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               textStyle: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: textColor.withOpacity(0.8)),
+                                  ?.copyWith(color: textColor.withOpacity(0.8)),
                             )
                           ],
                         ),

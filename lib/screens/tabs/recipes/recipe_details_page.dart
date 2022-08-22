@@ -199,7 +199,6 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                           .textTheme
                                           .bodyText1
                                           ?.copyWith(
-                                            fontWeight: FontWeight.normal,
                                             height: 1.25,
                                             color: textColor.withOpacity(0.8),
                                           ),

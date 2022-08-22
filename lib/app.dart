@@ -127,6 +127,10 @@ class _AppState extends State<App> {
 
     await OneSignal.shared
         .setAppId(FlavorConfig.instance.values.oneSignalAppID);
+
+    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+      print("Accepted permission: $accepted");
+    });
   }
 
   void setDeviceOrientations() async {

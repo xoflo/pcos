@@ -17,47 +17,48 @@ class _ProfileDeletePageState extends State<ProfileDeletePage> {
   bool isUpdating = false;
   @override
   Widget build(BuildContext context) => WillPopScope(
-          onWillPop: () async => !Platform.isIOS,
-          child: Scaffold(
-              backgroundColor: primaryColor,
-              body: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 12.0,
+        onWillPop: () async => !Platform.isIOS,
+        child: Scaffold(
+          backgroundColor: primaryColor,
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 12.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Header(
+                    title: "Delete Account",
+                    closeItem: isUpdating ? null : () => Navigator.pop(context),
+                    showDivider: true,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Header(
-                        title: "Delete Account",
-                        closeItem: isUpdating ? null : () => Navigator.pop(context),
-                        showDivider: true,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-                        child: Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                          style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                              fontWeight: FontWeight.normal,
-                              color: textColor.withOpacity(0.8)),
-                        ),
-                      ),
-                      Spacer(),
-                      FilledButton(
-                        text: "DELETE ACCOUNT",
-                        isUpdating: isUpdating,
-                        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        foregroundColor: Colors.white,
-                        backgroundColor: redColor,
-                        onPressed: () {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          setState(() => isUpdating = true);
-                        },
-                      ),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+                    child: Text(
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
+                    ),
                   ),
-                ),
+                  Spacer(),
+                  FilledButton(
+                    text: "DELETE ACCOUNT",
+                    isUpdating: isUpdating,
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    foregroundColor: Colors.white,
+                    backgroundColor: redColor,
+                    onPressed: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      setState(() => isUpdating = true);
+                    },
+                  ),
+                ],
               ),
             ),
-          );
+          ),
+        ),
+      );
 }
