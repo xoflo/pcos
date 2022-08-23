@@ -266,6 +266,7 @@ class DashboardLessonCarousel extends StatelessWidget {
           SizedBox(height: 30)
         ],
       );
-    });
+    })
+    );
   }
 }
