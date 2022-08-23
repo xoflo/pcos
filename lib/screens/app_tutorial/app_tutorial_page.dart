@@ -98,15 +98,11 @@ class _AppTutorialPageState extends State<AppTutorialPage>
   }
 
   @override
-  List<Widget> generateIndicators() {
-    return isNotYetLastItem
-        ? super.generateIndicators()
-        : [
-            Container(
-              margin: const EdgeInsets.all(8),
-            )
-          ];
-  }
+  Widget get indicator => isNotYetLastItem
+      ? super.indicator
+      : Container(
+          margin: const EdgeInsets.all(8),
+        );
 
   @override
   List<Widget> getButtons() {

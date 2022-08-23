@@ -21,7 +21,7 @@ class DashboardLessonCarousel extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final activePage = new ValueNotifier(0);
+  final activePage = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,15 @@ class DashboardLessonCarousel extends StatelessWidget {
 
     return Consumer<ModulesProvider>(
         builder: (context, modulesProvider, child) {
-      if (modulesProvider.status == LoadingStatus.success 
-        && controller.hasClients && !isPageScrollerInitialized) {
-          isPageScrollerInitialized = true;
-          activePage.value = modulesProvider.currentModuleLessons.indexWhere(
-            (element) =>
-                element.lessonID == modulesProvider.currentLesson?.lessonID,
-          );
-          controller.jumpToPage(activePage.value);
+      if (modulesProvider.status == LoadingStatus.success &&
+          controller.hasClients &&
+          !isPageScrollerInitialized) {
+        isPageScrollerInitialized = true;
+        activePage.value = modulesProvider.currentModuleLessons.indexWhere(
+          (element) =>
+              element.lessonID == modulesProvider.currentLesson?.lessonID,
+        );
+        controller.jumpToPage(activePage.value);
       }
 
       PreferencesProvider prefsProvider =
@@ -67,20 +68,20 @@ class DashboardLessonCarousel extends StatelessWidget {
                   lessonRecipeDuration += element.duration ?? 0;
                 });
 
-                  // Initially, all lessons in the current module are already
-                  // loaded. However, each lesson needs to be checked if
-                  // they are already unlocked. The first lesson of the module is
-                  // automatically unlocked. But for the rest of the lessons
-                  // to be unlocked, the previous one must be completed first.
-                  // But the app still needs to check if the lesson is already
-                  // available to access for the user. The server determines the
-                  // availability of the lesson so that the user will not
-                  // be able to simultaneously finish all the lessons and all
-                  // the modules in one sitting. This also allows other users
-                  // to save the lessons for later and go over them on their
-                  // own pace. The computation for this value is already done
-                  // in the server, based on the number of hours since the user
-                  // completed the very first lesson in the module.
+                // Initially, all lessons in the current module are already
+                // loaded. However, each lesson needs to be checked if
+                // they are already unlocked. The first lesson of the module is
+                // automatically unlocked. But for the rest of the lessons
+                // to be unlocked, the previous one must be completed first.
+                // But the app still needs to check if the lesson is already
+                // available to access for the user. The server determines the
+                // availability of the lesson so that the user will not
+                // be able to simultaneously finish all the lessons and all
+                // the modules in one sitting. This also allows other users
+                // to save the lessons for later and go over them on their
+                // own pace. The computation for this value is already done
+                // in the server, based on the number of hours since the user
+                // completed the very first lesson in the module.
 
                 bool isLessonUnlocked = index == 0;
 
@@ -159,28 +160,25 @@ class DashboardLessonCarousel extends StatelessWidget {
                           routeSettings: RouteSettings(
                               name: LessonPage.id,
                               arguments: LessonArguments(currentLesson)),
-                          openBuilder: (context, closedContainer) {
-                            return LessonPage();
-                          },
+                          openBuilder: (context, closedContainer) =>
+                              LessonPage(),
                           closedShape: RoundedRectangleBorder(
-                            side: BorderSide(color: tertiaryColor, width: 0),
-                            borderRadius: BorderRadius.circular(16)),
-                          closedBuilder: (context, openContainer) {
-                            return Container(
-                              alignment: Alignment.center,
-                              child: DashboardLessonCarouselItemCard(
-                                showCompletedTag: isLessonComplete,
-                                isUnlocked: isLessonUnlocked,
-                                title: currentLesson.title,
-                                subtitle: "Lesson ${index + 1}",
-                                duration: lessonDuration == 0
-                                ? null
-                                : "$lessonDuration mins",
-                                asset: 'assets/dashboard_lesson.png',
-                                assetSize: Size(84, 84),
-                              ),
-                            );
-                          },
+                              side: BorderSide(color: tertiaryColor, width: 0),
+                              borderRadius: BorderRadius.circular(16)),
+                          closedBuilder: (context, openContainer) => Container(
+                            alignment: Alignment.center,
+                            child: DashboardLessonCarouselItemCard(
+                              showCompletedTag: isLessonComplete,
+                              isUnlocked: isLessonUnlocked,
+                              title: currentLesson.title,
+                              subtitle: "Lesson ${index + 1}",
+                              duration: lessonDuration == 0
+                                  ? null
+                                  : "$lessonDuration mins",
+                              asset: 'assets/dashboard_lesson.png',
+                              assetSize: Size(84, 84),
+                            ),
+                          ),
                         ),
                         if (prefsProvider.isShowLessonRecipes &&
                             currentLessonRecipes.length > 0) ...[
@@ -192,27 +190,26 @@ class DashboardLessonCarousel extends StatelessWidget {
                             routeSettings: RouteSettings(
                                 name: RecipeListPage.id,
                                 arguments: currentLessonRecipes),
-                            openBuilder: (context, closedContainer) {
-                              return RecipeListPage();
-                            },
+                            openBuilder: (context, closedContainer) =>
+                                RecipeListPage(),
                             closedShape: RoundedRectangleBorder(
-                              side: BorderSide(color: tertiaryColor, width: 0),
-                              borderRadius: BorderRadius.circular(16)),
-                            closedBuilder: (context, openContainer) {
-                              return Container(
-                                alignment: Alignment.center,
-                                child: DashboardLessonCarouselItemCard(
-                                    isUnlocked: isLessonUnlocked,
-                                    title: "Lesson Recipes",
-                                    duration:
-                                        "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
-                                            S.current.minutesShort,
-                                    asset: 'assets/dashboard_recipes.png',
-                                    assetSize: Size(84, 90),
-                                  ),
-                              );
-                          },
-                        ),
+                                side:
+                                    BorderSide(color: tertiaryColor, width: 0),
+                                borderRadius: BorderRadius.circular(16)),
+                            closedBuilder: (context, openContainer) =>
+                                Container(
+                              alignment: Alignment.center,
+                              child: DashboardLessonCarouselItemCard(
+                                isUnlocked: isLessonUnlocked,
+                                title: "Lesson Recipes",
+                                duration:
+                                    "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
+                                        S.current.minutesShort,
+                                asset: 'assets/dashboard_recipes.png',
+                                assetSize: Size(84, 90),
+                              ),
+                            ),
+                          ),
                         ],
                         if (currentLessonQuiz != null) ...[
                           SizedBox(height: 15),
@@ -248,10 +245,12 @@ class DashboardLessonCarousel extends StatelessWidget {
           ),
           SizedBox(height: 15),
           ValueListenableBuilder<int>(
-              valueListenable: activePage,
-              builder: (context, value, child) => CarouselPageIndicator(
-                  numberOfPages: modulesProvider.currentModuleLessons.length,
-                  activePage: activePage)),
+            valueListenable: activePage,
+            builder: (context, value, child) => CarouselPageIndicator(
+              numberOfPages: modulesProvider.currentModuleLessons.length,
+              activePage: activePage.value,
+            ),
+          ),
           SizedBox(height: 30)
         ],
       );

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thepcosprotocol_app/screens/tabs/dashboard/carousel_page_indicator.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item.dart';
 
@@ -22,20 +23,8 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
 
   int get carouselFlex => 1;
 
-  List<Widget> generateIndicators() {
-    return List<Widget>.generate(items.length, (index) {
-      return Container(
-          margin: const EdgeInsets.all(3),
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: activePage == index
-                ? selectedIndicatorColor
-                : unselectedIndicatorColor,
-            shape: BoxShape.circle,
-          ));
-    });
-  }
+  Widget get indicator => CarouselPageIndicator(
+      numberOfPages: items.length, activePage: activePage);
 
   void incrementPageCount(int page) {
     setState(() {
@@ -89,10 +78,7 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                   Flexible(
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: generateIndicators(),
-                        ),
+                        indicator,
                         ...getButtons(),
                       ],
                     ),
@@ -119,7 +105,7 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                       // we remove the big ellipsis painted earlier
                       incrementPageCount(activePage + 1);
 
-                      Navigator.of(context).pop();
+                      Navigator.pop(context);
                     },
                   ),
                   backgroundColor: Colors.transparent,
