@@ -11,6 +11,7 @@ import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
+import 'package:thepcosprotocol_app/providers/preferences_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
@@ -153,6 +154,13 @@ class _AppTabsState extends State<AppTabs>
   void _setIsLocked(final bool isLocked) {
     if (!isLocked) {
       //unlocking so force refresh modules data
+      Provider.of<MemberProvider>(context, listen: false).populateMember();
+      Provider.of<PreferencesProvider>(context, listen: false)
+          .getIsShowYourWhy();
+      Provider.of<PreferencesProvider>(context, listen: false)
+          .getIsShowLessonRecipes();
+      Provider.of<PreferencesProvider>(context, listen: false)
+          .getIsUsernameUsed();
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<ModulesProvider>(context, listen: false)
           .fetchAndSaveData(true);
@@ -255,8 +263,6 @@ class _AppTabsState extends State<AppTabs>
                           _showLessonRecipes = isLessonRecipesOn;
                           _isUsernameUsed = isUsernameUsed;
                         });
-
-                        memberProvider.populateMember();
                       }),
                     )
                   : null,

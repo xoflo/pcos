@@ -16,7 +16,6 @@ import 'package:thepcosprotocol_app/screens/lesson/lesson_wiki_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -72,7 +71,7 @@ class _LessonPageState extends State<LessonPage> {
         SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
 
     void openSettings(BuildContext context) {
-      Navigator.pop(context, true);
+      Navigator.pop(context);
       Navigator.pushNamed(context, NotificationSettings.id);
     }
 
@@ -280,8 +279,6 @@ class _LessonPageState extends State<LessonPage> {
                   ),
                 ),
               ),
-              if (modulesProvider.status == LoadingStatus.loading)
-                LoaderOverlay()
             ],
           ),
         ),

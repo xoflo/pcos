@@ -6,10 +6,6 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_settings.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_summary.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/widgets/shared/toggle_switch.dart';
 
 class ProfileLayout extends StatefulWidget {
@@ -30,12 +26,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
     Provider.of<MemberProvider>(context, listen: false).populateMember();
   }
 
-  Widget _memberDetails(MemberProvider memberProvider) {
-    final status = memberProvider.status;
-    if (status == LoadingStatus.loading) {
-      return LoaderOverlay();
-    }
-
+  Widget _memberDetails(Size screenSize, MemberProvider memberProvider) {
     return Padding(
       padding: EdgeInsets.only(top: 12),
       child: Column(
@@ -45,23 +36,19 @@ class _ProfileLayoutState extends State<ProfileLayout> {
             title: "${memberProvider.firstName}'s Profile",
             closeItem: () => Navigator.pop(context),
           ),
-          if (status == LoadingStatus.empty)
-            NoResults(message: S.current.noMemberDetails)
-          else ...[
-            ToggleSwitch(
-              leftText: "Summary",
-              rightText: "Settings",
-              onTapLeft: () => setState(() => isLeftVisible = true),
-              onTapRight: () => setState(() => isLeftVisible = false),
-            ),
-            if (isLeftVisible) ...[
-              ProfileSummary(tags: memberProvider.member.typeTags ?? [])
-            ] else
-              ProfileSettings(
-                email: memberProvider.email,
-                onRefreshUserDetails: _getMemberDetails,
-              )
-          ]
+          ToggleSwitch(
+            leftText: "Summary",
+            rightText: "Settings",
+            onTapLeft: () => setState(() => isLeftVisible = true),
+            onTapRight: () => setState(() => isLeftVisible = false),
+          ),
+          if (isLeftVisible) ...[
+            ProfileSummary(tags: memberProvider.member.typeTags ?? [])
+          ] else
+            ProfileSettings(
+              email: memberProvider.email,
+              onRefreshUserDetails: _getMemberDetails,
+            )
         ],
       ),
     );
@@ -70,6 +57,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<MemberProvider>(context);
+    final Size screenSize = MediaQuery.of(context).size;
 
     return WillPopScope(
       onWillPop: () async => !Platform.isIOS,
@@ -77,7 +65,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
         decoration: BoxDecoration(
           color: primaryColor,
         ),
-        child: _memberDetails(vm),
+        child: _memberDetails(screenSize, vm),
       ),
     );
   }

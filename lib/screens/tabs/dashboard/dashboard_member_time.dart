@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/providers/preferences_provider.dart';
 
 class DashboardMemberTime extends StatefulWidget {
-  const DashboardMemberTime({Key? key, required this.displayedName})
-      : super(key: key);
-
-  final String displayedName;
+  const DashboardMemberTime({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DashboardMemberTime> createState() => _DashboardMemberTimeState();
@@ -26,8 +26,7 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   void initState() {
     super.initState();
 
-    memberProvider = Provider.of<MemberProvider>(context, listen: false)
-      ..populateMember();
+    memberProvider = Provider.of<MemberProvider>(context, listen: false);
 
     // Assign a day/night background the first time that the dashboard page is
     // presented
@@ -78,10 +77,12 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
           if (memberProvider.status == LoadingStatus.success)
             Padding(
               padding: EdgeInsets.all(15),
-              child: Text(
-                "Hello ${widget.displayedName}",
-                style: Theme.of(context).textTheme.headline1,
-              ),
+              child: Consumer<PreferencesProvider>(
+                builder: (context, prefsProvider, child) => Text(
+                  "Hello " + prefsProvider.preferredDisplayName,
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+              )
             )
           else if (asset.isEmpty ||
               memberProvider.status == LoadingStatus.loading)

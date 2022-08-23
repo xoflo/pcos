@@ -14,8 +14,5 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DashboardLayout(
-        showYourWhy: showYourWhy,
-        showLessonReicpes: showLessonReicpes,
-        displayedName: displayedName,
       );
 }
