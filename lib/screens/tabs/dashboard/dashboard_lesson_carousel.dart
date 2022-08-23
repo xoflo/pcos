@@ -153,6 +153,7 @@ class DashboardLessonCarousel extends StatelessWidget {
                         ),
                         SizedBox(height: 25),
                         OpenContainer(
+                          closedElevation: 0.0,
                           tappable: isLessonUnlocked,
                           transitionDuration: Duration(milliseconds: 400),
                           routeSettings: RouteSettings(
@@ -161,10 +162,12 @@ class DashboardLessonCarousel extends StatelessWidget {
                           openBuilder: (context, closedContainer) {
                             return LessonPage();
                           },
+                          closedShape: RoundedRectangleBorder(
+                            side: BorderSide(color: tertiaryColor, width: 0),
+                            borderRadius: BorderRadius.circular(16)),
                           closedBuilder: (context, openContainer) {
                             return Container(
                               alignment: Alignment.center,
-                              padding: EdgeInsets.all(15),
                               child: DashboardLessonCarouselItemCard(
                                 showCompletedTag: isLessonComplete,
                                 isUnlocked: isLessonUnlocked,
@@ -183,28 +186,31 @@ class DashboardLessonCarousel extends StatelessWidget {
                             currentLessonRecipes.length > 0) ...[
                           SizedBox(height: 15),
                           OpenContainer(
-                          tappable: isLessonUnlocked,
-                          transitionDuration: Duration(milliseconds: 400),
-                          routeSettings: RouteSettings(
-                              name: RecipeListPage.id,
-                              arguments: currentLessonRecipes),
-                          openBuilder: (context, closedContainer) {
-                            return RecipeListPage();
-                          },
-                          closedBuilder: (context, openContainer) {
-                            return Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(15),
-                              child: DashboardLessonCarouselItemCard(
-                                  isUnlocked: isLessonUnlocked,
-                                  title: "Lesson Recipes",
-                                  duration:
-                                      "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
-                                          S.current.minutesShort,
-                                  asset: 'assets/dashboard_recipes.png',
-                                  assetSize: Size(84, 90),
-                                ),
-                            );
+                            closedElevation: 0.0,
+                            tappable: isLessonUnlocked,
+                            transitionDuration: Duration(milliseconds: 400),
+                            routeSettings: RouteSettings(
+                                name: RecipeListPage.id,
+                                arguments: currentLessonRecipes),
+                            openBuilder: (context, closedContainer) {
+                              return RecipeListPage();
+                            },
+                            closedShape: RoundedRectangleBorder(
+                              side: BorderSide(color: tertiaryColor, width: 0),
+                              borderRadius: BorderRadius.circular(16)),
+                            closedBuilder: (context, openContainer) {
+                              return Container(
+                                alignment: Alignment.center,
+                                child: DashboardLessonCarouselItemCard(
+                                    isUnlocked: isLessonUnlocked,
+                                    title: "Lesson Recipes",
+                                    duration:
+                                        "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
+                                            S.current.minutesShort,
+                                    asset: 'assets/dashboard_recipes.png',
+                                    assetSize: Size(84, 90),
+                                  ),
+                              );
                           },
                         ),
                         ],
