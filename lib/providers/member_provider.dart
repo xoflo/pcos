@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
