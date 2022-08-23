@@ -59,8 +59,7 @@ class MemberProvider extends LoadingStatusNotifier {
         await WebServices().setMemberWhy(member.id.toString(), why);
 
     if (didSetWhy) {
-      await PreferencesController()
-          .saveString(SharedPreferencesKeys.WHATS_YOUR_WHY, why);
+      await PreferencesController().saveString(SharedPreferencesKeys.WHATS_YOUR_WHY, why);
     }
 
     _why = why;
