@@ -248,6 +248,7 @@ class LessonPage extends StatelessWidget {
           loadingStatusNotifier: modulesProvider,
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
+          overlayBackgroundColor: Colors.grey.withOpacity(0.5),
           mainWidget: Scaffold(
               backgroundColor: primaryColor,
               body: WillPopScope(
@@ -270,9 +271,6 @@ class LessonPage extends StatelessWidget {
                                 closeItem: () => Navigator.pop(context),
                               ),
                             ),
-                            // if (false)
-                            //   NoResults(message: S.current.noItemsFound)
-                            // else
                             getSuccessWidget(modulesProvider, args, context)
                           ],
                         ),
