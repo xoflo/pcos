@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/quiz/quiz_question_item_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay2.dart';
 
 class QuizLayout extends StatefulWidget {
   const QuizLayout({Key? key, this.quiz}) : super(key: key);
@@ -44,29 +42,38 @@ class _QuizLayoutState extends State<QuizLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<ModulesProvider>(
-        builder: (context, modulesProvider, child) => Stack(
-          children: [
-            SafeArea(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Header(
-                        title: "Quiz",
-                        closeItem: () => Navigator.pop(context),
-                        questionNumber: questionNumber + 1,
-                        questionCount: widget.quiz?.questions?.length,
+  void initState() {
+    super.initState();
+    Provider.of<ModulesProvider>(context, listen: false).fetchLessonTasks(widget.quiz?.lessonID ?? -1);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ModulesProvider>(builder: (context, modulesProvider, child) {
+      return LoaderOverlay(
+          loadingStatusNotifier: modulesProvider,
+          indicatorPosition: Alignment.center,
+          height: MediaQuery.of(context).size.height,
+          overlayBackgroundColor: Colors.grey.withOpacity(0.5),
+          mainWidget: Stack(
+            children: [
+              SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12),
+                        child: Header(
+                          title: "Quiz",
+                          closeItem: () => Navigator.pop(context),
+                          questionNumber: questionNumber + 1,
+                          questionCount: widget.quiz?.questions?.length,
+                        ),
                       ),
-                    ),
-                    if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.empty)
-                      NoResults(message: "Quiz not available")
-                    else
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
@@ -83,12 +90,12 @@ class _QuizLayoutState extends State<QuizLayout> {
                           ),
                         ),
                       )
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.loading) LoaderOverlay()
-          ],
-        ),
-      );
+            ],
+          ));
+    });
+  }
 }
