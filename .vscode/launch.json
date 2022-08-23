@@ -15,16 +15,6 @@
             ]
         },
         {
-            "name": "ovie (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main_staging.dart",
-            "args": [
-                "--flavor",
-                "staging",
-            ]
-        },
-        {
             "name": "ovie (release mode)",
             "request": "launch",
             "type": "dart",

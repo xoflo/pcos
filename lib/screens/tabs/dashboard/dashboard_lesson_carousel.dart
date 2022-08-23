@@ -114,158 +114,159 @@ class DashboardLessonCarousel extends StatelessWidget {
 
                     final lessonDuration = currentLesson.minsToComplete;
 
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 25,
-                        ),
-                        child: Column(
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 25,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                if (isLessonUnlocked)
-                                  Expanded(
-                                    child: Text(
-                                      modulesProvider.currentModule?.title ??
-                                          "",
-                                      style:
-                                          Theme.of(context).textTheme.headline3,
-                                    ),
-                                  )
-                                else
-                                  DashboardLessonLockedComponent(
-                                      title: "Complete the previous lesson"),
-                                Opacity(
-                                  opacity: isLessonUnlocked ? 1 : 0.5,
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: secondaryColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                    ),
-                                    child: modulesProvider.currentModule
-                                                ?.iconUrl?.isNotEmpty ==
-                                            true
-                                        ? Image.network(
-                                            modulesProvider
-                                                    .currentModule?.iconUrl ??
-                                                "",
-                                            fit: BoxFit.contain,
-                                            height: 24,
-                                            width: 24,
-                                          )
-                                        : Icon(Icons.restaurant),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 25),
-                            OpenContainer(
-                              tappable: isLessonUnlocked,
-                              transitionDuration: Duration(milliseconds: 400),
-                              routeSettings: RouteSettings(
-                                  name: LessonPage.id,
-                                  arguments: LessonArguments(currentLesson)),
-                              openBuilder: (context, closedContainer) {
-                                return LessonPage();
-                              },
-                              closedBuilder: (context, openContainer) {
-                                return Container(
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.all(15),
-                                  child: DashboardLessonCarouselItemCard(
-                                    showCompletedTag: isLessonComplete,
-                                    isUnlocked: isLessonUnlocked,
-                                    title: currentLesson.title,
-                                    subtitle: "Lesson ${index + 1}",
-                                    duration: lessonDuration == 0
-                                        ? null
-                                        : "$lessonDuration mins",
-                                    asset: 'assets/dashboard_lesson.png',
-                                    assetSize: Size(84, 84),
-                                  ),
-                                );
-                              },
-                            ),
-                            if (prefsProvider.isShowLessonRecipes &&
-                                currentLessonRecipes.length > 0) ...[
-                              SizedBox(height: 15),
-                              OpenContainer(
-                                tappable: isLessonUnlocked,
-                                transitionDuration: Duration(milliseconds: 400),
-                                routeSettings: RouteSettings(
-                                    name: RecipeListPage.id,
-                                    arguments: currentLessonRecipes),
-                                openBuilder: (context, closedContainer) {
-                                  return RecipeListPage();
-                                },
-                                closedBuilder: (context, openContainer) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.all(15),
-                                    child: DashboardLessonCarouselItemCard(
-                                      isUnlocked: isLessonUnlocked,
-                                      title: "Lesson Recipes",
-                                      duration:
-                                          "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
-                                              S.current.minutesShort,
-                                      asset: 'assets/dashboard_recipes.png',
-                                      assetSize: Size(84, 90),
-                                    ),
-                                  );
-                                },
+                            if (isLessonUnlocked)
+                              Expanded(
+                                child: Text(
+                                  modulesProvider.currentModule?.title ?? "",
+                                  style: Theme.of(context).textTheme.headline3,
+                                ),
+                              )
+                            else
+                              DashboardLessonLockedComponent(
+                                  title: "Complete the previous lesson"),
+                            Opacity(
+                              opacity: isLessonUnlocked ? 1 : 0.5,
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                ),
+                                child: modulesProvider.currentModule?.iconUrl
+                                            ?.isNotEmpty ==
+                                        true
+                                    ? Image.network(
+                                        modulesProvider
+                                                .currentModule?.iconUrl ??
+                                            "",
+                                        fit: BoxFit.contain,
+                                        height: 24,
+                                        width: 24,
+                                      )
+                                    : Icon(Icons.restaurant),
                               ),
-                            ],
-                            if (currentLessonQuiz != null) ...[
-                              SizedBox(height: 15),
-                              DashboardLessonCarouselItemCard(
-                                onTapCard: isLessonUnlocked && isLessonComplete
-                                    ? () {
-                                        analytics.logEvent(
-                                            name: Analytics
-                                                .ANALYTICS_SCREEN_QUIZ);
-                                        Navigator.pushNamed(
-                                          context,
-                                          QuizScreen.id,
-                                          arguments: currentLessonQuiz,
-                                        );
-                                      }
-                                    : null,
-                                showCompletedTag:
-                                    currentLessonQuiz.isComplete == true,
-                                showCompleteLesson: !isLessonComplete,
-                                isUnlocked:
-                                    isLessonUnlocked && isLessonComplete,
-                                title: "Quiz",
-                                duration: "5 mins",
-                                asset: 'assets/dashboard_quiz.png',
-                                assetSize: Size(88, 95),
-                              ),
-                            ]
+                            )
                           ],
                         ),
-                      ),
-                    );
-                  },
-                  onPageChanged: (page) => activePage.value = page,
-                ),
-              ),
-              SizedBox(height: 15),
-              ValueListenableBuilder<int>(
-                  valueListenable: activePage,
-                  builder: (context, value, child) => CarouselPageIndicator(
-                      numberOfPages:
-                          modulesProvider.currentModuleLessons.length,
-                      activePage: activePage)),
-              SizedBox(height: 30)
-            ],
-          );
-        }));
+                        SizedBox(height: 25),
+                        OpenContainer(
+                          closedElevation: 0.0,
+                          tappable: isLessonUnlocked,
+                          transitionDuration: Duration(milliseconds: 400),
+                          routeSettings: RouteSettings(
+                              name: LessonPage.id,
+                              arguments: LessonArguments(currentLesson)),
+                          openBuilder: (context, closedContainer) {
+                            return LessonPage();
+                          },
+                          closedShape: RoundedRectangleBorder(
+                            side: BorderSide(color: tertiaryColor, width: 0),
+                            borderRadius: BorderRadius.circular(16)),
+                          closedBuilder: (context, openContainer) {
+                            return Container(
+                              alignment: Alignment.center,
+                              child: DashboardLessonCarouselItemCard(
+                                showCompletedTag: isLessonComplete,
+                                isUnlocked: isLessonUnlocked,
+                                title: currentLesson.title,
+                                subtitle: "Lesson ${index + 1}",
+                                duration: lessonDuration == 0
+                                ? null
+                                : "$lessonDuration mins",
+                                asset: 'assets/dashboard_lesson.png',
+                                assetSize: Size(84, 84),
+                              ),
+                            );
+                          },
+                        ),
+                        if (prefsProvider.isShowLessonRecipes &&
+                            currentLessonRecipes.length > 0) ...[
+                          SizedBox(height: 15),
+                          OpenContainer(
+                            closedElevation: 0.0,
+                            tappable: isLessonUnlocked,
+                            transitionDuration: Duration(milliseconds: 400),
+                            routeSettings: RouteSettings(
+                                name: RecipeListPage.id,
+                                arguments: currentLessonRecipes),
+                            openBuilder: (context, closedContainer) {
+                              return RecipeListPage();
+                            },
+                            closedShape: RoundedRectangleBorder(
+                              side: BorderSide(color: tertiaryColor, width: 0),
+                              borderRadius: BorderRadius.circular(16)),
+                            closedBuilder: (context, openContainer) {
+                              return Container(
+                                alignment: Alignment.center,
+                                child: DashboardLessonCarouselItemCard(
+                                    isUnlocked: isLessonUnlocked,
+                                    title: "Lesson Recipes",
+                                    duration:
+                                        "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
+                                            S.current.minutesShort,
+                                    asset: 'assets/dashboard_recipes.png',
+                                    assetSize: Size(84, 90),
+                                  ),
+                              );
+                          },
+                        ),
+                        ],
+                        if (currentLessonQuiz != null) ...[
+                          SizedBox(height: 15),
+                          DashboardLessonCarouselItemCard(
+                            onTapCard: isLessonUnlocked && isLessonComplete
+                                ? () {
+                                    analytics.logEvent(
+                                        name: Analytics.ANALYTICS_SCREEN_QUIZ);
+                                    Navigator.pushNamed(
+                                      context,
+                                      QuizScreen.id,
+                                      arguments: currentLessonQuiz,
+                                    );
+                                  }
+                                : null,
+                            showCompletedTag:
+                                currentLessonQuiz.isComplete == true,
+                            showCompleteLesson: !isLessonComplete,
+                            isUnlocked: isLessonUnlocked && isLessonComplete,
+                            title: "Quiz",
+                            duration: "5 mins",
+                            asset: 'assets/dashboard_quiz.png',
+                            assetSize: Size(88, 95),
+                          ),
+                        ]
+                      ],
+                    ),
+                  ),
+                );
+              },
+              onPageChanged: (page) => activePage.value = page,
+            ),
+          ),
+          SizedBox(height: 15),
+          ValueListenableBuilder<int>(
+              valueListenable: activePage,
+              builder: (context, value, child) => CarouselPageIndicator(
+                  numberOfPages: modulesProvider.currentModuleLessons.length,
+                  activePage: activePage)),
+          SizedBox(height: 30)
+        ],
+      );
+    });
   }
 }

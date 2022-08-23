@@ -28,27 +28,30 @@ class _ProfileLayoutState extends State<ProfileLayout> {
   }
 
   Widget _memberDetails(Size screenSize, MemberProvider memberProvider) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Header(
-          title: "${memberProvider.firstName}'s Profile",
-          closeItem: () => Navigator.pop(context),
-        ),
-        ToggleSwitch(
-          leftText: "Summary",
-          rightText: "Settings",
-          onTapLeft: () => setState(() => isLeftVisible = true),
-          onTapRight: () => setState(() => isLeftVisible = false),
-        ),
-        if (isLeftVisible) ...[
-          ProfileSummary(tags: memberProvider.member.typeTags ?? [])
-        ] else
-          ProfileSettings(
-            email: memberProvider.email,
-            onRefreshUserDetails: _getMemberDetails,
-          )
-      ],
+    return Padding(
+      padding: EdgeInsets.only(top: 12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Header(
+            title: "${memberProvider.firstName}'s Profile",
+            closeItem: () => Navigator.pop(context),
+          ),
+          ToggleSwitch(
+            leftText: "Summary",
+            rightText: "Settings",
+            onTapLeft: () => setState(() => isLeftVisible = true),
+            onTapRight: () => setState(() => isLeftVisible = false),
+          ),
+          if (isLeftVisible) ...[
+            ProfileSummary(tags: memberProvider.member.typeTags ?? [])
+          ] else
+            ProfileSettings(
+              email: memberProvider.email,
+              onRefreshUserDetails: _getMemberDetails,
+            )
+        ],
+      ),
     );
   }
 

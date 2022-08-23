@@ -16,8 +16,14 @@ Future<void> main() async {
     flavor: Flavor.DEV,
     color: Colors.green,
     values: FlavorValues(
-      baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
-      oneSignalAppID: "ff8ee4d5-9d67-4a8b-aac8-13dc8e150135",
+      // Currently the dev link points to prod. The OneSignal being used in
+      // this environment is the dev OneSignal, which is being used by the
+      // prod server. For now, this prod link is not yet the actual live
+      // link, as the app is yet to be released. But later on, when the proper
+      // environments are set up, we will be updating the dev and prod links
+      // to properly manage and assign the flavors.
+      baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
+      oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
       questionnaireUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/about/you/8?mobile=1",
       imageStorageFolder: "/v1617670686/images/",

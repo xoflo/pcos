@@ -104,11 +104,10 @@ class _RecipeItemState extends State<RecipeItem> {
                       "<p style='max-lines:2; text-overflow: ellipsis;'>" +
                           (widget.recipe.title ?? "") +
                           "</p>",
-                      textStyle:
-                          Theme.of(context).textTheme.subtitle1?.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: Colors.white),
                     ),
                   ),
                 ],

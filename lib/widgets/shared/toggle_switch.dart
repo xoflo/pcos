@@ -81,10 +81,10 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
                 alignment: Alignment.center,
                 child: Text(
                   widget.leftText,
-                  style: TextStyle(
-                    color: leftColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(color: leftColor),
                 ),
               ),
             ),
@@ -108,10 +108,10 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
                 alignment: Alignment.center,
                 child: Text(
                   widget.rightText,
-                  style: TextStyle(
-                    color: rightColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(color: rightColor),
                 ),
               ),
             ),

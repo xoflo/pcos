@@ -59,9 +59,7 @@ class Header extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1
-                                  ?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      color: backgroundColor),
+                                  ?.copyWith(color: backgroundColor),
                             )
                           ],
                         ),

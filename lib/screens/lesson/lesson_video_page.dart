@@ -35,13 +35,13 @@ class _LessonVideoPageState extends State<LessonVideoPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Header(
-                  title: "Video",
+                    title: "Video",
                     closeItem: () => Navigator.pop(context),
                   ),
                   VideoPlayer(
                     screenSize: size,
                     isHorizontal: false,
-                    videoUrl: videoUrl,
+                    videoUrl: videoUrl.trim(),
                   )
                 ],
               ),

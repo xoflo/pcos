@@ -12,6 +12,7 @@ class CarouselItemWidget extends StatelessWidget {
           horizontal: 15,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Image(
               image: AssetImage(item.asset),
@@ -22,15 +23,12 @@ class CarouselItemWidget extends StatelessWidget {
             Text(
               item.title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headline1,
             ),
             const SizedBox(height: 10),
             Text(
               item.subtitle,
-              style: const TextStyle(fontSize: 16),
+              style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center,
             ),
           ],

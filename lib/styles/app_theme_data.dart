@@ -80,6 +80,7 @@ ThemeData appThemeData() {
       bodyText1: TextStyle(
         color: textColor,
         fontSize: 18,
+        fontWeight: FontWeight.w400,
       ),
       bodyText2: TextStyle(
         color: textColor,

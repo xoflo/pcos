@@ -8,6 +8,7 @@ class AppTutorialGetStarted extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             AppTutorialGetStartedItem(
               title: "Library",

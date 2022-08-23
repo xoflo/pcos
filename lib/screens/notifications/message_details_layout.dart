@@ -53,9 +53,10 @@ class MessageDetailsLayout extends StatelessWidget {
                     SizedBox(height: 20),
                     Text(
                       message.message ?? "",
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            color: textColor.withOpacity(0.8),
-                          ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(color: textColor.withOpacity(0.8)),
                     ),
                   ],
                 ),

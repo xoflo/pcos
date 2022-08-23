@@ -46,7 +46,7 @@ class _LibraryModulePageState extends State<LibraryModulePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Header(
-                title: "Module Library",
+                  title: "Module Library",
                   closeItem: () => Navigator.pop(context),
                 ),
                 Padding(

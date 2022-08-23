@@ -11,14 +11,9 @@ class Notifications extends StatelessWidget {
         backgroundColor: primaryColor,
         body: WillPopScope(
           onWillPop: () async => !Platform.isIOS,
-            child: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 12,
-                ),
-                child: MessagesLayout(),
-              ),
-            ),
+          child: SafeArea(
+            child: MessagesLayout(),
           ),
+        ),
       );
 }

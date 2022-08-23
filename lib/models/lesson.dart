@@ -36,7 +36,7 @@ class Lesson {
       imageUrl: json['imageUrl'],
       title: json['title'],
       hoursToNextLesson: json['hoursToNextLesson'],
-      hoursUntilAvailable: json['hoursUntilAvailable'],
+      hoursUntilAvailable: json['hoursUntilAvailable'] ?? 0,
       minsToComplete: json['minsToComplete'] ?? 0,
       introduction: json['introduction'],
       orderIndex: json['orderIndex'],
