@@ -71,7 +71,7 @@ class _LessonPageState extends State<LessonPage> {
         SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
 
     void openSettings(BuildContext context) {
-      Navigator.pop(context, true);
+      Navigator.pop(context);
       Navigator.pushNamed(context, NotificationSettings.id);
     }
 
