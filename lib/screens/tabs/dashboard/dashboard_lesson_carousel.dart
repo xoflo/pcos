@@ -248,7 +248,7 @@ class DashboardLessonCarousel extends StatelessWidget {
             valueListenable: activePage,
             builder: (context, value, child) => CarouselPageIndicator(
               numberOfPages: modulesProvider.currentModuleLessons.length,
-              activePage: activePage.value,
+              activePage: activePage,
             ),
           ),
           SizedBox(height: 30)

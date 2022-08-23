@@ -13,17 +13,11 @@ import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
-class AppTutorialPage extends StatefulWidget {
-  const AppTutorialPage({Key? key}) : super(key: key);
+class AppTutorialPage extends StatelessWidget with BaseCarouselPage {
+  AppTutorialPage({Key? key}) : super(key: key);
 
   static const id = "app_tutorial_page";
 
-  @override
-  State<AppTutorialPage> createState() => _AppTutorialPageState();
-}
-
-class _AppTutorialPageState extends State<AppTutorialPage>
-    with BaseCarouselPage {
   @override
   int get itemsLength => items.length + 1;
 
@@ -59,9 +53,9 @@ class _AppTutorialPageState extends State<AppTutorialPage>
       ];
 
   @override
-  bool get isNotYetLastItem => activePage < 4;
+  bool get isNotYetLastItem => activePage.value < 4;
 
-  bool get showBackButton {
+  bool showBackButton(BuildContext context) {
     final bool showBackButton =
         (ModalRoute.of(context)?.settings.arguments as AppTutorialArguments)
             .showBackButton;
@@ -69,8 +63,8 @@ class _AppTutorialPageState extends State<AppTutorialPage>
   }
 
   @override
-  CustomPainter? getPainter() {
-    switch (activePage) {
+  CustomPainter? get painter {
+    switch (activePage.value) {
       case 0:
         return EllipsisPainter(
           color: primaryColor,
@@ -89,50 +83,52 @@ class _AppTutorialPageState extends State<AppTutorialPage>
   }
 
   @override
-  Widget getItemBuilder(BuildContext context, int position) {
-    return position == 4
-        ? AppTutorialGetStarted()
-        : CarouselItemWidget(
-            item: items[position],
-          );
-  }
-
-  @override
-  Widget get indicator => isNotYetLastItem
-      ? super.indicator
-      : Container(
-          margin: const EdgeInsets.all(8),
+  Widget getItemBuilder(BuildContext context, int position) => position == 4
+      ? AppTutorialGetStarted()
+      : CarouselItemWidget(
+          item: items[position],
         );
 
   @override
-  List<Widget> getButtons() {
-    return [
-      FilledButton(
-        margin: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          top: 25,
-        ),
-        onPressed: () {
-          if (isNotYetLastItem) {
-            controller.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeIn);
-          } else {
-            PreferencesController()
-                .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
-            Navigator.pushReplacementNamed(context, AppTabs.id);
-          }
+  Widget get indicator => ValueListenableBuilder<int>(
+        valueListenable: activePage,
+        builder: (context, value, child) => isNotYetLastItem
+            ? super.indicator
+            : Container(
+                margin: const EdgeInsets.all(8),
+              ),
+      );
 
-          // We update the active page so that when popping,
-          // we remove the big ellipsis painted earlier
-          setState(() {
-            activePage = activePage + 1;
-          });
-        },
-        text: isNotYetLastItem ? "NEXT" : "GET STARTED",
-        foregroundColor: Colors.white,
-        backgroundColor: backgroundColor,
+  @override
+  List<Widget> getButtons(BuildContext context) {
+    return [
+      ValueListenableBuilder<int>(
+        valueListenable: activePage,
+        builder: (context, value, child) => FilledButton(
+          margin: const EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 25,
+          ),
+          onPressed: () {
+            if (isNotYetLastItem) {
+              controller.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn);
+            } else {
+              PreferencesController()
+                  .saveBool(SharedPreferencesKeys.VIEWED_TUTORIAL, true);
+              Navigator.pushReplacementNamed(context, AppTabs.id);
+            }
+
+            // We update the active page so that when popping,
+            // we remove the big ellipsis painted earlier
+            updatePageValue(activePage.value + 1);
+          },
+          text: isNotYetLastItem ? "NEXT" : "GET STARTED",
+          foregroundColor: Colors.white,
+          backgroundColor: backgroundColor,
+        ),
       ),
     ];
   }

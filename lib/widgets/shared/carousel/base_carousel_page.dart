@@ -6,35 +6,34 @@ import 'package:thepcosprotocol_app/screens/tabs/dashboard/carousel_page_indicat
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item.dart';
 
-mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
+mixin BaseCarouselPage<T extends StatelessWidget> on StatelessWidget {
   final PageController controller = PageController();
 
   List<CarouselItem> get items;
 
-  bool get showBackButton;
+  bool showBackButton(BuildContext context);
 
-  bool get shouldPopScope => !Platform.isIOS && showBackButton;
+  bool shouldPopScope(BuildContext context) =>
+      !Platform.isIOS && showBackButton(context);
 
   bool get isNotYetLastItem;
-
-  int activePage = 0;
 
   int get itemsLength;
 
   int get carouselFlex => 1;
 
+  CustomPainter? get painter;
+
+  final ValueNotifier<int> activePage = ValueNotifier(0);
+
   Widget get indicator => CarouselPageIndicator(
-      numberOfPages: items.length, activePage: activePage);
+        numberOfPages: items.length,
+        activePage: activePage,
+      );
 
-  void incrementPageCount(int page) {
-    setState(() {
-      activePage = page;
-    });
-  }
+  void updatePageValue(int page) => activePage.value = page;
 
-  List<Widget> getButtons();
-
-  CustomPainter? getPainter();
+  List<Widget> getButtons(BuildContext context);
 
   Widget getItemBuilder(BuildContext context, int position);
 
@@ -44,14 +43,14 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
     final width = MediaQuery.of(context).size.width;
 
     return WillPopScope(
-      onWillPop: () => Future.value(shouldPopScope),
+      onWillPop: () => Future.value(shouldPopScope(context)),
       child: Scaffold(
         backgroundColor: primaryColorLight,
         body: Stack(
           alignment: Alignment.center,
           children: [
             CustomPaint(
-              painter: getPainter(),
+              painter: painter,
               child: Container(
                 width: width,
                 height: height,
@@ -70,7 +69,7 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                         itemCount: itemsLength,
                         pageSnapping: true,
                         itemBuilder: getItemBuilder,
-                        onPageChanged: incrementPageCount,
+                        onPageChanged: updatePageValue,
                       ),
                     ),
                   ),
@@ -79,14 +78,14 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                     child: Column(
                       children: [
                         indicator,
-                        ...getButtons(),
+                        ...getButtons(context),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            if (showBackButton)
+            if (showBackButton(context))
               Positioned(
                 top: 0.0,
                 left: 0.0,
@@ -103,7 +102,7 @@ mixin BaseCarouselPage<T extends StatefulWidget> on State<T> {
                     onPressed: () {
                       // We update the active page so that when popping,
                       // we remove the big ellipsis painted earlier
-                      incrementPageCount(activePage + 1);
+                      updatePageValue(activePage.value + 1);
 
                       Navigator.pop(context);
                     },
