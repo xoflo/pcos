@@ -61,6 +61,10 @@ class _AppTabsState extends State<AppTabs>
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
     initialize();
+
+    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+      print("Accepted permission: $accepted");
+    });
   }
 
   @override
