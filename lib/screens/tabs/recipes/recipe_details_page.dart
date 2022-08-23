@@ -101,6 +101,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                     spacing: 10,
                                     runSpacing: 10,
                                     children: tags
+                                        .where((element) => element.isNotEmpty)
+                                        .toList()
                                         .map(
                                           (tag) => Container(
                                             decoration: BoxDecoration(
