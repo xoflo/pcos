@@ -89,7 +89,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                           closeItem: () => Navigator.pop(context),
                         ),
                       ),
-                      if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.empty)
+                      if (modulesProvider.fetchLessonTasksStatus == LoadingStatus.empty)
                         NoResults(message: S.current.noItemsFound)
                       else
                         Expanded(
@@ -119,7 +119,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                   ),
                 ),
               ),
-              if (modulesProvider.setTaskAsCompleteStatus == LoadingStatus.loading)
+              if (modulesProvider.fetchLessonTasksStatus == LoadingStatus.loading)
                 LoaderOverlay()
             ],
           ),
