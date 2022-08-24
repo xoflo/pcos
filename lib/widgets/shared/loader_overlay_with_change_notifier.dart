@@ -25,7 +25,7 @@ class LoaderOverlay extends StatelessWidget {
 
   final Widget child;
   final LoadingStatusNotifier loadingStatusNotifier;
-  String emptyMessage = "";
+  final String emptyMessage;
   final Alignment indicatorPosition;
   final Color? overlayBackgroundColor;
   final double height;
