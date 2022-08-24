@@ -37,21 +37,25 @@ class LoaderOverlay extends StatelessWidget {
   }
 
   Widget _loaderOverlay() {
-    if (loadingStatusNotifier.loadingStatus == LoadingStatus.loading) {
-      return Container(
-        height: height,
-        color: overlayBackgroundColor ?? Colors.transparent,
-        child: Align(
-          alignment: indicatorPosition,
-          child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(backgroundColor),
+    switch(loadingStatusNotifier.loadingStatus) {
+      case LoadingStatus.loading: {
+        return Container(
+          height: height,
+          color: overlayBackgroundColor ?? Colors.transparent,
+          child: Align(
+            alignment: indicatorPosition,
+            child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(backgroundColor),
+            ),
           ),
-        ),
-      );
-    } else if (loadingStatusNotifier.loadingStatus == LoadingStatus.empty) {
-      return Center(child: NoResults(message: S.current.noResultsLessons));
-    } else {
-      return Container();
+        );
+      }
+      case LoadingStatus.empty: {
+        return Center(child: NoResults(message: S.current.noResultsLessons));
+      }
+      case LoadingStatus.success: {
+        return Container();
+      }
     }
   }
 }
