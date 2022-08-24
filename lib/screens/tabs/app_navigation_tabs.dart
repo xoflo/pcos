@@ -145,6 +145,7 @@ class AppNavigationTabs extends StatelessWidget {
                     : unselectedIndicatorIconColor,
               ),
               text: "More",
+              iconMargin: EdgeInsets.only(bottom: 5),
             ),
           ],
         ),

@@ -13,9 +13,12 @@ class RecipesProvider with ChangeNotifier {
   final String tableName = "Recipe";
   List<Recipe> _items = [];
   List<Recipe> _randomizedItems = [];
+  List<Recipe> _originalRandomizedItems = [];
+
   LoadingStatus status = LoadingStatus.empty;
   List<Recipe> get items => [..._items];
   List<Recipe> get randomizedItems => [..._randomizedItems];
+  List<Recipe> get originalRandomized => [..._originalRandomizedItems];
 
   Future<void> fetchAndSaveData() async {
     status = LoadingStatus.loading;
@@ -29,6 +32,7 @@ class RecipesProvider with ChangeNotifier {
       // enter PIN screen)
       _randomizedItems = [..._items];
       _randomizedItems.shuffle();
+      _originalRandomizedItems = [..._randomizedItems];
     }
 
     status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
@@ -38,12 +42,17 @@ class RecipesProvider with ChangeNotifier {
       final List<String> secondaryTags) async {
     status = LoadingStatus.loading;
     notifyListeners();
-    if (dbProvider?.db != null) {
+    if (searchText.isEmpty) {
+      _randomizedItems = [..._originalRandomizedItems];
+    } else if (dbProvider?.db != null) {
       _items = await ProviderHelper().filterAndSearch(
               dbProvider, tableName, searchText, tag, secondaryTags)
           as List<Recipe>;
+
+      _randomizedItems = [..._items];
     }
-    status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    status =
+        _randomizedItems.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
     notifyListeners();
   }
 

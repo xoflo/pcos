@@ -4,7 +4,6 @@ import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_filter_sheet.dart';
@@ -146,8 +145,8 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                   ),
                 ),
               ),
-              Consumer2<RecipesProvider, FavouritesProvider>(
-                builder: (context, recipesProvider, favouritesProvider, child) {
+              Consumer<RecipesProvider>(
+                builder: (context, recipesProvider, child) {
                   switch (recipesProvider.status) {
                     case LoadingStatus.loading:
                       return PcosLoadingSpinner();
@@ -162,10 +161,12 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           children: recipesProvider.randomizedItems
-                              .map((recipe) => RecipeItem(
-                                    recipe: recipe,
-                                    isFromLesson: false,
-                                  ))
+                              .map(
+                                (recipe) => RecipeItem(
+                                  recipe: recipe,
+                                  isFromLesson: false,
+                                ),
+                              )
                               .toList(),
                         ),
                       );
