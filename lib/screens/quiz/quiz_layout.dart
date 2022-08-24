@@ -46,6 +46,7 @@ class _QuizLayoutState extends State<QuizLayout> {
     return Consumer<ModulesProvider>(builder: (context, modulesProvider, child) {
       return LoaderOverlay(
           loadingStatusNotifier: modulesProvider,
+          emptyMessage: "Quiz not available",
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
           overlayBackgroundColor: Colors.grey.withOpacity(0.5),

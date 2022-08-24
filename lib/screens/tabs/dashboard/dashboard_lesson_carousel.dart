@@ -33,6 +33,7 @@ class DashboardLessonCarousel extends StatelessWidget {
     return LoaderOverlay(
         loadingStatusNotifier:
             Provider.of<ModulesProvider>(context, listen: true),
+        emptyMessage: S.current.noResultsLessons,
         indicatorPosition: Alignment.topCenter,
         height: 530.0,
         child: Consumer<ModulesProvider>(

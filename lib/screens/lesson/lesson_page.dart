@@ -246,6 +246,7 @@ class LessonPage extends StatelessWidget {
 
         return LoaderOverlay(
           loadingStatusNotifier: modulesProvider,
+          emptyMessage: S.current.noItemsFound,
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
           overlayBackgroundColor: Colors.grey.withOpacity(0.5),
