@@ -5,14 +5,7 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 
 class PreferencesProvider extends ChangeNotifier {
-  MemberProvider? _memberProvider;
-  MemberProvider? get memberProvider {
-    if (_memberProvider != null) {
-      return _memberProvider;
-    } else {
-      return null;
-    }
-  }
+  MemberProvider? memberProvider;
 
   bool _isShowYourWhy = false;
   bool get isShowYourWhy => _isShowYourWhy;
@@ -23,9 +16,9 @@ class PreferencesProvider extends ChangeNotifier {
   bool _isUsernameUsed = false;
   bool get isUsernameUsed => _isUsernameUsed;
 
-  set memberProvider(MemberProvider? memberProvider) {
-    _memberProvider = memberProvider;
-    if (memberProvider != null) notifyListeners();
+  PreferencesProvider({required MemberProvider? memberProvider}) {
+    this.memberProvider = memberProvider;
+    if (memberProvider != null) getIsShowYourWhy();
   }
 
   void getIsShowYourWhy() async {
@@ -59,7 +52,7 @@ class PreferencesProvider extends ChangeNotifier {
   void getIsUsernameUsed() async {
     _isUsernameUsed = await PreferencesController()
         .getBool(SharedPreferencesKeys.USERNAME_USED);
-    
+
     _preferredDisplayName = _getPreferredDisplayNameValue();
     notifyListeners();
   }
