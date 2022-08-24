@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/widget_keys.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
@@ -26,7 +27,6 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   bool isSigningIn = false;
-  bool showSignUp = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -262,9 +262,8 @@ class _SignInState extends State<SignIn> {
                                 horizontal: 15,
                               ),
                               child: GestureDetector(
-                                onTap: () {
-                                  // forgottenPassword(context);
-                                },
+                                onTap: () => Navigator.pushNamed(
+                                    context, ForgotPassword.id),
                                 child: Text(
                                   S.current.passwordForgottenTitle,
                                   style: TextStyle(
