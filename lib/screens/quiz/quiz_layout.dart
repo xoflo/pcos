@@ -42,12 +42,6 @@ class _QuizLayoutState extends State<QuizLayout> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    Provider.of<ModulesProvider>(context, listen: false).fetchLessonTasks(widget.quiz?.lessonID ?? -1);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Consumer<ModulesProvider>(builder: (context, modulesProvider, child) {
       return LoaderOverlay(
