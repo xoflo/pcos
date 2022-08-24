@@ -158,8 +158,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .headline5
-                                      ?.copyWith(
-                                          color: textColor.withOpacity(0.8)),
+                                      ?.copyWith(color: backgroundColor),
                                 ),
                                 SizedBox(height: 20),
                                 HtmlWidget(
