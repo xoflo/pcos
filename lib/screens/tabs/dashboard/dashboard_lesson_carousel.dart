@@ -216,27 +216,34 @@ class DashboardLessonCarousel extends StatelessWidget {
                         ],
                         if (currentLessonQuiz != null) ...[
                           SizedBox(height: 15),
-                          DashboardLessonCarouselItemCard(
-                            onTapCard: isLessonUnlocked && isLessonComplete
-                                ? () {
-                                    analytics.logEvent(
-                                        name: Analytics.ANALYTICS_SCREEN_QUIZ);
-                                    Navigator.pushNamed(
-                                      context,
-                                      QuizScreen.id,
-                                      arguments: currentLessonQuiz,
-                                    );
-                                  }
-                                : null,
-                            showCompletedTag:
-                                currentLessonQuiz.isComplete == true,
-                            showCompleteLesson: !isLessonComplete,
-                            isUnlocked: isLessonUnlocked && isLessonComplete,
-                            title: "Quiz",
-                            duration: "5 mins",
-                            asset: 'assets/dashboard_quiz.png',
-                            assetSize: Size(88, 95),
-                          ),
+                          OpenContainer(
+                            closedElevation: 0.0,
+                            tappable: isLessonUnlocked && isLessonComplete,
+                            transitionDuration: Duration(milliseconds: 400),
+                            routeSettings: RouteSettings(
+                                name: QuizScreen.id,
+                                arguments: currentLessonQuiz),
+                            openBuilder: (context, closedContainer) {
+                              analytics.logEvent(
+                                  name: Analytics.ANALYTICS_SCREEN_QUIZ);
+                              return QuizScreen();
+                            },
+                            closedShape: RoundedRectangleBorder(
+                              side: BorderSide(color: tertiaryColor, width: 0),
+                              borderRadius: BorderRadius.circular(16)),
+                            closedBuilder: (context, openContainer) {
+                              return DashboardLessonCarouselItemCard(
+                                showCompletedTag:
+                                    currentLessonQuiz.isComplete == true,
+                                showCompleteLesson: !isLessonComplete,
+                                isUnlocked: isLessonUnlocked && isLessonComplete,
+                                title: "Quiz",
+                                duration: "5 mins",
+                                asset: 'assets/dashboard_quiz.png',
+                                assetSize: Size(88, 95),
+                              );
+                          },
+                          )
                         ]
                       ],
                     ),
