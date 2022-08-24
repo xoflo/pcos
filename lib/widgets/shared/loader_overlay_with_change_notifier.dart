@@ -16,14 +16,14 @@ import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 class LoaderOverlay extends StatelessWidget {
   const LoaderOverlay(
       {Key? key,
-      required this.mainWidget,
+      required this.child,
       required this.loadingStatusNotifier,
       required this.indicatorPosition,
       this.overlayBackgroundColor,
       required this.height})
       : super(key: key);
 
-  final Widget mainWidget;
+  final Widget child;
   final LoadingStatusNotifier loadingStatusNotifier;
   final Alignment indicatorPosition;
   final Color? overlayBackgroundColor;
@@ -32,7 +32,7 @@ class LoaderOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: <Widget>[mainWidget, _loaderOverlay()],
+      children: <Widget>[child, _loaderOverlay()],
     );
   }
 

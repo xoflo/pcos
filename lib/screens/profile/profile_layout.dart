@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/screens/profile/profile_settings.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_summary.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/toggle_switch.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay2.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class ProfileLayout extends StatefulWidget {
   @override
@@ -65,7 +65,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
         indicatorPosition: Alignment.center,
         overlayBackgroundColor: primaryColor,
         height: MediaQuery.of(context).size.height,
-        mainWidget: WillPopScope(
+        child: WillPopScope(
           onWillPop: () async => !Platform.isIOS,
           child: Container(
             decoration: BoxDecoration(

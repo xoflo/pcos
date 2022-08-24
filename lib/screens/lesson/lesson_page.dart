@@ -18,7 +18,7 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay2.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class LessonPage extends StatelessWidget {
   LessonPage({Key? key}) : super(key: key);
@@ -249,7 +249,7 @@ class LessonPage extends StatelessWidget {
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
           overlayBackgroundColor: Colors.grey.withOpacity(0.5),
-          mainWidget: Scaffold(
+          child: Scaffold(
               backgroundColor: primaryColor,
               body: WillPopScope(
                 onWillPop: () async =>

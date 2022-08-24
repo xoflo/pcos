@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/quiz/quiz_question_item_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay2.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class QuizLayout extends StatefulWidget {
   const QuizLayout({Key? key, this.quiz}) : super(key: key);
@@ -49,7 +49,7 @@ class _QuizLayoutState extends State<QuizLayout> {
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
           overlayBackgroundColor: Colors.grey.withOpacity(0.5),
-          mainWidget: Stack(
+          child: Stack(
             children: [
               SafeArea(
                 child: Container(

@@ -15,7 +15,7 @@ import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay2.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class DashboardLessonCarousel extends StatelessWidget {
   DashboardLessonCarousel({
@@ -35,7 +35,7 @@ class DashboardLessonCarousel extends StatelessWidget {
             Provider.of<ModulesProvider>(context, listen: true),
         indicatorPosition: Alignment.topCenter,
         height: 530.0,
-        mainWidget: Consumer<ModulesProvider>(
+        child: Consumer<ModulesProvider>(
             builder: (context, modulesProvider, child) {
           if (modulesProvider.fetchAndSaveDataStatus == LoadingStatus.success &&
               !isPageScrollerInitialized.value) {
