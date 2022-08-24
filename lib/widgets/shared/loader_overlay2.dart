@@ -5,6 +5,14 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
+/// A Widget that makes another widget overlayed with a progress indicator on top of it.
+/// Purpose of which is to move out the logic behind the appearance/disappearance of
+/// the progress indicator in the child widget into this LoadOverlay widget
+/// Status of said child widget where the loader overlay will be applied must be provided
+/// by a change notifier consumed by child widget. This change notifier must implement 
+/// LoadingStatusNotifier.
+/// The change notifier must have its own status attribute of type LoadingStatus and must
+/// call setLoadingStatus(fetchAndSaveDataStatus, false); each time its status changes.
 class LoaderOverlay extends StatelessWidget {
   const LoaderOverlay(
       {Key? key,
