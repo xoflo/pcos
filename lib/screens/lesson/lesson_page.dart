@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:notification_permissions/notification_permissions.dart';
@@ -253,31 +255,27 @@ class LessonPage extends StatelessWidget {
             backgroundColor: primaryColor,
             body: WillPopScope(
               onWillPop: () async =>
-                  modulesProvider.fetchLessonTasksStatus !=
-                  LoadingStatus.loading,
-              child: Stack(
-                children: [
-                  SafeArea(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: primaryColor,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 12),
-                            child: Header(
-                              title: "Lesson",
-                              closeItem: () => Navigator.pop(context),
-                            ),
-                          ),
-                          getSuccessWidget(modulesProvider, args, context)
-                        ],
-                      ),
-                    ),
+                  !Platform.isIOS &&
+                  modulesProvider.loadingStatus != LoadingStatus.loading,
+              child: SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
                   ),
-                ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12),
+                        child: Header(
+                          title: "Lesson",
+                          closeItem: () => Navigator.pop(context),
+                        ),
+                      ),
+                      getSuccessWidget(modulesProvider, args, context)
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

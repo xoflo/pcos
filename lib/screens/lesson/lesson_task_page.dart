@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +14,7 @@ import 'package:thepcosprotocol_app/screens/lesson/lesson_task_rating.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_task_text.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class LessonTaskPage extends StatefulWidget {
   const LessonTaskPage({Key? key}) : super(key: key);
@@ -58,7 +59,8 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
 
   Future onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
       String value) async {
-    await modulesProvider.setTaskAsComplete(taskID, value: value, lessonID: lessonID)
+    await modulesProvider
+        .setTaskAsComplete(taskID, value: value, lessonID: lessonID)
         .then((value) => Navigator.pop(context));
   }
 
@@ -71,57 +73,55 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
       body: Consumer<ModulesProvider>(
         builder: (context, modulesProvider, child) => WillPopScope(
           onWillPop: () async =>
-              modulesProvider.setTaskAsCompleteStatus != LoadingStatus.loading,
-          child: Stack(
-            children: [
-              SafeArea(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 12),
-                        child: Header(
-                          title: "Lesson",
-                          closeItem: () => Navigator.pop(context),
-                        ),
+              !Platform.isIOS &&
+              modulesProvider.loadingStatus != LoadingStatus.loading,
+          child: LoaderOverlay(
+            indicatorPosition: Alignment.center,
+            emptyMessage: S.current.noItemsFound,
+            loadingStatusNotifier: modulesProvider,
+            height: MediaQuery.of(context).size.height,
+            child: SafeArea(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Header(
+                        title: "Lesson",
+                        closeItem: () => Navigator.pop(context),
                       ),
-                      if (modulesProvider.fetchLessonTasksStatus == LoadingStatus.empty)
-                        NoResults(message: S.current.noItemsFound)
-                      else
-                        Expanded(
-                          child: Container(
-                            color: Colors.white,
-                            child: SingleChildScrollView(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 25, horizontal: 15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    HtmlWidget(
-                                      task.description ?? "",
-                                      textStyle:
-                                          Theme.of(context).textTheme.headline4,
-                                    ),
-                                    SizedBox(height: 15),
-                                    getTaskType(modulesProvider, task),
-                                  ],
+                    ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.white,
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 25, horizontal: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HtmlWidget(
+                                  task.description ?? "",
+                                  textStyle:
+                                      Theme.of(context).textTheme.headline4,
                                 ),
-                              ),
+                                SizedBox(height: 15),
+                                getTaskType(modulesProvider, task),
+                              ],
                             ),
                           ),
-                        )
-                    ],
-                  ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              if (modulesProvider.fetchLessonTasksStatus == LoadingStatus.loading)
-                LoaderOverlay()
-            ],
+            ),
           ),
         ),
       ),

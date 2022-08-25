@@ -22,12 +22,6 @@ class ModulesProvider extends LoadingStatusNotifier {
     if (dbProvider != null) fetchAndSaveData(false);
   }
 
-  LoadingStatus fetchAndSaveDataStatus = LoadingStatus.empty;
-  LoadingStatus lessonAsCompleteStatus = LoadingStatus.empty;
-  LoadingStatus fetchLessonTasksStatus = LoadingStatus.empty;
-  LoadingStatus setTaskAsCompleteStatus = LoadingStatus.empty;
-  LoadingStatus searchStatus = LoadingStatus.empty;
-
   List<Module> _modules = [];
   List<Lesson> _lessons = [];
   List<LessonContent> _lessonContent = [];
@@ -59,8 +53,7 @@ class ModulesProvider extends LoadingStatusNotifier {
   List<LessonTask> get lessonTasks => [..._lessonTasks];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
-    fetchAndSaveDataStatus = LoadingStatus.loading;
-    setLoadingStatus(fetchAndSaveDataStatus, false);
+    setLoadingStatus(LoadingStatus.loading, false);
 
     final String nextLessonAvailableDateString = await PreferencesController()
         .getString(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
@@ -115,12 +108,11 @@ class ModulesProvider extends LoadingStatusNotifier {
       }
     }
 
-    fetchAndSaveDataStatus = _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
-        ? LoadingStatus.empty
-        : LoadingStatus.success;
-
-    setLoadingStatus(fetchAndSaveDataStatus, false);
-    notifyListeners();
+    setLoadingStatus(
+        _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
+            ? LoadingStatus.empty
+            : LoadingStatus.success,
+        true);
   }
 
   List<Lesson> getModuleLessons(final int? moduleID) {
@@ -233,8 +225,8 @@ class ModulesProvider extends LoadingStatusNotifier {
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
-    lessonAsCompleteStatus = LoadingStatus.loading;
-    notifyListeners();
+    setLoadingStatus(LoadingStatus.loading, true);
+
     final DateTime nextLessonAvailable =
         await WebServices().setLessonComplete(lessonID);
     await PreferencesController().saveString(
@@ -243,15 +235,14 @@ class ModulesProvider extends LoadingStatusNotifier {
     if (setModuleComplete) {
       await WebServices().setModuleComplete(moduleID);
     }
-    lessonAsCompleteStatus = LoadingStatus.success;
-    notifyListeners();
+
+    setLoadingStatus(LoadingStatus.success, true);
 
     await fetchAndSaveData(true);
   }
 
   Future<void> fetchLessonTasks(final int lessonID) async {
-    fetchLessonTasksStatus = LoadingStatus.loading;
-    setLoadingStatus(fetchLessonTasksStatus, false);
+    setLoadingStatus(LoadingStatus.loading, false);
 
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
@@ -271,9 +262,7 @@ class ModulesProvider extends LoadingStatusNotifier {
         }
       }
 
-      fetchLessonTasksStatus = LoadingStatus.success;
-      setLoadingStatus(fetchLessonTasksStatus, false);
-      notifyListeners();
+      setLoadingStatus(LoadingStatus.success, true);
     }
   }
 
@@ -281,13 +270,9 @@ class ModulesProvider extends LoadingStatusNotifier {
       {final String? value,
       final int? lessonID,
       final bool? forceRefresh}) async {
-    setTaskAsCompleteStatus = LoadingStatus.loading;
-    notifyListeners();
+    setLoadingStatus(LoadingStatus.loading, true);
 
     await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value ?? "");
-
-    setTaskAsCompleteStatus = LoadingStatus.success;
-    notifyListeners();
 
     if (lessonID != null) {
       await fetchLessonTasks(lessonID);
@@ -295,6 +280,8 @@ class ModulesProvider extends LoadingStatusNotifier {
     if (forceRefresh != null) {
       await fetchAndSaveData(forceRefresh);
     }
+
+    setLoadingStatus(LoadingStatus.success, true);
   }
 
   Future<List<Module>> _getPreviousModules() async {
@@ -308,19 +295,20 @@ class ModulesProvider extends LoadingStatusNotifier {
   }
 
   Future<void> filterAndSearch(final String searchText) async {
-    searchStatus = LoadingStatus.loading;
+    setLoadingStatus(LoadingStatus.loading, false);
+
     if (dbProvider?.db != null) {
       _searchLessons = await ProviderHelper().filterAndSearch(
           dbProvider, "Lesson", searchText, "", []) as List<Lesson>;
     }
-    searchStatus =
-        _searchLessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    notifyListeners();
+
+    setLoadingStatus(
+        _searchLessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        true);
   }
 
   Future<void> clearSearch() async {
     _searchLessons.clear();
-    searchStatus = LoadingStatus.empty;
-    notifyListeners();
+    setLoadingStatus(LoadingStatus.empty, true);
   }
 }
