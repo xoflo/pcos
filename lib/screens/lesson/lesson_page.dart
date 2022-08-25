@@ -16,23 +16,17 @@ import 'package:thepcosprotocol_app/screens/lesson/lesson_wiki_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
-class LessonPage extends StatefulWidget {
-  const LessonPage({Key? key}) : super(key: key);
+class LessonPage extends StatelessWidget {
+  LessonPage({Key? key}) : super(key: key);
 
   static const id = "lesson_page";
+  final isPageInitialized = ValueNotifier(false);
 
-  @override
-  State<LessonPage> createState() => _LessonPageState();
-}
-
-class _LessonPageState extends State<LessonPage> {
-  LessonArguments? args;
-
-  void _closeLesson() async {
+  void _closeLesson(BuildContext context) async {
     final bool requestedDailyReminder = await PreferencesController()
         .getBool(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
 
@@ -44,7 +38,7 @@ class _LessonPageState extends State<LessonPage> {
     // daily reminder after closing a lesson. This will pop up only once to
     // remind the user.
     if (!requestedDailyReminder && !requestedNotifPermissions) {
-      _askUserForDailyReminder();
+      _askUserForDailyReminder(context);
     } else {
       final bool isNotificationPermissionGranted =
           await NotificationPermissions.getNotificationPermissionStatus() ==
@@ -54,9 +48,9 @@ class _LessonPageState extends State<LessonPage> {
         // Just in case the device doesn't allow checking of notifications,
         // we include a pop-up here
         try {
-          _askUserForNotificationPermission();
+          _askUserForNotificationPermission(context);
         } catch (ex) {
-          _askUserForNotificationPermission();
+          _askUserForNotificationPermission(context);
         }
       } else {
         // Close the lesson page normally when the daily reminder is
@@ -66,7 +60,7 @@ class _LessonPageState extends State<LessonPage> {
     }
   }
 
-  void _askUserForDailyReminder() {
+  void _askUserForDailyReminder(BuildContext context) {
     PreferencesController().saveBool(
         SharedPreferencesKeys.REQUESTED_NOTIFICATIONS_PERMISSION, true);
 
@@ -98,7 +92,7 @@ class _LessonPageState extends State<LessonPage> {
     );
   }
 
-  void _askUserForNotificationPermission() {
+  void _askUserForNotificationPermission(BuildContext context) {
     void requestNotificationPermission(BuildContext context) async {
       Navigator.of(context).pop();
       await NotificationPermissions.requestNotificationPermissions(
@@ -117,7 +111,8 @@ class _LessonPageState extends State<LessonPage> {
     );
   }
 
-  Widget getSuccessWidget(ModulesProvider modulesProvider) {
+  Widget getSuccessWidget(ModulesProvider modulesProvider,
+      LessonArguments? args, BuildContext context) {
     final wikis = modulesProvider.getLessonWikis(args?.lesson.lessonID ?? 0);
     final contents =
         modulesProvider.getLessonContent(args?.lesson.lessonID ?? 0);
@@ -224,7 +219,7 @@ class _LessonPageState extends State<LessonPage> {
                                 args?.lesson.moduleID ?? -1,
                                 setModuleComplete,
                               )
-                              .then((value) => _closeLesson());
+                              .then((value) => _closeLesson(context));
                         }
                       : null,
                 ),
@@ -239,50 +234,54 @@ class _LessonPageState extends State<LessonPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (args == null) {
-      args = ModalRoute.of(context)?.settings.arguments as LessonArguments?;
-    }
+    final LessonArguments? args =
+        ModalRoute.of(context)?.settings.arguments as LessonArguments?;
 
-    if (args?.showTasks == true) {
-      Provider.of<ModulesProvider>(context, listen: false)
-          .fetchLessonTasks(args?.lesson.lessonID ?? -1);
-    }
+    return Consumer<ModulesProvider>(
+      builder: (context, modulesProvider, child) {
+        if (args?.showTasks == true && !isPageInitialized.value) {
+          isPageInitialized.value = true;
+          modulesProvider.fetchLessonTasks(args?.lesson.lessonID ?? -1);
+        }
 
-    return Scaffold(
-      backgroundColor: primaryColor,
-      body: Consumer<ModulesProvider>(
-        builder: (context, modulesProvider, child) => WillPopScope(
-          onWillPop: () async =>
-              modulesProvider.status != LoadingStatus.loading,
-          child: Stack(
-            children: [
-              SafeArea(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 12),
-                        child: Header(
-                          title: "Lesson",
-                          closeItem: () => Navigator.pop(context),
+        return LoaderOverlay(
+          loadingStatusNotifier: modulesProvider,
+          emptyMessage: S.current.noItemsFound,
+          indicatorPosition: Alignment.center,
+          height: MediaQuery.of(context).size.height,
+          overlayBackgroundColor: Colors.grey.withOpacity(0.5),
+          child: Scaffold(
+              backgroundColor: primaryColor,
+              body: WillPopScope(
+                onWillPop: () async =>
+                    modulesProvider.fetchLessonTasksStatus != LoadingStatus.loading,
+                child: Stack(
+                  children: [
+                    SafeArea(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 12),
+                              child: Header(
+                                title: "Lesson",
+                                closeItem: () => Navigator.pop(context),
+                              ),
+                            ),
+                            getSuccessWidget(modulesProvider, args, context)
+                          ],
                         ),
                       ),
-                      if (modulesProvider.status == LoadingStatus.empty)
-                        NoResults(message: S.current.noItemsFound)
-                      else
-                        getSuccessWidget(modulesProvider)
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              )),
+        );
+      },
     );
   }
 }

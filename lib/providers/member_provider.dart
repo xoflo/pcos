@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 
-class MemberProvider extends ChangeNotifier {
+class MemberProvider extends LoadingStatusNotifier {
   Member member = Member();
   Member memberOriginal = Member();
   LoadingStatus status = LoadingStatus.empty;
@@ -52,6 +52,7 @@ class MemberProvider extends ChangeNotifier {
 
   Future<bool> setWhy(String why) async {
     status = LoadingStatus.loading;
+    setLoadingStatus(status, false);
     notifyListeners();
 
     final bool didSetWhy =
@@ -64,6 +65,7 @@ class MemberProvider extends ChangeNotifier {
     _why = why;
 
     status = LoadingStatus.success;
+    setLoadingStatus(status, false);
     notifyListeners();
 
     return didSetWhy;
@@ -71,6 +73,7 @@ class MemberProvider extends ChangeNotifier {
 
   Future<void> populateMember() async {
     status = LoadingStatus.loading;
+    setLoadingStatus(status, false);
     try {
       final Member? memberDetails = await WebServices().getMemberDetails();
 
@@ -92,11 +95,14 @@ class MemberProvider extends ChangeNotifier {
     } catch (ex) {
       status = LoadingStatus.empty;
     }
+
+    setLoadingStatus(status, false);
     notifyListeners();
   }
 
   Future<bool> saveMemberDetails() async {
     status = LoadingStatus.loading;
+    setLoadingStatus(status, false);
     String requestBody = "{";
     bool nameChanged = false;
 
@@ -131,6 +137,7 @@ class MemberProvider extends ChangeNotifier {
     final bool saved = await WebServices().updateMemberDetails(requestBody);
 
     status = LoadingStatus.success;
+    setLoadingStatus(status, false);
     notifyListeners();
     return saved;
   }

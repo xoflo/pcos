@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_layout.dart';
 
 class Profile extends StatelessWidget {
@@ -14,11 +12,13 @@ class Profile extends StatelessWidget {
         child: Scaffold(
           backgroundColor: primaryColor,
           body: SafeArea(
-            child: ChangeNotifierProvider(
-              create: (context) => MemberProvider(),
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: 12.0,
+              ),
               child: ProfileLayout(),
+              ),
             ),
           ),
-        ),
       );
 }

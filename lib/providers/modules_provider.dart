@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
@@ -8,6 +7,7 @@ import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
 import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
+import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -15,14 +15,17 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
-class ModulesProvider with ChangeNotifier {
+class ModulesProvider extends LoadingStatusNotifier {
   final DatabaseProvider? dbProvider;
 
   ModulesProvider({required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData(false);
   }
 
-  LoadingStatus status = LoadingStatus.empty;
+  LoadingStatus fetchAndSaveDataStatus = LoadingStatus.empty;
+  LoadingStatus lessonAsCompleteStatus = LoadingStatus.empty;
+  LoadingStatus fetchLessonTasksStatus = LoadingStatus.empty;
+  LoadingStatus setTaskAsCompleteStatus = LoadingStatus.empty;
   LoadingStatus searchStatus = LoadingStatus.empty;
 
   List<Module> _modules = [];
@@ -56,7 +59,8 @@ class ModulesProvider with ChangeNotifier {
   List<LessonTask> get lessonTasks => [..._lessonTasks];
 
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
-    status = LoadingStatus.loading;
+    fetchAndSaveDataStatus = LoadingStatus.loading;
+    setLoadingStatus(fetchAndSaveDataStatus, false);
 
     final String nextLessonAvailableDateString = await PreferencesController()
         .getString(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
@@ -111,9 +115,11 @@ class ModulesProvider with ChangeNotifier {
       }
     }
 
-    status = _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
+    fetchAndSaveDataStatus = _modules.isEmpty || _lessons.isEmpty || _lessonContent.isEmpty
         ? LoadingStatus.empty
         : LoadingStatus.success;
+
+    setLoadingStatus(fetchAndSaveDataStatus, false);
     notifyListeners();
   }
 
@@ -227,7 +233,7 @@ class ModulesProvider with ChangeNotifier {
 
   Future<void> setLessonAsComplete(final int lessonID, final int moduleID,
       final bool setModuleComplete) async {
-    status = LoadingStatus.loading;
+    lessonAsCompleteStatus = LoadingStatus.loading;
     notifyListeners();
     final DateTime nextLessonAvailable =
         await WebServices().setLessonComplete(lessonID);
@@ -237,14 +243,15 @@ class ModulesProvider with ChangeNotifier {
     if (setModuleComplete) {
       await WebServices().setModuleComplete(moduleID);
     }
-    status = LoadingStatus.success;
+    lessonAsCompleteStatus = LoadingStatus.success;
     notifyListeners();
 
     await fetchAndSaveData(true);
   }
 
   Future<void> fetchLessonTasks(final int lessonID) async {
-    status = LoadingStatus.loading;
+    fetchLessonTasksStatus = LoadingStatus.loading;
+    setLoadingStatus(fetchLessonTasksStatus, false);
 
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
@@ -264,7 +271,8 @@ class ModulesProvider with ChangeNotifier {
         }
       }
 
-      status = LoadingStatus.success;
+      fetchLessonTasksStatus = LoadingStatus.success;
+      setLoadingStatus(fetchLessonTasksStatus, false);
       notifyListeners();
     }
   }
@@ -273,12 +281,12 @@ class ModulesProvider with ChangeNotifier {
       {final String? value,
       final int? lessonID,
       final bool? forceRefresh}) async {
-    status = LoadingStatus.loading;
+    setTaskAsCompleteStatus = LoadingStatus.loading;
     notifyListeners();
 
     await ProviderHelper().markTaskAsCompleted(dbProvider, taskID, value ?? "");
 
-    status = LoadingStatus.success;
+    setTaskAsCompleteStatus = LoadingStatus.success;
     notifyListeners();
 
     if (lessonID != null) {

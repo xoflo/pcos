@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/quiz/quiz_question_item_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class QuizLayout extends StatefulWidget {
   const QuizLayout({Key? key, this.quiz}) : super(key: key);
@@ -34,8 +32,7 @@ class _QuizLayoutState extends State<QuizLayout> {
               curve: Curves.easeIn);
           setState(() => questionNumber += 1);
         } else {
-          await modulesProvider
-              .setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
+          await modulesProvider.setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
               .then((value) {
             Navigator.pop(context);
           });
@@ -45,29 +42,33 @@ class _QuizLayoutState extends State<QuizLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<ModulesProvider>(
-        builder: (context, modulesProvider, child) => Stack(
-          children: [
-            SafeArea(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Header(
-                        title: "Quiz",
-                        closeItem: () => Navigator.pop(context),
-                        questionNumber: questionNumber + 1,
-                        questionCount: widget.quiz?.questions?.length,
+  Widget build(BuildContext context) {
+    return Consumer<ModulesProvider>(builder: (context, modulesProvider, child) {
+      return LoaderOverlay(
+          loadingStatusNotifier: modulesProvider,
+          emptyMessage: "Quiz not available",
+          indicatorPosition: Alignment.center,
+          height: MediaQuery.of(context).size.height,
+          overlayBackgroundColor: Colors.grey.withOpacity(0.5),
+          child: Stack(
+            children: [
+              SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12),
+                        child: Header(
+                          title: "Quiz",
+                          closeItem: () => Navigator.pop(context),
+                          questionNumber: questionNumber + 1,
+                          questionCount: widget.quiz?.questions?.length,
+                        ),
                       ),
-                    ),
-                    if (modulesProvider.status == LoadingStatus.empty)
-                      NoResults(message: "Quiz not available")
-                    else
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
@@ -84,12 +85,12 @@ class _QuizLayoutState extends State<QuizLayout> {
                           ),
                         ),
                       )
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            if (modulesProvider.status == LoadingStatus.loading) LoaderOverlay()
-          ],
-        ),
-      );
+            ],
+          ));
+    });
+  }
 }

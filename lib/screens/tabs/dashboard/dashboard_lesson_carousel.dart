@@ -15,6 +15,7 @@ import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class DashboardLessonCarousel extends StatelessWidget {
   DashboardLessonCarousel({
@@ -22,86 +23,96 @@ class DashboardLessonCarousel extends StatelessWidget {
   }) : super(key: key);
 
   final activePage = ValueNotifier(0);
+  final isPageScrollerInitialized = ValueNotifier(false);
+
+  final PageController controller =
+      PageController(initialPage: 0, keepPage: false, viewportFraction: 0.9);
 
   @override
   Widget build(BuildContext context) {
-    bool isPageScrollerInitialized = false;
-    PageController controller = PageController(
-        initialPage: activePage.value, keepPage: false, viewportFraction: 0.9);
+    return LoaderOverlay(
+        loadingStatusNotifier:
+            Provider.of<ModulesProvider>(context, listen: true),
+        emptyMessage: S.current.noResultsLessons,
+        indicatorPosition: Alignment.topCenter,
+        height: 530.0,
+        child: Consumer<ModulesProvider>(
+            builder: (context, modulesProvider, child) {
+          if (modulesProvider.fetchAndSaveDataStatus == LoadingStatus.success &&
+              !isPageScrollerInitialized.value) {
+            isPageScrollerInitialized.value = true;
+            activePage.value = modulesProvider.currentModuleLessons.indexWhere(
+              (element) =>
+                  element.lessonID == modulesProvider.currentLesson?.lessonID,
+            );
+          }
 
-    return Consumer<ModulesProvider>(
-        builder: (context, modulesProvider, child) {
-      if (modulesProvider.status == LoadingStatus.success &&
-          controller.hasClients &&
-          !isPageScrollerInitialized) {
-        isPageScrollerInitialized = true;
-        activePage.value = modulesProvider.currentModuleLessons.indexWhere(
-          (element) =>
-              element.lessonID == modulesProvider.currentLesson?.lessonID,
-        );
-        controller.jumpToPage(activePage.value);
-      }
+          WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+            if (controller.hasClients) {
+              controller.jumpToPage(activePage.value);
+            }
+          });
 
-      PreferencesProvider prefsProvider =
-          Provider.of<PreferencesProvider>(context);
-      return Column(
-        children: [
-          Container(
-            height: 530,
-            child: PageView.builder(
-              controller: controller,
-              itemCount: modulesProvider.currentModuleLessons.length,
-              pageSnapping: true,
-              itemBuilder: (context, index) {
-                final currentLesson =
-                    modulesProvider.currentModuleLessons[index];
+          PreferencesProvider prefsProvider =
+              Provider.of<PreferencesProvider>(context);
+          return Column(
+            children: [
+              Container(
+                height: 530,
+                child: PageView.builder(
+                  controller: controller,
+                  itemCount: modulesProvider.currentModuleLessons.length,
+                  pageSnapping: true,
+                  itemBuilder: (context, index) {
+                    final currentLesson =
+                        modulesProvider.currentModuleLessons[index];
 
-                final currentLessonQuiz =
-                    modulesProvider.getQuizByLessonID(currentLesson.lessonID);
+                    final currentLessonQuiz =
+                        modulesProvider.getQuizByLessonID(currentLesson.lessonID);
 
-                final currentLessonRecipes =
-                    modulesProvider.getLessonRecipes(currentLesson.lessonID);
-                final isLessonComplete = currentLesson.isComplete;
+                    final currentLessonRecipes =
+                       modulesProvider.getLessonRecipes(currentLesson.lessonID);
+                    final isLessonComplete = currentLesson.isComplete;
 
-                int lessonRecipeDuration = 0;
-                currentLessonRecipes.forEach((element) {
-                  lessonRecipeDuration += element.duration ?? 0;
-                });
+                    int lessonRecipeDuration = 0;
+                    currentLessonRecipes.forEach((element) {
+                      lessonRecipeDuration += element.duration ?? 0;
+                    });
 
-                // Initially, all lessons in the current module are already
-                // loaded. However, each lesson needs to be checked if
-                // they are already unlocked. The first lesson of the module is
-                // automatically unlocked. But for the rest of the lessons
-                // to be unlocked, the previous one must be completed first.
-                // But the app still needs to check if the lesson is already
-                // available to access for the user. The server determines the
-                // availability of the lesson so that the user will not
-                // be able to simultaneously finish all the lessons and all
-                // the modules in one sitting. This also allows other users
-                // to save the lessons for later and go over them on their
-                // own pace. The computation for this value is already done
-                // in the server, based on the number of hours since the user
-                // completed the very first lesson in the module.
+                    // Initially, all lessons in the current module are already
+                    // loaded. However, each lesson needs to be checked if
+                    // they are already unlocked. The first lesson of the module is
+                    // automatically unlocked. But for the rest of the lessons
+                    // to be unlocked, the previous one must be completed first.
+                    // But the app still needs to check if the lesson is already
+                    // available to access for the user. The server determines the
+                    // availability of the lesson so that the user will not
+                    // be able to simultaneously finish all the lessons and all
+                    // the modules in one sitting. This also allows other users
+                    // to save the lessons for later and go over them on their
+                    // own pace. The computation for this value is already done
+                    // in the server, based on the number of hours since the user
+                    // completed the very first lesson in the module.
 
-                bool isLessonUnlocked = index == 0;
+                    bool isLessonUnlocked = index == 0;
 
-                if (index > 0) {
-                  final previousLesson =
-                      modulesProvider.currentModuleLessons[index - 1];
+                    if (index > 0) {
+                      final previousLesson =
+                          modulesProvider.currentModuleLessons[index - 1];
 
-                  // If there is a quiz in the previous lesson, we must check
-                  // it first before the user proceeds to the next lesson.
-                  final isPreviousLessonQuizComplete = modulesProvider
-                          .getQuizByLessonID(previousLesson.lessonID)
-                          ?.isComplete ??
-                      true;
+                      // If there is a quiz in the previous lesson, we must check
+                      // it first before the user proceeds to the next lesson.
+                      final isPreviousLessonQuizComplete = modulesProvider
+                              .getQuizByLessonID(previousLesson.lessonID)
+                              ?.isComplete ??
+                          true;
 
-                  isLessonUnlocked = (previousLesson.isComplete &&
-                      isPreviousLessonQuizComplete &&
-                      currentLesson.hoursUntilAvailable == 0);
-                }
+                      isLessonUnlocked = (previousLesson.isComplete &&
+                          isPreviousLessonQuizComplete &&
+                          currentLesson.hoursUntilAvailable == 0);
+                    }
 
-                final lessonDuration = currentLesson.minsToComplete;
+                    final lessonDuration = currentLesson.minsToComplete;
 
                 return Card(
                   shape: RoundedRectangleBorder(
@@ -261,6 +272,7 @@ class DashboardLessonCarousel extends StatelessWidget {
           SizedBox(height: 30)
         ],
       );
-    });
+    })
+    );
   }
 }

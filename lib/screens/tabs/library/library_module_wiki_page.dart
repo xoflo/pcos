@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_item.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 class LibraryModuleWikiPage extends StatefulWidget {
   const LibraryModuleWikiPage({Key? key}) : super(key: key);
@@ -30,17 +27,6 @@ class _LibraryModuleWikiPageState extends State<LibraryModuleWikiPage> {
     modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
     favouritesProvider =
         Provider.of<FavouritesProvider>(context, listen: false);
-  }
-
-  Widget getLoadingStatus() {
-    switch (modulesProvider.status) {
-      case LoadingStatus.loading:
-        return PcosLoadingSpinner();
-      case LoadingStatus.empty:
-        return NoResults(message: S.current.noItemsFound);
-      case LoadingStatus.success:
-        return Container();
-    }
   }
 
   @override
