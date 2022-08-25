@@ -101,6 +101,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                     spacing: 10,
                                     runSpacing: 10,
                                     children: tags
+                                        .where((element) => element.isNotEmpty)
+                                        .toList()
                                         .map(
                                           (tag) => Container(
                                             decoration: BoxDecoration(
@@ -176,8 +178,13 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                   child: HtmlWidget(
                                     args?.recipe.description ?? "",
-                                    textStyle:
-                                        Theme.of(context).textTheme.bodyText1,
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          height: 1.5,
+                                          color: textColor.withOpacity(0.8),
+                                        ),
                                   ),
                                 )
                               ],
@@ -199,7 +206,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                           .textTheme
                                           .bodyText1
                                           ?.copyWith(
-                                            height: 1.25,
+                                            height: 1.5,
                                             color: textColor.withOpacity(0.8),
                                           ),
                                     )

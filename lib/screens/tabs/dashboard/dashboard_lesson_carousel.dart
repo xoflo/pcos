@@ -171,28 +171,25 @@ class DashboardLessonCarousel extends StatelessWidget {
                           routeSettings: RouteSettings(
                               name: LessonPage.id,
                               arguments: LessonArguments(currentLesson)),
-                          openBuilder: (context, closedContainer) {
-                            return LessonPage();
-                          },
+                          openBuilder: (context, closedContainer) =>
+                              LessonPage(),
                           closedShape: RoundedRectangleBorder(
-                            side: BorderSide(color: tertiaryColor, width: 0),
-                            borderRadius: BorderRadius.circular(16)),
-                          closedBuilder: (context, openContainer) {
-                            return Container(
-                              alignment: Alignment.center,
-                              child: DashboardLessonCarouselItemCard(
-                                showCompletedTag: isLessonComplete,
-                                isUnlocked: isLessonUnlocked,
-                                title: currentLesson.title,
-                                subtitle: "Lesson ${index + 1}",
-                                duration: lessonDuration == 0
-                                ? null
-                                : "$lessonDuration mins",
-                                asset: 'assets/dashboard_lesson.png',
-                                assetSize: Size(84, 84),
-                              ),
-                            );
-                          },
+                              side: BorderSide(color: tertiaryColor, width: 0),
+                              borderRadius: BorderRadius.circular(16)),
+                          closedBuilder: (context, openContainer) => Container(
+                            alignment: Alignment.center,
+                            child: DashboardLessonCarouselItemCard(
+                              showCompletedTag: isLessonComplete,
+                              isUnlocked: isLessonUnlocked,
+                              title: currentLesson.title,
+                              subtitle: "Lesson ${index + 1}",
+                              duration: lessonDuration == 0
+                                  ? null
+                                  : "$lessonDuration mins",
+                              asset: 'assets/dashboard_lesson.png',
+                              assetSize: Size(84, 84),
+                            ),
+                          ),
                         ),
                         if (prefsProvider.isShowLessonRecipes &&
                             currentLessonRecipes.length > 0) ...[
@@ -204,51 +201,57 @@ class DashboardLessonCarousel extends StatelessWidget {
                             routeSettings: RouteSettings(
                                 name: RecipeListPage.id,
                                 arguments: currentLessonRecipes),
+                            openBuilder: (context, closedContainer) =>
+                                RecipeListPage(),
+                            closedShape: RoundedRectangleBorder(
+                                side:
+                                    BorderSide(color: tertiaryColor, width: 0),
+                                borderRadius: BorderRadius.circular(16)),
+                            closedBuilder: (context, openContainer) =>
+                                Container(
+                              alignment: Alignment.center,
+                              child: DashboardLessonCarouselItemCard(
+                                isUnlocked: isLessonUnlocked,
+                                title: "Lesson Recipes",
+                                duration:
+                                    "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
+                                        S.current.minutesShort,
+                                asset: 'assets/dashboard_recipes.png',
+                                assetSize: Size(84, 90),
+                              ),
+                            ),
+                          ),
+                        ],
+                        if (currentLessonQuiz != null) ...[
+                          SizedBox(height: 15),
+                          OpenContainer(
+                            closedElevation: 0.0,
+                            tappable: isLessonUnlocked && isLessonComplete,
+                            transitionDuration: Duration(milliseconds: 400),
+                            routeSettings: RouteSettings(
+                                name: QuizScreen.id,
+                                arguments: currentLessonQuiz),
                             openBuilder: (context, closedContainer) {
-                              return RecipeListPage();
+                              analytics.logEvent(
+                                  name: Analytics.ANALYTICS_SCREEN_QUIZ);
+                              return QuizScreen();
                             },
                             closedShape: RoundedRectangleBorder(
                               side: BorderSide(color: tertiaryColor, width: 0),
                               borderRadius: BorderRadius.circular(16)),
                             closedBuilder: (context, openContainer) {
-                              return Container(
-                                alignment: Alignment.center,
-                                child: DashboardLessonCarouselItemCard(
-                                    isUnlocked: isLessonUnlocked,
-                                    title: "Lesson Recipes",
-                                    duration:
-                                        "${Duration(milliseconds: lessonRecipeDuration).inMinutes} " +
-                                            S.current.minutesShort,
-                                    asset: 'assets/dashboard_recipes.png',
-                                    assetSize: Size(84, 90),
-                                  ),
+                              return DashboardLessonCarouselItemCard(
+                                showCompletedTag:
+                                    currentLessonQuiz.isComplete == true,
+                                showCompleteLesson: !isLessonComplete,
+                                isUnlocked: isLessonUnlocked && isLessonComplete,
+                                title: "Quiz",
+                                duration: "5 mins",
+                                asset: 'assets/dashboard_quiz.png',
+                                assetSize: Size(88, 95),
                               );
                           },
-                        ),
-                        ],
-                        if (currentLessonQuiz != null) ...[
-                          SizedBox(height: 15),
-                          DashboardLessonCarouselItemCard(
-                            onTapCard: isLessonUnlocked && isLessonComplete
-                                ? () {
-                                    analytics.logEvent(
-                                        name: Analytics.ANALYTICS_SCREEN_QUIZ);
-                                    Navigator.pushNamed(
-                                      context,
-                                      QuizScreen.id,
-                                      arguments: currentLessonQuiz,
-                                    );
-                                  }
-                                : null,
-                            showCompletedTag:
-                                currentLessonQuiz.isComplete == true,
-                            showCompleteLesson: !isLessonComplete,
-                            isUnlocked: isLessonUnlocked && isLessonComplete,
-                            title: "Quiz",
-                            duration: "5 mins",
-                            asset: 'assets/dashboard_quiz.png',
-                            assetSize: Size(88, 95),
-                          ),
+                          )
                         ]
                       ],
                     ),
@@ -260,10 +263,12 @@ class DashboardLessonCarousel extends StatelessWidget {
           ),
           SizedBox(height: 15),
           ValueListenableBuilder<int>(
-              valueListenable: activePage,
-              builder: (context, value, child) => CarouselPageIndicator(
-                  numberOfPages: modulesProvider.currentModuleLessons.length,
-                  activePage: activePage)),
+            valueListenable: activePage,
+            builder: (context, value, child) => CarouselPageIndicator(
+              numberOfPages: modulesProvider.currentModuleLessons.length,
+              activePage: activePage,
+            ),
+          ),
           SizedBox(height: 30)
         ],
       );

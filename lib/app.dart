@@ -127,10 +127,6 @@ class _AppState extends State<App> {
 
     await OneSignal.shared
         .setAppId(FlavorConfig.instance.values.oneSignalAppID);
-
-    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      print("Accepted permission: $accepted");
-    });
   }
 
   void setDeviceOrientations() async {
@@ -178,21 +174,10 @@ class _AppState extends State<App> {
         ),
         ChangeNotifierProvider(create: (context) => MemberProvider()),
         ChangeNotifierProxyProvider<MemberProvider, PreferencesProvider>(
-          create: (context) {
-            PreferencesProvider prefsProvider = PreferencesProvider();
-            prefsProvider.memberProvider =
-                Provider.of<MemberProvider>(context, listen: false);
-            return prefsProvider;
-          },
-          update: (context, memberProvider, prefsProvider) {
-            if (prefsProvider != null) {
-              prefsProvider.memberProvider = memberProvider;
-              return prefsProvider;
-            } else {
-              return PreferencesProvider();
-            }
-          },
-        )
+          create: (context) => PreferencesProvider(memberProvider: null),
+          update: (context, memberProvider, prefsProvider) =>
+              PreferencesProvider(memberProvider: memberProvider),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

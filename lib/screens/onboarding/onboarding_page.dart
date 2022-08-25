@@ -9,16 +9,11 @@ import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/screens/sign_in/register_web_view.dart';
 
-class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({Key? key}) : super(key: key);
+class OnboardingPage extends StatelessWidget with BaseCarouselPage {
+  OnboardingPage({Key? key}) : super(key: key);
 
   static const id = "onboarding_page";
 
-  @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
-}
-
-class _OnboardingPageState extends State<OnboardingPage> with BaseCarouselPage {
   List<CarouselItem> get items => [
         CarouselItem(
           title: "Hello, we are Ovie",
@@ -44,73 +39,75 @@ class _OnboardingPageState extends State<OnboardingPage> with BaseCarouselPage {
   int get itemsLength => items.length;
 
   @override
-  List<Widget> getButtons() {
-    return [
-      FilledButton(
-        margin: const EdgeInsets.only(
-          left: 15,
-          right: 15,
-          top: 25,
-        ),
-        onPressed: () {
-          if (isNotYetLastItem) {
-            controller.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeIn);
-            setState(() {
-              activePage = activePage + 1;
-            });
-          } else {
-            Navigator.pushReplacementNamed(context, RegisterWebView.id);
-          }
-        },
-        text: isNotYetLastItem ? "NEXT" : "GET STARTED",
-        foregroundColor: Colors.white,
-        backgroundColor: backgroundColor,
-      ),
-      HollowButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, SignIn.id);
-        },
-        text: "I have done the questionnaire",
-        style: OutlinedButton.styleFrom(
-          primary: backgroundColor,
-          backgroundColor: onboardingBackground,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+  CustomPainter? get painter => EllipsisPainter(
+        color: primaryColor,
+        heightMultiplier: 0.475,
+        x1Multiplier: 1.5,
+        y1Multiplier: 0.5,
+        y2Multiplier: 0.1,
+      );
+
+  @override
+  bool get isNotYetLastItem => activePage.value < 2;
+
+  @override
+  bool showBackButton(BuildContext context) => false;
+
+  @override
+  List<Widget> getButtons(BuildContext context) => [
+        ValueListenableBuilder<int>(
+          valueListenable: activePage,
+          builder: (context, value, child) => FilledButton(
+            margin: const EdgeInsets.only(
+              left: 15,
+              right: 15,
+              top: 25,
+            ),
+            onPressed: () {
+              if (isNotYetLastItem) {
+                controller.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn);
+
+                updatePageValue(activePage.value + 1);
+              } else {
+                Navigator.pushReplacementNamed(context, RegisterWebView.id);
+              }
+            },
+            text: isNotYetLastItem ? "NEXT" : "GET STARTED",
+            foregroundColor: Colors.white,
+            backgroundColor: backgroundColor,
           ),
-          side: const BorderSide(
-            width: 1,
-            color: backgroundColor,
-          ),
         ),
-        margin: const EdgeInsets.all(15),
-        verticalPadding: 5,
-      )
-    ];
-  }
+        HollowButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, SignIn.id);
+          },
+          text: "I have done the questionnaire",
+          style: OutlinedButton.styleFrom(
+            primary: backgroundColor,
+            backgroundColor: onboardingBackground,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            side: const BorderSide(
+              width: 1,
+              color: backgroundColor,
+            ),
+          ),
+          margin: const EdgeInsets.all(15),
+          verticalPadding: 5,
+        )
+      ];
 
   @override
-  Widget getItemBuilder(BuildContext context, int position) {
-    return CarouselItemWidget(
-      item: items[position],
-    );
-  }
+  Widget get indicator => ValueListenableBuilder<int>(
+      valueListenable: activePage,
+      builder: (context, value, child) => super.indicator);
 
   @override
-  CustomPainter? getPainter() {
-    return EllipsisPainter(
-      color: primaryColor,
-      heightMultiplier: 0.475,
-      x1Multiplier: 1.5,
-      y1Multiplier: 0.5,
-      y2Multiplier: 0.1,
-    );
-  }
-
-  @override
-  bool get isNotYetLastItem => activePage < 2;
-
-  @override
-  bool get showBackButton => false;
+  Widget getItemBuilder(BuildContext context, int position) =>
+      CarouselItemWidget(
+        item: items[position],
+      );
 }

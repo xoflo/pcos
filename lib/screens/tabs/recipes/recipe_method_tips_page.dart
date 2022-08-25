@@ -44,6 +44,7 @@ class RecipeMethodTipsPage extends StatelessWidget {
                           textStyle:
                               Theme.of(context).textTheme.bodyText1?.copyWith(
                                     color: textColor.withOpacity(0.8),
+                                    height: 1.5,
                                   ),
                         ),
                       ),
