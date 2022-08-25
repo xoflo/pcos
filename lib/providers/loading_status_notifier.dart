@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 
 class LoadingStatusNotifier extends ChangeNotifier {
-  // ignore: unused_field
   LoadingStatus _loadingStatus = LoadingStatus.loading;
   LoadingStatus get loadingStatus => _loadingStatus;
 
