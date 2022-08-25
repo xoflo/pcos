@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -17,14 +18,13 @@ class ProfileLayout extends StatefulWidget {
 class _ProfileLayoutState extends State<ProfileLayout> {
   bool isLeftVisible = true;
 
+  late MemberProvider memberProvider;
+
   @override
   void initState() {
     super.initState();
-    _getMemberDetails();
-  }
-
-  void _getMemberDetails() {
-    Provider.of<MemberProvider>(context, listen: false).populateMember();
+    memberProvider = Provider.of<MemberProvider>(context, listen: false);
+    memberProvider.populateMember();
   }
 
   Widget _memberDetails(MemberProvider memberProvider) => Padding(
@@ -47,22 +47,22 @@ class _ProfileLayoutState extends State<ProfileLayout> {
             ] else
               ProfileSettings(
                 email: memberProvider.email,
-                onRefreshUserDetails: _getMemberDetails,
-              )
+                onRefreshUserDetails: () => memberProvider.populateMember(),
+              ),
           ],
         ),
       );
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<MemberProvider>(
-      builder: (context, memberProvider, child) {
-        return LoaderOverlay(
+  Widget build(BuildContext context) => Consumer<MemberProvider>(
+        builder: (context, memberProvider, child) => LoaderOverlay(
           loadingStatusNotifier: memberProvider,
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
           child: WillPopScope(
-            onWillPop: () async => !Platform.isIOS,
+            onWillPop: () async =>
+                !Platform.isIOS &&
+                memberProvider.loadingStatus != LoadingStatus.loading,
             child: Container(
               decoration: BoxDecoration(
                 color: primaryColor,
@@ -70,8 +70,6 @@ class _ProfileLayoutState extends State<ProfileLayout> {
               child: _memberDetails(memberProvider),
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
 }
