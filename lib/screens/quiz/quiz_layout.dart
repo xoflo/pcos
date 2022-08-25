@@ -32,7 +32,8 @@ class _QuizLayoutState extends State<QuizLayout> {
               curve: Curves.easeIn);
           setState(() => questionNumber += 1);
         } else {
-          await modulesProvider.setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
+          await modulesProvider
+              .setTaskAsComplete(widget.quiz?.quizID, forceRefresh: true)
               .then((value) {
             Navigator.pop(context);
           });
@@ -43,13 +44,13 @@ class _QuizLayoutState extends State<QuizLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ModulesProvider>(builder: (context, modulesProvider, child) {
+    return Consumer<ModulesProvider>(
+        builder: (context, modulesProvider, child) {
       return LoaderOverlay(
           loadingStatusNotifier: modulesProvider,
           emptyMessage: "Quiz not available",
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
-          overlayBackgroundColor: Colors.grey.withOpacity(0.5),
           child: Stack(
             children: [
               SafeArea(

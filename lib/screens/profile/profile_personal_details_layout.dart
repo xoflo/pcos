@@ -10,10 +10,10 @@ import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class ProfilePersonalDetailsLayout extends StatefulWidget {
-  const ProfilePersonalDetailsLayout({Key? key})
-      : super(key: key);
+  const ProfilePersonalDetailsLayout({Key? key}) : super(key: key);
 
   @override
   State<ProfilePersonalDetailsLayout> createState() =>
@@ -29,13 +29,15 @@ class _ProfilePersonalDetailsLayoutState
 
   final _formKey = GlobalKey<FormState>();
 
+  late MemberProvider memberProvider;
+
   @override
   void initState() {
     super.initState();
+    memberProvider = Provider.of<MemberProvider>(context, listen: false);
   }
 
   List<Widget> _getChildren() {
-    MemberProvider memberProvider = Provider.of<MemberProvider>(context, listen: false);
     usernameController.text = memberProvider.alias;
     firstNameController.text = memberProvider.firstName;
     lastNameController.text = memberProvider.lastName;
@@ -156,20 +158,16 @@ class _ProfilePersonalDetailsLayoutState
             if (memberProvider.alias != usernameController.text.trim()) {
               memberProvider.alias = usernameController.text.trim();
             }
-            if (memberProvider.firstName !=
-                firstNameController.text.trim()) {
+            if (memberProvider.firstName != firstNameController.text.trim()) {
               memberProvider.firstName = firstNameController.text.trim();
             }
-            if (memberProvider.lastName !=
-                lastNameController.text.trim()) {
+            if (memberProvider.lastName != lastNameController.text.trim()) {
               memberProvider.lastName = lastNameController.text.trim();
             }
           }
 
           try {
-            final bool saveMember =
-                await Provider.of<MemberProvider>(context, listen: false)
-                    .saveMemberDetails();
+            final bool saveMember = await memberProvider.saveMemberDetails();
 
             if (saveMember) {
               Navigator.pop(context, true);
@@ -190,43 +188,43 @@ class _ProfilePersonalDetailsLayoutState
   }
 
   @override
-  Widget build(BuildContext context) => Stack(
-        children: [
-          WillPopScope(
-            onWillPop: () async =>
-                !Platform.isIOS,
-            child: SafeArea(
-              child: Container(
-                padding: EdgeInsets.only(top: 12),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Header(
-                      title: "Personal Details",
-                      closeItem: () => Navigator.pop(context),
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _formKey,
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: _getChildren(),
-                            ),
+  Widget build(BuildContext context) => LoaderOverlay(
+        indicatorPosition: Alignment.center,
+        loadingStatusNotifier: memberProvider,
+        height: MediaQuery.of(context).size.height,
+        child: WillPopScope(
+          onWillPop: () async => !Platform.isIOS,
+          child: SafeArea(
+            child: Container(
+              padding: EdgeInsets.only(top: 12),
+              decoration: BoxDecoration(
+                color: primaryColor,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Header(
+                    title: "Personal Details",
+                    closeItem: () => Navigator.pop(context),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: EdgeInsets.all(15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: _getChildren(),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
           ),
-        ],
+        ),
       );
 }

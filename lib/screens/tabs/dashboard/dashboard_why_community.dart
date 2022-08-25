@@ -37,7 +37,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                     height: 125,
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(12.5),
-                    child: memberProvider.status == LoadingStatus.loading
+                    child: memberProvider.loadingStatus == LoadingStatus.loading
                         ? Padding(
                             padding: EdgeInsets.only(bottom: 30),
                             child: PcosLoadingSpinner(),

@@ -77,7 +77,7 @@ class LessonPage extends StatelessWidget {
         S.current.okayText,
         "",
         null,
-        (BuildContext context) => Navigator.pop(context, true),
+        (BuildContext context) => Navigator.pop(context),
       );
     }
 
@@ -249,37 +249,38 @@ class LessonPage extends StatelessWidget {
           emptyMessage: S.current.noItemsFound,
           indicatorPosition: Alignment.center,
           height: MediaQuery.of(context).size.height,
-          overlayBackgroundColor: Colors.grey.withOpacity(0.5),
           child: Scaffold(
-              backgroundColor: primaryColor,
-              body: WillPopScope(
-                onWillPop: () async =>
-                    modulesProvider.fetchLessonTasksStatus != LoadingStatus.loading,
-                child: Stack(
-                  children: [
-                    SafeArea(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 12),
-                              child: Header(
-                                title: "Lesson",
-                                closeItem: () => Navigator.pop(context),
-                              ),
+            backgroundColor: primaryColor,
+            body: WillPopScope(
+              onWillPop: () async =>
+                  modulesProvider.fetchLessonTasksStatus !=
+                  LoadingStatus.loading,
+              child: Stack(
+                children: [
+                  SafeArea(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 12),
+                            child: Header(
+                              title: "Lesson",
+                              closeItem: () => Navigator.pop(context),
                             ),
-                            getSuccessWidget(modulesProvider, args, context)
-                          ],
-                        ),
+                          ),
+                          getSuccessWidget(modulesProvider, args, context)
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );
