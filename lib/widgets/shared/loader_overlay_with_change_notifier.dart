@@ -13,15 +13,15 @@ import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 /// The change notifier must have its own status attribute of type LoadingStatus and must
 /// call setLoadingStatus(fetchAndSaveDataStatus, false); each time its status changes.
 class LoaderOverlay extends StatelessWidget {
-  LoaderOverlay(
-      {Key? key,
-      required this.child,
-      required this.loadingStatusNotifier,
-      required this.indicatorPosition,
-      this.overlayBackgroundColor,
-      required this.height,
-      this.emptyMessage = "",})
-      : super(key: key);
+  LoaderOverlay({
+    Key? key,
+    required this.child,
+    required this.loadingStatusNotifier,
+    required this.indicatorPosition,
+    this.overlayBackgroundColor,
+    required this.height,
+    this.emptyMessage = "",
+  }) : super(key: key);
 
   final Widget child;
   final LoadingStatusNotifier loadingStatusNotifier;
@@ -31,35 +31,31 @@ class LoaderOverlay extends StatelessWidget {
   final double height;
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[child, _loaderOverlay()],
-    );
-  }
+  Widget build(BuildContext context) => Stack(
+        children: [
+          child,
+          _loaderOverlay(),
+        ],
+      );
 
   Widget _loaderOverlay() {
     switch (loadingStatusNotifier.loadingStatus) {
       case LoadingStatus.loading:
-        {
-          return Container(
-            height: height,
-            color: overlayBackgroundColor ?? Colors.transparent,
-            child: Align(
-              alignment: indicatorPosition,
-              child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(backgroundColor),
-              ),
+        return Container(
+          height: height,
+          color: overlayBackgroundColor ?? Colors.grey.withOpacity(0.5),
+          child: Align(
+            alignment: indicatorPosition,
+            child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(backgroundColor),
             ),
-          );
-        }
+          ),
+        );
+
       case LoadingStatus.empty:
-        {
-          return Center(child: NoResults(message: emptyMessage));
-        }
+        return Center(child: NoResults(message: emptyMessage));
       case LoadingStatus.success:
-        {
-          return Container();
-        }
+        return Container();
     }
   }
 }

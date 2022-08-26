@@ -13,12 +13,11 @@ class Profile extends StatelessWidget {
           backgroundColor: primaryColor,
           body: SafeArea(
             child: Padding(
-              padding: EdgeInsets.only(
-                top: 12.0,
-              ),
+              padding: EdgeInsets.only(top: 12.0),
               child: ProfileLayout(),
-              ),
             ),
+            bottom: false,
           ),
+        ),
       );
 }

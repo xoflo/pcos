@@ -47,7 +47,7 @@ class _DashboardWhySettingsLayoutState
   }
 
   Widget getWidget() {
-    if (widget.memberProvider.status == LoadingStatus.empty) {
+    if (widget.memberProvider.loadingStatus == LoadingStatus.empty) {
       return NoResults(message: S.current.noMemberDetails);
     }
 
@@ -128,7 +128,7 @@ class _DashboardWhySettingsLayoutState
           WillPopScope(
             onWillPop: () async =>
                 !Platform.isIOS &&
-                widget.memberProvider.status != LoadingStatus.loading,
+                widget.memberProvider.loadingStatus != LoadingStatus.loading,
             child: SafeArea(
               bottom: false,
               child: Column(
@@ -143,7 +143,7 @@ class _DashboardWhySettingsLayoutState
               ),
             ),
           ),
-          if (widget.memberProvider.status == LoadingStatus.loading)
+          if (widget.memberProvider.loadingStatus == LoadingStatus.loading)
             LoaderOverlay()
         ],
       );

@@ -9,7 +9,6 @@ import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 class MemberProvider extends LoadingStatusNotifier {
   Member member = Member();
   Member memberOriginal = Member();
-  LoadingStatus status = LoadingStatus.empty;
 
   String _why = "";
   String get why => _why;
@@ -51,28 +50,25 @@ class MemberProvider extends LoadingStatusNotifier {
   }
 
   Future<bool> setWhy(String why) async {
-    status = LoadingStatus.loading;
-    setLoadingStatus(status, false);
-    notifyListeners();
+    setLoadingStatus(LoadingStatus.loading, true);
 
     final bool didSetWhy =
         await WebServices().setMemberWhy(member.id.toString(), why);
 
     if (didSetWhy) {
-      await PreferencesController().saveString(SharedPreferencesKeys.WHATS_YOUR_WHY, why);
+      await PreferencesController()
+          .saveString(SharedPreferencesKeys.WHATS_YOUR_WHY, why);
     }
 
     _why = why;
 
-    status = LoadingStatus.success;
-    setLoadingStatus(status, false);
-    notifyListeners();
+    setLoadingStatus(LoadingStatus.success, true);
 
     return didSetWhy;
   }
 
   Future<void> populateMember() async {
-    status = LoadingStatus.loading;
+    LoadingStatus status = LoadingStatus.loading;
     setLoadingStatus(status, false);
     try {
       final Member? memberDetails = await WebServices().getMemberDetails();
@@ -96,13 +92,11 @@ class MemberProvider extends LoadingStatusNotifier {
       status = LoadingStatus.empty;
     }
 
-    setLoadingStatus(status, false);
-    notifyListeners();
+    setLoadingStatus(status, true);
   }
 
   Future<bool> saveMemberDetails() async {
-    status = LoadingStatus.loading;
-    setLoadingStatus(status, false);
+    setLoadingStatus(LoadingStatus.loading, false);
     String requestBody = "{";
     bool nameChanged = false;
 
@@ -136,9 +130,7 @@ class MemberProvider extends LoadingStatusNotifier {
 
     final bool saved = await WebServices().updateMemberDetails(requestBody);
 
-    status = LoadingStatus.success;
-    setLoadingStatus(status, false);
-    notifyListeners();
+    setLoadingStatus(LoadingStatus.success, true);
     return saved;
   }
 }

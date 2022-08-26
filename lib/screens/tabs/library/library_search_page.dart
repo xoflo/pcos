@@ -115,7 +115,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                         )
                       : Consumer<ModulesProvider>(
                           builder: (context, modulesProvider, child) {
-                            switch (modulesProvider.searchStatus) {
+                            switch (modulesProvider.loadingStatus) {
                               case LoadingStatus.loading:
                                 return PcosLoadingSpinner();
                               case LoadingStatus.empty:
