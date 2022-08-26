@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
+import 'package:thepcosprotocol_app/screens/authentication/forgot_password_success.dart';
 import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_toolkit_details.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_page.dart';
@@ -195,6 +197,8 @@ class _AppState extends State<App> {
           AppTutorialPage.id: (context) => AppTutorialPage(),
           OnboardingPage.id: (context) => OnboardingPage(),
           SignIn.id: (context) => SignIn(),
+          ForgotPassword.id: (context) => ForgotPassword(),
+          ForgotPasswordSuccess.id: (context) => ForgotPasswordSuccess(),
           RegisterWebView.id: (context) => RegisterWebView(),
           UnsupportedVersion.id: (context) => UnsupportedVersion(),
           PinUnlock.id: (context) => PinUnlock(),

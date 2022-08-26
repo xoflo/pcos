@@ -81,6 +81,16 @@ class AuthenticationController {
     }
   }
 
+  Future<bool> forgotPassword({required String email}) async {
+    try {
+      final forgotPasswordSuccessful =
+          await WebServices().forgotPassword(email);
+      return forgotPasswordSuccessful;
+    } catch (ex) {
+      throw ex;
+    }
+  }
+
   Future<String?> getAccessToken() async {
     try {
       final String? token =
