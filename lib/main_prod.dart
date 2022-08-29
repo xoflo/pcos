@@ -19,7 +19,7 @@ Future<void> main() async {
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl:
-          "https://questionaire.thepcosnutritionist.com/about/you/8?mobile=1",
+          "https://my.thepcosnutritionist.com/about/you/8?mobile=1",
       imageStorageFolder: "/v1620260652/images/",
       thumbnailStorageFolder: "/v1620688098/thumbnails/",
       intercomIds: [
