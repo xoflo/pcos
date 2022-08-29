@@ -18,13 +18,10 @@ class ProfileLayout extends StatefulWidget {
 class _ProfileLayoutState extends State<ProfileLayout> {
   bool isLeftVisible = true;
 
-  late MemberProvider memberProvider;
-
   @override
   void initState() {
     super.initState();
-    memberProvider = Provider.of<MemberProvider>(context, listen: false);
-    memberProvider.populateMember();
+    Provider.of<MemberProvider>(context, listen: false).populateMember();
   }
 
   Widget _memberDetails(MemberProvider memberProvider) => Padding(
