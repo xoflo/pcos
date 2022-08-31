@@ -14,24 +14,25 @@ class DashboardLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final preferencesProvider = Provider.of<PreferencesProvider>(context);
+
     return Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-                child: Consumer<PreferencesProvider>(
-              builder: (context, prefsProvider, child) => Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DashboardMemberTime(),
-                  if (prefsProvider.isShowYourWhy) DashboardWhyCommunity(),
-                  SizedBox(height: 25),
-                  DashboardLessonCarousel(),
-                ],
-              ),
-            )),
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DashboardMemberTime(),
+                if (preferencesProvider.isShowYourWhy) DashboardWhyCommunity(),
+                SizedBox(height: 25),
+                DashboardLessonCarousel(),
+              ],
+            ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }

@@ -11,85 +11,87 @@ class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 25),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Consumer<MemberProvider>(
-                builder: (context, memberProvider, _) => OpenContainer(
-                  transitionDuration: Duration(milliseconds: 400),
-                  clipBehavior: Clip.hardEdge,
-                  openBuilder: (context, closedContainer) =>
-                      DashboardWhySettingsPage(),
-                  openShape: RoundedRectangleBorder(
-                      side: BorderSide(color: tertiaryColor, width: 0),
-                      borderRadius: BorderRadius.circular(16)),
-                  closedShape: RoundedRectangleBorder(
-                      side: BorderSide(color: tertiaryColor, width: 0),
-                      borderRadius: BorderRadius.circular(16)),
-                  openColor: tertiaryColor,
-                  middleColor: tertiaryColor,
-                  closedColor: tertiaryColor,
-                  closedElevation: 0,
-                  closedBuilder: (context, openContainer) => Container(
-                    height: 125,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(12.5),
-                    child: memberProvider.loadingStatus == LoadingStatus.loading
-                        ? Padding(
-                            padding: EdgeInsets.only(bottom: 30),
-                            child: PcosLoadingSpinner(),
-                          )
-                        : Text(
-                            memberProvider.why.isNotEmpty
-                                ? memberProvider.why
-                                : "Please input your why to motivate yourself every day.",
-                            style: Theme.of(context).textTheme.headline5,
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                  ),
-                ),
+  Widget build(BuildContext context) {
+    final memberProvider = Provider.of<MemberProvider>(context);
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: OpenContainer(
+              transitionDuration: Duration(milliseconds: 400),
+              clipBehavior: Clip.hardEdge,
+              openBuilder: (context, closedContainer) =>
+                  DashboardWhySettingsPage(),
+              openShape: RoundedRectangleBorder(
+                  side: BorderSide(color: tertiaryColor, width: 0),
+                  borderRadius: BorderRadius.circular(16)),
+              closedShape: RoundedRectangleBorder(
+                  side: BorderSide(color: tertiaryColor, width: 0),
+                  borderRadius: BorderRadius.circular(16)),
+              openColor: tertiaryColor,
+              middleColor: tertiaryColor,
+              closedColor: tertiaryColor,
+              closedElevation: 0,
+              closedBuilder: (context, openContainer) => Container(
+                height: 125,
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(12.5),
+                child: memberProvider.loadingStatus == LoadingStatus.loading
+                    ? Padding(
+                        padding: EdgeInsets.only(bottom: 30),
+                        child: PcosLoadingSpinner(),
+                      )
+                    : Text(
+                        memberProvider.why.isNotEmpty
+                            ? memberProvider.why
+                            : "Please input your why to motivate yourself every day.",
+                        style: Theme.of(context).textTheme.headline5,
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
+                      ),
               ),
             ),
-            SizedBox(width: 5),
-            Expanded(
-              child: Container(
-                height: 125,
-                child: Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  color: backgroundColor,
-                  child: GestureDetector(
-                    child: Container(
-                      padding: EdgeInsets.all(12.5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.group_outlined),
-                          SizedBox(height: 5),
-                          Text(
-                            "Open community",
-                            style:
-                                Theme.of(context).textTheme.subtitle1?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                    ),
-                            maxLines: 2,
-                          )
-                        ],
-                      ),
+          ),
+          SizedBox(width: 5),
+          Expanded(
+            child: Container(
+              height: 125,
+              child: Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                color: backgroundColor,
+                child: GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.all(12.5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.group_outlined),
+                        SizedBox(height: 5),
+                        Text(
+                          "Open community",
+                          style:
+                              Theme.of(context).textTheme.subtitle1?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                  ),
+                          maxLines: 2,
+                        )
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }

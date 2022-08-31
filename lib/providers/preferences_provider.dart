@@ -69,4 +69,6 @@ class PreferencesProvider extends ChangeNotifier {
 
     return displayedName ?? "";
   }
+
+  String get why => memberProvider?.why ?? "";
 }

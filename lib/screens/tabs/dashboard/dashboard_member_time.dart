@@ -76,13 +76,14 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
           ),
           if (memberProvider.loadingStatus == LoadingStatus.success)
             Padding(
-                padding: EdgeInsets.all(15),
-                child: Consumer<PreferencesProvider>(
-                  builder: (context, prefsProvider, child) => Text(
-                    "Hello " + prefsProvider.preferredDisplayName,
-                    style: Theme.of(context).textTheme.headline1,
-                  ),
-                ))
+              padding: EdgeInsets.all(15),
+              child: Consumer<PreferencesProvider>(
+                builder: (context, prefsProvider, child) => Text(
+                  "Hello " + prefsProvider.preferredDisplayName,
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+              ),
+            )
           else if (asset.isEmpty ||
               memberProvider.loadingStatus == LoadingStatus.loading)
             PcosLoadingSpinner()
