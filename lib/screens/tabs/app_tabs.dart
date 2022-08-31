@@ -62,7 +62,6 @@ class _AppTabsState extends State<AppTabs>
     WidgetsBinding.instance?.addObserver(this);
     initialize();
 
-    // Prompt push notifications when logged in.
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
       print("Accepted permission: $accepted");
     });
