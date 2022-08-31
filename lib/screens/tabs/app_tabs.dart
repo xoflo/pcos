@@ -66,9 +66,6 @@ class _AppTabsState extends State<AppTabs>
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
       print("Accepted permission: $accepted");
     });
-
-    // Enable push notifications when logging in
-    OneSignal.shared.disablePush(false);
   }
 
   @override

@@ -171,9 +171,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     dbProvider.deleteAllData();
                     turnOffDailyReminderNotification(localNotificationsPlugin);
 
-                    // Disable push notifications when logging out so that the
-                    // user will not receive push notifications when logged out
-                    OneSignal.shared.disablePush(true);
+                    // Remove external user ID for the user so that they don't
+                    // receive push notifications directly
+                    OneSignal.shared.removeExternalUserId();
 
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         SignIn.id, (Route<dynamic> route) => false);
