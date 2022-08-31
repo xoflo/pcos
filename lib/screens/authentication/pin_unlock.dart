@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/global_vars.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/authentication/base_pin.dart';
@@ -17,6 +19,7 @@ import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
 
 class PinUnlock extends StatefulWidget {
@@ -246,6 +249,13 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     authController.deletePin();
     authController.deleteOtherPrefs();
     dbProvider.deleteAllData();
+    turnOffDailyReminderNotification(localNotificationsPlugin);
+
+    // Remove external user ID for the user so that they don't
+    // receive push notifications directly
+    OneSignal.shared.removeExternalUserId();
+    OneSignal.shared.deleteTag("pcos_type");
+
     Navigator.of(context)
         .pushNamedAndRemoveUntil(SignIn.id, (Route<dynamic> route) => false);
   }

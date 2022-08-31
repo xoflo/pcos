@@ -174,6 +174,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     // Remove external user ID for the user so that they don't
                     // receive push notifications directly
                     OneSignal.shared.removeExternalUserId();
+                    OneSignal.shared.deleteTag("pcos_type");
 
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         SignIn.id, (Route<dynamic> route) => false);
