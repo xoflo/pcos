@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -169,6 +170,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     authController.deleteOtherPrefs();
                     dbProvider.deleteAllData();
                     turnOffDailyReminderNotification(localNotificationsPlugin);
+
+                    // Disable push notifications when logging out so that the
+                    // user will not receive push notifications when logged out
+                    OneSignal.shared.disablePush(true);
 
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         SignIn.id, (Route<dynamic> route) => false);
