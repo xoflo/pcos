@@ -30,8 +30,14 @@ class AppNavigationTabs extends StatelessWidget {
   Widget build(BuildContext context) => BottomAppBar(
         child: TabBar(
           onTap: (index) {
-            onTapped(index);
-            _sendCurrentTabToAnalytics(index);
+            // We only update the states when we go to a different tab.
+            // Otherwise, we might unnecessarily reload the listeners
+            // as well. And that should be handled in the page's initState
+            // instead.
+            if (index != currentIndex) {
+              onTapped(index);
+              _sendCurrentTabToAnalytics(index);
+            }
           },
           indicatorPadding: EdgeInsets.symmetric(horizontal: 15),
           controller: tabController,
