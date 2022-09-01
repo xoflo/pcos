@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/controllers/one_signal_controller.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
