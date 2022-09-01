@@ -8,21 +8,23 @@ import 'dart:ui' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sqflite/sqflite.dart' as _i9;
 import 'package:thepcosprotocol_app/config/flavors.dart' as _i7;
-import 'package:thepcosprotocol_app/constants/favourite_type.dart' as _i16;
+import 'package:thepcosprotocol_app/constants/favourite_type.dart' as _i17;
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart'
+    as _i11;
 import 'package:thepcosprotocol_app/models/all_favourites.dart' as _i4;
-import 'package:thepcosprotocol_app/models/cms.dart' as _i21;
-import 'package:thepcosprotocol_app/models/lesson.dart' as _i20;
-import 'package:thepcosprotocol_app/models/lesson_task.dart' as _i14;
+import 'package:thepcosprotocol_app/models/cms.dart' as _i22;
+import 'package:thepcosprotocol_app/models/lesson.dart' as _i21;
+import 'package:thepcosprotocol_app/models/lesson_task.dart' as _i15;
 import 'package:thepcosprotocol_app/models/member.dart' as _i5;
-import 'package:thepcosprotocol_app/models/message.dart' as _i15;
-import 'package:thepcosprotocol_app/models/module.dart' as _i19;
-import 'package:thepcosprotocol_app/models/module_export.dart' as _i18;
+import 'package:thepcosprotocol_app/models/message.dart' as _i16;
+import 'package:thepcosprotocol_app/models/module.dart' as _i20;
+import 'package:thepcosprotocol_app/models/module_export.dart' as _i19;
 import 'package:thepcosprotocol_app/models/modules_and_lessons.dart' as _i3;
-import 'package:thepcosprotocol_app/models/question.dart' as _i12;
-import 'package:thepcosprotocol_app/models/recipe.dart' as _i13;
-import 'package:thepcosprotocol_app/models/token.dart' as _i17;
+import 'package:thepcosprotocol_app/models/question.dart' as _i13;
+import 'package:thepcosprotocol_app/models/recipe.dart' as _i14;
+import 'package:thepcosprotocol_app/models/token.dart' as _i18;
 import 'package:thepcosprotocol_app/providers/database_provider.dart' as _i8;
-import 'package:thepcosprotocol_app/providers/provider_helper.dart' as _i11;
+import 'package:thepcosprotocol_app/providers/provider_helper.dart' as _i12;
 import 'package:thepcosprotocol_app/services/webservices.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -165,10 +167,68 @@ class MockDatabaseProvider extends _i1.Mock implements _i8.DatabaseProvider {
           returnValueForMissingStub: null);
 }
 
+/// A class which mocks [PreferencesController].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPreferencesController extends _i1.Mock
+    implements _i11.PreferencesController {
+  MockPreferencesController() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i10.Future<bool> saveBool(String? sharedPreferencesKey, bool? value) =>
+      (super.noSuchMethod(
+          Invocation.method(#saveBool, [sharedPreferencesKey, value]),
+          returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
+  @override
+  _i10.Future<bool> getBool(String? sharedPreferencesKey) =>
+      (super.noSuchMethod(Invocation.method(#getBool, [sharedPreferencesKey]),
+          returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
+  @override
+  _i10.Future<bool> saveString(
+          String? sharedPreferencesKey, String? newValue) =>
+      (super.noSuchMethod(
+          Invocation.method(#saveString, [sharedPreferencesKey, newValue]),
+          returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
+  @override
+  _i10.Future<bool> addToStringList(
+          String? sharedPreferencesKey, String? newValue) =>
+      (super.noSuchMethod(
+          Invocation.method(#addToStringList, [sharedPreferencesKey, newValue]),
+          returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
+  @override
+  _i10.Future<List<String>> removeFromStringList(
+          String? sharedPreferencesKey, String? newValue) =>
+      (super.noSuchMethod(
+              Invocation.method(
+                  #removeFromStringList, [sharedPreferencesKey, newValue]),
+              returnValue: Future<List<String>>.value(<String>[]))
+          as _i10.Future<List<String>>);
+  @override
+  _i10.Future<String> getString(String? sharedPreferencesKey) =>
+      (super.noSuchMethod(Invocation.method(#getString, [sharedPreferencesKey]),
+          returnValue: Future<String>.value('')) as _i10.Future<String>);
+  @override
+  _i10.Future<List<String>> getStringList(String? sharedPreferencesKey) =>
+      (super.noSuchMethod(
+              Invocation.method(#getStringList, [sharedPreferencesKey]),
+              returnValue: Future<List<String>>.value(<String>[]))
+          as _i10.Future<List<String>>);
+  @override
+  _i10.Future<bool> saveInt(String? sharedPreferencesKey, int? value) => (super
+      .noSuchMethod(Invocation.method(#saveInt, [sharedPreferencesKey, value]),
+          returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
+  @override
+  _i10.Future<int?> getInt(String? sharedPreferencesKey) =>
+      (super.noSuchMethod(Invocation.method(#getInt, [sharedPreferencesKey]),
+          returnValue: Future<int?>.value()) as _i10.Future<int?>);
+}
+
 /// A class which mocks [ProviderHelper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockProviderHelper extends _i1.Mock implements _i11.ProviderHelper {
+class MockProviderHelper extends _i1.Mock implements _i12.ProviderHelper {
   MockProviderHelper() {
     _i1.throwOnMissingStub(this);
   }
@@ -182,31 +242,31 @@ class MockProviderHelper extends _i1.Mock implements _i11.ProviderHelper {
       super.noSuchMethod(Invocation.setter(#webServices, _webServices),
           returnValueForMissingStub: null);
   @override
-  _i10.Future<List<_i12.Question>> fetchAndSaveQuestions(
+  _i10.Future<List<_i13.Question>> fetchAndSaveQuestions(
           _i8.DatabaseProvider? dbProvider,
           String? tableName,
           String? assetType) =>
       (super.noSuchMethod(
               Invocation.method(
                   #fetchAndSaveQuestions, [dbProvider, tableName, assetType]),
-              returnValue: Future<List<_i12.Question>>.value(<_i12.Question>[]))
-          as _i10.Future<List<_i12.Question>>);
+              returnValue: Future<List<_i13.Question>>.value(<_i13.Question>[]))
+          as _i10.Future<List<_i13.Question>>);
   @override
-  _i10.Future<List<_i13.Recipe>> fetchAndSaveRecipes(
+  _i10.Future<List<_i14.Recipe>> fetchAndSaveRecipes(
           _i8.DatabaseProvider? dbProvider) =>
       (super.noSuchMethod(Invocation.method(#fetchAndSaveRecipes, [dbProvider]),
-              returnValue: Future<List<_i13.Recipe>>.value(<_i13.Recipe>[]))
-          as _i10.Future<List<_i13.Recipe>>);
+              returnValue: Future<List<_i14.Recipe>>.value(<_i14.Recipe>[]))
+          as _i10.Future<List<_i14.Recipe>>);
   @override
-  _i10.Future<List<_i14.LessonTask>> fetchAndSaveTaskForLesson(
+  _i10.Future<List<_i15.LessonTask>> fetchAndSaveTaskForLesson(
           _i8.DatabaseProvider? dbProvider,
           {int? lessonID}) =>
       (super.noSuchMethod(
           Invocation.method(
               #fetchAndSaveTaskForLesson, [dbProvider], {#lessonID: lessonID}),
           returnValue:
-              Future<List<_i14.LessonTask>>.value(<_i14.LessonTask>[])) as _i10
-          .Future<List<_i14.LessonTask>>);
+              Future<List<_i15.LessonTask>>.value(<_i15.LessonTask>[])) as _i10
+          .Future<List<_i15.LessonTask>>);
   @override
   _i10.Future<_i3.ModulesAndLessons> fetchAndSaveModuleExport(
           _i8.DatabaseProvider? dbProvider,
@@ -219,13 +279,13 @@ class MockProviderHelper extends _i1.Mock implements _i11.ProviderHelper {
                   _FakeModulesAndLessons_1()))
           as _i10.Future<_i3.ModulesAndLessons>);
   @override
-  _i10.Future<List<_i15.Message>> fetchAndSaveMessages(
+  _i10.Future<List<_i16.Message>> fetchAndSaveMessages(
           _i8.DatabaseProvider? dbProvider, bool? refreshFromAPI) =>
       (super.noSuchMethod(
               Invocation.method(
                   #fetchAndSaveMessages, [dbProvider, refreshFromAPI]),
-              returnValue: Future<List<_i15.Message>>.value(<_i15.Message>[]))
-          as _i10.Future<List<_i15.Message>>);
+              returnValue: Future<List<_i16.Message>>.value(<_i16.Message>[]))
+          as _i10.Future<List<_i16.Message>>);
   @override
   _i10.Future<List<String>> fetchAndSaveCMSText(
           _i8.DatabaseProvider? dbProvider) =>
@@ -280,7 +340,7 @@ class MockProviderHelper extends _i1.Mock implements _i11.ProviderHelper {
   _i10.Future<void> addToFavourites(
           bool? isAdd,
           _i8.DatabaseProvider? dbProvider,
-          _i16.FavouriteType? favouriteType,
+          _i17.FavouriteType? favouriteType,
           int? itemId) =>
       (super.noSuchMethod(
               Invocation.method(
@@ -330,18 +390,22 @@ class MockWebServices extends _i1.Mock implements _i2.WebServices {
   }
 
   @override
+  String get baseUrl =>
+      (super.noSuchMethod(Invocation.getter(#baseUrl), returnValue: '')
+          as String);
+  @override
   _i10.Future<bool> checkInternetConnectivity() =>
       (super.noSuchMethod(Invocation.method(#checkInternetConnectivity, []),
           returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
   @override
-  _i10.Future<_i17.Token?> signIn(String? emailAddress, String? password) =>
+  _i10.Future<_i18.Token?> signIn(String? emailAddress, String? password) =>
       (super.noSuchMethod(Invocation.method(#signIn, [emailAddress, password]),
-              returnValue: Future<_i17.Token?>.value())
-          as _i10.Future<_i17.Token?>);
+              returnValue: Future<_i18.Token?>.value())
+          as _i10.Future<_i18.Token?>);
   @override
-  _i10.Future<_i17.Token?> refreshToken() => (super.noSuchMethod(
+  _i10.Future<_i18.Token?> refreshToken() => (super.noSuchMethod(
       Invocation.method(#refreshToken, []),
-      returnValue: Future<_i17.Token?>.value()) as _i10.Future<_i17.Token?>);
+      returnValue: Future<_i18.Token?>.value()) as _i10.Future<_i18.Token?>);
   @override
   _i10.Future<bool> forgotPassword(String? emailAddress) =>
       (super.noSuchMethod(Invocation.method(#forgotPassword, [emailAddress]),
@@ -367,25 +431,25 @@ class MockWebServices extends _i1.Mock implements _i2.WebServices {
           Invocation.method(#resetPassword, [usernameOrEmail, newPassword]),
           returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
   @override
-  _i10.Future<List<_i18.ModuleExport>?> getModulesExport() =>
+  _i10.Future<List<_i19.ModuleExport>?> getModulesExport() =>
       (super.noSuchMethod(Invocation.method(#getModulesExport, []),
-              returnValue: Future<List<_i18.ModuleExport>?>.value())
-          as _i10.Future<List<_i18.ModuleExport>?>);
+              returnValue: Future<List<_i19.ModuleExport>?>.value())
+          as _i10.Future<List<_i19.ModuleExport>?>);
   @override
-  _i10.Future<List<_i19.Module>?> getAllModules() =>
+  _i10.Future<List<_i20.Module>?> getAllModules() =>
       (super.noSuchMethod(Invocation.method(#getAllModules, []),
-              returnValue: Future<List<_i19.Module>?>.value())
-          as _i10.Future<List<_i19.Module>?>);
+              returnValue: Future<List<_i20.Module>?>.value())
+          as _i10.Future<List<_i20.Module>?>);
   @override
-  _i10.Future<List<_i19.Module>?> getIncompleteModules() =>
+  _i10.Future<List<_i20.Module>?> getIncompleteModules() =>
       (super.noSuchMethod(Invocation.method(#getIncompleteModules, []),
-              returnValue: Future<List<_i19.Module>?>.value())
-          as _i10.Future<List<_i19.Module>?>);
+              returnValue: Future<List<_i20.Module>?>.value())
+          as _i10.Future<List<_i20.Module>?>);
   @override
-  _i10.Future<List<_i19.Module>?> getCompleteModules() =>
+  _i10.Future<List<_i20.Module>?> getCompleteModules() =>
       (super.noSuchMethod(Invocation.method(#getCompleteModules, []),
-              returnValue: Future<List<_i19.Module>?>.value())
-          as _i10.Future<List<_i19.Module>?>);
+              returnValue: Future<List<_i20.Module>?>.value())
+          as _i10.Future<List<_i20.Module>?>);
   @override
   _i10.Future<bool> setModuleComplete(int? moduleId) =>
       (super.noSuchMethod(Invocation.method(#setModuleComplete, [moduleId]),
@@ -400,45 +464,45 @@ class MockWebServices extends _i1.Mock implements _i2.WebServices {
       (super.noSuchMethod(Invocation.method(#setTaskComplete, [taskId, value]),
           returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
   @override
-  _i10.Future<List<_i20.Lesson>?> getAllLessonsForModule(int? moduleId) =>
+  _i10.Future<List<_i21.Lesson>?> getAllLessonsForModule(int? moduleId) =>
       (super.noSuchMethod(
               Invocation.method(#getAllLessonsForModule, [moduleId]),
-              returnValue: Future<List<_i20.Lesson>?>.value())
-          as _i10.Future<List<_i20.Lesson>?>);
+              returnValue: Future<List<_i21.Lesson>?>.value())
+          as _i10.Future<List<_i21.Lesson>?>);
   @override
-  _i10.Future<List<_i14.LessonTask>?> getIncompleteTasks(int? lessonId) =>
+  _i10.Future<List<_i15.LessonTask>?> getIncompleteTasks(int? lessonId) =>
       (super.noSuchMethod(Invocation.method(#getIncompleteTasks, [lessonId]),
-              returnValue: Future<List<_i14.LessonTask>?>.value())
-          as _i10.Future<List<_i14.LessonTask>?>);
+              returnValue: Future<List<_i15.LessonTask>?>.value())
+          as _i10.Future<List<_i15.LessonTask>?>);
   @override
-  _i10.Future<List<_i14.LessonTask>?> getTasksForLesson(int? lessonId) =>
+  _i10.Future<List<_i15.LessonTask>?> getTasksForLesson(int? lessonId) =>
       (super.noSuchMethod(Invocation.method(#getTasksForLesson, [lessonId]),
-              returnValue: Future<List<_i14.LessonTask>?>.value())
-          as _i10.Future<List<_i14.LessonTask>?>);
+              returnValue: Future<List<_i15.LessonTask>?>.value())
+          as _i10.Future<List<_i15.LessonTask>?>);
   @override
-  _i10.Future<List<_i14.LessonTask>?> getQuizTasks() =>
+  _i10.Future<List<_i15.LessonTask>?> getQuizTasks() =>
       (super.noSuchMethod(Invocation.method(#getQuizTasks, []),
-              returnValue: Future<List<_i14.LessonTask>?>.value())
-          as _i10.Future<List<_i14.LessonTask>?>);
+              returnValue: Future<List<_i15.LessonTask>?>.value())
+          as _i10.Future<List<_i15.LessonTask>?>);
   @override
-  _i10.Future<List<_i13.Recipe>?> getAllRecipes() =>
+  _i10.Future<List<_i14.Recipe>?> getAllRecipes() =>
       (super.noSuchMethod(Invocation.method(#getAllRecipes, []),
-              returnValue: Future<List<_i13.Recipe>?>.value())
-          as _i10.Future<List<_i13.Recipe>?>);
+              returnValue: Future<List<_i14.Recipe>?>.value())
+          as _i10.Future<List<_i14.Recipe>?>);
   @override
   _i10.Future<String?> getCmsAssetByReference(String? reference) => (super
       .noSuchMethod(Invocation.method(#getCmsAssetByReference, [reference]),
           returnValue: Future<String?>.value()) as _i10.Future<String?>);
   @override
-  _i10.Future<List<_i21.CMS>?> getCMSByType(String? cmsType) =>
+  _i10.Future<List<_i22.CMS>?> getCMSByType(String? cmsType) =>
       (super.noSuchMethod(Invocation.method(#getCMSByType, [cmsType]),
-              returnValue: Future<List<_i21.CMS>?>.value())
-          as _i10.Future<List<_i21.CMS>?>);
+              returnValue: Future<List<_i22.CMS>?>.value())
+          as _i10.Future<List<_i22.CMS>?>);
   @override
-  _i10.Future<List<_i15.Message>?> getAllUserNotifications() =>
+  _i10.Future<List<_i16.Message>?> getAllUserNotifications() =>
       (super.noSuchMethod(Invocation.method(#getAllUserNotifications, []),
-              returnValue: Future<List<_i15.Message>?>.value())
-          as _i10.Future<List<_i15.Message>?>);
+              returnValue: Future<List<_i16.Message>?>.value())
+          as _i10.Future<List<_i16.Message>?>);
   @override
   _i10.Future<bool> markNotificationAsRead(int? notificationId) =>
       (super.noSuchMethod(

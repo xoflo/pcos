@@ -17,10 +17,12 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 
 class ModulesProvider extends LoadingStatusNotifier {
   DatabaseProvider? dbProvider;
+  late PreferencesController preferencesController;
   late ProviderHelper providerHelper;
   late WebServices webServices;
 
   ModulesProvider({required this.dbProvider}) {
+    preferencesController = PreferencesController();
     providerHelper = ProviderHelper();
     webServices = WebServices();
   }
@@ -58,7 +60,7 @@ class ModulesProvider extends LoadingStatusNotifier {
   Future<void> fetchAndSaveData(final bool forceRefresh) async {
     setLoadingStatus(LoadingStatus.loading, false);
 
-    final String nextLessonAvailableDateString = await PreferencesController()
+    final String nextLessonAvailableDateString = await preferencesController
         .getString(SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE);
     DateTime nextLessonAvailableDate =
         DateTime.now().add(const Duration(minutes: -1));
