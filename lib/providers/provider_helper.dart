@@ -28,6 +28,12 @@ import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 // This provider is used for App Help
 class ProviderHelper {
+  late WebServices webServices;
+
+  ProviderHelper() {
+    webServices = WebServices();
+  }
+
   Future<List<Question>> fetchAndSaveQuestions(
     final DatabaseProvider? dbProvider,
     final String tableName,
@@ -37,7 +43,7 @@ class ProviderHelper {
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
-        final cmsItems = await WebServices().getCMSByType(assetType);
+        final cmsItems = await webServices.getCMSByType(assetType);
         List<Question> questions = _convertCMSToQuestions(cmsItems, assetType);
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(tableName);
@@ -68,7 +74,7 @@ class ProviderHelper {
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, TABLE_RECIPE)) {
-        final recipes = await WebServices().getAllRecipes();
+        final recipes = await webServices.getAllRecipes();
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(TABLE_RECIPE);
         //add items to database
@@ -107,7 +113,7 @@ class ProviderHelper {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, TABLE_LESSON_TASK,
           where: "WHERE lessonID = $lessonID")) {
-        final tasks = await WebServices().getTasksForLesson(lessonID ?? -1);
+        final tasks = await webServices.getTasksForLesson(lessonID ?? -1);
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(TABLE_LESSON_TASK);
         //add items to database
@@ -150,7 +156,7 @@ class ProviderHelper {
             .fetchAndSaveQuestions(dbProvider, TABLE_WIKI, TABLE_WIKI);
         //now get the modules, lessons etc
         final List<ModuleExport>? moduleExport =
-            await WebServices().getModulesExport();
+            await webServices.getModulesExport();
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(TABLE_MODULE);
         await dbProvider?.deleteAll(TABLE_LESSON);
@@ -189,7 +195,7 @@ class ProviderHelper {
       //get and add the Quizzes including questions and answers to the DB
       //do this after modules and lessons so we can check the lesson links to see which quizzes are for this member
       final List<LessonTask>? lessonQuizTasks =
-          await WebServices().getQuizTasks();
+          await webServices.getQuizTasks();
       debugPrint("Got Lesson Quiz TASKS count = ${lessonQuizTasks?.length}");
       await _addQuizzesToDatabase(dbProvider, lessonQuizTasks);
 

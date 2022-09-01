@@ -16,10 +16,13 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
 class ModulesProvider extends LoadingStatusNotifier {
-  final DatabaseProvider? dbProvider;
+  DatabaseProvider? dbProvider;
+  late ProviderHelper providerHelper;
+  late WebServices webServices;
 
   ModulesProvider({required this.dbProvider}) {
-    if (dbProvider != null) fetchAndSaveData(false);
+    providerHelper = ProviderHelper();
+    webServices = WebServices();
   }
 
   List<Module> _modules = [];
@@ -63,46 +66,48 @@ class ModulesProvider extends LoadingStatusNotifier {
       nextLessonAvailableDate = DateTime.parse(nextLessonAvailableDateString);
     }
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
-    if (dbProvider?.db != null) {
-      //first get the data from the api if we have no data yet
-      final ModulesAndLessons modulesAndLessons = await ProviderHelper()
-          .fetchAndSaveModuleExport(
-              dbProvider, forceRefresh, nextLessonAvailableDate);
-      _modules = modulesAndLessons.modules ?? [];
-      _lessons = modulesAndLessons.lessons ?? [];
-      _lessonContent = modulesAndLessons.lessonContent ?? [];
-      _lessonWikis = modulesAndLessons.lessonWikis ?? [];
-      _lessonRecipes = modulesAndLessons.lessonRecipes ?? [];
-      _lessonQuizzes = modulesAndLessons.lessonQuizzes ?? [];
 
-      if (_modules.length > 0) {
-        _currentModule = _modules.last;
-        _previousModules = await _getPreviousModules();
-        _currentModuleLessons = getModuleLessons(_currentModule.moduleID);
-        _currentLesson = _currentModuleLessons.firstWhere(
-          (element) =>
-              !element.isComplete ||
-              getQuizByLessonID(element.lessonID)?.isComplete == false,
-          orElse: () => _currentModuleLessons.last,
-        );
-      }
+    if (dbProvider?.db == null) {
+      await dbProvider?.init();
+    }
+    
+    //first get the data from the api if we have no data yet
+    final ModulesAndLessons modulesAndLessons = await providerHelper.fetchAndSaveModuleExport(
+            dbProvider, forceRefresh, nextLessonAvailableDate);
+    _modules = modulesAndLessons.modules ?? [];
+    _lessons = modulesAndLessons.lessons ?? [];
+    _lessonContent = modulesAndLessons.lessonContent ?? [];
+    _lessonWikis = modulesAndLessons.lessonWikis ?? [];
+    _lessonRecipes = modulesAndLessons.lessonRecipes ?? [];
+    _lessonQuizzes = modulesAndLessons.lessonQuizzes ?? [];
 
-      //set initial lesson wikis & recipes to display on dashboard when it loads
-      if (_initialLessonWikis.length == 0) {
-        for (LessonWiki lessonWiki in _lessonWikis) {
-          if (currentLesson != null) {
-            if (lessonWiki.lessonId == currentLesson?.lessonID) {
-              _initialLessonWikis.add(lessonWiki);
-            }
+    if (_modules.length > 0) {
+      _currentModule = _modules.last;
+      _previousModules = await _getPreviousModules();
+      _currentModuleLessons = getModuleLessons(_currentModule.moduleID);
+      _currentLesson = _currentModuleLessons.firstWhere(
+        (element) =>
+            !element.isComplete ||
+            getQuizByLessonID(element.lessonID)?.isComplete == false,
+        orElse: () => _currentModuleLessons.last,
+      );
+    }
+
+    //set initial lesson wikis & recipes to display on dashboard when it loads
+    if (_initialLessonWikis.length == 0) {
+      for (LessonWiki lessonWiki in _lessonWikis) {
+        if (currentLesson != null) {
+          if (lessonWiki.lessonId == currentLesson?.lessonID) {
+            _initialLessonWikis.add(lessonWiki);
           }
         }
       }
-      if (_initialLessonRecipes.length == 0) {
-        for (LessonRecipe lessonRecipe in _lessonRecipes) {
-          if (currentLesson != null) {
-            if (lessonRecipe.lessonId == currentLesson?.lessonID) {
-              _initialLessonRecipes.add(lessonRecipe);
-            }
+    }
+    if (_initialLessonRecipes.length == 0) {
+      for (LessonRecipe lessonRecipe in _lessonRecipes) {
+        if (currentLesson != null) {
+          if (lessonRecipe.lessonId == currentLesson?.lessonID) {
+            _initialLessonRecipes.add(lessonRecipe);
           }
         }
       }
