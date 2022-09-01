@@ -5,6 +5,7 @@ import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/controllers/one_signal_controller.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
@@ -61,10 +62,6 @@ class _AppTabsState extends State<AppTabs>
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
     initialize();
-
-    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      print("Accepted permission: $accepted");
-    });
   }
 
   @override
@@ -77,6 +74,9 @@ class _AppTabsState extends State<AppTabs>
     _setIsLocked(false);
     tabController = TabController(initialIndex: 0, length: 5, vsync: this);
 
+    final authenticationController = AuthenticationController();
+    final oneSignalController = OneSignalController();
+
     //intercom
     final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
     await Intercom.instance.initialize(
@@ -84,11 +84,24 @@ class _AppTabsState extends State<AppTabs>
       androidApiKey: intercomIds[1],
       iosApiKey: intercomIds[2],
     );
-    final String? userId = await AuthenticationController().getUserId();
-    if (!await AuthenticationController().getIntercomRegistered()) {
+    final String? userId = await authenticationController.getUserId();
+    if (!await authenticationController.getIntercomRegistered()) {
       Intercom.instance.loginIdentifiedUser(userId: userId);
-      await AuthenticationController().saveIntercomRegistered();
+      await authenticationController.saveIntercomRegistered();
     }
+
+    // Set OneSignal
+    if (!await authenticationController.getOneSignalSent()) {
+      final String pcosType = await PreferencesController()
+          .getString(SharedPreferencesKeys.PCOS_TYPE);
+      await oneSignalController.setOneSignal(
+          userId: userId ?? "", pcosType: pcosType);
+      await authenticationController.saveOneSignalSent();
+    }
+
+    oneSignalController.promptNotifiationsPermission().then((accepted) {
+      print("Accepted permission: $accepted");
+    });
 
     //get the value for showYourWhy, and then pass down to the course screen
     final bool isYourWhyOn = await PreferencesController()
@@ -97,17 +110,6 @@ class _AppTabsState extends State<AppTabs>
         .getBool(SharedPreferencesKeys.LESSON_RECIPES_DISPLAYED_DASHBOARD);
     final bool isUsernameUsed = await PreferencesController()
         .getBool(SharedPreferencesKeys.USERNAME_USED);
-    final bool oneSignalDataSent = await PreferencesController()
-        .getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
-    //register external userId and pcos_type (as tag) with OneSignal if not done before on this device
-    if (!oneSignalDataSent) {
-      await OneSignal.shared.setExternalUserId(userId ?? "");
-      final String pcosType = await PreferencesController()
-          .getString(SharedPreferencesKeys.PCOS_TYPE);
-      await OneSignal.shared.sendTag("pcos_type", pcosType);
-      await PreferencesController()
-          .saveBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT, true);
-    }
 
     setState(() {
       _intercomInitialised = true;

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info/package_info.dart';
-import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/models/navigation/settings_arguments.dart';
-import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/tabs/more/change_password.dart';
@@ -14,11 +11,9 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_delete_page.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_personal_details.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_settings_item.dart';
-import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
-import 'package:thepcosprotocol_app/global_vars.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings(
@@ -161,20 +156,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
                 HollowButton(
                   onPressed: () {
-                    DatabaseProvider dbProvider =
-                        Provider.of<DatabaseProvider>(context, listen: false);
-                    AuthenticationController authController =
-                        AuthenticationController();
-                    authController.deleteCredentials();
-                    authController.deletePin();
-                    authController.deleteOtherPrefs();
-                    dbProvider.deleteAllData();
-                    turnOffDailyReminderNotification(localNotificationsPlugin);
-
-                    // Remove external user ID for the user so that they don't
-                    // receive push notifications directly
-                    OneSignal.shared.removeExternalUserId();
-                    OneSignal.shared.deleteTag("pcos_type");
+                    AuthenticationController().clearData(context);
 
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         SignIn.id, (Route<dynamic> route) => false);
