@@ -70,8 +70,6 @@ void main() {
               modulesProvider.currentModuleLessons, modulesProvider),
           true);
 
-      // TODO seems like _initialLessonWikis and _initialLessonRecipes are not getting set anywhere. Delete in fetchAndSaveData?
-
       const LESSON_ID_WITH_CONTENTS = 26;
       expect(modulesProvider.getLessonContent(LESSON_ID_WITH_CONTENTS).length > 0, true,
           reason: "length of lessonContents should not be zero");
