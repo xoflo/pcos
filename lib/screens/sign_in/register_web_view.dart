@@ -32,30 +32,34 @@ class _RegisterWebViewState extends State<RegisterWebView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return WebView(
-      initialUrl: FlavorConfig.instance.values.questionnaireUrl,
-      javascriptMode: JavascriptMode.unrestricted,
-      onWebViewCreated: (WebViewController webViewController) {
-        _controller.complete(webViewController);
-      },
-      onProgress: (int progress) {
-        debugPrint("WebView is loading (progress : $progress%)");
-      },
-      javascriptChannels: <JavascriptChannel>{
-        _toasterJavascriptChannel(context),
-      },
-      navigationDelegate: (NavigationRequest request) {
-        debugPrint('allowing navigation to $request');
-        return NavigationDecision.navigate;
-      },
-      onPageStarted: (String url) {
-        debugPrint('Page started loading: $url');
-      },
-      onPageFinished: (String url) {
-        debugPrint('Page finished loading: $url');
-      },
-      gestureNavigationEnabled: true,
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: SafeArea(
+          child: WebView(
+            initialUrl: FlavorConfig.instance.values.questionnaireUrl,
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+            onProgress: (int progress) {
+              debugPrint("WebView is loading (progress : $progress%)");
+            },
+            javascriptChannels: <JavascriptChannel>{
+              _toasterJavascriptChannel(context),
+            },
+            navigationDelegate: (NavigationRequest request) {
+              debugPrint('allowing navigation to $request');
+              return NavigationDecision.navigate;
+            },
+            onPageStarted: (String url) {
+              debugPrint('Page started loading: $url');
+            },
+            onPageFinished: (String url) {
+              debugPrint('Page finished loading: $url');
+            },
+            gestureNavigationEnabled: true,
+            zoomEnabled: false,
+          ),
+        ),
+      );
 }
