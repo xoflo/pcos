@@ -172,6 +172,7 @@ class ModulesProvider extends LoadingStatusNotifier {
         lessonContent.add(content);
       }
     }
+    lessonContent.sort();
     return lessonContent;
   }
 

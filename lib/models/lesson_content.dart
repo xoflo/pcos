@@ -1,25 +1,35 @@
-class LessonContent {
-  final int? lessonContentID;
+class LessonContent extends Comparable<LessonContent> {
+  final int lessonContentID;
   final int? lessonID;
   final String? title;
   final String? mediaUrl;
   final String? mediaMimeType;
   final String? body;
   final String? summary;
-  final int? orderIndex;
+  final int orderIndex;
   final DateTime? dateCreatedUTC;
 
   LessonContent({
-    this.lessonContentID,
+    required this.lessonContentID,
     this.lessonID,
     this.title,
     this.mediaUrl,
     this.mediaMimeType,
     this.body,
     this.summary,
-    this.orderIndex,
+    required this.orderIndex,
     this.dateCreatedUTC,
   });
+
+  @override
+  int compareTo(LessonContent other) {
+    var comparisonResult = orderIndex.compareTo(other.orderIndex);
+    if (comparisonResult != 0) {
+      return comparisonResult;
+    }
+
+    return lessonContentID.compareTo(other.lessonContentID);
+  }
 
   factory LessonContent.fromJson(Map<String, dynamic> json) {
     return LessonContent(
