@@ -1,19 +1,30 @@
-class Module {
-  final int? moduleID;
+class Module extends Comparable<Module> {
+  final int moduleID;
+  final String title;
+  final bool isComplete;
+  final int orderIndex;
   final String? iconUrl;
-  final String? title;
-  final bool? isComplete;
-  final int? orderIndex;
+
   final DateTime? dateCreatedUTC;
 
   Module({
-    this.moduleID,
+    required this.moduleID,
+    required this.title,
+    required this.isComplete,
+    required this.orderIndex,
     this.iconUrl,
-    this.title,
-    this.isComplete,
-    this.orderIndex,
     this.dateCreatedUTC,
   });
+
+  @override
+  int compareTo(Module other) {
+    var comparisonResult = orderIndex.compareTo(other.orderIndex);
+    if (comparisonResult != 0) {
+      return comparisonResult;
+    }
+
+    return moduleID.compareTo(other.moduleID);
+  }
 
   factory Module.fromJson(Map<String, dynamic> json) {
     return Module(

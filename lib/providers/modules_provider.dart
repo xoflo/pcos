@@ -122,6 +122,7 @@ class ModulesProvider extends LoadingStatusNotifier {
         moduleLessons.add(lesson);
       }
     }
+    moduleLessons.sort();
     return moduleLessons;
   }
 
@@ -140,7 +141,7 @@ class ModulesProvider extends LoadingStatusNotifier {
       (module) => module.moduleID == moduleID,
     );
     if (moduleFound != null) {
-      return moduleFound.title ?? "";
+      return moduleFound.title;
     }
     return "";
   }
@@ -248,6 +249,7 @@ class ModulesProvider extends LoadingStatusNotifier {
       //first get the data from the api if we have no data yet
       final List<LessonTask> lessonTasks = await ProviderHelper()
           .fetchAndSaveTaskForLesson(dbProvider, lessonID: lessonID);
+      lessonTasks.sort();
       _lessonTasks = lessonTasks;
 
       //display the past lesson tasks not completed, and the current lesson if the lesson is complete
