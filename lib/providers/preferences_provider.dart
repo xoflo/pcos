@@ -63,7 +63,7 @@ class PreferencesProvider extends ChangeNotifier {
     getIsUsernameUsed();
   }
 
-  String getPreferredDisplayName() {
+  String get preferredDisplayName {
     String? displayedName =
         isUsernameUsed ? memberProvider?.alias : memberProvider?.firstName;
 
