@@ -11,7 +11,6 @@ import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
-import 'package:thepcosprotocol_app/providers/preferences_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
