@@ -159,12 +159,6 @@ class _AppTabsState extends State<AppTabs>
     if (!isLocked) {
       //unlocking so force refresh modules data
       Provider.of<MemberProvider>(context, listen: false).populateMember();
-      Provider.of<PreferencesProvider>(context, listen: false)
-          .getIsShowYourWhy();
-      Provider.of<PreferencesProvider>(context, listen: false)
-          .getIsShowLessonRecipes();
-      Provider.of<PreferencesProvider>(context, listen: false)
-          .getIsUsernameUsed();
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<ModulesProvider>(context, listen: false)
           .fetchAndSaveData(true);

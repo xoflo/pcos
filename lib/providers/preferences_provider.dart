@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 
 class PreferencesProvider extends ChangeNotifier {
-  MemberProvider? memberProvider;
+  final MemberProvider? memberProvider;
 
   bool _isShowYourWhy = false;
   bool get isShowYourWhy => _isShowYourWhy;
@@ -16,9 +16,12 @@ class PreferencesProvider extends ChangeNotifier {
   bool _isUsernameUsed = false;
   bool get isUsernameUsed => _isUsernameUsed;
 
-  PreferencesProvider({required MemberProvider? memberProvider}) {
-    this.memberProvider = memberProvider;
-    if (memberProvider != null) getIsShowYourWhy();
+  PreferencesProvider({required this.memberProvider}) {
+    if (memberProvider != null) {
+      getIsShowYourWhy();
+      getIsUsernameUsed();
+      getIsShowLessonRecipes();
+    }
   }
 
   void getIsShowYourWhy() async {
@@ -52,8 +55,6 @@ class PreferencesProvider extends ChangeNotifier {
   void getIsUsernameUsed() async {
     _isUsernameUsed = await PreferencesController()
         .getBool(SharedPreferencesKeys.USERNAME_USED);
-
-    _preferredDisplayName = _getPreferredDisplayNameValue();
     notifyListeners();
   }
 
@@ -62,17 +63,10 @@ class PreferencesProvider extends ChangeNotifier {
     getIsUsernameUsed();
   }
 
-  // ////////
+  String getPreferredDisplayName() {
+    String? displayedName =
+        isUsernameUsed ? memberProvider?.alias : memberProvider?.firstName;
 
-  String _preferredDisplayName = "";
-  String get preferredDisplayName {
-    return _getPreferredDisplayNameValue();
-  }
-
-  String _getPreferredDisplayNameValue() {
-    _preferredDisplayName =
-        (isUsernameUsed ? memberProvider?.alias : memberProvider?.firstName) ??
-            "";
-    return _preferredDisplayName;
+    return displayedName ?? "";
   }
 }
