@@ -1,19 +1,29 @@
-class QuizAnswer {
-  final int? quizAnswerID;
-  final int? quizQuestionID;
-  final String? answerText;
-  final bool? isCorrect;
-  final String? response;
-  final int? orderIndex;
+class QuizAnswer extends Comparable<QuizAnswer> {
+  final int quizAnswerID;
+  final int quizQuestionID;
+  final String answerText;
+  final bool isCorrect;
+  final String response;
+  final int orderIndex;
 
   QuizAnswer({
-    this.quizAnswerID,
-    this.quizQuestionID,
-    this.answerText,
-    this.isCorrect,
-    this.response,
-    this.orderIndex,
+    required this.quizAnswerID,
+    required this.quizQuestionID,
+    required this.answerText,
+    required this.isCorrect,
+    required this.response,
+    required this.orderIndex,
   });
+
+  @override
+  int compareTo(QuizAnswer other) {
+    var comparisonResult = orderIndex.compareTo(other.orderIndex);
+    if (comparisonResult != 0) {
+      return comparisonResult;
+    }
+
+    return quizAnswerID.compareTo(other.quizAnswerID);
+  }
 
   factory QuizAnswer.fromJson(Map<String, dynamic> json) {
     return QuizAnswer(

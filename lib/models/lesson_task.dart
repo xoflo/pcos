@@ -1,24 +1,24 @@
 import 'package:flutter/foundation.dart';
 
-class LessonTask {
-  final int? lessonTaskID;
+class LessonTask extends Comparable<LessonTask> {
+  final int lessonTaskID;
   final int? lessonID;
   final String? metaName;
   final String? title;
   final String? description;
   final String? taskType;
-  final int? orderIndex;
+  final int orderIndex;
   final bool? isComplete;
   final DateTime? dateCreatedUTC;
 
   LessonTask({
-    this.lessonTaskID,
+    required this.lessonTaskID,
     this.lessonID,
     this.metaName,
     this.title,
     this.description,
     this.taskType,
-    this.orderIndex,
+    required this.orderIndex,
     this.isComplete,
     this.dateCreatedUTC,
   });
@@ -39,6 +39,16 @@ class LessonTask {
           json['isComplete'] == 1 || json['isComplete'] == true ? true : false,
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );
+  }
+
+  @override
+  int compareTo(LessonTask other) {
+    var comparisonResult = orderIndex.compareTo(other.orderIndex);
+    if (comparisonResult != 0) {
+      return comparisonResult;
+    }
+
+    return lessonTaskID.compareTo(other.lessonTaskID);
   }
 }
 
