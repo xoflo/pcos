@@ -65,6 +65,8 @@ class AppNavigationTabs extends StatelessWidget {
                   text: "Course",
                   iconMargin: EdgeInsets.only(bottom: 5),
                 ),
+                // Since we are loading the number of incomplete lessons here,
+                // it makes sense we retain consumer implementation here.
                 Consumer<ModulesProvider>(
                   builder: (context, modulesProvider, child) {
                     // Count a lesson as incomplete if they are not yet
