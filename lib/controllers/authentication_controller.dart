@@ -223,6 +223,7 @@ class AuthenticationController {
       prefs.remove(SharedPreferencesKeys.YOUR_WHY_DISPLAYED);
       prefs.remove(SharedPreferencesKeys.WHATS_YOUR_WHY);
       prefs.remove(SharedPreferencesKeys.PCOS_TYPE);
+      prefs.remove(SharedPreferencesKeys.SEARCH_ITEMS);
       return true;
     } catch (ex) {
       return false;
