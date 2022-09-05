@@ -1,21 +1,19 @@
-import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/models/all_favourites.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
-class FavouritesProvider with ChangeNotifier {
+class FavouritesProvider extends LoadingStatusNotifier {
   final DatabaseProvider? dbProvider;
 
   FavouritesProvider({required this.dbProvider}) {
     if (dbProvider != null) fetchAndSaveData();
   }
-
-  LoadingStatus status = LoadingStatus.empty;
 
   List<Lesson> _toolkits = [];
   List<Lesson> _lessons = [];
@@ -28,7 +26,7 @@ class FavouritesProvider with ChangeNotifier {
   List<Recipe> get recipes => [..._recipes];
 
   Future<void> fetchAndSaveData() async {
-    status = LoadingStatus.loading;
+    setLoadingStatus(LoadingStatus.loading, false);
 
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
@@ -45,31 +43,27 @@ class FavouritesProvider with ChangeNotifier {
   }
 
   void fetchToolkitStatus({bool notifyListener = true}) {
-    status = _toolkits.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    if (notifyListener) {
-      notifyListeners();
-    }
+    setLoadingStatus(
+        _toolkits.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        notifyListener);
   }
 
   void fetchLessonStatus({bool notifyListener = true}) {
-    status = _lessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    if (notifyListener) {
-      notifyListeners();
-    }
+    setLoadingStatus(
+        _lessons.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        notifyListener);
   }
 
   void fetchLessonWikisStatus({bool notifyListener = true}) {
-    status = _lessonWikis.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    if (notifyListener) {
-      notifyListeners();
-    }
+    setLoadingStatus(
+        _lessonWikis.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        notifyListener);
   }
 
   void fetchRecipesStatus({bool notifyListener = true}) {
-    status = _recipes.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    if (notifyListener) {
-      notifyListeners();
-    }
+    setLoadingStatus(
+        _recipes.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        notifyListener);
   }
 
   Future<void> addToFavourites(

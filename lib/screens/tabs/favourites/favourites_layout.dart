@@ -24,6 +24,9 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
     super.initState();
     tabController = TabController(initialIndex: index, length: 4, vsync: this);
     pageController = PageController(initialPage: index);
+
+    Provider.of<FavouritesProvider>(context, listen: false)
+        .fetchToolkitStatus(notifyListener: false);
   }
 
   Tab generateTab(int itemNumber, String title) => Tab(
@@ -78,28 +81,19 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.only(top: 15.0),
-                child: Consumer<FavouritesProvider>(
-                  builder: (context, favouritesProvider, child) {
-                    favouritesProvider.fetchToolkitStatus(
-                        notifyListener: false);
-                    return PageView(
-                      controller: pageController,
-                      physics: NeverScrollableScrollPhysics(),
-                      onPageChanged: (value) {
-                        setState(() => index = value);
-                        tabController.index = value;
-                      },
-                      children: [
-                        FavouritesToolkits(
-                            favouritesProvider: favouritesProvider),
-                        FavouritesLessons(
-                            favouritesProvider: favouritesProvider),
-                        FavouritesWikis(favouritesProvider: favouritesProvider),
-                        FavouritesRecipes(
-                            favouritesProvider: favouritesProvider),
-                      ],
-                    );
+                child: PageView(
+                  controller: pageController,
+                  physics: NeverScrollableScrollPhysics(),
+                  onPageChanged: (value) {
+                    setState(() => index = value);
+                    tabController.index = value;
                   },
+                  children: [
+                    FavouritesToolkits(),
+                    FavouritesLessons(),
+                    FavouritesWikis(),
+                    FavouritesRecipes(),
+                  ],
                 ),
               ),
             ),
