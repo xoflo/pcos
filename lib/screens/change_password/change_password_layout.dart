@@ -10,7 +10,7 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_generic.dart';
 
 class ChangePasswordLayout extends StatefulWidget {
   @override
@@ -163,7 +163,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
               ),
             ),
           ),
-          if (isUpdating) LoaderOverlay()
+          if (isUpdating) GenericLoaderOverlay()
         ],
       );
 }

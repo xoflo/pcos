@@ -16,7 +16,7 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/member.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_generic.dart';
 
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
@@ -300,7 +300,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
             ),
-            if (isSigningIn) LoaderOverlay()
+            if (isSigningIn) GenericLoaderOverlay()
           ],
         ),
       ),
