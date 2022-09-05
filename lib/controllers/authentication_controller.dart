@@ -1,11 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thepcosprotocol_app/controllers/one_signal_controller.dart';
+import 'package:thepcosprotocol_app/global_vars.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/constants/secure_storage_keys.dart'
     as SecureStorageKeys;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
@@ -155,7 +161,7 @@ class AuthenticationController {
     }
   }
 
-  Future<bool> deleteCredentials() async {
+  Future<bool> _deleteCredentials() async {
     try {
       await secureStorage.delete(key: SecureStorageKeys.ACCESS_TOKEN);
       await secureStorage.delete(key: SecureStorageKeys.REFRESH_TOKEN);
@@ -190,7 +196,7 @@ class AuthenticationController {
     }
   }
 
-  Future<bool> deletePin() async {
+  Future<bool> _deletePin() async {
     try {
       await secureStorage.delete(key: SecureStorageKeys.PIN);
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -201,7 +207,7 @@ class AuthenticationController {
     }
   }
 
-  Future<bool> deleteOtherPrefs() async {
+  Future<bool> _deleteOtherPrefs() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove(SharedPreferencesKeys.BACKGROUNDED_TIMESTAMP);
@@ -278,5 +284,40 @@ class AuthenticationController {
     } catch (ex) {
       return false;
     }
+  }
+
+  Future<bool> getOneSignalSent() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final bool? oneSignalSent =
+          prefs.getBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT);
+
+      return oneSignalSent == true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  Future<bool> saveOneSignalSent() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool(SharedPreferencesKeys.ONE_SIGNAL_DATA_SENT, true);
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
+
+  void clearData(BuildContext context) {
+    // Clear database
+    Provider.of<DatabaseProvider>(context, listen: false).deleteAllData();
+
+    _deleteCredentials();
+    _deletePin();
+    _deleteOtherPrefs();
+
+    turnOffDailyReminderNotification(localNotificationsPlugin);
+
+    OneSignalController().deleteOneSignal();
   }
 }

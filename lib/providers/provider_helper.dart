@@ -239,6 +239,7 @@ class ProviderHelper {
             thisQuizQuestions.add(question);
           }
         }
+        thisQuizQuestions.sort();
         quiz.questions = thisQuizQuestions;
       }
       //only return complete lessons and the first incomplete lesson, also check whether first incomplete lesson should be visible yet
@@ -293,6 +294,7 @@ class ProviderHelper {
               thisQuizQuestions.add(question);
             }
           }
+          thisQuizQuestions.sort();
           quiz.questions = thisQuizQuestions;
           quizzesToReturn.add(quiz);
         }
@@ -324,6 +326,7 @@ class ProviderHelper {
       for (Module module in modulesFromDB) {
         if (moduleIDs.contains(module.moduleID)) modulesToReturn.add(module);
       }
+      modulesToReturn.sort();
 
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
         modules: modulesToReturn,

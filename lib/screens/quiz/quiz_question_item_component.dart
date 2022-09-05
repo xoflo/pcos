@@ -67,7 +67,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
                         }
                       },
                 verticalPadding: 7.5,
-                text: answer.answerText ?? "",
+                text: answer.answerText,
                 style: OutlinedButton.styleFrom(
                   onSurface: answers.contains(answer)
                       ? answerColor
@@ -121,7 +121,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
                 .subtitle1
                 ?.copyWith(color: titleColor),
           ),
-          if (widget.question?.response?.isNotEmpty == true) ...[
+          if (widget.question?.response.isNotEmpty == true) ...[
             SizedBox(height: 10),
             HtmlWidget(
               widget.question?.response ?? "",

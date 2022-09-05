@@ -46,7 +46,7 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
           Navigator.pushNamed(
             context,
             LibraryWikiPage.id,
-            arguments: LibraryWikiArguments(item.title ?? "", wikis),
+            arguments: LibraryWikiArguments(item.title, wikis),
           );
         }
       },
@@ -63,7 +63,7 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
           children: [
             Expanded(
               child: HtmlWidget(
-                item.title ?? "",
+                item.title,
                 textStyle: Theme.of(context)
                     .textTheme
                     .headline5

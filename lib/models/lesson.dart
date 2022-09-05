@@ -1,4 +1,4 @@
-class Lesson {
+class Lesson extends Comparable<Lesson> {
   final int lessonID;
   final int moduleID;
   final String imageUrl;
@@ -48,6 +48,16 @@ class Lesson {
           json['isToolkit'] == 1 || json['isToolkit'] == true ? true : false,
       dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
     );
+  }
+
+  @override
+  int compareTo(Lesson other) {
+    var comparisonResult = orderIndex.compareTo(other.orderIndex);
+    if (comparisonResult != 0) {
+      return comparisonResult;
+    }
+
+    return lessonID.compareTo(other.lessonID);
   }
 }
 
