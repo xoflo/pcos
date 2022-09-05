@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 
-class RecipesProvider with ChangeNotifier {
+class RecipesProvider extends LoadingStatusNotifier {
   final DatabaseProvider? dbProvider;
 
   RecipesProvider({required this.dbProvider}) {
@@ -15,13 +15,12 @@ class RecipesProvider with ChangeNotifier {
   List<Recipe> _randomizedItems = [];
   List<Recipe> _originalRandomizedItems = [];
 
-  LoadingStatus status = LoadingStatus.empty;
   List<Recipe> get items => [..._items];
   List<Recipe> get randomizedItems => [..._randomizedItems];
   List<Recipe> get originalRandomized => [..._originalRandomizedItems];
 
   Future<void> fetchAndSaveData() async {
-    status = LoadingStatus.loading;
+    setLoadingStatus(LoadingStatus.loading, false);
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
@@ -35,13 +34,13 @@ class RecipesProvider with ChangeNotifier {
       _originalRandomizedItems = [..._randomizedItems];
     }
 
-    status = _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
+    setLoadingStatus(
+        _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success, false);
   }
 
   Future<void> filterAndSearch(final String searchText, final String tag,
       final List<String> secondaryTags) async {
-    status = LoadingStatus.loading;
-    notifyListeners();
+    setLoadingStatus(LoadingStatus.loading, true);
     if (searchText.isEmpty) {
       _randomizedItems = [..._originalRandomizedItems];
     } else if (dbProvider?.db != null) {
@@ -51,9 +50,9 @@ class RecipesProvider with ChangeNotifier {
 
       _randomizedItems = [..._items];
     }
-    status =
-        _randomizedItems.isEmpty ? LoadingStatus.empty : LoadingStatus.success;
-    notifyListeners();
+    setLoadingStatus(
+        _randomizedItems.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        true);
   }
 
   Recipe getRecipeById(final int? recipeId) {

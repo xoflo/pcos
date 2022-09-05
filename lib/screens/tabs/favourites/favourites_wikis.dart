@@ -19,6 +19,7 @@ class FavouritesWikis extends StatelessWidget {
       loadingStatusNotifier: favouritesProvider,
       height: double.maxFinite,
       emptyMessage: S.current.noFavouriteWikis,
+      overlayBackgroundColor: Colors.transparent,
       child: ListView.builder(
         padding: EdgeInsets.all(15),
         itemCount: favouritesProvider.lessonWikis.length,

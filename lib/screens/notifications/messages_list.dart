@@ -45,145 +45,140 @@ class _MessagesListState extends State<MessagesList> {
     } else if (messages.length == _selectedMessages.length) {
       _selectedMessages.clear();
     }
-    return Expanded(
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: widget.messagesProvider?.items
-                      .map(
-                        (message) => GestureDetector(
-                          onTap: () => _openMessage(context, message),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 25, horizontal: 15),
-                                child: Row(
-                                  children: [
-                                    if (widget.showMessageReadOption)
-                                      IconButton(
-                                        padding: EdgeInsets.only(top: 2.0),
-                                        alignment: Alignment.topCenter,
-                                        onPressed: () {
-                                          setState(() {
-                                            if (!_selectedMessages
-                                                .contains(message)) {
-                                              _selectedMessages.add(message);
-                                            } else {
-                                              _selectedMessages.remove(message);
-                                            }
-                                            widget.onSelectItem?.call(
-                                                _selectedMessages.length ==
-                                                    messages.length);
-                                          });
-                                        },
-                                        icon: Icon(
-                                          _selectedMessages.contains(message)
-                                              ? Icons.check_box_outlined
-                                              : Icons
-                                                  .check_box_outline_blank_outlined,
-                                          color: backgroundColor,
-                                        ),
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: widget.messagesProvider?.items
+                    .map(
+                      (message) => GestureDetector(
+                        onTap: () => _openMessage(context, message),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 25, horizontal: 15),
+                              child: Row(
+                                children: [
+                                  if (widget.showMessageReadOption)
+                                    IconButton(
+                                      padding: EdgeInsets.only(top: 2.0),
+                                      alignment: Alignment.topCenter,
+                                      onPressed: () {
+                                        setState(() {
+                                          if (!_selectedMessages
+                                              .contains(message)) {
+                                            _selectedMessages.add(message);
+                                          } else {
+                                            _selectedMessages.remove(message);
+                                          }
+                                          widget.onSelectItem?.call(
+                                              _selectedMessages.length ==
+                                                  messages.length);
+                                        });
+                                      },
+                                      icon: Icon(
+                                        _selectedMessages.contains(message)
+                                            ? Icons.check_box_outlined
+                                            : Icons
+                                                .check_box_outline_blank_outlined,
+                                        color: backgroundColor,
                                       ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          message.title ?? "",
+                                    ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        message.title ?? "",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            ?.copyWith(
+                                              color: textColor.withOpacity(0.8),
+                                              fontWeight: message.isRead == true
+                                                  ? FontWeight.normal
+                                                  : FontWeight.bold,
+                                            ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Text(
+                                          DateTimeUtils.shortDayDateMonthTime(
+                                              message.dateCreatedUTC),
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText1
+                                              .caption
                                               ?.copyWith(
                                                 color:
                                                     textColor.withOpacity(0.8),
-                                                fontWeight:
-                                                    message.isRead == true
-                                                        ? FontWeight.normal
-                                                        : FontWeight.bold,
                                               ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                            DateTimeUtils.shortDayDateMonthTime(
-                                                message.dateCreatedUTC),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .caption
-                                                ?.copyWith(
-                                                  color: textColor
-                                                      .withOpacity(0.8),
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              Divider(
-                                height: 1,
-                                thickness: 1,
-                                color: textColor.withOpacity(0.2),
-                              )
-                            ],
-                          ),
+                            ),
+                            Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: textColor.withOpacity(0.2),
+                            )
+                          ],
                         ),
-                      )
-                      .toList() ??
-                  [],
-            ),
-          ),
-          if (widget.showMessageReadOption)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 50),
-                child: ElevatedButton(
-                  child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                      child: Text("Mark as read")),
-                  onPressed: _selectedMessages.length == 0
-                      ? null
-                      : () {
-                          _selectedMessages.forEach((message) =>
-                              widget.messagesProvider?.updateNotificationAsRead(
-                                  message.notificationId));
-                          widget.onPressMarkAsRead?.call();
-                        },
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.resolveWith<Color>((states) {
-                      return Colors.white;
-                    }),
-                    backgroundColor:
-                        MaterialStateProperty.resolveWith<Color>((states) {
-                      if (states.contains(MaterialState.disabled)) {
-                        return backgroundColor.withOpacity(0.5);
-                      }
-                      return backgroundColor;
-                    }),
-                    textStyle: MaterialStateProperty.resolveWith(
-                      (states) => const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
                       ),
+                    )
+                    .toList() ??
+                [],
+          ),
+        ),
+        if (widget.showMessageReadOption)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: EdgeInsets.only(bottom: 50),
+              child: ElevatedButton(
+                child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                    child: Text("Mark as read")),
+                onPressed: _selectedMessages.length == 0
+                    ? null
+                    : () {
+                        _selectedMessages.forEach((message) => widget
+                            .messagesProvider
+                            ?.updateNotificationAsRead(message.notificationId));
+                        widget.onPressMarkAsRead?.call();
+                      },
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.resolveWith<Color>((states) {
+                    return Colors.white;
+                  }),
+                  backgroundColor:
+                      MaterialStateProperty.resolveWith<Color>((states) {
+                    if (states.contains(MaterialState.disabled)) {
+                      return backgroundColor.withOpacity(0.5);
+                    }
+                    return backgroundColor;
+                  }),
+                  textStyle: MaterialStateProperty.resolveWith(
+                    (states) => const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
                     ),
-                    shape: MaterialStateProperty.resolveWith<StadiumBorder>(
-                      (states) => StadiumBorder(),
-                    ),
+                  ),
+                  shape: MaterialStateProperty.resolveWith<StadiumBorder>(
+                    (states) => StadiumBorder(),
                   ),
                 ),
               ),
-            )
-        ],
-      ),
+            ),
+          )
+      ],
     );
   }
 }

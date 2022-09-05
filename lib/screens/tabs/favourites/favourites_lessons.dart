@@ -18,6 +18,7 @@ class FavouritesLessons extends StatelessWidget {
       loadingStatusNotifier: favouritesProvider,
       height: double.maxFinite,
       emptyMessage: S.current.noFavouriteLesson,
+      overlayBackgroundColor: Colors.transparent,
       child: ListView.builder(
         padding: EdgeInsets.all(15),
         itemCount: favouritesProvider.lessons.length,

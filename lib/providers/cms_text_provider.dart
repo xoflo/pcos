@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 
-class CMSTextProvider with ChangeNotifier {
+class CMSTextProvider extends LoadingStatusNotifier {
   final DatabaseProvider? dbProvider;
 
   CMSTextProvider({required this.dbProvider}) {
@@ -18,7 +18,7 @@ class CMSTextProvider with ChangeNotifier {
   String get termsStatement => _termsStatement;
 
   Future<void> fetchAndSaveData() async {
-    status = LoadingStatus.loading;
+    setLoadingStatus(LoadingStatus.loading, false);
 
     // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
     if (dbProvider?.db != null) {
@@ -31,6 +31,6 @@ class CMSTextProvider with ChangeNotifier {
       if (cmsItems.length > 2) _termsStatement = cmsItems[2];
     }
 
-    status = LoadingStatus.success;
+    setLoadingStatus(LoadingStatus.success, false);
   }
 }

@@ -16,6 +16,7 @@ class FavouritesRecipes extends StatelessWidget {
       loadingStatusNotifier: favouritesProvider,
       height: double.maxFinite,
       emptyMessage: S.current.noFavouriteRecipe,
+      overlayBackgroundColor: Colors.transparent,
       child: GridView.count(
         padding: EdgeInsets.all(10),
         shrinkWrap: true,

@@ -19,6 +19,7 @@ class FavouritesToolkits extends StatelessWidget {
       loadingStatusNotifier: favouritesProvider,
       height: double.maxFinite,
       emptyMessage: noToolkitsText,
+      overlayBackgroundColor: Colors.transparent,
       child: ListView.builder(
         padding: EdgeInsets.all(15),
         itemCount: favouritesProvider.toolkits.length,

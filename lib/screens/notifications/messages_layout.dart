@@ -4,9 +4,7 @@ import 'package:thepcosprotocol_app/screens/notifications/message_details.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 import 'package:thepcosprotocol_app/screens/notifications/messages_list.dart';
 import 'package:thepcosprotocol_app/models/message.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
@@ -22,21 +20,6 @@ class MessagesLayout extends StatefulWidget {
 class _MessagesLayoutState extends State<MessagesLayout> {
   bool showMessageReadOption = false;
   bool selectAll = false;
-
-  Widget getMessagesList(final MessagesProvider messagesProvider) {
-    if (messagesProvider.status == LoadingStatus.empty) {
-      return NoResults(message: "There are no notifications to display.");
-    }
-    return MessagesList(
-      messagesProvider: messagesProvider,
-      openMessage: openMessage,
-      showMessageReadOption: showMessageReadOption,
-      isAllSelected: selectAll,
-      onSelectItem: (shouldSelectAll) =>
-          setState(() => selectAll = shouldSelectAll),
-      onPressMarkAsRead: () => setState(() => showMessageReadOption = false),
-    );
-  }
 
   void openMessage(
     final BuildContext context,
@@ -84,36 +67,50 @@ class _MessagesLayoutState extends State<MessagesLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<MessagesProvider>(
-        builder: (context, model, child) => Stack(
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: 12),
-              decoration: BoxDecoration(
-                color: primaryColor,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Header(
-                    title: "Notifications",
-                    closeItem: () => Navigator.pop(context),
-                    showDivider: true,
-                    isAllSelected: selectAll,
-                    onToggleSelectAll: showMessageReadOption
-                        ? () => setState(() => selectAll = !selectAll)
-                        : null,
-                    onToggleMarkAsRead: () => setState(() {
-                      showMessageReadOption = !showMessageReadOption;
-                      selectAll = false;
-                    }),
-                  ),
-                  getMessagesList(model),
-                ],
+  Widget build(BuildContext context) {
+    final messagesProvider = Provider.of<MessagesProvider>(context);
+    return Container(
+      padding: EdgeInsets.only(top: 12),
+      decoration: BoxDecoration(
+        color: primaryColor,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Header(
+            title: "Notifications",
+            closeItem: () => Navigator.pop(context),
+            showDivider: true,
+            isAllSelected: selectAll,
+            onToggleSelectAll: showMessageReadOption
+                ? () => setState(() => selectAll = !selectAll)
+                : null,
+            onToggleMarkAsRead: () => setState(() {
+              showMessageReadOption = !showMessageReadOption;
+              selectAll = false;
+            }),
+          ),
+          Expanded(
+            child: LoaderOverlay(
+              height: double.maxFinite,
+              indicatorPosition: Alignment.topCenter,
+              overlayBackgroundColor: Colors.transparent,
+              loadingStatusNotifier: messagesProvider,
+              emptyMessage: "There are no notifications to display.",
+              child: MessagesList(
+                messagesProvider: messagesProvider,
+                openMessage: openMessage,
+                showMessageReadOption: showMessageReadOption,
+                isAllSelected: selectAll,
+                onSelectItem: (shouldSelectAll) =>
+                    setState(() => selectAll = shouldSelectAll),
+                onPressMarkAsRead: () =>
+                    setState(() => showMessageReadOption = false),
               ),
             ),
-            if (model.status == LoadingStatus.loading) LoaderOverlay()
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }
