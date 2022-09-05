@@ -62,7 +62,7 @@ class MemberProvider extends LoadingStatusNotifier {
 
     _why = why;
 
-    setLoadingStatus(LoadingStatus.success, false);
+    setLoadingStatus(LoadingStatus.success, true);
 
     return didSetWhy;
   }

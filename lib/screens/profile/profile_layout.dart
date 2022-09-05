@@ -46,7 +46,7 @@ class _ProfileLayoutState extends State<ProfileLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final memberProvider = Provider.of<MemberProvider>(context, listen: false);
+    final memberProvider = Provider.of<MemberProvider>(context);
 
     return LoaderOverlay(
       loadingStatusNotifier: memberProvider,
