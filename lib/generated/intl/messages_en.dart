@@ -359,15 +359,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "settingsYourWhyText":
             MessageLookupByLibrary.simpleMessage("Display \'Your Why\':"),
         "signInEmailNotVerifiedErrorText": MessageLookupByLibrary.simpleMessage(
-            "Your email address has not be verified, please check your inbox for a new verification email."),
+            "Your email address has not been verified. Please check your inbox for a new verification email."),
         "signInTitle": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signUpTitle": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "signinErrorText": MessageLookupByLibrary.simpleMessage(
-            "Your email/username or password are incorrect, please try again."),
+            "Your email/username or password are incorrect. Please try again."),
         "signinErrorTitle":
             MessageLookupByLibrary.simpleMessage("Sign In Failed"),
         "signinUnknownErrorText": MessageLookupByLibrary.simpleMessage(
-            "We could not sign you in, please try again later"),
+            "We could not sign you in. Please try again later."),
         "startQuiz": MessageLookupByLibrary.simpleMessage("Start Quiz"),
         "supportTitle": MessageLookupByLibrary.simpleMessage("Support"),
         "swipeDownForQuestion":

@@ -336,30 +336,30 @@ class S {
     );
   }
 
-  /// `Your email/username or password are incorrect, please try again.`
+  /// `Your email/username or password are incorrect. Please try again.`
   String get signinErrorText {
     return Intl.message(
-      'Your email/username or password are incorrect, please try again.',
+      'Your email/username or password are incorrect. Please try again.',
       name: 'signinErrorText',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your email address has not be verified, please check your inbox for a new verification email.`
+  /// `Your email address has not been verified. Please check your inbox for a new verification email.`
   String get signInEmailNotVerifiedErrorText {
     return Intl.message(
-      'Your email address has not be verified, please check your inbox for a new verification email.',
+      'Your email address has not been verified. Please check your inbox for a new verification email.',
       name: 'signInEmailNotVerifiedErrorText',
       desc: '',
       args: [],
     );
   }
 
-  /// `We could not sign you in, please try again later`
+  /// `We could not sign you in. Please try again later.`
   String get signinUnknownErrorText {
     return Intl.message(
-      'We could not sign you in, please try again later',
+      'We could not sign you in. Please try again later.',
       name: 'signinUnknownErrorText',
       desc: '',
       args: [],
