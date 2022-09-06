@@ -152,27 +152,21 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     // updated. Otherwise, the app logs out, indicating that the subscription
     // may have expired.
     final Member memberDetails = await WebServices().getMemberDetails();
-    switch (memberDetails.subscriptionStatus) {
-      case SubscriptionStatus.active:
-      case SubscriptionStatus.trialing:
-      case SubscriptionStatus.past_due:
-        await PreferencesController().saveString(
-            SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
-            memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ??
-                "");
-        openAppTabs();
-        break;
-      default:
-        showAlertDialog(
-          context,
-          "Warning",
-          "Your subscription has expired. You will now be logged out of the app. Please update your subscription to continue using the Ovie app.",
-          "",
-          "Okay",
-          continueLogout,
-          null,
-        );
-        break;
+    if (memberDetails.isSubscriptionValid) {
+      await PreferencesController().saveString(
+          SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
+          memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ?? "");
+      openAppTabs();
+    } else {
+      showAlertDialog(
+        context,
+        "Warning",
+        "Your subscription has expired. You will now be logged out of the app. Please update your subscription to continue using the Ovie app.",
+        "",
+        "Okay",
+        continueLogout,
+        null,
+      );
     }
   }
 
