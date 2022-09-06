@@ -238,49 +238,46 @@ class LessonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final LessonArguments? args =
         ModalRoute.of(context)?.settings.arguments as LessonArguments?;
+    final modulesProvider = Provider.of<ModulesProvider>(context);
 
-    return Consumer<ModulesProvider>(
-      builder: (context, modulesProvider, child) {
-        if (args?.showTasks == true && !isPageInitialized.value) {
-          isPageInitialized.value = true;
-          modulesProvider.fetchLessonTasks(args?.lesson.lessonID ?? -1);
-        }
+    if (args?.showTasks == true && !isPageInitialized.value) {
+      isPageInitialized.value = true;
+      modulesProvider.fetchLessonTasks(args?.lesson.lessonID ?? -1);
+    }
 
-        return LoaderOverlay(
-          loadingStatusNotifier: modulesProvider,
-          emptyMessage: S.current.noItemsFound,
-          indicatorPosition: Alignment.center,
-          height: MediaQuery.of(context).size.height,
-          child: Scaffold(
-            backgroundColor: primaryColor,
-            body: WillPopScope(
-              onWillPop: () async =>
-                  !Platform.isIOS &&
-                  modulesProvider.loadingStatus != LoadingStatus.loading,
-              child: SafeArea(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: primaryColor,
+    return LoaderOverlay(
+      loadingStatusNotifier: modulesProvider,
+      emptyMessage: S.current.noItemsFound,
+      indicatorPosition: Alignment.center,
+      height: MediaQuery.of(context).size.height,
+      child: Scaffold(
+        backgroundColor: primaryColor,
+        body: WillPopScope(
+          onWillPop: () async =>
+              !Platform.isIOS &&
+              modulesProvider.loadingStatus != LoadingStatus.loading,
+          child: SafeArea(
+            child: Container(
+              decoration: BoxDecoration(
+                color: primaryColor,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 12),
+                    child: Header(
+                      title: "Lesson",
+                      closeItem: () => Navigator.pop(context),
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 12),
-                        child: Header(
-                          title: "Lesson",
-                          closeItem: () => Navigator.pop(context),
-                        ),
-                      ),
-                      getSuccessWidget(modulesProvider, args, context)
-                    ],
-                  ),
-                ),
+                  getSuccessWidget(modulesProvider, args, context)
+                ],
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

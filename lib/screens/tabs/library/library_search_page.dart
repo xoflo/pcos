@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
@@ -11,8 +10,7 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_content_page.dart';
-import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
 
@@ -68,6 +66,8 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
       search();
     }
 
+    final modulesProvider = Provider.of<ModulesProvider>(context);
+
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(
@@ -113,52 +113,45 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
                             ),
                           ),
                         )
-                      : Consumer<ModulesProvider>(
-                          builder: (context, modulesProvider, child) {
-                            switch (modulesProvider.loadingStatus) {
-                              case LoadingStatus.loading:
-                                return PcosLoadingSpinner();
-                              case LoadingStatus.empty:
-                                return NoResults(
-                                    message: S.current.noResultsLessonsSearch);
-                              case LoadingStatus.success:
-                                return ListView.builder(
-                                  padding: EdgeInsets.all(15),
-                                  itemCount:
-                                      modulesProvider.searchLessons.length,
-                                  itemBuilder: (context, index) {
-                                    final searchLesson =
-                                        modulesProvider.searchLessons[index];
+                      : LoaderOverlay(
+                          child: ListView.builder(
+                            padding: EdgeInsets.all(15),
+                            itemCount: modulesProvider.searchLessons.length,
+                            itemBuilder: (context, index) {
+                              final searchLesson =
+                                  modulesProvider.searchLessons[index];
 
-                                    return GestureDetector(
-                                      onTap: () => Navigator.pushNamed(
-                                        context,
-                                        LessonContentPage.id,
-                                        arguments: searchLesson,
-                                      ),
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 10),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 20, horizontal: 15),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(16)),
-                                        ),
-                                        child: HtmlWidget(
-                                          searchLesson.title,
-                                          textStyle: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1
-                                              ?.copyWith(
-                                                  color: backgroundColor),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                            }
-                          },
+                              return GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  LessonContentPage.id,
+                                  arguments: searchLesson,
+                                ),
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16)),
+                                  ),
+                                  child: HtmlWidget(
+                                    searchLesson.title,
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1
+                                        ?.copyWith(color: backgroundColor),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          loadingStatusNotifier: modulesProvider,
+                          indicatorPosition: Alignment.center,
+                          height: double.maxFinite,
+                          emptyMessage: S.current.noResultsLessonsSearch,
+                          overlayBackgroundColor: Colors.transparent,
                         ),
                 )
               ],

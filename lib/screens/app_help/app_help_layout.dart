@@ -5,7 +5,6 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/screens/app_help/question_tab.dart';
-import 'package:thepcosprotocol_app/utils/device_utils.dart';
 
 class AppHelpLayout extends StatefulWidget {
   @override
@@ -13,22 +12,17 @@ class AppHelpLayout extends StatefulWidget {
 }
 
 class _AppHelpLayoutState extends State<AppHelpLayout> {
-  void _cancel() {
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
-    final isHorizontal =
-        DeviceUtils.isHorizontalWideScreen(screenSize.width, screenSize.height);
+    final appHelpProvider =
+        Provider.of<AppHelpProvider>(context, listen: false);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Header(
           title: S.current.appHelpTitle,
-          closeItem: _cancel,
+          closeItem: () => Navigator.pop(context),
           showDivider: true,
         ),
         Expanded(
@@ -39,12 +33,7 @@ class _AppHelpLayoutState extends State<AppHelpLayout> {
               decoration: BoxDecoration(color: primaryColor),
               child: Padding(
                 padding: const EdgeInsets.only(top: 4.0),
-                child: Consumer<AppHelpProvider>(
-                  builder: (context, faqModel, child) => QuestionTab(
-                    isHorizontal: isHorizontal,
-                    faqProvider: faqModel,
-                  ),
-                ),
+                child: QuestionTab(faqProvider: appHelpProvider),
               ),
             ),
           ),

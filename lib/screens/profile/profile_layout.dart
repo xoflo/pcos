@@ -18,15 +18,6 @@ class ProfileLayout extends StatefulWidget {
 class _ProfileLayoutState extends State<ProfileLayout> {
   bool isLeftVisible = true;
 
-  late MemberProvider memberProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    memberProvider = Provider.of<MemberProvider>(context, listen: false);
-    memberProvider.populateMember();
-  }
-
   Widget _memberDetails(MemberProvider memberProvider) => Padding(
         padding: EdgeInsets.only(top: 12),
         child: Column(
@@ -54,22 +45,24 @@ class _ProfileLayoutState extends State<ProfileLayout> {
       );
 
   @override
-  Widget build(BuildContext context) => Consumer<MemberProvider>(
-        builder: (context, memberProvider, child) => LoaderOverlay(
-          loadingStatusNotifier: memberProvider,
-          indicatorPosition: Alignment.center,
-          height: MediaQuery.of(context).size.height,
-          child: WillPopScope(
-            onWillPop: () async =>
-                !Platform.isIOS &&
-                memberProvider.loadingStatus != LoadingStatus.loading,
-            child: Container(
-              decoration: BoxDecoration(
-                color: primaryColor,
-              ),
-              child: _memberDetails(memberProvider),
-            ),
+  Widget build(BuildContext context) {
+    final memberProvider = Provider.of<MemberProvider>(context);
+
+    return LoaderOverlay(
+      loadingStatusNotifier: memberProvider,
+      indicatorPosition: Alignment.center,
+      height: MediaQuery.of(context).size.height,
+      child: WillPopScope(
+        onWillPop: () async =>
+            !Platform.isIOS &&
+            memberProvider.loadingStatus != LoadingStatus.loading,
+        child: Container(
+          decoration: BoxDecoration(
+            color: primaryColor,
           ),
+          child: _memberDetails(memberProvider),
         ),
-      );
+      ),
+    );
+  }
 }

@@ -46,58 +46,58 @@ class _QuizLayoutState extends State<QuizLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<ModulesProvider>(
-        builder: (context, modulesProvider, child) => WillPopScope(
-          onWillPop: () async =>
-              !Platform.isIOS &&
-              modulesProvider.loadingStatus != LoadingStatus.loading,
-          child: LoaderOverlay(
-            loadingStatusNotifier: modulesProvider,
-            emptyMessage: "Quiz not available",
-            indicatorPosition: Alignment.center,
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              children: [
-                SafeArea(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 12),
-                          child: Header(
-                            title: "Quiz",
-                            closeItem: () => Navigator.pop(context),
-                            questionNumber: questionNumber + 1,
-                            questionCount: widget.quiz?.questions?.length,
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                            ),
-                            child: PageView.builder(
-                              controller: controller,
-                              itemCount: widget.quiz?.questions?.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              pageSnapping: true,
-                              itemBuilder: (context, index) =>
-                                  getQuestionItemComponent(
-                                      index, modulesProvider),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+  Widget build(BuildContext context) {
+    final modulesProvider = Provider.of<ModulesProvider>(context);
+    return WillPopScope(
+      onWillPop: () async =>
+          !Platform.isIOS &&
+          modulesProvider.loadingStatus != LoadingStatus.loading,
+      child: LoaderOverlay(
+        loadingStatusNotifier: modulesProvider,
+        emptyMessage: "Quiz not available",
+        indicatorPosition: Alignment.center,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            SafeArea(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: primaryColor,
                 ),
-              ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Header(
+                        title: "Quiz",
+                        closeItem: () => Navigator.pop(context),
+                        questionNumber: questionNumber + 1,
+                        questionCount: widget.quiz?.questions?.length,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                        ),
+                        child: PageView.builder(
+                          controller: controller,
+                          itemCount: widget.quiz?.questions?.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          pageSnapping: true,
+                          itemBuilder: (context, index) =>
+                              getQuestionItemComponent(index, modulesProvider),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

@@ -67,59 +67,58 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
   @override
   Widget build(BuildContext context) {
     final task = ModalRoute.of(context)?.settings.arguments as LessonTask;
+    final modulesProvider = Provider.of<ModulesProvider>(context);
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: Consumer<ModulesProvider>(
-        builder: (context, modulesProvider, child) => WillPopScope(
-          onWillPop: () async =>
-              !Platform.isIOS &&
-              modulesProvider.loadingStatus != LoadingStatus.loading,
-          child: LoaderOverlay(
-            indicatorPosition: Alignment.center,
-            emptyMessage: S.current.noItemsFound,
-            loadingStatusNotifier: modulesProvider,
-            height: MediaQuery.of(context).size.height,
-            child: SafeArea(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Header(
-                        title: "Lesson",
-                        closeItem: () => Navigator.pop(context),
-                      ),
+      body: WillPopScope(
+        onWillPop: () async =>
+            !Platform.isIOS &&
+            modulesProvider.loadingStatus != LoadingStatus.loading,
+        child: LoaderOverlay(
+          indicatorPosition: Alignment.center,
+          emptyMessage: S.current.noItemsFound,
+          loadingStatusNotifier: modulesProvider,
+          height: MediaQuery.of(context).size.height,
+          child: SafeArea(
+            child: Container(
+              decoration: BoxDecoration(
+                color: primaryColor,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 12),
+                    child: Header(
+                      title: "Lesson",
+                      closeItem: () => Navigator.pop(context),
                     ),
-                    Expanded(
-                      child: Container(
-                        color: Colors.white,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 25, horizontal: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                HtmlWidget(
-                                  task.description ?? "",
-                                  textStyle:
-                                      Theme.of(context).textTheme.headline4,
-                                ),
-                                SizedBox(height: 15),
-                                getTaskType(modulesProvider, task),
-                              ],
-                            ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 25, horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HtmlWidget(
+                                task.description ?? "",
+                                textStyle:
+                                    Theme.of(context).textTheme.headline4,
+                              ),
+                              SizedBox(height: 15),
+                              getTaskType(modulesProvider, task),
+                            ],
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
           ),

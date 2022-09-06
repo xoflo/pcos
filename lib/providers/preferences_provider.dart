@@ -16,6 +16,19 @@ class PreferencesProvider extends ChangeNotifier {
   bool _isUsernameUsed = false;
   bool get isUsernameUsed => _isUsernameUsed;
 
+  String get preferredDisplayName {
+    String? displayedName =
+        isUsernameUsed ? memberProvider?.alias : memberProvider?.firstName;
+
+    if (displayedName != null) {
+      return displayedName.isNotEmpty ? "Hello $displayedName" : "";
+    }
+
+    return "";
+  }
+
+  String get why => memberProvider?.why ?? "";
+
   PreferencesProvider({required this.memberProvider}) {
     if (memberProvider != null) {
       getIsShowYourWhy();
@@ -61,12 +74,5 @@ class PreferencesProvider extends ChangeNotifier {
   Future<void> saveIsUsernameUsed(final bool isOn) async {
     PreferencesController().saveBool(SharedPreferencesKeys.USERNAME_USED, isOn);
     getIsUsernameUsed();
-  }
-
-  String get preferredDisplayName {
-    String? displayedName =
-        isUsernameUsed ? memberProvider?.alias : memberProvider?.firstName;
-
-    return displayedName ?? "";
   }
 }

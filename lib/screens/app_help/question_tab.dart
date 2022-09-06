@@ -7,13 +7,9 @@ import 'package:thepcosprotocol_app/widgets/shared/question_list.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 
 class QuestionTab extends StatelessWidget {
-  final bool isHorizontal;
   final AppHelpProvider? faqProvider;
 
-  QuestionTab({
-    required this.isHorizontal,
-    this.faqProvider,
-  });
+  QuestionTab({this.faqProvider});
 
   Widget getQuestionList(final BuildContext context, final provider) {
     switch (provider.status) {
@@ -31,9 +27,7 @@ class QuestionTab extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: getQuestionList(context, faqProvider),
-    );
-  }
+  Widget build(BuildContext context) => SingleChildScrollView(
+        child: getQuestionList(context, faqProvider),
+      );
 }

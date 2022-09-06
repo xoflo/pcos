@@ -20,7 +20,7 @@ class MorePage extends StatelessWidget {
       case 0:
         return ListTile(
           contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 30),
+              EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 30),
           title: Text("Tutorial"),
           trailing: Icon(Icons.keyboard_arrow_right),
           onTap: () => Navigator.pushNamed(
@@ -34,7 +34,7 @@ class MorePage extends StatelessWidget {
       case 1:
         return ListTile(
           contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 30),
+              EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 30),
           title: Text("App help"),
           trailing: Icon(Icons.keyboard_arrow_right),
           onTap: () => Navigator.pushNamed(context, AppHelp.id),
@@ -42,7 +42,7 @@ class MorePage extends StatelessWidget {
       case 2:
         return ListTile(
           contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 30),
+              EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 30),
           title: Text("Privacy policy"),
           trailing: Icon(Icons.keyboard_arrow_right),
           onTap: () => Navigator.pushNamed(context, Privacy.id),
@@ -50,7 +50,7 @@ class MorePage extends StatelessWidget {
       case 3:
         return ListTile(
           contentPadding:
-              EdgeInsets.only(top: 20, bottom: 20, left: 15, right: 30),
+              EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 30),
           title: Text("Terms of use"),
           trailing: Icon(Icons.keyboard_arrow_right),
           onTap: () => Navigator.pushNamed(context, TermsAndConditions.id),

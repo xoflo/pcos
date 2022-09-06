@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
-import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:thepcosprotocol_app/providers/preferences_provider.dart';
+import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
 class DashboardMemberTime extends StatefulWidget {
   const DashboardMemberTime({
@@ -20,13 +19,9 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   Timer? timer;
   String asset = '';
 
-  late MemberProvider memberProvider;
-
   @override
   void initState() {
     super.initState();
-
-    memberProvider = Provider.of<MemberProvider>(context, listen: false);
 
     // Assign a day/night background the first time that the dashboard page is
     // presented
@@ -62,7 +57,15 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
   }
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context) {
+    final preferencesProvider = Provider.of<PreferencesProvider>(context);
+    final memberProvider = Provider.of<MemberProvider>(context);
+    return LoaderOverlay(
+      loadingStatusNotifier: memberProvider,
+      height: 150,
+      indicatorPosition: Alignment.center,
+      overlayBackgroundColor: Colors.transparent,
+      child: Stack(
         children: [
           Container(
             width: double.maxFinite,
@@ -74,18 +77,15 @@ class _DashboardMemberTimeState extends State<DashboardMemberTime> {
                   )
                 : null,
           ),
-          if (memberProvider.loadingStatus == LoadingStatus.success)
-            Padding(
-                padding: EdgeInsets.all(15),
-                child: Consumer<PreferencesProvider>(
-                  builder: (context, prefsProvider, child) => Text(
-                    "Hello " + prefsProvider.preferredDisplayName,
-                    style: Theme.of(context).textTheme.headline1,
-                  ),
-                ))
-          else if (asset.isEmpty ||
-              memberProvider.loadingStatus == LoadingStatus.loading)
-            PcosLoadingSpinner()
+          Padding(
+            padding: EdgeInsets.all(15),
+            child: Text(
+              preferencesProvider.preferredDisplayName,
+              style: Theme.of(context).textTheme.headline1,
+            ),
+          )
         ],
-      );
+      ),
+    );
+  }
 }
