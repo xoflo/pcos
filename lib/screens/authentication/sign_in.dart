@@ -56,20 +56,40 @@ class _SignInState extends State<SignIn> {
             await AuthenticationController().signIn(emailOrUsername, password);
 
         if (signedIn) {
-          analytics.logEvent(name: Analytics.ANALYTICS_EVENT_LOGIN);
-          //if the first use timestamp hasn't been saved, save it now
-          final int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-          PreferencesController().saveInt(
-              SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP, currentTimestamp);
-          //success - this hides the login screen and shows the pin setup screen
-          Navigator.pushReplacementNamed(context, PinSet.id);
-          //get the dateNextLessonAvailable and update in shared prefs
           final Member memberDetails = await WebServices().getMemberDetails();
-          await PreferencesController().saveString(
-              SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
-              memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ??
-                  "");
-          return;
+          switch (memberDetails.subscriptionStatus) {
+            // When the user subscription is active or they are in a trial
+            // mode, they should be able to have access to the app smoothly.
+            case SubscriptionStatus.active:
+            case SubscriptionStatus.trialing:
+            // We want to give users the grace period to give them enough time
+            // to subscribe to the app before they lose access to it altogether.
+            // Otherwise, we do not allow them to get logged in up until they
+            // pay for the subscription.
+            case SubscriptionStatus.past_due:
+              analytics.logEvent(name: Analytics.ANALYTICS_EVENT_LOGIN);
+              //if the first use timestamp hasn't been saved, save it now
+              final int currentTimestamp =
+                  DateTime.now().millisecondsSinceEpoch;
+              PreferencesController().saveInt(
+                  SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP,
+                  currentTimestamp);
+
+              await PreferencesController().saveString(
+                  SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
+                  memberDetails.dateNextLessonAvailableLocal
+                          ?.toIso8601String() ??
+                      "");
+
+              //success - this hides the login screen and shows the pin setup screen
+              Navigator.pushReplacementNamed(context, PinSet.id);
+              return;
+            default:
+              showErrorDialog = true;
+              errorMessage =
+                  "You are not currently subscribed. Please subscribe to Ovie first before using the app.";
+              break;
+          }
         } else {
           showErrorDialog = true;
           errorMessage = S.current.signinUnknownErrorText;

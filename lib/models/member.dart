@@ -17,6 +17,7 @@ class Member {
   final DateTime? dateNextLessonAvailableLocal;
   final DateTime? dateCreatedUTC;
   final List<MemberTypeTag>? typeTags;
+  final SubscriptionStatus? subscriptionStatus;
 
   Member({
     this.id,
@@ -35,6 +36,7 @@ class Member {
     this.typeTags,
     this.dateNextLessonAvailableLocal,
     this.dateCreatedUTC,
+    this.subscriptionStatus,
   });
 
   factory Member.fromJson(Map<String, dynamic> json) {
@@ -42,25 +44,43 @@ class Member {
     if (!nextLessonDateString.endsWith("Z")) {
       nextLessonDateString = "${nextLessonDateString}Z";
     }
+
+    final SubscriptionStatus subscriptionStatus =
+        SubscriptionStatus.values.firstWhere(
+      (element) =>
+          json["subscriptionStatus"] == element.toString().split('.').last,
+      orElse: () => SubscriptionStatus.empty,
+    );
     return Member(
-        id: json['id'],
-        preRegistrationCode: json['preRegistrationCode'],
-        firstName: json['firstName'],
-        lastName: json['lastName'],
-        alias: json['alias'],
-        email: json['email'],
-        twitter: json['twitter'],
-        facebook: json['facebook'],
-        countryID: json['countryID'],
-        contactPhone: json['contactPhone'],
-        adminNotes: json['adminNotes'],
-        isEmailVerified: json['isEmailVerified'],
-        isEnabled: json['isEnabled'],
-        typeTags: MemberTypeTagList.fromList(json['typeTags']).results,
-        dateNextLessonAvailableLocal:
-            DateTime.parse(nextLessonDateString).toLocal(),
-        dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']));
+      id: json['id'],
+      preRegistrationCode: json['preRegistrationCode'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      alias: json['alias'],
+      email: json['email'],
+      twitter: json['twitter'],
+      facebook: json['facebook'],
+      countryID: json['countryID'],
+      contactPhone: json['contactPhone'],
+      adminNotes: json['adminNotes'],
+      isEmailVerified: json['isEmailVerified'],
+      isEnabled: json['isEnabled'],
+      typeTags: MemberTypeTagList.fromList(json['typeTags']).results,
+      dateNextLessonAvailableLocal:
+          DateTime.parse(nextLessonDateString).toLocal(),
+      dateCreatedUTC: DateTime.parse(json['dateCreatedUTC']),
+      subscriptionStatus: subscriptionStatus,
+    );
   }
+}
+
+enum SubscriptionStatus {
+  active,
+  past_due,
+  unpaid,
+  trialing,
+  canceled,
+  empty,
 }
 /*
 "id":2,
