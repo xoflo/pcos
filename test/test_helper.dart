@@ -96,45 +96,9 @@ Future<List<dynamic>> constructMapFromFile(
       }
       return mapList;
     case TABLE_LESSON_LINK:
-      List<Map<String, Object>> mapList = [];
-      for (var item in tmpObjectsList) {
-        Map<String, Object> map = Map<String, Object>();
-        for (var moduleItem in item.entries) {
-          map[moduleItem.key] = moduleItem.value;
-        }
-        mapList.add(map);
-      }
-      return mapList;
     case TABLE_QUIZ:
-      List<Map<String, Object>> mapList = [];
-      for (var item in tmpObjectsList) {
-        Map<String, Object> map = Map<String, Object>();
-        for (var moduleItem in item.entries) {
-          map[moduleItem.key] = moduleItem.value;
-        }
-        mapList.add(map);
-      }
-      return mapList;
     case TABLE_QUIZ_QUESTION:
-      List<Map<String, Object>> mapList = [];
-      for (var item in tmpObjectsList) {
-        Map<String, Object> map = Map<String, Object>();
-        for (var moduleItem in item.entries) {
-          map[moduleItem.key] = moduleItem.value;
-        }
-        mapList.add(map);
-      }
-      return mapList;
     case TABLE_QUIZ_ANSWER:
-      List<Map<String, Object>> mapList = [];
-      for (var item in tmpObjectsList) {
-        Map<String, Object> map = Map<String, Object>();
-        for (var moduleItem in item.entries) {
-          map[moduleItem.key] = moduleItem.value;
-        }
-        mapList.add(map);
-      }
-      return mapList;
     case TABLE_RECIPE:
       List<Map<String, Object>> mapList = [];
       for (var item in tmpObjectsList) {
