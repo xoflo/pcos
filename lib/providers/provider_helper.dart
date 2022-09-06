@@ -152,8 +152,7 @@ class ProviderHelper {
       if (forceRefresh ||
           await _shouldGetDataFromAPI(dbProvider, TABLE_MODULE)) {
         //first get the Wiki items and store in local DB
-        await ProviderHelper()
-            .fetchAndSaveQuestions(dbProvider, TABLE_WIKI, TABLE_WIKI);
+        await fetchAndSaveQuestions(dbProvider, TABLE_WIKI, TABLE_WIKI);
         //now get the modules, lessons etc
         final List<ModuleExport>? moduleExport =
             await webServices.getModulesExport();

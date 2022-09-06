@@ -1,0 +1,2237 @@
+{
+    "status": "OK",
+    "message": "",
+    "info": "",
+    "payload": [
+        {
+            "lessonTaskID": 152,
+            "metaName": "quiz-10",
+            "title": "A quiz about sugar!",
+            "description": " Let&#39;s check we know about sugar! <br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-03-17T03:46:21.23"
+        },
+        {
+            "lessonTaskID": 153,
+            "metaName": "quiz-10-1",
+            "title": "When it comes to sugar, how much should we be having? ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:46:43.203"
+        },
+        {
+            "lessonTaskID": 154,
+            "metaName": "quiz-10-1-0",
+            "title": "The correct answer is C. Aim to reduce sugar intake as much as we can about 80% of the time. There’s no gram limit per day, nor are we saying you can’t ever have sugar again! We want you to get away with as much as you can in this life without it affecting your PCOS! Unfortunately, when our insulin isn’t functioning properly eating sugar has a big impact on our insulin levels, so we need to reduce sugar as much as possible (most of the time) to help maintain a stable blood sugar and support our ",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:47:28.51"
+        },
+        {
+            "lessonTaskID": 155,
+            "metaName": "quiz-10-1-1",
+            "title": "a. Strictly no sugar",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:47:38.793"
+        },
+        {
+            "lessonTaskID": 156,
+            "metaName": "quiz-10-1-2",
+            "title": "b. Sugar from fruits only are allowed",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:47:48.503"
+        },
+        {
+            "lessonTaskID": 157,
+            "metaName": "quiz-10-1-3",
+            "title": "c. Aim to reduce sugar intake as much as we can about 80% of the time ",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:48:02.63"
+        },
+        {
+            "lessonTaskID": 158,
+            "metaName": "quiz-10-1-4",
+            "title": "d. About 10g per day ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:48:12.607"
+        },
+        {
+            "lessonTaskID": 159,
+            "metaName": "quiz-10-2",
+            "title": "If we’re making low sugar baking, what is the best sweetener to use? ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:48:21.543"
+        },
+        {
+            "lessonTaskID": 160,
+            "metaName": "quiz-10-2-0",
+            "title": "The correct answer is c. sugar alcohols. This is as they have the same sweetness and properties as normal table sugar, so the baking isn’t affected. Sugar alcohols are a category of sweet carbohydrates found naturally (aim for these where possible), or processed from other sugars, but these also don’t raise insulin levels (they still have calories and carbohydrates however). Both honey and cane sugar contain high levels of sugar so would mean the baking is no longer ‘low sugar’, but rather norma",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:48:36.547"
+        },
+        {
+            "lessonTaskID": 161,
+            "metaName": "quiz-10-2-1",
+            "title": "a. Splenda (sucralose)",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:48:46.85"
+        },
+        {
+            "lessonTaskID": 162,
+            "metaName": "quiz-10-2-2",
+            "title": "b. Equal (aspartame) ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:48:55.077"
+        },
+        {
+            "lessonTaskID": 163,
+            "metaName": "quiz-10-2-3",
+            "title": "c. Sugar alcohols (e.g. erythritol) ",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:49:06.753"
+        },
+        {
+            "lessonTaskID": 164,
+            "metaName": "quiz-10-2-4",
+            "title": "d. Cane sugar ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:49:17.603"
+        },
+        {
+            "lessonTaskID": 165,
+            "metaName": "quiz-10-2-5",
+            "title": "e. Honey",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:49:23.42"
+        },
+        {
+            "lessonTaskID": 196,
+            "metaName": "quiz-12",
+            "title": "Sleep! ",
+            "description": "A little quiz to check how much you can recall about sleep! <br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:25:06.963"
+        },
+        {
+            "lessonTaskID": 198,
+            "metaName": "quiz-12-1",
+            "title": "How many hours of sleep do most people need each night to\nfunction well? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:37:40.493"
+        },
+        {
+            "lessonTaskID": 199,
+            "metaName": "quiz-12-1-0",
+            "title": "The correct answer is C. 7-9 hours of sleep each night. There is no\n‘one size fits all’, but for the majority of the population between\n7 and 9 hours is necessary to feel properly rested, and achieve\nquality sleep. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:38:06.557"
+        },
+        {
+            "lessonTaskID": 200,
+            "metaName": "quiz-12-1-1",
+            "title": "a. 12-14 hours",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:38:17.543"
+        },
+        {
+            "lessonTaskID": 201,
+            "metaName": "quiz-12-1-2",
+            "title": "b. 10-11 hours",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:38:26.147"
+        },
+        {
+            "lessonTaskID": 202,
+            "metaName": "quiz-12-1-3",
+            "title": "c. 7-9 hours",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:38:36.43"
+        },
+        {
+            "lessonTaskID": 203,
+            "metaName": "quiz-12-1-4",
+            "title": "d. 5-7 hours",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:38:47.347"
+        },
+        {
+            "lessonTaskID": 204,
+            "metaName": "quiz-12-2",
+            "title": "What percentage of the population can function with just 6\nhours of sleep each night? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:38:53.43"
+        },
+        {
+            "lessonTaskID": 205,
+            "metaName": "quiz-12-2-0",
+            "title": "The correct answer is D. 5% of the population. Only about 5% of the\npopulation have the genetic make-up that means their body can\nfunction from just 6 hours of sleep per night. For the rest of us, 6\nhours isn’t enough to achieve the rest and recovery our body and\nbrain requires after each day.<br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:39:11.513"
+        },
+        {
+            "lessonTaskID": 206,
+            "metaName": "quiz-12-2-1",
+            "title": "a. 30%",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:39:26.007"
+        },
+        {
+            "lessonTaskID": 207,
+            "metaName": "quiz-12-2-2",
+            "title": "b. 20%",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:39:34.2"
+        },
+        {
+            "lessonTaskID": 208,
+            "metaName": "quiz-12-2-3",
+            "title": "c. 10%",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:39:41.933"
+        },
+        {
+            "lessonTaskID": 209,
+            "metaName": "quiz-12-2-4",
+            "title": "d. 5%",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:39:49.25"
+        },
+        {
+            "lessonTaskID": 210,
+            "metaName": "quiz-12-2-5",
+            "title": "e. 15%",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-23T00:39:58.64"
+        },
+        {
+            "lessonTaskID": 212,
+            "metaName": "quiz-13",
+            "title": "Period chat! ",
+            "description": "Let&#39;s test our knowledge on what a period should look like! <br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:43:02.933"
+        },
+        {
+            "lessonTaskID": 213,
+            "metaName": "quiz-13-1",
+            "title": " How many days should a period last for? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:44:36.007"
+        },
+        {
+            "lessonTaskID": 214,
+            "metaName": "quiz-13-1-0",
+            "title": " The correct answer is C. Between 2-7 days, but most commonly between\n3-5 days with some spotting either side. One of these days must have\nproper flow, it cannot be spotting only. Longer than 7 days signals\nintermenstrual bleeding or an anovulatory cycle. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:44:52.43"
+        },
+        {
+            "lessonTaskID": 215,
+            "metaName": "quiz-13-1-1",
+            "title": "a. Between 4-8 days",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:45:05.307"
+        },
+        {
+            "lessonTaskID": 216,
+            "metaName": "quiz-13-1-2",
+            "title": "b. Between 1-5 days",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:45:16.077"
+        },
+        {
+            "lessonTaskID": 217,
+            "metaName": "quiz-13-1-3",
+            "title": "c. Between 2-7 days",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:45:26.36"
+        },
+        {
+            "lessonTaskID": 218,
+            "metaName": "quiz-13-1-4",
+            "title": "d. Between 2-10 days",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:45:41.583"
+        },
+        {
+            "lessonTaskID": 219,
+            "metaName": "quiz-13-2",
+            "title": "How do you know what day is a ‘period’ day (has proper flow) and what is just spotting? <br> ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:45:43.97"
+        },
+        {
+            "lessonTaskID": 340,
+            "metaName": "quiz-13-2-0",
+            "title": "\nThe correct answer is A. You should need to use at least 2 pads or tampons on a day with a proper flow. \n",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T04:09:23.223"
+        },
+        {
+            "lessonTaskID": 220,
+            "metaName": "quiz-13-2-1",
+            "title": "a. You should need to use at least 2 pads or tampons",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:46:15.41"
+        },
+        {
+            "lessonTaskID": 221,
+            "metaName": "quiz-13-2-2",
+            "title": "b. You can get away with only using underwear/panty liners",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:46:28.243"
+        },
+        {
+            "lessonTaskID": 222,
+            "metaName": "quiz-13-2-3",
+            "title": "c. You will have only used one pads or tampon within the day",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:46:40.8"
+        },
+        {
+            "lessonTaskID": 223,
+            "metaName": "quiz-13-2-4",
+            "title": "d. None of the above",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-24T00:46:48.317"
+        },
+        {
+            "lessonTaskID": 224,
+            "metaName": "quiz-14",
+            "title": "Sperm Health",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T01:59:38.48"
+        },
+        {
+            "lessonTaskID": 225,
+            "metaName": "quiz-14-1",
+            "title": " Which of these are we NOT looking at when we look at sperm in a\nclinical semen analysis? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:00:13.97"
+        },
+        {
+            "lessonTaskID": 226,
+            "metaName": "quiz-14-1-0",
+            "title": "The correct <i>(but incorrect)</i> answer is motivation. Although\nwe do hope the sperm is motivated, we can&#39;t determine this from a\nclinical analysis. Instead we can see the motility, mobility and\nconcentration of the sperm in the semen. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:15:40.113"
+        },
+        {
+            "lessonTaskID": 227,
+            "metaName": "quiz-14-1-1",
+            "title": "a. Motility",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:15:51.36"
+        },
+        {
+            "lessonTaskID": 228,
+            "metaName": "quiz-14-1-2",
+            "title": "b. Morphology",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:16:06.703"
+        },
+        {
+            "lessonTaskID": 229,
+            "metaName": "quiz-14-1-3",
+            "title": "c. Motivation",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:16:18.143"
+        },
+        {
+            "lessonTaskID": 230,
+            "metaName": "quiz-14-1-4",
+            "title": "d. Concentration",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:16:37.5"
+        },
+        {
+            "lessonTaskID": 231,
+            "metaName": "quiz-14-2",
+            "title": "In an extensive review of the literature, how much was infertility\nfound to be due to male factor fertility? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:16:41.957"
+        },
+        {
+            "lessonTaskID": 232,
+            "metaName": "quiz-14-2-0",
+            "title": "The correct answer is a. 50% of infertility is due to male\ninfertility. This is why having a sperm analysis done early in the\nstages of trying to conceive is a good idea. Doing this earlier\nmeans you can focus on making changes at the same time rather than\nwaiting 6-12 months down the road only to find more work needs to be\ndone.<br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:21:53.243"
+        },
+        {
+            "lessonTaskID": 233,
+            "metaName": "quiz-14-2-1",
+            "title": "a. 50%",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:22:02.503"
+        },
+        {
+            "lessonTaskID": 234,
+            "metaName": "quiz-14-2-2",
+            "title": "b. 5%",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:22:08.437"
+        },
+        {
+            "lessonTaskID": 235,
+            "metaName": "quiz-14-2-3",
+            "title": "c. 60%",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:22:15.727"
+        },
+        {
+            "lessonTaskID": 236,
+            "metaName": "quiz-14-2-4",
+            "title": "d. 30%",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-25T02:22:26.003"
+        },
+        {
+            "lessonTaskID": 246,
+            "metaName": "quiz-17",
+            "title": "Personalized supplements",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-17T01:10:15.513"
+        },
+        {
+            "lessonTaskID": 248,
+            "metaName": "quiz-17-1",
+            "title": "Do you need to get a blood test before supplementing with iron, vitamin D and zinc?<br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-17T01:10:30.753"
+        },
+        {
+            "lessonTaskID": 341,
+            "metaName": "quiz-17-1-0",
+            "title": "<body>\nThe correct answer is A. Yes. This is because your current levels of\nthese nutrients will inform whether you require supplementation or\nnot, and how much. Our bodies struggle to excrete (get rid of)\nexcess amounts of these nutrients, so they can build up and become\ntoxic for us. To avoid this, we always need to test that our levels\naren’t too high. If we’re low or deficient in these nutrients, we\ncan use our test results to guide how much we need to supplement to\nget us back to our functi",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T04:12:20.44"
+        },
+        {
+            "lessonTaskID": 252,
+            "metaName": "quiz-17-1-1",
+            "title": "A. Yes",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-17T01:14:38.753"
+        },
+        {
+            "lessonTaskID": 253,
+            "metaName": "quiz-17-1-2",
+            "title": "B. No",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 2,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-17T01:15:11.827"
+        },
+        {
+            "lessonTaskID": 259,
+            "metaName": "quiz-18",
+            "title": "Food Cravings and Hunger",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-06-28T04:49:24.24"
+        },
+        {
+            "lessonTaskID": 260,
+            "metaName": "quiz-18-1",
+            "title": "Select the two types of foods that our brains associate with survival and therefore crave when we’re hungry?<br>",
+            "description": "checkbox",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-28T04:49:48.573"
+        },
+        {
+            "lessonTaskID": 267,
+            "metaName": "quiz-18-1-0",
+            "title": "The correct answers are a and b. High carbohydrate / sugar and high\nfat foods. This is because carbohydrates (sugar specifically) are\nfast-acting fuels, meaning our bodies can utilize these for energy\nquickly. They also crave high fat foods as these are the most\nenergy-dense foods as fat has significantly higher calories per gram\nthan both carbohydrates and proteins. Balanced meals and foods rich\nin protein and non-starchy vegetables are just as capable of\ndelivering us the energy we need, howev",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-28T04:54:27.09"
+        },
+        {
+            "lessonTaskID": 262,
+            "metaName": "quiz-18-1-1",
+            "title": "a. High carbohydrate / sugar foods",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-28T04:52:53.507"
+        },
+        {
+            "lessonTaskID": 263,
+            "metaName": "quiz-18-1-2",
+            "title": "b. High fat foods",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 2,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-28T04:53:01.953"
+        },
+        {
+            "lessonTaskID": 264,
+            "metaName": "quiz-18-1-3",
+            "title": "c. Non-starchy vegetables",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 3,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-28T04:53:13.607"
+        },
+        {
+            "lessonTaskID": 265,
+            "metaName": "quiz-18-1-4",
+            "title": "d. Protein foods",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 4,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-28T04:53:23.533"
+        },
+        {
+            "lessonTaskID": 266,
+            "metaName": "quiz-18-1-5",
+            "title": "e. Balanced meals",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 5,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-28T04:53:37.077"
+        },
+        {
+            "lessonTaskID": 270,
+            "metaName": "quiz-20",
+            "title": "Sleep Problems",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:41:58.307"
+        },
+        {
+            "lessonTaskID": 271,
+            "metaName": "quiz-20-1",
+            "title": "What are the problems you struggle with when it comes to your sleep?<br>",
+            "description": "checkbox",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:42:22.7"
+        },
+        {
+            "lessonTaskID": 272,
+            "metaName": "quiz-20-1-1",
+            "title": "Problem #1 - \"I’m tired but wired” ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:44:14.273"
+        },
+        {
+            "lessonTaskID": 274,
+            "metaName": "quiz-20-1-2",
+            "title": "Problem #2 - “I wake during the night”",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:44:51.843"
+        },
+        {
+            "lessonTaskID": 276,
+            "metaName": "quiz-20-1-3",
+            "title": "Problem #3 - “I wake up feeling tired”",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:46:00.007"
+        },
+        {
+            "lessonTaskID": 278,
+            "metaName": "quiz-20-1-4",
+            "title": "Problem #4 - “My sleeping problems happen the week before my period” ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:46:27.897"
+        },
+        {
+            "lessonTaskID": 280,
+            "metaName": "quiz-20-1-5",
+            "title": "Problem #5 - “I struggle to get to sleep or stay asleep constantly”",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:46:56.797"
+        },
+        {
+            "lessonTaskID": 282,
+            "metaName": "quiz-20-1-6",
+            "title": "Problem #6 - I feel myself getting excessively sleepy during the day, and I can snore loudly",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 60,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:47:18.083"
+        },
+        {
+            "lessonTaskID": 284,
+            "metaName": "quiz-21",
+            "title": "Sleep Hygeine",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T03:59:32.887"
+        },
+        {
+            "lessonTaskID": 285,
+            "metaName": "quiz-21-1",
+            "title": "White light can affect our natural melatonin production, which can interfere with our natural sleepiness signals. What can we do to reduce the effect of white light on our sleep?<br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:03:03.143"
+        },
+        {
+            "lessonTaskID": 297,
+            "metaName": "quiz-21-1-0",
+            "title": "The correct answer is D. All of the above can help reduce the white light we experience in the lead up to sleep. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:07:07.74"
+        },
+        {
+            "lessonTaskID": 286,
+            "metaName": "quiz-21-1-1",
+            "title": "a. Put our devices to sleep 30 minutes before we put ourselves to bed",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:03:45.86"
+        },
+        {
+            "lessonTaskID": 287,
+            "metaName": "quiz-21-1-2",
+            "title": "b. Create a dark room environment (dim lights, black out curtains)",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:03:58.923"
+        },
+        {
+            "lessonTaskID": 288,
+            "metaName": "quiz-21-1-3",
+            "title": "c. Create a wind-down routine to prepare for sleep",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:04:11.31"
+        },
+        {
+            "lessonTaskID": 289,
+            "metaName": "quiz-21-1-4",
+            "title": "d. All of the above",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:04:22.243"
+        },
+        {
+            "lessonTaskID": 291,
+            "metaName": "quiz-21-2",
+            "title": "You’re feeling anxious or stressed and you can’t get to sleep. What is something you could do to alleviate your feelings of stress? ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:04:47.33"
+        },
+        {
+            "lessonTaskID": 296,
+            "metaName": "quiz-21-2-0",
+            "title": "The correct answer is A. Keep a pen and paper on your bedside table to note down anything you’re worrying about. This can help remove the stress that you’ll forget about it. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:06:04.047"
+        },
+        {
+            "lessonTaskID": 292,
+            "metaName": "quiz-21-2-1",
+            "title": "a. Keep a pen and paper on your bedside table to note down anything you’re worrying about ",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:05:11.59"
+        },
+        {
+            "lessonTaskID": 293,
+            "metaName": "quiz-21-2-2",
+            "title": "b. Think about it more so that it might go away",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:05:26.797"
+        },
+        {
+            "lessonTaskID": 294,
+            "metaName": "quiz-21-2-3",
+            "title": "c. Count sheep",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:05:38.013"
+        },
+        {
+            "lessonTaskID": 295,
+            "metaName": "quiz-21-2-4",
+            "title": "d. All of the above",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-29T04:05:48.893"
+        },
+        {
+            "lessonTaskID": 305,
+            "metaName": "quiz-23",
+            "title": "Exercise for ME",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:16:56.123"
+        },
+        {
+            "lessonTaskID": 306,
+            "metaName": "quiz-23-1",
+            "title": "What’s the best exercise for me?<br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:17:17.473"
+        },
+        {
+            "lessonTaskID": 312,
+            "metaName": "quiz-23-1-0",
+            "title": "The correct answer is E. All of the above. The best exercise is one that you will continue to do for life, so enjoyment is key! It shouldn’t leave you feeling terribly tired but motivated and energised, and it can help to build strength and flexibility in your muscles and can even improve your balance. Sign us up! <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:18:55.48"
+        },
+        {
+            "lessonTaskID": 307,
+            "metaName": "quiz-23-1-1",
+            "title": "a. One that I enjoy",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:17:50.593"
+        },
+        {
+            "lessonTaskID": 308,
+            "metaName": "quiz-23-1-2",
+            "title": "b. One that makes me feel energised",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:18:05.72"
+        },
+        {
+            "lessonTaskID": 309,
+            "metaName": "quiz-23-1-3",
+            "title": "c. One that strengthens my muscles ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:18:19.85"
+        },
+        {
+            "lessonTaskID": 310,
+            "metaName": "quiz-23-1-4",
+            "title": "d. One that helps my flexibility and balance",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:18:33.58"
+        },
+        {
+            "lessonTaskID": 311,
+            "metaName": "quiz-23-1-5",
+            "title": "e. All of the above",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:18:43.757"
+        },
+        {
+            "lessonTaskID": 313,
+            "metaName": "quiz-24",
+            "title": "Exercise Guidelines",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:38:41.987"
+        },
+        {
+            "lessonTaskID": 314,
+            "metaName": "quiz-24-1",
+            "title": "What is progressive overload? ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:38:57.637"
+        },
+        {
+            "lessonTaskID": 315,
+            "metaName": "quiz-24-1-0",
+            "title": "The correct answer is D. A way to build muscle strength through continuing to increase the intensity of the reps you’re doing. It is a technique to build strength during resistance training. This might be through increasing your reps, the weights you use, slowing down reps to build more tension in the muscle, or incorporating pulses or shortening your period to rest between sets. You don’t need weight equipment as you can use rep timing or rest periods to progressively overload your body weight ",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:39:22.393"
+        },
+        {
+            "lessonTaskID": 316,
+            "metaName": "quiz-24-1-1",
+            "title": "a. Doing the exact same exercise circuit each week ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:39:35.883"
+        },
+        {
+            "lessonTaskID": 317,
+            "metaName": "quiz-24-1-2",
+            "title": "b. An exercise that can only be done with weights equipment ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:39:51.037"
+        },
+        {
+            "lessonTaskID": 318,
+            "metaName": "quiz-24-1-3",
+            "title": "c. A type of HIIT exercise ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:40:01.66"
+        },
+        {
+            "lessonTaskID": 319,
+            "metaName": "quiz-24-1-4",
+            "title": "d. A way to build muscle strength through continuing to increase the intensity of the reps you’re doing ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:40:15.003"
+        },
+        {
+            "lessonTaskID": 320,
+            "metaName": "quiz-24-2",
+            "title": "Which of the following is not a type of low intensity cardio exercise? ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:41:02.743"
+        },
+        {
+            "lessonTaskID": 321,
+            "metaName": "quiz-24-2-0",
+            "title": "The correct answer is E, as weight-lifting falls under resistance training. Jogging, brisk walking, swimming and dancing are all great options of low intensity cardio exercise.<br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:43:54.213"
+        },
+        {
+            "lessonTaskID": 322,
+            "metaName": "quiz-24-2-1",
+            "title": "a. Jogging",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:44:23.1"
+        },
+        {
+            "lessonTaskID": 323,
+            "metaName": "quiz-24-2-2",
+            "title": "b. Brisk walking",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:44:33.21"
+        },
+        {
+            "lessonTaskID": 324,
+            "metaName": "quiz-24-2-3",
+            "title": "c. Swimming",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:44:43.713"
+        },
+        {
+            "lessonTaskID": 325,
+            "metaName": "quiz-24-2-4",
+            "title": "d. Dancing",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:44:53.313"
+        },
+        {
+            "lessonTaskID": 326,
+            "metaName": "quiz-24-2-5",
+            "title": "e. Weight training",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T02:45:05.517"
+        },
+        {
+            "lessonTaskID": 328,
+            "metaName": "quiz-25",
+            "title": "Carbohydrates ",
+            "description": "A quiz to reinforce our learnings on carbs! ",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T03:51:38.583"
+        },
+        {
+            "lessonTaskID": 329,
+            "metaName": "quiz-25-1",
+            "title": "Which statement is not true about carbohydrates and your root cause? <br> ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T03:52:04.727"
+        },
+        {
+            "lessonTaskID": 330,
+            "metaName": "quiz-25-1-0",
+            "title": " The correct (or incorrect in this case) answer is D. You shouldn’t\neat carbohydrates at breakfast due to your insulin. This is\nincorrect as insulin is not the root cause for your PCOS (despite\nthis being the case for 80% of people with PCOS). Instead, it’s\nimportant to include carbohydrates at breakfast when stress hormones\nare at play, as skipping an entire food group, in this case carbs,\ncan increase our cortisol levels which in turn further affects our\nhormones that govern ovulation and driv",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T03:52:36.873"
+        },
+        {
+            "lessonTaskID": 331,
+            "metaName": "quiz-25-1-1",
+            "title": "a. Reduced carbohydrates can increase our cortisol levels ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T03:52:59.397"
+        },
+        {
+            "lessonTaskID": 332,
+            "metaName": "quiz-25-1-2",
+            "title": "b. Reduced carbohydrates can cause amenorrhea (loss of periods)",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T03:53:13.357"
+        },
+        {
+            "lessonTaskID": 333,
+            "metaName": "quiz-25-1-3",
+            "title": "c. At least 30% of your daily calories should come from carbohydrates",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T03:53:25.1"
+        },
+        {
+            "lessonTaskID": 334,
+            "metaName": "quiz-25-1-4",
+            "title": "You shouldn’t eat carbohydrates at breakfast due to your insulin",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-06-30T03:53:36.607"
+        },
+        {
+            "lessonTaskID": 342,
+            "metaName": "quiz-26",
+            "title": "How does exercise make you feel?",
+            "description": "",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:21:40.663"
+        },
+        {
+            "lessonTaskID": 343,
+            "metaName": "quiz-26-1",
+            "title": "Which of these best resonate with how exercise makes you feel?<br>",
+            "description": "checkbox",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:22:13.3"
+        },
+        {
+            "lessonTaskID": 344,
+            "metaName": "quiz-26-1-1",
+            "title": "a. Energised",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:22:55.773"
+        },
+        {
+            "lessonTaskID": 345,
+            "metaName": "quiz-26-1-1-0",
+            "title": "Awesome, we love that! Keep this in mind next time you’re feeling a little sluggish, or when you need some workout motivation! <br>",
+            "description": "",
+            "taskType": "quiz-answer-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:22:55.97"
+        },
+        {
+            "lessonTaskID": 346,
+            "metaName": "quiz-26-1-2",
+            "title": "b. De-stressed",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:23:15.893"
+        },
+        {
+            "lessonTaskID": 347,
+            "metaName": "quiz-26-1-2-0",
+            "title": "Awesome, we love that! Keep this in mind next time you feel a little stressed or irritated, or when you need some workout motivation!<br>",
+            "description": "",
+            "taskType": "quiz-answer-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:23:16.107"
+        },
+        {
+            "lessonTaskID": 348,
+            "metaName": "quiz-26-1-3",
+            "title": "Productive",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:23:37.807"
+        },
+        {
+            "lessonTaskID": 349,
+            "metaName": "quiz-26-1-3-0",
+            "title": "Awesome, we love that! Keep this in mind next time you feel like you’re pushing sand up a hill and need something to go your way! Or when you need some workout motivation!<br>",
+            "description": "",
+            "taskType": "quiz-answer-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:23:38.01"
+        },
+        {
+            "lessonTaskID": 350,
+            "metaName": "quiz-26-1-4",
+            "title": "Accomplished",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:24:06.263"
+        },
+        {
+            "lessonTaskID": 351,
+            "metaName": "quiz-26-1-4-0",
+            "title": "Awesome, we love that! Keep this in mind next time you need some workout motivation!<br>",
+            "description": "",
+            "taskType": "quiz-answer-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:24:06.457"
+        },
+        {
+            "lessonTaskID": 352,
+            "metaName": "quiz-26-1-5",
+            "title": "Tired",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:24:26.443"
+        },
+        {
+            "lessonTaskID": 353,
+            "metaName": "quiz-26-1-5-0",
+            "title": "If you find you’re still quite exhausted 15 minutes after you finish your workout you might be overdoing it. You should have recovered from the exertion of the workout within about 10 minutes. <br>",
+            "description": "",
+            "taskType": "quiz-answer-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-07-01T03:24:26.64"
+        },
+        {
+            "lessonTaskID": 51,
+            "metaName": "quiz-3",
+            "title": "All About Breakfast Quiz ",
+            "description": " Let&#39;s recap on what we&#39;ve learnt about breakfast! <br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-03-10T01:04:34.177"
+        },
+        {
+            "lessonTaskID": 52,
+            "metaName": "quiz-3-1",
+            "title": "How much protein are we aiming for at breakfast? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:15:42.27"
+        },
+        {
+            "lessonTaskID": 58,
+            "metaName": "quiz-3-1-0",
+            "title": "The correct answer is D. 40-50g of protein at breakfast as this\nis the amount that we’ve found is best for stabilizing your blood\nsugar. As a bonus it also keeps you fuller for longer and gives you\nmore stable energy throughout the day!<br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:17:35.723"
+        },
+        {
+            "lessonTaskID": 53,
+            "metaName": "quiz-3-1-1",
+            "title": "a. 10-20g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:16:45.583"
+        },
+        {
+            "lessonTaskID": 54,
+            "metaName": "quiz-3-1-2",
+            "title": "b. 15-25g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:16:52.5"
+        },
+        {
+            "lessonTaskID": 55,
+            "metaName": "quiz-3-1-3",
+            "title": "c. 30-40g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:17:01.037"
+        },
+        {
+            "lessonTaskID": 56,
+            "metaName": "quiz-3-1-4",
+            "title": "d. 40-50g",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:17:11.787"
+        },
+        {
+            "lessonTaskID": 57,
+            "metaName": "quiz-3-1-5",
+            "title": "e. 70-90g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:17:24.547"
+        },
+        {
+            "lessonTaskID": 59,
+            "metaName": "quiz-3-2",
+            "title": "When do we suggest eating breakfast?",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:17:42.07"
+        },
+        {
+            "lessonTaskID": 60,
+            "metaName": "quiz-3-2-0",
+            "title": "The correct answer is B. Within 1 hour of waking. This is as the\nresearch shows us that consuming food shortly after we wake can\npositively affect impact things like our testosterone levels, sex\nhormone binding globulin (SHBG), insulin and ovulation. Within an\nhour of waking is the most effective (and realistic) time to eat\nwithin. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:18:10.59"
+        },
+        {
+            "lessonTaskID": 61,
+            "metaName": "quiz-3-2-1",
+            "title": "a. Immediately!!!",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:18:30.807"
+        },
+        {
+            "lessonTaskID": 62,
+            "metaName": "quiz-3-2-2",
+            "title": "b. Within 1 hour of waking",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:18:49.733"
+        },
+        {
+            "lessonTaskID": 63,
+            "metaName": "quiz-3-2-3",
+            "title": "c. Within 3 hours of waking",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:18:59.863"
+        },
+        {
+            "lessonTaskID": 64,
+            "metaName": "quiz-3-2-4",
+            "title": "d. There is no time limit",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:19:38.967"
+        },
+        {
+            "lessonTaskID": 65,
+            "metaName": "quiz-4",
+            "title": "Protein Powder Quiz ",
+            "description": " Let&#39;s see what we&#39;ve learnt about protein powders! <br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-03-10T01:19:53.563"
+        },
+        {
+            "lessonTaskID": 66,
+            "metaName": "quiz-4-1",
+            "title": "Unsweetened protein is the best option, but if we’re opting for a\nflavoured, sweetened powder what is the best to go for? <br>\nCane sugar<br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T01:21:02.393"
+        },
+        {
+            "lessonTaskID": 67,
+            "metaName": "quiz-4-1-0",
+            "title": " The correct answer is D. sweeteners like stevia, monk fruit or\nthaumatin as these sweeteners come from a natural source and don’t\nstimulate insulin. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:40:44.51"
+        },
+        {
+            "lessonTaskID": 68,
+            "metaName": "quiz-4-1-1",
+            "title": "a. Cane sugar",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:44:39.523"
+        },
+        {
+            "lessonTaskID": 69,
+            "metaName": "quiz-4-1-2",
+            "title": "b. Sugar alcohols (e.g. xylitol)",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:44:52.317"
+        },
+        {
+            "lessonTaskID": 70,
+            "metaName": "quiz-4-1-3",
+            "title": "c. Artificial sweeteners like aspartame (e951)",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:45:08.147"
+        },
+        {
+            "lessonTaskID": 71,
+            "metaName": "quiz-4-1-4",
+            "title": "d. Natural sweeteners like stevia, monk fruit or thaumatin",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:45:29.233"
+        },
+        {
+            "lessonTaskID": 72,
+            "metaName": "quiz-4-2",
+            "title": "How many grams of carbohydrates are we aiming for our protein to\nbe under per serve? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:48:10.783"
+        },
+        {
+            "lessonTaskID": 73,
+            "metaName": "quiz-4-2-0",
+            "title": " The correct answer is D. less than 2g. We suggest a low carbohydrate\noption at breakfast as we’re limiting our carbohydrate intake at\nbreakfast to avoid a big insulin spike in the morning. Under 4g per\nserve is okay, but under 2g is best. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:48:34.967"
+        },
+        {
+            "lessonTaskID": 74,
+            "metaName": "quiz-4-2-1",
+            "title": "Less than 10g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:48:50.773"
+        },
+        {
+            "lessonTaskID": 75,
+            "metaName": "quiz-4-2-2",
+            "title": "Less than 8g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:49:02.953"
+        },
+        {
+            "lessonTaskID": 76,
+            "metaName": "quiz-4-2-3",
+            "title": "Less than 2g",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:49:10.883"
+        },
+        {
+            "lessonTaskID": 77,
+            "metaName": "quiz-4-2-4",
+            "title": "Less than 6g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T02:49:19.957"
+        },
+        {
+            "lessonTaskID": 78,
+            "metaName": "quiz-5",
+            "title": "Dairy Quiz",
+            "description": "A little quiz about dairy!<br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-03-10T03:06:54.96"
+        },
+        {
+            "lessonTaskID": 79,
+            "metaName": "quiz-5-1",
+            "title": "If you were out for coffee with friends, and looking to reduce your\ndairy intake, what would be the best alternative milk choice to go\nfor? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:07:11.993"
+        },
+        {
+            "lessonTaskID": 80,
+            "metaName": "quiz-5-1-0",
+            "title": "The correct answer is B unsweetened almond milk. This is because\nunsweetened almond milk (or another unsweetened nut milk) will be\nthe least insulin-stimulating, as well as a dairy-free option.&nbsp;\n<br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:07:28.84"
+        },
+        {
+            "lessonTaskID": 81,
+            "metaName": "quiz-5-1-1",
+            "title": "a. Dairy milk",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:07:42.507"
+        },
+        {
+            "lessonTaskID": 82,
+            "metaName": "quiz-5-1-2",
+            "title": "b. Unsweetened almond milk",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:07:54.8"
+        },
+        {
+            "lessonTaskID": 83,
+            "metaName": "quiz-5-1-3",
+            "title": "c. Oat milk ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:08:17.247"
+        },
+        {
+            "lessonTaskID": 84,
+            "metaName": "quiz-5-1-4",
+            "title": "d. Soy milk (could be sweetened, it’s hard to tell!)",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:08:24.46"
+        },
+        {
+            "lessonTaskID": 85,
+            "metaName": "quiz-5-2",
+            "title": "Which of the following are the least insulin-stimulating of dairy\nfoods?<br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:09:04.35"
+        },
+        {
+            "lessonTaskID": 86,
+            "metaName": "quiz-5-2-0",
+            "title": " The correct answer is D. hard cheddar cheese. This is because it is\nharder cheese, along with other higher fat dairy products like\nbutter and cream (in small quantities) has shown to have less of an\neffect on our insulin. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:09:18.653"
+        },
+        {
+            "lessonTaskID": 87,
+            "metaName": "quiz-5-2-1",
+            "title": "a. Fresh mozzarella cheese",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:09:42.957"
+        },
+        {
+            "lessonTaskID": 88,
+            "metaName": "quiz-5-2-2",
+            "title": "b. Greek yogurt",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:09:50.183"
+        },
+        {
+            "lessonTaskID": 89,
+            "metaName": "quiz-5-2-3",
+            "title": "c. Trim milk",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:10:11.767"
+        },
+        {
+            "lessonTaskID": 90,
+            "metaName": "quiz-5-2-4",
+            "title": "d. Small amounts of hard cheddar cheese",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:10:28.05"
+        },
+        {
+            "lessonTaskID": 92,
+            "metaName": "quiz-6",
+            "title": "Breakfast Quiz ",
+            "description": "A quiz to recap what we&#39;ve learnt about breakfast!<br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:28:48.157"
+        },
+        {
+            "lessonTaskID": 93,
+            "metaName": "quiz-6-1",
+            "title": "How much protein are we aiming for at breakfast? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:29:18.573"
+        },
+        {
+            "lessonTaskID": 94,
+            "metaName": "quiz-6-1-0",
+            "title": "The correct answer is C. 30-40g of protein at breakfast as this\nis the amount that we’ve found is best for improving our energy\nthroughout the day to avoid 3pm energy slumps, sugar cravings and\nhangry attacks. As a bonus it also keeps you fuller for longer and\ngives you more stable energy throughout the day!<br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:29:42.477"
+        },
+        {
+            "lessonTaskID": 95,
+            "metaName": "quiz-6-1-1",
+            "title": "a. 10-20g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:30:03.743"
+        },
+        {
+            "lessonTaskID": 96,
+            "metaName": "quiz-6-1-2",
+            "title": "b. 15-25g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:30:20.04"
+        },
+        {
+            "lessonTaskID": 97,
+            "metaName": "quiz-6-1-3",
+            "title": "c. 30-40g",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:30:35.137"
+        },
+        {
+            "lessonTaskID": 98,
+            "metaName": "quiz-6-1-4",
+            "title": "d. 40-50g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:30:47.617"
+        },
+        {
+            "lessonTaskID": 99,
+            "metaName": "quiz-6-1-5",
+            "title": "e. 70-90g",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:31:01.593"
+        },
+        {
+            "lessonTaskID": 100,
+            "metaName": "quiz-6-2",
+            "title": "What’s a good example of a complex carb? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:32:15.887"
+        },
+        {
+            "lessonTaskID": 105,
+            "metaName": "quiz-6-2-0",
+            "title": "The correct answer is A. wholegrain oats. Wholegrain oats are a\ncomplex carb because they are slowly broken down by your body which\nhelps keep your energy more stable for longer. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:33:44.98"
+        },
+        {
+            "lessonTaskID": 101,
+            "metaName": "quiz-6-2-1",
+            "title": "a. Wholegrain oats",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:32:55.393"
+        },
+        {
+            "lessonTaskID": 102,
+            "metaName": "quiz-6-2-2",
+            "title": "b. White bread",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:33:14.147"
+        },
+        {
+            "lessonTaskID": 103,
+            "metaName": "quiz-6-2-3",
+            "title": "c. Orange juice",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:33:24.51"
+        },
+        {
+            "lessonTaskID": 104,
+            "metaName": "quiz-6-2-4",
+            "title": "d. Puffed rice cereals",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:33:39.507"
+        },
+        {
+            "lessonTaskID": 107,
+            "metaName": "quiz-6-4",
+            "title": " When do we suggest eating breakfast? <br>",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:34:00.653"
+        },
+        {
+            "lessonTaskID": 108,
+            "metaName": "quiz-6-4-0",
+            "title": "The correct answer is B. Within an hour of waking. This is as the\nresearch shows us that consuming food shortly after we wake can\npositively affect impact things like our testosterone levels, sex\nhormone binding globulin (SHBG), insulin and ovulation. Within an\nhour of waking is the most effective (and realistic) time to eat\nwithin. <br>",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:34:12.747"
+        },
+        {
+            "lessonTaskID": 109,
+            "metaName": "quiz-6-4-1",
+            "title": "a. Immediately!!!",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:34:24.64"
+        },
+        {
+            "lessonTaskID": 110,
+            "metaName": "quiz-6-4-2",
+            "title": "b. Within 1 hour of waking",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:34:34.553"
+        },
+        {
+            "lessonTaskID": 111,
+            "metaName": "quiz-6-4-3",
+            "title": "c. Within 3 hours of waking",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:34:48.91"
+        },
+        {
+            "lessonTaskID": 112,
+            "metaName": "quiz-6-4-4",
+            "title": "d. There is no time limit",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-10T03:34:59.95"
+        },
+        {
+            "lessonTaskID": 117,
+            "metaName": "quiz-7",
+            "title": "Lunch and Dinner Quiz! ",
+            "description": " A quick recap on lunch and dinner! <br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-03-17T02:06:57.143"
+        },
+        {
+            "lessonTaskID": 118,
+            "metaName": "quiz-7-1",
+            "title": "What makes a meal nutritionally balanced?",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:07:47.683"
+        },
+        {
+            "lessonTaskID": 119,
+            "metaName": "quiz-7-1-0",
+            "title": "The correct answer is B. It has plenty of veggies, as well as a portion of carbs and protein, as well as some healthy fats. This is because our bodies need all of these macronutrients to function optimally. Whole foods like veggies, meats, whole grains and fruits also deliver plenty of vitamins, minerals, antioxidants and fiber which also are important for our body. A varied and balanced meal is the best way to fuel our body and get a range of nutrients. ",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:10:51.477"
+        },
+        {
+            "lessonTaskID": 120,
+            "metaName": "quiz-7-1-1",
+            "title": "a. Even distribution of food across the plate",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:11:05.113"
+        },
+        {
+            "lessonTaskID": 121,
+            "metaName": "quiz-7-1-2",
+            "title": "b. It has plenty of veggies, as well as a portion of carbs and protein, as well as some healthy fats from whole foods",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:11:21.463"
+        },
+        {
+            "lessonTaskID": 122,
+            "metaName": "quiz-7-1-3",
+            "title": "c. It has no carbs, but plenty of fats and proteins",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:11:32.777"
+        },
+        {
+            "lessonTaskID": 123,
+            "metaName": "quiz-7-1-4",
+            "title": "d. It has no fat, but plenty of carbs and protein",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:11:45.407"
+        },
+        {
+            "lessonTaskID": 124,
+            "metaName": "quiz-7-2",
+            "title": "Why do we have carbohydrates at lunch and dinner?",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:12:27.16"
+        },
+        {
+            "lessonTaskID": 125,
+            "metaName": "quiz-7-2-0",
+            "title": "The correct answer is D. All of the above. Carbohydrates are an extremely important nutrient for our bodies, and are our body’s main source of energy. We only recommend eating little to no carbs at breakfast, as this has shown to have a big impact on our blood sugar stability across the rest of the day. We do encourage you to eat a moderate portion of carbohydrates in your lunch and dinner meals as a part of a balanced meal, as protein, fat and veggies can help reduce the effect on our insulin.",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:12:46.463"
+        },
+        {
+            "lessonTaskID": 126,
+            "metaName": "quiz-7-2-1",
+            "title": "a. Because carbohydrates are an important fuel or energy source for our brains and muscles",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:12:58.787"
+        },
+        {
+            "lessonTaskID": 127,
+            "metaName": "quiz-7-2-2",
+            "title": "b. Because carbohydrates, when eaten with veggies, proteins and fats have less of an effect on our insulin and blood sugars",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:13:14.517"
+        },
+        {
+            "lessonTaskID": 128,
+            "metaName": "quiz-7-2-3",
+            "title": "c. Because we don’t advocate a ‘no carb’ diet",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:13:32.197"
+        },
+        {
+            "lessonTaskID": 129,
+            "metaName": "quiz-7-2-4",
+            "title": "d. All of the above",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:13:43.407"
+        },
+        {
+            "lessonTaskID": 130,
+            "metaName": "quiz-8",
+            "title": "Veggies veggies veggies! ",
+            "description": " A quiz about non-starchy veggies! <br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-03-17T02:29:44.98"
+        },
+        {
+            "lessonTaskID": 131,
+            "metaName": "quiz-8-1",
+            "title": "Why are non-starchy veggies important?",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:31:01.747"
+        },
+        {
+            "lessonTaskID": 132,
+            "metaName": "quiz-8-1-0",
+            "title": "The correct answer is E. All of the above. We look to non-starchy veggies for variety in our diet, to help fill us up and provide us with plenty of essential nutrients like vitamins, minerals and fiber. ",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:31:45.747"
+        },
+        {
+            "lessonTaskID": 133,
+            "metaName": "quiz-8-1-1",
+            "title": "a. Satiety",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:31:57.157"
+        },
+        {
+            "lessonTaskID": 134,
+            "metaName": "quiz-8-1-2",
+            "title": "b. Nutrients",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:32:05.61"
+        },
+        {
+            "lessonTaskID": 135,
+            "metaName": "quiz-8-1-3",
+            "title": "c. Food variety",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:32:17.87"
+        },
+        {
+            "lessonTaskID": 136,
+            "metaName": "quiz-8-1-4",
+            "title": "d. Fiber",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:32:23.86"
+        },
+        {
+            "lessonTaskID": 137,
+            "metaName": "quiz-8-1-5",
+            "title": "e. All of the above",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 50,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:32:31.527"
+        },
+        {
+            "lessonTaskID": 138,
+            "metaName": "quiz-8-2",
+            "title": "Which meals should we aim to include non-starchy vegetables in? ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:32:43.72"
+        },
+        {
+            "lessonTaskID": 139,
+            "metaName": "quiz-8-2-0",
+            "title": "The correct answer is C. As many meals as possible (including snacks). We aim to have some non-starchy veggies in as many meals as we can to help keep us feeling full and deliver us plenty of nutritional goodness. They also taste delicious!",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:32:55.073"
+        },
+        {
+            "lessonTaskID": 140,
+            "metaName": "quiz-8-2-1",
+            "title": "a. Lunch only",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:33:06.73"
+        },
+        {
+            "lessonTaskID": 141,
+            "metaName": "quiz-8-2-2",
+            "title": "b. Lunch and dinner only",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:33:21.69"
+        },
+        {
+            "lessonTaskID": 142,
+            "metaName": "quiz-8-2-3",
+            "title": "c. As many meals as possible (including snacks)",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:33:26.727"
+        },
+        {
+            "lessonTaskID": 143,
+            "metaName": "quiz-8-2-4",
+            "title": "d. Breakfast only",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T02:33:36.093"
+        },
+        {
+            "lessonTaskID": 144,
+            "metaName": "quiz-9",
+            "title": "Mindful Eating Quiz",
+            "description": " Let&#39;s test your knowledge on mindful eating!<br>",
+            "taskType": "quiz",
+            "orderIndex": 0,
+            "isComplete": true,
+            "dateCreatedUTC": "2022-03-17T03:41:10.27"
+        },
+        {
+            "lessonTaskID": 146,
+            "metaName": "quiz-9-1",
+            "title": "Which of the below is NOT practised when mindful eating? ",
+            "description": "radio",
+            "taskType": "quiz-question",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:45:09.487"
+        },
+        {
+            "lessonTaskID": 151,
+            "metaName": "quiz-9-1-0",
+            "title": "The correct answer is C. Using devices to search the internet during meal times distract us from the task of eating. We suggest trying device-free meal times to avoid the temptation of searching or scrolling!",
+            "description": "",
+            "taskType": "quiz-question-resp",
+            "orderIndex": 1,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:46:12.193"
+        },
+        {
+            "lessonTaskID": 147,
+            "metaName": "quiz-9-1-1",
+            "title": "a. Putting down the knife and fork between bites",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 10,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:45:27.18"
+        },
+        {
+            "lessonTaskID": 148,
+            "metaName": "quiz-9-1-2",
+            "title": "b. Speaking to the person you’re eating with",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 20,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:45:40.793"
+        },
+        {
+            "lessonTaskID": 149,
+            "metaName": "quiz-9-1-3",
+            "title": "c. Checking tomorrow’s weather online ",
+            "description": "true",
+            "taskType": "quiz-answer",
+            "orderIndex": 30,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:45:53.38"
+        },
+        {
+            "lessonTaskID": 150,
+            "metaName": "quiz-9-1-4",
+            "title": "d. Noticing how the food crunches when you bite ",
+            "description": "false",
+            "taskType": "quiz-answer",
+            "orderIndex": 40,
+            "isComplete": false,
+            "dateCreatedUTC": "2022-03-17T03:46:03.48"
+        }
+    ]
+}

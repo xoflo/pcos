@@ -1,24 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:thepcosprotocol_app/constants/loading_status.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
-import 'package:thepcosprotocol_app/models/lesson.dart';
-import 'package:thepcosprotocol_app/models/lesson_content.dart';
-import 'package:thepcosprotocol_app/models/module.dart';
-import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
-import 'package:thepcosprotocol_app/models/quiz.dart';
-import 'package:thepcosprotocol_app/models/quiz_answer.dart';
-import 'package:thepcosprotocol_app/models/quiz_question.dart';
-import 'package:thepcosprotocol_app/providers/modules_provider.dart';
-import 'package:thepcosprotocol_app/providers/database_provider.dart';
-import 'package:thepcosprotocol_app/models/question.dart';
-import 'package:thepcosprotocol_app/providers/provider_helper.dart';
-import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:thepcosprotocol_app/constants/table_names.dart';
-import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
-import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
-    as SharedPreferencesKeys;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -26,10 +8,30 @@ import 'package:mockito/mockito.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+import 'package:thepcosprotocol_app/constants/loading_status.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/lesson_content.dart';
+import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/models/modules_and_lessons.dart';
+import 'package:thepcosprotocol_app/models/quiz.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/models/question.dart';
+import 'package:thepcosprotocol_app/providers/provider_helper.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
+import 'package:thepcosprotocol_app/constants/table_names.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import 'test_helper.dart';
+
 import 'modules_provider_test.mocks.dart';
 
 /// Run
 /// flutter packages pub run build_runner build --delete-conflicting-outputs
+/// or
+/// flutter pub run build_runner build --delete-conflicting-outputs
 /// when mocks change
 @GenerateMocks([
   DatabaseProvider,
@@ -71,7 +73,9 @@ void main() {
           true);
 
       const LESSON_ID_WITH_CONTENTS = 26;
-      expect(modulesProvider.getLessonContent(LESSON_ID_WITH_CONTENTS).length > 0, true,
+      expect(
+          modulesProvider.getLessonContent(LESSON_ID_WITH_CONTENTS).length > 0,
+          true,
           reason: "length of lessonContents should not be zero");
 
       expect(modulesProvider.loadingStatus, LoadingStatus.success,
@@ -201,12 +205,14 @@ Future<MockProviderHelper> _mockProviderHelper(
 Future<MockProviderHelper> _mockProviderHelperFetchAndSaveModuleExport(
     MockProviderHelper providerHelper,
     MockDatabaseProvider mockDatabaseProvider) async {
-  List<Lesson> lessons = await _constructListFromFile("Lesson") as List<Lesson>;
+  List<Lesson> lessons = 
+      await constructListFromFile("Lesson") as List<Lesson>;
   List<LessonContent> lessonContents =
-      await _constructListFromFile("LessonContent") as List<LessonContent>;
+      await constructListFromFile("LessonContent") as List<LessonContent>;
   List<Quiz> lessonQuizzes =
-      await _constructListFromFile("LessonQuiz") as List<Quiz>;
-  List<Module> modules = await _constructListFromFile("Module") as List<Module>;
+      await constructListFromFile("LessonQuiz") as List<Quiz>;
+  List<Module> modules = 
+      await constructListFromFile("Module") as List<Module>;
 
   ModulesAndLessons modulesAndLessons = ModulesAndLessons(
       lessonContent: lessonContents,
@@ -224,37 +230,4 @@ Future<MockProviderHelper> _mockProviderHelperFetchAndSaveModuleExport(
       .thenAnswer((_) => new Future(() => modulesAndLessons));
 
   return providerHelper;
-}
-
-Future<List<dynamic>> _constructListFromFile(String objectName) async {
-  var input = await File("test_resources/$objectName.json").readAsString();
-  List<dynamic> tmpObjectsList = jsonDecode(input);
-
-  // TODO: similar/same code in provider_helper
-  switch (objectName) {
-    case "LessonContent":
-      return tmpObjectsList
-          .map<LessonContent>((item) => LessonContent.fromJson(item))
-          .toList();
-    case "Lesson":
-      return tmpObjectsList
-          .map<Lesson>((item) => Lesson.fromJson(item))
-          .toList();
-    case "LessonQuiz":
-      return tmpObjectsList.map<Quiz>((item) => Quiz.fromJson(item)).toList();
-    case "LessonQuizAnswer":
-      return tmpObjectsList
-          .map<QuizAnswer>((item) => QuizAnswer.fromJson(item))
-          .toList();
-    case "LessonQuizQuestion":
-      return tmpObjectsList
-          .map<QuizQuestion>((item) => QuizQuestion.fromJson(item))
-          .toList();
-    case "Module":
-      return tmpObjectsList
-          .map<Module>((item) => Module.fromJson(item))
-          .toList();
-  }
-
-  return [];
 }
