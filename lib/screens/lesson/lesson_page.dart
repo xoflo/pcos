@@ -127,14 +127,6 @@ class LessonPage extends StatelessWidget {
     final isTaskComplete = tasks.isEmpty ||
         (tasks.isNotEmpty &&
             tasks.every((element) => element.isComplete == true));
-    bool hasContents = false;
-
-    for (final content in contents) {
-      if (content.body?.isNotEmpty == true) {
-        hasContents = true;
-        break;
-      }
-    }
 
     return Expanded(
       child: SingleChildScrollView(
@@ -162,7 +154,7 @@ class LessonPage extends StatelessWidget {
                 isSelectable: true,
               ),
             ),
-            if (hasContents) ...[
+            if (contents.isNotEmpty) ...[
               SizedBox(height: 25),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
