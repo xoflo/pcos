@@ -157,8 +157,12 @@ class _AppState extends State<App> {
         ChangeNotifierProxyProvider<DatabaseProvider, ModulesProvider>(
             create: (context) => ModulesProvider(dbProvider: null),
             update: (context, db, previous) {
-              previous!.dbProvider = db;
-              return previous;
+              if (previous != null) {
+                previous.dbProvider = db;
+                return previous;
+              } else {
+                return ModulesProvider(dbProvider: db);
+              }
             }),
         ChangeNotifierProxyProvider<DatabaseProvider, AppHelpProvider>(
           create: (context) => AppHelpProvider(dbProvider: null),
