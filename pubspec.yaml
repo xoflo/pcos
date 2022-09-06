@@ -59,6 +59,9 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
+  mockito: 5.2.0
+  build_runner: 2.2.0
+  sqflite_common_ffi: ^2.1.1+1
   flutter_driver:
     sdk: flutter
   dart_code_metrics: ^4.16.0

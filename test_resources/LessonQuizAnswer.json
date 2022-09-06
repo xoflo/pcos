@@ -1,0 +1,794 @@
+[
+    {
+        "quizAnswerID": 53,
+        "quizQuestionID": 52,
+        "answerText": "a. 10-20g",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 54,
+        "quizQuestionID": 52,
+        "answerText": "b. 15-25g",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 55,
+        "quizQuestionID": 52,
+        "answerText": "c. 30-40g",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 56,
+        "quizQuestionID": 52,
+        "answerText": "d. 40-50g",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 57,
+        "quizQuestionID": 52,
+        "answerText": "e. 70-90g",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 50
+    },
+    {
+        "quizAnswerID": 61,
+        "quizQuestionID": 59,
+        "answerText": "a. Immediately!!!",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 62,
+        "quizQuestionID": 59,
+        "answerText": "b. Within 1 hour of waking",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 63,
+        "quizQuestionID": 59,
+        "answerText": "c. Within 3 hours of waking",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 64,
+        "quizQuestionID": 59,
+        "answerText": "d. There is no time limit",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 68,
+        "quizQuestionID": 66,
+        "answerText": "a. Cane sugar",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 69,
+        "quizQuestionID": 66,
+        "answerText": "b. Sugar alcohols (e.g. xylitol)",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 70,
+        "quizQuestionID": 66,
+        "answerText": "c. Artificial sweeteners like aspartame (e951)",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 71,
+        "quizQuestionID": 66,
+        "answerText": "d. Natural sweeteners like stevia, monk fruit or thaumatin",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 74,
+        "quizQuestionID": 72,
+        "answerText": "Less than 10g",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 75,
+        "quizQuestionID": 72,
+        "answerText": "Less than 8g",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 77,
+        "quizQuestionID": 72,
+        "answerText": "Less than 6g",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 76,
+        "quizQuestionID": 72,
+        "answerText": "Less than 2g",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 81,
+        "quizQuestionID": 79,
+        "answerText": "a. Dairy milk",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 82,
+        "quizQuestionID": 79,
+        "answerText": "b. Unsweetened almond milk",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 83,
+        "quizQuestionID": 79,
+        "answerText": "c. Oat milk ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 84,
+        "quizQuestionID": 79,
+        "answerText": "d. Soy milk (could be sweetened, it’s hard to tell!)",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 87,
+        "quizQuestionID": 85,
+        "answerText": "a. Fresh mozzarella cheese",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 88,
+        "quizQuestionID": 85,
+        "answerText": "b. Greek yogurt",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 89,
+        "quizQuestionID": 85,
+        "answerText": "c. Trim milk",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 90,
+        "quizQuestionID": 85,
+        "answerText": "d. Small amounts of hard cheddar cheese",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 120,
+        "quizQuestionID": 118,
+        "answerText": "a. Even distribution of food across the plate",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 121,
+        "quizQuestionID": 118,
+        "answerText": "b. It has plenty of veggies, as well as a portion of carbs and protein, as well as some healthy fats from whole foods",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 122,
+        "quizQuestionID": 118,
+        "answerText": "c. It has no carbs, but plenty of fats and proteins",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 123,
+        "quizQuestionID": 118,
+        "answerText": "d. It has no fat, but plenty of carbs and protein",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 126,
+        "quizQuestionID": 124,
+        "answerText": "a. Because carbohydrates are an important fuel or energy source for our brains and muscles",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 127,
+        "quizQuestionID": 124,
+        "answerText": "b. Because carbohydrates, when eaten with veggies, proteins and fats have less of an effect on our insulin and blood sugars",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 128,
+        "quizQuestionID": 124,
+        "answerText": "c. Because we don’t advocate a ‘no carb’ diet",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 129,
+        "quizQuestionID": 124,
+        "answerText": "d. All of the above",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 133,
+        "quizQuestionID": 131,
+        "answerText": "a. Satiety",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 134,
+        "quizQuestionID": 131,
+        "answerText": "b. Nutrients",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 135,
+        "quizQuestionID": 131,
+        "answerText": "c. Food variety",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 136,
+        "quizQuestionID": 131,
+        "answerText": "d. Fiber",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 137,
+        "quizQuestionID": 131,
+        "answerText": "e. All of the above",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 50
+    },
+    {
+        "quizAnswerID": 140,
+        "quizQuestionID": 138,
+        "answerText": "a. Lunch only",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 141,
+        "quizQuestionID": 138,
+        "answerText": "b. Lunch and dinner only",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 142,
+        "quizQuestionID": 138,
+        "answerText": "c. As many meals as possible (including snacks)",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 143,
+        "quizQuestionID": 138,
+        "answerText": "d. Breakfast only",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 147,
+        "quizQuestionID": 146,
+        "answerText": "a. Putting down the knife and fork between bites",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 148,
+        "quizQuestionID": 146,
+        "answerText": "b. Speaking to the person you’re eating with",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 149,
+        "quizQuestionID": 146,
+        "answerText": "c. Checking tomorrow’s weather online ",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 150,
+        "quizQuestionID": 146,
+        "answerText": "d. Noticing how the food crunches when you bite ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 155,
+        "quizQuestionID": 153,
+        "answerText": "a. Strictly no sugar",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 156,
+        "quizQuestionID": 153,
+        "answerText": "b. Sugar from fruits only are allowed",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 157,
+        "quizQuestionID": 153,
+        "answerText": "c. Aim to reduce sugar intake as much as we can about 80% of the time ",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 158,
+        "quizQuestionID": 153,
+        "answerText": "d. About 10g per day ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 161,
+        "quizQuestionID": 159,
+        "answerText": "a. Splenda (sucralose)",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 162,
+        "quizQuestionID": 159,
+        "answerText": "b. Equal (aspartame) ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 163,
+        "quizQuestionID": 159,
+        "answerText": "c. Sugar alcohols (e.g. erythritol) ",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 164,
+        "quizQuestionID": 159,
+        "answerText": "d. Cane sugar ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 165,
+        "quizQuestionID": 159,
+        "answerText": "e. Honey",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 50
+    },
+    {
+        "quizAnswerID": 200,
+        "quizQuestionID": 198,
+        "answerText": "a. 12-14 hours",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 201,
+        "quizQuestionID": 198,
+        "answerText": "b. 10-11 hours",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 202,
+        "quizQuestionID": 198,
+        "answerText": "c. 7-9 hours",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 203,
+        "quizQuestionID": 198,
+        "answerText": "d. 5-7 hours",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 206,
+        "quizQuestionID": 204,
+        "answerText": "a. 30%",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 207,
+        "quizQuestionID": 204,
+        "answerText": "b. 20%",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 208,
+        "quizQuestionID": 204,
+        "answerText": "c. 10%",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 209,
+        "quizQuestionID": 204,
+        "answerText": "d. 5%",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 210,
+        "quizQuestionID": 204,
+        "answerText": "e. 15%",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 50
+    },
+    {
+        "quizAnswerID": 252,
+        "quizQuestionID": 248,
+        "answerText": "A. Yes",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 1
+    },
+    {
+        "quizAnswerID": 253,
+        "quizQuestionID": 248,
+        "answerText": "B. No",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 2
+    },
+    {
+        "quizAnswerID": 262,
+        "quizQuestionID": 260,
+        "answerText": "a. High carbohydrate / sugar foods",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 1
+    },
+    {
+        "quizAnswerID": 263,
+        "quizQuestionID": 260,
+        "answerText": "b. High fat foods",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 2
+    },
+    {
+        "quizAnswerID": 264,
+        "quizQuestionID": 260,
+        "answerText": "c. Non-starchy vegetables",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 3
+    },
+    {
+        "quizAnswerID": 265,
+        "quizQuestionID": 260,
+        "answerText": "d. Protein foods",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 4
+    },
+    {
+        "quizAnswerID": 266,
+        "quizQuestionID": 260,
+        "answerText": "e. Balanced meals",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 5
+    },
+    {
+        "quizAnswerID": 272,
+        "quizQuestionID": 271,
+        "answerText": "Problem #1 - \"I’m tired but wired” ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 274,
+        "quizQuestionID": 271,
+        "answerText": "Problem #2 - “I wake during the night”",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 276,
+        "quizQuestionID": 271,
+        "answerText": "Problem #3 - “I wake up feeling tired”",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 278,
+        "quizQuestionID": 271,
+        "answerText": "Problem #4 - “My sleeping problems happen the week before my period” ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 280,
+        "quizQuestionID": 271,
+        "answerText": "Problem #5 - “I struggle to get to sleep or stay asleep constantly”",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 50
+    },
+    {
+        "quizAnswerID": 282,
+        "quizQuestionID": 271,
+        "answerText": "Problem #6 - I feel myself getting excessively sleepy during the day, and I can snore loudly",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 60
+    },
+    {
+        "quizAnswerID": 286,
+        "quizQuestionID": 285,
+        "answerText": "a. Put our devices to sleep 30 minutes before we put ourselves to bed",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 287,
+        "quizQuestionID": 285,
+        "answerText": "b. Create a dark room environment (dim lights, black out curtains)",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 288,
+        "quizQuestionID": 285,
+        "answerText": "c. Create a wind-down routine to prepare for sleep",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 289,
+        "quizQuestionID": 285,
+        "answerText": "d. All of the above",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 292,
+        "quizQuestionID": 291,
+        "answerText": "a. Keep a pen and paper on your bedside table to note down anything you’re worrying about ",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 293,
+        "quizQuestionID": 291,
+        "answerText": "b. Think about it more so that it might go away",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 294,
+        "quizQuestionID": 291,
+        "answerText": "c. Count sheep",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 295,
+        "quizQuestionID": 291,
+        "answerText": "d. All of the above",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 307,
+        "quizQuestionID": 306,
+        "answerText": "a. One that I enjoy",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 308,
+        "quizQuestionID": 306,
+        "answerText": "b. One that makes me feel energised",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 309,
+        "quizQuestionID": 306,
+        "answerText": "c. One that strengthens my muscles ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 310,
+        "quizQuestionID": 306,
+        "answerText": "d. One that helps my flexibility and balance",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 311,
+        "quizQuestionID": 306,
+        "answerText": "e. All of the above",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 50
+    },
+    {
+        "quizAnswerID": 316,
+        "quizQuestionID": 314,
+        "answerText": "a. Doing the exact same exercise circuit each week ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 317,
+        "quizQuestionID": 314,
+        "answerText": "b. An exercise that can only be done with weights equipment ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 318,
+        "quizQuestionID": 314,
+        "answerText": "c. A type of HIIT exercise ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 319,
+        "quizQuestionID": 314,
+        "answerText": "d. A way to build muscle strength through continuing to increase the intensity of the reps you’re doing ",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 322,
+        "quizQuestionID": 320,
+        "answerText": "a. Jogging",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizAnswerID": 323,
+        "quizQuestionID": 320,
+        "answerText": "b. Brisk walking",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 20
+    },
+    {
+        "quizAnswerID": 324,
+        "quizQuestionID": 320,
+        "answerText": "c. Swimming",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 30
+    },
+    {
+        "quizAnswerID": 325,
+        "quizQuestionID": 320,
+        "answerText": "d. Dancing",
+        "isCorrect": 0,
+        "response": "",
+        "orderIndex": 40
+    },
+    {
+        "quizAnswerID": 326,
+        "quizQuestionID": 320,
+        "answerText": "e. Weight training",
+        "isCorrect": 1,
+        "response": "",
+        "orderIndex": 50
+    }
+]

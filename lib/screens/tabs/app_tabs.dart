@@ -161,7 +161,7 @@ class _AppTabsState extends State<AppTabs>
       Provider.of<MemberProvider>(context, listen: false).populateMember();
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<ModulesProvider>(context, listen: false)
-          .fetchAndSaveData(true);
+          .fetchAndSaveData(false);
       Provider.of<AppHelpProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<MessagesProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<CMSTextProvider>(context, listen: false).fetchAndSaveData();

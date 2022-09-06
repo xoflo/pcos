@@ -155,9 +155,15 @@ class _AppState extends State<App> {
           update: (context, db, previous) => RecipesProvider(dbProvider: db),
         ),
         ChangeNotifierProxyProvider<DatabaseProvider, ModulesProvider>(
-          create: (context) => ModulesProvider(dbProvider: null),
-          update: (context, db, previous) => ModulesProvider(dbProvider: db),
-        ),
+            create: (context) => ModulesProvider(dbProvider: null),
+            update: (context, db, previous) {
+              if (previous != null) {
+                previous.dbProvider = db;
+                return previous;
+              } else {
+                return ModulesProvider(dbProvider: db);
+              }
+            }),
         ChangeNotifierProxyProvider<DatabaseProvider, AppHelpProvider>(
           create: (context) => AppHelpProvider(dbProvider: null),
           update: (context, db, previous) => AppHelpProvider(dbProvider: db),

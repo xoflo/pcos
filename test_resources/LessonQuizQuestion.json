@@ -1,0 +1,186 @@
+[
+    {
+        "quizQuestionID": 52,
+        "quizID": 51,
+        "questionType": "radio",
+        "questionText": "How much protein are we aiming for at breakfast? <br>",
+        "response": "The correct answer is D. 40-50g of protein at breakfast as this\nis the amount that we’ve found is best for stabilizing your blood\nsugar. As a bonus it also keeps you fuller for longer and gives you\nmore stable energy throughout the day!<br>",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 59,
+        "quizID": 51,
+        "questionType": "radio",
+        "questionText": "When do we suggest eating breakfast?",
+        "response": "The correct answer is B. Within 1 hour of waking. This is as the\nresearch shows us that consuming food shortly after we wake can\npositively affect impact things like our testosterone levels, sex\nhormone binding globulin (SHBG), insulin and ovulation. Within an\nhour of waking is the most effective (and realistic) time to eat\nwithin. <br>",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 66,
+        "quizID": 65,
+        "questionType": "radio",
+        "questionText": "Unsweetened protein is the best option, but if we’re opting for a\nflavoured, sweetened powder what is the best to go for? <br>\nCane sugar<br>",
+        "response": " The correct answer is D. sweeteners like stevia, monk fruit or\nthaumatin as these sweeteners come from a natural source and don’t\nstimulate insulin. <br>",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 72,
+        "quizID": 65,
+        "questionType": "radio",
+        "questionText": "How many grams of carbohydrates are we aiming for our protein to\nbe under per serve? <br>",
+        "response": " The correct answer is D. less than 2g. We suggest a low carbohydrate\noption at breakfast as we’re limiting our carbohydrate intake at\nbreakfast to avoid a big insulin spike in the morning. Under 4g per\nserve is okay, but under 2g is best. <br>",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 79,
+        "quizID": 78,
+        "questionType": "radio",
+        "questionText": "If you were out for coffee with friends, and looking to reduce your\ndairy intake, what would be the best alternative milk choice to go\nfor? <br>",
+        "response": "The correct answer is B unsweetened almond milk. This is because\nunsweetened almond milk (or another unsweetened nut milk) will be\nthe least insulin-stimulating, as well as a dairy-free option.&nbsp;\n<br>",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 85,
+        "quizID": 78,
+        "questionType": "radio",
+        "questionText": "Which of the following are the least insulin-stimulating of dairy\nfoods?<br>",
+        "response": " The correct answer is D. hard cheddar cheese. This is because it is\nharder cheese, along with other higher fat dairy products like\nbutter and cream (in small quantities) has shown to have less of an\neffect on our insulin. <br>",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 118,
+        "quizID": 117,
+        "questionType": "radio",
+        "questionText": "What makes a meal nutritionally balanced?",
+        "response": "The correct answer is B. It has plenty of veggies, as well as a portion of carbs and protein, as well as some healthy fats. This is because our bodies need all of these macronutrients to function optimally. Whole foods like veggies, meats, whole grains and fruits also deliver plenty of vitamins, minerals, antioxidants and fiber which also are important for our body. A varied and balanced meal is the best way to fuel our body and get a range of nutrients. ",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 124,
+        "quizID": 117,
+        "questionType": "radio",
+        "questionText": "Why do we have carbohydrates at lunch and dinner?",
+        "response": "The correct answer is D. All of the above. Carbohydrates are an extremely important nutrient for our bodies, and are our body’s main source of energy. We only recommend eating little to no carbs at breakfast, as this has shown to have a big impact on our blood sugar stability across the rest of the day. We do encourage you to eat a moderate portion of carbohydrates in your lunch and dinner meals as a part of a balanced meal, as protein, fat and veggies can help reduce the effect on our insulin.",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 131,
+        "quizID": 130,
+        "questionType": "radio",
+        "questionText": "Why are non-starchy veggies important?",
+        "response": "The correct answer is E. All of the above. We look to non-starchy veggies for variety in our diet, to help fill us up and provide us with plenty of essential nutrients like vitamins, minerals and fiber. ",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 138,
+        "quizID": 130,
+        "questionType": "radio",
+        "questionText": "Which meals should we aim to include non-starchy vegetables in? ",
+        "response": "The correct answer is C. As many meals as possible (including snacks). We aim to have some non-starchy veggies in as many meals as we can to help keep us feeling full and deliver us plenty of nutritional goodness. They also taste delicious!",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 146,
+        "quizID": 144,
+        "questionType": "radio",
+        "questionText": "Which of the below is NOT practised when mindful eating? ",
+        "response": "The correct answer is C. Using devices to search the internet during meal times distract us from the task of eating. We suggest trying device-free meal times to avoid the temptation of searching or scrolling!",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 153,
+        "quizID": 152,
+        "questionType": "radio",
+        "questionText": "When it comes to sugar, how much should we be having? ",
+        "response": "The correct answer is C. Aim to reduce sugar intake as much as we can about 80% of the time. There’s no gram limit per day, nor are we saying you can’t ever have sugar again! We want you to get away with as much as you can in this life without it affecting your PCOS! Unfortunately, when our insulin isn’t functioning properly eating sugar has a big impact on our insulin levels, so we need to reduce sugar as much as possible (most of the time) to help maintain a stable blood sugar and support our ",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 159,
+        "quizID": 152,
+        "questionType": "radio",
+        "questionText": "If we’re making low sugar baking, what is the best sweetener to use? ",
+        "response": "The correct answer is c. sugar alcohols. This is as they have the same sweetness and properties as normal table sugar, so the baking isn’t affected. Sugar alcohols are a category of sweet carbohydrates found naturally (aim for these where possible), or processed from other sugars, but these also don’t raise insulin levels (they still have calories and carbohydrates however). Both honey and cane sugar contain high levels of sugar so would mean the baking is no longer ‘low sugar’, but rather norma",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 198,
+        "quizID": 196,
+        "questionType": "radio",
+        "questionText": "How many hours of sleep do most people need each night to\nfunction well? <br>",
+        "response": "The correct answer is C. 7-9 hours of sleep each night. There is no\n‘one size fits all’, but for the majority of the population between\n7 and 9 hours is necessary to feel properly rested, and achieve\nquality sleep. <br>",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 204,
+        "quizID": 196,
+        "questionType": "radio",
+        "questionText": "What percentage of the population can function with just 6\nhours of sleep each night? <br>",
+        "response": "The correct answer is D. 5% of the population. Only about 5% of the\npopulation have the genetic make-up that means their body can\nfunction from just 6 hours of sleep per night. For the rest of us, 6\nhours isn’t enough to achieve the rest and recovery our body and\nbrain requires after each day.<br>",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 248,
+        "quizID": 246,
+        "questionType": "radio",
+        "questionText": "Do you need to get a blood test before supplementing with iron, vitamin D and zinc?<br>",
+        "response": "<body>\nThe correct answer is A. Yes. This is because your current levels of\nthese nutrients will inform whether you require supplementation or\nnot, and how much. Our bodies struggle to excrete (get rid of)\nexcess amounts of these nutrients, so they can build up and become\ntoxic for us. To avoid this, we always need to test that our levels\naren’t too high. If we’re low or deficient in these nutrients, we\ncan use our test results to guide how much we need to supplement to\nget us back to our functi",
+        "orderIndex": 1
+    },
+    {
+        "quizQuestionID": 260,
+        "quizID": 259,
+        "questionType": "checkbox",
+        "questionText": "Select the two types of foods that our brains associate with survival and therefore crave when we’re hungry?<br>",
+        "response": "The correct answers are a and b. High carbohydrate / sugar and high\nfat foods. This is because carbohydrates (sugar specifically) are\nfast-acting fuels, meaning our bodies can utilize these for energy\nquickly. They also crave high fat foods as these are the most\nenergy-dense foods as fat has significantly higher calories per gram\nthan both carbohydrates and proteins. Balanced meals and foods rich\nin protein and non-starchy vegetables are just as capable of\ndelivering us the energy we need, howev",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 271,
+        "quizID": 270,
+        "questionType": "checkbox",
+        "questionText": "What are the problems you struggle with when it comes to your sleep?<br>",
+        "response": "",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 285,
+        "quizID": 284,
+        "questionType": "radio",
+        "questionText": "White light can affect our natural melatonin production, which can interfere with our natural sleepiness signals. What can we do to reduce the effect of white light on our sleep?<br>",
+        "response": "The correct answer is D. All of the above can help reduce the white light we experience in the lead up to sleep. <br>",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 291,
+        "quizID": 284,
+        "questionType": "radio",
+        "questionText": "You’re feeling anxious or stressed and you can’t get to sleep. What is something you could do to alleviate your feelings of stress? ",
+        "response": "The correct answer is A. Keep a pen and paper on your bedside table to note down anything you’re worrying about. This can help remove the stress that you’ll forget about it. <br>",
+        "orderIndex": 20
+    },
+    {
+        "quizQuestionID": 306,
+        "quizID": 305,
+        "questionType": "radio",
+        "questionText": "What’s the best exercise for me?<br>",
+        "response": "The correct answer is E. All of the above. The best exercise is one that you will continue to do for life, so enjoyment is key! It shouldn’t leave you feeling terribly tired but motivated and energised, and it can help to build strength and flexibility in your muscles and can even improve your balance. Sign us up! <br>",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 314,
+        "quizID": 313,
+        "questionType": "radio",
+        "questionText": "What is progressive overload? ",
+        "response": "The correct answer is D. A way to build muscle strength through continuing to increase the intensity of the reps you’re doing. It is a technique to build strength during resistance training. This might be through increasing your reps, the weights you use, slowing down reps to build more tension in the muscle, or incorporating pulses or shortening your period to rest between sets. You don’t need weight equipment as you can use rep timing or rest periods to progressively overload your body weight ",
+        "orderIndex": 10
+    },
+    {
+        "quizQuestionID": 320,
+        "quizID": 313,
+        "questionType": "radio",
+        "questionText": "Which of the following is not a type of low intensity cardio exercise? ",
+        "response": "The correct answer is E, as weight-lifting falls under resistance training. Jogging, brisk walking, swimming and dancing are all great options of low intensity cardio exercise.<br>",
+        "orderIndex": 20
+    }
+]
