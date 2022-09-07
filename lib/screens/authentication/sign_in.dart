@@ -74,9 +74,18 @@ class _SignInState extends State<SignIn> {
             Navigator.pushReplacementNamed(context, PinSet.id);
             return;
           } else {
-            showErrorDialog = true;
-            errorMessage =
-                "You are not currently subscribed. Please subscribe to Ovie first before using the app.";
+            showAlertDialog(
+              context,
+              S.current.signinErrorTitle,
+              "Your account does not have an active subscription. Please visit the Ovie page to activate your subscription to use the app",
+              "",
+              "Visit page",
+              (BuildContext context) {
+                // TODO: Go to subscription link when it's available
+              },
+              null,
+            );
+            return;
           }
         } else {
           showErrorDialog = true;
