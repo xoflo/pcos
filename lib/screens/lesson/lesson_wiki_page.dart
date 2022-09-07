@@ -3,7 +3,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_wiki_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
