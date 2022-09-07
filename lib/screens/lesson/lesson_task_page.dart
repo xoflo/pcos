@@ -16,37 +16,31 @@ import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
-class LessonTaskPage extends StatefulWidget {
-  const LessonTaskPage({Key? key}) : super(key: key);
-
+class LessonTaskPage extends StatelessWidget {
   static const id = "lesson_task_page";
 
-  @override
-  State<LessonTaskPage> createState() => _LessonTaskPageState();
-}
-
-class _LessonTaskPageState extends State<LessonTaskPage> {
-  Widget getTaskType(ModulesProvider modulesProvider, LessonTask task) {
+  Widget getTaskType(
+      BuildContext context, ModulesProvider modulesProvider, LessonTask task) {
     switch (task.taskType) {
       case TaskType.Text:
         return LessonTaskText(
-          onSave: (text) =>
-              onSubmit(modulesProvider, task.lessonID, task.lessonTaskID, text),
+          onSave: (text) => onSubmit(
+              context, modulesProvider, task.lessonID, task.lessonTaskID, text),
         );
       case TaskType.Rating:
         return LessonTaskRating(
-          onSave: (rate) => onSubmit(modulesProvider, task.lessonID,
+          onSave: (rate) => onSubmit(context, modulesProvider, task.lessonID,
               task.lessonTaskID, rate.toString()),
         );
       case TaskType.Bool:
         return LessonTaskBool(
-          onSave: (isTrue) => onSubmit(modulesProvider, task.lessonID,
+          onSave: (isTrue) => onSubmit(context, modulesProvider, task.lessonID,
               task.lessonTaskID, isTrue.toString()),
         );
       case TaskType.Okay:
         return FilledButton(
-          onPressed: () => onSubmit(
-              modulesProvider, task.lessonID, task.lessonTaskID, "Okay"),
+          onPressed: () => onSubmit(context, modulesProvider, task.lessonID,
+              task.lessonTaskID, "Okay"),
           text: "Okay",
           margin: EdgeInsets.zero,
           foregroundColor: Colors.white,
@@ -57,8 +51,8 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
     }
   }
 
-  Future onSubmit(ModulesProvider modulesProvider, int? lessonID, int? taskID,
-      String value) async {
+  Future onSubmit(BuildContext context, ModulesProvider modulesProvider,
+      int? lessonID, int? taskID, String value) async {
     await modulesProvider
         .setTaskAsComplete(taskID, value: value, lessonID: lessonID)
         .then((value) => Navigator.pop(context));
@@ -81,6 +75,7 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
           loadingStatusNotifier: modulesProvider,
           height: MediaQuery.of(context).size.height,
           child: SafeArea(
+            bottom: false,
             child: Container(
               decoration: BoxDecoration(
                 color: primaryColor,
@@ -111,13 +106,14 @@ class _LessonTaskPageState extends State<LessonTaskPage> {
                                     Theme.of(context).textTheme.headline4,
                               ),
                               SizedBox(height: 15),
-                              getTaskType(modulesProvider, task),
+                              getTaskType(context, modulesProvider, task),
+                              SizedBox(height: 75)
                             ],
                           ),
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

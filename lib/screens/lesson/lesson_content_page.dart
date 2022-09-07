@@ -8,40 +8,18 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/models/lesson_content.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
+import 'package:thepcosprotocol_app/screens/tabs/dashboard/carousel_page_indicator.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_component.dart';
 
-class LessonContentPage extends StatefulWidget {
-  const LessonContentPage({Key? key}) : super(key: key);
-
+class LessonContentPage extends StatelessWidget {
   static const id = "lesson_content_page";
 
-  @override
-  State<LessonContentPage> createState() => _LessonContentPageState();
-}
-
-class _LessonContentPageState extends State<LessonContentPage> {
-  Lesson? lesson;
-  List<LessonContent>? lessonContent;
-  bool isFavorite = false;
-
-  PageController? controller;
-
-  int activePage = 0;
-
-  late FavouritesProvider favouritesProvider;
-  late ModulesProvider modulesProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    favouritesProvider =
-        Provider.of<FavouritesProvider>(context, listen: false);
-    modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
-  }
+  final activePage = ValueNotifier(0);
+  final isFavorite = ValueNotifier(false);
 
   List<Widget> getContentUrlType(LessonContent? content) {
     switch (content?.mediaMimeType?.toLowerCase()) {
@@ -64,35 +42,28 @@ class _LessonContentPageState extends State<LessonContentPage> {
     return [];
   }
 
-  List<Widget> generateIndicators() => List<Widget>.generate(
-        lessonContent?.length ?? 0,
-        (index) => Container(
-          margin: const EdgeInsets.all(3),
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: activePage == index
-                ? selectedIndicatorColor
-                : unselectedIndicatorColor,
-            shape: BoxShape.circle,
-          ),
-        ),
-      );
-
   @override
   Widget build(BuildContext context) {
-    if (lesson == null) {
-      lesson = ModalRoute.of(context)?.settings.arguments as Lesson;
-      lessonContent = modulesProvider.getLessonContent(lesson?.lessonID ?? -1);
+    final favouritesProvider =
+        Provider.of<FavouritesProvider>(context, listen: false);
+    final modulesProvider =
+        Provider.of<ModulesProvider>(context, listen: false);
 
-      isFavorite = favouritesProvider.isFavourite(
-          FavouriteType.Lesson, lesson?.lessonID);
-    }
+    final lesson = ModalRoute.of(context)?.settings.arguments as Lesson?;
+    final lessonContent =
+        modulesProvider.getLessonContent(lesson?.lessonID ?? -1);
+
+    final pageController = PageController(initialPage: 0);
+
+    isFavorite.value =
+        favouritesProvider.isFavourite(FavouriteType.Lesson, lesson?.lessonID);
+
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
         onWillPop: () async => !Platform.isIOS,
         child: SafeArea(
+          bottom: false,
           child: Padding(
             padding: EdgeInsets.only(
               top: 12.0,
@@ -121,17 +92,18 @@ class _LessonContentPageState extends State<LessonContentPage> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(
-                            isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite_outline,
-                            size: 20,
-                            color: redColor,
+                          icon: ValueListenableBuilder<bool>(
+                            valueListenable: isFavorite,
+                            builder: (context, value, child) => Icon(
+                              value ? Icons.favorite : Icons.favorite_outline,
+                              size: 20,
+                              color: redColor,
+                            ),
                           ),
                           onPressed: () {
                             favouritesProvider.addToFavourites(
                                 FavouriteType.Lesson, lesson?.lessonID);
-                            setState(() => isFavorite = !isFavorite);
+                            isFavorite.value = !isFavorite.value;
                           },
                         )
                       ],
@@ -140,13 +112,12 @@ class _LessonContentPageState extends State<LessonContentPage> {
                   SizedBox(height: 15),
                   Expanded(
                     child: PageView.builder(
-                      controller: controller,
-                      itemCount: lessonContent?.length,
+                      controller: pageController,
+                      itemCount: lessonContent.length,
                       pageSnapping: true,
-                      onPageChanged: (page) =>
-                          setState(() => activePage = page),
+                      onPageChanged: (page) => activePage.value = page,
                       itemBuilder: (context, index) {
-                        final content = lessonContent?[index];
+                        final content = lessonContent[index];
                         return SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -154,7 +125,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HtmlWidget(
-                                  content?.title ?? "",
+                                  content.title ?? "",
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .headline5
@@ -162,7 +133,7 @@ class _LessonContentPageState extends State<LessonContentPage> {
                                 ),
                                 SizedBox(height: 20),
                                 HtmlWidget(
-                                  content?.body ?? "",
+                                  content.body ?? "",
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -172,10 +143,10 @@ class _LessonContentPageState extends State<LessonContentPage> {
                                       ),
                                 ),
                                 ...getContentUrlType(content),
-                                if (content?.summary?.isNotEmpty == true) ...[
+                                if (content.summary?.isNotEmpty == true) ...[
                                   SizedBox(height: 20),
                                   HtmlWidget(
-                                    content?.summary ?? "",
+                                    content.summary ?? "",
                                     textStyle: Theme.of(context)
                                         .textTheme
                                         .bodyText1
@@ -192,14 +163,17 @@ class _LessonContentPageState extends State<LessonContentPage> {
                       },
                     ),
                   ),
-                  if ((lessonContent?.length ?? 0) > 1) ...[
+                  if (lessonContent.length > 1) ...[
                     SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: generateIndicators(),
-                    ),
+                    ValueListenableBuilder<int>(
+                      valueListenable: activePage,
+                      builder: (context, value, child) => CarouselPageIndicator(
+                        numberOfPages: lessonContent.length,
+                        activePage: activePage,
+                      ),
+                    )
                   ],
-                  SizedBox(height: 25)
+                  SizedBox(height: 75)
                 ],
               ),
             ),
