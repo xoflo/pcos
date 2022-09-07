@@ -95,17 +95,16 @@ class _SignInState extends State<SignIn> {
     }
 
     if (showErrorDialog) {
-      setState(() {
-        isSigningIn = false;
-      });
+      setState(() => isSigningIn = false);
 
-      showFlushBar(
+      showAlertDialog(
         context,
         errorTitle,
         errorMessage,
-        backgroundColor: Colors.white,
-        borderColor: backgroundColor,
-        primaryColor: backgroundColor,
+        "",
+        "Okay",
+        null,
+        null,
       );
     }
   }

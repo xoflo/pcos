@@ -1,52 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart' as colors;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
-
-void showFlushBar(final BuildContext scaffoldContext, final String title,
-    final String message,
-    {final IconData icon = Icons.warning_outlined,
-    final Color backgroundColor = Colors.white,
-    final Color borderColor = colors.backgroundColor,
-    final Color primaryColor = colors.backgroundColor,
-    final int displayDuration = 5}) {
-  analytics.logEvent(
-    name: Analytics.ANALYTICS_EVENT_FLUSHBAR,
-    parameters: {Analytics.ANALYTICS_PARAMETER_FLUSHBAR_TITLE: title},
-  );
-
-  Flushbar(
-    margin: EdgeInsets.all(10),
-    padding: EdgeInsets.all(10),
-    borderRadius: BorderRadius.circular(5),
-    icon: Icon(
-      icon,
-      color: primaryColor,
-      size: 30.0,
-    ),
-    borderColor: borderColor,
-    backgroundColor: backgroundColor,
-    dismissDirection: FlushbarDismissDirection.VERTICAL,
-    isDismissible: false,
-    forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-    titleText: Text(
-      title,
-      style: TextStyle(
-        color: primaryColor,
-        fontSize: 20.0,
-      ),
-    ),
-    messageText: Text(
-      message,
-      style: TextStyle(color: primaryColor),
-    ),
-    duration: Duration(seconds: displayDuration),
-    flushbarPosition: FlushbarPosition.TOP,
-  )..show(scaffoldContext);
-}
 
 showAlertDialog(
   final BuildContext context,
@@ -85,11 +42,11 @@ showAlertDialog(
   );
 
   List<Widget> actions = [];
-  if (continueText.length > 0) {
-    actions.add(continueButton);
+  actions.add(continueButton);
+  if (cancelText.length > 0) {
     actions.add(SizedBox(height: 10));
+    actions.add(cancelButton);
   }
-  actions.add(cancelButton);
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(

@@ -40,7 +40,6 @@ dependencies:
   package_info: ^2.0.2
   http: ^0.13.4
   flutter_secure_storage: ^5.0.2
-  another_flushbar: ^1.10.5
   provider: ^6.0.3
   flutter_widget_from_html: ^0.8.5
   better_player: ^0.0.82

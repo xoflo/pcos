@@ -102,7 +102,9 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       } else {
         if (_pinAttempts < 5) {
           startPinAgain(
-              S.current.pinUnlockErrorTitle, S.current.pinEntryErrorText);
+            S.current.pinUnlockErrorTitle,
+            S.current.pinEntryErrorText,
+          );
         } else {
           //have tried pin five times, clear pin, and send back to sign in
           sendToSignIn(false);
@@ -110,10 +112,14 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       }
     } else {
       //not connected to internet, inform user
-      showFlushBar(
+      showAlertDialog(
         context,
         S.current.internetConnectionTitle,
         S.current.internetConnectionText,
+        "",
+        "Okay",
+        null,
+        null,
       );
     }
   }
@@ -157,9 +163,8 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
 
   @override
   void startPinAgain(String title, String message) {
-    super.startPinAgain(title, message);
-
     resetPinPad();
+    super.startPinAgain(title, message);
   }
 
   void openAppTabs() async {
@@ -181,17 +186,19 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
         ? S.current.pinRefreshErrorText
         : S.current.pinUnlockAttemptsErrorText;
 
-    showFlushBar(
+    showAlertDialog(
       context,
       title,
       message,
-      displayDuration: 5,
+      "",
+      "Okay",
+      delayResetToSignIn,
+      null,
     );
-
-    await Future.delayed(Duration(seconds: 6), () {
-      deleteCredentialsAndGotoSignIn();
-    });
   }
+
+  void delayResetToSignIn(BuildContext context) async => await Future.delayed(
+      Duration(seconds: 6), deleteCredentialsAndGotoSignIn);
 
   @override
   void resetPinPad() {

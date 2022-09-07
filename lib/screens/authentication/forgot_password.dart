@@ -60,13 +60,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     if (showErrorDialog) {
       setState(() => isSending = false);
 
-      showFlushBar(
+      showAlertDialog(
         context,
         errorTitle,
         errorMessage,
-        backgroundColor: Colors.white,
-        borderColor: backgroundColor,
-        primaryColor: backgroundColor,
+        "",
+        "Okay",
+        null,
+        null,
       );
     }
   }

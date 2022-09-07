@@ -184,13 +184,14 @@ class _AppTabsState extends State<AppTabs>
         name: Analytics.ANALYTICS_EVENT_INTERCOM_INIT_FAILED,
       );
 
-      showFlushBar(
+      showAlertDialog(
         context,
         S.current.coachChatFailedTitle,
         S.current.coachChatFailedText,
-        backgroundColor: Colors.white,
-        borderColor: primaryColorLight,
-        primaryColor: primaryColor,
+        "",
+        "Okay",
+        null,
+        null,
       );
     }
   }
