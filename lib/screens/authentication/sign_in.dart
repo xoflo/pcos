@@ -83,6 +83,7 @@ class _SignInState extends State<SignIn> {
               "",
               "Visit page",
               (BuildContext context) {
+                // Open subscription URL on login
                 setState(() => isSigningIn = false);
                 launchUrlString(FlavorConfig.instance.values.subscriptionUrl);
               },
