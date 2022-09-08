@@ -6,6 +6,7 @@ enum Flavor { DEV, PROD }
 class FlavorValues {
   FlavorValues({
     required this.baseUrl,
+    required this.subscriptionUrl,
     required this.oneSignalAppID,
     required this.questionnaireUrl,
     required this.imageStorageFolder,
@@ -13,6 +14,7 @@ class FlavorValues {
     required this.intercomIds,
   });
   final String baseUrl;
+  final String subscriptionUrl;
   final String oneSignalAppID;
   final String questionnaireUrl;
   final String imageStorageFolder;
