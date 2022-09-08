@@ -62,10 +62,7 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
     });
   }
 
-  void startPinAgain(
-    String title,
-    String message,
-  ) {
+  void startPinAgain(String title, String message) {
     showAlertDialog(
       context,
       title,

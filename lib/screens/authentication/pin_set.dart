@@ -44,9 +44,7 @@ class _PinSetState extends State<PinSet> with BasePin {
         }
       } else {
         startPinAgain(
-          S.current.pinEntryErrorTitle,
-          S.current.pinEntryErrorText,
-        );
+            S.current.pinEntryErrorTitle, S.current.pinEntryErrorText);
       }
     }
   }

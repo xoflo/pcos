@@ -102,9 +102,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       } else {
         if (_pinAttempts < 5) {
           startPinAgain(
-            S.current.pinUnlockErrorTitle,
-            S.current.pinEntryErrorText,
-          );
+              S.current.pinUnlockErrorTitle, S.current.pinEntryErrorText);
         } else {
           //have tried pin five times, clear pin, and send back to sign in
           sendToSignIn(false);
@@ -192,13 +190,13 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       message,
       "",
       "Okay",
-      delayResetToSignIn,
+      (BuildContext context) async {
+        await Future.delayed(
+            Duration(seconds: 6), deleteCredentialsAndGotoSignIn);
+      },
       null,
     );
   }
-
-  void delayResetToSignIn(BuildContext context) async => await Future.delayed(
-      Duration(seconds: 6), deleteCredentialsAndGotoSignIn);
 
   @override
   void resetPinPad() {
