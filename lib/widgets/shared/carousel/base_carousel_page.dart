@@ -42,9 +42,14 @@ mixin BaseCarouselPage<T extends StatelessWidget> on StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    return WillPopScope(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: primaryColor,
+        statusBarIconBrightness: Brightness.dark),
+      child: WillPopScope(
       onWillPop: () => Future.value(shouldPopScope(context)),
-      child: Scaffold(
+      child: SafeArea( 
+        child: Scaffold(
         backgroundColor: primaryColorLight,
         body: Stack(
           alignment: Alignment.center,
@@ -111,8 +116,10 @@ mixin BaseCarouselPage<T extends StatelessWidget> on StatelessWidget {
                   elevation: 0.0,
                 ),
               ),
-          ],
+            ],
+          ),
         ),
+      ),
       ),
     );
   }
