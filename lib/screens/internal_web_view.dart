@@ -50,9 +50,11 @@ class _InternalWebViewState extends State<InternalWebView> {
             _toasterJavascriptChannel(context),
           },
           navigationDelegate: (NavigationRequest request) {
-            // TODO: when going to subscription, disable the navigation decision
-            // so that the app will go back to the sign in page.
             debugPrint('allowing navigation to $request');
+            if (request.url.contains("/subscribed")) {
+              Navigator.pop(context);
+              return NavigationDecision.prevent;
+            }
             return NavigationDecision.navigate;
           },
           onPageStarted: (String url) {
