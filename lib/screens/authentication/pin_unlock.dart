@@ -127,9 +127,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     final bool refreshToken = await AuthenticationController().refreshToken();
 
     if (refreshToken) {
-      //token refreshed and Pin entry is complete now get next lesson date and show the app
       await saveNextLessonAvailableDate();
-      openAppTabs();
     } else {
       //couldn't refresh token, so wait a few seconds and try again
       await Future.delayed(const Duration(seconds: 3), () {
@@ -142,9 +140,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     final bool refreshToken = await AuthenticationController().refreshToken();
 
     if (refreshToken) {
-      //token refreshed and Pin entry is complete now get next lesson date and show the app
       await saveNextLessonAvailableDate();
-      openAppTabs();
     } else {
       //couldn't refresh token, so refresh token must have expired, so logout user
       sendToSignIn(true);
@@ -152,11 +148,26 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
   }
 
   Future<void> saveNextLessonAvailableDate() async {
-    //get the dateNextLessonAvailable and update in shared prefs
+    // After getting member details, check if the user subscription is still
+    // updated. Otherwise, the app logs out, indicating that the subscription
+    // may have expired.
     final Member memberDetails = await WebServices().getMemberDetails();
-    await PreferencesController().saveString(
-        SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
-        memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ?? "");
+    if (memberDetails.isSubscriptionValid) {
+      await PreferencesController().saveString(
+          SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
+          memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ?? "");
+      openAppTabs();
+    } else {
+      showAlertDialog(
+        context,
+        "Warning",
+        "Your subscription has expired. You will now be logged out of the app. Please update your subscription to continue using the Ovie app.",
+        "",
+        "Okay",
+        continueLogout,
+        null,
+      );
+    }
   }
 
   @override
@@ -224,12 +235,12 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       S.current.pinForgottenMessage,
       S.current.pinForgottenCancel,
       S.current.pinForgottenContinue,
-      continueForgottenPin,
+      continueLogout,
       null,
     );
   }
 
-  void continueForgottenPin(BuildContext context) {
+  void continueLogout(BuildContext context) {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
       parameters: {
