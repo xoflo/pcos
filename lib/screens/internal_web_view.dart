@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -36,6 +38,7 @@ class _InternalWebViewState extends State<InternalWebView> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: WebView(
           initialUrl: link,
@@ -52,7 +55,7 @@ class _InternalWebViewState extends State<InternalWebView> {
           navigationDelegate: (NavigationRequest request) {
             debugPrint('allowing navigation to $request');
             if (request.url.contains("/subscribed")) {
-              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, SignIn.id);
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
