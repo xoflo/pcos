@@ -110,10 +110,14 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       }
     } else {
       //not connected to internet, inform user
-      showFlushBar(
+      showAlertDialog(
         context,
         S.current.internetConnectionTitle,
         S.current.internetConnectionText,
+        "",
+        "Okay",
+        null,
+        null,
       );
     }
   }
@@ -157,9 +161,8 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
 
   @override
   void startPinAgain(String title, String message) {
-    super.startPinAgain(title, message);
-
     resetPinPad();
+    super.startPinAgain(title, message);
   }
 
   void openAppTabs() async {
@@ -181,16 +184,18 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
         ? S.current.pinRefreshErrorText
         : S.current.pinUnlockAttemptsErrorText;
 
-    showFlushBar(
+    showAlertDialog(
       context,
       title,
       message,
-      displayDuration: 5,
+      "",
+      "Okay",
+      (BuildContext context) async {
+        await Future.delayed(
+            Duration(seconds: 6), deleteCredentialsAndGotoSignIn);
+      },
+      null,
     );
-
-    await Future.delayed(Duration(seconds: 6), () {
-      deleteCredentialsAndGotoSignIn();
-    });
   }
 
   @override

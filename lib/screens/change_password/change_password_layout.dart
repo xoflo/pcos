@@ -39,6 +39,13 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
       String newPassword = newPasswordController.text.trim();
       String email = "";
 
+      if (oldPassword != newPassword) {
+        _displayMessage(S.current.changePasswordFailedTitle,
+            "Your new password does not match, please try again");
+        setState(() => isUpdating = false);
+        return;
+      }
+
       //check old password is correct, this is like logging in, so will return a new token that replaces the old one
       try {
         email = await AuthenticationController().getEmail() ?? "";
@@ -46,14 +53,11 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
       } catch (ex) {
         if (ex == SIGN_IN_CREDENTIALS) {
           //password must have been wrong
-          _displayMessage(
-            context,
-            S.current.changePasswordOldPasswordWrongTitle,
-            S.current.changePasswordOldPasswordWrongMessage,
-          );
+          _displayMessage(S.current.changePasswordOldPasswordWrongTitle,
+              S.current.changePasswordOldPasswordWrongMessage);
         } else {
           //something else went wrong checking password
-          _displayMessage(context, S.current.changePasswordFailedTitle,
+          _displayMessage(S.current.changePasswordFailedTitle,
               S.current.changePasswordFailedMessage);
         }
         setState(() => isUpdating = false);
@@ -69,7 +73,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
         }
       } catch (ex) {
         //something unexpected went wrong
-        _displayMessage(context, S.current.changePasswordFailedTitle,
+        _displayMessage(S.current.changePasswordFailedTitle,
             S.current.changePasswordFailedMessage);
       }
     }
@@ -80,15 +84,15 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
     Navigator.pop(context);
   }
 
-  void _displayMessage(
-      final BuildContext context, final String title, final String message) {
-    showFlushBar(
+  void _displayMessage(final String title, final String message) {
+    showAlertDialog(
       context,
       title,
       message,
-      backgroundColor: primaryColor,
-      borderColor: backgroundColor,
-      primaryColor: backgroundColor,
+      "",
+      "Okay",
+      null,
+      null,
     );
   }
 

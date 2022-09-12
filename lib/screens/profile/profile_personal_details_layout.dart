@@ -173,13 +173,14 @@ class _ProfilePersonalDetailsLayoutState
               Navigator.pop(context, true);
             }
           } catch (ex) {
-            showFlushBar(
+            showAlertDialog(
               context,
               "Error",
-              "Something went wrong. Please try again",
-              backgroundColor: primaryColor,
-              borderColor: backgroundColor,
-              primaryColor: backgroundColor,
+              "Something went wrong. Please try again.",
+              "",
+              "Okay",
+              null,
+              null,
             );
           }
         },

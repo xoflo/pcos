@@ -63,10 +63,14 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
   }
 
   void startPinAgain(String title, String message) {
-    showFlushBar(
+    showAlertDialog(
       context,
       title,
       message,
+      "",
+      "Okay",
+      null,
+      null,
     );
   }
 

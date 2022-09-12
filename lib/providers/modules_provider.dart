@@ -72,9 +72,10 @@ class ModulesProvider extends LoadingStatusNotifier {
     if (dbProvider?.db == null) {
       await dbProvider?.init();
     }
-    
+
     //first get the data from the api if we have no data yet
-    final ModulesAndLessons modulesAndLessons = await providerHelper.fetchAndSaveModuleExport(
+    final ModulesAndLessons modulesAndLessons =
+        await providerHelper.fetchAndSaveModuleExport(
             dbProvider, forceRefresh, nextLessonAvailableDate);
     _modules = modulesAndLessons.modules ?? [];
     _lessons = modulesAndLessons.lessons ?? [];
@@ -251,6 +252,7 @@ class ModulesProvider extends LoadingStatusNotifier {
   }
 
   Future<void> fetchLessonTasks(final int lessonID) async {
+    _lessonTasks.clear();
     setLoadingStatus(LoadingStatus.loading, false);
 
     if (dbProvider?.db != null) {
