@@ -10,6 +10,7 @@ import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/carousel_page_indicator.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
@@ -155,6 +156,19 @@ class LessonContentPage extends StatelessWidget {
                                           height: 1.5,
                                         ),
                                   )
+                                ],
+                                if (index == lessonContent.length - 1) ...[
+                                  SizedBox(height: 20),
+                                  FilledButton(
+                                    text: "Go back to lesson page",
+                                    width: 275,
+                                    icon: Icon(Icons.arrow_back_ios),
+                                    margin: EdgeInsets.zero,
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: backgroundColor,
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                  SizedBox(height: 40)
                                 ]
                               ],
                             ),
