@@ -5,6 +5,7 @@ import 'package:thepcosprotocol_app/constants/widget_keys.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
+import 'package:thepcosprotocol_app/screens/internal_web_view.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -19,7 +20,6 @@ import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_generic.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
@@ -85,7 +85,11 @@ class _SignInState extends State<SignIn> {
               (BuildContext context) {
                 // Open subscription URL on login
                 setState(() => isSigningIn = false);
-                launchUrlString(FlavorConfig.instance.values.subscriptionUrl);
+                Navigator.pushReplacementNamed(
+                  context,
+                  InternalWebView.id,
+                  arguments: FlavorConfig.instance.values.subscriptionUrl,
+                );
               },
               null,
             );

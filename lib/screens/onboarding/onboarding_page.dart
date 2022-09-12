@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel/base_carousel_page.dart';
@@ -7,7 +8,7 @@ import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item_widget
 import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
-import 'package:thepcosprotocol_app/screens/sign_in/register_web_view.dart';
+import 'package:thepcosprotocol_app/screens/internal_web_view.dart';
 
 class OnboardingPage extends StatelessWidget with BaseCarouselPage {
   OnboardingPage({Key? key}) : super(key: key);
@@ -71,7 +72,11 @@ class OnboardingPage extends StatelessWidget with BaseCarouselPage {
 
                 updatePageValue(activePage.value + 1);
               } else {
-                Navigator.pushReplacementNamed(context, RegisterWebView.id);
+                Navigator.pushReplacementNamed(
+                  context,
+                  InternalWebView.id,
+                  arguments: FlavorConfig.instance.values.questionnaireUrl,
+                );
               }
             },
             text: isNotYetLastItem ? "NEXT" : "GET STARTED",
