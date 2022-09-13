@@ -80,8 +80,6 @@ class _PinSetState extends State<PinSet> with BasePin {
 
   @override
   void startPinAgain(String title, String message) {
-    super.startPinAgain(title, message);
-
     setState(() {
       progress = [false, false, false, false];
       currentPosition = 0;
@@ -89,6 +87,7 @@ class _PinSetState extends State<PinSet> with BasePin {
       _pinConfirmed = "";
       pinEntry = PinEntry.NONE;
     });
+    super.startPinAgain(title, message);
   }
 
   @override
@@ -122,11 +121,14 @@ class _PinSetState extends State<PinSet> with BasePin {
         await AuthenticationController().savePin(pinEntered);
 
     if (!savePinSuccessful) {
-      showFlushBar(
+      showAlertDialog(
         context,
         S.current.pinSaveErrorTitle,
         S.current.pinSaveErrorText,
-        displayDuration: 3,
+        "",
+        "Okay",
+        null,
+        null,
       );
     } else {
       navigateToNextPage();

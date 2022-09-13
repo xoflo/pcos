@@ -3,54 +3,38 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
-import 'package:thepcosprotocol_app/models/lesson_wiki.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_wiki_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
-class LessonWikiPage extends StatefulWidget {
-  const LessonWikiPage({Key? key}) : super(key: key);
-
+class LessonWikiPage extends StatelessWidget {
   static const id = "lesson_wiki_page";
 
-  @override
-  State<LessonWikiPage> createState() => _LessonWikiPageState();
-}
-
-class _LessonWikiPageState extends State<LessonWikiPage> {
-  LessonWiki? wiki;
-
-  late FavouritesProvider favouritesProvider;
-  late ModulesProvider modulesProvider;
-
-  bool isFavorite = false;
-
-  @override
-  void initState() {
-    super.initState();
-    favouritesProvider =
-        Provider.of<FavouritesProvider>(context, listen: false);
-    modulesProvider = Provider.of<ModulesProvider>(context, listen: false);
-  }
+  final isFavorite = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)?.settings.arguments as LessonWikiArguments;
 
-    if (wiki == null) {
-      wiki = args.lessonWiki;
-      isFavorite =
-          favouritesProvider.isFavourite(FavouriteType.Wiki, wiki?.questionId);
-    }
+    final favouritesProvider =
+        Provider.of<FavouritesProvider>(context, listen: false);
+    final modulesProvider =
+        Provider.of<ModulesProvider>(context, listen: false);
+
+    final wiki = args.lessonWiki;
+
+    isFavorite.value =
+        favouritesProvider.isFavourite(FavouriteType.Wiki, wiki.questionId);
 
     return Scaffold(
       backgroundColor: primaryColor,
       body: WillPopScope(
         onWillPop: () async => !Platform.isIOS,
         child: SafeArea(
+          bottom: false,
           child: Padding(
             padding: EdgeInsets.only(
               top: 12.0,
@@ -78,7 +62,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    wiki?.question ?? "",
+                                    wiki.question ?? "",
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline4
@@ -86,17 +70,20 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                                   ),
                                 ),
                                 IconButton(
-                                  icon: Icon(
-                                    isFavorite
-                                        ? Icons.favorite
-                                        : Icons.favorite_outline,
-                                    size: 20,
-                                    color: backgroundColor,
+                                  icon: ValueListenableBuilder<bool>(
+                                    valueListenable: isFavorite,
+                                    builder: (context, value, child) => Icon(
+                                      value
+                                          ? Icons.favorite
+                                          : Icons.favorite_outline,
+                                      size: 20,
+                                      color: backgroundColor,
+                                    ),
                                   ),
                                   onPressed: () {
                                     favouritesProvider.addToFavourites(
-                                        FavouriteType.Wiki, wiki?.questionId);
-                                    setState(() => isFavorite = !isFavorite);
+                                        FavouriteType.Wiki, wiki.questionId);
+                                    isFavorite.value = !isFavorite.value;
                                   },
                                 )
                               ],
@@ -119,7 +106,7 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                                 SizedBox(width: 10),
                                 HtmlWidget(
                                   modulesProvider.getLessonTitleByQuestionID(
-                                      wiki?.questionId ?? -1),
+                                      wiki.questionId ?? -1),
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .bodyText2
@@ -130,12 +117,13 @@ class _LessonWikiPageState extends State<LessonWikiPage> {
                             ),
                             SizedBox(height: 20),
                             HtmlWidget(
-                              wiki?.answer ?? "",
+                              wiki.answer ?? "",
                               textStyle: Theme.of(context)
                                   .textTheme
                                   .bodyText1
                                   ?.copyWith(color: textColor.withOpacity(0.8)),
-                            )
+                            ),
+                            SizedBox(height: 75)
                           ],
                         ),
                       ),

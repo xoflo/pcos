@@ -17,6 +17,8 @@ Future<void> main() async {
     color: Colors.blue,
     values: FlavorValues(
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
+      subscriptionUrl:
+          "https://z-pcos-protocol-web-as-ae-pr.azurewebsites.net/subscription",
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl:
           "https://questionaire.thepcosnutritionist.com/about/you/8?mobile=1",

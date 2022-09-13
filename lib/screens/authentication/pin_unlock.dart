@@ -110,10 +110,14 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       }
     } else {
       //not connected to internet, inform user
-      showFlushBar(
+      showAlertDialog(
         context,
         S.current.internetConnectionTitle,
         S.current.internetConnectionText,
+        "",
+        "Okay",
+        null,
+        null,
       );
     }
   }
@@ -123,9 +127,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     final bool refreshToken = await AuthenticationController().refreshToken();
 
     if (refreshToken) {
-      //token refreshed and Pin entry is complete now get next lesson date and show the app
       await saveNextLessonAvailableDate();
-      openAppTabs();
     } else {
       //couldn't refresh token, so wait a few seconds and try again
       await Future.delayed(const Duration(seconds: 3), () {
@@ -138,9 +140,7 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
     final bool refreshToken = await AuthenticationController().refreshToken();
 
     if (refreshToken) {
-      //token refreshed and Pin entry is complete now get next lesson date and show the app
       await saveNextLessonAvailableDate();
-      openAppTabs();
     } else {
       //couldn't refresh token, so refresh token must have expired, so logout user
       sendToSignIn(true);
@@ -148,18 +148,32 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
   }
 
   Future<void> saveNextLessonAvailableDate() async {
-    //get the dateNextLessonAvailable and update in shared prefs
+    // After getting member details, check if the user subscription is still
+    // updated. Otherwise, the app logs out, indicating that the subscription
+    // may have expired.
     final Member memberDetails = await WebServices().getMemberDetails();
-    await PreferencesController().saveString(
-        SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
-        memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ?? "");
+    if (memberDetails.isSubscriptionValid) {
+      await PreferencesController().saveString(
+          SharedPreferencesKeys.NEXT_LESSON_AVAILABLE_DATE,
+          memberDetails.dateNextLessonAvailableLocal?.toIso8601String() ?? "");
+      openAppTabs();
+    } else {
+      showAlertDialog(
+        context,
+        "Warning",
+        "Your subscription has expired. You will now be logged out of the app. Please update your subscription to continue using the Ovie app.",
+        "",
+        "Okay",
+        continueLogout,
+        null,
+      );
+    }
   }
 
   @override
   void startPinAgain(String title, String message) {
-    super.startPinAgain(title, message);
-
     resetPinPad();
+    super.startPinAgain(title, message);
   }
 
   void openAppTabs() async {
@@ -181,16 +195,18 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
         ? S.current.pinRefreshErrorText
         : S.current.pinUnlockAttemptsErrorText;
 
-    showFlushBar(
+    showAlertDialog(
       context,
       title,
       message,
-      displayDuration: 5,
+      "",
+      "Okay",
+      (BuildContext context) async {
+        await Future.delayed(
+            Duration(seconds: 6), deleteCredentialsAndGotoSignIn);
+      },
+      null,
     );
-
-    await Future.delayed(Duration(seconds: 6), () {
-      deleteCredentialsAndGotoSignIn();
-    });
   }
 
   @override
@@ -219,12 +235,12 @@ class PinUnlockState extends State<PinUnlock> with BasePin {
       S.current.pinForgottenMessage,
       S.current.pinForgottenCancel,
       S.current.pinForgottenContinue,
-      continueForgottenPin,
+      continueLogout,
       null,
     );
   }
 
-  void continueForgottenPin(BuildContext context) {
+  void continueLogout(BuildContext context) {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_BUTTONCLICK,
       parameters: {

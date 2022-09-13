@@ -57,7 +57,7 @@ import 'package:thepcosprotocol_app/screens/profile/profile_personal_details.dar
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_details_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_list_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_method_tips_page.dart';
-import 'package:thepcosprotocol_app/screens/sign_in/register_web_view.dart';
+import 'package:thepcosprotocol_app/screens/internal_web_view.dart';
 
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -205,7 +205,7 @@ class _AppState extends State<App> {
           SignIn.id: (context) => SignIn(),
           ForgotPassword.id: (context) => ForgotPassword(),
           ForgotPasswordSuccess.id: (context) => ForgotPasswordSuccess(),
-          RegisterWebView.id: (context) => RegisterWebView(),
+          InternalWebView.id: (context) => InternalWebView(),
           UnsupportedVersion.id: (context) => UnsupportedVersion(),
           PinUnlock.id: (context) => PinUnlock(),
           PinSet.id: (context) => PinSet(),

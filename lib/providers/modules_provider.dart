@@ -265,6 +265,7 @@ class ModulesProvider extends LoadingStatusNotifier {
   }
 
   Future<void> fetchLessonTasks(final int lessonID) async {
+    _lessonTasks.clear();
     setLoadingStatus(LoadingStatus.loading, false);
 
     if (dbProvider?.db != null) {
