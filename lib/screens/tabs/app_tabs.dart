@@ -48,7 +48,6 @@ class AppTabs extends StatefulWidget {
 class _AppTabsState extends State<AppTabs>
     with WidgetsBindingObserver, TickerProviderStateMixin {
   int _currentIndex = 0;
-  bool _intercomInitialised = false;
   bool _showYourWhy = true;
   bool _showLessonRecipes = false;
   bool _isUsernameUsed = false;
@@ -75,6 +74,8 @@ class _AppTabsState extends State<AppTabs>
     final authenticationController = AuthenticationController();
     final oneSignalController = OneSignalController();
 
+    final String? userId = await authenticationController.getUserId();
+
     //intercom
     final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
     await Intercom.instance.initialize(
@@ -82,20 +83,22 @@ class _AppTabsState extends State<AppTabs>
       androidApiKey: intercomIds[1],
       iosApiKey: intercomIds[2],
     );
-    final String? userId = await authenticationController.getUserId();
-    if (!await authenticationController.getIntercomRegistered()) {
-      Intercom.instance.loginIdentifiedUser(userId: userId);
-      await authenticationController.saveIntercomRegistered();
-    }
+
+    Intercom.instance.loginIdentifiedUser(
+      userId: userId,
+      statusCallback: IntercomStatusCallback(
+        onSuccess: () {
+          authenticationController.saveIntercomRegistered();
+        },
+      ),
+    );
 
     // Set OneSignal
-    if (!await authenticationController.getOneSignalSent()) {
-      final String pcosType = await PreferencesController()
-          .getString(SharedPreferencesKeys.PCOS_TYPE);
-      await oneSignalController.setOneSignal(
-          userId: userId ?? "", pcosType: pcosType);
-      await authenticationController.saveOneSignalSent();
-    }
+    final String pcosType = await PreferencesController()
+        .getString(SharedPreferencesKeys.PCOS_TYPE);
+    await oneSignalController.setOneSignal(
+        userId: userId ?? "", pcosType: pcosType);
+    await authenticationController.saveOneSignalSent();
 
     oneSignalController.promptNotifiationsPermission().then((accepted) {
       print("Accepted permission: $accepted");
@@ -110,7 +113,6 @@ class _AppTabsState extends State<AppTabs>
         .getBool(SharedPreferencesKeys.USERNAME_USED);
 
     setState(() {
-      _intercomInitialised = true;
       _showYourWhy = isYourWhyOn;
       _showLessonRecipes = isLessonRecipesOn;
       _isUsernameUsed = isUsernameUsed;
@@ -172,8 +174,8 @@ class _AppTabsState extends State<AppTabs>
     setState(() => _isLocked = isLocked);
   }
 
-  void openChat() {
-    if (_intercomInitialised) {
+  void openChat() async {
+    if (await AuthenticationController().getIntercomRegistered()) {
       analytics.setCurrentScreen(
         screenName: Analytics.ANALYTICS_SCREEN_COACH_CHAT,
       );
