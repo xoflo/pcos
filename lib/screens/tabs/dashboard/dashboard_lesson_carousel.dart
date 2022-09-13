@@ -55,6 +55,7 @@ class DashboardLessonCarousel extends StatelessWidget {
       indicatorPosition: Alignment.topCenter,
       isErrorDialogDismissible: true,
       retryAction: modulesProvider.fetchAndSaveData,
+      positionalParams: [true],
       height: 585,
       child: Column(
         children: [

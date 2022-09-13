@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
-import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 /// A Widget that makes another widget overlayed with a progress indicator on top of it.
@@ -25,6 +24,8 @@ class LoaderOverlay extends StatelessWidget {
     this.isDisplayErrorAsAlert = true,
     this.isErrorDialogDismissible = true,
     this.retryAction,
+    this.positionalParams,
+    this.namedParams,
   }) : super(key: key);
 
   final Widget child;
@@ -35,6 +36,8 @@ class LoaderOverlay extends StatelessWidget {
   final Alignment indicatorPosition;
   final Color? overlayBackgroundColor;
   final double height;
+  final List<dynamic>? positionalParams;
+  final Map<Symbol, dynamic>? namedParams;
   final Function? retryAction;
 
   @override
@@ -84,7 +87,7 @@ class LoaderOverlay extends StatelessWidget {
               ),
             ),
             content: Text(
-              "Please try again later.",
+              "Please check your internet connection and try again.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -95,10 +98,8 @@ class LoaderOverlay extends StatelessWidget {
               ElevatedButton(
                   onPressed: () {
                     if (isErrorDialogDismissible) {
-                      // Navigator.of(context).pop();
-                      // retryAction?.call();
                       if (retryAction != null) {
-                        retryAction!(true);
+                        Function.apply(retryAction!, positionalParams, namedParams);
                       }
                       loadingStatusNotifier.setLoadingStatus(
                           LoadingStatus.success, true);
@@ -107,7 +108,7 @@ class LoaderOverlay extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     primary: backgroundColor,
                   ),
-                  child: const Text('OK')),
+                  child: const Text('Retry')),
             ],
           );
         } else {
