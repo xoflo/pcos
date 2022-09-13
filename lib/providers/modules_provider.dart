@@ -74,14 +74,7 @@ class ModulesProvider extends LoadingStatusNotifier {
     }
 
     //first get the data from the api if we have no data yet
-    ModulesAndLessons modulesAndLessons = ModulesAndLessons(
-        lessonContent: [],
-        lessonQuizzes: [],
-        lessonRecipes: [],
-        lessonTasks: [],
-        lessonWikis: [],
-        lessons: [],
-        modules: []);
+    ModulesAndLessons modulesAndLessons = ModulesAndLessons();
     try {
       modulesAndLessons = await providerHelper.fetchAndSaveModuleExport(
           dbProvider, forceRefresh, nextLessonAvailableDate);
