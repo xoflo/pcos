@@ -71,7 +71,13 @@ class MemberProvider extends LoadingStatusNotifier {
     LoadingStatus status = LoadingStatus.loading;
     setLoadingStatus(status, false);
     try {
-      final Member? memberDetails = await WebServices().getMemberDetails();
+      Member? memberDetails;
+      try {
+        memberDetails = await WebServices().getMemberDetails();
+      } catch (e) {
+        setLoadingStatus(LoadingStatus.failed, true);
+        return;
+      }
 
       if (memberDetails != null) {
         this.member = memberDetails;

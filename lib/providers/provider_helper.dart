@@ -43,7 +43,13 @@ class ProviderHelper {
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, tableName)) {
-        final cmsItems = await webServices.getCMSByType(assetType);
+        final cmsItems;
+        try {
+          cmsItems = await webServices.getCMSByType(assetType);
+        } catch (e) {
+          rethrow;
+        }
+
         List<Question> questions = _convertCMSToQuestions(cmsItems, assetType);
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(tableName);
@@ -113,7 +119,13 @@ class ProviderHelper {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, TABLE_LESSON_TASK,
           where: "WHERE lessonID = $lessonID")) {
-        final tasks = await webServices.getTasksForLesson(lessonID ?? -1);
+        dynamic tasks = [];
+        try {
+          tasks = await webServices.getTasksForLesson(lessonID ?? -1);
+        } catch (e) {
+          rethrow;
+        }
+
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(TABLE_LESSON_TASK);
         //add items to database
@@ -152,10 +164,20 @@ class ProviderHelper {
       if (forceRefresh ||
           await _shouldGetDataFromAPI(dbProvider, TABLE_MODULE)) {
         //first get the Wiki items and store in local DB
-        await fetchAndSaveQuestions(dbProvider, TABLE_WIKI, TABLE_WIKI);
+        try {
+          await fetchAndSaveQuestions(dbProvider, TABLE_WIKI, TABLE_WIKI);
+        } catch (e) {
+          rethrow;
+        }
+
         //now get the modules, lessons etc
-        final List<ModuleExport>? moduleExport =
-            await webServices.getModulesExport();
+        List<ModuleExport>? moduleExport = [];
+        try {
+          moduleExport = await webServices.getModulesExport();
+        } catch (e) {
+          rethrow;
+        }
+
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(TABLE_MODULE);
         await dbProvider?.deleteAll(TABLE_LESSON);
@@ -193,8 +215,13 @@ class ProviderHelper {
 
       //get and add the Quizzes including questions and answers to the DB
       //do this after modules and lessons so we can check the lesson links to see which quizzes are for this member
-      final List<LessonTask>? lessonQuizTasks =
-          await webServices.getQuizTasks();
+      List<LessonTask>? lessonQuizTasks = [];
+      try {
+        lessonQuizTasks = await webServices.getQuizTasks();
+      } catch (e) {
+        rethrow;
+      }
+
       debugPrint("Got Lesson Quiz TASKS count = ${lessonQuizTasks?.length}");
       await _addQuizzesToDatabase(dbProvider, lessonQuizTasks);
 

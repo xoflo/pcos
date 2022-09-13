@@ -53,6 +53,8 @@ class DashboardLessonCarousel extends StatelessWidget {
       emptyMessage: S.current.noResultsLessons,
       overlayBackgroundColor: primaryColor,
       indicatorPosition: Alignment.topCenter,
+      isErrorDialogDismissible: true,
+      retryAction: modulesProvider.fetchAndSaveData,
       height: 585,
       child: Column(
         children: [

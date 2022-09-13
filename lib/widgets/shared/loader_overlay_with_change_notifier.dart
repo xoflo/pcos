@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 /// A Widget that makes another widget overlayed with a progress indicator on top of it.
@@ -21,24 +22,30 @@ class LoaderOverlay extends StatelessWidget {
     this.overlayBackgroundColor,
     required this.height,
     this.emptyMessage = "",
+    this.isDisplayErrorAsAlert = true,
+    this.isErrorDialogDismissible = true,
+    this.retryAction,
   }) : super(key: key);
 
   final Widget child;
   final LoadingStatusNotifier loadingStatusNotifier;
   final String emptyMessage;
+  final bool isDisplayErrorAsAlert;
+  final bool isErrorDialogDismissible;
   final Alignment indicatorPosition;
   final Color? overlayBackgroundColor;
   final double height;
+  final Function? retryAction;
 
   @override
   Widget build(BuildContext context) => Stack(
         children: [
           child,
-          _loaderOverlay(),
+          _loaderOverlay(context),
         ],
       );
 
-  Widget _loaderOverlay() {
+  Widget _loaderOverlay(context) {
     switch (loadingStatusNotifier.loadingStatus) {
       case LoadingStatus.loading:
         return Container(
@@ -56,6 +63,58 @@ class LoaderOverlay extends StatelessWidget {
         return Center(child: NoResults(message: emptyMessage));
       case LoadingStatus.success:
         return Container();
+      case LoadingStatus.failed:
+        if (isDisplayErrorAsAlert) {
+          return AlertDialog(
+            backgroundColor: primaryColor.withOpacity(0.85),
+            titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+            contentPadding: EdgeInsets.symmetric(horizontal: 15),
+            actionsPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            alignment: Alignment.center,
+            title: Text(
+              "Something went wrong",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            ),
+            content: Text(
+              "Please try again later.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                color: textColor,
+              ),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  onPressed: () {
+                    if (isErrorDialogDismissible) {
+                      // Navigator.of(context).pop();
+                      // retryAction?.call();
+                      if (retryAction != null) {
+                        retryAction!(true);
+                      }
+                      loadingStatusNotifier.setLoadingStatus(
+                          LoadingStatus.success, true);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: backgroundColor,
+                  ),
+                  child: const Text('OK')),
+            ],
+          );
+        } else {
+          return Center(
+              child: NoResults(
+                  message: "Something went wrong. Please try again."));
+        }
     }
   }
 }

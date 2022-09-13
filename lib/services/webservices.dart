@@ -120,20 +120,42 @@ class WebServices {
   //#region Member
   Future<Member> getMemberDetails() async {
     final url = Uri.parse(baseUrl + "Member/me");
-    final String? token = await AuthenticationController().getAccessToken();
 
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return Member.fromJson(
+            StandardResponse.fromJson(jsonDecode(response.body)).payload ?? {});
+      } else {
+        throw GET_MEMBER_FAILED;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> executeHttpGet(url) async {
+    final String? token = await AuthenticationController().getAccessToken();
+    try {
+      final response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> executeHttpGetWithoutAuth(url) async {
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
     });
 
-    if (response.statusCode == 200) {
-      return Member.fromJson(
-          StandardResponse.fromJson(jsonDecode(response.body)).payload ?? {});
-    } else {
-      throw GET_MEMBER_FAILED;
-    }
+    return response;
   }
 
   Future<bool> setMemberWhy(String memberId, String why) async {
@@ -218,75 +240,70 @@ class WebServices {
   //#region Course
   Future<List<ModuleExport>?> getModulesExport() async {
     final url = Uri.parse(baseUrl + "Module/export");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-    if (response.statusCode == 200) {
-      //log(response.body);
-      return ModuleExportResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw Exception(GET_MODULES_FAILED);
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        //log(response.body);
+        return ModuleExportResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw Exception(GET_MODULES_FAILED);
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<List<Module>?> getAllModules() async {
     final url = Uri.parse(baseUrl + "Module/all");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-    if (response.statusCode == 200) {
-      return ModuleResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw Exception(GET_MODULES_FAILED);
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return ModuleResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw Exception(GET_MODULES_FAILED);
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<List<Module>?> getIncompleteModules() async {
     final url = Uri.parse(baseUrl + "Module/incomplete");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-    if (response.statusCode == 200) {
-      return ModuleResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw Exception(GET_MODULES_FAILED);
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return ModuleResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw Exception(GET_MODULES_FAILED);
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<List<Module>?> getCompleteModules() async {
     final url = Uri.parse(baseUrl + "Module/complete");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return ModuleResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw Exception(GET_MODULES_FAILED);
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return ModuleResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw Exception(GET_MODULES_FAILED);
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -366,77 +383,69 @@ class WebServices {
 
   Future<List<Lesson>?> getAllLessonsForModule(final int moduleId) async {
     final url = Uri.parse(baseUrl + "Lesson/all/$moduleId");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return LessonResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw GET_LESSONS_FAILED;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return LessonResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_LESSONS_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<List<LessonTask>?> getIncompleteTasks(final int lessonId) async {
     final url = Uri.parse(baseUrl + "Task/incomplete/$lessonId");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return LessonTaskResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw GET_LESSON_TASKS_FAILED;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return LessonTaskResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_LESSON_TASKS_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<List<LessonTask>?> getTasksForLesson(final int lessonId) async {
     final url = Uri.parse(baseUrl + "Task/all/$lessonId");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return LessonTaskResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw GET_LESSON_TASKS_FAILED;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return LessonTaskResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_LESSON_TASKS_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<List<LessonTask>?> getQuizTasks() async {
     final url = Uri.parse(baseUrl + "Task/all/quizzes");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return LessonTaskResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw GET_LESSON_QUIZ_FAILED;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return LessonTaskResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_LESSON_QUIZ_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
   //#endregion
@@ -444,20 +453,18 @@ class WebServices {
   //#region Recipes
   Future<List<Recipe>?> getAllRecipes() async {
     final url = Uri.parse(baseUrl + "recipe/all");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return RecipeResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw GET_RECIPES_FAILED;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return RecipeResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_RECIPES_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
   //#endregion
@@ -466,37 +473,35 @@ class WebServices {
   Future<String?> getCmsAssetByReference(final String reference) async {
     final url = Uri.parse(baseUrl + "CMS/asset/$reference");
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
-
-    if (response.statusCode == 200) {
-      return CmsResponse.fromJson(
-              StandardResponse.fromJson(jsonDecode(response.body)).payload ??
-                  {})
-          .body;
-    } else {
-      throw GET_PRIVACY_STATEMENT_FAILED;
+    try {
+      final response = await executeHttpGetWithoutAuth(url);
+      if (response.statusCode == 200) {
+        return CmsResponse.fromJson(
+                StandardResponse.fromJson(jsonDecode(response.body)).payload ??
+                    {})
+            .body;
+      } else {
+        throw GET_PRIVACY_STATEMENT_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<List<CMS>?> getCMSByType(final String cmsType) async {
     final url = Uri.parse(baseUrl + "CMS/bytype/$cmsType");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return CMSMultiResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw GET_CMSBYTYPE_FAILED;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return CMSMultiResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_CMSBYTYPE_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
   //#endregion
@@ -504,54 +509,48 @@ class WebServices {
   //#region Notifications
   Future<List<Message>?> getAllUserNotifications() async {
     final url = Uri.parse(baseUrl + "notification");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return MessageResponse.fromList(
-              ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
-          .results;
-    } else {
-      throw GET_MESSAGES_FAILED;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return MessageResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_MESSAGES_FAILED;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<bool> markNotificationAsRead(final int? notificationId) async {
     final url = Uri.parse(baseUrl + "notification/read/$notificationId");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw false;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw false;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<bool> markNotificationAsDeleted(final int? notificationId) async {
     final url = Uri.parse(baseUrl + "notification/remove/$notificationId");
-    final String? token = await AuthenticationController().getAccessToken();
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw false;
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw false;
+      }
+    } catch (e) {
+      rethrow;
     }
   }
   //#endregion
@@ -615,10 +614,7 @@ class WebServices {
   Future<bool> checkVersion(final String platform, final String version) async {
     final url = Uri.parse(
         baseUrl + "/app_services/min_supported_version/$platform/$version");
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
+    final response = await executeHttpGetWithoutAuth(url);
 
     if (response.statusCode == 200) {
       final stdResponse = StandardResponse.fromJson(jsonDecode(response.body));
