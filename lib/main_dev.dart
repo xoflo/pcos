@@ -23,8 +23,8 @@ Future<void> main() async {
       // up, we will be updating the dev and prod links to properly manage and
       // assign the flavors.
 
-      // baseUrl: "https://z-pcos-protocol-api-as-ae-pp.azurewebsites.net/api/",
-      baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
+      baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
+      // baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       subscriptionUrl:
           "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/subscription",
       oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
