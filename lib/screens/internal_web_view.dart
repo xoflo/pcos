@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -45,6 +46,10 @@ class _InternalWebViewState extends State<InternalWebView> {
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
+            // We need to reset the cookies so that a new session will be
+            // created, just in case a second account may be logged in
+            final cookieManager = CookieManager();
+            cookieManager.clearCookies();
           },
           onProgress: (int progress) {
             debugPrint("WebView is loading (progress : $progress%)");
@@ -55,7 +60,20 @@ class _InternalWebViewState extends State<InternalWebView> {
           navigationDelegate: (NavigationRequest request) {
             debugPrint('allowing navigation to $request');
             if (request.url.contains("/subscribed")) {
-              Navigator.pushReplacementNamed(context, SignIn.id);
+              showAlertDialog(
+                context,
+                "Success",
+                "Your account is successfully subscribed. Please return to the sign in page.",
+                "",
+                "Return to Sign In",
+                (BuildContext context) {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    SignIn.id,
+                  );
+                },
+                null,
+              );
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
