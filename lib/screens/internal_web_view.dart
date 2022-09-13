@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
@@ -45,11 +46,13 @@ class _InternalWebViewState extends State<InternalWebView> {
           initialUrl: link,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
             // We need to reset the cookies so that a new session will be
             // created, just in case a second account may be logged in
-            final cookieManager = CookieManager();
-            cookieManager.clearCookies();
+            if (link == FlavorConfig.instance.values.subscriptionUrl) {
+              final cookieManager = CookieManager();
+              cookieManager.clearCookies();
+            }
+            _controller.complete(webViewController);
           },
           onProgress: (int progress) {
             debugPrint("WebView is loading (progress : $progress%)");
@@ -59,7 +62,15 @@ class _InternalWebViewState extends State<InternalWebView> {
           },
           navigationDelegate: (NavigationRequest request) {
             debugPrint('allowing navigation to $request');
-            if (request.url.contains("/subscribed")) {
+
+            return NavigationDecision.navigate;
+          },
+          onPageStarted: (String url) {
+            debugPrint('Page started loading: $url');
+          },
+          onPageFinished: (String url) {
+            debugPrint('Page finished loading: $url');
+            if (url.contains("/subscribed")) {
               showAlertDialog(
                 context,
                 "Success",
@@ -74,15 +85,7 @@ class _InternalWebViewState extends State<InternalWebView> {
                 },
                 null,
               );
-              return NavigationDecision.prevent;
             }
-            return NavigationDecision.navigate;
-          },
-          onPageStarted: (String url) {
-            debugPrint('Page started loading: $url');
-          },
-          onPageFinished: (String url) {
-            debugPrint('Page finished loading: $url');
           },
           gestureNavigationEnabled: true,
           zoomEnabled: false,
