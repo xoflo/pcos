@@ -18,12 +18,12 @@ Future<void> main() async {
     values: FlavorValues(
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       subscriptionUrl:
-          "https://z-pcos-protocol-web-as-ae-pr.azurewebsites.net/subscription",
-      oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
+          "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/subscription",
+      oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
       questionnaireUrl:
-          "https://questionaire.thepcosnutritionist.com/about/you/8?mobile=1",
-      imageStorageFolder: "/v1620260652/images/",
-      thumbnailStorageFolder: "/v1620688098/thumbnails/",
+          "https://my.thepcosnutritionist.com/about/you/8?mobile=1",
+      imageStorageFolder: "/v1617670686/images/",
+      thumbnailStorageFolder: "/v1617676121/thumbnails/",
       intercomIds: [
         "xsb9gkoh",
         "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",
