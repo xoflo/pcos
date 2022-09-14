@@ -3,6 +3,8 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
+import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
 /// A Widget that makes another widget overlayed with a progress indicator on top of it.
 /// Purpose of which is to move out the logic behind the appearance/disappearance of
@@ -68,49 +70,26 @@ class LoaderOverlay extends StatelessWidget {
         return Container();
       case LoadingStatus.failed:
         if (isDisplayErrorAsAlert) {
-          return AlertDialog(
-            backgroundColor: primaryColor.withOpacity(0.85),
-            titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-            contentPadding: EdgeInsets.symmetric(horizontal: 15),
-            actionsPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            alignment: Alignment.center,
-            title: Text(
-              "Something went wrong",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-              ),
-            ),
-            content: Text(
-              "Please check your internet connection and try again.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: textColor,
-              ),
-            ),
-            actions: <Widget>[
-              ElevatedButton(
-                  onPressed: () {
-                    if (isErrorDialogDismissible) {
-                      if (retryAction != null) {
-                        Function.apply(retryAction!, positionalParams, namedParams);
-                      }
-                      loadingStatusNotifier.setLoadingStatus(
-                          LoadingStatus.success, true);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: backgroundColor,
-                  ),
-                  child: const Text('Retry')),
-            ],
+          Widget retryButton = FilledButton(
+            margin: EdgeInsets.zero,
+            text: "Retry",
+            foregroundColor: Colors.white,
+            backgroundColor: backgroundColor,
+            onPressed: () {
+              if (isErrorDialogDismissible) {
+                if (retryAction != null) {
+                  Function.apply(retryAction!, positionalParams, namedParams);
+                }
+                loadingStatusNotifier.setLoadingStatus(
+                    LoadingStatus.success, true);
+              }
+            },
           );
+          List<Widget> actions = [];
+          actions.add(retryButton);
+
+          return createAlertDialogWidget("Something went wrong",
+              "Please check your internet connection and try again.", actions);
         } else {
           return Center(
               child: NoResults(
