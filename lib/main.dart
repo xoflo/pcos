@@ -17,11 +17,9 @@ Future<void> main() async {
     color: Colors.blue,
     values: FlavorValues(
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
-      subscriptionUrl:
-          "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/subscription",
+      subscriptionUrl: "https://questionnaire.ovie.io/subscription",
       oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
-      questionnaireUrl:
-          "https://my.thepcosnutritionist.com/about/you/8?mobile=1",
+      questionnaireUrl: "https://questionnaire.ovie.io/about/you/8?mobile=1",
       imageStorageFolder: "/v1617670686/images/",
       thumbnailStorageFolder: "/v1617676121/thumbnails/",
       intercomIds: [
