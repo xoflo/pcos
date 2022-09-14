@@ -119,7 +119,7 @@ class ProviderHelper {
       //first get the data from the api if we have no data yet
       if (await _shouldGetDataFromAPI(dbProvider, TABLE_LESSON_TASK,
           where: "WHERE lessonID = $lessonID")) {
-        dynamic tasks = [];
+        List<LessonTask>? tasks = [];
         try {
           tasks = await webServices.getTasksForLesson(lessonID ?? -1);
         } catch (e) {
