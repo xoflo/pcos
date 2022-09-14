@@ -17,8 +17,7 @@ Future<void> main() async {
     color: Colors.blue,
     values: FlavorValues(
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
-      subscriptionUrl:
-          "https://questionnaire.ovie.io/subscription",
+      subscriptionUrl: "https://questionnaire.ovie.io/subscription",
       oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl: "https://questionnaire.ovie.io/about/you/8?mobile=1",
       imageStorageFolder: "/v1620260652/images/",

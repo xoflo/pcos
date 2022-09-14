@@ -23,13 +23,15 @@ Future<void> main() async {
       // up, we will be updating the dev and prod links to properly manage and
       // assign the flavors.
 
-      baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
-      // baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
-      subscriptionUrl:
-          "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/subscription",
+      // baseUrl: "https://z-pcos-protocol-as-ae-pp.azurewebsites.net/api/",
+      baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
+      // subscriptionUrl:
+      //     "https://z-pcos-protocol-web-as-ae-pp.azurewebsites.net/subscription",
+      subscriptionUrl: "https://questionnaire.ovie.io/subscription",
       oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
-      questionnaireUrl:
-          "https://my.thepcosnutritionist.com/about/you/8?mobile=1",
+      // questionnaireUrl:
+      //     "https://my.thepcosnutritionist.com/about/you/8?mobile=1",
+      questionnaireUrl: "https://questionnaire.ovie.io/about/you/8?mobile=1",
       imageStorageFolder: "/v1617670686/images/",
       thumbnailStorageFolder: "/v1617676121/thumbnails/",
       intercomIds: [
