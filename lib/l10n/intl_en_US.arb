@@ -254,5 +254,7 @@
     "quizQuestionWarningTitle": "Quiz Question",
     "quizQuestionWarningText": "Please provide an answer for this question.",
     "quizGenericEndTitle": "Thank you",
-    "quizGenericEndMessage": "You have now completed this quiz"
+    "quizGenericEndMessage": "You have now completed this quiz",
+    "warningText": "Warning",
+    "somethingWentWrongMessage": "Something went wrong. Please try again."
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
@@ -88,12 +89,12 @@ class LoaderOverlay extends StatelessWidget {
           List<Widget> actions = [];
           actions.add(retryButton);
 
-          return createAlertDialogWidget("Something went wrong",
-              "Please check your internet connection and try again.", actions);
+          return createAlertDialogWidget(S.current.warningText,
+              S.current.internetConnectionText, actions);
         } else {
           return Center(
               child: NoResults(
-                  message: "Something went wrong. Please try again."));
+                  message: S.current.somethingWentWrongMessage));
         }
     }
   }

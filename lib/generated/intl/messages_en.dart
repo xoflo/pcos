@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,7 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function>{
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "allModules": MessageLookupByLibrary.simpleMessage("All Modules"),
         "appHelpTitle": MessageLookupByLibrary.simpleMessage("App Help"),
         "appTitle": MessageLookupByLibrary.simpleMessage("Ovie"),
@@ -368,6 +369,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sign In Failed"),
         "signinUnknownErrorText": MessageLookupByLibrary.simpleMessage(
             "We could not sign you in. Please try again later."),
+        "somethingWentWrongMessage": MessageLookupByLibrary.simpleMessage(
+            "Something went wrong. Please try again."),
         "startQuiz": MessageLookupByLibrary.simpleMessage("Start Quiz"),
         "supportTitle": MessageLookupByLibrary.simpleMessage("Support"),
         "swipeDownForQuestion":
@@ -447,6 +450,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewWikiAnswer": MessageLookupByLibrary.simpleMessage("View answer"),
         "viewWikiQuestion":
             MessageLookupByLibrary.simpleMessage("View question"),
+        "warningText": MessageLookupByLibrary.simpleMessage("Warning"),
         "wikiTitle": MessageLookupByLibrary.simpleMessage("Wikis"),
         "yesText": MessageLookupByLibrary.simpleMessage("Yes"),
         "yourWhyTitle": MessageLookupByLibrary.simpleMessage("Your why:"),
