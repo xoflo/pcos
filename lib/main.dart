@@ -19,6 +19,9 @@ Future<void> main() async {
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       subscriptionUrl: "https://questionnaire.ovie.io/subscription",
       oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
+      // Uncomment this when the app is about to use the prod OneSignal app ID.
+      // This is especially useful when dealing with iOS releases.
+      // oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl: "https://questionnaire.ovie.io/about/you/8?mobile=1",
       imageStorageFolder: "/v1617670686/images/",
       thumbnailStorageFolder: "/v1617676121/thumbnails/",
