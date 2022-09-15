@@ -174,7 +174,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                         sendForgotPasswordRequest();
                                       }
                                     },
-                                    text: S.current.signInTitle,
+                                    text: S.current.sendButtonText,
                                     foregroundColor: Colors.white,
                                     backgroundColor: backgroundColor,
                                   ),
