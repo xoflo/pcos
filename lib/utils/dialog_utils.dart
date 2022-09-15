@@ -48,7 +48,20 @@ showAlertDialog(
     actions.add(cancelButton);
   }
 
-  // set up the AlertDialog
+  AlertDialog alert = createAlertDialogWidget(title, message, actions);
+
+  // show the dialog
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+AlertDialog createAlertDialogWidget(
+    String title, String message, List<Widget> actions) {
   AlertDialog alert = AlertDialog(
     titlePadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
     contentPadding: EdgeInsets.symmetric(horizontal: 15),
@@ -76,14 +89,8 @@ showAlertDialog(
     ),
     actions: actions,
   );
-  // show the dialog
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+
+  return alert;
 }
 
 openBottomSheet(final BuildContext context, final Widget widget,

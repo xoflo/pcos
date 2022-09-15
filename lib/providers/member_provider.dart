@@ -71,23 +71,25 @@ class MemberProvider extends LoadingStatusNotifier {
     LoadingStatus status = LoadingStatus.loading;
     setLoadingStatus(status, false);
     try {
-      final Member? memberDetails = await WebServices().getMemberDetails();
-
-      if (memberDetails != null) {
-        this.member = memberDetails;
-        this.memberOriginal.firstName = memberDetails.firstName;
-        this.memberOriginal.lastName = memberDetails.lastName;
-        this.memberOriginal.email = memberDetails.email;
-        this.memberOriginal.alias = memberDetails.alias;
-
-        final String whatsYourWhy = await PreferencesController()
-            .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
-        _why = whatsYourWhy;
-
-        status = LoadingStatus.success;
-      } else {
-        status = LoadingStatus.empty;
+      Member? memberDetails;
+      try {
+        memberDetails = await WebServices().getMemberDetails();
+      } catch (e) {
+        setLoadingStatus(LoadingStatus.failed, true);
+        return;
       }
+
+      this.member = memberDetails;
+      this.memberOriginal.firstName = memberDetails.firstName;
+      this.memberOriginal.lastName = memberDetails.lastName;
+      this.memberOriginal.email = memberDetails.email;
+      this.memberOriginal.alias = memberDetails.alias;
+
+      final String whatsYourWhy = await PreferencesController()
+          .getString(SharedPreferencesKeys.WHATS_YOUR_WHY);
+      _why = whatsYourWhy;
+
+      status = LoadingStatus.success;
     } catch (ex) {
       status = LoadingStatus.empty;
     }

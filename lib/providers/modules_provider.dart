@@ -74,9 +74,15 @@ class ModulesProvider extends LoadingStatusNotifier {
     }
 
     //first get the data from the api if we have no data yet
-    final ModulesAndLessons modulesAndLessons =
-        await providerHelper.fetchAndSaveModuleExport(
-            dbProvider, forceRefresh, nextLessonAvailableDate);
+    ModulesAndLessons modulesAndLessons = ModulesAndLessons();
+    try {
+      modulesAndLessons = await providerHelper.fetchAndSaveModuleExport(
+          dbProvider, forceRefresh, nextLessonAvailableDate);
+    }catch (e) {
+      setLoadingStatus(LoadingStatus.failed, true);
+      return;
+    }
+
     _modules = modulesAndLessons.modules ?? [];
     _lessons = modulesAndLessons.lessons ?? [];
     _lessonContent = modulesAndLessons.lessonContent ?? [];
@@ -257,8 +263,15 @@ class ModulesProvider extends LoadingStatusNotifier {
 
     if (dbProvider?.db != null) {
       //first get the data from the api if we have no data yet
-      final List<LessonTask> lessonTasks = await ProviderHelper()
-          .fetchAndSaveTaskForLesson(dbProvider, lessonID: lessonID);
+      List<LessonTask> lessonTasks = [];
+      try {
+        lessonTasks = await ProviderHelper()
+            .fetchAndSaveTaskForLesson(dbProvider, lessonID: lessonID);
+      } catch (e) {
+        setLoadingStatus(LoadingStatus.failed, true);
+        return;
+      }
+
       lessonTasks.sort();
       _lessonTasks = lessonTasks;
 
