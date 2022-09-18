@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -76,10 +76,10 @@ class LessonPage extends StatelessWidget {
         context,
         S.current.requestDailyReminderTitle,
         S.current.requestDailyReminderNoText,
-        S.current.okayText,
         "",
-        null,
+        S.current.okayText,
         (BuildContext context) => Navigator.pop(context),
+        null,
       );
     }
 
@@ -151,7 +151,6 @@ class LessonPage extends StatelessWidget {
                     .textTheme
                     .bodyText1
                     ?.copyWith(height: 1.5),
-                isSelectable: true,
               ),
             ),
             if (contents.isNotEmpty) ...[

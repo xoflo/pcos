@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/navigation/library_wiki_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';

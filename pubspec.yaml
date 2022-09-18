@@ -42,7 +42,8 @@ dependencies:
   http: ^0.13.4
   flutter_secure_storage: ^5.0.2
   provider: ^6.0.3
-  flutter_widget_from_html: ^0.8.5
+  flutter_widget_from_html_core: ^0.8.5+3
+  fwfh_text_style: ^2.22.08+1
   better_player: ^0.0.82
   sqflite: ^2.0.2+1
   intercom_flutter: ^7.3.0
@@ -53,6 +54,7 @@ dependencies:
   full_screen_image_null_safe: ^2.0.0
   animations: ^2.0.0
   flutter_native_timezone: ^2.0.0
+  rxdart: ^0.27.5
 
 dev_dependencies:
   integration_test:

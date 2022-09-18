@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:thepcosprotocol_app/models/navigation/recipe_method_tips_arguments.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';

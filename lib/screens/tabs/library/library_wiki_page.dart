@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/models/navigation/lesson_wiki_arguments.dart';
@@ -45,7 +45,7 @@ class _LibraryWikiPageState extends State<LibraryWikiPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Header(
-                title: "Wiki Library",
+                  title: "Wiki Library",
                   closeItem: () => Navigator.pop(context),
                 ),
                 Padding(

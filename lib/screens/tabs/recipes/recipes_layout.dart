@@ -76,7 +76,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
 
     recipesProvider.filterAndSearch(
         _searchController.text.trim(), _mealTag, _dietTags);
-    WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
   }
 
   @override
