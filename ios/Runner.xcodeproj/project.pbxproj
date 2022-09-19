@@ -483,6 +483,7 @@
 /* Begin XCBuildConfiguration section */
 		249021D3217E4FDB00AE95B9 /* Profile-prod */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB31CF90195004384FC /* Generated.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -541,7 +542,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "$(inherited)";
 				DEVELOPMENT_TEAM = 3FVSGQ8XBT;
 				ENABLE_BITCODE = NO;
@@ -1022,6 +1023,7 @@
 		};
 		8082EFE92575ED80009188A0 /* Debug-dev */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB31CF90195004384FC /* Generated.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1085,7 +1087,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "$(inherited)";
 				DEVELOPMENT_TEAM = 3FVSGQ8XBT;
 				ENABLE_BITCODE = NO;
@@ -1117,6 +1119,7 @@
 		};
 		8082EFEB2575ED9A009188A0 /* Release-dev */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB31CF90195004384FC /* Generated.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1177,7 +1180,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "$(inherited)";
 				DEVELOPMENT_TEAM = 3FVSGQ8XBT;
 				ENABLE_BITCODE = NO;
@@ -1208,6 +1211,7 @@
 		};
 		8082EFED2575EDAA009188A0 /* Profile-dev */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB31CF90195004384FC /* Generated.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1266,7 +1270,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "$(inherited)";
 				DEVELOPMENT_TEAM = 3FVSGQ8XBT;
 				ENABLE_BITCODE = NO;
@@ -1297,6 +1301,7 @@
 		};
 		97C147031CF9000F007C117D /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB31CF90195004384FC /* Generated.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1352,6 +1357,7 @@
 		};
 		97C147041CF9000F007C117D /* Release-prod */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9740EEB31CF90195004384FC /* Generated.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1412,7 +1418,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "$(inherited)";
 				DEVELOPMENT_TEAM = 3FVSGQ8XBT;
 				ENABLE_BITCODE = NO;
@@ -1452,7 +1458,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEBUG_INFORMATION_FORMAT = "$(inherited)";
 				DEVELOPMENT_TEAM = 3FVSGQ8XBT;
 				ENABLE_BITCODE = NO;
