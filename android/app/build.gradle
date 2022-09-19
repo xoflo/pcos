@@ -60,7 +60,7 @@ android {
         multiDexEnabled true
         applicationId "com.thepcosnutritionist.app"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
