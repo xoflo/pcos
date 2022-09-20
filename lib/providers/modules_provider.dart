@@ -35,7 +35,7 @@ class ModulesProvider extends LoadingStatusNotifier {
   List<LessonRecipe> _lessonRecipes = [];
   List<Quiz> _lessonQuizzes = [];
 
-  late Module _currentModule;
+  Module? _currentModule;
   List<Module> _previousModules = [];
   List<Lesson> _currentModuleLessons = [];
   Lesson? _currentLesson;
@@ -78,7 +78,7 @@ class ModulesProvider extends LoadingStatusNotifier {
     try {
       modulesAndLessons = await providerHelper.fetchAndSaveModuleExport(
           dbProvider, forceRefresh, nextLessonAvailableDate);
-    }catch (e) {
+    } catch (e) {
       setLoadingStatus(LoadingStatus.failed, true);
       return;
     }
@@ -90,10 +90,15 @@ class ModulesProvider extends LoadingStatusNotifier {
     _lessonRecipes = modulesAndLessons.lessonRecipes ?? [];
     _lessonQuizzes = modulesAndLessons.lessonQuizzes ?? [];
 
+    _currentModule = null;
+    _previousModules = [];
+    _currentModuleLessons = [];
+    _currentLesson = null;
+
     if (_modules.length > 0) {
       _currentModule = _modules.last;
       _previousModules = await _getPreviousModules();
-      _currentModuleLessons = getModuleLessons(_currentModule.moduleID);
+      _currentModuleLessons = getModuleLessons(_currentModule?.moduleID);
       _currentLesson = _currentModuleLessons.firstWhere(
         (element) =>
             !element.isComplete ||
@@ -312,7 +317,7 @@ class ModulesProvider extends LoadingStatusNotifier {
   Future<List<Module>> _getPreviousModules() async {
     List<Module> modules = [];
     for (Module module in _modules) {
-      if (module.moduleID != _currentModule.moduleID) {
+      if (module.moduleID != _currentModule?.moduleID) {
         modules.add(module);
       }
     }
