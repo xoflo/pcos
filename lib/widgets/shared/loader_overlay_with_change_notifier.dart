@@ -51,7 +51,7 @@ class LoaderOverlay extends StatelessWidget {
         ],
       );
 
-  Widget _loaderOverlay(context) {
+  Widget _loaderOverlay(BuildContext context) {
     switch (loadingStatusNotifier.loadingStatus) {
       case LoadingStatus.loading:
         return Container(
@@ -89,12 +89,11 @@ class LoaderOverlay extends StatelessWidget {
           List<Widget> actions = [];
           actions.add(retryButton);
 
-          return createAlertDialogWidget(S.current.warningText,
-              S.current.internetConnectionText, actions);
+          return createAlertDialogWidget(
+              S.current.warningText, S.current.internetConnectionText, actions);
         } else {
           return Center(
-              child: NoResults(
-                  message: S.current.somethingWentWrongMessage));
+              child: NoResults(message: S.current.somethingWentWrongMessage));
         }
     }
   }

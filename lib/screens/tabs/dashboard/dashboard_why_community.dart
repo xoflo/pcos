@@ -34,7 +34,10 @@ class DashboardWhyCommunity extends StatelessWidget {
               openColor: tertiaryColor,
               middleColor: tertiaryColor,
               closedColor: tertiaryColor,
-              closedElevation: 0,
+              // Closed elevation cannot be exactly 0 because it will hide
+              // the card when user goes to another screen or tab. This is
+              // most likely a bug on the library itself
+              closedElevation: 0.00001,
               closedBuilder: (context, openContainer) => Container(
                 height: 125,
                 alignment: Alignment.center,

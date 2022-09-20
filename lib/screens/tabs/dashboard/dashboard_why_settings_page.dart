@@ -116,6 +116,7 @@ class _DashboardWhySettingsPageState extends State<DashboardWhySettingsPage> {
       initialize(memberProvider);
     }
     return Scaffold(
+      backgroundColor: primaryColor,
       body: LoaderOverlay(
         loadingStatusNotifier: memberProvider,
         height: MediaQuery.of(context).size.height,
