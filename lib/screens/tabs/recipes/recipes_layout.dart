@@ -26,7 +26,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   bool isInitialized = false;
 
   bool _isSearching = false;
-  String _mealTag = "";
+  String _mealTag = "All";
   List<String> _dietTags = [];
 
   @override
