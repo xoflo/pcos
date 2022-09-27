@@ -37,30 +37,32 @@ class UnsupportedVersion extends StatelessWidget {
             children: [
               HeaderImage(
                 screenSize: screenSize,
-                isOrange: false,
+                isOrange: true,
                 verticalTopPadding: 80,
               ),
               SizedBox(height: 10.0),
               Text(
                 S.current.versionText1,
-                style: Theme.of(context).textTheme.headline5?.copyWith(
-                      color: Colors.white,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(color: backgroundColor),
                 textAlign: TextAlign.center,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30.0),
                 child: Icon(
                   Icons.sentiment_dissatisfied,
-                  color: Colors.white,
+                  color: backgroundColor,
                   size: 60,
                 ),
               ),
               Text(
                 S.current.versionText2,
-                style: Theme.of(context).textTheme.headline5?.copyWith(
-                      color: Colors.white,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(color: backgroundColor),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20.0),
