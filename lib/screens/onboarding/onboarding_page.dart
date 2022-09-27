@@ -90,7 +90,6 @@ class OnboardingPage extends StatelessWidget with BaseCarouselPage {
           },
           text: "I have done the questionnaire",
           style: OutlinedButton.styleFrom(
-            primary: backgroundColor,
             backgroundColor: onboardingBackground,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -102,6 +101,7 @@ class OnboardingPage extends StatelessWidget with BaseCarouselPage {
           ),
           margin: const EdgeInsets.all(15),
           verticalPadding: 5,
+          textColor: backgroundColor,
         )
       ];
 

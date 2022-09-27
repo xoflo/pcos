@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class HollowButton extends StatelessWidget {
-  const HollowButton(
-      {Key? key,
-      required this.onPressed,
-      required this.text,
-      required this.style,
-      required this.margin,
-      this.verticalPadding = 15,
-      this.width = double.infinity,
-      this.isUpdating = false,
-      this.textAlignment = Alignment.center})
-      : super(key: key);
+  const HollowButton({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    required this.style,
+    required this.margin,
+    required this.textColor,
+    this.verticalPadding = 15,
+    this.width = double.infinity,
+    this.isUpdating = false,
+    this.textAlignment = Alignment.center,
+  }) : super(key: key);
 
   final Function()? onPressed;
   final String text;
@@ -21,6 +22,7 @@ class HollowButton extends StatelessWidget {
   final double width;
   final double verticalPadding;
   final bool isUpdating;
+  final textColor;
   final textAlignment;
 
   @override
@@ -45,7 +47,10 @@ class HollowButton extends StatelessWidget {
                     alignment: textAlignment,
                     child: Text(
                       text,
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: textColor),
                     ),
                   ),
           ),

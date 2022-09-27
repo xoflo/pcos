@@ -325,6 +325,12 @@ class AuthenticationController {
     turnOffDailyReminderNotification(localNotificationsPlugin);
 
     OneSignalController().deleteOneSignal();
-    Intercom.instance.logout();
+
+    // When user confirms forgot password in the PIN unlock page, we want to
+    // make sure that calling Intercom's logout does not crash by enclosing
+    // them to a try-catch statement.
+    try {
+      Intercom.instance.logout();
+    } catch (_) {}
   }
 }

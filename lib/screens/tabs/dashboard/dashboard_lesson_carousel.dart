@@ -42,7 +42,7 @@ class DashboardLessonCarousel extends StatelessWidget {
       );
     }
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (controller.hasClients) {
         controller.jumpToPage(activePage.value);
       }

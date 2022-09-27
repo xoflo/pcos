@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
@@ -69,10 +69,6 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
                 verticalPadding: 7.5,
                 text: answer.answerText,
                 style: OutlinedButton.styleFrom(
-                  onSurface: answers.contains(answer)
-                      ? answerColor
-                      : textColor.withOpacity(0.8),
-                  primary: backgroundColor,
                   backgroundColor: primaryColorLight,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -86,6 +82,9 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
                 ),
                 margin: EdgeInsets.zero,
                 textAlignment: Alignment.centerLeft,
+                textColor: answers.contains(answer)
+                    ? answerColor
+                    : textColor.withOpacity(0.5),
               ),
               SizedBox(height: 15),
             ],

@@ -38,7 +38,7 @@ class _QuestionListState extends State<QuestionList> {
       dividerColor: dividerColor,
       expansionCallback: (int index, bool isExpanded) {
         //remove the focus from the searchbox if necessary, to hide the keyboard
-        WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
         setState(() {
           if ((widget.questions?.length ?? 0) > 0) {
             widget.questions?[index].isExpanded = !isExpanded;

@@ -27,9 +27,14 @@ class _InternalWebViewState extends State<InternalWebView> {
       JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
-          // ignore: deprecated_member_use
-          Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
+          showAlertDialog(
+            context,
+            "Warning",
+            message.toString(),
+            "",
+            "Ok",
+            null,
+            null,
           );
         },
       );

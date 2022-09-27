@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart';
@@ -52,7 +52,7 @@ class _LibrarySearchPageState extends State<LibrarySearchPage> {
     } else {
       setState(() => isSearchFinished = false);
     }
-    WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
   }
 
   @override

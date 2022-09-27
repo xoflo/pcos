@@ -118,7 +118,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _getPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    setState(() => _appVersion = packageInfo.version);
+    setState(() =>
+        _appVersion = "${packageInfo.version} (${packageInfo.buildNumber})");
   }
 
   @override
@@ -163,7 +164,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   },
                   text: "LOG OUT",
                   style: OutlinedButton.styleFrom(
-                    primary: backgroundColor,
                     backgroundColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -175,6 +175,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   margin: const EdgeInsets.all(15),
                   verticalPadding: 5,
+                  textColor: backgroundColor,
                 ),
                 SizedBox(height: 10),
               ],
