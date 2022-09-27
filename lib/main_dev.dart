@@ -35,9 +35,9 @@ Future<void> main() async {
       imageStorageFolder: "/v1617670686/images/",
       thumbnailStorageFolder: "/v1617676121/thumbnails/",
       intercomIds: [
-        "xsb9gkoh",
-        "android_sdk-280570f2464f064f6f0d609249a36972d2af3be4",
-        "ios_sdk-d3f8b263524828ea01c350105105ae48d550e129",
+        "mjvhncxm",
+        "android_sdk-f983d39f10faf073f30cd86aeef4cbdeeb43f62a",
+        "ios_sdk-d261cf50066263428896158291f1ea7a86d2a550",
       ],
     ),
   );
