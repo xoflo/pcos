@@ -178,6 +178,12 @@ class DashboardLessonCarousel extends StatelessWidget {
                           closedShape: RoundedRectangleBorder(
                               side: BorderSide(color: tertiaryColor, width: 0),
                               borderRadius: BorderRadius.circular(16)),
+                          onClosed: (_) => activePage.value =
+                              modulesProvider.currentModuleLessons.indexWhere(
+                            (element) =>
+                                element.lessonID ==
+                                modulesProvider.currentLesson?.lessonID,
+                          ),
                           closedBuilder: (context, openContainer) => Container(
                             alignment: Alignment.center,
                             child: DashboardLessonCarouselItemCard(
