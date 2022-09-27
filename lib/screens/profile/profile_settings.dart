@@ -118,7 +118,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   void _getPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    setState(() => _appVersion = packageInfo.version);
+    setState(() =>
+        _appVersion = "${packageInfo.version} (${packageInfo.buildNumber})");
   }
 
   @override
