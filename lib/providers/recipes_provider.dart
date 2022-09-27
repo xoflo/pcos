@@ -41,7 +41,7 @@ class RecipesProvider extends LoadingStatusNotifier {
   Future<void> filterAndSearch(final String searchText, final String tag,
       final List<String> secondaryTags) async {
     setLoadingStatus(LoadingStatus.loading, true);
-    if (searchText.isEmpty) {
+    if (searchText.isEmpty && tag == "All" && secondaryTags.isEmpty) {
       _randomizedItems = [..._originalRandomizedItems];
     } else if (dbProvider?.db != null) {
       _items = await ProviderHelper().filterAndSearch(
