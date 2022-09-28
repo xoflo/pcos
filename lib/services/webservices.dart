@@ -134,6 +134,26 @@ class WebServices {
     }
   }
 
+  Future<bool> deleteMember() async {
+    final url = Uri.parse(baseUrl + "Member");
+    final String? token = await AuthenticationController().getAccessToken();
+
+    final response = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw SET_MEMBER_WHY_FAILED;
+    }
+  }
+
   Future<dynamic> executeHttpGet(url) async {
     final String? token = await AuthenticationController().getAccessToken();
     try {
