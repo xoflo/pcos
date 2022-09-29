@@ -18,6 +18,7 @@ class Member {
   final DateTime? dateCreatedUTC;
   final List<MemberTypeTag>? typeTags;
   final SubscriptionStatus? subscriptionStatus;
+  final bool? isPendingDeletion;
 
   bool get isSubscriptionValid {
     switch (subscriptionStatus) {
@@ -54,6 +55,7 @@ class Member {
     this.dateNextLessonAvailableLocal,
     this.dateCreatedUTC,
     this.subscriptionStatus,
+    this.isPendingDeletion,
   });
 
   factory Member.fromJson(Map<String, dynamic> json) {
@@ -82,6 +84,7 @@ class Member {
       adminNotes: json['adminNotes'],
       isEmailVerified: json['isEmailVerified'],
       isEnabled: json['isEnabled'],
+      isPendingDeletion: json['isPendingDeletion'],
       typeTags: MemberTypeTagList.fromList(json['typeTags']).results,
       dateNextLessonAvailableLocal:
           DateTime.parse(nextLessonDateString).toLocal(),

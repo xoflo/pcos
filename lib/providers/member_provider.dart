@@ -33,6 +33,10 @@ class MemberProvider extends LoadingStatusNotifier {
     return this.member.email ?? "";
   }
 
+  // TODO: Set default to false once the isPendingDeletion parameter
+  // is already filled up.
+  bool get isPendingDeletion => this.member.isPendingDeletion ?? true;
+
   set firstName(String firstName) {
     this.member.firstName = firstName;
   }
