@@ -1,5 +1,6 @@
 stages:
   - analyze
+  - test
 
 analyze_project:
   stage: analyze
@@ -8,10 +9,9 @@ analyze_project:
   tags:
     - flutter3
 
-# Uncomment if there is at least 1 test already
-# test_project:
-#   stage: test
-#   script:
-#     - flutter test
-#   tags:
-#     - flutter3
+test_project:
+  stage: test
+  script:
+    - flutter test
+  tags:
+    - flutter3
