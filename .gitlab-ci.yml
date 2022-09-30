@@ -1,32 +1,17 @@
 stages:
   - analyze
-  - test
-
-before_script:
-  # Change the ownership of the project directory, so gradle run as a
-  # non-rooter can create build folders in it.
-  #
-  # Since gitlab runner is run as root, the ownership of the project
-  # directory checked out by the runner therefore belongs to root.
-  # But we need to run gradle as the non-root user to be able to access the
-  # gralde cache and android sdk typically installed by a non-rooter
-  #
-  # Hence the need for `chown` here.
-  - chown -R moa .
 
 analyze_project:
   stage: analyze
   script:
-    - sudo -u moa flutter analyze
+    - flutter analyze
   tags:
-    - ios
-    - android
+    - flutter3
 
 # Uncomment if there is at least 1 test already
 # test_project:
 #   stage: test
 #   script:
-#     - sudo -u moa flutter test
+#     - flutter test
 #   tags:
-#     - ios
-#     - android
+#     - flutter3
