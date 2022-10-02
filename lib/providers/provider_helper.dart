@@ -196,11 +196,11 @@ class ProviderHelper {
       }
 
       // get items from database
-      final List modulesFromDB = await getAllData(
+      final List<Module> modulesFromDB = await getAllData(
         dbProvider,
         TABLE_MODULE,
         orderByColumn: "orderIndex",
-      );
+      ) as List<Module>;
 
       final List<Lesson> lessonsFromDB = await getAllData(
         dbProvider,
@@ -326,31 +326,18 @@ class ProviderHelper {
         }
       }
 
-      List<int> moduleIDs = [];
-      bool foundIncompleteLesson = false;
-      for (Lesson lesson in lessonsToReturn) {
-        if (foundIncompleteLesson) break;
-
-        if (lesson.isComplete ||
-            (!lesson.isComplete && lesson.hoursUntilAvailable == 0)) {
-          if (!moduleIDs.contains(lesson.moduleID))
-            moduleIDs.add(lesson.moduleID);
-        }
-
-        final quiz = quizzesToReturn
-            .firstWhereOrNull((element) => element.lessonID == lesson.lessonID);
-
-        // If a lesson is not yet complete, or if a quiz in the same lesson is
-        // not yet complete, then we stop adding items to modules and make the
-        // user complete the quiz on the module first.
-        if (!lesson.isComplete || quiz?.isComplete == false)
-          foundIncompleteLesson = true;
-      }
-
       //only return complete modules and the first incomplete module
       List<Module> modulesToReturn = [];
+      bool isIncompleteModule = false;
       for (Module module in modulesFromDB) {
-        if (moduleIDs.contains(module.moduleID)) modulesToReturn.add(module);
+        if (isIncompleteModule) break;
+
+        if (module.isComplete) {
+          modulesToReturn.add(module);
+        } else {
+          isIncompleteModule = true;
+          modulesToReturn.add(module);
+        }
       }
       modulesToReturn.sort();
 

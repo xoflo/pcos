@@ -112,11 +112,13 @@ class _AppTabsState extends State<AppTabs>
     final bool isUsernameUsed = await PreferencesController()
         .getBool(SharedPreferencesKeys.USERNAME_USED);
 
-    setState(() {
-      _showYourWhy = isYourWhyOn;
-      _showLessonRecipes = isLessonRecipesOn;
-      _isUsernameUsed = isUsernameUsed;
-    });
+    if (mounted) {
+      setState(() {
+        _showYourWhy = isYourWhyOn;
+        _showLessonRecipes = isLessonRecipesOn;
+        _isUsernameUsed = isUsernameUsed;
+      });
+    }
   }
 
   @override
