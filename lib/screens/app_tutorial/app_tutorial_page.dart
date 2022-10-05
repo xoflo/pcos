@@ -24,33 +24,39 @@ class AppTutorialPage extends StatelessWidget with BaseCarouselPage {
   @override
   List<CarouselItem> get items => [
         CarouselItem(
-          title: "Welcome to our programme!",
+          title: "We're loading your PCOS pathway",
           subtitle:
-              "We tailored the programme to meet your specific needs using the information provided in the questionnaire.",
+              "Thanks for completing the questionnaire. We’re preparing your personalized Ovie program now!",
           asset: "assets/tutorial_1.png",
         ),
         CarouselItem(
           title: "Modules and lessons",
           subtitle:
-              "It is important to take your time to complete all the modules and lessons in the programme.",
+              "Each module delivers lessons on a different topic, from breakfast, to sleep or exercise",
           asset: "assets/tutorial_2.png",
         ),
         CarouselItem(
-          title: "Profile and Coach chat",
+          title: "Expert on hand",
           subtitle:
-              "Open ‘Profile’ for a summary of your type and symptoms. Remember 'Coach chat' to contact us for any support.",
+              "Our qualified PCOS experts are just one chat away, helping you with course content, motivation and support",
           asset: "assets/tutorial_3.png",
         ),
         CarouselItem(
           title: "Course",
           subtitle:
-              "Check ‘Course’ daily for your lessons and complete your tasks. ",
+              "Check course daily to complete your lessons, quizzes and task for each day",
           asset: "assets/tutorial_4.png",
+        ),
+        CarouselItem(
+          title: "Notifications",
+          subtitle:
+              "Turn on Ovie app notifications in settings to allow for notifications for upcoming events, offers, new features, support and more",
+          asset: "assets/tutorial_5.png",
         ),
       ];
 
   @override
-  bool get isNotYetLastItem => activePage.value < 4;
+  bool get isNotYetLastItem => activePage.value < 5;
 
   bool showBackButton(BuildContext context) {
     final bool showBackButton =
@@ -70,7 +76,7 @@ class AppTutorialPage extends StatelessWidget with BaseCarouselPage {
           y1Multiplier: 0.55,
           y2Multiplier: 0.35,
         );
-      case 4:
+      case 5:
         return CirclePainter(
           color: primaryColor,
         );
@@ -80,7 +86,7 @@ class AppTutorialPage extends StatelessWidget with BaseCarouselPage {
   }
 
   @override
-  Widget getItemBuilder(BuildContext context, int position) => position == 4
+  Widget getItemBuilder(BuildContext context, int position) => position == 5
       ? AppTutorialGetStarted()
       : CarouselItemWidget(
           item: items[position],
