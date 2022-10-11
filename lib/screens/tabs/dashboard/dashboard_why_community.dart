@@ -76,15 +76,18 @@ class DashboardWhyCommunity extends StatelessWidget {
                       children: [
                         Icon(Icons.group_outlined),
                         SizedBox(height: 5),
-                        Text(
-                          "Open community",
-                          style:
-                              Theme.of(context).textTheme.subtitle1?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                  ),
-                          maxLines: 2,
+                        FittedBox(
+                          child: Text(
+                            "Open \ncommunity",
+                            style:
+                                Theme.of(context).textTheme.subtitle1?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                    ),
+                            maxLines: 2,
+                            overflow: TextOverflow.clip,
+                          ),
                         )
                       ],
                     ),
