@@ -19,19 +19,19 @@ class OnboardingPage extends StatelessWidget with BaseCarouselPage {
         CarouselItem(
           title: "Hello, we are Ovie",
           subtitle:
-              "Do you want to finally reverse your PCOS symptoms? Then you need to fix the root of your PCOS.",
+              "We're here to support you with lifestyle changes that stick, to help you manage your PCOS symptoms",
           asset: "assets/onboarding_1.png",
         ),
         CarouselItem(
-          title: "1:1 Consultation",
+          title: "Made by people with PCOS",
           subtitle:
-              "Do you want to finally reverse your PCOS symptoms? Then you need to fix the root of your PCOS.",
+              "We thought that modern healthcare could do better for people with PCOS",
           asset: "assets/onboarding_2.png",
         ),
         CarouselItem(
-          title: "Let’s personalise it.",
+          title: "Let’s personalize it.",
           subtitle:
-              "Do you want to finally reverse your PCOS symptoms? Then you need to fix the root of your PCOS.",
+              "Through the questionnaire we understand your symptoms and what’s driving your PCOS to generate your individual PCOS profile",
           asset: "assets/onboarding_3.png",
         ),
       ];

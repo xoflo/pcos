@@ -12,7 +12,7 @@ class AppTutorialGetStarted extends StatelessWidget {
           children: [
             AppTutorialGetStartedItem(
               title: "Library",
-              subtitle: "Search and find anything you need",
+              subtitle: "Search any past modules or wikis",
               asset: "assets/tutorial_library.png",
             ),
             SizedBox(
@@ -20,7 +20,7 @@ class AppTutorialGetStarted extends StatelessWidget {
             ),
             AppTutorialGetStartedItem(
               title: "Recipes",
-              subtitle: "Find recipes to help maintain your goals.",
+              subtitle: "100+ PCOS friendly, healthy recipes",
               asset: "assets/tutorial_recipes.png",
             ),
             SizedBox(
@@ -29,7 +29,7 @@ class AppTutorialGetStarted extends StatelessWidget {
             AppTutorialGetStartedItem(
               title: "Favorites",
               subtitle:
-                  "Add lessons, knowledge base questions or recipes to your favorites for later.",
+                  "Add lessons, wikis or recipes to your favourites for easy access later",
               asset: "assets/tutorial_favorites.png",
             )
           ],
