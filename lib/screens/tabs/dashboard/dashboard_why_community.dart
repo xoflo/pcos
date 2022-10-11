@@ -85,8 +85,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                                       color: Colors.white,
                                       fontSize: 22,
                                     ),
-                            maxLines: 2,
-                            overflow: TextOverflow.clip,
+                            maxLines: 2
                           ),
                         )
                       ],
