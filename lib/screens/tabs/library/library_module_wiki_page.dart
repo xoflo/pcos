@@ -47,14 +47,14 @@ class _LibraryModuleWikiPageState extends State<LibraryModuleWikiPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Header(
-                title: "${isPreviousModules ? 'Module' : 'Wiki'} Library",
+                  title: "${isPreviousModules ? 'Module' : 'Wiki'} Library",
                   closeItem: () => Navigator.pop(context),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.all(15),
-                      child: modulesProvider.previousModules.isEmpty
+                      child: modulesProvider.allModules.isEmpty
                           ? Center(
                               child: NoResults(
                                 message:
@@ -63,7 +63,7 @@ class _LibraryModuleWikiPageState extends State<LibraryModuleWikiPage> {
                             )
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: modulesProvider.previousModules
+                              children: modulesProvider.allModules
                                   .map(
                                     (item) => LibraryModuleWikiItem(
                                       modulesProvider: modulesProvider,

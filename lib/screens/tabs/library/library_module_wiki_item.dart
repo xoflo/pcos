@@ -30,11 +30,13 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
+    final isComplete = item.isComplete;
+    final isCurrentModule =
+        widget.modulesProvider.currentModule?.moduleID == item.moduleID;
 
     return GestureDetector(
-      onTap: !item.isComplete
-          ? null
-          : () {
+      onTap: isComplete && isCurrentModule
+          ? () {
               if (widget.isPreviousModules) {
                 final lessons =
                     widget.modulesProvider.getModuleLessons(item.moduleID);
@@ -52,7 +54,8 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
                   arguments: LibraryWikiArguments(item.title, wikis),
                 );
               }
-            },
+            }
+          : null,
       child: Container(
         width: double.maxFinite,
         margin: EdgeInsets.only(bottom: 15),
@@ -68,11 +71,10 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
               child: HtmlWidget(
                 item.title,
                 textStyle: Theme.of(context).textTheme.headline5?.copyWith(
-                    color:
-                        backgroundColor.withOpacity(item.isComplete ? 1 : 0.5)),
+                    color: backgroundColor.withOpacity(isComplete ? 1 : 0.5)),
               ),
             ),
-            if (!item.isComplete)
+            if (!isComplete && !isCurrentModule)
               Icon(
                 Icons.lock_outline,
                 color: backgroundColor,
