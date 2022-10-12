@@ -36,7 +36,6 @@ class ModulesProvider extends LoadingStatusNotifier {
   List<Quiz> _lessonQuizzes = [];
 
   Module? _currentModule;
-  List<Module> _previousModules = [];
   List<Lesson> _currentModuleLessons = [];
   Lesson? _currentLesson;
   List<LessonTask> _displayLessonTasks = [];
@@ -48,7 +47,6 @@ class ModulesProvider extends LoadingStatusNotifier {
   Lesson? get currentLesson => _currentLesson;
   List<Lesson> get currentModuleLessons => [..._currentModuleLessons];
   List<Module> get allModules => [..._modules];
-  List<Module> get previousModules => [..._previousModules];
   List<LessonTask> get displayLessonTasks => [..._displayLessonTasks];
   List<Lesson> get searchLessons => [..._searchLessons];
   List<LessonWiki> get initialLessonWikis => [..._initialLessonWikis];
@@ -91,7 +89,6 @@ class ModulesProvider extends LoadingStatusNotifier {
     _lessonQuizzes = modulesAndLessons.lessonQuizzes ?? [];
 
     _currentModule = null;
-    _previousModules = [];
     _currentModuleLessons = [];
     _currentLesson = null;
 
@@ -102,7 +99,6 @@ class ModulesProvider extends LoadingStatusNotifier {
       _currentModule =
           completedModules.isEmpty ? _modules.last : completedModules.first;
 
-      _previousModules = await _getPreviousModules();
       _currentModuleLessons = getModuleLessons(_currentModule?.moduleID);
       _currentLesson = _currentModuleLessons.firstWhere(
         (element) =>
@@ -317,16 +313,6 @@ class ModulesProvider extends LoadingStatusNotifier {
     }
 
     setLoadingStatus(LoadingStatus.success, true);
-  }
-
-  Future<List<Module>> _getPreviousModules() async {
-    List<Module> modules = [];
-    for (Module module in _modules) {
-      if (module.moduleID != _currentModule?.moduleID) {
-        modules.add(module);
-      }
-    }
-    return modules;
   }
 
   Future<void> filterAndSearch(final String searchText) async {
