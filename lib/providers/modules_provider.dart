@@ -96,7 +96,12 @@ class ModulesProvider extends LoadingStatusNotifier {
     _currentLesson = null;
 
     if (_modules.length > 0) {
-      _currentModule = _modules.last;
+      final completedModules =
+          _modules.where((element) => !element.isComplete).toList();
+
+      _currentModule =
+          completedModules.isEmpty ? _modules.last : completedModules.first;
+
       _previousModules = await _getPreviousModules();
       _currentModuleLessons = getModuleLessons(_currentModule?.moduleID);
       _currentLesson = _currentModuleLessons.firstWhere(

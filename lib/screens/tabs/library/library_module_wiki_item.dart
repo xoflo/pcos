@@ -32,24 +32,27 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
     final item = widget.item;
 
     return GestureDetector(
-      onTap: () {
-        if (widget.isPreviousModules) {
-          final lessons =
-              widget.modulesProvider.getModuleLessons(item.moduleID);
-          Navigator.pushNamed(
-            context,
-            LibraryModulePage.id,
-            arguments: lessons,
-          );
-        } else {
-          final wikis = widget.modulesProvider.getModuleWikis(item.moduleID);
-          Navigator.pushNamed(
-            context,
-            LibraryWikiPage.id,
-            arguments: LibraryWikiArguments(item.title, wikis),
-          );
-        }
-      },
+      onTap: !item.isComplete
+          ? null
+          : () {
+              if (widget.isPreviousModules) {
+                final lessons =
+                    widget.modulesProvider.getModuleLessons(item.moduleID);
+                Navigator.pushNamed(
+                  context,
+                  LibraryModulePage.id,
+                  arguments: lessons,
+                );
+              } else {
+                final wikis =
+                    widget.modulesProvider.getModuleWikis(item.moduleID);
+                Navigator.pushNamed(
+                  context,
+                  LibraryWikiPage.id,
+                  arguments: LibraryWikiArguments(item.title, wikis),
+                );
+              }
+            },
       child: Container(
         width: double.maxFinite,
         margin: EdgeInsets.only(bottom: 15),
@@ -64,12 +67,16 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
             Expanded(
               child: HtmlWidget(
                 item.title,
-                textStyle: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    ?.copyWith(color: backgroundColor),
+                textStyle: Theme.of(context).textTheme.headline5?.copyWith(
+                    color:
+                        backgroundColor.withOpacity(item.isComplete ? 1 : 0.5)),
               ),
             ),
+            if (!item.isComplete)
+              Icon(
+                Icons.lock_outline,
+                color: backgroundColor,
+              )
           ],
         ),
       ),
