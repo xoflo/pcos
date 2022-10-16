@@ -31,11 +31,9 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
   Widget build(BuildContext context) {
     final item = widget.item;
     final isComplete = item.isComplete;
-    final isCurrentModule =
-        widget.modulesProvider.currentModule?.moduleID == item.moduleID;
 
     return GestureDetector(
-      onTap: isComplete && isCurrentModule
+      onTap: isComplete
           ? () {
               if (widget.isPreviousModules) {
                 final lessons =
@@ -74,7 +72,7 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
                     color: backgroundColor.withOpacity(isComplete ? 1 : 0.5)),
               ),
             ),
-            if (!isComplete && !isCurrentModule)
+            if (!isComplete)
               Icon(
                 Icons.lock_outline,
                 color: backgroundColor,
