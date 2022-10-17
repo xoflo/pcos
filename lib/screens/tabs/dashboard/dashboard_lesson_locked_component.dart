@@ -9,30 +9,26 @@ class DashboardLessonLockedComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
-        child: FittedBox(
-          child: Row(
-            children: [
-              Icon(
-                Icons.lock_outline,
-                size: 18,
-              ),
-              SizedBox(width: 10),
-              FittedBox(
-                child: Text(
-                  title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2
-                      ?.copyWith(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.lock_outline,
+              size: 18,
+            ),
+            SizedBox(width: 10),
+            Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  ?.copyWith(color: Colors.white),
+            ),
+          ],
         ),
       );
 }

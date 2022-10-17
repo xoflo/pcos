@@ -53,16 +53,6 @@ void main() {
           reason: "should be 10 because that's the last module.");
 
       expect(
-          modulesProvider.previousModules.length ==
-              modulesProvider.allModules.length - 1,
-          true);
-
-      expect(
-          _isDoesNotContainCurrentModuleID(modulesProvider.previousModules,
-              modulesProvider.currentModule?.moduleID),
-          true);
-
-      expect(
           _isAllBelongToCurrentModuleID(modulesProvider.currentModuleLessons,
               modulesProvider.currentModule?.moduleID),
           true);
@@ -99,15 +89,6 @@ bool _isShouldBeCurrentLesson(Lesson? currentLesson, currentModuleLessons,
   } else {
     return false;
   }
-}
-
-bool _isDoesNotContainCurrentModuleID(List<Module> modules, currentModuleID) {
-  for (Module module in modules) {
-    if (module.moduleID == currentModuleID) {
-      return false;
-    }
-  }
-  return true;
 }
 
 bool _isAllBelongToCurrentModuleID(List<Lesson> lessons, currentModuleID) {
@@ -205,14 +186,12 @@ Future<MockProviderHelper> _mockProviderHelper(
 Future<MockProviderHelper> _mockProviderHelperFetchAndSaveModuleExport(
     MockProviderHelper providerHelper,
     MockDatabaseProvider mockDatabaseProvider) async {
-  List<Lesson> lessons = 
-      await constructListFromFile("Lesson") as List<Lesson>;
+  List<Lesson> lessons = await constructListFromFile("Lesson") as List<Lesson>;
   List<LessonContent> lessonContents =
       await constructListFromFile("LessonContent") as List<LessonContent>;
   List<Quiz> lessonQuizzes =
       await constructListFromFile("LessonQuiz") as List<Quiz>;
-  List<Module> modules = 
-      await constructListFromFile("Module") as List<Module>;
+  List<Module> modules = await constructListFromFile("Module") as List<Module>;
 
   ModulesAndLessons modulesAndLessons = ModulesAndLessons(
       lessonContent: lessonContents,

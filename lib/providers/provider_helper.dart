@@ -326,23 +326,10 @@ class ProviderHelper {
         }
       }
 
-      //only return complete modules and the first incomplete module
-      List<Module> modulesToReturn = [];
-      bool isIncompleteModule = false;
-      for (Module module in modulesFromDB) {
-        if (isIncompleteModule) break;
-
-        if (module.isComplete) {
-          modulesToReturn.add(module);
-        } else {
-          isIncompleteModule = true;
-          modulesToReturn.add(module);
-        }
-      }
-      modulesToReturn.sort();
+      modulesFromDB.sort();
 
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
-        modules: modulesToReturn,
+        modules: modulesFromDB,
         lessons: lessonsToReturn,
         lessonContent: lessonContentToReturn,
         lessonWikis: lessonWikisToReturn,

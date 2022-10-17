@@ -28,7 +28,7 @@ void main() {
       ModulesAndLessons modulesAndLessons = await providerHelper
           .fetchAndSaveModuleExport(databaseProvider, true, DateTime.now());
 
-      expect(modulesAndLessons.modules?.length == 3, true);
+      expect(modulesAndLessons.modules?.length == 8, true);
       expect(modulesAndLessons.lessons?.length == 54, true);
       expect(modulesAndLessons.lessonContent?.length == 210, true);
       expect(modulesAndLessons.lessonWikis?.length == 50, true);

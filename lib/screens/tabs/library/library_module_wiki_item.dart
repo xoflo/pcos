@@ -30,26 +30,30 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
+    final isComplete = item.isComplete;
 
     return GestureDetector(
-      onTap: () {
-        if (widget.isPreviousModules) {
-          final lessons =
-              widget.modulesProvider.getModuleLessons(item.moduleID);
-          Navigator.pushNamed(
-            context,
-            LibraryModulePage.id,
-            arguments: lessons,
-          );
-        } else {
-          final wikis = widget.modulesProvider.getModuleWikis(item.moduleID);
-          Navigator.pushNamed(
-            context,
-            LibraryWikiPage.id,
-            arguments: LibraryWikiArguments(item.title, wikis),
-          );
-        }
-      },
+      onTap: isComplete
+          ? () {
+              if (widget.isPreviousModules) {
+                final lessons =
+                    widget.modulesProvider.getModuleLessons(item.moduleID);
+                Navigator.pushNamed(
+                  context,
+                  LibraryModulePage.id,
+                  arguments: lessons,
+                );
+              } else {
+                final wikis =
+                    widget.modulesProvider.getModuleWikis(item.moduleID);
+                Navigator.pushNamed(
+                  context,
+                  LibraryWikiPage.id,
+                  arguments: LibraryWikiArguments(item.title, wikis),
+                );
+              }
+            }
+          : null,
       child: Container(
         width: double.maxFinite,
         margin: EdgeInsets.only(bottom: 15),
@@ -64,12 +68,15 @@ class _LibraryModuleWikiItemState extends State<LibraryModuleWikiItem> {
             Expanded(
               child: HtmlWidget(
                 item.title,
-                textStyle: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    ?.copyWith(color: backgroundColor),
+                textStyle: Theme.of(context).textTheme.headline5?.copyWith(
+                    color: backgroundColor.withOpacity(isComplete ? 1 : 0.5)),
               ),
             ),
+            if (!isComplete)
+              Icon(
+                Icons.lock_outline,
+                color: backgroundColor,
+              )
           ],
         ),
       ),
