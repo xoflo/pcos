@@ -326,10 +326,15 @@ class ProviderHelper {
         }
       }
 
-      modulesFromDB.sort();
+      // Return modules that have lessons
+      List<Module> modulesToReturn = modulesFromDB.where((module) {
+        final lessons = lessonsToReturn
+            .where((lesson) => lesson.moduleID == module.moduleID);
+        return lessons.isNotEmpty;
+      }).toList();
 
       final ModulesAndLessons modulesAndLessons = ModulesAndLessons(
-        modules: modulesFromDB,
+        modules: modulesToReturn,
         lessons: lessonsToReturn,
         lessonContent: lessonContentToReturn,
         lessonWikis: lessonWikisToReturn,
