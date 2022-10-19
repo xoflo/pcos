@@ -49,8 +49,8 @@ void main() {
       ModulesProvider modulesProvider = await _setupModulesProvider();
       await modulesProvider.fetchAndSaveData(true);
 
-      expect(modulesProvider.currentModule?.moduleID, 10,
-          reason: "should be 10 because that's the last module.");
+      expect(modulesProvider.currentModule?.moduleID, 3,
+          reason: "should be 3 because that's the last module.");
 
       expect(
           _isAllBelongToCurrentModuleID(modulesProvider.currentModuleLessons,
