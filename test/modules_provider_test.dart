@@ -50,7 +50,8 @@ void main() {
       await modulesProvider.fetchAndSaveData(true);
 
       expect(modulesProvider.currentModule?.moduleID, 3,
-          reason: "should be 3 because that's the last module.");
+          reason:
+              "should be 3 because that's the first incomplete module detected");
 
       expect(
           _isAllBelongToCurrentModuleID(modulesProvider.currentModuleLessons,
