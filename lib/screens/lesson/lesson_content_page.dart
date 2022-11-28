@@ -15,6 +15,7 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_component.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class LessonContentPage extends StatelessWidget {
   static const id = "lesson_content_page";
@@ -142,6 +143,8 @@ class LessonContentPage extends StatelessWidget {
                                         color: textColor.withOpacity(0.8),
                                         height: 1.5,
                                       ),
+                                  onTapUrl: (link) => launchUrlString(link,
+                                      mode: LaunchMode.externalApplication),
                                 ),
                                 ...getContentUrlType(content),
                                 if (content.summary?.isNotEmpty == true) ...[
