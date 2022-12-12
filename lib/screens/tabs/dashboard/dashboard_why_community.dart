@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
@@ -69,6 +70,17 @@ class DashboardWhyCommunity extends StatelessWidget {
                 ),
                 color: backgroundColor,
                 child: GestureDetector(
+                  onTap: () {
+                    final browser = new InAppBrowser();
+
+                    var options =
+                    InAppBrowserClassOptions(
+                        crossPlatform: InAppBrowserOptions(hideUrlBar: true),
+                        inAppWebViewGroupOptions: InAppWebViewGroupOptions(
+                            crossPlatform: InAppWebViewOptions(javaScriptEnabled: true)));
+                    
+                    browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse("https://discord.gg/ke2CD4dTs2")), options: options);
+                  },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
                     child: Column(

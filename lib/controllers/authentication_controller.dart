@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intercom_flutter/intercom_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepcosprotocol_app/controllers/one_signal_controller.dart';
@@ -325,12 +324,5 @@ class AuthenticationController {
     turnOffDailyReminderNotification(localNotificationsPlugin);
 
     OneSignalController().deleteOneSignal();
-
-    // When user confirms forgot password in the PIN unlock page, we want to
-    // make sure that calling Intercom's logout does not crash by enclosing
-    // them to a try-catch statement.
-    try {
-      Intercom.instance.logout();
-    } catch (_) {}
   }
 }
