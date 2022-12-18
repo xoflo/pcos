@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../styles/colors.dart';
+import '../widgets/shared/header.dart';
 
 
 final InAppLocalhostServer localhostServer = new InAppLocalhostServer();
@@ -20,12 +21,6 @@ class _ZendeskWebViewState extends State<ZendeskWebView> {
   void initState() {
     super.initState();
 
-    startLocalServer();
-  }
-
-  void startLocalServer() async {
-    // start the localhost server
-    await localhostServer.start();
   }
 
   @override
@@ -34,11 +29,18 @@ class _ZendeskWebViewState extends State<ZendeskWebView> {
         resizeToAvoidBottomInset: true,
         backgroundColor: primaryColor,
         body: SafeArea(
-            child: InAppWebView(
-              initialFile: "assets/html/zendesk.html",
-              // initialUrlRequest: URLRequest(
-              //     url: Uri.parse("http://localhost:8080/assets/zendesk.html")
-              // ),
+            child: Column(
+              children: [
+                Header(
+                  title: "Zendesk",
+                  closeItem: () => Navigator.pop(context),
+                ),
+                Expanded(
+                  child: InAppWebView(
+                    initialFile: "assets/html/zendesk.html",
+                  ),
+                ),
+              ],
             )
         )
     );
