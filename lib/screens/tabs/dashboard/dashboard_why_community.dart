@@ -75,10 +75,20 @@ class DashboardWhyCommunity extends StatelessWidget {
 
                     var options =
                     InAppBrowserClassOptions(
-                        crossPlatform: InAppBrowserOptions(hideUrlBar: true),
+                        crossPlatform: InAppBrowserOptions(
+                            hideUrlBar: true,
+                            toolbarTopBackgroundColor: backgroundColor,
+                        ),
+                        ios: IOSInAppBrowserOptions(
+                            hideToolbarBottom: true,
+                            toolbarBottomBackgroundColor: primaryColor,
+                            toolbarBottomTranslucent: false
+                        ),
                         inAppWebViewGroupOptions: InAppWebViewGroupOptions(
-                            crossPlatform: InAppWebViewOptions(javaScriptEnabled: true)));
-                    
+                            crossPlatform: InAppWebViewOptions(javaScriptEnabled: true)
+                        )
+                    );
+
                     browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse("https://discord.gg/ke2CD4dTs2")), options: options);
                   },
                   child: Container(
