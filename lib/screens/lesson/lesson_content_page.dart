@@ -158,6 +158,8 @@ class LessonContentPage extends StatelessWidget {
                                           color: textColor.withOpacity(0.8),
                                           height: 1.5,
                                         ),
+                                    onTapUrl: (link) => launchUrlString(link,
+                                        mode: LaunchMode.externalApplication),
                                   )
                                 ],
                                 if (index == lessonContent.length - 1) ...[

@@ -19,12 +19,12 @@ Future<void> main() async {
       baseUrl: "https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/",
       subscriptionUrl: "https://questionnaire.ovie.io/subscription",
       // Below is the DEV OneSignal App ID
-      oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
+      // oneSignalAppID: "b082abf3-ad45-42de-b294-f910387368f4",
       // Creating the iOS build via archiving requires `main.dart`. The default
       // OneSignal App ID is the DEV. However, if we want to create an iOS
       // production build, we should uncomment the oneSignalAppID value below
       // because it refers to the PROD OneSignal App ID
-      // oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
+      oneSignalAppID: "51d3d0ab-c318-4ae8-8ca2-5e213e6b6975",
       questionnaireUrl: "https://questionnaire.ovie.io/about/you/8?mobile=1",
       imageStorageFolder: "/v1617670686/images/",
       thumbnailStorageFolder: "/v1617676121/thumbnails/",

@@ -1,39 +1,36 @@
+import 'dart:io';
+
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
-import 'package:intercom_flutter/intercom_flutter.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:provider/provider.dart';
+import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/controllers/one_signal_controller.dart';
+import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/generated/l10n.dart';
+import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
+import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
-import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/messages_provider.dart';
-import 'package:thepcosprotocol_app/providers/app_help_provider.dart';
+import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/models/navigation/pin_unlock_arguments.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
-import 'package:thepcosprotocol_app/screens/tabs/pages/library.dart';
-import 'package:thepcosprotocol_app/screens/tabs/pages/more.dart';
-import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/screens/tabs/pages/dashboard.dart';
-import 'package:thepcosprotocol_app/screens/tabs/pages/favourites.dart';
-import 'package:thepcosprotocol_app/screens/tabs/pages/recipes.dart';
 import 'package:thepcosprotocol_app/screens/tabs/app_navigation_tabs.dart';
 import 'package:thepcosprotocol_app/screens/tabs/more/profile.dart';
-import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
-import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
+import 'package:thepcosprotocol_app/screens/tabs/pages/dashboard.dart';
+import 'package:thepcosprotocol_app/screens/tabs/pages/favourites.dart';
+import 'package:thepcosprotocol_app/screens/tabs/pages/library.dart';
+import 'package:thepcosprotocol_app/screens/tabs/pages/more.dart';
+import 'package:thepcosprotocol_app/screens/tabs/pages/recipes.dart';
+import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
+import 'package:thepcosprotocol_app/screens/zendesk_web_view.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
-import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
-import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
-    as SharedPreferencesKeys;
-import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 
 class AppTabs extends StatefulWidget {
   final FirebaseAnalyticsObserver? observer;
@@ -75,23 +72,6 @@ class _AppTabsState extends State<AppTabs>
     final oneSignalController = OneSignalController();
 
     final String? userId = await authenticationController.getUserId();
-
-    //intercom
-    final List<String> intercomIds = FlavorConfig.instance.values.intercomIds;
-    await Intercom.instance.initialize(
-      intercomIds[0],
-      androidApiKey: intercomIds[1],
-      iosApiKey: intercomIds[2],
-    );
-
-    Intercom.instance.loginIdentifiedUser(
-      userId: userId,
-      statusCallback: IntercomStatusCallback(
-        onSuccess: () {
-          authenticationController.saveIntercomRegistered();
-        },
-      ),
-    );
 
     // Set OneSignal
     final String pcosType = await PreferencesController()
@@ -177,27 +157,6 @@ class _AppTabsState extends State<AppTabs>
   }
 
   void openChat() async {
-    if (await AuthenticationController().getIntercomRegistered()) {
-      analytics.setCurrentScreen(
-        screenName: Analytics.ANALYTICS_SCREEN_COACH_CHAT,
-      );
-      Intercom.instance.displayMessenger();
-    } else {
-      //Intercom failed to initialise
-      analytics.logEvent(
-        name: Analytics.ANALYTICS_EVENT_INTERCOM_INIT_FAILED,
-      );
-
-      showAlertDialog(
-        context,
-        S.current.coachChatFailedTitle,
-        S.current.coachChatFailedText,
-        "",
-        "Okay",
-        null,
-        null,
-      );
-    }
   }
 
   Future<bool> onBackPressed() async {
@@ -277,7 +236,7 @@ class _AppTabsState extends State<AppTabs>
                       Icons.chat_outlined,
                       color: unselectedIndicatorColor,
                     ),
-                    onPressed: openChat,
+                    onPressed: () => Navigator.pushNamed(context, ZendeskWebView.id)
                   ),
                 ]
               : null,
