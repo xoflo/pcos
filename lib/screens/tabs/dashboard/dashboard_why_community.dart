@@ -1,13 +1,13 @@
+import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:animations/animations.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
@@ -72,25 +72,8 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () {
-                    final browser = new InAppBrowser();
-
-                    var options =
-                    InAppBrowserClassOptions(
-                        crossPlatform: InAppBrowserOptions(
-                            hideUrlBar: true,
-                            toolbarTopBackgroundColor: backgroundColor,
-                        ),
-                        ios: IOSInAppBrowserOptions(
-                            hideToolbarBottom: true,
-                            toolbarBottomBackgroundColor: primaryColor,
-                            toolbarBottomTranslucent: false
-                        ),
-                        inAppWebViewGroupOptions: InAppWebViewGroupOptions(
-                            crossPlatform: InAppWebViewOptions(javaScriptEnabled: true)
-                        )
-                    );
-
-                    browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse("https://discord.gg/ke2CD4dTs2")), options: options);
+                    launchUrl(Uri.parse("https://discord.gg/ke2CD4dTs2"),
+                        mode: LaunchMode.externalApplication);
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
