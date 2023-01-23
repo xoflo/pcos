@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -48,7 +49,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 30),
                         child: PcosLoadingSpinner(),
                       )
-                    : Text(
+                    : AutoSizeText(
                         memberProvider.why.isNotEmpty
                             ? memberProvider.why
                             : "Please input your why to motivate yourself every day.",

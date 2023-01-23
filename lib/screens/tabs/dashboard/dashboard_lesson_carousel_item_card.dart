@@ -1,7 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_lesson_locked_component.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class DashboardLessonCarouselItemCard extends StatelessWidget {
   const DashboardLessonCarouselItemCard({
@@ -50,14 +50,14 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HtmlWidget(
-                      "<p style='max-lines:2; text-overflow: ellipsis;'>" +
-                          (title) +
-                          "</p>",
-                      textStyle: Theme.of(context)
+                    AutoSizeText(
+                      title,
+                      style: Theme.of(context)
                           .textTheme
                           .headline4
                           ?.copyWith(color: backgroundColor),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     if (subtitle != null) ...[
                       SizedBox(height: 10),
