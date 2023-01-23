@@ -50,6 +50,7 @@ class DashboardLessonCarousel extends StatelessWidget {
 
     return LoaderOverlay(
       loadingStatusNotifier: modulesProvider,
+      loadingMessage: S.current.loadingLessons,
       emptyMessage: S.current.noResultsLessons,
       overlayBackgroundColor: primaryColor,
       indicatorPosition: Alignment.topCenter,

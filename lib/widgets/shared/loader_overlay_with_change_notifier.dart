@@ -23,6 +23,7 @@ class LoaderOverlay extends StatelessWidget {
     required this.indicatorPosition,
     this.overlayBackgroundColor,
     required this.height,
+    this.loadingMessage = "",
     this.emptyMessage = "",
     this.isDisplayErrorAsAlert = true,
     this.isErrorDialogDismissible = true,
@@ -33,6 +34,7 @@ class LoaderOverlay extends StatelessWidget {
 
   final Widget child;
   final LoadingStatusNotifier loadingStatusNotifier;
+  final String loadingMessage;
   final String emptyMessage;
   final bool isDisplayErrorAsAlert;
   final bool isErrorDialogDismissible;
@@ -59,8 +61,31 @@ class LoaderOverlay extends StatelessWidget {
           color: overlayBackgroundColor ?? Colors.grey.withOpacity(0.5),
           child: Align(
             alignment: indicatorPosition,
-            child: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(backgroundColor),
+            child: SizedBox(
+              width: 200,
+              height: 110,
+              child: Column(
+                children: [
+                  CircularProgressIndicator(
+                    valueColor:
+                        new AlwaysStoppedAnimation<Color>(backgroundColor),
+                  ),
+                  if (loadingMessage.length > 0) ...[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text(
+                        loadingMessage,
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            ?.copyWith(color: backgroundColor),
+                      ),
+                    ),
+                  ]
+                ],
+              ),
             ),
           ),
         );

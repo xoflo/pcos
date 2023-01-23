@@ -1930,6 +1930,16 @@ class S {
     );
   }
 
+  /// `Loading lessons`
+  String get loadingLessons {
+    return Intl.message(
+      'Just a moment whilst we load your personalized Ovie plan!',
+      name: 'loadingLessons',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No lessons to display!`
   String get noResultsLessons {
     return Intl.message(
