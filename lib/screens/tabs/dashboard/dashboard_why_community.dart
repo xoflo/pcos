@@ -72,7 +72,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () {
-                    launchUrl(Uri.parse("https://discord.gg/ke2CD4dTs2"),
+                    launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
                         mode: LaunchMode.externalApplication);
                   },
                   child: Container(
