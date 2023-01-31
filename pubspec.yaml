@@ -56,6 +56,7 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   rxdart: ^0.27.5
   auto_size_text: ^3.0.0
+  dart_jsonwebtoken: ^2.6.3
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
