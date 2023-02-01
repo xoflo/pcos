@@ -46,9 +46,14 @@ class LessonPage extends StatelessWidget {
           await NotificationPermissions.getNotificationPermissionStatus() ==
               PermissionStatus.granted;
 
-      if (!isNotificationPermissionGranted) {
+      var numberOfTimesReminded = await PreferencesController()
+          .getInt(SharedPreferencesKeys.TURN_NOTIFICATION_ON_REMIND_TIMES) ?? 0;
+      if (!isNotificationPermissionGranted && numberOfTimesReminded < 3) {
         // Just in case the device doesn't allow checking of notifications,
         // we include a pop-up here
+        PreferencesController().saveInt(
+            SharedPreferencesKeys.TURN_NOTIFICATION_ON_REMIND_TIMES,
+            numberOfTimesReminded + 1);
         try {
           _askUserForNotificationPermission(context);
         } catch (ex) {

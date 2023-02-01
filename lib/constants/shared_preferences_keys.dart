@@ -22,3 +22,5 @@ const String SEARCH_ITEMS = "search_items";
 const String RECIPE_SEARCH_MEALS = "recipe_search_meals";
 const String RECIPE_SEARCH_DIETS = "recipe_search_diets";
 const String RECIPE_SEARCH_DEFAULT = "recipe_search_default";
+const String TURN_NOTIFICATION_ON_REMIND_TIMES =
+    "TURN_NOTIFICATION_ON_REMIND_TIMES";
