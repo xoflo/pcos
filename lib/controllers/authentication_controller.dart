@@ -228,6 +228,7 @@ class AuthenticationController {
       prefs.remove(SharedPreferencesKeys.RECIPE_SEARCH_DIETS);
       prefs.remove(SharedPreferencesKeys.RECIPE_SEARCH_MEALS);
       prefs.remove(SharedPreferencesKeys.USERNAME_USED);
+      prefs.remove(SharedPreferencesKeys.TURN_NOTIFICATION_ON_REMIND_TIMES);
       return true;
     } catch (ex) {
       return false;

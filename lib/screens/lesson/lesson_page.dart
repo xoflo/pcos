@@ -22,6 +22,8 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
+import '../../constants/notifications.dart';
+
 class LessonPage extends StatelessWidget {
   LessonPage({Key? key}) : super(key: key);
 
@@ -46,9 +48,16 @@ class LessonPage extends StatelessWidget {
           await NotificationPermissions.getNotificationPermissionStatus() ==
               PermissionStatus.granted;
 
-      if (!isNotificationPermissionGranted) {
+      var numberOfTimesReminded = await PreferencesController().getInt(
+              SharedPreferencesKeys.TURN_NOTIFICATION_ON_REMIND_TIMES) ??
+          0;
+      
+      if (!isNotificationPermissionGranted && numberOfTimesReminded < MAX_NUMBER_OF_TRIES) {
         // Just in case the device doesn't allow checking of notifications,
         // we include a pop-up here
+        PreferencesController().saveInt(
+            SharedPreferencesKeys.TURN_NOTIFICATION_ON_REMIND_TIMES,
+            numberOfTimesReminded + 1);
         try {
           _askUserForNotificationPermission(context);
         } catch (ex) {
