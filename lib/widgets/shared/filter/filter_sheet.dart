@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filter/recipe_filter_list_sheet.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filter/filter_list_sheet.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
 abstract class FilterSheet extends StatefulWidget {
@@ -104,7 +104,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 onTap: () {
                   openBottomSheet(
                     context,
-                    RecipeFilterList(
+                    FilterList(
                       values: widget.getPrimaryCriteriaChoices(),
                       onSelectItem: (tag) {
                         setState(() => currentPrimaryCriteria = tag);
@@ -139,7 +139,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   onTap: () {
                     openBottomSheet(
                       context,
-                      RecipeFilterList(
+                      FilterList(
                         values: widget.getSecondaryCriteriaChoices(),
                         onSelectItem: (tag) => setState(() {
                           if (!currentSecondaryCriteria.contains(tag)) {

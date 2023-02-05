@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-class RecipeFilterList extends StatelessWidget {
-  const RecipeFilterList({
+class FilterList extends StatelessWidget {
+  const FilterList({
     Key? key,
     required this.values,
     required this.onSelectItem,
