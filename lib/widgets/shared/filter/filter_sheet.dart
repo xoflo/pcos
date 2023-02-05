@@ -5,12 +5,8 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filter/recipe_filter_list_sheet.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
-import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
-    as SharedPreferencesKeys;
-
-class RecipeFilterSheet extends StatefulWidget {
-  const RecipeFilterSheet(
+abstract class FilterSheet extends StatefulWidget {
+  const FilterSheet(
       {Key? key,
       required this.currentPrimaryCriteria,
       this.currentSecondaryCriteria,
@@ -21,11 +17,23 @@ class RecipeFilterSheet extends StatefulWidget {
   final List<String>? currentSecondaryCriteria;
   final Function(String, List<String>?)? onSearchPressed;
 
+  String getSearchDefaultPreferenceKey();
+  String getPrimaryCriteriaPreferenceKey();
+  String getSecondaryCriteriaPreferenceKey();
+
+  List<String> getPrimaryCriteriaChoices();
+  List<String> getSecondaryCriteriaChoices();
+  String getPrimaryCriteriaLabel();
+  String getSecondaryCriteriaLabel();
+
+  String getAnalyticsPrimaryCriteria();
+  String getAnalyticsSecondaryCriteria();
+
   @override
-  State<RecipeFilterSheet> createState() => _RecipeFilterSheetState();
+  State<FilterSheet> createState() => _FilterSheetState();
 }
 
-class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
+class _FilterSheetState extends State<FilterSheet> {
   String currentPrimaryCriteria = "All";
   List<String> currentSecondaryCriteria = [];
   bool isDefaultFilter = false;
@@ -41,38 +49,10 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
 
   void initializeDefaultFilter() async {
     final isDefault = await PreferencesController()
-        .getBool(SharedPreferencesKeys.RECIPE_SEARCH_DEFAULT);
+        .getBool(widget.getSearchDefaultPreferenceKey());
 
     setState(() => isDefaultFilter = isDefault);
   }
-
-  List<String> get mealValues => <String>[
-        "All",
-        "Breakfast",
-        "Lunch",
-        "Dinner",
-        "Snacks",
-        "Sweets",
-        "Condiments",
-        "Sides",
-        // We need the blank state, which will not be selectable. Not having
-        // this tends to cut the last element off from the list for some reason
-        "",
-      ];
-
-  List<String> get dietaryRequirementValues => [
-        "Gluten Free",
-        "Dairy Free",
-        "Nut Free",
-        "Egg Free",
-        "Soy Free",
-        "Vegetarian",
-        "Vegan",
-        "Insulin Friendly",
-        // We need the blank state, which will not be selectable. Not having
-        // this tends to cut the last element off from the list for some reason
-        "",
-      ];
 
   @override
   Widget build(BuildContext context) => Container(
@@ -116,7 +96,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
               ),
               SizedBox(height: 35),
               Text(
-                "Types of meal",
+                widget.getPrimaryCriteriaLabel(),
                 style: Theme.of(context).textTheme.subtitle1,
               ),
               SizedBox(height: 10),
@@ -125,12 +105,12 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                   openBottomSheet(
                     context,
                     RecipeFilterList(
-                      values: mealValues,
+                      values: widget.getPrimaryCriteriaChoices(),
                       onSelectItem: (tag) {
                         setState(() => currentPrimaryCriteria = tag);
                       },
                     ),
-                    Analytics.ANALYTICS_SEARCH_RECIPE_MEAL,
+                    widget.getAnalyticsPrimaryCriteria(),
                     null,
                   );
                 },
@@ -151,7 +131,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
               if (currentPrimaryCriteria != 'All') ...[
                 SizedBox(height: 25),
                 Text(
-                  "Types of diets",
+                  widget.getSecondaryCriteriaLabel(),
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: 10),
@@ -160,7 +140,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                     openBottomSheet(
                       context,
                       RecipeFilterList(
-                        values: dietaryRequirementValues,
+                        values: widget.getSecondaryCriteriaChoices(),
                         onSelectItem: (tag) => setState(() {
                           if (!currentSecondaryCriteria.contains(tag)) {
                             currentSecondaryCriteria.add(tag);
@@ -170,7 +150,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                         }),
                         selectedItems: currentSecondaryCriteria,
                       ),
-                      Analytics.ANALYTICS_SEARCH_RECIPE_DIET,
+                      widget.getAnalyticsSecondaryCriteria(),
                       null,
                     );
                   },
@@ -224,16 +204,15 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                   Navigator.pop(context);
 
                   PreferencesController().saveBool(
-                      SharedPreferencesKeys.RECIPE_SEARCH_DEFAULT,
-                      isDefaultFilter);
+                      widget.getSearchDefaultPreferenceKey(), isDefaultFilter);
 
                   PreferencesController().saveString(
-                      SharedPreferencesKeys.RECIPE_SEARCH_MEALS,
+                      widget.getPrimaryCriteriaPreferenceKey(),
                       currentPrimaryCriteria);
 
                   currentSecondaryCriteria.forEach(
                     (diet) => PreferencesController().addToStringList(
-                        SharedPreferencesKeys.RECIPE_SEARCH_DIETS, diet),
+                        widget.getSecondaryCriteriaPreferenceKey(), diet),
                   );
 
                   widget.onSearchPressed

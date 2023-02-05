@@ -13,7 +13,8 @@ import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
 
-import '../../../widgets/shared/filter/recipe_filter_sheet.dart';
+import '../../../widgets/shared/filter/filter_sheet.dart';
+import 'recipe_filter_sheet.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
