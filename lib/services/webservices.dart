@@ -26,6 +26,9 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 
+import '../models/response/workout_response.dart';
+import '../models/workout.dart';
+
 class WebServices {
   // TODO: would be better if this is private but right now we need this to be mockable
   String get baseUrl => FlavorConfig.instance.values.baseUrl;
@@ -478,6 +481,25 @@ class WebServices {
       final response = await executeHttpGet(url);
       if (response.statusCode == 200) {
         return RecipeResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_RECIPES_FAILED;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+  //#endregion
+
+  //#region Workouts
+  Future<List<Workout>?> getAllWorkouts() async {
+    final url = Uri.parse(baseUrl + "Workout/all");
+
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return WorkoutResponse.fromList(
                 ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
             .results;
       } else {

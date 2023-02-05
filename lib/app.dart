@@ -63,6 +63,8 @@ import 'package:thepcosprotocol_app/screens/internal_web_view.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'providers/workouts_provider.dart';
+
 class App extends StatefulWidget {
   App({required this.app});
 
@@ -154,6 +156,10 @@ class _AppState extends State<App> {
         ChangeNotifierProxyProvider<DatabaseProvider, RecipesProvider>(
           create: (context) => RecipesProvider(dbProvider: null),
           update: (context, db, previous) => RecipesProvider(dbProvider: db),
+        ),
+        ChangeNotifierProxyProvider<DatabaseProvider, WorkoutsProvider>(
+          create: (context) => WorkoutsProvider(dbProvider: null),
+          update: (context, db, previous) => WorkoutsProvider(dbProvider: db),
         ),
         ChangeNotifierProxyProvider<DatabaseProvider, ModulesProvider>(
             create: (context) => ModulesProvider(dbProvider: null),

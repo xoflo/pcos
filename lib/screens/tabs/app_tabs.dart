@@ -32,6 +32,8 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
 
+import '../../providers/workouts_provider.dart';
+
 class AppTabs extends StatefulWidget {
   final FirebaseAnalyticsObserver? observer;
 
@@ -144,6 +146,7 @@ class _AppTabsState extends State<AppTabs>
       //unlocking so force refresh modules data
       Provider.of<MemberProvider>(context, listen: false).populateMember();
       Provider.of<RecipesProvider>(context, listen: false).fetchAndSaveData();
+      Provider.of<WorkoutsProvider>(context, listen: false).fetchAndSaveData();
       Provider.of<ModulesProvider>(context, listen: false)
           .fetchAndSaveData(false);
       Provider.of<AppHelpProvider>(context, listen: false).fetchAndSaveData();

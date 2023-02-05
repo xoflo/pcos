@@ -26,6 +26,8 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 import 'package:thepcosprotocol_app/constants/table_names.dart';
 
+import '../models/workout.dart';
+
 // This provider is used for App Help
 class ProviderHelper {
   late WebServices webServices;
@@ -107,6 +109,43 @@ class ProviderHelper {
       // get items from database
       List recipes = await getAllData(dbProvider, TABLE_RECIPE);
       return recipes as List<Recipe>;
+    }
+    return [];
+  }
+
+  Future<List<Workout>> fetchAndSaveWorkouts(
+      final DatabaseProvider? dbProvider) async {
+    // You have to check if db is not null, otherwise it will call on create, it should do this on the update (see the ChangeNotifierProxyProvider added on integration_test.dart)
+    if (dbProvider?.db != null) {
+      //first get the data from the api if we have no data yet
+      if (await _shouldGetDataFromAPI(dbProvider, TABLE_WORKOUT)) {
+        final workouts = await webServices.getAllWorkouts();
+        //delete all old records before adding new ones
+        await dbProvider?.deleteAll(TABLE_WORKOUT);
+        //add items to database
+        workouts?.forEach((Workout workout) async {
+          await dbProvider?.insert(TABLE_WORKOUT, {
+            'recipeId': workout.recipeId,
+            'title': workout.title,
+            'description': workout.description,
+            'thumbnail': workout.thumbnail,
+            'ingredients': workout.ingredients,
+            'method': workout.method,
+            'tips': workout.tips,
+            'tags': workout.tags,
+            'difficulty': workout.difficulty,
+            'servings': workout.servings,
+            'duration': workout.duration,
+            'isFavorite': (workout.isFavorite ?? false) ? 1 : 0,
+          });
+        });
+
+        //save when we got the data
+        saveTimestamp(TABLE_WORKOUT);
+      }
+      // get items from database
+      List recipes = await getAllData(dbProvider, TABLE_WORKOUT);
+      return recipes as List<Workout>;
     }
     return [];
   }

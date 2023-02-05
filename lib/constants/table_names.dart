@@ -12,3 +12,4 @@ const String TABLE_LESSON_LINK = "LessonLink";
 const String TABLE_QUIZ = "LessonQuiz";
 const String TABLE_QUIZ_QUESTION = "LessonQuizQuestion";
 const String TABLE_QUIZ_ANSWER = "LessonQuizAnswer";
+const String TABLE_WORKOUT = "Workout";

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_filter_list_sheet.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filter/recipe_filter_list_sheet.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
@@ -12,13 +12,13 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 class RecipeFilterSheet extends StatefulWidget {
   const RecipeFilterSheet(
       {Key? key,
-      required this.selectedMealType,
-      this.selectedDietType,
+      required this.currentPrimaryCriteria,
+      this.currentSecondaryCriteria,
       this.onSearchPressed})
       : super(key: key);
 
-  final String selectedMealType;
-  final List<String>? selectedDietType;
+  final String currentPrimaryCriteria;
+  final List<String>? currentSecondaryCriteria;
   final Function(String, List<String>?)? onSearchPressed;
 
   @override
@@ -26,15 +26,15 @@ class RecipeFilterSheet extends StatefulWidget {
 }
 
 class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
-  String selectedMealType = "All";
-  List<String> selectedDietType = [];
+  String currentPrimaryCriteria = "All";
+  List<String> currentSecondaryCriteria = [];
   bool isDefaultFilter = false;
 
   @override
   void initState() {
     super.initState();
-    selectedMealType = widget.selectedMealType;
-    selectedDietType = widget.selectedDietType ?? [];
+    currentPrimaryCriteria = widget.currentPrimaryCriteria;
+    currentSecondaryCriteria = widget.currentSecondaryCriteria ?? [];
 
     initializeDefaultFilter();
   }
@@ -99,8 +99,8 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                     ),
                     GestureDetector(
                       onTap: () => setState(() {
-                        selectedDietType.clear();
-                        selectedMealType = "All";
+                        currentSecondaryCriteria.clear();
+                        currentPrimaryCriteria = "All";
                         isDefaultFilter = false;
                       }),
                       child: Text(
@@ -127,7 +127,7 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                     RecipeFilterList(
                       values: mealValues,
                       onSelectItem: (tag) {
-                        setState(() => selectedMealType = tag);
+                        setState(() => currentPrimaryCriteria = tag);
                       },
                     ),
                     Analytics.ANALYTICS_SEARCH_RECIPE_MEAL,
@@ -143,12 +143,12 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                         Border.all(color: textColor.withOpacity(0.8), width: 1),
                   ),
                   child: Text(
-                    selectedMealType,
+                    currentPrimaryCriteria,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
               ),
-              if (selectedMealType != 'All') ...[
+              if (currentPrimaryCriteria != 'All') ...[
                 SizedBox(height: 25),
                 Text(
                   "Types of diets",
@@ -162,13 +162,13 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                       RecipeFilterList(
                         values: dietaryRequirementValues,
                         onSelectItem: (tag) => setState(() {
-                          if (!selectedDietType.contains(tag)) {
-                            selectedDietType.add(tag);
+                          if (!currentSecondaryCriteria.contains(tag)) {
+                            currentSecondaryCriteria.add(tag);
                           } else {
-                            selectedDietType.remove(tag);
+                            currentSecondaryCriteria.remove(tag);
                           }
                         }),
-                        selectedItems: selectedDietType,
+                        selectedItems: currentSecondaryCriteria,
                       ),
                       Analytics.ANALYTICS_SEARCH_RECIPE_DIET,
                       null,
@@ -183,8 +183,8 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
                           color: textColor.withOpacity(0.8), width: 1),
                     ),
                     child: Text(
-                      selectedDietType.isNotEmpty
-                          ? selectedDietType.reduce(
+                      currentSecondaryCriteria.isNotEmpty
+                          ? currentSecondaryCriteria.reduce(
                               (value, element) => value + ", " + element)
                           : "",
                       style: Theme.of(context).textTheme.bodyText1,
@@ -229,15 +229,15 @@ class _RecipeFilterSheetState extends State<RecipeFilterSheet> {
 
                   PreferencesController().saveString(
                       SharedPreferencesKeys.RECIPE_SEARCH_MEALS,
-                      selectedMealType);
+                      currentPrimaryCriteria);
 
-                  selectedDietType.forEach(
+                  currentSecondaryCriteria.forEach(
                     (diet) => PreferencesController().addToStringList(
                         SharedPreferencesKeys.RECIPE_SEARCH_DIETS, diet),
                   );
 
                   widget.onSearchPressed
-                      ?.call(selectedMealType, selectedDietType);
+                      ?.call(currentPrimaryCriteria, currentSecondaryCriteria);
                 },
               )
             ],
