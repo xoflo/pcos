@@ -6,13 +6,14 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_filter_sheet.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
+
+import '../../../widgets/shared/filter/recipe_filter_sheet.dart';
 
 class WorkoutsLayout extends StatefulWidget {
   @override
@@ -117,8 +118,8 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
               onTap: () => openBottomSheet(
                 context,
                 RecipeFilterSheet(
-                  selectedMealType: _mealTag,
-                  selectedDietType: _dietTags,
+                  currentPrimaryCriteria: _mealTag,
+                  currentSecondaryCriteria: _dietTags,
                   onSearchPressed: (meal, diet) {
                     setState(() {
                       _mealTag = meal;
