@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/navigation/workout_details_page_arguments.dart';
+import 'workout_details_page.dart';
 import 'workout_filter_sheet.dart';
 import '../../../constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
@@ -169,8 +171,8 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                   children: workoutsProvider.items
                       .map(
                         (workout) => ImageViewItem(
-                          thumbnail: workout.thumbnail,
-                          onViewPressed: () {},
+                          thumbnail: workout.imageUrl,
+                          onViewPressed: () => WorkoutDetailsPage(args: WorkoutDetailsPageArguments(workout)),
                           onViewClosed: () {},
                           title: workout.title,
                         ),
