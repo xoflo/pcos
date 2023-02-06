@@ -1,50 +1,39 @@
-// TODO: change attributes with the Workout attributes
 class Workout {
-  final bool? isFavorite;
-  final int? recipeId;
-  final int? lessonId;
+  final int? workoutID;
   final String? title;
   final String? description;
-  final String? thumbnail;
-  final String? ingredients;
-  final String? method;
-  final String? tips;
   final String? tags;
-  final int? difficulty;
-  final int? servings;
-  final int? duration;
+  final int? minsToComplete;
+  final int? orderIndex;
+  final String? imageUrl;
+  final bool? isFavorite;
+  final bool? isComplete;
 
   Workout({
-    this.isFavorite, 
-    this.recipeId, 
-    this.lessonId, 
-    this.title, 
-    this.description, 
-    this.thumbnail, 
-    this.ingredients, 
-    this.method, 
-    this.tips, 
-    this.tags, 
-    this.difficulty, 
-    this.servings, 
-    this.duration,
+    this.workoutID,
+    this.title,
+    this.description,
+    this.tags,
+    this.minsToComplete,
+    this.orderIndex,
+    this.imageUrl,
+    this.isFavorite,
+    this.isComplete,
   });
 
   factory Workout.fromJson(Map<String, dynamic> json) {
     return Workout(
-      recipeId: json['recipeId'],
+      workoutID: json['workoutID'],
       title: json['title'],
       description: json['description'],
-      thumbnail: json['thumbnail'],
-      ingredients: json['ingredients'],
-      method: json['method'],
-      tips: json['tips'],
       tags: json['tags'],
-      difficulty: json['difficulty'],
-      servings: json['servings'],
-      duration: json['duration'],
+      minsToComplete: json['minsToComplete'],
+      orderIndex: json['orderIndex'],
+      imageUrl: json['imageUrl'],
       isFavorite:
           json['isFavorite'] == 1 || json['isFavorite'] == true ? true : false,
+      isComplete:
+          json['isComplete'] == 1 || json['isComplete'] == true ? true : false,
     );
   }
 }
