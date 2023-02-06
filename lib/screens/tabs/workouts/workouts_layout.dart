@@ -9,7 +9,7 @@ import '../../../providers/workouts_provider.dart';
 import '../../../controllers/preferences_controller.dart';
 import '../../../styles/colors.dart';
 import '../../../utils/dialog_utils.dart';
-import '../../../screens/tabs/recipes/recipe_item.dart';
+import '../../../widgets/shared/image_view_item.dart';
 import '../../../widgets/shared/loader_overlay_with_change_notifier.dart';
 import '../../../generated/l10n.dart';
 import '../../../services/firebase_analytics.dart';
@@ -168,9 +168,12 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                   crossAxisSpacing: 10,
                   children: workoutsProvider.items
                       .map(
-                        (recipe) => RecipeItem(
-                          recipe: recipe,
-                          isFromLesson: false,
+                        (workout) => ImageViewItem(
+                          thumbnail: workout.thumbnail,
+                          onViewPressed: () {
+                            
+                          },
+                          title: workout.title,
                         ),
                       )
                       .toList(),

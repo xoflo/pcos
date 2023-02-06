@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
-import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_item.dart';
+import 'package:thepcosprotocol_app/widgets/shared/image_view_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
+
+import '../../../models/navigation/lesson_recipe_arguments.dart';
+import '../recipes/recipe_details_page.dart';
 
 class FavouritesRecipes extends StatelessWidget {
   @override
@@ -28,7 +31,11 @@ class FavouritesRecipes extends StatelessWidget {
           (index) {
             final recipe = favouritesProvider.recipes[index];
 
-            return RecipeItem(recipe: recipe);
+            return ImageViewItem(
+              thumbnail: recipe.thumbnail,
+              onViewPressed: () => RecipeDetailsPage(args: LessonRecipeArguments(true, recipe)),
+              title: recipe.title
+            );
           },
           growable: false,
         ),

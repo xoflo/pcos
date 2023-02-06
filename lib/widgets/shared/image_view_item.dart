@@ -2,7 +2,6 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/models/navigation/lesson_recipe_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_details_page.dart';
@@ -10,21 +9,28 @@ import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class RecipeItem extends StatefulWidget {
-  const RecipeItem({
+import '../../models/lesson_recipe.dart';
+
+/// Widget that displays image in a rounded-corner view that serves as view items in a collective view like grid view.
+/// Usually, tapping this view transitions to another page when tapped (e.g. detail page).
+class ImageViewItem extends StatefulWidget {
+  const ImageViewItem({
     Key? key,
-    required this.recipe,
-    this.isFromLesson = true,
+    required this.thumbnail,
+    required this.onViewPressed,
+    this.title,
   }) : super(key: key);
 
-  final bool isFromLesson;
-  final LessonRecipe recipe;
+  final String? thumbnail;
+  final String? title;
+
+  final Function() onViewPressed;
 
   @override
-  State<RecipeItem> createState() => _RecipeItemState();
+  State<ImageViewItem> createState() => _RecipeItemState();
 }
 
-class _RecipeItemState extends State<RecipeItem> {
+class _RecipeItemState extends State<ImageViewItem> {
   bool canLaunchUrl = false;
 
   @override
@@ -35,8 +41,7 @@ class _RecipeItemState extends State<RecipeItem> {
   }
 
   void setCanLaunch() async {
-    final canLaunchThumbnail =
-        await canLaunchUrlString(widget.recipe.thumbnail ?? "");
+    final canLaunchThumbnail = await canLaunchUrlString(widget.thumbnail ?? "");
     setState(() => canLaunchUrl = canLaunchThumbnail);
   }
 
@@ -50,8 +55,7 @@ class _RecipeItemState extends State<RecipeItem> {
             .fetchRecipesStatus(),
         closedColor: Colors.transparent,
         closedElevation: 0,
-        openBuilder: (context, action) => RecipeDetailsPage(
-            args: LessonRecipeArguments(widget.isFromLesson, widget.recipe)),
+        openBuilder: (context, action) => widget.onViewPressed(),
         closedBuilder: (context, action) => Stack(
           children: [
             Container(
@@ -63,10 +67,9 @@ class _RecipeItemState extends State<RecipeItem> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: widget.recipe.thumbnail?.isNotEmpty == true &&
-                            canLaunchUrl
+                    child: widget.thumbnail?.isNotEmpty == true && canLaunchUrl
                         ? Image.network(
-                            widget.recipe.thumbnail ?? "",
+                            widget.thumbnail ?? "",
                             key: GlobalKey(),
                             fit: BoxFit.cover,
                             errorBuilder: (_, __, ___) => BlankImage(),
@@ -102,7 +105,7 @@ class _RecipeItemState extends State<RecipeItem> {
                     bottom: 20,
                     child: HtmlWidget(
                       "<p style='max-lines:2; text-overflow: ellipsis;'>" +
-                          (widget.recipe.title ?? "") +
+                          (widget.title ?? "") +
                           "</p>",
                       textStyle: Theme.of(context)
                           .textTheme
