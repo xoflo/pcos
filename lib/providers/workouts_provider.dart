@@ -31,4 +31,17 @@ class WorkoutsProvider extends LoadingStatusNotifier {
     setLoadingStatus(
         _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success, false);
   }
+
+  Future<void> filterAndSearch(final String searchText, final String tag,
+      final List<String> secondaryTags) async {
+    setLoadingStatus(LoadingStatus.loading, true);
+    if (dbProvider?.db != null) {
+      _items = await ProviderHelper().filterAndSearch(
+              dbProvider, tableName, searchText, tag, secondaryTags)
+          as List<Workout>;
+    }
+    setLoadingStatus(
+        _items.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        true);
+  }
 }

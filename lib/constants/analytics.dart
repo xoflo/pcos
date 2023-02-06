@@ -43,6 +43,7 @@ const String ANALYTICS_SCREEN_LESSON_WIKI_SEARCH = "lesson_wiki_search";
 const String ANALYTICS_SCREEN_WIKI = "wiki_full";
 const String ANALYTICS_SCREEN_QUIZ = "lesson_quiz";
 const String ANALYTICS_RECIPE_FILTER = "recipe_filter";
+const String ANALYTICS_WORKOUT_FILTER = "workout_filter";
 
 //SEARCH TYPES
 const String ANALYTICS_SEARCH_RECIPE = "recipe";
@@ -51,6 +52,10 @@ const String ANALYTICS_SEARCH_LESSON = "lesson";
 const String ANALYTICS_SEARCH_LESSON_WIKI = "lesson_wiki";
 const String ANALYTICS_SEARCH_RECIPE_MEAL = "meal";
 const String ANALYTICS_SEARCH_RECIPE_DIET = "diet";
+
+const String ANALYTICS_SEARCH_WORKOUT = "workout";
+const String ANALYTICS_SEARCH_WORKOUT_DIFFICULTY = "workout_difficulty";
+const String ANALYTICS_SEARCH_WORKOUT_TYPE = "workout_type";
 
 //BUTTONS
 const String ANALYTICS_BUTTON_EDIT_PROFILE = "edit_profile";

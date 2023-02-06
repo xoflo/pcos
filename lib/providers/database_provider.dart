@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DatabaseProvider with ChangeNotifier {
   //increment this number whenever the database tables change
-  static const DB_VERSION = 5;
+  static const DB_VERSION = 6;
   static const DATABASE_NAME = "ThePCOSProtocol.db";
   sql.Database? db;
 
@@ -55,6 +55,21 @@ class DatabaseProvider with ChangeNotifier {
               "isFavorite INTEGER"
               ")");
           await db.execute("CREATE TABLE $TABLE_RECIPE ("
+              "recipeId INTEGER PRIMARY KEY,"
+              "title TEXT,"
+              "description TEXT,"
+              "thumbnail TEXT,"
+              "ingredients TEXT,"
+              "method TEXT,"
+              "tips TEXT,"
+              "tags TEXT,"
+              "difficulty INTEGER,"
+              "servings INTEGER,"
+              "duration INTEGER,"
+              "isFavorite INTEGER"
+              ")");
+          // TODO change the column names with the actual names for workout
+          await db.execute("CREATE TABLE $TABLE_WORKOUT ("
               "recipeId INTEGER PRIMARY KEY,"
               "title TEXT,"
               "description TEXT,"
@@ -257,6 +272,7 @@ class DatabaseProvider with ChangeNotifier {
     deleteQuery(
         table: TABLE_COURSE_QUESTION, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_RECIPE, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_WORKOUT, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_MESSAGE, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_CMS_TEXT, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_MODULE, whereClause: "", limitRowCount: 0);

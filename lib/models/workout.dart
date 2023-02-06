@@ -1,3 +1,4 @@
+// TODO: change attributes with the Workout attributes
 class Workout {
   final bool? isFavorite;
   final int? recipeId;

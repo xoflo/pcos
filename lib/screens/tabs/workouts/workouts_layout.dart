@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
-import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
-    as SharedPreferencesKeys;
-import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_item.dart';
-import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
-import 'package:thepcosprotocol_app/generated/l10n.dart';
-import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
-import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
-import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
 
-import '../../../widgets/shared/filter/filter_sheet.dart';
-import '../recipes/recipe_filter_sheet.dart';
+import 'workout_filter_sheet.dart';
+import '../../../constants/shared_preferences_keys.dart'
+    as SharedPreferencesKeys;
+import '../../../constants/analytics.dart' as Analytics;
+import '../../../providers/workouts_provider.dart';
+import '../../../controllers/preferences_controller.dart';
+import '../../../styles/colors.dart';
+import '../../../utils/dialog_utils.dart';
+import '../../../screens/tabs/recipes/recipe_item.dart';
+import '../../../widgets/shared/loader_overlay_with_change_notifier.dart';
+import '../../../generated/l10n.dart';
+import '../../../services/firebase_analytics.dart';
+import '../../../widgets/shared/search_component.dart';
 
 class WorkoutsLayout extends StatefulWidget {
   @override
@@ -28,8 +27,8 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
   bool isInitialized = false;
 
   bool _isSearching = false;
-  String _mealTag = "All";
-  List<String> _dietTags = [];
+  String _difficultyTag = "All";
+  List<String> _workoutTypeTags = [];
 
   @override
   void initState() {
@@ -45,48 +44,48 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
     _focusNode.dispose();
   }
 
-  void _initializeMealDietTags(RecipesProvider recipesProvider) async {
+  void _initializeFilterTags(WorkoutsProvider workoutsProvider) async {
     if (await PreferencesController()
-        .getBool(SharedPreferencesKeys.RECIPE_SEARCH_DEFAULT)) {
-      final meals = await PreferencesController()
-          .getString(SharedPreferencesKeys.RECIPE_SEARCH_MEALS);
-      final diets = await PreferencesController()
-          .getStringList(SharedPreferencesKeys.RECIPE_SEARCH_DIETS);
+        .getBool(SharedPreferencesKeys.WORKOUT_DEFAULT_FILTER)) {
+      final difficultyLevels = await PreferencesController()
+          .getString(SharedPreferencesKeys.WORKOUT_DIFFICULTY_FILTER);
+      final workoutTypes = await PreferencesController()
+          .getStringList(SharedPreferencesKeys.WORKOUT_TYPE_FILTER);
 
-      _mealTag = meals;
-      _dietTags = diets;
+      _difficultyTag = difficultyLevels;
+      _workoutTypeTags = workoutTypes;
     } else {
-      _mealTag = "All";
-      _dietTags = [];
+      _difficultyTag = "All";
+      _workoutTypeTags = [];
     }
 
-    _onSearchClicked(recipesProvider);
+    _onSearchClicked(workoutsProvider);
   }
 
   void _onFocusChanged() {
     setState(() => _isSearching = _focusNode.hasFocus);
   }
 
-  void _onSearchClicked(RecipesProvider recipesProvider) async {
+  void _onSearchClicked(WorkoutsProvider workoutsProvider) async {
     analytics.logEvent(
       name: Analytics.ANALYTICS_EVENT_SEARCH,
       parameters: {
         Analytics.ANALYTICS_PARAMETER_SEARCH_TYPE:
-            Analytics.ANALYTICS_SEARCH_RECIPE
+            Analytics.ANALYTICS_SEARCH_WORKOUT
       },
     );
 
-    recipesProvider.filterAndSearch(
-        _searchController.text.trim(), _mealTag, _dietTags);
+    workoutsProvider.filterAndSearch(
+        _searchController.text.trim(), _difficultyTag, _workoutTypeTags);
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
   }
 
   @override
   Widget build(BuildContext context) {
-    final recipesProvider = Provider.of<RecipesProvider>(context);
+    final workoutsProvider = Provider.of<WorkoutsProvider>(context);
     if (!isInitialized) {
       isInitialized = true;
-      _initializeMealDietTags(recipesProvider);
+      _initializeFilterTags(workoutsProvider);
     }
 
     return GestureDetector(
@@ -97,7 +96,7 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
             searchController: _searchController,
             focusNode: _focusNode,
             searchBackgroundColor: primaryColor,
-            onSearchPressed: () => _onSearchClicked(recipesProvider),
+            onSearchPressed: () => _onSearchClicked(workoutsProvider),
           ),
           if (_isSearching && _searchController.text.trim().isEmpty)
             Expanded(
@@ -105,7 +104,7 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                 padding: EdgeInsets.symmetric(horizontal: 60),
                 alignment: Alignment.center,
                 child: Text(
-                  "Search any ingredients, recipes names, or meal types.",
+                  "Search workout exercises.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
@@ -118,19 +117,19 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
             GestureDetector(
               onTap: () => openBottomSheet(
                 context,
-                RecipeFilterSheet(
-                  currentPrimaryCriteria: _mealTag,
-                  currentSecondaryCriteria: _dietTags,
+                WorkoutFilterSheet(
+                  currentPrimaryCriteria: _difficultyTag,
+                  currentSecondaryCriteria: _workoutTypeTags,
                   onSearchPressed: (meal, diet) {
                     setState(() {
-                      _mealTag = meal;
-                      _dietTags = diet ?? [];
+                      _difficultyTag = meal;
+                      _workoutTypeTags = diet ?? [];
                     });
 
-                    _onSearchClicked(recipesProvider);
+                    _onSearchClicked(workoutsProvider);
                   },
                 ),
-                Analytics.ANALYTICS_RECIPE_FILTER,
+                Analytics.ANALYTICS_WORKOUT_FILTER,
                 null,
               ),
               child: Container(
@@ -158,7 +157,7 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
               child: LoaderOverlay(
                 height: double.maxFinite,
                 indicatorPosition: Alignment.topCenter,
-                loadingStatusNotifier: recipesProvider,
+                loadingStatusNotifier: workoutsProvider,
                 emptyMessage: S.current.noResultsRecipes,
                 overlayBackgroundColor: Colors.transparent,
                 child: GridView.count(
@@ -167,7 +166,7 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  children: recipesProvider.randomizedItems
+                  children: workoutsProvider.items
                       .map(
                         (recipe) => RecipeItem(
                           recipe: recipe,

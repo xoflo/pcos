@@ -859,6 +859,8 @@ class ProviderHelper {
   List<dynamic> mapDataToList(final dataList, final String tableName) {
     if (tableName == TABLE_RECIPE) {
       return dataList.map<Recipe>((item) => Recipe.fromJson(item)).toList();
+    } else if (tableName == TABLE_WORKOUT) {
+      return dataList.map<Workout>((item) => Workout.fromJson(item)).toList();
     } else if (tableName == TABLE_MODULE) {
       return dataList.map<Module>((item) => Module.fromJson(item)).toList();
     } else if (tableName == TABLE_LESSON) {
