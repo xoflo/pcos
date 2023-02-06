@@ -170,9 +170,8 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                       .map(
                         (workout) => ImageViewItem(
                           thumbnail: workout.thumbnail,
-                          onViewPressed: () {
-                            
-                          },
+                          onViewPressed: () {},
+                          onViewClosed: () {},
                           title: workout.title,
                         ),
                       )

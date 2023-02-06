@@ -14,6 +14,7 @@ import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
 
 import '../../../models/navigation/lesson_recipe_arguments.dart';
+import '../../../providers/favourites_provider.dart';
 import 'recipe_details_page.dart';
 import 'recipe_filter_sheet.dart';
 
@@ -173,6 +174,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                         (recipe) => ImageViewItem(
                           thumbnail: recipe.thumbnail,
                           onViewPressed: () => RecipeDetailsPage(args: LessonRecipeArguments(false, recipe)),
+                          onViewClosed: () => Provider.of<FavouritesProvider>(context, listen: false).fetchRecipesStatus(),
                           title: recipe.title,
                         ),
                       )

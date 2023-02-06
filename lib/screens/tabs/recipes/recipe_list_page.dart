@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/models/lesson_recipe.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_view_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
 import '../../../models/navigation/lesson_recipe_arguments.dart';
+import '../../../providers/favourites_provider.dart';
 import 'recipe_details_page.dart';
 
 class RecipeListPage extends StatefulWidget {
@@ -54,6 +56,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
                       return ImageViewItem(
                         thumbnail: recipe.thumbnail,
                         onViewPressed: () => RecipeDetailsPage(args: LessonRecipeArguments(true, recipe)),
+                        onViewClosed: () => Provider.of<FavouritesProvider>(context, listen: false).fetchRecipesStatus(),
                         title: recipe.title
                       );
                     },

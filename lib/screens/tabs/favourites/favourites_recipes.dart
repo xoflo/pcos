@@ -34,6 +34,7 @@ class FavouritesRecipes extends StatelessWidget {
             return ImageViewItem(
               thumbnail: recipe.thumbnail,
               onViewPressed: () => RecipeDetailsPage(args: LessonRecipeArguments(true, recipe)),
+              onViewClosed: () => Provider.of<FavouritesProvider>(context, listen: false).fetchRecipesStatus(),
               title: recipe.title
             );
           },

@@ -2,22 +2,19 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/models/navigation/lesson_recipe_arguments.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
-import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_details_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../models/lesson_recipe.dart';
-
 /// Widget that displays image in a rounded-corner view that serves as view items in a collective view like grid view.
-/// Usually, tapping this view transitions to another page when tapped (e.g. detail page).
+/// onViewPressed: Usually, tapping this view transitions to another page when tapped (e.g. detail page).
 class ImageViewItem extends StatefulWidget {
   const ImageViewItem({
     Key? key,
     required this.thumbnail,
     required this.onViewPressed,
+    required this.onViewClosed,
     this.title,
   }) : super(key: key);
 
@@ -25,6 +22,7 @@ class ImageViewItem extends StatefulWidget {
   final String? title;
 
   final Function() onViewPressed;
+  final Function() onViewClosed;
 
   @override
   State<ImageViewItem> createState() => _RecipeItemState();
@@ -51,8 +49,7 @@ class _RecipeItemState extends State<ImageViewItem> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         closedShape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        onClosed: (_) => Provider.of<FavouritesProvider>(context, listen: false)
-            .fetchRecipesStatus(),
+        onClosed: (_) => widget.onViewClosed(),
         closedColor: Colors.transparent,
         closedElevation: 0,
         openBuilder: (context, action) => widget.onViewPressed(),
