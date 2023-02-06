@@ -125,18 +125,15 @@ class ProviderHelper {
         //add items to database
         workouts?.forEach((Workout workout) async {
           await dbProvider?.insert(TABLE_WORKOUT, {
-            'recipeId': workout.recipeId,
+            'workoutID': workout.workoutID,
             'title': workout.title,
             'description': workout.description,
-            'thumbnail': workout.thumbnail,
-            'ingredients': workout.ingredients,
-            'method': workout.method,
-            'tips': workout.tips,
             'tags': workout.tags,
-            'difficulty': workout.difficulty,
-            'servings': workout.servings,
-            'duration': workout.duration,
+            'minsToComplete': workout.minsToComplete,
+            'orderIndex': workout.orderIndex,
+            'imageUrl': workout.imageUrl,
             'isFavorite': (workout.isFavorite ?? false) ? 1 : 0,
+            'isComplete': (workout.isComplete ?? false) ? 1 : 0,
           });
         });
 
@@ -144,8 +141,8 @@ class ProviderHelper {
         saveTimestamp(TABLE_WORKOUT);
       }
       // get items from database
-      List recipes = await getAllData(dbProvider, TABLE_WORKOUT);
-      return recipes as List<Workout>;
+      List workouts = await getAllData(dbProvider, TABLE_WORKOUT);
+      return workouts as List<Workout>;
     }
     return [];
   }
@@ -689,6 +686,9 @@ class ProviderHelper {
           } else if (tableName == TABLE_LESSON) {
             searchQuery =
                 " WHERE (title LIKE '%$searchText%' OR REPLACE(title,'''','') LIKE '%$searchText%' OR introduction LIKE '%$searchText%' OR REPLACE(introduction,'''','') LIKE '%$searchText%')";
+          } else if (tableName == TABLE_WORKOUT) {
+            searchQuery =
+                " WHERE (title LIKE '%$searchText%' OR REPLACE(title,'''','') LIKE '%$searchText%' OR description LIKE '%$searchText%' OR REPLACE(description,'''','') LIKE '%$searchText%')";
           } else {
             searchQuery = " WHERE question LIKE '%$searchText%'";
           }
@@ -697,7 +697,7 @@ class ProviderHelper {
           searchQuery += searchText.length > 0 ? " AND" : " WHERE";
           searchQuery += " tags LIKE '%$tag%'";
           //add the secondary tags as OR's if any selected
-          if (tableName == TABLE_RECIPE && secondaryTags.length > 0) {
+          if ((tableName == TABLE_RECIPE || tableName == TABLE_WORKOUT) && secondaryTags.length > 0) {
             bool firstItem = true;
             searchQuery += " AND (";
             secondaryTags.forEach((item) {
