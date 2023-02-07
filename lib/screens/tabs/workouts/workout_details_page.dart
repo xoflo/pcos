@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 
 import '../../../models/navigation/workout_details_page_arguments.dart';
+import '../../../widgets/shared/filled_button.dart';
 
 class WorkoutDetailsPage extends StatefulWidget {
   const WorkoutDetailsPage({Key? key, this.args}) : super(key: key);
@@ -30,18 +31,6 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
     super.initState();
     favouritesProvider =
         Provider.of<FavouritesProvider>(context, listen: false);
-  }
-
-  String get difficultyText {
-    // switch (args?.workout.difficulty) {
-    //   case 1:
-    //     return S.current.recipeDifficultyEasy;
-    //   case 2:
-    //     return S.current.recipeDifficultyMedium;
-    //   case 3:
-    //     return S.current.recipeDifficultyHard;
-    // }
-    return "";
   }
 
   @override
@@ -81,6 +70,60 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                             children: [
                               ImageComponent(
                                   imageUrl: args?.workout.imageUrl ?? ""),
+                              SizedBox(height: 25),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: HtmlWidget(
+                                        args?.workout.title ?? "",
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .headline1,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        favouritesProvider.addToFavourites(
+                                            FavouriteType.Workout,
+                                            args?.workout.workoutID);
+                                        setState(
+                                            () => isFavorite = !isFavorite);
+                                      },
+                                      child: Icon(
+                                        isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_outline,
+                                        color: backgroundColor,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 25),
+                              if (args?.workout.description?.isNotEmpty ==
+                                  true) ...[
+                                SizedBox(height: 25),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: HtmlWidget(
+                                    args?.workout.description ?? "",
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                          height: 1.5,
+                                          color: textColor.withOpacity(0.8),
+                                        ),
+                                  ),
+                                )
+                              ],
+                              SizedBox(height: 25),
                               if (tags.isNotEmpty) ...[
                                 SizedBox(height: 30),
                                 Container(
@@ -119,90 +162,21 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                 ),
                               ],
                               SizedBox(height: 25),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: HtmlWidget(
-                                        args?.workout.title ?? "",
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .headline1,
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        favouritesProvider.addToFavourites(
-                                            FavouriteType.Workout,
-                                            args?.workout.workoutID);
-                                        setState(
-                                            () => isFavorite = !isFavorite);
-                                      },
-                                      child: Icon(
-                                        isFavorite
-                                            ? Icons.favorite
-                                            : Icons.favorite_outline,
-                                        color: backgroundColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                  ],
+                              FilledButton(
+                                icon: Image(
+                                  image: AssetImage('assets/exercises.png'),
+                                  height: 20,
+                                  width: 20,
                                 ),
-                              ),
-                              SizedBox(height: 25),
-                              // RecipeDetailsStatsComponent(
-                              //   duration: args?.workout.minsToComplete,
-                              //   servings: args?.recipe.servings,
-                              //   difficulty: difficultyText,
-                              // ),
-                              if (args?.workout.description?.isNotEmpty ==
-                                  true) ...[
-                                SizedBox(height: 25),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: HtmlWidget(
-                                    args?.workout.description ?? "",
-                                    textStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1
-                                        ?.copyWith(
-                                          height: 1.5,
-                                          color: textColor.withOpacity(0.8),
-                                        ),
-                                  ),
-                                )
-                              ],
-                              SizedBox(height: 25),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Ingredients",
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
-                                    ),
-                                    SizedBox(height: 10),
-                                    HtmlWidget(
-                                      args?.workout.description ?? "",
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          ?.copyWith(
-                                            height: 1.5,
-                                            color: textColor.withOpacity(0.8),
-                                          ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 25),
-                              
+                                text: "See exercises here",
+                                margin: EdgeInsets.symmetric(horizontal: 15),
+                                width: 200.0,
+                                foregroundColor: Colors.white,
+                                backgroundColor: backgroundColor,
+                                onPressed: () {
+                                  // TODO go to Exercises page
+                                },
+                              )
                             ],
                           ),
                           
