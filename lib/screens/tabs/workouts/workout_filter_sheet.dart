@@ -31,7 +31,6 @@ class WorkoutFilterSheet extends FilterSheet {
       "Intermediate",
       "Advanced",
       "Postpartum",
-      "Pregnancy friendly",
       // We need the blank state, which will not be selectable. Not having
       // this tends to cut the last element off from the list for some reason
       "",
@@ -64,7 +63,7 @@ class WorkoutFilterSheet extends FilterSheet {
     const List<String> workoutTypes = [
       "Weighted",
       "Bodyweight",
-      "Short (7 mins)",
+      "Short (7mins)",
       "Pregnancy friendly",
       "Equipment free",
       // We need the blank state, which will not be selectable. Not having
