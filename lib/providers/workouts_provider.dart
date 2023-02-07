@@ -35,7 +35,8 @@ class WorkoutsProvider extends LoadingStatusNotifier {
         description: "This is workout number 1",
         imageUrl:
             'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-        tags: 'Intermediate, Weighted'));
+        tags: 'Intermediate, Weighted',
+        minsToComplete: 30));
 
     workouts.add(Workout(
         workoutID: 2,

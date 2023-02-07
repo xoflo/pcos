@@ -124,6 +124,16 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                   ),
                                 )
                               ],
+                              if (args?.workout.minsToComplete != null) ...[
+                                SizedBox(height: 25),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Text(
+                                    'Time to Complete: ${args?.workout.minsToComplete} mins',
+                                    style: Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ),
+                              ],
                               SizedBox(height: 25),
                               if (tags.isNotEmpty) ...[
                                 SizedBox(height: 30),
@@ -181,7 +191,8 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                     arguments: args?.workout.workoutID,
                                   );
                                 },
-                              )
+                              ),
+                              SizedBox(height: 25),
                             ],
                           ),
                           Positioned(
