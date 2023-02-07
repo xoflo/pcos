@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/navigation/workout_details_page_arguments.dart';
+import '../../../providers/favourites_provider.dart';
 import 'workout_details_page.dart';
 import 'workout_filter_sheet.dart';
 import '../../../constants/shared_preferences_keys.dart'
@@ -173,7 +174,7 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                         (workout) => ImageViewItem(
                           thumbnail: workout.imageUrl,
                           onViewPressed: () => WorkoutDetailsPage(args: WorkoutDetailsPageArguments(workout)),
-                          onViewClosed: () {},
+                          onViewClosed: () => Provider.of<FavouritesProvider>(context, listen: false).fetchWorkoutsStatus(),
                           title: workout.title,
                         ),
                       )

@@ -661,12 +661,15 @@ class ProviderHelper {
     List wikis = await getAllData(dbProvider, TABLE_WIKI, favouritesOnly: true);
     List recipes =
         await getAllData(dbProvider, TABLE_RECIPE, favouritesOnly: true);
+    List workouts =
+        await getAllData(dbProvider, TABLE_WORKOUT, favouritesOnly: true);
 
     return AllFavourites(
       toolkits: toolkits as List<Lesson>,
       lessons: lessons as List<Lesson>,
       lessonWikis: wikis as List<LessonWiki>,
       recipes: recipes as List<Recipe>,
+      workouts: workouts as List<Workout>,
     );
   }
 
@@ -784,6 +787,12 @@ class ProviderHelper {
         tableName = TABLE_RECIPE;
         assetType = "Recipe";
         updateColumn = "recipeId";
+        break;
+      case FavouriteType.Workout:
+        updateId = itemId;
+        tableName = TABLE_WORKOUT;
+        assetType = "Workout";
+        updateColumn = "workoutID";
         break;
       case FavouriteType.Wiki:
         updateId = itemId;

@@ -49,7 +49,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
     if (args == null) {
       args = widget.args;
       isFavorite = favouritesProvider.isFavourite(
-          FavouriteType.Recipe, args?.workout.workoutID);
+          FavouriteType.Workout, args?.workout.workoutID);
     }
 
     List<String> tags = args?.workout.tags?.isNotEmpty == true
