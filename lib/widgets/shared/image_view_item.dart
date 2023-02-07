@@ -1,8 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:provider/provider.dart';
-import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/blank_image.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher_string.dart';
