@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/navigation/workout_details_page_arguments.dart';
 import '../../../providers/favourites_provider.dart';
+import '../../../widgets/shared/filled_button.dart';
 import 'workout_details_page.dart';
 import 'workout_filter_sheet.dart';
 import '../../../constants/shared_preferences_keys.dart'
@@ -32,6 +33,7 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
   bool _isSearching = false;
   String _difficultyTag = "All";
   List<String> _workoutTypeTags = [];
+  bool _isShowFavoritesOnly = false;
 
   @override
   void initState() {
@@ -86,10 +88,13 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
   @override
   Widget build(BuildContext context) {
     final workoutsProvider = Provider.of<WorkoutsProvider>(context);
+    final favoritesProvider = Provider.of<FavouritesProvider>(context);
     if (!isInitialized) {
       isInitialized = true;
       _initializeFilterTags(workoutsProvider);
     }
+
+    var workoutItems = _isShowFavoritesOnly ? favoritesProvider.workouts : workoutsProvider.items;
 
     return GestureDetector(
       onTap: () => _focusNode.unfocus(),
@@ -117,44 +122,71 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
               ),
             )
           else ...[
-            GestureDetector(
-              onTap: () => openBottomSheet(
-                context,
-                WorkoutFilterSheet(
-                  currentPrimaryCriteria: _difficultyTag,
-                  currentSecondaryCriteria: _workoutTypeTags,
-                  onSearchPressed: (meal, diet) {
-                    setState(() {
-                      _difficultyTag = meal;
-                      _workoutTypeTags = diet ?? [];
-                    });
-
-                    _onSearchClicked(workoutsProvider);
+            Row(
+              children: [
+                FilledButton(
+                  icon: Image(
+                    image: _isShowFavoritesOnly
+                        ? AssetImage('assets/heart_white_outline.png')
+                        : AssetImage('assets/heart_green_outline.png'),
+                    height: 20,
+                    width: 20,
+                  ),
+                  text: "My favorite workouts",
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  width: 200.0,
+                  foregroundColor:
+                      _isShowFavoritesOnly ? Colors.white : backgroundColor,
+                  backgroundColor:
+                      _isShowFavoritesOnly ? backgroundColor : primaryColor,
+                  isRoundedButton: true,
+                  borderColor: _isShowFavoritesOnly ? null : backgroundColor,
+                  onPressed: () async {
+                    await favoritesProvider.fetchAndSaveData();
+                    setState(
+                        () => _isShowFavoritesOnly = !_isShowFavoritesOnly);
                   },
                 ),
-                Analytics.ANALYTICS_WORKOUT_FILTER,
-                null,
-              ),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.filter_list,
-                      color: backgroundColor,
+                GestureDetector(
+                  onTap: () => openBottomSheet(
+                    context,
+                    WorkoutFilterSheet(
+                      currentPrimaryCriteria: _difficultyTag,
+                      currentSecondaryCriteria: _workoutTypeTags,
+                      onSearchPressed: (difficulty, workoutTypes) {
+                        setState(() {
+                          _difficultyTag = difficulty;
+                          _workoutTypeTags = workoutTypes ?? [];
+                        });
+
+                        _onSearchClicked(workoutsProvider);
+                      },
                     ),
-                    SizedBox(width: 10),
-                    Text(
-                      "Filters",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(color: backgroundColor),
+                    Analytics.ANALYTICS_WORKOUT_FILTER,
+                    null,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.filter_list,
+                          color: backgroundColor,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Filters",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(color: backgroundColor),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
             Expanded(
               child: LoaderOverlay(
@@ -169,12 +201,16 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  children: workoutsProvider.items
-                      .map(
+                  children: 
+                      workoutItems.map(
                         (workout) => ImageViewItem(
                           thumbnail: workout.imageUrl,
-                          onViewPressed: () => WorkoutDetailsPage(args: WorkoutDetailsPageArguments(workout)),
-                          onViewClosed: () => Provider.of<FavouritesProvider>(context, listen: false).fetchWorkoutsStatus(),
+                          onViewPressed: () => WorkoutDetailsPage(
+                              args: WorkoutDetailsPageArguments(workout)),
+                          onViewClosed: () => Provider.of<FavouritesProvider>(
+                                  context,
+                                  listen: false)
+                              .fetchWorkoutsStatus(),
                           title: workout.title,
                         ),
                       )
