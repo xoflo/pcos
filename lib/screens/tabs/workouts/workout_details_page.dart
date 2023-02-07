@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/screens/tabs/workouts/workout_exercises_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 
@@ -174,12 +175,15 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                 foregroundColor: Colors.white,
                                 backgroundColor: backgroundColor,
                                 onPressed: () {
-                                  // TODO go to Exercises page
+                                  Navigator.pushNamed(
+                                    context,
+                                    WorkoutExercisesPage.id,
+                                    arguments: args?.workout.workoutID,
+                                  );
                                 },
                               )
                             ],
                           ),
-                          
                           Positioned(
                             left: 15,
                             top: 15,

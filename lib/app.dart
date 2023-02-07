@@ -27,6 +27,7 @@ import 'package:thepcosprotocol_app/screens/tabs/more/terms_and_conditions.dart'
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
+import 'package:thepcosprotocol_app/screens/tabs/workouts/workout_exercises_page.dart';
 import 'package:thepcosprotocol_app/screens/unsupported_version.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/splash_page.dart';
@@ -235,6 +236,7 @@ class _AppState extends State<App> {
           LessonWikiPage.id: (context) => LessonWikiPage(),
           LessonContentPage.id: (context) => LessonContentPage(),
           LessonVideoPage.id: (context) => LessonVideoPage(),
+          WorkoutExercisesPage.id: (context) => WorkoutExercisesPage(),
           FavouritesToolkitDetails.id: (context) => FavouritesToolkitDetails(),
           LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),
           LibraryModulePage.id: (context) => LibraryModulePage(),
