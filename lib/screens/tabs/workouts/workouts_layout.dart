@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/navigation/workout_details_page_arguments.dart';
 import '../../../providers/favourites_provider.dart';
-import '../../../widgets/shared/filled_button.dart';
+import '../../../widgets/shared/favorites_toggle_button.dart';
 import 'workout_details_page.dart';
 import 'workout_filter_sheet.dart';
 import '../../../constants/shared_preferences_keys.dart'
@@ -124,28 +124,13 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
           else ...[
             Row(
               children: [
-                FilledButton(
-                  icon: Image(
-                    image: _isShowFavoritesOnly
-                        ? AssetImage('assets/heart_white_outline.png')
-                        : AssetImage('assets/heart_green_outline.png'),
-                    height: 20,
-                    width: 20,
-                  ),
-                  text: "My favorite workouts",
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  width: 200.0,
-                  foregroundColor:
-                      _isShowFavoritesOnly ? Colors.white : backgroundColor,
-                  backgroundColor:
-                      _isShowFavoritesOnly ? backgroundColor : primaryColor,
-                  isRoundedButton: true,
-                  borderColor: _isShowFavoritesOnly ? null : backgroundColor,
-                  onPressed: () async {
+                FavoritesToggleButton(
+                  label: 'My favorite workouts', 
+                  onToggleCallback: (bool isShowFavoritesOnly) async {
                     await favoritesProvider.fetchAndSaveData();
                     setState(
-                        () => _isShowFavoritesOnly = !_isShowFavoritesOnly);
-                  },
+                        () => _isShowFavoritesOnly = isShowFavoritesOnly);
+                  }
                 ),
                 GestureDetector(
                   onTap: () => openBottomSheet(
