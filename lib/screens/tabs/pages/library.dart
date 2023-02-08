@@ -4,6 +4,7 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_search_list.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_search_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/pages/favourites.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class AlwaysDisabledFocusNode extends FocusNode {
@@ -109,6 +110,15 @@ class _LibraryPageState extends State<LibraryPage> {
                       context,
                       LibraryModuleWikiPage.id,
                       arguments: false,
+                    ).then((value) => setState(() => shouldRefreshForDeletion = true)),
+                  ),
+                  SizedBox(height: 15),
+                  LibraryItem(
+                    title: 'Favorited lessons & wikis',
+                    assetName: 'assets/library_favorited.png',
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      Favourites.id,
                     ).then((value) => setState(() => shouldRefreshForDeletion = true)),
                   ),
                 ],

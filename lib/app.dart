@@ -63,6 +63,8 @@ import 'package:thepcosprotocol_app/screens/internal_web_view.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'screens/tabs/pages/favourites.dart';
+
 class App extends StatefulWidget {
   App({required this.app});
 
@@ -233,6 +235,7 @@ class _AppState extends State<App> {
           LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),
           LibraryModulePage.id: (context) => LibraryModulePage(),
           LibraryWikiPage.id: (context) => LibraryWikiPage(),
+          Favourites.id: (context) => Favourites(),
           LibrarySearchPage.id: (context) => LibrarySearchPage(),
           LessonTaskPage.id: (context) => LessonTaskPage(),
           DashboardWhySettingsPage.id: (context) => DashboardWhySettingsPage(),
