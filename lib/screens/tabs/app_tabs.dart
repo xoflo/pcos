@@ -22,7 +22,6 @@ import 'package:thepcosprotocol_app/screens/authentication/pin_unlock.dart';
 import 'package:thepcosprotocol_app/screens/tabs/app_navigation_tabs.dart';
 import 'package:thepcosprotocol_app/screens/tabs/more/profile.dart';
 import 'package:thepcosprotocol_app/screens/tabs/pages/dashboard.dart';
-import 'package:thepcosprotocol_app/screens/tabs/pages/favourites.dart';
 import 'package:thepcosprotocol_app/screens/tabs/pages/library.dart';
 import 'package:thepcosprotocol_app/screens/tabs/pages/more.dart';
 import 'package:thepcosprotocol_app/screens/tabs/pages/recipes.dart';
@@ -31,6 +30,8 @@ import 'package:thepcosprotocol_app/screens/zendesk_web_view.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
+
+import 'workouts/workouts_layout.dart';
 
 class AppTabs extends StatefulWidget {
   final FirebaseAnalyticsObserver? observer;
@@ -261,7 +262,7 @@ class _AppTabsState extends State<AppTabs>
                 ),
                 LibraryPage(),
                 Recipes(),
-                Favourites(),
+                WorkoutsLayout(),
                 MorePage(onLockApp: _setIsLocked),
               ],
             ),
