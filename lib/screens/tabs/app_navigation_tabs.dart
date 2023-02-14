@@ -133,14 +133,14 @@ class AppNavigationTabs extends StatelessWidget {
             ),
             Tab(
               icon: Image.asset(
-                'assets/favorites.png',
+                'assets/workouts_tab_icon.png',
                 height: 24,
                 width: 24,
                 color: currentIndex == 3
                     ? backgroundColor
                     : unselectedIndicatorIconColor,
               ),
-              text: "Favorites",
+              text: "Move",
               iconMargin: EdgeInsets.only(bottom: 5),
             ),
             Tab(
