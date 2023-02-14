@@ -126,10 +126,10 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
               children: [
                 FavoritesToggleButton(
                   label: 'My favorite workouts', 
-                  onToggleCallback: (bool isShowFavoritesOnly) async {
+                  onToggleCallback: (bool shouldShow) async {
                     await favoritesProvider.fetchAndSaveData();
                     setState(
-                        () => _isShowFavoritesOnly = isShowFavoritesOnly);
+                        () => _isShowFavoritesOnly = shouldShow);
                   }
                 ),
                 GestureDetector(
