@@ -4,6 +4,7 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_search_list.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_search_page.dart';
+import 'package:thepcosprotocol_app/screens/tabs/pages/favourites.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class AlwaysDisabledFocusNode extends FocusNode {
@@ -92,94 +93,91 @@ class _LibraryPageState extends State<LibraryPage> {
                       onRemoveSearchItem: (searchItem) =>
                           setState(() => searchItems.remove(searchItem)),
                     ),
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamed(
+                  LibraryItem(
+                    title: 'Module Library',
+                    assetName: 'assets/library_previous_modules.png',
+                    onPressed: () => Navigator.pushNamed(
                       context,
                       LibraryModuleWikiPage.id,
                       arguments: true,
-                    ).then((value) =>
-                        setState(() => shouldRefreshForDeletion = true)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: secondaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Text(
-                              "Module Library",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5
-                                  ?.copyWith(color: backgroundColor),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 15),
-                            child: Image(
-                              image: AssetImage(
-                                  'assets/library_previous_modules.png'),
-                              height: 52,
-                              width: 52,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ).then((value) => setState(() => shouldRefreshForDeletion = true)),
                   ),
                   SizedBox(height: 15),
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamed(
+                  LibraryItem(
+                    title: 'Wiki Library',
+                    assetName: 'assets/library_knowledge_base.png',
+                    onPressed: () => Navigator.pushNamed(
                       context,
                       LibraryModuleWikiPage.id,
                       arguments: false,
-                    ).then((value) {
-                      setState(() => shouldRefreshForDeletion = true);
-                    }),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: secondaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Text(
-                              "Wiki Library",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5
-                                  ?.copyWith(color: backgroundColor),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 15),
-                            child: Image(
-                              image: AssetImage(
-                                  'assets/library_knowledge_base.png'),
-                              height: 52,
-                              width: 52,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                    ).then((value) => setState(() => shouldRefreshForDeletion = true)),
+                  ),
+                  SizedBox(height: 15),
+                  LibraryItem(
+                    title: 'Favorited lessons & wikis',
+                    assetName: 'assets/library_favorited.png',
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      Favourites.id,
+                    ).then((value) => setState(() => shouldRefreshForDeletion = true)),
+                  ),
                 ],
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class LibraryItem extends StatelessWidget {
+  const LibraryItem({
+    Key? key,
+    required this.title,
+    required this.assetName,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final String title;
+  final String assetName;
+  final Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onPressed(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(color: backgroundColor),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              child: Image(
+                image: AssetImage(assetName),
+                height: 52,
+                width: 52,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

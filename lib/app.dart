@@ -65,6 +65,7 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 import 'providers/workouts_provider.dart';
+import 'screens/tabs/pages/favourites.dart';
 
 class App extends StatefulWidget {
   App({required this.app});
@@ -241,6 +242,7 @@ class _AppState extends State<App> {
           LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),
           LibraryModulePage.id: (context) => LibraryModulePage(),
           LibraryWikiPage.id: (context) => LibraryWikiPage(),
+          Favourites.id: (context) => Favourites(),
           LibrarySearchPage.id: (context) => LibrarySearchPage(),
           LessonTaskPage.id: (context) => LessonTaskPage(),
           DashboardWhySettingsPage.id: (context) => DashboardWhySettingsPage(),
