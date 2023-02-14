@@ -1,3 +1,6 @@
+import 'package:thepcosprotocol_app/models/workout_exercise.dart';
+import 'package:thepcosprotocol_app/models/workout_exercise_list.dart';
+
 class Workout {
   final int? workoutID;
   final String? title;
@@ -8,6 +11,7 @@ class Workout {
   final String? imageUrl;
   final bool? isFavorite;
   final bool? isComplete;
+  final List<WorkoutExercise>? exercises;
 
   Workout({
     this.workoutID,
@@ -19,6 +23,7 @@ class Workout {
     this.imageUrl,
     this.isFavorite,
     this.isComplete,
+    this.exercises,
   });
 
   factory Workout.fromJson(Map<String, dynamic> json) {
@@ -34,6 +39,7 @@ class Workout {
           json['isFavorite'] == 1 || json['isFavorite'] == true ? true : false,
       isComplete:
           json['isComplete'] == 1 || json['isComplete'] == true ? true : false,
+      exercises: WorkoutExerciseList.fromList(json['exercises'] ?? []).results,
     );
   }
 }

@@ -19,6 +19,7 @@ import 'package:thepcosprotocol_app/models/quiz.dart';
 import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/models/workout_exercise.dart';
 import 'package:thepcosprotocol_app/providers/database_provider.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/models/cms.dart';
@@ -122,27 +123,120 @@ class ProviderHelper {
         final workouts = await webServices.getAllWorkouts();
         //delete all old records before adding new ones
         await dbProvider?.deleteAll(TABLE_WORKOUT);
+        await dbProvider?.deleteAll(TABLE_WORKOUT_EXERCISE);
         //add items to database
-        workouts?.forEach((Workout workout) async {
-          await dbProvider?.insert(TABLE_WORKOUT, {
-            'workoutID': workout.workoutID,
-            'title': workout.title,
-            'description': workout.description,
-            'tags': workout.tags,
-            'minsToComplete': workout.minsToComplete,
-            'orderIndex': workout.orderIndex,
-            'imageUrl': workout.imageUrl,
-            'isFavorite': (workout.isFavorite ?? false) ? 1 : 0,
-            'isComplete': (workout.isComplete ?? false) ? 1 : 0,
-          });
-        });
+        await _addWorkoutsToDatabase(dbProvider, workouts);
 
         //save when we got the data
-        saveTimestamp(TABLE_WORKOUT);
+        await saveTimestamp(TABLE_WORKOUT);
       }
       // get items from database
       List workouts = await getAllData(dbProvider, TABLE_WORKOUT);
       return workouts as List<Workout>;
+    }
+    return [];
+  }
+
+  Future<void> _addWorkoutsToDatabase(
+      final DatabaseProvider? dbProvider, List<Workout>? workouts) async {
+    // workouts?.forEach((Workout workout) async {
+    if (workouts != null) {
+      for (var workout in workouts) {
+        await dbProvider?.insert(TABLE_WORKOUT, {
+          'workoutID': workout.workoutID,
+          'title': workout.title,
+          'description': workout.description,
+          'tags': workout.tags,
+          'minsToComplete': workout.minsToComplete,
+          'orderIndex': workout.orderIndex,
+          'imageUrl': workout.imageUrl,
+          'isFavorite': (workout.isFavorite ?? false) ? 1 : 0,
+          'isComplete': (workout.isComplete ?? false) ? 1 : 0,
+        });
+
+        await _addWorkoutExercisesToDatabase(
+            dbProvider, workout.exercises, workout.workoutID);
+      }
+    }
+  }
+
+  Future<void> _addWorkoutExercisesToDatabase(
+      final DatabaseProvider? dbProvider,
+      List<WorkoutExercise>? workoutExercises,
+      final int? workoutID) async {
+    workoutExercises?.forEach((WorkoutExercise workoutExercise) async {
+      await dbProvider?.insert(TABLE_WORKOUT_EXERCISE, {
+        'exerciseID': workoutExercise.exerciseID,
+        'workoutID': workoutID,
+        'title': workoutExercise.title,
+        'description': workoutExercise.description,
+        'imageUrl': workoutExercise.imageUrl,
+        'mediaUrl': workoutExercise.mediaUrl,
+        'equipmentRequired': workoutExercise.equipmentRequired,
+        'tags': workoutExercise.tags,
+        'setsMinimum': workoutExercise.setsMinimum,
+        'setsMaximum': workoutExercise.setsMaximum,
+        'repsMinimum': workoutExercise.repsMinimum,
+        'repsMaximum': workoutExercise.repsMaximum,
+        'secsBetweenSets': workoutExercise.secsBetweenSets,
+      });
+    });
+  }
+
+  // Future<List<WorkoutExercise>> fetchAndSaveExercisesForWorkout(
+  //     final DatabaseProvider? dbProvider,
+  //     {final int? workoutID}) async {
+  //   if (dbProvider?.db != null) {
+  //     if (await _shouldGetDataFromAPI(dbProvider, TABLE_WORKOUT_EXERCISE,
+  //         where: "WHERE workoutID = $workoutID")) {
+  //       List<WorkoutExercise>? exercises = [];
+  //       try {
+  //         exercises = await webServices.getExercisesForWorkout(workoutID ?? -1);
+  //       } catch (e) {
+  //         rethrow;
+  //       }
+
+  //       await dbProvider?.deleteAll(TABLE_WORKOUT_EXERCISE);
+  //       _addWorkoutExercisesToDatabase(dbProvider, exercises, workoutID);
+  //       saveTimestamp(TABLE_WORKOUT_EXERCISE);
+  //     }
+
+  //     List exercises = await getAllData(dbProvider, TABLE_WORKOUT_EXERCISE);
+  //     return exercises as List<WorkoutExercise>;
+  //   }
+  //   return [];
+  // }
+
+  Future<List<WorkoutExercise>> fetchAndSaveExercisesForWorkout(
+      final DatabaseProvider? dbProvider,
+      {final int? workoutID}) async {
+    if (dbProvider?.db != null) {
+      if (await _shouldGetDataFromAPI(dbProvider, TABLE_WORKOUT_EXERCISE,
+          where: "WHERE workoutID = $workoutID")) {
+        List<WorkoutExercise>? exercises = [];
+        try {
+          exercises = await webServices.getExercisesForWorkout(workoutID ?? -1);
+        } catch (e) {
+          rethrow;
+        }
+
+        // await dbProvider?.deleteAll(TABLE_WORKOUT_EXERCISE);
+        await dbProvider?.deleteQuery(
+          table: TABLE_WORKOUT_EXERCISE,
+          whereClause: "workoutID = $workoutID",
+        );
+        _addWorkoutExercisesToDatabase(dbProvider, exercises, workoutID);
+        saveTimestamp(TABLE_WORKOUT_EXERCISE);
+      }
+
+      // List exercises = await getAllData(dbProvider, TABLE_WORKOUT_EXERCISE);
+      final List<WorkoutExercise> exercises = mapDataToList(
+        await dbProvider?.getDataQuery(
+          TABLE_WORKOUT_EXERCISE,
+          "WHERE workoutID = $workoutID",
+        ),
+        TABLE_WORKOUT_EXERCISE) as List<WorkoutExercise>;
+      return exercises;
     }
     return [];
   }
@@ -700,7 +794,8 @@ class ProviderHelper {
           searchQuery += searchText.length > 0 ? " AND" : " WHERE";
           searchQuery += " tags LIKE '%$tag%'";
           //add the secondary tags as OR's if any selected
-          if ((tableName == TABLE_RECIPE || tableName == TABLE_WORKOUT) && secondaryTags.length > 0) {
+          if ((tableName == TABLE_RECIPE || tableName == TABLE_WORKOUT) &&
+              secondaryTags.length > 0) {
             bool firstItem = true;
             searchQuery += " AND (";
             secondaryTags.forEach((item) {
@@ -870,6 +965,10 @@ class ProviderHelper {
       return dataList.map<Recipe>((item) => Recipe.fromJson(item)).toList();
     } else if (tableName == TABLE_WORKOUT) {
       return dataList.map<Workout>((item) => Workout.fromJson(item)).toList();
+    } else if (tableName == TABLE_WORKOUT_EXERCISE) {
+      return dataList
+          .map<WorkoutExercise>((item) => WorkoutExercise.fromJson(item))
+          .toList();
     } else if (tableName == TABLE_MODULE) {
       return dataList.map<Module>((item) => Module.fromJson(item)).toList();
     } else if (tableName == TABLE_LESSON) {

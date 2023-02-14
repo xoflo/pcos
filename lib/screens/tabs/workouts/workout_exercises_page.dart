@@ -25,11 +25,7 @@ class WorkoutExercisesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final workoutsProvider =
-        Provider.of<WorkoutsProvider>(context, listen: false);
-
-    final workoutID = ModalRoute.of(context)?.settings.arguments as int?;
-    final workoutExercises =
-        workoutsProvider.getWorkoutExercises(workoutID ?? -1);
+        Provider.of<WorkoutsProvider>(context);
 
     final pageController = PageController(initialPage: 0);
 
@@ -57,11 +53,12 @@ class WorkoutExercisesPage extends StatelessWidget {
                   Expanded(
                     child: PageView.builder(
                       controller: pageController,
-                      itemCount: workoutExercises.length,
+                      itemCount: workoutsProvider.workoutExercises.length,
                       pageSnapping: true,
                       onPageChanged: (page) => activePage.value = page,
                       itemBuilder: (context, index) {
-                        final content = workoutExercises[index];
+                        final content =
+                            workoutsProvider.workoutExercises[index];
                         return SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -90,12 +87,12 @@ class WorkoutExercisesPage extends StatelessWidget {
                                 ...getContentUrlType(content),
                                 SizedBox(height: 30),
                                 Text(
-                                  'Sets: ${content.setsMinimum} - ${content.setsMaximum}',
+                                  'Sets: ${content.setsMinimum} - ${content?.setsMaximum}',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 SizedBox(height: 18),
                                 Text(
-                                  'Repetitions: ${content.repsMinimum} - ${content.repsMaximum}',
+                                  'Repetitions: ${content.repsMinimum} - ${content?.repsMaximum}',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 SizedBox(height: 18),
@@ -110,12 +107,12 @@ class WorkoutExercisesPage extends StatelessWidget {
                       },
                     ),
                   ),
-                  if (workoutExercises.length > 1) ...[
+                  if (workoutsProvider.workoutExercises.length  > 1) ...[
                     SizedBox(height: 20),
                     ValueListenableBuilder<int>(
                       valueListenable: activePage,
                       builder: (context, value, child) => CarouselPageIndicator(
-                        numberOfPages: workoutExercises.length,
+                        numberOfPages: workoutsProvider.workoutExercises.length,
                         activePage: activePage,
                       ),
                     )

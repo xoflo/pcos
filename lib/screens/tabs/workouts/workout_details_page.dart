@@ -9,6 +9,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 
 import '../../../models/navigation/workout_details_page_arguments.dart';
+import '../../../providers/workouts_provider.dart';
 import '../../../widgets/shared/filled_button.dart';
 
 class WorkoutDetailsPage extends StatefulWidget {
@@ -185,6 +186,8 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                 foregroundColor: Colors.white,
                                 backgroundColor: backgroundColor,
                                 onPressed: () {
+                                  final workoutsProvider = Provider.of<WorkoutsProvider>(context, listen: false);
+                                  workoutsProvider.getWorkoutExercises(args?.workout.workoutID ?? -1);
                                   Navigator.pushNamed(
                                     context,
                                     WorkoutExercisesPage.id,
