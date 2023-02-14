@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/constants/table_names.dart';
 
 class DatabaseProvider with ChangeNotifier {
   //increment this number whenever the database tables change
-  static const DB_VERSION = 5;
+  static const DB_VERSION = 6;
   static const DATABASE_NAME = "ThePCOSProtocol.db";
   sql.Database? db;
 
@@ -67,6 +67,32 @@ class DatabaseProvider with ChangeNotifier {
               "servings INTEGER,"
               "duration INTEGER,"
               "isFavorite INTEGER"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_WORKOUT ("
+              "workoutID INTEGER PRIMARY KEY,"
+              "title TEXT,"
+              "description TEXT,"
+              "tags TEXT,"
+              "minsToComplete INTEGER,"
+              "orderIndex INTEGER,"
+              "imageUrl TEXT,"
+              "isFavorite INTEGER,"
+              "isComplete INTEGER"
+              ")");
+          await db.execute("CREATE TABLE $TABLE_WORKOUT_EXERCISE ("
+              "exerciseID INTEGER PRIMARY KEY,"
+              "workoutID INTEGER,"
+              "title TEXT,"
+              "description TEXT,"
+              "imageUrl TEXT,"
+              "mediaUrl TEXT,"
+              "equipmentRequired TEXT,"
+              "tags TEXT,"
+              "setsMinimum INTEGER,"
+              "setsMaximum INTEGER,"
+              "repsMinimum INTEGER,"
+              "repsMaximum INTEGER,"
+              "secsBetweenSets INTEGER"
               ")");
           await db.execute("CREATE TABLE $TABLE_MESSAGE ("
               "id INTEGER PRIMARY KEY,"
@@ -257,6 +283,7 @@ class DatabaseProvider with ChangeNotifier {
     deleteQuery(
         table: TABLE_COURSE_QUESTION, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_RECIPE, whereClause: "", limitRowCount: 0);
+    deleteQuery(table: TABLE_WORKOUT, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_MESSAGE, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_CMS_TEXT, whereClause: "", limitRowCount: 0);
     deleteQuery(table: TABLE_MODULE, whereClause: "", limitRowCount: 0);

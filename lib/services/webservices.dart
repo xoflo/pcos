@@ -25,8 +25,14 @@ import 'package:thepcosprotocol_app/models/module.dart';
 import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
+import 'package:thepcosprotocol_app/models/workout_exercise.dart';
+import 'package:thepcosprotocol_app/models/workout_exercise_list.dart';
+
+import '../models/response/workout_response.dart';
+import '../models/workout.dart';
 
 class WebServices {
+  // ignore: todo
   // TODO: would be better if this is private but right now we need this to be mockable
   String get baseUrl => FlavorConfig.instance.values.baseUrl;
 
@@ -488,6 +494,40 @@ class WebServices {
     }
   }
   //#endregion
+
+  //#region Workouts
+  Future<List<Workout>?> getAllWorkouts() async {
+    final url = Uri.parse(baseUrl + "Workout/export");
+
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return WorkoutResponse.fromList(
+                ListResponse.fromJson(jsonDecode(response.body)).payload ?? [])
+            .results;
+      } else {
+        throw GET_WORKOUTS_FAILED;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+  //#endregion
+
+  Future<List<WorkoutExercise>?> getExercisesForWorkout(final int workoutID) async {
+    final url = Uri.parse(baseUrl + "Exercise/workout/$workoutID");
+
+    try {
+      final response = await executeHttpGet(url);
+      if (response.statusCode == 200) {
+        return WorkoutExerciseList.fromList(jsonDecode(response.body) ?? []).results;
+      } else {
+        throw GET_WORKOUT_EXERCISES_FAILED;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   //#region CMS
   Future<String?> getCmsAssetByReference(final String reference) async {

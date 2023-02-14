@@ -6,13 +6,17 @@ import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_filter_sheet.dart';
-import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_item.dart';
+import 'package:thepcosprotocol_app/widgets/shared/image_view_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/recipes_provider.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
+
+import '../../../models/navigation/lesson_recipe_arguments.dart';
+import '../../../providers/favourites_provider.dart';
+import 'recipe_details_page.dart';
+import 'recipe_filter_sheet.dart';
 
 class RecipesLayout extends StatefulWidget {
   @override
@@ -117,8 +121,8 @@ class _RecipesLayoutState extends State<RecipesLayout> {
               onTap: () => openBottomSheet(
                 context,
                 RecipeFilterSheet(
-                  selectedMealType: _mealTag,
-                  selectedDietType: _dietTags,
+                  currentPrimaryCriteria: _mealTag,
+                  currentSecondaryCriteria: _dietTags,
                   onSearchPressed: (meal, diet) {
                     setState(() {
                       _mealTag = meal;
@@ -167,9 +171,11 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                   crossAxisSpacing: 10,
                   children: recipesProvider.randomizedItems
                       .map(
-                        (recipe) => RecipeItem(
-                          recipe: recipe,
-                          isFromLesson: false,
+                        (recipe) => ImageViewItem(
+                          thumbnail: recipe.thumbnail,
+                          onViewPressed: () => RecipeDetailsPage(args: LessonRecipeArguments(false, recipe)),
+                          onViewClosed: () => Provider.of<FavouritesProvider>(context, listen: false).fetchRecipesStatus(),
+                          title: recipe.title,
                         ),
                       )
                       .toList(),

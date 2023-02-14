@@ -19,8 +19,14 @@ const String LESSON_RECIPES_DISPLAYED_DASHBOARD =
     "lesson_recipes_displayed_dashboard";
 const String USERNAME_USED = "username_used";
 const String SEARCH_ITEMS = "search_items";
+
 const String RECIPE_SEARCH_MEALS = "recipe_search_meals";
 const String RECIPE_SEARCH_DIETS = "recipe_search_diets";
 const String RECIPE_SEARCH_DEFAULT = "recipe_search_default";
+
+const String WORKOUT_DIFFICULTY_FILTER = "WORKOUT_DIFFICULTY_FILTER";
+const String WORKOUT_TYPE_FILTER = "WORKOUT_TYPE_FILTER";
+const String WORKOUT_DEFAULT_FILTER = "WORKOUT_DEFAULT_FILTER";
+
 const String TURN_NOTIFICATION_ON_REMIND_TIMES =
     "TURN_NOTIFICATION_ON_REMIND_TIMES";

@@ -3,4 +3,5 @@ enum FavouriteType {
   Recipe,
   Wiki,
   Lesson,
+  Workout,
 }

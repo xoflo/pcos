@@ -18,3 +18,5 @@ const String GET_LESSON_TASKS_FAILED = "get_lesson_tasks_failed";
 const String SET_LESSON_COMPLETE_FAILED = "set_lesson_complete_failed";
 const String SET_TASK_COMPLETE_FAILED = "set_task_complete_failed";
 const String GET_LESSON_QUIZ_FAILED = "get_lesson_quiz_failed";
+const String GET_WORKOUTS_FAILED = "get_workouts_failed";
+const String GET_WORKOUT_EXERCISES_FAILED = "get_workout_exercises_failed";

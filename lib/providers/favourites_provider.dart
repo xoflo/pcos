@@ -8,6 +8,8 @@ import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/constants/favourite_type.dart';
 
+import '../models/workout.dart';
+
 class FavouritesProvider extends LoadingStatusNotifier {
   final DatabaseProvider? dbProvider;
 
@@ -19,11 +21,13 @@ class FavouritesProvider extends LoadingStatusNotifier {
   List<Lesson> _lessons = [];
   List<LessonWiki> _lessonWikis = [];
   List<Recipe> _recipes = [];
+  List<Workout> _workouts = [];
 
   List<Lesson> get toolkits => [..._toolkits];
   List<Lesson> get lessons => [..._lessons];
   List<LessonWiki> get lessonWikis => [..._lessonWikis];
   List<Recipe> get recipes => [..._recipes];
+  List<Workout> get workouts => [..._workouts];
 
   Future<void> fetchAndSaveData() async {
     setLoadingStatus(LoadingStatus.loading, false);
@@ -37,6 +41,7 @@ class FavouritesProvider extends LoadingStatusNotifier {
       _lessons = allFavourites.lessons;
       _lessonWikis = allFavourites.lessonWikis;
       _recipes = allFavourites.recipes;
+      _workouts = allFavourites.workouts;
     }
 
     // status = LoadingStatus.success;
@@ -63,6 +68,12 @@ class FavouritesProvider extends LoadingStatusNotifier {
   void fetchRecipesStatus({bool notifyListener = true}) {
     setLoadingStatus(
         _recipes.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
+        notifyListener);
+  }
+
+  void fetchWorkoutsStatus({bool notifyListener = true}) {
+    setLoadingStatus(
+        _workouts.isEmpty ? LoadingStatus.empty : LoadingStatus.success,
         notifyListener);
   }
 
@@ -96,6 +107,14 @@ class FavouritesProvider extends LoadingStatusNotifier {
           (recipe) => recipe.recipeId == itemId,
         );
         if (recipeFound != null) {
+          return true;
+        }
+        return false;
+      case FavouriteType.Workout:
+        Workout? workoutFound = _workouts.firstWhereOrNull(
+          (workout) => workout.workoutID == itemId,
+        );
+        if (workoutFound != null) {
           return true;
         }
         return false;
