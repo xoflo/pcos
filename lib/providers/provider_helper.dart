@@ -183,30 +183,6 @@ class ProviderHelper {
     });
   }
 
-  // Future<List<WorkoutExercise>> fetchAndSaveExercisesForWorkout(
-  //     final DatabaseProvider? dbProvider,
-  //     {final int? workoutID}) async {
-  //   if (dbProvider?.db != null) {
-  //     if (await _shouldGetDataFromAPI(dbProvider, TABLE_WORKOUT_EXERCISE,
-  //         where: "WHERE workoutID = $workoutID")) {
-  //       List<WorkoutExercise>? exercises = [];
-  //       try {
-  //         exercises = await webServices.getExercisesForWorkout(workoutID ?? -1);
-  //       } catch (e) {
-  //         rethrow;
-  //       }
-
-  //       await dbProvider?.deleteAll(TABLE_WORKOUT_EXERCISE);
-  //       _addWorkoutExercisesToDatabase(dbProvider, exercises, workoutID);
-  //       saveTimestamp(TABLE_WORKOUT_EXERCISE);
-  //     }
-
-  //     List exercises = await getAllData(dbProvider, TABLE_WORKOUT_EXERCISE);
-  //     return exercises as List<WorkoutExercise>;
-  //   }
-  //   return [];
-  // }
-
   Future<List<WorkoutExercise>> fetchAndSaveExercisesForWorkout(
       final DatabaseProvider? dbProvider,
       {final int? workoutID}) async {
