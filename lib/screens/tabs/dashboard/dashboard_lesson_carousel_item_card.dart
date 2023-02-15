@@ -1,3 +1,4 @@
+import 'package:html_unescape/html_unescape.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_lesson_locked_component.dart';
@@ -51,7 +52,7 @@ class DashboardLessonCarouselItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      title,
+                      HtmlUnescape().convert(title),
                       style: Theme.of(context)
                           .textTheme
                           .headline4
