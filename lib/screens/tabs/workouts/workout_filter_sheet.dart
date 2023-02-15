@@ -11,7 +11,8 @@ class WorkoutFilterSheet extends FilterSheet {
     })
       : super(currentPrimaryCriteria: currentPrimaryCriteria, 
       currentSecondaryCriteria: currentSecondaryCriteria, 
-      onSearchPressed: onSearchPressed);
+      onSearchPressed: onSearchPressed,
+      isSecondaryMultiSelect: false);
 
   @override
   String getAnalyticsPrimaryCriteria() {
