@@ -10,12 +10,14 @@ abstract class FilterSheet extends StatefulWidget {
       {Key? key,
       required this.currentPrimaryCriteria,
       this.currentSecondaryCriteria,
-      this.onSearchPressed})
+      this.onSearchPressed,
+      this.isSecondaryMultiSelect = true})
       : super(key: key);
 
   final String currentPrimaryCriteria;
   final List<String>? currentSecondaryCriteria;
   final Function(String, List<String>?)? onSearchPressed;
+  final bool isSecondaryMultiSelect;
 
   String getSearchDefaultPreferenceKey();
   String getPrimaryCriteriaPreferenceKey();
@@ -143,6 +145,10 @@ class _FilterSheetState extends State<FilterSheet> {
                         values: widget.getSecondaryCriteriaChoices(),
                         onSelectItem: (tag) => setState(() {
                           if (!currentSecondaryCriteria.contains(tag)) {
+                            if (!widget.isSecondaryMultiSelect &&
+                                currentSecondaryCriteria.length == 1) {
+                              currentSecondaryCriteria.clear();
+                            }
                             currentSecondaryCriteria.add(tag);
                           } else {
                             currentSecondaryCriteria.remove(tag);
