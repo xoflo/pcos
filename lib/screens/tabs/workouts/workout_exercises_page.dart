@@ -87,12 +87,12 @@ class WorkoutExercisesPage extends StatelessWidget {
                                 ...getContentUrlType(content),
                                 SizedBox(height: 30),
                                 Text(
-                                  'Sets: ${content.setsMinimum} - ${content?.setsMaximum}',
+                                  'Sets: ${content.setsMinimum} - ${content.setsMaximum}',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 SizedBox(height: 18),
                                 Text(
-                                  'Repetitions: ${content.repsMinimum} - ${content?.repsMaximum}',
+                                  'Repetitions: ${content.repsMinimum} - ${content.repsMaximum}',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 SizedBox(height: 18),
