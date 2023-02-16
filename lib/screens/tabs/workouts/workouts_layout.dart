@@ -178,7 +178,7 @@ class _WorkoutsLayoutState extends State<WorkoutsLayout> {
                 height: double.maxFinite,
                 indicatorPosition: Alignment.topCenter,
                 loadingStatusNotifier: workoutsProvider,
-                emptyMessage: S.current.noResultsRecipes,
+                emptyMessage: S.current.noResultsWorkouts,
                 overlayBackgroundColor: Colors.transparent,
                 child: GridView.count(
                   shrinkWrap: true,

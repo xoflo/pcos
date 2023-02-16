@@ -1570,6 +1570,16 @@ class S {
     );
   }
 
+  /// `No workouts found!`
+  String get noResultsWorkouts {
+    return Intl.message(
+      'No workouts found!',
+      name: 'noResultsWorkouts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No knowledge base items found!`
   String get noResultsKBs {
     return Intl.message(
