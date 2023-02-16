@@ -174,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No lessons matching your search."),
         "noResultsRecipes":
             MessageLookupByLibrary.simpleMessage("No recipes found!"),
+        "noResultsWorkouts":
+            MessageLookupByLibrary.simpleMessage("No workouts found!"),
         "noText": MessageLookupByLibrary.simpleMessage("No"),
         "noWikis": MessageLookupByLibrary.simpleMessage(
             "There are no wiki items for this lesson"),

@@ -152,6 +152,7 @@
     "versionText1": "This version of the Ovie app is no longer supported.",
     "versionText2": "Please visit the app store to upgrade your app version.",
     "noResultsRecipes": "No recipes found!",
+    "noResultsWorkouts": "No workouts found!",
     "noResultsKBs": "No knowledge base items found!",
     "noMemberDetails": "We could not display your details, please try again later.",
     "noItemsFound": "No items found!",
