@@ -62,7 +62,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         BetterPlayerControlsConfiguration(
       textColor: secondaryColor,
       iconsColor: secondaryColor,
-      controlBarColor: Colors.grey.shade200,
+      controlBarColor: Colors.transparent,
       progressBarPlayedColor: secondaryColor,
       progressBarHandleColor: secondaryColor,
       progressBarBackgroundColor: Colors.white,
