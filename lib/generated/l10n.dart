@@ -1580,6 +1580,16 @@ class S {
     );
   }
 
+  /// `No workouts found!`
+  String get noResultsWorkouts {
+    return Intl.message(
+      'No workouts found!',
+      name: 'noResultsWorkouts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No knowledge base items found!`
   String get noResultsKBs {
     return Intl.message(
@@ -2375,6 +2385,16 @@ class S {
     return Intl.message(
       'No favourite recipes to display.',
       name: 'noFavouriteRecipe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved to your Favorites which you can find in Library`
+  String get savedToFavouritesMessage {
+    return Intl.message(
+      'Saved to your Favorites which you can find in Library',
+      name: 'savedToFavouritesMessage',
       desc: '',
       args: [],
     );

@@ -15,6 +15,7 @@ import 'package:thepcosprotocol_app/widgets/shared/search_component.dart';
 
 import '../../../models/navigation/lesson_recipe_arguments.dart';
 import '../../../providers/favourites_provider.dart';
+import '../../../widgets/shared/favorites_toggle_button.dart';
 import 'recipe_details_page.dart';
 import 'recipe_filter_sheet.dart';
 
@@ -32,6 +33,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   bool _isSearching = false;
   String _mealTag = "All";
   List<String> _dietTags = [];
+  bool _isShowFavoritesOnly = false;
 
   @override
   void initState() {
@@ -86,10 +88,13 @@ class _RecipesLayoutState extends State<RecipesLayout> {
   @override
   Widget build(BuildContext context) {
     final recipesProvider = Provider.of<RecipesProvider>(context);
+    final favoritesProvider = Provider.of<FavouritesProvider>(context);
     if (!isInitialized) {
       isInitialized = true;
       _initializeMealDietTags(recipesProvider);
     }
+
+    var recipeItems = _isShowFavoritesOnly ? favoritesProvider.recipes : recipesProvider.randomizedItems;
 
     return GestureDetector(
       onTap: () => _focusNode.unfocus(),
@@ -117,44 +122,56 @@ class _RecipesLayoutState extends State<RecipesLayout> {
               ),
             )
           else ...[
-            GestureDetector(
-              onTap: () => openBottomSheet(
-                context,
-                RecipeFilterSheet(
-                  currentPrimaryCriteria: _mealTag,
-                  currentSecondaryCriteria: _dietTags,
-                  onSearchPressed: (meal, diet) {
-                    setState(() {
-                      _mealTag = meal;
-                      _dietTags = diet ?? [];
-                    });
+            Row(
+              children: [
+                FavoritesToggleButton(
+                  label: 'My favorite recipes', 
+                  onToggleCallback: (bool isShowFavoritesOnly) async {
+                    await favoritesProvider.fetchAndSaveData();
+                    setState(
+                        () => _isShowFavoritesOnly = isShowFavoritesOnly);
+                  }
+                ),
+                GestureDetector(
+                  onTap: () => openBottomSheet(
+                    context,
+                    RecipeFilterSheet(
+                      currentPrimaryCriteria: _mealTag,
+                      currentSecondaryCriteria: _dietTags,
+                      onSearchPressed: (meal, diet) {
+                        setState(() {
+                          _mealTag = meal;
+                          _dietTags = diet ?? [];
+                        });
 
-                    _onSearchClicked(recipesProvider);
-                  },
-                ),
-                Analytics.ANALYTICS_RECIPE_FILTER,
-                null,
-              ),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.filter_list,
-                      color: backgroundColor,
+                        _onSearchClicked(recipesProvider);
+                      },
                     ),
-                    SizedBox(width: 10),
-                    Text(
-                      "Filters",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(color: backgroundColor),
+                    Analytics.ANALYTICS_RECIPE_FILTER,
+                    null,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.filter_list,
+                          color: backgroundColor,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Filters",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(color: backgroundColor),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
             Expanded(
               child: LoaderOverlay(
@@ -169,8 +186,7 @@ class _RecipesLayoutState extends State<RecipesLayout> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  children: recipesProvider.randomizedItems
-                      .map(
+                  children: recipeItems.map(
                         (recipe) => ImageViewItem(
                           thumbnail: recipe.thumbnail,
                           onViewPressed: () => RecipeDetailsPage(args: LessonRecipeArguments(false, recipe)),

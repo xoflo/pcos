@@ -178,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No lessons matching your search."),
         "noResultsRecipes":
             MessageLookupByLibrary.simpleMessage("No recipes found!"),
+        "noResultsWorkouts":
+            MessageLookupByLibrary.simpleMessage("No workouts found!"),
         "noText": MessageLookupByLibrary.simpleMessage("No"),
         "noWikis": MessageLookupByLibrary.simpleMessage(
             "There are no wiki items for this lesson"),
@@ -350,6 +352,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "returnToSignInTitle":
             MessageLookupByLibrary.simpleMessage("Return to Sign In"),
         "saveText": MessageLookupByLibrary.simpleMessage("Save"),
+        "savedToFavouritesMessage": MessageLookupByLibrary.simpleMessage(
+            "Saved to your Favorites which you can find in Library"),
         "searchHeaderFilterText":
             MessageLookupByLibrary.simpleMessage("Filter:"),
         "searchInputText": MessageLookupByLibrary.simpleMessage("Search"),
