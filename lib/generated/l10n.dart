@@ -2380,6 +2380,16 @@ class S {
     );
   }
 
+  /// `Saved to your Favorites which you can find in Library`
+  String get savedToFavouritesMessage {
+    return Intl.message(
+      'Saved to your Favorites which you can find in Library',
+      name: 'savedToFavouritesMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Lesson Wiki`
   String get lessonWiki {
     return Intl.message(

@@ -8,6 +8,7 @@ import 'package:thepcosprotocol_app/screens/tabs/workouts/workout_exercises_page
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../models/navigation/workout_details_page_arguments.dart';
 import '../../../providers/workouts_provider.dart';
 import '../../../widgets/shared/filled_button.dart';
@@ -95,6 +96,10 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                             args?.workout.workoutID);
                                         setState(
                                             () => isFavorite = !isFavorite);
+                                        if(isFavorite) {
+                                          final snackBar = SnackBar(content: Text(S.current.savedToFavouritesMessage));
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        }
                                       },
                                       child: Icon(
                                         isFavorite

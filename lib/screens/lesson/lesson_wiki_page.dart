@@ -9,6 +9,8 @@ import 'package:thepcosprotocol_app/providers/modules_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 
+import '../../generated/l10n.dart';
+
 class LessonWikiPage extends StatelessWidget {
   static const id = "lesson_wiki_page";
 
@@ -84,6 +86,10 @@ class LessonWikiPage extends StatelessWidget {
                                     favouritesProvider.addToFavourites(
                                         FavouriteType.Wiki, wiki.questionId);
                                     isFavorite.value = !isFavorite.value;
+                                    if(isFavorite.value) {
+                                      final snackBar = SnackBar(content: Text(S.current.savedToFavouritesMessage));
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    }
                                   },
                                 )
                               ],

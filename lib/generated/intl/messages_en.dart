@@ -348,6 +348,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "returnToSignInTitle":
             MessageLookupByLibrary.simpleMessage("Return to Sign In"),
         "saveText": MessageLookupByLibrary.simpleMessage("Save"),
+        "savedToFavouritesMessage": MessageLookupByLibrary.simpleMessage(
+            "Saved to your Favorites which you can find in Library"),
         "searchHeaderFilterText":
             MessageLookupByLibrary.simpleMessage("Filter:"),
         "searchInputText": MessageLookupByLibrary.simpleMessage("Search"),
