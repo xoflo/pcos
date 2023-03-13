@@ -144,6 +144,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lessonText": MessageLookupByLibrary.simpleMessage("Lesson"),
         "lessonWiki": MessageLookupByLibrary.simpleMessage("Lesson Wiki"),
         "lessonsTitle": MessageLookupByLibrary.simpleMessage("Lessons"),
+        "loadingLessons": MessageLookupByLibrary.simpleMessage(
+            "Just a moment whilst we load your personalized Ovie plan!"),
         "loadingVideo": MessageLookupByLibrary.simpleMessage("Loading Video"),
         "lockedRecipes": MessageLookupByLibrary.simpleMessage(
             "Open the lesson to view the lesson and recipes"),
@@ -159,6 +161,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No favourite recipes to display."),
         "noFavouriteWikis": MessageLookupByLibrary.simpleMessage(
             "No favourite lesson wikis to display."),
+        "noFavouriteWorkout": MessageLookupByLibrary.simpleMessage(
+            "No favorite workouts to display."),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found!"),
         "noMemberDetails": MessageLookupByLibrary.simpleMessage(
             "We could not display your details, please try again later."),
@@ -174,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No lessons matching your search."),
         "noResultsRecipes":
             MessageLookupByLibrary.simpleMessage("No recipes found!"),
+        "noResultsWorkouts":
+            MessageLookupByLibrary.simpleMessage("No workouts found!"),
         "noText": MessageLookupByLibrary.simpleMessage("No"),
         "noWikis": MessageLookupByLibrary.simpleMessage(
             "There are no wiki items for this lesson"),
@@ -346,6 +352,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "returnToSignInTitle":
             MessageLookupByLibrary.simpleMessage("Return to Sign In"),
         "saveText": MessageLookupByLibrary.simpleMessage("Save"),
+        "savedToFavouritesMessage": MessageLookupByLibrary.simpleMessage(
+            "Saved to your Favorites which you can find in Library"),
         "searchHeaderFilterText":
             MessageLookupByLibrary.simpleMessage("Filter:"),
         "searchInputText": MessageLookupByLibrary.simpleMessage("Search"),
@@ -452,6 +460,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("View question"),
         "warningText": MessageLookupByLibrary.simpleMessage("Warning"),
         "wikiTitle": MessageLookupByLibrary.simpleMessage("Wikis"),
+        "workoutsTitle": MessageLookupByLibrary.simpleMessage("Workouts"),
         "yesText": MessageLookupByLibrary.simpleMessage("Yes"),
         "yourWhyTitle": MessageLookupByLibrary.simpleMessage("Your why:"),
         "yourWhyWarningText": MessageLookupByLibrary.simpleMessage(

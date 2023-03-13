@@ -100,6 +100,16 @@ class S {
     );
   }
 
+  /// `Workouts`
+  String get workoutsTitle {
+    return Intl.message(
+      'Workouts',
+      name: 'workoutsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Favourites`
   String get favouritesTitle {
     return Intl.message(
@@ -1570,6 +1580,16 @@ class S {
     );
   }
 
+  /// `No workouts found!`
+  String get noResultsWorkouts {
+    return Intl.message(
+      'No workouts found!',
+      name: 'noResultsWorkouts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No knowledge base items found!`
   String get noResultsKBs {
     return Intl.message(
@@ -1930,7 +1950,7 @@ class S {
     );
   }
 
-  /// `Loading lessons`
+  /// `Just a moment whilst we load your personalized Ovie plan!`
   String get loadingLessons {
     return Intl.message(
       'Just a moment whilst we load your personalized Ovie plan!',
@@ -2365,6 +2385,26 @@ class S {
     return Intl.message(
       'No favourite recipes to display.',
       name: 'noFavouriteRecipe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved to your Favorites which you can find in Library`
+  String get savedToFavouritesMessage {
+    return Intl.message(
+      'Saved to your Favorites which you can find in Library',
+      name: 'savedToFavouritesMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favorite workouts to display.`
+  String get noFavouriteWorkout {
+    return Intl.message(
+      'No favorite workouts to display.',
+      name: 'noFavouriteWorkout',
       desc: '',
       args: [],
     );

@@ -17,6 +17,8 @@ import 'package:thepcosprotocol_app/widgets/shared/sound_player.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_component.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../generated/l10n.dart';
+
 class LessonContentPage extends StatelessWidget {
   static const id = "lesson_content_page";
 
@@ -106,6 +108,10 @@ class LessonContentPage extends StatelessWidget {
                             favouritesProvider.addToFavourites(
                                 FavouriteType.Lesson, lesson?.lessonID);
                             isFavorite.value = !isFavorite.value;
+                            if(isFavorite.value) {
+                              final snackBar = SnackBar(content: Text(S.current.savedToFavouritesMessage));
+                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            }
                           },
                         )
                       ],

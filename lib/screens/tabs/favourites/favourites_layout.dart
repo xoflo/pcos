@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/favourites_provider.dart';
+import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_workouts.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_lessons.dart';
 import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_recipes.dart';
@@ -22,7 +23,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(initialIndex: index, length: 4, vsync: this);
+    tabController = TabController(initialIndex: index, length: 5, vsync: this);
     pageController = PageController(initialPage: index);
 
     Provider.of<FavouritesProvider>(context, listen: false)
@@ -73,6 +74,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
                   generateTab(1, S.current.lessonsTitle),
                   generateTab(2, S.current.wikiTitle),
                   generateTab(3, S.current.recipesTitle),
+                  generateTab(4, S.current.workoutsTitle),
                 ],
               ),
             ),
@@ -93,6 +95,7 @@ class _FavouritesLayoutState extends State<FavouritesLayout>
                     FavouritesLessons(),
                     FavouritesWikis(),
                     FavouritesRecipes(),
+                    FavouritesWorkouts(),
                   ],
                 ),
               ),

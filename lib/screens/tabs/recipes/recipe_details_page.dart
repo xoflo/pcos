@@ -153,6 +153,10 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
                                             args?.recipe.recipeId);
                                         setState(
                                             () => isFavorite = !isFavorite);
+                                        if(isFavorite) {
+                                          final snackBar = SnackBar(content: Text(S.current.savedToFavouritesMessage));
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                        }
                                       },
                                       child: Icon(
                                         isFavorite
