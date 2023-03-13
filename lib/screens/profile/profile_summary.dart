@@ -24,17 +24,10 @@ class ProfileSummary extends StatelessWidget {
                       (tag) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (tag.tag?.isNotEmpty == true) ...[
-                            Text(
-                              "Type ${tag.tag}",
-                              style: Theme.of(context).textTheme.headline4,
-                            ),
-                            SizedBox(height: 10),
-                          ],
                           if (tag.summary?.isNotEmpty == true) ...[
                             HtmlWidget(
                               tag.summary ?? "",
-                              textStyle: Theme.of(context).textTheme.subtitle1,
+                              textStyle: Theme.of(context).textTheme.headline4,
                             ),
                             SizedBox(height: 10)
                           ],
