@@ -117,7 +117,7 @@ class DatabaseProvider with ChangeNotifier {
               "dateCreatedUTC TEXT"
               ")");
           await db.execute("CREATE TABLE $TABLE_LESSON ("
-              "lessonID INTEGER PRIMARY KEY,"
+              "lessonID INTEGER,"
               "moduleID INTEGER,"
               "title TEXT,"
               "introduction TEXT,"
@@ -129,7 +129,8 @@ class DatabaseProvider with ChangeNotifier {
               "isFavorite INTEGER,"
               "isComplete INTEGER,"
               "isToolkit INTEGER,"
-              "dateCreatedUTC TEXT"
+              "dateCreatedUTC TEXT,"
+              "PRIMARY KEY (lessonID, moduleID)"
               ")");
           await db.execute("CREATE TABLE $TABLE_LESSON_CONTENT ("
               "lessonContentID INTEGER PRIMARY KEY,"
