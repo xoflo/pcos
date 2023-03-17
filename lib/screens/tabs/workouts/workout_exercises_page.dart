@@ -73,7 +73,7 @@ class WorkoutExercisesPage extends StatelessWidget {
                                       .headline3
                                       ?.copyWith(color: backgroundColor),
                                 ),
-                                SizedBox(height: 20),
+                                ...getContentUrlType(content),
                                 HtmlWidget(
                                   content.description ?? "",
                                   textStyle: Theme.of(context)
@@ -84,7 +84,6 @@ class WorkoutExercisesPage extends StatelessWidget {
                                         height: 1.5,
                                       ),
                                 ),
-                                ...getContentUrlType(content),
                                 SizedBox(height: 30),
                                 Text(
                                   'Sets: ${content.setsMinimum} - ${content.setsMaximum}',
