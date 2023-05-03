@@ -58,13 +58,13 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.thepcosnutritionist.app"
+        applicationId "com.thepcosnutritionist.ovie"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.thepcosnutritionist.app'
+                'appAuthRedirectScheme': 'com.thepcosnutritionist.ovie'
         ]
     }
 
@@ -94,7 +94,7 @@ android {
             dimension "app"
             resValue "string", "app_name", "Ovie - Dev"
             versionNameSuffix "-dev"
-            applicationId "com.thepcosnutritionist.app.dev"
+            applicationId "com.thepcosnutritionist.ovie.dev"
         }
         prod {
             dimension "app"

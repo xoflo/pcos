@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:974413443291:android:5114274847268746065cfe",
+        "mobilesdk_app_id": "1:974413443291:android:ac77e160f1866860065cfe",
         "android_client_info": {
-          "package_name": "com.thepcosnutritionist.app"
+          "package_name": "com.thepcosnutritionist.ovie"
         }
       },
       "oauth_client": [
