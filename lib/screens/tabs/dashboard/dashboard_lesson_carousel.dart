@@ -161,7 +161,12 @@ class DashboardLessonCarousel extends StatelessWidget {
                                         height: 24,
                                         width: 24,
                                       )
-                                    : Icon(Icons.restaurant),
+                                    : // Placeholder if module icon is not available from API
+                                    Image.asset(
+                                        "assets/module_icon.png",
+                                        height: 24,
+                                        width: 24,
+                                      ),
                               ),
                             )
                           ],

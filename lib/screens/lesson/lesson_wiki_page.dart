@@ -86,9 +86,12 @@ class LessonWikiPage extends StatelessWidget {
                                     favouritesProvider.addToFavourites(
                                         FavouriteType.Wiki, wiki.questionId);
                                     isFavorite.value = !isFavorite.value;
-                                    if(isFavorite.value) {
-                                      final snackBar = SnackBar(content: Text(S.current.savedToFavouritesMessage));
-                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    if (isFavorite.value) {
+                                      final snackBar = SnackBar(
+                                          content: Text(S.current
+                                              .savedToFavouritesMessage));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
                                     }
                                   },
                                 )
@@ -104,10 +107,8 @@ class LessonWikiPage extends StatelessWidget {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8)),
                                   ),
-                                  child: Icon(
-                                    Icons.restaurant,
-                                    size: 15,
-                                  ),
+                                  child: Image.asset("assets/module_icon.png",
+                                      width: 24, height: 24),
                                 ),
                                 SizedBox(width: 10),
                                 HtmlWidget(
