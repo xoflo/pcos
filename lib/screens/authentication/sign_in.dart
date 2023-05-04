@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/constants/widget_keys.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
-import 'package:thepcosprotocol_app/screens/internal_web_view.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
