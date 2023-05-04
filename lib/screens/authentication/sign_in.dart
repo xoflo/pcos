@@ -79,17 +79,18 @@ class _SignInState extends State<SignIn> {
             showAlertDialog(
               context,
               S.current.signinErrorTitle,
-              "Your account does not have an active subscription. Please visit the Ovie page to activate your subscription to use the app",
+              "Your account has been created, the Ovie team is in the process of evaluating your conditions and will contact you about the next steps.",
               "",
-              "Visit page",
+              "OK",
               (BuildContext context) {
-                // Open subscription URL on login
                 setState(() => isSigningIn = false);
-                Navigator.pushReplacementNamed(
-                  context,
-                  InternalWebView.id,
-                  arguments: FlavorConfig.instance.values.subscriptionUrl,
-                );
+                // TODO: Remove this as this can cause issues with Apple App Store Review about IAP.
+                // Open subscription URL on login
+                // Navigator.pushReplacementNamed(
+                //   context,
+                //   InternalWebView.id,
+                //   arguments: FlavorConfig.instance.values.subscriptionUrl,
+                // );
               },
               null,
             );
