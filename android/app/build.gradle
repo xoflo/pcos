@@ -41,6 +41,12 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     compileSdkVersion 33
 
@@ -58,13 +64,13 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.thepcosnutritionist.app"
+        applicationId "com.thepcosnutritionist.ovie"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.thepcosnutritionist.app'
+                'appAuthRedirectScheme': 'com.thepcosnutritionist.ovie'
         ]
     }
 
@@ -75,12 +81,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -94,7 +106,7 @@ android {
             dimension "app"
             resValue "string", "app_name", "Ovie - Dev"
             versionNameSuffix "-dev"
-            applicationId "com.thepcosnutritionist.app.dev"
+            applicationId "com.thepcosnutritionist.ovie.dev"
         }
         prod {
             dimension "app"
