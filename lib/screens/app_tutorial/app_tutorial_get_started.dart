@@ -31,7 +31,16 @@ class AppTutorialGetStarted extends StatelessWidget {
               subtitle:
                   "Add lessons, wikis or recipes to your favourites for easy access later",
               asset: "assets/tutorial_favorites.png",
-            )
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            AppTutorialGetStartedItem(
+              title: "Toolkits",
+              subtitle:
+                  "Toolkits are lessons that have actionable information in them, so we’ve automatically saved these in your Toolkit under favorites",
+              asset: "assets/tutorial_favorites.png",
+            ),
           ],
         ),
       );

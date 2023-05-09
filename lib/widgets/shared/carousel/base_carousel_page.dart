@@ -67,7 +67,7 @@ mixin BaseCarouselPage<T extends StatelessWidget> on StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Flexible(
-                      flex: 2,
+                      flex: 3,
                       child: Container(
                         child: PageView.builder(
                           controller: controller,
