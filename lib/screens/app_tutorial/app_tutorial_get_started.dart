@@ -39,7 +39,7 @@ class AppTutorialGetStarted extends StatelessWidget {
               title: "Toolkits",
               subtitle:
                   "Toolkits are lessons that have actionable information in them, so we’ve automatically saved these in your Toolkit under favorites",
-              asset: "assets/tutorial_favorites.png",
+              asset: "assets/tutorial_toolkit.png",
             ),
           ],
         ),
