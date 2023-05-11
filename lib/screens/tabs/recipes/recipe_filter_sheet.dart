@@ -43,7 +43,7 @@ class RecipeFilterSheet extends FilterSheet {
 
   @override
   String getPrimaryCriteriaLabel() {
-    return "Types of meal";
+    return "Meal Type";
   }
 
   @override
@@ -76,7 +76,7 @@ class RecipeFilterSheet extends FilterSheet {
 
   @override
   String getSecondaryCriteriaLabel() {
-    return "Types of diets";
+    return "Dietary Requirements";
   }
 
   @override
