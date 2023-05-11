@@ -144,7 +144,7 @@ class DashboardLessonCarousel extends StatelessWidget {
                             Opacity(
                               opacity: isLessonUnlocked ? 1 : 0.5,
                               child: Container(
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(2),
                                 decoration: BoxDecoration(
                                   color: secondaryColor,
                                   borderRadius:
@@ -164,8 +164,8 @@ class DashboardLessonCarousel extends StatelessWidget {
                                     : // Placeholder if module icon is not available from API
                                     Image.asset(
                                         "assets/module_icon.png",
-                                        height: 24,
-                                        width: 24,
+                                        height: 30,
+                                        width: 30,
                                       ),
                               ),
                             )
