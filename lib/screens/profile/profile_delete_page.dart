@@ -106,7 +106,7 @@ The Ovie Team
                       ),
                       Spacer(),
                       FilledButton(
-                        text: "DELETE ACCOUNT",
+                        text: "DELETE YOUR DATA",
                         margin:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                         foregroundColor: Colors.white,
