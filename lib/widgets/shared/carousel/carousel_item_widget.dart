@@ -25,12 +25,13 @@ class CarouselItemWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline1,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Text(
               item.subtitle,
               style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 20),
           ],
         ),
       );

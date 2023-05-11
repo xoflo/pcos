@@ -24,9 +24,9 @@ class AppTutorialPage extends StatelessWidget with BaseCarouselPage {
   @override
   List<CarouselItem> get items => [
         CarouselItem(
-          title: "We're loading your PCOS pathway",
+          title: "Welcome to Ovie!",
           subtitle:
-              "Thanks for completing the questionnaire. We’re preparing your personalized Ovie program now!",
+              "We tailored the programme to meet your specific needs using the information provided in the questionnaire.",
           asset: "assets/tutorial_1.png",
         ),
         CarouselItem(
@@ -42,9 +42,9 @@ class AppTutorialPage extends StatelessWidget with BaseCarouselPage {
           asset: "assets/tutorial_3.png",
         ),
         CarouselItem(
-          title: "Course",
+          title: "Home",
           subtitle:
-              "Check course daily to complete your lessons, quizzes and task for each day",
+              "Check home daily to complete your lessons, quizzes, and tasks for each day",
           asset: "assets/tutorial_4.png",
         ),
         CarouselItem(
