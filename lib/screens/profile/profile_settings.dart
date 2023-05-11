@@ -107,7 +107,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
       case 4:
         return ProfileSettingsItem(
-          title: "Delete account",
+          title: "Delete your data",
           onTap: () => Navigator.pushNamed(context, ProfileDeletePage.id),
         );
       default:

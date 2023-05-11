@@ -92,11 +92,11 @@ class _ProfileDeletePageState extends State<ProfileDeletePage> {
                             EdgeInsets.symmetric(horizontal: 15, vertical: 25),
                         child: Text(
                           """
-We're sorry to see you go!
+By deleting your data we will no longer hold your questionnaire information, PCOS profile or progress in the app.
 
-We'll always be here for you when you need us again. 
+You can rejoin Ovie at anytime, you will just need to recomplete your questionnaire and lessons.
 
-The Ovie Team
+Deleting your data does NOT delete your subscription. We recommend cancelling your subscription via the Ovie website first, before 'deleting your data'. You still have access to the Ovie app until the end of your billing cycle.
                           """,
                           style: Theme.of(context)
                               .textTheme
