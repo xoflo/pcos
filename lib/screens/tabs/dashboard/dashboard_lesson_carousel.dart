@@ -140,7 +140,7 @@ class DashboardLessonCarousel extends StatelessWidget {
                               )
                             else
                               DashboardLessonLockedComponent(
-                                  title: "Complete the previous lesson"),
+                                  title: "Lessons unlock daily or after\ncompleting previous"),
                             Opacity(
                               opacity: isLessonUnlocked ? 1 : 0.5,
                               child: Container(
