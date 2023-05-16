@@ -51,7 +51,6 @@ import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_setting
 import 'package:thepcosprotocol_app/screens/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_task_page.dart';
-import 'package:thepcosprotocol_app/screens/lesson/video_page.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/screens/onboarding/onboarding_page.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_delete_page.dart';
