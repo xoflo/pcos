@@ -80,7 +80,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                     final discordUrl = 'https://discord.gg/U3zQQypbFW';
                     final hasViewed = await PreferencesController().getBool(
                         SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
-                    if (hasViewed) {
+                    if (false) {
                       launchUrl(Uri.parse(discordUrl),
                           mode: LaunchMode.externalApplication);
                     } else {

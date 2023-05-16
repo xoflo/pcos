@@ -7,12 +7,14 @@ import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
 class VideoPage extends StatefulWidget {
   static const id = "video_page";
 
-  final String videoUrl;
+  final String? videoUrl;
+  final String? videoAsset;
 
   final void Function()? videoFinishedCallback;
 
   VideoPage({
-    required this.videoUrl,
+    this.videoUrl,
+    this.videoAsset,
     this.videoFinishedCallback,
   });
 
@@ -48,7 +50,7 @@ class _VideoPageState extends State<VideoPage> {
                   VideoPlayer(
                     screenSize: size,
                     isHorizontal: false,
-                    videoUrl: videoUrl.trim(),
+                    videoUrl: videoUrl?.trim(),
                     videoFinishedCallback: widget.videoFinishedCallback,
                   )
                 ],

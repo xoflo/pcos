@@ -106,7 +106,7 @@ android {
             dimension "app"
             resValue "string", "app_name", "Ovie - Dev"
             versionNameSuffix "-dev"
-            applicationId "com.thepcosnutritionist.ovie.dev"
+            applicationId "com.thepcosnutritionist.app"
         }
         prod {
             dimension "app"

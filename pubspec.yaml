@@ -79,9 +79,10 @@ flutter:
   uses-material-design: true
 
   assets:
-  - assets/
-  - assets/images/
-  - assets/html/
+    - assets/
+    - assets/images/
+    - assets/html/
+    - assets/videos/
 
   fonts:
     - family: Courgette
