@@ -51,7 +51,7 @@ import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_setting
 import 'package:thepcosprotocol_app/screens/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_page.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_task_page.dart';
-import 'package:thepcosprotocol_app/screens/lesson/lesson_video_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/video_page.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_wiki_page.dart';
 import 'package:thepcosprotocol_app/screens/onboarding/onboarding_page.dart';
 import 'package:thepcosprotocol_app/screens/profile/profile_delete_page.dart';
@@ -236,7 +236,7 @@ class _AppState extends State<App> {
           LessonPage.id: (context) => LessonPage(),
           LessonWikiPage.id: (context) => LessonWikiPage(),
           LessonContentPage.id: (context) => LessonContentPage(),
-          LessonVideoPage.id: (context) => LessonVideoPage(),
+          VideoPage.id: (context) => VideoPage(),
           WorkoutExercisesPage.id: (context) => WorkoutExercisesPage(),
           FavouritesToolkitDetails.id: (context) => FavouritesToolkitDetails(),
           LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),

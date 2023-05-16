@@ -9,6 +9,8 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../lesson/video_page.dart';
+
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
 
@@ -82,16 +84,26 @@ class DashboardWhyCommunity extends StatelessWidget {
                       children: [
                         Icon(Icons.group_outlined),
                         SizedBox(height: 5),
-                        FittedBox(
-                          child: Text(
-                            "Open \ncommunity",
-                            style:
-                                Theme.of(context).textTheme.subtitle1?.copyWith(
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              VideoPage.id,
+                              arguments:
+                                  'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
+                            );
+                          },
+                          child: FittedBox(
+                            child: Text("Open \ncommunity",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    ?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
                                       fontSize: 22,
                                     ),
-                            maxLines: 2
+                                maxLines: 2),
                           ),
                         )
                       ],

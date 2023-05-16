@@ -70,6 +70,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
       enableOverflowMenu: false,
     );
 
+    var aspectRatio = widget.screenSize!.width / widget.screenSize!.height;
+    if (widget.isHorizontal == true) {
+      aspectRatio = widget.screenSize!.height / widget.screenSize!.width;
+    }
+
     BetterPlayerConfiguration betterPlayerConfiguration =
         BetterPlayerConfiguration(
       autoPlay: true,
@@ -79,7 +84,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       controlsConfiguration: betterPlayerControlsConfiguration,
       deviceOrientationsOnFullScreen: fullscreenOrientations,
       deviceOrientationsAfterFullScreen: normalOrientations,
-      fullScreenAspectRatio: 16 / 9,
+      fullScreenAspectRatio: aspectRatio,
     );
 
     _betterPlayerController = BetterPlayerController(
@@ -94,7 +99,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   void _setEventListener(BetterPlayerEvent event) {
-    if (event.betterPlayerEventType == BetterPlayerEventType.openFullscreen) {
+    if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+      _betterPlayerController.setOverriddenAspectRatio(
+          _betterPlayerController.videoPlayerController!.value.aspectRatio);
+      setState(() {});
+    } else if (event.betterPlayerEventType ==
+        BetterPlayerEventType.openFullscreen) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,

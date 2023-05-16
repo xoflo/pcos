@@ -4,16 +4,16 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
 
-class LessonVideoPage extends StatefulWidget {
-  const LessonVideoPage({Key? key}) : super(key: key);
+class VideoPage extends StatefulWidget {
+  const VideoPage({Key? key}) : super(key: key);
 
-  static const id = "lesson_video_page";
+  static const id = "video_page";
 
   @override
-  State<LessonVideoPage> createState() => _LessonVideoPageState();
+  State<VideoPage> createState() => _VideoPageState();
 }
 
-class _LessonVideoPageState extends State<LessonVideoPage> {
+class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     final videoUrl = ModalRoute.of(context)?.settings.arguments as String;
