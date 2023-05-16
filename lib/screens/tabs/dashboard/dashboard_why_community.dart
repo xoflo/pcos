@@ -76,27 +76,29 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () async {
+                    // TODO: put discordUrl and discord tutorial url in another place.
+                    final discordUrl = 'https://discord.gg/U3zQQypbFW';
                     final hasViewed = await PreferencesController().getBool(
                         SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
                     if (hasViewed) {
-                      launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
+                      launchUrl(Uri.parse(discordUrl),
                           mode: LaunchMode.externalApplication);
                     } else {
                       PreferencesController().saveBool(
                           SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL,
                           true);
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: ((context) => 
-                          VideoPage(
-                            videoUrl: 'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
-                            videoFinishedCallback: () {
-                              launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
-                                mode: LaunchMode.externalApplication);
-                            },
-                          )
-                        ))
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => VideoPage(
+                                    videoUrl:
+                                        'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
+                                    videoFinishedCallback: () {
+                                      launchUrl(
+                                          Uri.parse(discordUrl),
+                                          mode: LaunchMode.externalApplication);
+                                    },
+                                  ))));
                     }
                   },
                   child: Container(
