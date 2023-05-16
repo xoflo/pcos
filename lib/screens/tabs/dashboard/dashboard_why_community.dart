@@ -9,7 +9,9 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../controllers/preferences_controller.dart';
 import '../../lesson/video_page.dart';
+import '/constants/shared_preferences_keys.dart' as SharedPreferencesKeys;
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
@@ -73,9 +75,23 @@ class DashboardWhyCommunity extends StatelessWidget {
                 ),
                 color: backgroundColor,
                 child: GestureDetector(
-                  onTap: () {
-                    launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
-                        mode: LaunchMode.externalApplication);
+                  onTap: () async {
+                    final hasViewed = await PreferencesController().getBool(
+                        SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
+                    if (hasViewed) {
+                      launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
+                          mode: LaunchMode.externalApplication);
+                    } else {
+                      PreferencesController().saveBool(
+                          SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL,
+                          true);
+                      Navigator.pushNamed(
+                        context,
+                        VideoPage.id,
+                        arguments:
+                            'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
+                      );
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
@@ -84,27 +100,17 @@ class DashboardWhyCommunity extends StatelessWidget {
                       children: [
                         Icon(Icons.group_outlined),
                         SizedBox(height: 5),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              VideoPage.id,
-                              arguments:
-                                  'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
-                            );
-                          },
-                          child: FittedBox(
-                            child: Text("Open \ncommunity",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                    ),
-                                maxLines: 2),
-                          ),
+                        FittedBox(
+                          child: Text("Open \ncommunity",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                  ),
+                              maxLines: 2),
                         )
                       ],
                     ),
