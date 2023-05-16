@@ -78,7 +78,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                   onTap: () async {
                     final hasViewed = await PreferencesController().getBool(
                         SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
-                    if (false) {
+                    if (hasViewed) {
                       launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
                           mode: LaunchMode.externalApplication);
                     } else {
