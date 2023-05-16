@@ -82,7 +82,6 @@ flutter:
     - assets/
     - assets/images/
     - assets/html/
-    - assets/videos/
 
   fonts:
     - family: Courgette

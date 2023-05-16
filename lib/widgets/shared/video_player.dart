@@ -50,7 +50,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> initializePlayer() async {
-    final String? videoUrl = widget.videoUrl;
+    // final String? videoUrl = widget.videoUrl;
     
 
     await _copyAssetToLocal();
@@ -176,19 +176,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
     }
   }
 
-  void _loadIntroVideo(String fullPath) {
-    var config = BetterPlayerConfiguration(
-      fit: BoxFit.cover,
-      autoPlay: true,
-      fullScreenByDefault: false,
-      // ...
-    );
+  // void _loadIntroVideo(String fullPath) {
+  //   var config = BetterPlayerConfiguration(
+  //     fit: BoxFit.cover,
+  //     autoPlay: true,
+  //     fullScreenByDefault: false,
+  //     // ...
+  //   );
 
-    BetterPlayerDataSource betterPlayerDataSource =
-        BetterPlayerDataSource(BetterPlayerDataSourceType.file, fullPath);
+  //   BetterPlayerDataSource betterPlayerDataSource =
+  //       BetterPlayerDataSource(BetterPlayerDataSourceType.file, fullPath);
 
-    // etc
-  }
+  //   // etc
+  // }
 
   Future<String> _getFileUrl(String fileName) async {
     // final directory = await getApplicationDocumentsDirectory();
