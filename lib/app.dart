@@ -236,7 +236,6 @@ class _AppState extends State<App> {
           LessonPage.id: (context) => LessonPage(),
           LessonWikiPage.id: (context) => LessonWikiPage(),
           LessonContentPage.id: (context) => LessonContentPage(),
-          VideoPage.id: (context) => VideoPage(),
           WorkoutExercisesPage.id: (context) => WorkoutExercisesPage(),
           FavouritesToolkitDetails.id: (context) => FavouritesToolkitDetails(),
           LibraryModuleWikiPage.id: (context) => LibraryModuleWikiPage(),

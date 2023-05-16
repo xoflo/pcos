@@ -5,9 +5,16 @@ import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/video_player.dart';
 
 class VideoPage extends StatefulWidget {
-  const VideoPage({Key? key}) : super(key: key);
-
   static const id = "video_page";
+
+  final String videoUrl;
+
+  final void Function()? videoFinishedCallback;
+
+  VideoPage({
+    required this.videoUrl,
+    this.videoFinishedCallback,
+  });
 
   @override
   State<VideoPage> createState() => _VideoPageState();
@@ -16,7 +23,7 @@ class VideoPage extends StatefulWidget {
 class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
-    final videoUrl = ModalRoute.of(context)?.settings.arguments as String;
+    final videoUrl = widget.videoUrl;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: primaryColor,
@@ -42,6 +49,7 @@ class _VideoPageState extends State<VideoPage> {
                     screenSize: size,
                     isHorizontal: false,
                     videoUrl: videoUrl.trim(),
+                    videoFinishedCallback: widget.videoFinishedCallback,
                   )
                 ],
               ),

@@ -78,18 +78,24 @@ class DashboardWhyCommunity extends StatelessWidget {
                   onTap: () async {
                     final hasViewed = await PreferencesController().getBool(
                         SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
-                    if (hasViewed) {
+                    if (false) {
                       launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
                           mode: LaunchMode.externalApplication);
                     } else {
                       PreferencesController().saveBool(
                           SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL,
                           true);
-                      Navigator.pushNamed(
+                      Navigator.push(
                         context,
-                        VideoPage.id,
-                        arguments:
-                            'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
+                        MaterialPageRoute(builder: ((context) => 
+                          VideoPage(
+                            videoUrl: 'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
+                            videoFinishedCallback: () {
+                              launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
+                                mode: LaunchMode.externalApplication);
+                            },
+                          )
+                        ))
                       );
                     }
                   },

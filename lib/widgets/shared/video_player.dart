@@ -10,10 +10,13 @@ class VideoPlayer extends StatefulWidget {
   final bool? isHorizontal;
   final String? videoUrl;
 
+  final void Function()? videoFinishedCallback;
+
   VideoPlayer({
     this.screenSize,
     this.isHorizontal,
     this.videoUrl,
+    this.videoFinishedCallback,
   });
 
   @override
@@ -121,6 +124,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
           DeviceOrientation.portraitUp,
         ]);
       }
+    } else if(event.betterPlayerEventType ==
+        BetterPlayerEventType.finished) {
+        if(widget.videoFinishedCallback != null) widget.videoFinishedCallback!();
     }
 
     if (event.betterPlayerEventType == BetterPlayerEventType.play &&

@@ -19,11 +19,14 @@ class _VideoComponentState extends State<VideoComponent> {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => Navigator.pushNamed(
-          context,
-          VideoPage.id,
-          arguments: widget.videoUrl,
-        ),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: ((context) => 
+              VideoPage(
+                videoUrl: widget.videoUrl,
+              )
+            ))
+          ),
         child: Container(
           width: double.maxFinite,
           padding: EdgeInsets.all(25),
