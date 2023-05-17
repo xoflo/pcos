@@ -113,9 +113,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   Future<void> _copyAssetToLocal() async {
     try {
-      var content = await rootBundle.load("assets/discord_tutorial.mp4");
+      var content = await rootBundle.load("assets/${widget.videoAsset}");
       final directory = await getApplicationSupportDirectory();
-      var file = File("${directory.path}/discord_tutorial.mp4");
+      var file = File("${directory.path}/${widget.videoAsset}");
       file.writeAsBytesSync(content.buffer.asUint8List());
       // _loadIntroVideo(file.path);
     } catch (e) {
