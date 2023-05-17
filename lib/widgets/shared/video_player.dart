@@ -5,7 +5,6 @@ import 'package:better_player/better_player.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import '/utils/file_utils.dart';
 
 class VideoPlayer extends StatefulWidget {
   final Size? screenSize;
@@ -30,7 +29,7 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  BetterPlayerController? _betterPlayerController;
+  late BetterPlayerController _betterPlayerController;
   bool analyticsPlayEventSent = false;
   bool analyticsFullscreenEventSent = false;
 
@@ -42,23 +41,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   void dispose() {
     super.dispose();
-    _betterPlayerController?.pause();
-    _betterPlayerController?.dispose(forceDispose: true);
-    _betterPlayerController?.removeEventsListener(_setEventListener);
+    _betterPlayerController.pause();
+    _betterPlayerController.dispose(forceDispose: true);
+    _betterPlayerController.removeEventsListener(_setEventListener);
   }
 
   Future<void> initializePlayer() async {
-    if (widget.videoAsset != null) {
-      await copyAssetToLocal(widget.videoAsset!);
-    } else if (widget.videoUrl != null) {
-      setupPlayerController(null);
-    }
+    setupPlayerController();
   }
 
   void _setEventListener(BetterPlayerEvent event) {
     if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
-      _betterPlayerController?.setOverriddenAspectRatio(
-          _betterPlayerController!.videoPlayerController!.value.aspectRatio);
+      _betterPlayerController.setOverriddenAspectRatio(
+          _betterPlayerController.videoPlayerController!.value.aspectRatio);
     } else if (event.betterPlayerEventType ==
         BetterPlayerEventType.openFullscreen) {
       SystemChrome.setPreferredOrientations([
@@ -67,8 +62,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ]);
-      _betterPlayerController?.setOverriddenAspectRatio(
-          _betterPlayerController!.videoPlayerController!.value.aspectRatio);
+      _betterPlayerController.setOverriddenAspectRatio(
+          _betterPlayerController.videoPlayerController!.value.aspectRatio);
     } else if (event.betterPlayerEventType ==
         BetterPlayerEventType.hideFullscreen) {
       if (widget.isHorizontal == true) {
@@ -120,32 +115,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
               color: primaryColor,
             ),
           ),
-          child: getVideoWidget(),
+          child: BetterPlayer(controller: _betterPlayerController),
         ),
       ],
     ));
   }
 
-  Widget getVideoWidget() {
-    if (widget.videoAsset != null) {
-      return FutureBuilder<String>(
-        future: getFileUrl(widget.videoAsset!),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.data != null) {
-            if (_betterPlayerController == null)
-              setupPlayerController(snapshot);
-            return BetterPlayer(controller: _betterPlayerController!);
-          } else {
-            return const SizedBox();
-          }
-        },
-      );
-    } else {
-      return BetterPlayer(controller: _betterPlayerController!);
-    }
-  }
-
-  void setupPlayerController(AsyncSnapshot<String>? snapshot) async {
+  void setupPlayerController() async {
     List<DeviceOrientation> fullscreenOrientations = [
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -168,7 +144,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     } else if (widget.videoAsset != null) {
       betterPlayerDataSource = BetterPlayerDataSource(
           BetterPlayerDataSourceType.file,
-          snapshot!.data!.replaceAll(' ', '%20'));
+          widget.videoAsset!.replaceAll(' ', '%20'));
     }
 
     BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
@@ -201,6 +177,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     );
 
     // //add analytics events for play and fullscreen
-    _betterPlayerController?.addEventsListener(_setEventListener);
+    _betterPlayerController.addEventsListener(_setEventListener);
   }
 }

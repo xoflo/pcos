@@ -16,6 +16,7 @@ Future<void> copyAssetToLocal(String assetFilename) async {
 }
 
 Future<String> getFileUrl(String fileName) async {
+  await copyAssetToLocal(fileName);
   final directory = await getApplicationSupportDirectory();
   return "${directory.path}/$fileName";
 }
