@@ -92,6 +92,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                           MaterialPageRoute(
                               builder: ((context) => VideoPage(
                                     videoAsset: 'discord_tutorial.mp4',
+                                    isFullScreenByDefault: true,
                                     videoFinishedCallback: () {
                                       launchUrl(
                                           Uri.parse(discordUrl),

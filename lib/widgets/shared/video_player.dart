@@ -14,6 +14,7 @@ class VideoPlayer extends StatefulWidget {
   final bool? isHorizontal;
   final String? videoUrl;
   final String? videoAsset;
+  final bool isFullScreenByDefault;
 
   final void Function()? videoFinishedCallback;
 
@@ -23,6 +24,7 @@ class VideoPlayer extends StatefulWidget {
     this.videoUrl,
     this.videoAsset,
     this.videoFinishedCallback,
+    this.isFullScreenByDefault = false,
   });
 
   @override
@@ -149,7 +151,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
         future: _getFileUrl(widget.videoAsset!),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.data != null) {
-            if(_betterPlayerController == null) setupPlayerController(snapshot);
+            if (_betterPlayerController == null)
+              setupPlayerController(snapshot);
             return BetterPlayer(controller: _betterPlayerController!);
           } else {
             return const SizedBox();
@@ -204,7 +207,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       autoPlay: true,
       autoDispose: true,
       looping: false,
-      fullScreenByDefault: false,
+      fullScreenByDefault: widget.isFullScreenByDefault,
       controlsConfiguration: betterPlayerControlsConfiguration,
       deviceOrientationsOnFullScreen: fullscreenOrientations,
       deviceOrientationsAfterFullScreen: normalOrientations,

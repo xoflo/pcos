@@ -9,12 +9,14 @@ class VideoPage extends StatefulWidget {
 
   final String? videoUrl;
   final String? videoAsset;
+  final bool? isFullScreenByDefault;
 
   final void Function()? videoFinishedCallback;
 
   VideoPage({
     this.videoUrl,
     this.videoAsset,
+    this.isFullScreenByDefault,
     this.videoFinishedCallback,
   });
 
@@ -51,6 +53,7 @@ class _VideoPageState extends State<VideoPage> {
                     isHorizontal: false,
                     videoUrl: widget.videoUrl?.trim(),
                     videoAsset: widget.videoAsset?.trim(),
+                    isFullScreenByDefault: widget.isFullScreenByDefault ?? false,
                     videoFinishedCallback: widget.videoFinishedCallback,
                   )
                 ],
