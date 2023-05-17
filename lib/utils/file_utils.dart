@@ -10,7 +10,6 @@ Future<void> copyAssetToLocal(String assetFilename) async {
     final directory = await getApplicationSupportDirectory();
     var file = File("${directory.path}/$assetFilename");
     file.writeAsBytesSync(content.buffer.asUint8List());
-    // _loadIntroVideo(file.path);
   } catch (e) {
     debugPrint(e.toString());
   }

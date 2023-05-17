@@ -9,6 +9,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../config/flavors.dart';
 import '../../../controllers/preferences_controller.dart';
 import '../../lesson/video_page.dart';
 import '/constants/shared_preferences_keys.dart' as SharedPreferencesKeys;
@@ -76,8 +77,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () async {
-                    // TODO: put discordUrl and discord tutorial url in another place.
-                    final discordUrl = 'https://discord.gg/U3zQQypbFW';
+                    final discordUrl = FlavorConfig.instance.values.discordUrl;
                     final hasViewed = await PreferencesController().getBool(
                         SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
                     if (hasViewed) {
