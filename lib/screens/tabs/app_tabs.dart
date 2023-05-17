@@ -30,6 +30,7 @@ import 'package:thepcosprotocol_app/screens/zendesk_web_view.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/device_utils.dart';
 import 'package:thepcosprotocol_app/widgets/test/flavor_banner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../providers/workouts_provider.dart';
 import 'workouts/workouts_layout.dart';
@@ -82,9 +83,13 @@ class _AppTabsState extends State<AppTabs>
         userId: userId ?? "", pcosType: pcosType);
     await authenticationController.saveOneSignalSent();
 
-    oneSignalController.promptNotifiationsPermission().then((accepted) {
-      print("Accepted permission: $accepted");
-    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (oneSignalController.shouldTriggerNotifPermission(prefs)) {
+      oneSignalController.promptNotifiationsPermission().then((accepted) {
+        print("Accepted permission: $accepted");
+      });
+    }
 
     //get the value for showYourWhy, and then pass down to the course screen
     final bool isYourWhyOn = await PreferencesController()
@@ -159,8 +164,7 @@ class _AppTabsState extends State<AppTabs>
     setState(() => _isLocked = isLocked);
   }
 
-  void openChat() async {
-  }
+  void openChat() async {}
 
   Future<bool> onBackPressed() async {
     if (Platform.isIOS) return Future.value(false);
@@ -235,12 +239,12 @@ class _AppTabsState extends State<AppTabs>
           actions: showAppBarItems
               ? [
                   IconButton(
-                    icon: Icon(
-                      Icons.chat_outlined,
-                      color: unselectedIndicatorColor,
-                    ),
-                    onPressed: () => Navigator.pushNamed(context, ZendeskWebView.id)
-                  ),
+                      icon: Icon(
+                        Icons.chat_outlined,
+                        color: unselectedIndicatorColor,
+                      ),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, ZendeskWebView.id)),
                 ]
               : null,
           backgroundColor: Colors.transparent,
