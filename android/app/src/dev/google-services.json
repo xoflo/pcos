@@ -8,45 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:974413443291:android:5114274847268746065cfe",
+        "mobilesdk_app_id": "1:974413443291:android:ac77e160f1866860065cfe",
         "android_client_info": {
-          "package_name": "com.thepcosnutritionist.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "974413443291-6bkd9gup9vkl4omj49e9bqq1382lumli.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBV1uGRDmiwhFES-gEUyarn-tdtMxGApU0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "974413443291-6bkd9gup9vkl4omj49e9bqq1382lumli.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "974413443291-i6ol5vacucke2p0ga2h19aqs7fjjk4co.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.thepcosnutritionist.app"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:974413443291:android:7191aa4d8e1b1a67065cfe",
-        "android_client_info": {
-          "package_name": "com.thepcosnutritionist.app.dev"
+          "package_name": "com.thepcosnutritionist.ovie"
         }
       },
       "oauth_client": [
