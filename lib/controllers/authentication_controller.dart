@@ -214,6 +214,7 @@ class AuthenticationController {
       prefs.remove(SharedPreferencesKeys.DB_SAVED_TIMESTAMP);
       prefs.remove(SharedPreferencesKeys.INTERCOM_REGISTERED);
       prefs.remove(SharedPreferencesKeys.VIEWED_TUTORIAL);
+      prefs.remove(SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
       prefs.remove(SharedPreferencesKeys.REQUESTED_DAILY_REMINDER);
       prefs.remove(SharedPreferencesKeys.DAILY_REMINDER_TIME);
       prefs.remove(SharedPreferencesKeys.APP_FIRST_USE_TIMESTAMP);
