@@ -34,8 +34,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
   bool analyticsPlayEventSent = false;
   bool analyticsFullscreenEventSent = false;
 
-  bool isDataReady = false;
-
   @override
   void initState() {
     super.initState();
@@ -50,64 +48,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> initializePlayer() async {
-    // final String? videoUrl = widget.videoUrl;
-    
-
-    await _copyAssetToLocal();
-
-    // final directory = await getApplicationDocumentsDirectory();
-    // final filePath = "${directory.path}/discord_tutorial.mp4";
-
-    // final ByteData data = await rootBundle.load('assets/videos/discord_tutorial.mp4');
-    // final Uint8List videoData = data.buffer.asUint8List();
-
-    // var content = await rootBundle.load("assets/videos/discord_tutorial.mp4");
-    // final directory = await getApplicationDocumentsDirectory();
-    // var file = File("${directory.path}/discord_tutorial.mp4");
-    // file.writeAsBytesSync(content.buffer.asUint8List());
-
-    // final betterPlayerDataSource = BetterPlayerDataSource(BetterPlayerDataSourceType.file, 'assets/videos/discord_tutorial.mp4');
-    // // BetterPlayerDataSource betterPlayerDataSource =
-    // //       BetterPlayerDataSource(BetterPlayerDataSourceType.file, file.path);
-
-    // // BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
-    // //     BetterPlayerDataSourceType.network, videoUrl ?? "");
-
-    // BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
-    //     BetterPlayerControlsConfiguration(
-    //   textColor: secondaryColor,
-    //   iconsColor: secondaryColor,
-    //   controlBarColor: Colors.black.withOpacity(0.4),
-    //   progressBarPlayedColor: secondaryColor,
-    //   progressBarHandleColor: secondaryColor,
-    //   progressBarBackgroundColor: Colors.white,
-    //   progressBarBufferedColor: primaryColorLight,
-    //   enableOverflowMenu: false,
-    // );
-
-    // BetterPlayerConfiguration betterPlayerConfiguration =
-    //     BetterPlayerConfiguration(
-    //   autoPlay: true,
-    //   autoDispose: true,
-    //   looping: false,
-    //   fullScreenByDefault: false,
-    //   controlsConfiguration: betterPlayerControlsConfiguration,
-    //   deviceOrientationsOnFullScreen: fullscreenOrientations,
-    //   deviceOrientationsAfterFullScreen: normalOrientations,
-    //   autoDetectFullscreenDeviceOrientation: true,
-    // );
-
-    // _betterPlayerController = BetterPlayerController(
-    //   betterPlayerConfiguration,
-    //   betterPlayerDataSource: betterPlayerDataSource,
-    // );
-
-    // //add analytics events for play and fullscreen
-    // _betterPlayerController?.addEventsListener(_setEventListener);
-
-    // setState(() {
-    //   isDataReady = true;
-    // });
+    if (widget.videoAsset != null) {
+      await _copyAssetToLocal();
+    } else if (widget.videoUrl != null) {
+      setupPlayerController(null);
+    }
   }
 
   void _setEventListener(BetterPlayerEvent event) {
@@ -172,30 +117,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
       file.writeAsBytesSync(content.buffer.asUint8List());
       // _loadIntroVideo(file.path);
     } catch (e) {
-      print("crap");
+      debugPrint(e.toString());
     }
   }
 
-  // void _loadIntroVideo(String fullPath) {
-  //   var config = BetterPlayerConfiguration(
-  //     fit: BoxFit.cover,
-  //     autoPlay: true,
-  //     fullScreenByDefault: false,
-  //     // ...
-  //   );
-
-  //   BetterPlayerDataSource betterPlayerDataSource =
-  //       BetterPlayerDataSource(BetterPlayerDataSourceType.file, fullPath);
-
-  //   // etc
-  // }
-
   Future<String> _getFileUrl(String fileName) async {
-    // final directory = await getApplicationDocumentsDirectory();
-    // return "${directory.path}/$fileName";
     final directory = await getApplicationSupportDirectory();
     return "${directory.path}/$fileName";
-    // return 'assets/$fileName';
   }
 
   @override
@@ -209,73 +137,86 @@ class _VideoPlayerState extends State<VideoPlayer> {
               color: primaryColor,
             ),
           ),
-          child: FutureBuilder<String>(
-            future: _getFileUrl("discord_tutorial.mp4"),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.data != null) {
-                List<DeviceOrientation> fullscreenOrientations = [
-                  DeviceOrientation.portraitUp,
-                  DeviceOrientation.portraitDown,
-                  DeviceOrientation.landscapeLeft,
-                  DeviceOrientation.landscapeRight,
-                ];
-                List<DeviceOrientation> normalOrientations = widget.isHorizontal == true
-                    ? [
-                        DeviceOrientation.portraitUp,
-                        DeviceOrientation.portraitDown,
-                        DeviceOrientation.landscapeLeft,
-                        DeviceOrientation.landscapeRight,
-                      ]
-                    : [DeviceOrientation.portraitUp];
-
-                final betterPlayerDataSource = BetterPlayerDataSource(
-                    BetterPlayerDataSourceType.file, snapshot.data!.replaceAll(' ', '%20'));
-                // BetterPlayerDataSource betterPlayerDataSource =
-                //       BetterPlayerDataSource(BetterPlayerDataSourceType.file, file.path);
-
-                // BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
-                //     BetterPlayerDataSourceType.network, videoUrl ?? "");
-
-                BetterPlayerControlsConfiguration
-                    betterPlayerControlsConfiguration =
-                    BetterPlayerControlsConfiguration(
-                  textColor: secondaryColor,
-                  iconsColor: secondaryColor,
-                  controlBarColor: Colors.black.withOpacity(0.4),
-                  progressBarPlayedColor: secondaryColor,
-                  progressBarHandleColor: secondaryColor,
-                  progressBarBackgroundColor: Colors.white,
-                  progressBarBufferedColor: primaryColorLight,
-                  enableOverflowMenu: false,
-                );
-
-                BetterPlayerConfiguration betterPlayerConfiguration =
-                    BetterPlayerConfiguration(
-                  autoPlay: true,
-                  autoDispose: true,
-                  looping: false,
-                  fullScreenByDefault: false,
-                  controlsConfiguration: betterPlayerControlsConfiguration,
-                  deviceOrientationsOnFullScreen: fullscreenOrientations,
-                  deviceOrientationsAfterFullScreen: normalOrientations,
-                  autoDetectFullscreenDeviceOrientation: true,
-                );
-
-                _betterPlayerController = BetterPlayerController(
-                  betterPlayerConfiguration,
-                  betterPlayerDataSource: betterPlayerDataSource,
-                );
-
-                //add analytics events for play and fullscreen
-                // _betterPlayerController?.addEventsListener(_setEventListener);
-                return BetterPlayer(controller: _betterPlayerController!);
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
+          child: getVideoWidget(),
         ),
       ],
     ));
+  }
+
+  Widget getVideoWidget() {
+    if (widget.videoAsset != null) {
+      return FutureBuilder<String>(
+        future: _getFileUrl(widget.videoAsset!),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.data != null) {
+            if(_betterPlayerController == null) setupPlayerController(snapshot);
+            return BetterPlayer(controller: _betterPlayerController!);
+          } else {
+            return const SizedBox();
+          }
+        },
+      );
+    } else {
+      return BetterPlayer(controller: _betterPlayerController!);
+    }
+  }
+
+  void setupPlayerController(AsyncSnapshot<String>? snapshot) async {
+    List<DeviceOrientation> fullscreenOrientations = [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ];
+    List<DeviceOrientation> normalOrientations = widget.isHorizontal == true
+        ? [
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+          ]
+        : [DeviceOrientation.portraitUp];
+
+    BetterPlayerDataSource? betterPlayerDataSource;
+    if (widget.videoUrl != null) {
+      betterPlayerDataSource = BetterPlayerDataSource(
+          BetterPlayerDataSourceType.network, widget.videoUrl ?? "");
+    } else if (widget.videoAsset != null) {
+      betterPlayerDataSource = BetterPlayerDataSource(
+          BetterPlayerDataSourceType.file,
+          snapshot!.data!.replaceAll(' ', '%20'));
+    }
+
+    BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
+        BetterPlayerControlsConfiguration(
+      textColor: secondaryColor,
+      iconsColor: secondaryColor,
+      controlBarColor: Colors.black.withOpacity(0.4),
+      progressBarPlayedColor: secondaryColor,
+      progressBarHandleColor: secondaryColor,
+      progressBarBackgroundColor: Colors.white,
+      progressBarBufferedColor: primaryColorLight,
+      enableOverflowMenu: false,
+    );
+
+    BetterPlayerConfiguration betterPlayerConfiguration =
+        BetterPlayerConfiguration(
+      autoPlay: true,
+      autoDispose: true,
+      looping: false,
+      fullScreenByDefault: false,
+      controlsConfiguration: betterPlayerControlsConfiguration,
+      deviceOrientationsOnFullScreen: fullscreenOrientations,
+      deviceOrientationsAfterFullScreen: normalOrientations,
+      autoDetectFullscreenDeviceOrientation: true,
+    );
+
+    _betterPlayerController = BetterPlayerController(
+      betterPlayerConfiguration,
+      betterPlayerDataSource: betterPlayerDataSource,
+    );
+
+    // //add analytics events for play and fullscreen
+    _betterPlayerController?.addEventsListener(_setEventListener);
   }
 }

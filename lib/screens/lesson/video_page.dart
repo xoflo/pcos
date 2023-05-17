@@ -25,7 +25,6 @@ class VideoPage extends StatefulWidget {
 class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
-    final videoUrl = widget.videoUrl;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: primaryColor,
@@ -50,7 +49,8 @@ class _VideoPageState extends State<VideoPage> {
                   VideoPlayer(
                     screenSize: size,
                     isHorizontal: false,
-                    videoUrl: videoUrl?.trim(),
+                    videoUrl: widget.videoUrl?.trim(),
+                    videoAsset: widget.videoAsset?.trim(),
                     videoFinishedCallback: widget.videoFinishedCallback,
                   )
                 ],

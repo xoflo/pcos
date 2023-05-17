@@ -80,7 +80,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                     final discordUrl = 'https://discord.gg/U3zQQypbFW';
                     final hasViewed = await PreferencesController().getBool(
                         SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
-                    if (false) {
+                    if (hasViewed) {
                       launchUrl(Uri.parse(discordUrl),
                           mode: LaunchMode.externalApplication);
                     } else {
@@ -91,8 +91,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: ((context) => VideoPage(
-                                    videoUrl:
-                                        'https://s3.amazonaws.com/spotlightr-output/122448/646174c0ce491320074383playlist-1080.m3u8',
+                                    videoAsset: 'discord_tutorial.mp4',
                                     videoFinishedCallback: () {
                                       launchUrl(
                                           Uri.parse(discordUrl),
