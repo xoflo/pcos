@@ -10,7 +10,7 @@ class VideoPage extends StatefulWidget {
   static const id = "video_page";
 
   final String? videoUrl;
-  final String? videoAsset;
+  final String? localVideoFileUrl;
   final bool? isHorizontal;
   final bool? isFullScreenByDefault;
 
@@ -18,7 +18,7 @@ class VideoPage extends StatefulWidget {
 
   VideoPage({
     this.videoUrl,
-    this.videoAsset,
+    this.localVideoFileUrl,
     this.isHorizontal,
     this.isFullScreenByDefault,
     this.videoFinishedCallback,
@@ -63,9 +63,9 @@ class _VideoPageState extends State<VideoPage> {
 
   Widget getVideoWidget() {
     final size = MediaQuery.of(context).size;
-    if (widget.videoAsset != null) {
+    if (widget.localVideoFileUrl != null) {
       return FutureBuilder<String>(
-        future: getFileUrl(widget.videoAsset!),
+        future: getFileUrl(widget.localVideoFileUrl!),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.data != null) {
             return getVideoPlayer(size, snapshot.data);
@@ -84,7 +84,7 @@ class _VideoPageState extends State<VideoPage> {
       screenSize: size,
       isHorizontal: widget.isHorizontal ?? true,
       videoUrl: widget.videoUrl?.trim(),
-      videoAsset: videoAssetFilename,
+      localVideoFileUrl: videoAssetFilename,
       isFullScreenByDefault: widget.isFullScreenByDefault ?? false,
       videoFinishedCallback: widget.videoFinishedCallback,
     );

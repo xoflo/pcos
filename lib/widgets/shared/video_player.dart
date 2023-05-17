@@ -10,7 +10,7 @@ class VideoPlayer extends StatefulWidget {
   final Size? screenSize;
   final bool? isHorizontal;
   final String? videoUrl;
-  final String? videoAsset;
+  final String? localVideoFileUrl;
   final bool isFullScreenByDefault;
 
   final void Function()? videoFinishedCallback;
@@ -19,7 +19,7 @@ class VideoPlayer extends StatefulWidget {
     this.screenSize,
     this.isHorizontal,
     this.videoUrl,
-    this.videoAsset,
+    this.localVideoFileUrl,
     this.videoFinishedCallback,
     this.isFullScreenByDefault = false,
   });
@@ -141,10 +141,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
     if (widget.videoUrl != null) {
       betterPlayerDataSource = BetterPlayerDataSource(
           BetterPlayerDataSourceType.network, widget.videoUrl ?? "");
-    } else if (widget.videoAsset != null) {
+    } else if (widget.localVideoFileUrl != null) {
       betterPlayerDataSource = BetterPlayerDataSource(
           BetterPlayerDataSourceType.file,
-          widget.videoAsset!.replaceAll(' ', '%20'));
+          widget.localVideoFileUrl!.replaceAll(' ', '%20'));
     }
 
     BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
