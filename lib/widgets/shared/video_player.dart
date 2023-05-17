@@ -1,13 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:better_player/better_player.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/styles/colors.dart';
+import '/utils/file_utils.dart';
 
 class VideoPlayer extends StatefulWidget {
   final Size? screenSize;
@@ -51,7 +49,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   Future<void> initializePlayer() async {
     if (widget.videoAsset != null) {
-      await _copyAssetToLocal();
+      await copyAssetToLocal(widget.videoAsset!);
     } else if (widget.videoUrl != null) {
       setupPlayerController(null);
     }
@@ -111,23 +109,6 @@ class _VideoPlayerState extends State<VideoPlayer> {
     }
   }
 
-  Future<void> _copyAssetToLocal() async {
-    try {
-      var content = await rootBundle.load("assets/${widget.videoAsset}");
-      final directory = await getApplicationSupportDirectory();
-      var file = File("${directory.path}/${widget.videoAsset}");
-      file.writeAsBytesSync(content.buffer.asUint8List());
-      // _loadIntroVideo(file.path);
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  Future<String> _getFileUrl(String fileName) async {
-    final directory = await getApplicationSupportDirectory();
-    return "${directory.path}/$fileName";
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -148,7 +129,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   Widget getVideoWidget() {
     if (widget.videoAsset != null) {
       return FutureBuilder<String>(
-        future: _getFileUrl(widget.videoAsset!),
+        future: getFileUrl(widget.videoAsset!),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.data != null) {
             if (_betterPlayerController == null)
