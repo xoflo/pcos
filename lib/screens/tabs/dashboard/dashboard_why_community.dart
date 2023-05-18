@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../config/flavors.dart';
 import '../../../controllers/preferences_controller.dart';
 import '../../lesson/video_page.dart';
+import '../app_tabs.dart';
 import '/constants/shared_preferences_keys.dart' as SharedPreferencesKeys;
 
 class DashboardWhyCommunity extends StatelessWidget {
@@ -95,8 +96,8 @@ class DashboardWhyCommunity extends StatelessWidget {
                                     isHorizontal: false,
                                     isFullScreenByDefault: true,
                                     videoFinishedCallback: () {
-                                      launchUrl(
-                                          Uri.parse(discordUrl),
+                                      Navigator.popAndPushNamed(context, AppTabs.id);
+                                      launchUrl(Uri.parse(discordUrl),
                                           mode: LaunchMode.externalApplication);
                                     },
                                   ))));
