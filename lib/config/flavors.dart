@@ -21,6 +21,8 @@ class FlavorValues {
   final String thumbnailStorageFolder;
   final List<String> intercomIds;
   //Add other flavor specific values, e.g database name
+
+  final String discordUrl = 'https://discord.gg/U3zQQypbFW';
 }
 
 class FlavorConfig {

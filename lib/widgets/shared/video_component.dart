@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/screens/lesson/lesson_video_page.dart';
+import 'package:thepcosprotocol_app/screens/lesson/video_page.dart';
 
 class VideoComponent extends StatefulWidget {
   const VideoComponent({Key? key, required this.videoUrl}) : super(key: key);
@@ -19,11 +19,14 @@ class _VideoComponentState extends State<VideoComponent> {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => Navigator.pushNamed(
-          context,
-          LessonVideoPage.id,
-          arguments: widget.videoUrl,
-        ),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: ((context) => 
+              VideoPage(
+                videoUrl: widget.videoUrl,
+              )
+            ))
+          ),
         child: Container(
           width: double.maxFinite,
           padding: EdgeInsets.all(25),

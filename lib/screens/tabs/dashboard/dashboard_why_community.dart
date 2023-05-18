@@ -9,6 +9,12 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '/constants/shared_preferences_keys.dart' as SharedPreferencesKeys;
+import '../../../config/flavors.dart';
+import '../../../controllers/preferences_controller.dart';
+import '../../lesson/video_page.dart';
+import '../app_tabs.dart';
+
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
 
@@ -71,9 +77,31 @@ class DashboardWhyCommunity extends StatelessWidget {
                 ),
                 color: backgroundColor,
                 child: GestureDetector(
-                  onTap: () {
-                    launchUrl(Uri.parse("https://discord.gg/U3zQQypbFW"),
-                        mode: LaunchMode.externalApplication);
+                  onTap: () async {
+                    final discordUrl = FlavorConfig.instance.values.discordUrl;
+                    final hasViewed = await PreferencesController().getBool(
+                        SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
+                    if (hasViewed) {
+                      launchUrl(Uri.parse(discordUrl),
+                          mode: LaunchMode.externalApplication);
+                    } else {
+                      PreferencesController().saveBool(
+                          SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL,
+                          true);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => VideoPage(
+                                    videoAsset: 'discord_tutorial.mp4',
+                                    isHorizontal: false,
+                                    isFullScreenByDefault: true,
+                                    videoFinishedCallback: () {
+                                      Navigator.popAndPushNamed(context, AppTabs.id);
+                                      launchUrl(Uri.parse(discordUrl),
+                                          mode: LaunchMode.externalApplication);
+                                    },
+                                  ))));
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
@@ -83,16 +111,16 @@ class DashboardWhyCommunity extends StatelessWidget {
                         Icon(Icons.group_outlined),
                         SizedBox(height: 5),
                         FittedBox(
-                          child: Text(
-                            "Open \ncommunity",
-                            style:
-                                Theme.of(context).textTheme.subtitle1?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                    ),
-                            maxLines: 2
-                          ),
+                          child: Text("Open \ncommunity",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                  ),
+                              maxLines: 2),
                         )
                       ],
                     ),

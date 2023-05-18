@@ -1,19 +1,26 @@
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:better_player/better_player.dart';
-import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class VideoPlayer extends StatefulWidget {
   final Size? screenSize;
   final bool? isHorizontal;
   final String? videoUrl;
+  final String? localVideoFileUrl;
+  final bool isFullScreenByDefault;
+
+  final void Function()? videoFinishedCallback;
 
   VideoPlayer({
     this.screenSize,
     this.isHorizontal,
     this.videoUrl,
+    this.localVideoFileUrl,
+    this.videoFinishedCallback,
+    this.isFullScreenByDefault = false,
   });
 
   @override
@@ -39,68 +46,23 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> initializePlayer() async {
-    final String? videoUrl = widget.videoUrl;
-    List<DeviceOrientation> fullscreenOrientations = [
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ];
-    List<DeviceOrientation> normalOrientations = widget.isHorizontal == true
-        ? [
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.portraitDown,
-            DeviceOrientation.landscapeLeft,
-            DeviceOrientation.landscapeRight,
-          ]
-        : [DeviceOrientation.portraitUp];
-
-    BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network, videoUrl ?? "");
-
-    BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
-        BetterPlayerControlsConfiguration(
-      textColor: secondaryColor,
-      iconsColor: secondaryColor,
-      controlBarColor: Colors.black.withOpacity(0.4),
-      progressBarPlayedColor: secondaryColor,
-      progressBarHandleColor: secondaryColor,
-      progressBarBackgroundColor: Colors.white,
-      progressBarBufferedColor: primaryColorLight,
-      enableOverflowMenu: false,
-    );
-
-    BetterPlayerConfiguration betterPlayerConfiguration =
-        BetterPlayerConfiguration(
-      autoPlay: true,
-      autoDispose: true,
-      looping: false,
-      fullScreenByDefault: false,
-      controlsConfiguration: betterPlayerControlsConfiguration,
-      deviceOrientationsOnFullScreen: fullscreenOrientations,
-      deviceOrientationsAfterFullScreen: normalOrientations,
-      fullScreenAspectRatio: 16 / 9,
-    );
-
-    _betterPlayerController = BetterPlayerController(
-      betterPlayerConfiguration,
-      betterPlayerDataSource: betterPlayerDataSource,
-    );
-
-    //add analytics events for play and fullscreen
-    _betterPlayerController.addEventsListener(_setEventListener);
-
-    setState(() {});
+    setupPlayerController();
   }
 
   void _setEventListener(BetterPlayerEvent event) {
-    if (event.betterPlayerEventType == BetterPlayerEventType.openFullscreen) {
+    if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+      _betterPlayerController.setOverriddenAspectRatio(
+          _betterPlayerController.videoPlayerController!.value.aspectRatio);
+    } else if (event.betterPlayerEventType ==
+        BetterPlayerEventType.openFullscreen) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ]);
+      _betterPlayerController.setOverriddenAspectRatio(
+          _betterPlayerController.videoPlayerController!.value.aspectRatio);
     } else if (event.betterPlayerEventType ==
         BetterPlayerEventType.hideFullscreen) {
       if (widget.isHorizontal == true) {
@@ -115,6 +77,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
           DeviceOrientation.portraitUp,
         ]);
       }
+    } else if (event.betterPlayerEventType == BetterPlayerEventType.finished) {
+      if (widget.videoFinishedCallback != null) widget.videoFinishedCallback!();
     }
 
     if (event.betterPlayerEventType == BetterPlayerEventType.play &&
@@ -154,5 +118,65 @@ class _VideoPlayerState extends State<VideoPlayer> {
         ),
       ],
     ));
+  }
+
+  void setupPlayerController() async {
+    List<DeviceOrientation> fullscreenOrientations = [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ];
+    List<DeviceOrientation> normalOrientations = widget.isHorizontal == true
+        ? [
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+          ]
+        : [DeviceOrientation.portraitUp];
+
+    BetterPlayerDataSource? betterPlayerDataSource;
+    final videoUrl = widget.videoUrl;
+    final localVideoFileUrl = widget.localVideoFileUrl;
+    if (videoUrl != null) {
+      betterPlayerDataSource =
+          BetterPlayerDataSource(BetterPlayerDataSourceType.network, videoUrl);
+    } else if (localVideoFileUrl != null) {
+      betterPlayerDataSource = BetterPlayerDataSource(
+          BetterPlayerDataSourceType.file, localVideoFileUrl);
+    }
+
+    BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
+        BetterPlayerControlsConfiguration(
+      textColor: secondaryColor,
+      iconsColor: secondaryColor,
+      controlBarColor: Colors.black.withOpacity(0.4),
+      progressBarPlayedColor: secondaryColor,
+      progressBarHandleColor: secondaryColor,
+      progressBarBackgroundColor: Colors.white,
+      progressBarBufferedColor: primaryColorLight,
+      enableOverflowMenu: false,
+    );
+
+    BetterPlayerConfiguration betterPlayerConfiguration =
+        BetterPlayerConfiguration(
+      autoPlay: true,
+      autoDispose: true,
+      looping: false,
+      fullScreenByDefault: widget.isFullScreenByDefault,
+      controlsConfiguration: betterPlayerControlsConfiguration,
+      deviceOrientationsOnFullScreen: fullscreenOrientations,
+      deviceOrientationsAfterFullScreen: normalOrientations,
+      autoDetectFullscreenDeviceOrientation: true,
+    );
+
+    _betterPlayerController = BetterPlayerController(
+      betterPlayerConfiguration,
+      betterPlayerDataSource: betterPlayerDataSource,
+    );
+
+    // //add analytics events for play and fullscreen
+    _betterPlayerController.addEventsListener(_setEventListener);
   }
 }
