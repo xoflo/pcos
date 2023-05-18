@@ -1,9 +1,8 @@
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:better_player/better_player.dart';
-
-import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
+import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 class VideoPlayer extends StatefulWidget {
@@ -138,13 +137,14 @@ class _VideoPlayerState extends State<VideoPlayer> {
         : [DeviceOrientation.portraitUp];
 
     BetterPlayerDataSource? betterPlayerDataSource;
-    if (widget.videoUrl != null) {
+    final videoUrl = widget.videoUrl;
+    final localVideoFileUrl = widget.localVideoFileUrl;
+    if (videoUrl != null) {
+      betterPlayerDataSource =
+          BetterPlayerDataSource(BetterPlayerDataSourceType.network, videoUrl);
+    } else if (localVideoFileUrl != null) {
       betterPlayerDataSource = BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network, widget.videoUrl ?? "");
-    } else if (widget.localVideoFileUrl != null) {
-      betterPlayerDataSource = BetterPlayerDataSource(
-          BetterPlayerDataSourceType.file,
-          widget.localVideoFileUrl!.replaceAll(' ', '%20'));
+          BetterPlayerDataSourceType.file, localVideoFileUrl);
     }
 
     BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
