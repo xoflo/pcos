@@ -12,7 +12,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_task_bool.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_task_rating.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_task_text.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 
@@ -38,7 +38,7 @@ class LessonTaskPage extends StatelessWidget {
               task.lessonTaskID, isTrue.toString()),
         );
       case TaskType.Okay:
-        return FilledButton(
+        return Ovie.FilledButton(
           onPressed: () => onSubmit(context, modulesProvider, task.lessonID,
               task.lessonTaskID, "Okay"),
           text: "Okay",

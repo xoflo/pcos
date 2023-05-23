@@ -7,7 +7,7 @@ import 'package:thepcosprotocol_app/screens/authentication/forgot_password_succe
 import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_generic.dart';
 
@@ -164,7 +164,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     },
                                   ),
                                   SizedBox(height: 40),
-                                  FilledButton(
+                                  Ovie.FilledButton(
                                     margin: EdgeInsets.zero,
                                     onPressed: () {
                                       FocusManager.instance.primaryFocus

@@ -3,7 +3,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart' as colors;
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/screens/tabs/app_tabs.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 
 showAlertDialog(
   final BuildContext context,
@@ -19,7 +19,7 @@ showAlertDialog(
     parameters: {Analytics.ANALYTICS_PARAMETER_DIALOG_TITLE: title},
   );
   // set up the buttons
-  Widget cancelButton = FilledButton(
+  Widget cancelButton = Ovie.FilledButton(
     margin: EdgeInsets.zero,
     text: cancelText,
     foregroundColor: Colors.white,
@@ -30,7 +30,7 @@ showAlertDialog(
     },
   );
 
-  Widget continueButton = FilledButton(
+  Widget continueButton = Ovie.FilledButton(
     margin: EdgeInsets.zero,
     text: continueText,
     foregroundColor: Colors.white,

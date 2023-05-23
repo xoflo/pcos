@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 import 'package:thepcosprotocol_app/models/quiz_question.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:intl/intl.dart';
 
@@ -171,7 +171,7 @@ class _QuizQuestionItemComponentState extends State<QuizQuestionItemComponent> {
               SizedBox(height: 25),
             ] else
               SizedBox(height: 10),
-            FilledButton(
+            Ovie.FilledButton(
               onPressed: answers.length != corrects && corrects != 0
                   ? null
                   : () {

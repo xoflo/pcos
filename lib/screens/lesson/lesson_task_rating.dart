@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 
 class LessonTaskRating extends StatefulWidget {
   const LessonTaskRating({Key? key, required this.onSave}) : super(key: key);
@@ -66,7 +66,7 @@ class _LessonTaskRatingState extends State<LessonTaskRating> {
             ),
           ),
           SizedBox(height: 25),
-          FilledButton(
+          Ovie.FilledButton(
             onPressed: () => widget.onSave(currentValue),
             text: "SAVE",
             margin: EdgeInsets.zero,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 
 class ForgotPasswordSuccess extends StatelessWidget {
   const ForgotPasswordSuccess({Key? key}) : super(key: key);
@@ -52,7 +52,7 @@ class ForgotPasswordSuccess extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 40),
-                FilledButton(
+                Ovie.FilledButton(
                   margin: EdgeInsets.zero,
                   onPressed: () {
                     Navigator.popUntil(context, (route) => route.isFirst);

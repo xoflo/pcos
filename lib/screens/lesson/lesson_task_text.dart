@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+
+import '/widgets/shared/filled_button.dart' as Ovie;
 
 class LessonTaskText extends StatefulWidget {
   const LessonTaskText({Key? key, required this.onSave}) : super(key: key);
@@ -46,7 +47,7 @@ class _LessonTaskTextState extends State<LessonTaskText> {
           ValueListenableBuilder<TextEditingValue>(
               valueListenable: _textController,
               builder: (context, value, child) {
-                return FilledButton(
+                return Ovie.FilledButton(
                   onPressed: value.text.isNotEmpty
                       ? () {
                           FocusManager.instance.primaryFocus?.unfocus();

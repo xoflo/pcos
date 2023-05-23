@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_with_change_notifier.dart';
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
@@ -88,7 +88,7 @@ class _DashboardWhySettingsPageState extends State<DashboardWhySettingsPage> {
                 ),
               ),
               SizedBox(height: 50),
-              FilledButton(
+              Ovie.FilledButton(
                 text: "SAVE",
                 margin: EdgeInsets.symmetric(vertical: 25),
                 foregroundColor: Colors.white,

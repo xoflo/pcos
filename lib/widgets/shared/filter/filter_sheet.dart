@@ -3,7 +3,7 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/widgets/shared/filter/filter_list_sheet.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 
 abstract class FilterSheet extends StatefulWidget {
   const FilterSheet(
@@ -201,7 +201,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 ),
               ),
               SizedBox(height: 25),
-              FilledButton(
+              Ovie.FilledButton(
                 text: "FILTER SEARCH",
                 margin: EdgeInsets.zero,
                 foregroundColor: Colors.white,

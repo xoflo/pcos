@@ -15,7 +15,7 @@ import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_content_page.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_task_component.dart';
 import 'package:thepcosprotocol_app/screens/lesson/lesson_wiki_component.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
@@ -166,7 +166,7 @@ class LessonPage extends StatelessWidget {
               SizedBox(height: 25),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: FilledButton(
+                child: Ovie.FilledButton(
                   text: "OPEN LESSON PAGES",
                   icon: Image(
                     image: AssetImage("assets/lesson_read_more.png"),
@@ -203,7 +203,7 @@ class LessonPage extends StatelessWidget {
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: FilledButton(
+                child: Ovie.FilledButton(
                   text: "Complete Lesson",
                   icon: Icon(Icons.check_circle_outline),
                   margin: EdgeInsets.zero,

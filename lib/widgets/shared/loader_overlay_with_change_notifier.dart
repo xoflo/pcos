@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/providers/loading_status_notifier.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/no_results.dart';
 
 /// A Widget that makes another widget overlayed with a progress indicator on top of it.
@@ -142,7 +142,7 @@ class _LoaderOverlayState extends State<LoaderOverlay> {
         return Container();
       case LoadingStatus.failed:
         if (widget.isDisplayErrorAsAlert) {
-          Widget retryButton = FilledButton(
+          Widget retryButton = Ovie.FilledButton(
             margin: EdgeInsets.zero,
             text: "Retry",
             foregroundColor: Colors.white,

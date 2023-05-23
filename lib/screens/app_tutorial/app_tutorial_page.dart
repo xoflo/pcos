@@ -9,7 +9,7 @@ import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item_widget.dart';
 import 'package:thepcosprotocol_app/widgets/shared/circle_painter.dart';
 import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
 
@@ -107,7 +107,7 @@ class AppTutorialPage extends StatelessWidget with BaseCarouselPage {
     return [
       ValueListenableBuilder<int>(
         valueListenable: activePage,
-        builder: (context, value, child) => FilledButton(
+        builder: (context, value, child) => Ovie.FilledButton(
           margin: const EdgeInsets.only(
             left: 15,
             right: 15,

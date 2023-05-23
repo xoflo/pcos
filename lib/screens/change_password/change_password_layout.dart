@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/widgets/shared/custom_text_field.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/generated/l10n.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -146,7 +146,7 @@ class _ChangePasswordLayoutState extends State<ChangePasswordLayout> {
                                     S.current.changePasswordConfirmMessage,
                                 isObscure: true,
                               ),
-                              FilledButton(
+                              Ovie.FilledButton(
                                 text: "SAVE CHANGES",
                                 margin: EdgeInsets.only(top: 25),
                                 foregroundColor: Colors.white,

@@ -11,7 +11,7 @@ import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
 import '../../../generated/l10n.dart';
 import '../../../models/navigation/workout_details_page_arguments.dart';
 import '../../../providers/workouts_provider.dart';
-import '../../../widgets/shared/filled_button.dart';
+import '../../../widgets/shared/filled_button.dart' as Ovie;
 
 class WorkoutDetailsPage extends StatefulWidget {
   const WorkoutDetailsPage({Key? key, this.args}) : super(key: key);
@@ -179,7 +179,7 @@ class _WorkoutDetailsPageState extends State<WorkoutDetailsPage> {
                                 ),
                               ],
                               SizedBox(height: 25),
-                              FilledButton(
+                              Ovie.FilledButton(
                                 icon: Image(
                                   image: AssetImage('assets/exercises.png'),
                                   height: 20,

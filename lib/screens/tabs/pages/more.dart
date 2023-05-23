@@ -8,7 +8,7 @@ import 'package:thepcosprotocol_app/screens/tabs/more/privacy.dart';
 import 'package:thepcosprotocol_app/screens/tabs/more/terms_and_conditions.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/screens/app_tutorial/app_tutorial_page.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 
 class MorePage extends StatelessWidget {
   const MorePage({Key? key, required this.onLockApp}) : super(key: key);
@@ -77,7 +77,7 @@ class MorePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  FilledButton(
+                  Ovie.FilledButton(
                     text: "Lock app",
                     icon: Icon(Icons.lock_outline, size: 18),
                     margin: EdgeInsets.zero,
@@ -96,7 +96,7 @@ class MorePage extends StatelessWidget {
                   SizedBox(
                     width: 15,
                   ),
-                  FilledButton(
+                  Ovie.FilledButton(
                     text: "Notifications",
                     icon: Icon(
                       Icons.notifications_outlined,

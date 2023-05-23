@@ -5,7 +5,7 @@ import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/pin_set.dart';
 import 'package:thepcosprotocol_app/services/webservices.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
@@ -302,7 +302,7 @@ class _SignInState extends State<SignIn> {
                                   ),
                                 ),
                               ),
-                              FilledButton(
+                              Ovie.FilledButton(
                                 margin: const EdgeInsets.symmetric(
                                   horizontal: 15,
                                   vertical: 12,

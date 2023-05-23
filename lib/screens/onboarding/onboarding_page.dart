@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/widgets/shared/carousel/base_carousel_page.d
 import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item.dart';
 import 'package:thepcosprotocol_app/widgets/shared/carousel/carousel_item_widget.dart';
 import 'package:thepcosprotocol_app/widgets/shared/ellipsis_painter.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/hollow_button.dart';
 import 'package:thepcosprotocol_app/screens/internal_web_view.dart';
 
@@ -58,7 +58,7 @@ class OnboardingPage extends StatelessWidget with BaseCarouselPage {
   List<Widget> getButtons(BuildContext context) => [
         ValueListenableBuilder<int>(
           valueListenable: activePage,
-          builder: (context, value, child) => FilledButton(
+          builder: (context, value, child) => Ovie.FilledButton(
             margin: const EdgeInsets.only(
               left: 15,
               right: 15,

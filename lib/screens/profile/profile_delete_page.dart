@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'dart:io' show Platform;
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_generic.dart';
 
@@ -105,7 +105,7 @@ Deleting your data does NOT delete your subscription. We recommend cancelling yo
                         ),
                       ),
                       Spacer(),
-                      FilledButton(
+                      Ovie.FilledButton(
                         text: "DELETE ACCOUNT",
                         margin:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 15),

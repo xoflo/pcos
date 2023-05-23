@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-import 'filled_button.dart';
+import 'filled_button.dart' as Ovie;
 
 typedef void BoolCallback(bool value);
 
@@ -26,7 +26,7 @@ class _FavoritesToggleButtonState extends State<FavoritesToggleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
+    return Ovie.FilledButton(
       icon: Image(
         image: _isShowFavoritesOnly
             ? AssetImage('assets/heart_white_outline.png')

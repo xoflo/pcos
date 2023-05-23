@@ -6,7 +6,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/widgets/shared/custom_text_field.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import '/widgets/shared/filled_button.dart' as Ovie;
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/services/firebase_analytics.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
@@ -137,7 +137,7 @@ class _ProfilePersonalDetailsLayoutState
         title: "Email",
         isEnabled: false,
       ),
-      FilledButton(
+      Ovie.FilledButton(
         text: "SAVE CHANGES",
         margin: EdgeInsets.symmetric(vertical: 25),
         foregroundColor: Colors.white,

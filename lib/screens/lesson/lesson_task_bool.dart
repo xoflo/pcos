@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart';
+import 'package:thepcosprotocol_app/widgets/shared/filled_button.dart' as Ovie;
 
 class LessonTaskBool extends StatefulWidget {
   const LessonTaskBool({Key? key, required this.onSave}) : super(key: key);
@@ -68,7 +68,7 @@ class _LessonTaskBoolState extends State<LessonTaskBool> {
             ),
           ),
           SizedBox(height: 25),
-          FilledButton(
+          Ovie.FilledButton(
             onPressed: isTrue != null ? () => widget.onSave(isTrue) : null,
             text: "SAVE",
             margin: EdgeInsets.zero,
