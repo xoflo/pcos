@@ -13,7 +13,7 @@ import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_method_tips_comp
 import 'package:thepcosprotocol_app/screens/tabs/recipes/recipe_method_tips_page.dart';
 import 'package:thepcosprotocol_app/widgets/shared/header.dart';
 import 'package:thepcosprotocol_app/widgets/shared/image_component.dart';
-
+import '/utils/string_utils.dart';
 class RecipeDetailsPage extends StatefulWidget {
   const RecipeDetailsPage({Key? key, this.args}) : super(key: key);
 
@@ -60,7 +60,10 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
     }
 
     List<String> tags = args?.recipe.tags?.isNotEmpty == true
-        ? (args?.recipe.tags?.split(",") ?? [])
+        ? args?.recipe.tags
+            ?.split(", ")
+            .map((string) => string.capitalize())
+            .toList() ?? []
         : [];
 
     return Scaffold(

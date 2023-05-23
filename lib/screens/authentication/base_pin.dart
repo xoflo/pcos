@@ -14,6 +14,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pin_pad.dart';
 import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 
 mixin BasePin<T extends StatefulWidget> on State<T> {
   List<bool> progress = [false, false, false, false];
@@ -48,8 +49,12 @@ mixin BasePin<T extends StatefulWidget> on State<T> {
 
   void navigateToNextPage() async {
     await Future.delayed(Duration(seconds: 2), () async {
+      final authenticationController = AuthenticationController();
       if (!await PreferencesController()
-          .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL)) {
+              .getBool(SharedPreferencesKeys.VIEWED_TUTORIAL) &&
+          await authenticationController.getLastLoggedInUserId() !=
+              await authenticationController.getUserId()) {
+        await authenticationController.saveLastLoggedInUserId();
         analytics.logEvent(name: Analytics.ANALYTICS_EVENT_TUTORIAL_BEGIN);
         Navigator.pushNamed(
           context,

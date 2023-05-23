@@ -147,6 +147,16 @@ class AuthenticationController {
     }
   }
 
+  Future<String?> getLastLoggedInUserId() async {
+    try {
+      final String? email = await secureStorage.read(
+          key: SecureStorageKeys.LAST_LOGGED_IN_USER_ID);
+      return email;
+    } catch (ex) {
+      return "";
+    }
+  }
+
   Future<bool> isUserLoggedIn() async {
     try {
       final String? refreshToken =
@@ -159,6 +169,11 @@ class AuthenticationController {
     } catch (ex) {
       return false;
     }
+  }
+
+  Future<void> saveLastLoggedInUserId() async {
+    await secureStorage.write(
+          key: SecureStorageKeys.LAST_LOGGED_IN_USER_ID, value: await getUserId());
   }
 
   Future<bool> _deleteCredentials() async {
