@@ -1,4 +1,6 @@
-class QuizAnswer extends Comparable<QuizAnswer> {
+import '../utils/comparable_utils.dart';
+
+class QuizAnswer with Compare<QuizAnswer> {
   final int quizAnswerID;
   final int quizQuestionID;
   final String answerText;

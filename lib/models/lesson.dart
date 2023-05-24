@@ -1,4 +1,6 @@
-class Lesson extends Comparable<Lesson> {
+import '../utils/comparable_utils.dart';
+
+class Lesson with Compare<Lesson> {
   final int lessonID;
   final int moduleID;
   final String imageUrl;

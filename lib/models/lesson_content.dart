@@ -1,4 +1,6 @@
-class LessonContent extends Comparable<LessonContent> {
+import '../utils/comparable_utils.dart';
+
+class LessonContent with Compare<LessonContent> {
   final int lessonContentID;
   final int? lessonID;
   final String? title;

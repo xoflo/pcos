@@ -1,4 +1,6 @@
-class Module extends Comparable<Module> {
+import '../utils/comparable_utils.dart';
+
+class Module with Compare<Module> {
   final int moduleID;
   final String title;
   final bool isComplete;

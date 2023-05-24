@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-class LessonTask extends Comparable<LessonTask> {
+import '../utils/comparable_utils.dart';
+
+class LessonTask with Compare<LessonTask> {
   final int lessonTaskID;
   final int? lessonID;
   final String? metaName;

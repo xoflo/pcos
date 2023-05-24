@@ -1,6 +1,8 @@
 import 'package:thepcosprotocol_app/models/quiz_answer.dart';
 
-class QuizQuestion extends Comparable<QuizQuestion> {
+import '../utils/comparable_utils.dart';
+
+class QuizQuestion with Compare<QuizQuestion> {
   final int quizQuestionID;
   final int quizID;
   final String questionType;
