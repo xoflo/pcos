@@ -111,7 +111,7 @@ class _AppTabsState extends State<AppTabs>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //backgrounded - app was active (resumed) and is now inactive
-    if (state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused) {
       AuthenticationController()
           .saveBackgroundedTimestamp(DateTime.now().millisecondsSinceEpoch);
     }
