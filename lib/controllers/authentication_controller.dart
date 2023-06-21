@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:thepcosprotocol_app/controllers/one_signal_controller.dart';
-import 'package:thepcosprotocol_app/global_vars.dart';
-import 'package:thepcosprotocol_app/providers/database_provider.dart';
-import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/constants/secure_storage_keys.dart'
     as SecureStorageKeys;
 import 'package:thepcosprotocol_app/constants/shared_preferences_keys.dart'
     as SharedPreferencesKeys;
+import 'package:thepcosprotocol_app/controllers/one_signal_controller.dart';
 import 'package:thepcosprotocol_app/controllers/preferences_controller.dart';
+import 'package:thepcosprotocol_app/global_vars.dart';
+import 'package:thepcosprotocol_app/providers/database_provider.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/utils/local_notifications_helper.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
@@ -189,6 +190,11 @@ class AuthenticationController {
     }
   }
 
+  void _deleteCookies() {
+    final cookieManager = CookieManager();
+    cookieManager.clearCookies();
+  }
+
   Future<bool> savePin(String pin) async {
     try {
       await secureStorage.write(key: SecureStorageKeys.PIN, value: pin);
@@ -337,6 +343,9 @@ class AuthenticationController {
     _deleteCredentials();
     _deletePin();
     _deleteOtherPrefs();
+
+    // Clear all cookies, likely in response to a logout event
+    _deleteCookies();
 
     turnOffDailyReminderNotification(localNotificationsPlugin);
 

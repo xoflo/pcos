@@ -51,12 +51,6 @@ class _InternalWebViewState extends State<InternalWebView> {
           initialUrl: link,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
-            // We need to reset the cookies so that a new session will be
-            // created, just in case a second account may be logged in
-            if (link == FlavorConfig.instance.values.subscriptionUrl) {
-              final cookieManager = CookieManager();
-              cookieManager.clearCookies();
-            }
             _controller.complete(webViewController);
           },
           onProgress: (int progress) {
