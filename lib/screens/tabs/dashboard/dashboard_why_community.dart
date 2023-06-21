@@ -79,29 +79,8 @@ class DashboardWhyCommunity extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () async {
                     final discordUrl = FlavorConfig.instance.values.discordUrl;
-                    final hasViewed = await PreferencesController().getBool(
-                        SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
-                    if (hasViewed) {
                       launchUrl(Uri.parse(discordUrl),
                           mode: LaunchMode.externalApplication);
-                    } else {
-                      PreferencesController().saveBool(
-                          SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL,
-                          true);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => VideoPage(
-                                    videoAsset: 'discord_tutorial.mp4',
-                                    isHorizontal: false,
-                                    isFullScreenByDefault: true,
-                                    videoFinishedCallback: () {
-                                      Navigator.popAndPushNamed(context, AppTabs.id);
-                                      launchUrl(Uri.parse(discordUrl),
-                                          mode: LaunchMode.externalApplication);
-                                    },
-                                  ))));
-                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
