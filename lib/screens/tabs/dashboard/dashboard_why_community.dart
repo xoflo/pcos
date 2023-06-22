@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
+import 'package:thepcosprotocol_app/screens/community/home.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -78,30 +79,17 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () async {
-                    final discordUrl = FlavorConfig.instance.values.discordUrl;
-                    final hasViewed = await PreferencesController().getBool(
-                        SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL);
-                    if (hasViewed) {
-                      launchUrl(Uri.parse(discordUrl),
-                          mode: LaunchMode.externalApplication);
-                    } else {
-                      PreferencesController().saveBool(
-                          SharedPreferencesKeys.HAS_VIEWED_DISCORD_TUTORIAL,
-                          true);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => VideoPage(
-                                    videoAsset: 'discord_tutorial.mp4',
-                                    isHorizontal: false,
-                                    isFullScreenByDefault: true,
-                                    videoFinishedCallback: () {
-                                      Navigator.popAndPushNamed(context, AppTabs.id);
-                                      launchUrl(Uri.parse(discordUrl),
-                                          mode: LaunchMode.externalApplication);
-                                    },
-                                  ))));
-                    }
+                    // final streamUser = await _client.setUser(
+                    //     User(
+                    //       id: user.id,
+                    //       data: user.data,
+                    //     ),
+                    //     Token(user.token),
+                    //   );
+                    // Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: ((context) => HomeScreen(currentUser: streamUser,))));
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
