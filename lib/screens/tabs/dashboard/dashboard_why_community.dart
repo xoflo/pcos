@@ -4,17 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
-import 'package:thepcosprotocol_app/screens/community/home.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '/constants/shared_preferences_keys.dart' as SharedPreferencesKeys;
-import '../../../config/flavors.dart';
-import '../../../controllers/preferences_controller.dart';
-import '../../lesson/video_page.dart';
-import '../app_tabs.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
