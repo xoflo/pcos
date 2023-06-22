@@ -9,11 +9,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/constants/shared_preferences_keys.dart' as SharedPreferencesKeys;
 import '../../../config/flavors.dart';
-import '../../../controllers/preferences_controller.dart';
-import '../../lesson/video_page.dart';
-import '../app_tabs.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
