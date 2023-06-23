@@ -2,11 +2,16 @@ import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+
+import '../../../screens/community/extension.dart';
+import '../../community/app_user.dart';
+import '../../community/home.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
@@ -14,6 +19,7 @@ class DashboardWhyCommunity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final memberProvider = Provider.of<MemberProvider>(context);
+    final _client = context.client;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25),
@@ -71,17 +77,19 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () async {
-                    // final streamUser = await _client.setUser(
-                    //     User(
-                    //       id: user.id,
-                    //       data: user.data,
-                    //     ),
-                    //     Token(user.token),
-                    //   );
-                    // Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: ((context) => HomeScreen(currentUser: streamUser,))));
+                    final streamUser = await _client.setUser(
+                      User(
+                        id: AppUser.sahil().id,
+                        data: AppUser.sahil().data,
+                      ),
+                      Token(AppUser.sahil().token),
+                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => HomeScreen(
+                                  currentUser: streamUser,
+                                ))));
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
