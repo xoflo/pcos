@@ -35,7 +35,7 @@ class _AddActivityDialogState extends State<AddActivityDialog> {
                 Navigator.pop<String>(context, message);
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
+                backgroundColor: Colors.blue,
               ),
               child: const Text(
                 'POST ACTIVITY',
