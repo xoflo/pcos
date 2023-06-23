@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password_success.dart';
+import 'package:thepcosprotocol_app/screens/community/client_provider.dart';
 import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_toolkit_details.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_page.dart';
@@ -149,6 +151,9 @@ class _AppState extends State<App> {
     }
   }
 
+  // TODO: move in main_[environment].dart
+  final StreamFeedClient client = StreamFeedClient('ph7dpwn5vgxj', appId: '1254987');
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -248,6 +253,9 @@ class _AppState extends State<App> {
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],
+        builder: (context, child) => ClientProvider(
+          client: client, 
+          child: child!),
       ),
     );
   }
