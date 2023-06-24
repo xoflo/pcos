@@ -1,10 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:thepcosprotocol_app/config/flavors.dart';
 import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/utils/dialog_utils.dart';
-import 'dart:io';
-import 'dart:async';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class InternalWebView extends StatefulWidget {
@@ -51,12 +51,6 @@ class _InternalWebViewState extends State<InternalWebView> {
           initialUrl: link,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
-            // We need to reset the cookies so that a new session will be
-            // created, just in case a second account may be logged in
-            if (link == FlavorConfig.instance.values.subscriptionUrl) {
-              final cookieManager = CookieManager();
-              cookieManager.clearCookies();
-            }
             _controller.complete(webViewController);
           },
           onProgress: (int progress) {
