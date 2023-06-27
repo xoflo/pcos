@@ -156,7 +156,7 @@ class _AppState extends State<App> {
 
   // TODO: move in main_[environment].dart
   final StreamFeedClient client =
-      StreamFeedClient('ph7dpwn5vgxj', appId: '1254987');
+      StreamFeedClient('h8nbgf9a3vkq', appId: '1254084');
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
@@ -8,6 +9,10 @@ import 'package:thepcosprotocol_app/screens/community/user_selection/select_user
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
+
+import '../../../controllers/authentication_controller.dart';
+import '../../../screens/community/extension.dart';
+import '../../community/home.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
@@ -72,10 +77,20 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => SelectUserPage())));
+                    final String streamIoUserToken =
+                        await AuthenticationController().getStreamIOToken();
+                    if (streamIoUserToken.isNotEmpty) {
+                      Map<String, dynamic> decodedToken =
+                          JwtDecoder.decode(streamIoUserToken);
+                      final streamUser = await _client.setUser(
+                        User(id: decodedToken['user_id']),
+                        Token(streamIoUserToken),
+                      );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => SelectUserPage())));
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
