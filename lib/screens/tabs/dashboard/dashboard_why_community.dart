@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
 import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -9,8 +10,8 @@ import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_setting
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
+import '../../../controllers/authentication_controller.dart';
 import '../../../screens/community/extension.dart';
-import '../../community/app_user.dart';
 import '../../community/home.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
@@ -77,12 +78,13 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () async {
+                    final String streamIoUserToken =
+                        await AuthenticationController().getStreamIOToken();
+                    if(streamIoUserToken.isNotEmpty) {
+                      Map<String, dynamic> decodedToken = JwtDecoder.decode(streamIoUserToken);
                     final streamUser = await _client.setUser(
-                      User(
-                        id: AppUser.sahil().id,
-                        data: AppUser.sahil().data,
-                      ),
-                      Token(AppUser.sahil().token),
+                      User(id: decodedToken['user_id']),
+                      Token(streamIoUserToken),
                     );
                     Navigator.push(
                         context,
@@ -90,6 +92,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                             builder: ((context) => HomeScreen(
                                   currentUser: streamUser,
                                 ))));
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(12.5),
