@@ -12,6 +12,7 @@ import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password_success.dart';
 import 'package:thepcosprotocol_app/screens/community/client_provider.dart';
+import 'package:thepcosprotocol_app/screens/community/user_selection/select_user_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_toolkit_details.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_page.dart';
@@ -67,6 +68,8 @@ import 'package:timezone/timezone.dart' as tz;
 
 import 'providers/workouts_provider.dart';
 import 'screens/tabs/pages/favourites.dart';
+
+import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 class App extends StatefulWidget {
   App({required this.app});
@@ -152,7 +155,8 @@ class _AppState extends State<App> {
   }
 
   // TODO: move in main_[environment].dart
-  final StreamFeedClient client = StreamFeedClient('ph7dpwn5vgxj', appId: '1254987');
+  final StreamFeedClient client =
+      StreamFeedClient('ph7dpwn5vgxj', appId: '1254987');
 
   @override
   Widget build(BuildContext context) {
@@ -253,9 +257,12 @@ class _AppState extends State<App> {
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],
-        builder: (context, child) => ClientProvider(
-          client: client, 
-          child: child!),
+        builder: (context, child) => FeedProvider(
+          bloc: FeedBloc(
+            client: client,
+          ),
+          child: child!,
+        ),
       ),
     );
   }
