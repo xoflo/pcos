@@ -1,15 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 import 'people_screen.dart';
 import 'profile_screen.dart';
 import 'timeline_screen.dart';
 
 //ignore: public_member_api_docs
-class HomeScreen extends StatefulWidget {
+class HomeCommunity extends StatefulWidget {
   //ignore: public_member_api_docs
-  const HomeScreen({
+  const HomeCommunity({
     required this.currentUser,
     Key? key,
   }) : super(key: key);
@@ -18,7 +19,7 @@ class HomeScreen extends StatefulWidget {
   final StreamUser currentUser;
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeCommunityState createState() => _HomeCommunityState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -27,7 +28,7 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeCommunityState extends State<HomeCommunity> {
   int _currentIndex = 0;
 
   @override
@@ -60,17 +61,17 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(
-            backgroundColor: Colors.black,
+            backgroundColor: primaryColor,
             icon: Icon(Icons.timeline),
             label: 'Timeline',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Colors.black,
+            backgroundColor: primaryColor,
             icon: Icon(Icons.account_circle),
             label: 'Profile',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Colors.black,
+            backgroundColor: primaryColor,
             icon: Icon(Icons.supervised_user_circle_sharp),
             label: 'People',
           ),
