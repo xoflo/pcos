@@ -12,7 +12,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 
 import '../../../controllers/authentication_controller.dart';
 import '../../../screens/community/extension.dart';
-import '../../community/home.dart';
+import '../../community/home_community.dart';
 
 class DashboardWhyCommunity extends StatelessWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
@@ -90,7 +90,7 @@ class DashboardWhyCommunity extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => HomeScreen(
+                              builder: ((context) => HomeCommunity(
                                     currentUser: streamUser,
                                   ))));
                     }
