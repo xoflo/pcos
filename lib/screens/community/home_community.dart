@@ -7,15 +7,12 @@ import 'people_screen.dart';
 import 'profile_screen.dart';
 import 'timeline_screen.dart';
 
-//ignore: public_member_api_docs
 class HomeCommunity extends StatefulWidget {
-  //ignore: public_member_api_docs
   const HomeCommunity({
     required this.currentUser,
     Key? key,
   }) : super(key: key);
 
-  //ignore: public_member_api_docs
   final StreamUser currentUser;
 
   @override
@@ -32,7 +29,6 @@ class _HomeCommunityState extends State<HomeCommunity> {
   int _currentIndex = 0;
 
   @override
-  //ignore: prefer_expression_function_bodies
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

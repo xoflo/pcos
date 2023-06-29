@@ -5,16 +5,12 @@ import 'package:stream_feed/stream_feed.dart';
 import 'activity_item.dart';
 import 'add_activity_dialog.dart';
 import 'extension.dart';
-
-//ignore: public_member_api_docs
 class ProfileScreen extends StatefulWidget {
-  //ignore: public_member_api_docs
   const ProfileScreen({
     required this.currentUser,
     Key? key,
   }) : super(key: key);
 
-  //ignore: public_member_api_docs
   final StreamUser currentUser;
 
   @override

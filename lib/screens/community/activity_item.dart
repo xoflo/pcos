@@ -5,15 +5,12 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import 'app_user.dart';
 
-//ignore: public_member_api_docs
 class ActivityCard extends StatelessWidget {
-  //ignore: public_member_api_docs
   const ActivityCard({
     required this.activity,
     Key? key,
   }) : super(key: key);
 
-  //ignore: public_member_api_docs
   final Activity activity;
 
   @override
