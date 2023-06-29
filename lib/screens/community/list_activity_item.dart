@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-import 'demo_user.dart';
 import 'comments_page.dart';
 
 /// UI widget to display an activity/post.
@@ -13,32 +12,33 @@ import 'comments_page.dart';
 class ListActivityItem extends StatelessWidget {
   const ListActivityItem({
     Key? key,
+    required this.user,
     required this.activity,
     required this.feedGroup,
   }) : super(key: key);
 
   final EnrichedActivity activity;
   final String feedGroup;
+  final String user;
 
   @override
   Widget build(BuildContext context) {
-    final actor = activity.actor!;
     final attachments = (activity.extraData)?.toAttachments();
     final reactionCounts = activity.reactionCounts;
     final ownReactions = activity.ownReactions;
     final isLikedByUser = (ownReactions?['like']?.length ?? 0) > 0;
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(actor.profileImage),
+        backgroundImage: NetworkImage(''), //actor.profileImage
       ),
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
-            Text(actor.fullName),
+            Text(user), //actor.fullName
             const SizedBox(width: 8),
             Text(
-              actor.handle,
+              '@' + user,
               style: Theme.of(context).textTheme.caption,
             ),
           ],

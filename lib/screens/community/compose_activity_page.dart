@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 /// A page to compose a new [Activity]/post.
@@ -48,6 +49,7 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primaryColor,
       appBar: AppBar(
         title: const Text('Compose'),
         actions: [

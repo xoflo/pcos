@@ -3,9 +3,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
+import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
-import 'package:thepcosprotocol_app/screens/community/user_selection/select_user_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/dashboard/dashboard_why_settings_page.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
@@ -20,6 +20,7 @@ class DashboardWhyCommunity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final memberProvider = Provider.of<MemberProvider>(context);
+    final _client = context.client;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25),
@@ -89,7 +90,9 @@ class DashboardWhyCommunity extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => SelectUserPage())));
+                              builder: ((context) => HomeScreen(
+                                    currentUser: streamUser,
+                                  ))));
                     }
                   },
                   child: Container(

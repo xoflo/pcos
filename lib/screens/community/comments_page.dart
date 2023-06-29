@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
-import 'demo_user.dart';
 import 'add_comment_box.dart';
 
 /// A page that displays all [Reaction]s/comments for a specific
@@ -58,6 +58,7 @@ class _CommentsPageState extends State<CommentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primaryColor,
       appBar: AppBar(title: const Text('Comments')),
       body: Column(
         children: [
@@ -99,9 +100,6 @@ class _CommentsPageState extends State<CommentsPage> {
                         final user = reaction.user;
 
                         return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(user!.profileImage),
-                          ),
                           title: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(

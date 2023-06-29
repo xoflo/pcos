@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/providers/member_provider.dart';
 
-import 'activity_item.dart';
-import 'add_activity_dialog.dart';
-import 'extension.dart';
+import 'list_activity_item.dart';
+import 'compose_activity_page.dart';
+import 'package:provider/provider.dart';
 
 //ignore: public_member_api_docs
 class ProfileScreen extends StatefulWidget {
@@ -31,6 +33,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late StreamFeedClient _client;
   bool _isLoading = true;
 
+  final EnrichmentFlags _flags = EnrichmentFlags()
+    ..withReactionCounts()
+    ..withOwnReactions();
+
+  bool _isPaginating = false;
+
+  static const _feedGroup = 'user';
+
+  Future<void> _loadMore() async {
+    // Ensure we're not already loading more activities.
+    if (!_isPaginating) {
+      _isPaginating = true;
+      context.feedBloc
+          .loadMoreEnrichedActivities(feedGroup: _feedGroup, flags: _flags)
+          .whenComplete(() {
+        _isPaginating = false;
+      });
+    }
+  }
+
   List<Activity> activities = <Activity>[];
 
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
@@ -45,56 +67,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _client = context.client;
+    _client = context.feedClient;
     _loadActivities();
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = widget.currentUser;
+    final memberProvider = Provider.of<MemberProvider>(context);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final message = await showDialog<String>(
-            context: context,
-            builder: (_) => const AddActivityDialog(),
-          );
-          if (message != null) {
-            context.showSnackBar('Posting Activity...');
-
-            final activity = Activity(
-              actor: user.ref,
-              verb: 'tweet',
-              object: '1',
-              extraData: {'tweet': message},
-            );
-
-            final userFeed = _client.flatFeed('timeline', user.id);
-            await userFeed.addActivity(activity);
-
-            context.showSnackBar('Activity Posted...');
-            _loadActivities();
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: Center(
-        child: RefreshIndicator(
-          onRefresh: () => _loadActivities(pullToRefresh: true),
-          child: _isLoading
-              ? const CircularProgressIndicator()
-              : activities.isEmpty
-                  ? const Text('No activities yet!')
-                  : ListView.separated(
-                      itemCount: activities.length,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      separatorBuilder: (_, __) => const Divider(),
-                      itemBuilder: (_, index) {
-                        final activity = activities[index];
-                        return ActivityCard(activity: activity);
-                      },
-                    ),
+      backgroundColor: primaryColor,
+      body: FlatFeedCore(
+        feedGroup: _feedGroup,
+        userId: _client.currentUser!.id,
+        loadingBuilder: (context) => const Center(
+          child: CircularProgressIndicator(),
         ),
+        emptyBuilder: (context) => const Center(child: Text('No activities')),
+        errorBuilder: (context, error) => Center(
+          child: Text(error.toString()),
+        ),
+        limit: 10,
+        flags: _flags,
+        feedBuilder: (
+          BuildContext context,
+          activities,
+        ) {
+          return RefreshIndicator(
+            onRefresh: () {
+              return context.feedBloc.refreshPaginatedEnrichedActivities(
+                feedGroup: _feedGroup,
+                flags: _flags,
+              );
+            },
+            child: ListView.separated(
+              itemCount: activities.length,
+              separatorBuilder: (context, index) => const Divider(),
+              itemBuilder: (context, index) {
+                bool shouldLoadMore = activities.length - 3 == index;
+                if (shouldLoadMore) {
+                  _loadMore();
+                }
+                return ListActivityItem(
+                  user: memberProvider.firstName,
+                  activity: activities[index],
+                  feedGroup: _feedGroup,
+                );
+              },
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: backgroundColor,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+                builder: (context) => const ComposeActivityPage()),
+          );
+        },
+        tooltip: 'Add Activity',
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -105,4 +138,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     properties.add(IterableProperty<Activity>('activities', activities));
   }
 }
-//Shared an update Just now

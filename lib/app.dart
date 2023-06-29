@@ -12,7 +12,6 @@ import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password_success.dart';
 import 'package:thepcosprotocol_app/screens/community/client_provider.dart';
-import 'package:thepcosprotocol_app/screens/community/user_selection/select_user_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/favourites/favourites_toolkit_details.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/library/library_module_wiki_page.dart';
@@ -257,12 +256,11 @@ class _AppState extends State<App> {
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],
-        builder: (context, child) => FeedProvider(
-          bloc: FeedBloc(
-            client: client,
-          ),
-          child: child!,
-        ),
+        builder: (context, child) {
+          child = FeedProvider(bloc: FeedBloc(client: client), child: child!);
+          child = ClientProvider(client: client, child: child);
+          return child;
+        },
       ),
     );
   }
