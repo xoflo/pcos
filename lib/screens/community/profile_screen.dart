@@ -31,7 +31,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late StreamFeedClient _client;
-  bool _isLoading = true;
+  bool isLoading = true;
 
   final EnrichmentFlags _flags = EnrichmentFlags()
     ..withReactionCounts()
@@ -56,11 +56,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<Activity> activities = <Activity>[];
 
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
-    if (!pullToRefresh) setState(() => _isLoading = true);
+    if (!pullToRefresh) setState(() => isLoading = true);
 
     final userFeed = _client.flatFeed('user', widget.currentUser.id);
     final data = await userFeed.getActivities();
-    if (!pullToRefresh) _isLoading = false;
+    if (!pullToRefresh) isLoading = false;
     setState(() => activities = data);
   }
 

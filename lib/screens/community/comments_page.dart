@@ -97,7 +97,6 @@ class _CommentsPageState extends State<CommentsPage> {
                         final reaction = reactions[index];
                         final isLikedByUser =
                             (reaction.ownChildren?['like']?.length ?? 0) > 0;
-                        final user = reaction.user;
 
                         return ListTile(
                           title: Padding(

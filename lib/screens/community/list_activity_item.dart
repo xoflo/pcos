@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 
 import 'comments_page.dart';
 
