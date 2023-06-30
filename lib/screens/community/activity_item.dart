@@ -1,25 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
+import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'app_user.dart';
 
-//ignore: public_member_api_docs
 class ActivityCard extends StatelessWidget {
-  //ignore: public_member_api_docs
   const ActivityCard({
     required this.activity,
     Key? key,
   }) : super(key: key);
 
-  //ignore: public_member_api_docs
   final Activity activity;
 
   @override
   Widget build(BuildContext context) {
     final user = appUsers
-        .firstWhere((it) => createUserReference(it.id) == activity.actor);
+        .firstWhereOrNull((it) => createUserReference(it.id) == activity.actor);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
@@ -28,7 +26,7 @@ class ActivityCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                child: Text(user.name[0]),
+                child: Text(user != null ? user?.name[0] : ''),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -36,7 +34,7 @@ class ActivityCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user.name,
+                      user != null ? user?.name : '',
                       style: const TextStyle(
                         fontSize: 18,
                       ),

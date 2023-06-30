@@ -8,15 +8,12 @@ import 'list_activity_item.dart';
 import 'compose_activity_page.dart';
 import 'package:provider/provider.dart';
 
-//ignore: public_member_api_docs
 class ProfileScreen extends StatefulWidget {
-  //ignore: public_member_api_docs
   const ProfileScreen({
     required this.currentUser,
     Key? key,
   }) : super(key: key);
 
-  //ignore: public_member_api_docs
   final StreamUser currentUser;
 
   @override

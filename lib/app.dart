@@ -152,9 +152,9 @@ class _AppState extends State<App> {
     }
   }
 
-  // TODO: move in main_[environment].dart
-  final StreamFeedClient client =
-      StreamFeedClient('h8nbgf9a3vkq', appId: '1254084');
+  final StreamFeedClient client = StreamFeedClient(
+      FlavorConfig.instance.values.getStreamIoApiKey,
+      appId: FlavorConfig.instance.values.getStreamIoAppId);
 
   @override
   Widget build(BuildContext context) {

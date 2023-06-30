@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:provider/provider.dart';
 import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -81,10 +81,9 @@ class DashboardWhyCommunity extends StatelessWidget {
                     final String streamIoUserToken =
                         await AuthenticationController().getStreamIOToken();
                     if (streamIoUserToken.isNotEmpty) {
-                      Map<String, dynamic> decodedToken =
-                          JwtDecoder.decode(streamIoUserToken);
+                      JWT decodedToken = JWT.decode(streamIoUserToken);
                       final streamUser = await _client.setUser(
-                        User(id: decodedToken['user_id']),
+                        User(id: decodedToken.payload['user_id']),
                         Token(streamIoUserToken),
                       );
                       Navigator.push(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-//ignore: public_member_api_docs
 class AddActivityDialog extends StatefulWidget {
-  //ignore: public_member_api_docs
   const AddActivityDialog({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +11,6 @@ class _AddActivityDialogState extends State<AddActivityDialog> {
   final _activityController = TextEditingController();
 
   @override
-  //ignore: prefer_expression_function_bodies
   Widget build(BuildContext context) {
     return Dialog(
       child: Padding(
