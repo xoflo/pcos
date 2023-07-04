@@ -80,18 +80,18 @@ class DashboardWhyCommunity extends StatelessWidget {
                   onTap: () async {
                     final String streamIoUserToken =
                         await AuthenticationController().getStreamIOToken();
-                    if(streamIoUserToken.isNotEmpty) {
+                    if (streamIoUserToken.isNotEmpty) {
                       JWT decodedToken = JWT.decode(streamIoUserToken);
-                    final streamUser = await _client.setUser(
-                      User(id: decodedToken.payload['user_id']),
-                      Token(streamIoUserToken),
-                    );
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => HomeCommunity(
-                                  currentUser: streamUser,
-                                ))));
+                      final streamUser = await _client.setUser(
+                        User(id: decodedToken.payload['user_id']),
+                        Token(streamIoUserToken),
+                      );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => HomeCommunity(
+                                    currentUser: streamUser,
+                                  ))));
                     }
                   },
                   child: Container(

@@ -59,6 +59,8 @@ dependencies:
   dart_jsonwebtoken: ^2.6.3
   html_unescape: ^2.0.0
   stream_feed: ^0.6.0+2
+  stream_feed_flutter_core: ^0.8.0
+  image_picker: ^0.8.4+4
   timeago: ^3.0.2
 
 dependency_overrides:

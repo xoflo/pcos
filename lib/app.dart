@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password.dart';
 import 'package:thepcosprotocol_app/screens/authentication/forgot_password_success.dart';
 import 'package:thepcosprotocol_app/screens/community/client_provider.dart';
@@ -67,6 +66,8 @@ import 'package:timezone/timezone.dart' as tz;
 
 import 'providers/workouts_provider.dart';
 import 'screens/tabs/pages/favourites.dart';
+
+import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 class App extends StatefulWidget {
   App({required this.app});
@@ -152,8 +153,8 @@ class _AppState extends State<App> {
   }
 
   final StreamFeedClient client = StreamFeedClient(
-    FlavorConfig.instance.values.getStreamIoApiKey, 
-    appId: FlavorConfig.instance.values.getStreamIoAppId);
+      FlavorConfig.instance.values.getStreamIoApiKey,
+      appId: FlavorConfig.instance.values.getStreamIoAppId);
 
   @override
   Widget build(BuildContext context) {
@@ -254,9 +255,11 @@ class _AppState extends State<App> {
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],
-        builder: (context, child) => ClientProvider(
-          client: client, 
-          child: child!),
+        builder: (context, child) {
+          child = FeedProvider(bloc: FeedBloc(client: client), child: child!);
+          child = ClientProvider(client: client, child: child);
+          return child;
+        },
       ),
     );
   }
