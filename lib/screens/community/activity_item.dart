@@ -16,8 +16,7 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = appUsers
-        .firstWhereOrNull((it) => createUserReference(it.id) == activity.actor);
+    final user = activity.actor;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
@@ -26,7 +25,7 @@ class ActivityCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                child: Text(user != null ? user?.name[0] : ''),
+                child: Text(user ?? 'Unknown user'),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -34,7 +33,7 @@ class ActivityCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user != null ? user?.name : '',
+                      user ?? 'Unknown user',
                       style: const TextStyle(
                         fontSize: 18,
                       ),
@@ -55,7 +54,7 @@ class ActivityCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            activity.extraData!['tweet'].toString(),
+            activity.object.toString(),
             style: const TextStyle(
               fontSize: 24,
             ),
