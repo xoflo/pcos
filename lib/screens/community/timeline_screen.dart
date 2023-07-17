@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
 
+import '../../styles/colors.dart';
 import 'activity_item.dart';
 import 'extension.dart';
 
@@ -64,6 +65,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primaryColor,
       body: RefreshIndicator(
         onRefresh: () => _loadActivities(pullToRefresh: true),
         child: _isLoading
