@@ -1,10 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
-import 'package:thepcosprotocol_app/providers/provider_helper.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
-import 'app_user.dart';
 
 class ActivityCard extends StatelessWidget {
   const ActivityCard({
