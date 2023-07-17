@@ -36,6 +36,7 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
         feedGroup: 'user',
         verb: 'post',
         object: _textEditingController.text,
+        to: [FeedId.id('public:all')],
         data: media,
       );
       uploadController.clear();

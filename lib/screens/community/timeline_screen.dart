@@ -28,19 +28,22 @@ class _TimelineScreenState extends State<TimelineScreen> {
   bool _isLoading = true;
   List<Activity> activities = <Activity>[];
 
-  late final Subscription _feedSubscription;
+  Subscription? _feedSubscription;
 
   Future<void> _listenToFeed() async {
-    _feedSubscription = await _client
-        .flatFeed('timeline', widget.currentUser.id)
-        .subscribe(print);
+      if (_feedSubscription == null) {
+        _feedSubscription = await _client
+            .flatFeed('public', 'all')
+            .subscribe(print);
+      }
   }
 
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
     if (!pullToRefresh) setState(() => _isLoading = true);
-    final userFeed = _client.flatFeed('timeline', widget.currentUser.id);
-    final data = await userFeed.getActivities();
+    final userFeed = _client.flatFeed('public', 'all');
+    final data = await userFeed.getActivities(limit: 20);
     if (!pullToRefresh) _isLoading = false;
+
     setState(() => activities = data);
   }
 
@@ -55,7 +58,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   void dispose() {
     super.dispose();
-    _feedSubscription.cancel();
+    _feedSubscription?.cancel();
   }
 
   @override

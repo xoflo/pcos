@@ -32,7 +32,7 @@ class _AddCommentBoxState extends State<AddCommentBox> {
       context.feedBloc.onAddReaction(
         kind: 'comment',
         activity: widget.activity,
-        feedGroup: 'timeline',
+        feedGroup: 'public',
         data: {'text': value},
       );
     }
