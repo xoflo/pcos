@@ -28,7 +28,6 @@ class TimelineScreen extends StatefulWidget {
 class _TimelineScreenState extends State<TimelineScreen> {
   late StreamFeedClient _client;
   bool isLoading = true;
-  Subscription? _feedSubscription;
 
   final EnrichmentFlags _flags = EnrichmentFlags()
     ..withReactionCounts()
@@ -37,14 +36,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
   bool _isPaginating = false;
 
   static const _feedGroup = 'public';
-
-  Future<void> _listenToFeed() async {
-      if (_feedSubscription == null) {
-        _feedSubscription = await _client
-            .flatFeed('public', 'all')
-            .subscribe(print);
-      }
-  }
 
   Future<void> _loadMore() async {
     // Ensure we're not already loading more activities.
@@ -73,7 +64,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _client = context.feedClient;
-    // _listenToFeed();
     _loadActivities();
   }
 
