@@ -42,7 +42,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
     if (!_isPaginating) {
       _isPaginating = true;
       context.feedBloc
-          .loadMoreEnrichedActivities(feedGroup: _feedGroup, userId: 'all', flags: _flags)
+          .loadMoreEnrichedActivities(
+              feedGroup: _feedGroup, userId: 'all', flags: _flags)
           .whenComplete(() {
         _isPaginating = false;
       });
@@ -52,11 +53,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
   List<Activity> activities = <Activity>[];
 
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
-    if (!pullToRefresh) setState(() => isLoading = true);
+    if (!pullToRefresh) {
+      setState(() => isLoading = true);
+    }
 
     final userFeed = _client.flatFeed('public', 'all');
     final data = await userFeed.getActivities();
-    if (!pullToRefresh) isLoading = false;
+    if (!pullToRefresh) {
+      isLoading = false;
+    }
     setState(() => activities = data);
   }
 
@@ -71,50 +76,49 @@ class _TimelineScreenState extends State<TimelineScreen> {
   Widget build(BuildContext context) {
     final memberProvider = Provider.of<MemberProvider>(context);
     return Scaffold(
-      backgroundColor: primaryColor,
-      body: FlatFeedCore(
-        feedGroup: _feedGroup,
-        userId: 'all',
-        loadingBuilder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        emptyBuilder: (context) => const Center(child: Text('No activities')),
-        errorBuilder: (context, error) => Center(
-          child: Text(error.toString()),
-        ),
-        limit: 10,
-        flags: _flags,
-        feedBuilder: (
-          BuildContext context,
-          activities,
-        ) {
-          return RefreshIndicator(
-            onRefresh: () {
-              return context.feedBloc.refreshPaginatedEnrichedActivities(
-                feedGroup: _feedGroup,
-                userId: 'all',
-                flags: _flags,
-              );
-            },
-            child: ListView.separated(
-              itemCount: activities.length,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                bool shouldLoadMore = activities.length - 3 == index;
-                if (shouldLoadMore) {
-                  _loadMore();
-                }
-                return ListActivityItem(
-                  user: memberProvider.firstName,
-                  activity: activities[index],
+        backgroundColor: primaryColor,
+        body: FlatFeedCore(
+          feedGroup: _feedGroup,
+          userId: 'all',
+          loadingBuilder: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          emptyBuilder: (context) => const Center(child: Text('No activities')),
+          errorBuilder: (context, error) => Center(
+            child: Text(error.toString()),
+          ),
+          limit: 10,
+          flags: _flags,
+          feedBuilder: (
+            BuildContext context,
+            activities,
+          ) {
+            return RefreshIndicator(
+              onRefresh: () {
+                return context.feedBloc.refreshPaginatedEnrichedActivities(
                   feedGroup: _feedGroup,
+                  userId: 'all',
+                  flags: _flags,
                 );
               },
-            ),
-          );
-        },
-      )
-    );
+              child: ListView.separated(
+                itemCount: activities.length,
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  bool shouldLoadMore = activities.length - 3 == index;
+                  if (shouldLoadMore) {
+                    _loadMore();
+                  }
+                  return ListActivityItem(
+                    user: memberProvider.firstName,
+                    activity: activities[index],
+                    feedGroup: _feedGroup,
+                  );
+                },
+              ),
+            );
+          },
+        ));
   }
 
   @override
