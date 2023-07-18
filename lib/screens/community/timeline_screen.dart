@@ -36,6 +36,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   bool _isPaginating = false;
 
   static const _feedGroup = 'public';
+  static const _userId = 'all';
 
   Future<void> _loadMore() async {
     // Ensure we're not already loading more activities.
@@ -43,7 +44,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
       _isPaginating = true;
       context.feedBloc
           .loadMoreEnrichedActivities(
-              feedGroup: _feedGroup, userId: 'all', flags: _flags)
+              feedGroup: _feedGroup, userId: _userId, flags: _flags)
           .whenComplete(() {
         _isPaginating = false;
       });
@@ -57,7 +58,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
       setState(() => isLoading = true);
     }
 
-    final userFeed = _client.flatFeed('public', 'all');
+    final userFeed = _client.flatFeed(_feedGroup, _userId);
     final data = await userFeed.getActivities();
     if (!pullToRefresh) {
       isLoading = false;
@@ -79,7 +80,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
         backgroundColor: primaryColor,
         body: FlatFeedCore(
           feedGroup: _feedGroup,
-          userId: 'all',
+          userId: _userId,
           loadingBuilder: (context) => const Center(
             child: CircularProgressIndicator(),
           ),
@@ -97,7 +98,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
               onRefresh: () {
                 return context.feedBloc.refreshPaginatedEnrichedActivities(
                   feedGroup: _feedGroup,
-                  userId: 'all',
+                  userId: _userId,
                   flags: _flags,
                 );
               },
