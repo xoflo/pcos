@@ -92,7 +92,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
         errorBuilder: (context, error) => Center(
           child: Text(error.toString()),
         ),
-        limit: 3,
+        limit: 10,
         flags: _flags,
         feedBuilder: (
           BuildContext context,
