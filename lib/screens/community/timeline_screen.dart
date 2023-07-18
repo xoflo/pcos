@@ -106,7 +106,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 itemCount: activities.length,
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
-                  bool shouldLoadMore = activities.length - 3 == index;
+                  final shouldLoadMoreThreshold = 3;
+                  bool shouldLoadMore = activities.length - shouldLoadMoreThreshold == index;
                   if (shouldLoadMore) {
                     _loadMore();
                   }
