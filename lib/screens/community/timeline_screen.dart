@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:thepcosprotocol_app/providers/member_provider.dart';
 
-import '../../styles/colors.dart';
-import 'activity_item.dart';
-import 'extension.dart';
+import 'list_activity_item.dart';
+import 'package:provider/provider.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({
@@ -26,10 +27,16 @@ class TimelineScreen extends StatefulWidget {
 
 class _TimelineScreenState extends State<TimelineScreen> {
   late StreamFeedClient _client;
-  bool _isLoading = true;
-  List<Activity> activities = <Activity>[];
-
+  bool isLoading = true;
   Subscription? _feedSubscription;
+
+  final EnrichmentFlags _flags = EnrichmentFlags()
+    ..withReactionCounts()
+    ..withOwnReactions();
+
+  bool _isPaginating = false;
+
+  static const _feedGroup = 'public';
 
   Future<void> _listenToFeed() async {
       if (_feedSubscription == null) {
@@ -39,57 +46,84 @@ class _TimelineScreenState extends State<TimelineScreen> {
       }
   }
 
-  Future<void> _loadActivities({bool pullToRefresh = false}) async {
-    if (!pullToRefresh) setState(() => _isLoading = true);
-    final userFeed = _client.flatFeed('public', 'all');
-    final data = await userFeed.getActivities(limit: 20);
-    if (!pullToRefresh) _isLoading = false;
+  Future<void> _loadMore() async {
+    // Ensure we're not already loading more activities.
+    if (!_isPaginating) {
+      _isPaginating = true;
+      context.feedBloc
+          .loadMoreEnrichedActivities(feedGroup: _feedGroup, userId: 'all', flags: _flags)
+          .whenComplete(() {
+        _isPaginating = false;
+      });
+    }
+  }
 
+  List<Activity> activities = <Activity>[];
+
+  Future<void> _loadActivities({bool pullToRefresh = false}) async {
+    if (!pullToRefresh) setState(() => isLoading = true);
+
+    final userFeed = _client.flatFeed('public', 'all');
+    final data = await userFeed.getActivities();
+    if (!pullToRefresh) isLoading = false;
     setState(() => activities = data);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _client = context.client;
-    _listenToFeed();
+    _client = context.feedClient;
+    // _listenToFeed();
     _loadActivities();
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _feedSubscription?.cancel();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final memberProvider = Provider.of<MemberProvider>(context);
     return Scaffold(
       backgroundColor: primaryColor,
-      body: RefreshIndicator(
-        onRefresh: () => _loadActivities(pullToRefresh: true),
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : activities.isEmpty
-                ? Column(
-                    children: [
-                      const Text('No activities yet!'),
-                      ElevatedButton(
-                        onPressed: _loadActivities,
-                        child: const Text('Reload'),
-                      )
-                    ],
-                  )
-                : ListView.separated(
-                    itemCount: activities.length,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    separatorBuilder: (_, __) => const Divider(),
-                    itemBuilder: (_, index) {
-                      final activity = activities[index];
-                      return ActivityCard(activity: activity);
-                    },
-                  ),
-      ),
+      body: FlatFeedCore(
+        feedGroup: _feedGroup,
+        userId: 'all',
+        loadingBuilder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        emptyBuilder: (context) => const Center(child: Text('No activities')),
+        errorBuilder: (context, error) => Center(
+          child: Text(error.toString()),
+        ),
+        limit: 3,
+        flags: _flags,
+        feedBuilder: (
+          BuildContext context,
+          activities,
+        ) {
+          return RefreshIndicator(
+            onRefresh: () {
+              return context.feedBloc.refreshPaginatedEnrichedActivities(
+                feedGroup: _feedGroup,
+                userId: 'all',
+                flags: _flags,
+              );
+            },
+            child: ListView.separated(
+              itemCount: activities.length,
+              separatorBuilder: (context, index) => const Divider(),
+              itemBuilder: (context, index) {
+                bool shouldLoadMore = activities.length - 3 == index;
+                if (shouldLoadMore) {
+                  _loadMore();
+                }
+                return ListActivityItem(
+                  user: memberProvider.firstName,
+                  activity: activities[index],
+                  feedGroup: _feedGroup,
+                );
+              },
+            ),
+          );
+        },
+      )
     );
   }
 
