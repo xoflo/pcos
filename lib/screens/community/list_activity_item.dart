@@ -31,7 +31,6 @@ class ListActivityItem extends StatelessWidget {
     final reactionCounts = activity.reactionCounts;
     final ownReactions = activity.ownReactions;
     final isLikedByUser = (ownReactions?['like']?.length ?? 0) > 0;
-    bool temporaryLike = false;
     return Container(
       child: Column(
         children: [
@@ -101,7 +100,6 @@ class ListActivityItem extends StatelessWidget {
                     iconSize: 30,
                     onPressed: () {
                       if (isLikedByUser) {
-                        temporaryLike = true;
                         context.feedBloc.onRemoveReaction(
                           kind: 'like',
                           activity: activity,
@@ -109,7 +107,6 @@ class ListActivityItem extends StatelessWidget {
                           feedGroup: feedGroup,
                         );
                       } else {
-                        temporaryLike = false;
                         context.feedBloc.onAddReaction(
                             kind: 'like',
                             activity: activity,
