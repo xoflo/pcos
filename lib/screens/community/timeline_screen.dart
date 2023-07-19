@@ -4,6 +4,7 @@ import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 import 'list_activity_item.dart';
+import 'compose_activity_page.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({
@@ -58,9 +59,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
 
     final userFeed = _client.flatFeed(_feedGroup, _userId);
     final data = await userFeed.getActivities();
-    if (!pullToRefresh) {
-      
-    }
+    if (!pullToRefresh) {}
     setState(() {
       activities = data;
       isLoading = false;
@@ -77,52 +76,65 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: primaryColor,
-        body: FlatFeedCore(
-          feedGroup: _feedGroup,
-          userId: _userId,
-          loadingBuilder: (context) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          emptyBuilder: (context) => const Center(child: Text('No activities')),
-          errorBuilder: (context, error) => Center(
-            child: Text(error.toString()),
-          ),
-          limit: 10,
-          flags: _flags,
-          feedBuilder: (
-            BuildContext context,
-            activities,
-          ) {
-            return RefreshIndicator(
-              onRefresh: () {
-                return context.feedBloc.refreshPaginatedEnrichedActivities(
+      backgroundColor: primaryColor,
+      body: FlatFeedCore(
+        feedGroup: _feedGroup,
+        userId: _userId,
+        loadingBuilder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        emptyBuilder: (context) => const Center(child: Text('No activities')),
+        errorBuilder: (context, error) => Center(
+          child: Text(error.toString()),
+        ),
+        limit: 10,
+        flags: _flags,
+        feedBuilder: (
+          BuildContext context,
+          activities,
+        ) {
+          return RefreshIndicator(
+            onRefresh: () {
+              return context.feedBloc.refreshPaginatedEnrichedActivities(
+                feedGroup: _feedGroup,
+                userId: _userId,
+                flags: _flags,
+              );
+            },
+            child: ListView.separated(
+              itemCount: activities.length,
+              separatorBuilder: (context, index) => const Divider(),
+              itemBuilder: (context, index) {
+                final shouldLoadMoreThreshold = 3;
+                bool shouldLoadMore =
+                    activities.length - shouldLoadMoreThreshold == index;
+                if (shouldLoadMore) {
+                  _loadMore();
+                }
+                final actor = activities[index].actor;
+                return ListActivityItem(
+                  user: actor?.data?['user_name'].toString() ?? '',
+                  activity: activities[index],
                   feedGroup: _feedGroup,
-                  userId: _userId,
-                  flags: _flags,
                 );
               },
-              child: ListView.separated(
-                itemCount: activities.length,
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  final shouldLoadMoreThreshold = 3;
-                  bool shouldLoadMore =
-                      activities.length - shouldLoadMoreThreshold == index;
-                  if (shouldLoadMore) {
-                    _loadMore();
-                  }
-                  final actor = activities[index].actor;
-                  return ListActivityItem(
-                    user: actor?.data?['user_name'].toString() ?? '',
-                    activity: activities[index],
-                    feedGroup: _feedGroup,
-                  );
-                },
-              ),
-            );
-          },
-        ));
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: backgroundColor,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+                builder: (context) => const ComposeActivityPage()),
+          );
+        },
+        tooltip: 'Add Activity',
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   @override
