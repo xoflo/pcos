@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/providers/member_provider.dart';
@@ -106,11 +105,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _loadMore();
                 }
                 return ListActivityItem(
-                  user: memberProvider.firstName,
-                  activity: activities[index],
-                  feedGroup: _feedGroup,
-                  isLandscapeImage: getData(activities[index]),
-                );
+                    user: memberProvider.alias,
+                    activity: activities[index],
+                    feedGroup: _feedGroup);
               },
             ),
           );
@@ -135,32 +132,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(IterableProperty<Activity>('activities', activities));
-  }
-
-  bool getData(EnrichedActivity activity) {
-    final attachments = (activity.extraData)?.toAttachments();
-
-    if (attachments != null) {
-      _getImageSize(activity).then((isLandscape) => {isLandscape});
-    }
-
-    return false;
-  }
-
-  Future<bool> _getImageSize(EnrichedActivity activity) async {
-    final attachments = (activity.extraData)?.toAttachments();
-
-    if (attachments != null) {
-      final ByteData data =
-          await NetworkAssetBundle(Uri.parse(attachments[0].url))
-              .load(attachments[0].url);
-      final Uint8List bytes = data.buffer.asUint8List();
-
-      final decodedImage = await decodeImageFromList(bytes);
-
-      return decodedImage.width > decodedImage.height;
-    } else {
-      return false;
-    }
   }
 }
