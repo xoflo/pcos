@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -78,14 +80,25 @@ class DashboardWhyCommunity extends StatelessWidget {
                 color: backgroundColor,
                 child: GestureDetector(
                   onTap: () async {
+                    final authenticationController =
+                        new AuthenticationController();
                     final String streamIoUserToken =
-                        await AuthenticationController().getStreamIOToken();
+                        await authenticationController.getStreamIOToken();
                     if (streamIoUserToken.isNotEmpty) {
                       JWT decodedToken = JWT.decode(streamIoUserToken);
+                      final userName =
+                          await authenticationController.getUsername();
+                      final userData = new HashMap<String, Object?>();
+                      userData['user_name'] = userName ?? '';
+
                       final streamUser = await _client.setUser(
                         User(id: decodedToken.payload['user_id']),
                         Token(streamIoUserToken),
                       );
+
+                      await _client.updateUser(
+                          decodedToken.payload['user_id'], userData);
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(

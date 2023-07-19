@@ -2,10 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
-import 'package:thepcosprotocol_app/providers/member_provider.dart';
 
 import 'list_activity_item.dart';
-import 'package:provider/provider.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({
@@ -75,7 +73,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final memberProvider = Provider.of<MemberProvider>(context);
     return Scaffold(
         backgroundColor: primaryColor,
         body: FlatFeedCore(
@@ -107,12 +104,14 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   final shouldLoadMoreThreshold = 3;
-                  bool shouldLoadMore = activities.length - shouldLoadMoreThreshold == index;
+                  bool shouldLoadMore =
+                      activities.length - shouldLoadMoreThreshold == index;
                   if (shouldLoadMore) {
                     _loadMore();
                   }
+                  final actor = activities[index].actor;
                   return ListActivityItem(
-                    user: memberProvider.firstName,
+                    user: actor?.data?['user_name'].toString() ?? '',
                     activity: activities[index],
                     feedGroup: _feedGroup,
                   );
