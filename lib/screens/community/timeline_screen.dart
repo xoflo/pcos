@@ -59,9 +59,12 @@ class _TimelineScreenState extends State<TimelineScreen> {
     final userFeed = _client.flatFeed(_feedGroup, _userId);
     final data = await userFeed.getActivities();
     if (!pullToRefresh) {
-      isLoading = false;
+      
     }
-    setState(() => activities = data);
+    setState(() {
+      activities = data;
+      isLoading = false;
+    });
   }
 
   @override
