@@ -43,16 +43,14 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
         await authenticationController.getStreamIOToken();
     if (streamIoUserToken.isNotEmpty) {
       JWT decodedToken = JWT.decode(streamIoUserToken);
+
       final userName = await authenticationController.getUsername();
-      final userData = new HashMap<String, Object?>();
-      userData['user_name'] = userName ?? '';
+      final userData = {'user_name': userName ?? ''};
 
       _streamUser = await _client.setUser(
-        User(id: decodedToken.payload['user_id']),
+        User(id: decodedToken.payload['user_id'], data: userData),
         Token(streamIoUserToken),
       );
-
-      await _client.updateUser(decodedToken.payload['user_id'], userData);
     }
   }
 
