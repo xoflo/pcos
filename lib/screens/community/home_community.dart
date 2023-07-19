@@ -49,7 +49,8 @@ class _HomeCommunityState extends State<HomeCommunity> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
+        backgroundColor: primaryColor,
+        selectedItemColor: backgroundColor,
         elevation: 16,
         type: BottomNavigationBarType.fixed,
         iconSize: 22,
@@ -58,17 +59,26 @@ class _HomeCommunityState extends State<HomeCommunity> {
         items: const [
           BottomNavigationBarItem(
             backgroundColor: primaryColor,
-            icon: Icon(Icons.timeline),
+            icon: Icon(
+              Icons.timeline,
+              color: Colors.grey,
+            ),
+            activeIcon: Icon(Icons.timeline, color: backgroundColor),
             label: 'Timeline',
           ),
           BottomNavigationBarItem(
             backgroundColor: primaryColor,
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle, color: Colors.grey),
+            activeIcon: Icon(Icons.account_circle, color: backgroundColor),
             label: 'Profile',
           ),
           BottomNavigationBarItem(
             backgroundColor: primaryColor,
-            icon: Icon(Icons.supervised_user_circle_sharp),
+            icon: Icon(Icons.supervised_user_circle_sharp, color: Colors.grey),
+            activeIcon: Icon(
+              Icons.supervised_user_circle_sharp,
+              color: backgroundColor,
+            ),
             label: 'People',
           ),
         ],

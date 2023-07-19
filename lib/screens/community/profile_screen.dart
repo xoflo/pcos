@@ -105,10 +105,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _loadMore();
                 }
                 return ListActivityItem(
-                  user: memberProvider.firstName,
-                  activity: activities[index],
-                  feedGroup: _feedGroup,
-                );
+                    user: memberProvider.alias,
+                    activity: activities[index],
+                    feedGroup: _feedGroup);
               },
             ),
           );
