@@ -1,10 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
 
-import 'people_screen.dart';
-import 'profile_screen.dart';
 import 'timeline_screen.dart';
 
 class HomeCommunity extends StatefulWidget {
