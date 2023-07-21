@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
-import 'add_comment_box.dart';
-
 /// A page that displays all [Reaction]s/comments for a specific
 /// [Activity]/Post.
 ///
