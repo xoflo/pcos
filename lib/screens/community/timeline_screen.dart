@@ -37,6 +37,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
   static const _feedGroup = 'public';
   static const _userId = 'all';
 
+  late final Subscription _feedSubscription;
+
   Future<void> _loadMore() async {
     // Ensure we're not already loading more activities.
     if (!_isPaginating) {
@@ -51,6 +53,18 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   List<Activity> activities = <Activity>[];
+
+  Future<void> _listenToFeed() async {
+    _feedSubscription = await _client
+        .flatFeed(_feedGroup, _userId)
+        // ignore: avoid_print
+        .subscribe(print);
+
+        // _feedSubscription = await _client
+        // .reactions.(_feedGroup, _userId)
+        // // ignore: avoid_print
+        // .subscribe(print);
+  }
 
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
     if (!pullToRefresh) {
@@ -71,6 +85,13 @@ class _TimelineScreenState extends State<TimelineScreen> {
     super.didChangeDependencies();
     _client = context.feedClient;
     _loadActivities();
+    _listenToFeed();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _feedSubscription.cancel();
   }
 
   @override
@@ -129,7 +150,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
             context,
             MaterialPageRoute<void>(
                 builder: (context) => const ComposeActivityPage()),
-          );
+          ).then((value) => _loadActivities(pullToRefresh: false));
         },
         tooltip: 'Add Activity',
         child: const Icon(Icons.add),
