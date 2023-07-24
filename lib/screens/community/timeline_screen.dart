@@ -9,10 +9,12 @@ import 'extension.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({
+    required this.feedClient,
     required this.currentUser,
     Key? key,
   }) : super(key: key);
 
+  final StreamFeedClient feedClient;
   final StreamUser currentUser;
 
   @override
@@ -26,7 +28,6 @@ class TimelineScreen extends StatefulWidget {
 }
 
 class _TimelineScreenState extends State<TimelineScreen> {
-  late StreamFeedClient _client;
   bool _isLoading = true;
   List<EnrichedActivity> activities = [];
 
@@ -42,9 +43,17 @@ class _TimelineScreenState extends State<TimelineScreen> {
     ..withReactionCounts()
     ..withOwnReactions();
 
+  @override
+  void initState() {
+    super.initState();
+
+    _listenToFeed();
+    _reloadActivities(pullToRefresh: false);
+  }
+
   Future<void> _listenToFeed() async {
     if (_feedSubscription == null) {
-      _feedSubscription = await _client
+      _feedSubscription = await widget.feedClient
           .flatFeed(_feedGroup, _userId)
           // ignore: avoid_print
           .subscribe(print);
@@ -63,14 +72,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
     });
     if (!pullToRefresh) _isLoading = false;
     setState(() => activities.addAll(data.results ?? []));
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _client = context.client;
-    _listenToFeed();
-    _loadActivities();
   }
 
   @override

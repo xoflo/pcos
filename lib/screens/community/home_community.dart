@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
+import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 import 'timeline_screen.dart';
 
@@ -27,6 +28,8 @@ class _HomeCommunityState extends State<HomeCommunity> {
 
   @override
   Widget build(BuildContext context) {
+    final feedClient = context.feedClient;
+
     return Scaffold(
         appBar: AppBar(
           title: Column(
@@ -35,8 +38,9 @@ class _HomeCommunityState extends State<HomeCommunity> {
             ],
           ),
         ),
-        body: IndexedStack(
-            index: _currentIndex,
-            children: [TimelineScreen(currentUser: widget.currentUser)]));
+        body: IndexedStack(index: _currentIndex, children: [
+          TimelineScreen(
+              feedClient: feedClient, currentUser: widget.currentUser)
+        ]));
   }
 }
