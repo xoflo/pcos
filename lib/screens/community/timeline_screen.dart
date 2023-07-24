@@ -91,7 +91,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     separatorBuilder: (_, __) => const Divider(),
                     itemBuilder: (_, index) {
-                      final activity = activities[index];
                       final actor = activities[index].actor;
                       return ListActivityItem(user: actor?.data?['user_name'].toString() ?? '', activity: activities[index] as GenericEnrichedActivity<User, String, String, String>, feedGroup: _feedGroup,);
                     },
