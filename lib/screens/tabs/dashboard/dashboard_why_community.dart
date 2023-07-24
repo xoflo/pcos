@@ -1,9 +1,7 @@
-import 'dart:collection';
-
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/constants/loading_status.dart';
@@ -16,13 +14,47 @@ import '../../../controllers/authentication_controller.dart';
 import '../../../screens/community/extension.dart';
 import '../../community/home_community.dart';
 
-class DashboardWhyCommunity extends StatelessWidget {
+class DashboardWhyCommunity extends StatefulWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardWhyCommunity> createState() => _DashboardWhyCommunityState();
+}
+
+class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
+  StreamUser? _streamUser;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_streamUser == null) {
+      setupStream();
+    }
+  }
+
+  Future setupStream() async {
+    final _client = context.client;
+
+    final authenticationController = new AuthenticationController();
+    final String streamIoUserToken =
+        await authenticationController.getStreamIOToken();
+    if (streamIoUserToken.isNotEmpty) {
+      JWT decodedToken = JWT.decode(streamIoUserToken);
+
+      final userName = await authenticationController.getUsername();
+      final userData = {'user_name': userName ?? ''};
+
+      _streamUser = await _client.setUser(
+        User(id: decodedToken.payload['user_id'], data: userData),
+        Token(streamIoUserToken),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final memberProvider = Provider.of<MemberProvider>(context);
-    final _client = context.client;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25),
@@ -79,26 +111,9 @@ class DashboardWhyCommunity extends StatelessWidget {
                 ),
                 color: backgroundColor,
                 child: GestureDetector(
-                  onTap: () async {
-                    final authenticationController =
-                        new AuthenticationController();
-                    final String streamIoUserToken =
-                        await authenticationController.getStreamIOToken();
-                    if (streamIoUserToken.isNotEmpty) {
-                      JWT decodedToken = JWT.decode(streamIoUserToken);
-                      final userName =
-                          await authenticationController.getUsername();
-                      final userData = new HashMap<String, Object?>();
-                      userData['user_name'] = userName ?? '';
-
-                      final streamUser = await _client.setUser(
-                        User(id: decodedToken.payload['user_id']),
-                        Token(streamIoUserToken),
-                      );
-
-                      await _client.updateUser(
-                          decodedToken.payload['user_id'], userData);
-
+                  onTap: () {
+                    final streamUser = this._streamUser;
+                    if (streamUser != null) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
