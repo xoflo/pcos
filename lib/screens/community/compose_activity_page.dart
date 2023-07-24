@@ -21,6 +21,8 @@ class ComposeActivityPage extends StatefulWidget {
 class _ComposeActivityPageState extends State<ComposeActivityPage> {
   final TextEditingController _textEditingController = TextEditingController();
 
+  bool _isPosting = false;
+
   @override
   void dispose() {
     _textEditingController.dispose();
@@ -29,21 +31,28 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
 
   /// "Post" a new activity to the "user" feed group.
   Future<void> _post() async {
-    final uploadController = context.feedUploadController;
-    final media = uploadController.getMediaUris()?.toExtraData();
-    if (_textEditingController.text.isNotEmpty) {
+    if (!_isPosting) {
+      _isPosting = true;
+
+      if (_textEditingController.text.isEmpty) {
+        _isPosting = false;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Cannot post an empty message')));
+      }
+
+      final uploadController = context.feedUploadController;
+      final media = uploadController.getMediaUris()?.toExtraData();
       await context.feedBloc.onAddActivity(
-        feedGroup: 'user',
+        feedGroup: 'public',
         verb: 'post',
         object: _textEditingController.text,
         to: [FeedId.id('public:all')],
         data: media,
       );
       uploadController.clear();
+
       Navigator.pop(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cannot post with no message')));
     }
   }
 
