@@ -33,6 +33,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
   final _feedGroup = 'public';
   final _userId = 'all';
 
+  final feedsLimit = 10;
+  int feedsOffset = 0;
+
   late final Subscription _feedSubscription;
 
   final EnrichmentFlags _flags = EnrichmentFlags()
@@ -49,9 +52,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
     if (!pullToRefresh) setState(() => _isLoading = true);
     final userFeed = _client.flatFeed(_feedGroup, _userId);
-    PaginatedActivities data = await userFeed.getPaginatedEnrichedActivities<User, String, String, String>(flags: _flags);
+    PaginatedActivities data = await userFeed
+        .getPaginatedEnrichedActivities<User, String, String, String>(
+            limit: feedsLimit, offset: feedsOffset, flags: _flags)
+        .then((value) {
+      feedsOffset = feedsOffset + feedsLimit;
+      return value;
+    });
     if (!pullToRefresh) _isLoading = false;
-    setState(() => activities = data.results ?? []);
+    setState(() => activities.addAll(data.results ?? []));
   }
 
   @override
@@ -93,9 +102,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     itemBuilder: (_, index) {
                       final actor = activities[index].actor;
                       return ListActivityItem(
-                        user: actor?.data?['user_name'].toString() ?? '', 
-                        activity: activities[index] as GenericEnrichedActivity<User, String, String, String>, 
-                        feedGroup: _feedGroup,);
+                        user: actor?.data?['user_name'].toString() ?? '',
+                        activity: activities[index] as GenericEnrichedActivity<
+                            User, String, String, String>,
+                        feedGroup: _feedGroup,
+                      );
                     },
                   ),
       ),
@@ -117,6 +128,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(IterableProperty<GenericEnrichedActivity>('activities', activities));
+    properties.add(
+        IterableProperty<GenericEnrichedActivity>('activities', activities));
   }
 }
