@@ -95,20 +95,25 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       )
                     ],
                   )
-                : ListView.separated(
-                    itemCount: activities.length,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    separatorBuilder: (_, __) => const Divider(),
-                    itemBuilder: (_, index) {
-                      final actor = activities[index].actor;
-                      return ListActivityItem(
-                        user: actor?.data?['user_name'].toString() ?? '',
-                        activity: activities[index] as GenericEnrichedActivity<
-                            User, String, String, String>,
-                        feedGroup: _feedGroup,
-                      );
-                    },
+                : Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 40),
+                    child: ListView.separated(
+                        itemCount: activities.length,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        separatorBuilder: (_, __) => const Divider(),
+                        itemBuilder: (_, index) {
+                          final actor = activities[index].actor;
+                          return ListActivityItem(
+                            user: actor?.data?['user_name'].toString() ?? '',
+                            activity: activities[index] as GenericEnrichedActivity<
+                                User, String, String, String>,
+                            feedGroup: _feedGroup,
+                          );
+                        },
+                      ),
                   ),
+                ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: backgroundColor,
