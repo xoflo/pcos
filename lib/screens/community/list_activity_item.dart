@@ -30,6 +30,7 @@ class _ListActivityItemState extends State<ListActivityItem> {
   Map<String, int>? reactionCounts;
   Map<String, List<Reaction>>? ownReactions;
   bool isLikedByUser = false;
+  Reaction? ownLikeReaction;
   String user = '';
 
   @override
@@ -114,19 +115,36 @@ class _ListActivityItemState extends State<ListActivityItem> {
                     iconSize: 30,
                     onPressed: () {
                       if (isLikedByUser) {
-                        context.feedBloc.onRemoveReaction(
-                          kind: 'like',
-                          activity: widget.activity,
-                          reaction: ownReactions!['like']![0],
-                          feedGroup: widget.feedGroup,
-                        );
-                      } else {
-                        context.feedBloc.onAddReaction(
+                        List<Reaction>? likedReactions = ownReactions!['like'];
+                        if (likedReactions == null && ownLikeReaction != null) {
+                          // If the user has liked the activity, but the like
+                          // reaction is not in the original ownReactions list,
+                          // because the like reaction `ownLikeReaction` was
+                          // added after the initial load, we add it to the
+                          // to-be-removed list.
+                          likedReactions = [ownLikeReaction!];
+                        }
+
+                        if (likedReactions != null && likedReactions.isNotEmpty) {
+                          context.feedBloc.onRemoveReaction(
                             kind: 'like',
                             activity: widget.activity,
-                            feedGroup: widget.feedGroup);
+                            reaction: likedReactions[0],
+                            feedGroup: widget.feedGroup,
+                          );
+                        }
+                      } else {
+                        // Add a like reaction to the activity, and keep track of
+                        // the like reaction, so it could be unliked if needed.
+                        context.feedBloc
+                            .onAddReaction(
+                                kind: 'like',
+                                activity: widget.activity,
+                                feedGroup: widget.feedGroup)
+                            .then((value) => ownLikeReaction = value);
                       }
 
+                      // Optimistically like or unlike the activity.
                       setState(() {
                         isLikedByUser = !isLikedByUser;
                         int curLikes = reactionCounts?['like']?.toInt() ?? 0;
@@ -193,7 +211,7 @@ class _ListActivityItemState extends State<ListActivityItem> {
   }
 
   String _displayNumberByActivity(int? count, ActivityType type) {
-    if (count != null) {
+    if (count != null && count > 0) {
       String displayText = getDisplayTextActivity(type);
       String displayTextActivity = count > 1 ? displayText + "s" : displayText;
       return '$count' + " " + displayTextActivity;
