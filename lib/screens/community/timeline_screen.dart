@@ -16,7 +16,7 @@ class TimelineScreen extends StatefulWidget {
   final StreamUser currentUser;
 
   @override
-  _TimelineScreenState createState() => _TimelineScreenState();
+  State<TimelineScreen> createState() => _TimelineScreenState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -28,7 +28,7 @@ class TimelineScreen extends StatefulWidget {
 class _TimelineScreenState extends State<TimelineScreen> {
   late StreamFeedClient _client;
   bool _isLoading = true;
-  List<GenericEnrichedActivity> activities = <GenericEnrichedActivity>[];
+  List<EnrichedActivity> activities = [];
 
   final _feedGroup = 'public';
   final _userId = 'all';
@@ -36,23 +36,25 @@ class _TimelineScreenState extends State<TimelineScreen> {
   final feedsLimit = 10;
   int feedsOffset = 0;
 
-  late final Subscription _feedSubscription;
+  Subscription? _feedSubscription;
 
   final EnrichmentFlags _flags = EnrichmentFlags()
     ..withReactionCounts()
     ..withOwnReactions();
 
   Future<void> _listenToFeed() async {
-    _feedSubscription = await _client
-        .flatFeed(_feedGroup, _userId)
-        // ignore: avoid_print
-        .subscribe(print);
+    if (_feedSubscription == null) {
+      _feedSubscription = await _client
+          .flatFeed(_feedGroup, _userId)
+          // ignore: avoid_print
+          .subscribe(print);
+    }
   }
 
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
     if (!pullToRefresh) setState(() => _isLoading = true);
     final userFeed = _client.flatFeed(_feedGroup, _userId);
-    PaginatedActivities data = await userFeed
+    final data = await userFeed
         .getPaginatedEnrichedActivities<User, String, String, String>(
             limit: feedsLimit, offset: feedsOffset, flags: _flags)
         .then((value) {
@@ -74,7 +76,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   void dispose() {
     super.dispose();
-    _feedSubscription.cancel();
+
+    _feedSubscription?.cancel();
   }
 
   @override
@@ -95,23 +98,16 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       )
                     ],
                   )
-                : Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 40),
-                    child: ListView.separated(
-                        itemCount: activities.length,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        separatorBuilder: (_, __) => const Divider(),
-                        itemBuilder: (_, index) {
-                          final actor = activities[index].actor;
-                          return ListActivityItem(
-                            user: actor?.data?['user_name'].toString() ?? '',
-                            activity: activities[index] as GenericEnrichedActivity<
-                                User, String, String, String>,
-                            feedGroup: _feedGroup,
-                          );
-                        },
-                      ),
+                : Container(
+                  margin: EdgeInsets.only(bottom: 40),
+                  child: ListView.separated(
+                    itemCount: activities.length,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    separatorBuilder: (_, __) => const Divider(),
+                    itemBuilder: (_, index) => ListActivityItem(
+                      activity: activities[index],
+                      feedGroup: _feedGroup,
+                    ),
                   ),
                 ),
       ),
@@ -133,7 +129,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(
-        IterableProperty<GenericEnrichedActivity>('activities', activities));
+    properties.add(IterableProperty('activities', activities));
   }
 }

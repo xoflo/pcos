@@ -15,15 +15,11 @@ enum ActivityType { like, comment }
 
 class ListActivityItem extends StatefulWidget {
   const ListActivityItem(
-      {Key? key,
-      required this.user,
-      required this.activity,
-      required this.feedGroup})
+      {Key? key, required this.activity, required this.feedGroup})
       : super(key: key);
 
   final EnrichedActivity activity;
   final String feedGroup;
-  final String user;
 
   @override
   _ListActivityItemState createState() => _ListActivityItemState();
@@ -34,10 +30,13 @@ class _ListActivityItemState extends State<ListActivityItem> {
   Map<String, int>? reactionCounts;
   Map<String, List<Reaction>>? ownReactions;
   bool isLikedByUser = false;
+  String user = '';
 
   @override
   void initState() {
     super.initState();
+
+    user = widget.activity.actor?.data?['user_name'].toString() ?? '';
     attachments = (widget.activity.extraData)?.toAttachments();
     reactionCounts = widget.activity.reactionCounts;
     ownReactions = widget.activity.ownReactions;
@@ -60,7 +59,7 @@ class _ListActivityItemState extends State<ListActivityItem> {
                 child: Row(
                   children: [
                     Text(
-                      "@" + widget.user,
+                      "@" + user,
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 16),
                     ),
