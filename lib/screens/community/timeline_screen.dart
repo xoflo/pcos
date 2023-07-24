@@ -121,15 +121,12 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       )
                     ],
                   )
-                : Container(
-                    margin: EdgeInsets.only(bottom: 40),
-                    child: ListView.separated(
-                      itemCount: activities.length,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      separatorBuilder: (_, __) => const Divider(),
-                      itemBuilder: (_, index) => _paginatedItemBuilder(index),
-                    ),
-                  ),
+                : ListView.separated(
+                  itemCount: activities.length,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  separatorBuilder: (_, __) => const Divider(),
+                  itemBuilder: (_, index) => _paginatedItemBuilder(index),
+                ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: backgroundColor,
