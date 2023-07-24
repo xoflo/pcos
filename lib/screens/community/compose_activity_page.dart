@@ -21,6 +21,8 @@ class ComposeActivityPage extends StatefulWidget {
 class _ComposeActivityPageState extends State<ComposeActivityPage> {
   final TextEditingController _textEditingController = TextEditingController();
 
+  bool _isPosting = false;
+
   @override
   void dispose() {
     _textEditingController.dispose();
@@ -29,21 +31,28 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
 
   /// "Post" a new activity to the "user" feed group.
   Future<void> _post() async {
-    final uploadController = context.feedUploadController;
-    final media = uploadController.getMediaUris()?.toExtraData();
-    if (_textEditingController.text.isNotEmpty) {
+    if (!_isPosting) {
+      _isPosting = true;
+
+      if (_textEditingController.text.isEmpty) {
+        _isPosting = false;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Cannot post an empty message')));
+      }
+
+      final uploadController = context.feedUploadController;
+      final media = uploadController.getMediaUris()?.toExtraData();
       await context.feedBloc.onAddActivity(
-        feedGroup: 'user',
+        feedGroup: 'public',
         verb: 'post',
         object: _textEditingController.text,
         to: [FeedId.id('public:all')],
         data: media,
       );
       uploadController.clear();
+
       Navigator.pop(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Cannot post with no message')));
     }
   }
 
@@ -60,10 +69,10 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
               label: const Text(
                 'Post',
                 style: TextStyle(
-                  color: Colors.blue,
+                  color: primaryColor,
                 ),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: backgroundColor,
               onPressed: _post,
             ),
           ),
@@ -74,13 +83,28 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _textEditingController,
-                  decoration:
-                      const InputDecoration(hintText: "What's on your mind"),
-                ),
+              Container(
+                margin: const EdgeInsets.all(0.0),
+                padding: const EdgeInsets.all(0.0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10)),
+                child: new ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: 300.0,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: TextField(
+                        textAlignVertical: TextAlignVertical.top,
+                        controller: _textEditingController,
+                        maxLines: null,
+                        style: TextStyle(fontSize: 15),
+                        decoration: const InputDecoration(
+                            hintText: "What's on your mind",
+                            border: InputBorder.none),
+                      ),
+                    )),
               ),
               Row(
                 children: [
@@ -102,10 +126,13 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                             const SnackBar(content: Text('Cancelled')));
                       }
                     },
-                    icon: const Icon(Icons.file_copy),
+                    icon: const Icon(
+                      Icons.collections,
+                      color: backgroundColor,
+                    ),
                   ),
                   Text(
-                    'Add image',
+                    'Photo/Camera',
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ],

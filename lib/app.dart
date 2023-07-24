@@ -255,11 +255,9 @@ class _AppState extends State<App> {
         },
         navigatorObservers:
             (observer == null) ? [] : <NavigatorObserver>[observer!],
-        builder: (context, child) {
-          child = FeedProvider(bloc: FeedBloc(client: client), child: child!);
-          child = ClientProvider(client: client, child: child);
-          return child;
-        },
+        builder: (context, child) => ClientProvider(
+            client: client,
+            child: FeedProvider(bloc: FeedBloc(client: client), child: child!)),
       ),
     );
   }

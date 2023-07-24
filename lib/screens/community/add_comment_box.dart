@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
+import 'package:thepcosprotocol_app/styles/colors.dart';
 
 /// UI widget that displays a [TextField] to add a [Reaction]/Comment to a
 /// particular [activity].
@@ -40,21 +41,32 @@ class _AddCommentBoxState extends State<AddCommentBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 32),
-      child: TextField(
-        controller: textController,
-        onSubmitted: ((value) {
-          _addComment();
-        }),
-        decoration: InputDecoration(
-          hintText: 'Add a comment',
-          suffix: IconButton(
-            onPressed: _addComment,
-            icon: const Icon(Icons.send),
+    return Column(children: [
+      Divider(
+        color: Colors.grey,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 32),
+        child: TextField(
+          controller: textController,
+          onSubmitted: ((value) {
+            _addComment();
+          }),
+          decoration: InputDecoration(
+            hintText: 'Add a comment',
+            suffix: IconButton(
+              onPressed: _addComment,
+              icon: const Icon(
+                Icons.send,
+                color: backgroundColor,
+              ),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: backgroundColor),
+            ),
           ),
         ),
-      ),
-    );
+      )
+    ]);
   }
 }

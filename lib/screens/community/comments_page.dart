@@ -3,6 +3,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 import 'add_comment_box.dart';
+import 'comment_list_item.dart';
 
 /// A page that displays all [Reaction]s/comments for a specific
 /// [Activity]/Post.
@@ -34,24 +35,6 @@ class _CommentsPageState extends State<CommentsPage> {
           .whenComplete(() {
         _isPaginating = false;
       });
-    }
-  }
-
-  Future<void> _addOrRemoveLike(Reaction reaction) async {
-    final isLikedByUser = (reaction.ownChildren?['like']?.length ?? 0) > 0;
-    if (isLikedByUser) {
-      FeedProvider.of(context).bloc.onRemoveChildReaction(
-            kind: 'like',
-            childReaction: reaction.ownChildren!['like']![0],
-            lookupValue: widget.activity.id!,
-            parentReaction: reaction,
-          );
-    } else {
-      FeedProvider.of(context).bloc.onAddChildReaction(
-            kind: 'like',
-            reaction: reaction,
-            lookupValue: widget.activity.id!,
-          );
     }
   }
 
@@ -95,26 +78,8 @@ class _CommentsPageState extends State<CommentsPage> {
                         }
 
                         final reaction = reactions[index];
-                        final isLikedByUser =
-                            (reaction.ownChildren?['like']?.length ?? 0) > 0;
-
-                        return ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '${reaction.data?['text']}',
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                          ),
-                          trailing: IconButton(
-                            iconSize: 14,
-                            onPressed: () {
-                              _addOrRemoveLike(reaction);
-                            },
-                            icon: isLikedByUser
-                                ? const Icon(Icons.favorite)
-                                : const Icon(Icons.favorite_border),
-                          ),
+                        return CommentListItem(
+                          reaction: reaction,
                         );
                       },
                     ),
