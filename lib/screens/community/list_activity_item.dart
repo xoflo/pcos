@@ -13,7 +13,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 enum ActivityType { like, comment }
 
-class ListActivityItem extends StatelessWidget {
+class ListActivityItem extends StatefulWidget {
   const ListActivityItem(
       {Key? key,
       required this.user,
@@ -26,11 +26,26 @@ class ListActivityItem extends StatelessWidget {
   final String user;
 
   @override
+  _ListActivityItemState createState() => _ListActivityItemState();
+}
+
+class _ListActivityItemState extends State<ListActivityItem> {
+  List<Attachment>? attachments = [];
+  Map<String, int>? reactionCounts;
+  Map<String, List<Reaction>>? ownReactions;
+  bool isLikedByUser = false;
+
+  @override
+  void initState() {
+    super.initState();
+    attachments = (widget.activity.extraData)?.toAttachments();
+    reactionCounts = widget.activity.reactionCounts;
+    ownReactions = widget.activity.ownReactions;
+    isLikedByUser = (ownReactions?['like']?.length ?? 0) > 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final attachments = (activity.extraData)?.toAttachments();
-    final reactionCounts = activity.reactionCounts;
-    final ownReactions = activity.ownReactions;
-    final isLikedByUser = (ownReactions?['like']?.length ?? 0) > 0;
     return Container(
       child: Column(
         children: [
@@ -45,13 +60,13 @@ class ListActivityItem extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "@" + user,
+                      "@" + widget.user,
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                     Text(
                       '  ${timeago.format(
-                        activity.time!,
+                        widget.activity.time!,
                         allowFromNow: true,
                       )}',
                       style: const TextStyle(
@@ -68,7 +83,7 @@ class ListActivityItem extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 40,
                         child: Text(
-                          '${activity.object}',
+                          '${widget.activity.object}',
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.visible,
                           style: TextStyle(
@@ -77,14 +92,14 @@ class ListActivityItem extends StatelessWidget {
                       ))
                 ],
               ),
-              if (attachments != null && attachments.isNotEmpty)
+              if (attachments != null && attachments!.isNotEmpty)
                 Container(
                     width: MediaQuery.of(context).size.width,
                     height: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(attachments[0].url),
+                        image: NetworkImage(attachments![0].url),
                       ),
                     )),
             ],
@@ -102,16 +117,26 @@ class ListActivityItem extends StatelessWidget {
                       if (isLikedByUser) {
                         context.feedBloc.onRemoveReaction(
                           kind: 'like',
-                          activity: activity,
+                          activity: widget.activity,
                           reaction: ownReactions!['like']![0],
-                          feedGroup: feedGroup,
+                          feedGroup: widget.feedGroup,
                         );
                       } else {
                         context.feedBloc.onAddReaction(
                             kind: 'like',
-                            activity: activity,
-                            feedGroup: feedGroup);
+                            activity: widget.activity,
+                            feedGroup: widget.feedGroup);
                       }
+
+                      setState(() {
+                        isLikedByUser = !isLikedByUser;
+                        int curLikes = reactionCounts?['like']?.toInt() ?? 0;
+                        if (!isLikedByUser) {
+                          reactionCounts?['like'] = (curLikes - 1);
+                        } else {
+                          reactionCounts?['like'] = (curLikes + 1);
+                        }
+                      });
                     },
                     color: backgroundColor,
                     icon: isLikedByUser
@@ -162,7 +187,7 @@ class ListActivityItem extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
           builder: (BuildContext context) => CommentsPage(
-                activity: activity,
+                activity: widget.activity,
               ),
           fullscreenDialog: true),
     );
