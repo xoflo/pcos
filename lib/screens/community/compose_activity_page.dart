@@ -60,10 +60,10 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
               label: const Text(
                 'Post',
                 style: TextStyle(
-                  color: Colors.blue,
+                  color: primaryColor,
                 ),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: backgroundColor,
               onPressed: _post,
             ),
           ),
@@ -74,13 +74,28 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _textEditingController,
-                  decoration:
-                      const InputDecoration(hintText: "What's on your mind"),
-                ),
+              Container(
+                margin: const EdgeInsets.all(0.0),
+                padding: const EdgeInsets.all(0.0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10)),
+                child: new ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: 300.0,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: TextField(
+                        textAlignVertical: TextAlignVertical.top,
+                        controller: _textEditingController,
+                        maxLines: null,
+                        style: TextStyle(fontSize: 15),
+                        decoration: const InputDecoration(
+                            hintText: "What's on your mind",
+                            border: InputBorder.none),
+                      ),
+                    )),
               ),
               Row(
                 children: [
@@ -102,10 +117,13 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                             const SnackBar(content: Text('Cancelled')));
                       }
                     },
-                    icon: const Icon(Icons.file_copy),
+                    icon: const Icon(
+                      Icons.collections,
+                      color: backgroundColor,
+                    ),
                   ),
                   Text(
-                    'Add image',
+                    'Photo/Camera',
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ],
