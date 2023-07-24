@@ -5,7 +5,6 @@ import 'package:thepcosprotocol_app/screens/community/list_activity_item.dart';
 
 import '../../styles/colors.dart';
 import 'compose_activity_page.dart';
-import 'extension.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({
@@ -138,7 +137,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-                builder: (context) => const ComposeActivityPage()),
+                builder: (context) => ComposeActivityPage(
+                      onAddActivity: () =>
+                          _reloadActivities(pullToRefresh: false),
+                    )),
           );
         },
         tooltip: 'Add Activity',

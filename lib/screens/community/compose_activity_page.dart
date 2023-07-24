@@ -12,7 +12,9 @@ import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 ///
 /// [More information](https://getstream.io/activity-feeds/docs/flutter-dart/adding_activities/?language=dart) on activities.
 class ComposeActivityPage extends StatefulWidget {
-  const ComposeActivityPage({Key? key}) : super(key: key);
+  ComposeActivityPage({Key? key, required this.onAddActivity}) : super(key: key);
+
+  final Function onAddActivity;
 
   @override
   State<ComposeActivityPage> createState() => _ComposeActivityPageState();
@@ -53,6 +55,8 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
       uploadController.clear();
 
       Navigator.pop(context);
+
+      widget.onAddActivity();
     }
   }
 
