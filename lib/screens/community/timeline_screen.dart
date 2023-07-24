@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
-import 'package:thepcosprotocol_app/styles/colors.dart';
+import 'package:stream_feed/stream_feed.dart';
+import 'package:thepcosprotocol_app/screens/community/list_activity_item.dart';
 
-import 'list_activity_item.dart';
 import 'compose_activity_page.dart';
+import 'extension.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({
@@ -26,66 +26,39 @@ class TimelineScreen extends StatefulWidget {
 
 class _TimelineScreenState extends State<TimelineScreen> {
   late StreamFeedClient _client;
-  bool isLoading = true;
+  bool _isLoading = true;
+  List<GenericEnrichedActivity> activities = <GenericEnrichedActivity>[];
+
+  final _feedGroup = 'public';
+  final _userId = 'all';
+
+  late final Subscription _feedSubscription;
 
   final EnrichmentFlags _flags = EnrichmentFlags()
     ..withReactionCounts()
     ..withOwnReactions();
-
-  bool _isPaginating = false;
-
-  static const _feedGroup = 'public';
-  static const _userId = 'all';
-
-  late final Subscription _feedSubscription;
-
-  Future<void> _loadMore() async {
-    // Ensure we're not already loading more activities.
-    if (!_isPaginating) {
-      _isPaginating = true;
-      context.feedBloc
-          .loadMoreEnrichedActivities(
-              feedGroup: _feedGroup, userId: _userId, flags: _flags)
-          .whenComplete(() {
-        _isPaginating = false;
-      });
-    }
-  }
-
-  List<Activity> activities = <Activity>[];
 
   Future<void> _listenToFeed() async {
     _feedSubscription = await _client
         .flatFeed(_feedGroup, _userId)
         // ignore: avoid_print
         .subscribe(print);
-
-        // _feedSubscription = await _client
-        // .reactions.(_feedGroup, _userId)
-        // // ignore: avoid_print
-        // .subscribe(print);
   }
 
   Future<void> _loadActivities({bool pullToRefresh = false}) async {
-    if (!pullToRefresh) {
-      setState(() => isLoading = true);
-    }
-
+    if (!pullToRefresh) setState(() => _isLoading = true);
     final userFeed = _client.flatFeed(_feedGroup, _userId);
-    final data = await userFeed.getActivities();
-    if (!pullToRefresh) {}
-    setState(() {
-      activities = data;
-      isLoading = false;
-    });
+    PaginatedActivities data = await userFeed.getPaginatedEnrichedActivities<User, String, String, String>(flags: _flags);
+    if (!pullToRefresh) _isLoading = false;
+    setState(() => activities = data.results ?? []);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _client = context.feedClient;
-    _loadActivities();
+    _client = context.client;
     _listenToFeed();
+    _loadActivities();
   }
 
   @override
@@ -97,60 +70,38 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
-      body: FlatFeedCore(
-        feedGroup: _feedGroup,
-        userId: _userId,
-        loadingBuilder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        emptyBuilder: (context) => const Center(child: Text('No activities')),
-        errorBuilder: (context, error) => Center(
-          child: Text(error.toString()),
-        ),
-        limit: 10,
-        flags: _flags,
-        feedBuilder: (
-          BuildContext context,
-          activities,
-        ) {
-          return RefreshIndicator(
-            onRefresh: () {
-              return context.feedBloc.refreshPaginatedEnrichedActivities(
-                feedGroup: _feedGroup,
-                userId: _userId,
-                flags: _flags,
-              );
-            },
-            child: ListView.separated(
-              itemCount: activities.length,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                final shouldLoadMoreThreshold = 3;
-                bool shouldLoadMore =
-                    activities.length - shouldLoadMoreThreshold == index;
-                if (shouldLoadMore) {
-                  _loadMore();
-                }
-                final actor = activities[index].actor;
-                return ListActivityItem(
-                  user: actor?.data?['user_name'].toString() ?? '',
-                  activity: activities[index],
-                  feedGroup: _feedGroup,
-                );
-              },
-            ),
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: () => _loadActivities(pullToRefresh: true),
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : activities.isEmpty
+                ? Column(
+                    children: [
+                      const Text('No activities yet!'),
+                      ElevatedButton(
+                        onPressed: _loadActivities,
+                        child: const Text('Reload'),
+                      )
+                    ],
+                  )
+                : ListView.separated(
+                    itemCount: activities.length,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    separatorBuilder: (_, __) => const Divider(),
+                    itemBuilder: (_, index) {
+                      final activity = activities[index];
+                      final actor = activities[index].actor;
+                      return ListActivityItem(user: actor?.data?['user_name'].toString() ?? '', activity: activities[index] as GenericEnrichedActivity<User, String, String, String>, feedGroup: _feedGroup,);
+                    },
+                  ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: backgroundColor,
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
                 builder: (context) => const ComposeActivityPage()),
-          ).then((value) => _loadActivities(pullToRefresh: false));
+          );
         },
         tooltip: 'Add Activity',
         child: const Icon(Icons.add),
@@ -161,6 +112,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(IterableProperty<Activity>('activities', activities));
+    properties.add(IterableProperty<GenericEnrichedActivity>('activities', activities));
   }
 }
