@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/screens/community/list_activity_item.dart';
 
+import '../../styles/colors.dart';
 import 'compose_activity_page.dart';
 import 'extension.dart';
 
@@ -70,6 +71,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primaryColor,
       body: RefreshIndicator(
         onRefresh: () => _loadActivities(pullToRefresh: true),
         child: _isLoading
@@ -96,6 +98,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: backgroundColor,
         onPressed: () {
           Navigator.push(
             context,
