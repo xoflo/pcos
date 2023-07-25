@@ -45,7 +45,9 @@ class _CommentsPageState extends State<CommentsPage> {
     // complete when the Future completes.
     await Future.delayed(const Duration(seconds: 2));
 
-    return context.feedBloc.getReactions(widget.activity.id!);
+    final fetchedReactions = context.feedBloc.getReactions(widget.activity.id!);
+    // Only return comments, not likes.
+    return fetchedReactions.where((r) => r.kind == 'comment').toList();
   }
 
   Future<void> _reloadReactions({bool reloadAfterComment = false}) async {
