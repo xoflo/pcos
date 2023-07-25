@@ -70,7 +70,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
             offset: offset, limit: feedsLimit, flags: _flags);
 
     final results = paginated.results ?? [];
-    _feedOffset = _feedOffset + results.length;
+    _feedOffset = offset + results.length;
     _endOfFeed = results.length < feedsLimit;
 
     return results;
