@@ -22,32 +22,48 @@ class CommentsPage extends StatefulWidget {
 }
 
 class _CommentsPageState extends State<CommentsPage> {
-  bool _isPaginating = false;
-
   final EnrichmentFlags _flags = EnrichmentFlags()..withOwnChildren();
 
-  List<Reaction> reactions = [];
+  bool _isLoading = false;
 
-  Future<void> _loadMore() async {
-    // Ensure we're not already loading more reactions.
-    if (!_isPaginating) {
-      _isPaginating = true;
-      context.feedBloc
-          .loadMoreReactions(widget.activity.id!, flags: _flags)
-          .whenComplete(() {
-        _isPaginating = false;
-      });
-    }
+  List<Reaction> _reactions = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _reloadReactions();
   }
 
-  Future<void> updateReactions(List<Reaction> reaction) async {
+  Future<List<Reaction>> _fetchReactions() async {
     await context.feedBloc.refreshPaginatedReactions(
       widget.activity.id!,
       flags: _flags,
     );
 
+    // Delay to allow the refresh to complete, the above refresh is not actually
+    // complete when the Future completes.
+    await Future.delayed(const Duration(seconds: 2));
+
+    return context.feedBloc.getReactions(widget.activity.id!);
+  }
+
+  Future<void> _reloadReactions({bool reloadAfterComment = false}) async {
     setState(() {
-      reactions = reaction;
+      _isLoading = true;
+    });
+
+    var reactions = await _fetchReactions();
+    if (reactions.isEmpty && reloadAfterComment) {
+      // It looks like reactions are not immediately available after adding a
+      // new comment, so we wait a bit and retry again.
+      // TODO: Investigate why this is happening.
+      reactions = await _fetchReactions();
+    }
+
+    setState(() {
+      _isLoading = false;
+      _reactions = reactions;
     });
   }
 
@@ -60,87 +76,23 @@ class _CommentsPageState extends State<CommentsPage> {
           Expanded(
               child: RefreshIndicator(
             onRefresh: () {
-              return updateReactions(
-                  context.feedBloc.getReactions(widget.activity.id!));
-
-              // context.feedBloc.refreshPaginatedReactions(
-              //   widget.activity.id!,
-              //   flags: _flags,
-              // );
+              return _reloadReactions();
             },
-            child: ListView.separated(
-                itemCount: reactions.length,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  final reaction = reactions[index];
-                  return CommentListItem(
-                    reaction: reaction,
-                  );
-                }),
+            child: (_isLoading)
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.separated(
+                    itemCount: _reactions.length,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (context, index) => CommentListItem(
+                          reaction: _reactions[index],
+                        )),
           )),
-          AddCommentBox(activity: widget.activity)
-        ])
-
-        //   Column(
-        // children: [
-        //   Expanded(
-        //       child: ReactionListCore(
-        //         lookupValue: widget.activity.id!,
-        //         kind: 'comment',
-        //         loadingBuilder: (context) => const Center(
-        //           child: CircularProgressIndicator(),
-        //         ),
-        //         emptyBuilder: (context) =>
-        //             const Center(child: Text('No comment reactions')),
-        //         errorBuilder: (context, error) => Center(
-        //           child: Text(error.toString()),
-        //         ),
-        //         flags: _flags,
-        //         reactionsBuilder: (context, reactions) {
-        //           return Padding(
-        //             padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        //             child: RefreshIndicator(
-        //               onRefresh: () {
-        //                 print("Reactions after refresh List total");
-        //                 print(context.feedBloc
-        //                     .getReactions(widget.activity.id!)
-        //                     .length);
-
-        //                 reactions =
-        //                     context.feedBloc.getReactions(widget.activity.id!);
-
-        //                 print("Reactions after refresh List");
-        //                 print(reactions);
-
-        //                 return context.feedBloc.refreshPaginatedReactions(
-        //                   widget.activity.id!,
-        //                   flags: _flags,
-        //                 );
-        //               },
-        //               child: ListView.separated(
-        //                 itemCount: reactions.length,
-        //                 separatorBuilder: (context, index) => const Divider(),
-        //                 itemBuilder: (context, index) {
-        //                   bool shouldLoadMore = reactions.length - 3 == index;
-        //                   if (shouldLoadMore) {
-        //                     _loadMore();
-        //                   }
-
-        //                   final reaction = reactions[index];
-        //                   return CommentListItem(
-        //                     reaction: reaction,
-        //                   );
-        //                 },
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //       ),
-        //     ),
-        //     AddCommentBox(activity: widget.activity)
-        //   ],
-        // ),
-        );
+          AddCommentBox(
+              activity: widget.activity,
+              onAddComment: () => _reloadReactions(reloadAfterComment: true))
+        ]));
   }
 }
