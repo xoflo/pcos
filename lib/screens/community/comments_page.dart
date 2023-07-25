@@ -50,10 +50,12 @@ class _CommentsPageState extends State<CommentsPage> {
     return fetchedReactions.where((r) => r.kind == 'comment').toList();
   }
 
-  Future<void> _reloadReactions({bool reloadAfterComment = false}) async {
-    setState(() {
-      _isLoading = true;
-    });
+  Future<void> _reloadReactions({bool pullToRefresh = false, bool reloadAfterComment = false}) async {
+    _isLoading = true;
+    if (!pullToRefresh) {
+      // No need to show the loading indicator when pull-to-refresh is used.
+      setState(() {});
+    }
 
     var reactions = await _fetchReactions();
     if (reactions.isEmpty && reloadAfterComment) {
@@ -78,7 +80,7 @@ class _CommentsPageState extends State<CommentsPage> {
           Expanded(
               child: RefreshIndicator(
             onRefresh: () {
-              return _reloadReactions();
+              return _reloadReactions(pullToRefresh: true);
             },
             child: (_isLoading)
                 ? Center(
