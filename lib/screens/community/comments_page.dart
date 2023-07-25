@@ -26,6 +26,8 @@ class _CommentsPageState extends State<CommentsPage> {
 
   final EnrichmentFlags _flags = EnrichmentFlags()..withOwnChildren();
 
+  List<Reaction> reactions = [];
+
   Future<void> _loadMore() async {
     // Ensure we're not already loading more reactions.
     if (!_isPaginating) {
@@ -41,56 +43,96 @@ class _CommentsPageState extends State<CommentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: AppBar(title: const Text('Comments')),
-      body: Column(
-        children: [
-          Expanded(
-            child: ReactionListCore(
-              lookupValue: widget.activity.id!,
-              kind: 'comment',
-              loadingBuilder: (context) => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              emptyBuilder: (context) =>
-                  const Center(child: Text('No comment reactions')),
-              errorBuilder: (context, error) => Center(
-                child: Text(error.toString()),
-              ),
-              flags: _flags,
-              reactionsBuilder: (context, reactions) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: RefreshIndicator(
-                    onRefresh: () {
-                      return context.feedBloc.refreshPaginatedReactions(
-                        widget.activity.id!,
-                        flags: _flags,
-                      );
-                    },
-                    child: ListView.separated(
-                      itemCount: reactions.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemBuilder: (context, index) {
-                        bool shouldLoadMore = reactions.length - 3 == index;
-                        if (shouldLoadMore) {
-                          _loadMore();
-                        }
+        backgroundColor: primaryColor,
+        appBar: AppBar(title: const Text('Comments')),
+        body: RefreshIndicator(
+          onRefresh: () {
+            print("Reactions after refresh List total");
+            print(context.feedBloc.getReactions(widget.activity.id!).length);
 
-                        final reaction = reactions[index];
-                        return CommentListItem(
-                          reaction: reaction,
-                        );
-                      },
-                    ),
-                  ),
+            reactions = context.feedBloc.getReactions(widget.activity.id!);
+
+            print("Reactions after refresh List");
+            print(reactions);
+
+            return context.feedBloc.refreshPaginatedReactions(
+              widget.activity.id!,
+              flags: _flags,
+            );
+          },
+          child: ListView.separated(
+              itemCount: reactions.length,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              separatorBuilder: (context, index) => const Divider(),
+              itemBuilder: (context, index) {
+                final reaction = reactions[index];
+                print("Data");
+                print(reaction);
+                return CommentListItem(
+                  reaction: reaction,
                 );
-              },
-            ),
-          ),
-          AddCommentBox(activity: widget.activity)
-        ],
-      ),
-    );
+              }),
+        )
+
+        //     Column(
+        //   children: [
+        //     Expanded(
+        //       child: ReactionListCore(
+        //         lookupValue: widget.activity.id!,
+        //         kind: 'comment',
+        //         loadingBuilder: (context) => const Center(
+        //           child: CircularProgressIndicator(),
+        //         ),
+        //         emptyBuilder: (context) =>
+        //             const Center(child: Text('No comment reactions')),
+        //         errorBuilder: (context, error) => Center(
+        //           child: Text(error.toString()),
+        //         ),
+        //         flags: _flags,
+        //         reactionsBuilder: (context, reactions) {
+        //           return Padding(
+        //             padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        //             child: RefreshIndicator(
+        //               onRefresh: () {
+        //                 print("Reactions after refresh List total");
+        //                 print(context.feedBloc
+        //                     .getReactions(widget.activity.id!)
+        //                     .length);
+
+        //                 reactions =
+        //                     context.feedBloc.getReactions(widget.activity.id!);
+
+        //                 print("Reactions after refresh List");
+        //                 print(reactions);
+
+        //                 return context.feedBloc.refreshPaginatedReactions(
+        //                   widget.activity.id!,
+        //                   flags: _flags,
+        //                 );
+        //               },
+        //               child: ListView.separated(
+        //                 itemCount: reactions.length,
+        //                 separatorBuilder: (context, index) => const Divider(),
+        //                 itemBuilder: (context, index) {
+        //                   bool shouldLoadMore = reactions.length - 3 == index;
+        //                   if (shouldLoadMore) {
+        //                     _loadMore();
+        //                   }
+
+        //                   final reaction = reactions[index];
+        //                   return CommentListItem(
+        //                     reaction: reaction,
+        //                   );
+        //                 },
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       ),
+        //     ),
+        //     AddCommentBox(activity: widget.activity)
+        //   ],
+        // ),
+        );
   }
 }
