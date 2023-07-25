@@ -85,7 +85,7 @@ class _CommentsPageState extends State<CommentsPage> {
                     child: CircularProgressIndicator(),
                   )
                 : _reactions.length == 0
-                    ? Center(child: Text("No available comment"))
+                    ? Center(child: Text("No comments yet, be the first!"))
                     : ListView.separated(
                         itemCount: _reactions.length,
                         padding: const EdgeInsets.symmetric(vertical: 16),
