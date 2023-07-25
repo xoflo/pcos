@@ -56,6 +56,8 @@ class _AddCommentBoxState extends State<AddCommentBox> {
         padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 32),
         child: TextField(
           controller: textController,
+          textCapitalization: TextCapitalization.sentences,
+          autocorrect: true,
           onSubmitted: ((value) {
             _addComment();
           }),

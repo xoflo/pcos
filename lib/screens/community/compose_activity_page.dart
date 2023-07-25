@@ -102,6 +102,9 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                       child: TextField(
                         textAlignVertical: TextAlignVertical.top,
                         controller: _textEditingController,
+                        keyboardType: TextInputType.multiline,
+                        textCapitalization: TextCapitalization.sentences,
+                        autocorrect: true,
                         maxLines: null,
                         style: TextStyle(fontSize: 15),
                         decoration: const InputDecoration(
