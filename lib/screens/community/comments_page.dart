@@ -40,6 +40,17 @@ class _CommentsPageState extends State<CommentsPage> {
     }
   }
 
+  Future<void> updateReactions(List<Reaction> reaction) async {
+    await context.feedBloc.refreshPaginatedReactions(
+      widget.activity.id!,
+      flags: _flags,
+    );
+
+    setState(() {
+      reactions = reaction;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,18 +60,13 @@ class _CommentsPageState extends State<CommentsPage> {
           Expanded(
               child: RefreshIndicator(
             onRefresh: () {
-              print("Reactions after refresh List total");
-              print(context.feedBloc.getReactions(widget.activity.id!).length);
+              return updateReactions(
+                  context.feedBloc.getReactions(widget.activity.id!));
 
-              reactions = context.feedBloc.getReactions(widget.activity.id!);
-
-              print("Reactions after refresh List");
-              print(reactions);
-
-              return context.feedBloc.refreshPaginatedReactions(
-                widget.activity.id!,
-                flags: _flags,
-              );
+              // context.feedBloc.refreshPaginatedReactions(
+              //   widget.activity.id!,
+              //   flags: _flags,
+              // );
             },
             child: ListView.separated(
                 itemCount: reactions.length,
@@ -68,8 +74,6 @@ class _CommentsPageState extends State<CommentsPage> {
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   final reaction = reactions[index];
-                  print("Data at index " + index.toString());
-                  print(reaction);
                   return CommentListItem(
                     reaction: reaction,
                   );
