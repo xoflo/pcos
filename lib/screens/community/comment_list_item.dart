@@ -5,9 +5,10 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class CommentListItem extends StatelessWidget {
-  const CommentListItem({Key? key, required this.reaction}) : super(key: key);
+  const CommentListItem({Key? key, required this.reaction, this.isOwnComment}) : super(key: key);
 
   final Reaction reaction;
+  final bool? isOwnComment;
 
   @override
   Widget build(BuildContext context) {
@@ -84,29 +85,27 @@ class CommentListItem extends StatelessWidget {
               )
             ],
           ),
-          Row(
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: 5,
-                  ),
-                  IconButton(
-                    iconSize: 20,
-                    onPressed: () {
-                      _addOrRemoveLike(reaction);
-                    },
-                    color: backgroundColor,
-                    icon: isLikedByUser
-                        ? const Icon(Icons.favorite)
-                        : const Icon(Icons.favorite_border),
-                  ),
-                  Text(_displayNumberOfLikes(numberOfLikes),
-                      style: Theme.of(context).textTheme.caption)
-                ],
-              ),
-            ],
-          ),
+          if (isOwnComment != true) ...[
+            Row(
+              children: [
+                SizedBox(
+                  width: 5,
+                ),
+                IconButton(
+                  iconSize: 20,
+                  onPressed: () {
+                    _addOrRemoveLike(reaction);
+                  },
+                  color: backgroundColor,
+                  icon: isLikedByUser
+                      ? const Icon(Icons.favorite)
+                      : const Icon(Icons.favorite_border),
+                ),
+                Text(_displayNumberOfLikes(numberOfLikes),
+                    style: Theme.of(context).textTheme.caption)
+              ],
+            ),
+          ],
         ],
       ),
     );

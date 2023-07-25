@@ -22,9 +22,11 @@ class CommentsPage extends StatefulWidget {
 }
 
 class _CommentsPageState extends State<CommentsPage> {
+  final EnrichmentFlags _flags = EnrichmentFlags()..withOwnChildren();
+
   bool _isPaginating = false;
 
-  final EnrichmentFlags _flags = EnrichmentFlags()..withOwnChildren();
+  List<Reaction> _ownComments = [];
 
   Future<void> _loadMore() async {
     // Ensure we're not already loading more reactions.
@@ -35,6 +37,26 @@ class _CommentsPageState extends State<CommentsPage> {
           .whenComplete(() {
         _isPaginating = false;
       });
+    }
+  }
+
+  // Optimistically add the comment to the list of comments.
+  void _addComment(String comment) {
+    final newComment = Reaction(
+      user: User(data: context.feedClient.currentUser?.data),
+      kind: 'comment',
+      updatedAt: DateTime.now(),
+      data: {'text': comment},
+    );
+
+    setState(() {
+      _ownComments.insert(0, newComment);
+    });
+
+    // Update the comment reaction count in Activity
+    final reactionCounts = widget.activity.reactionCounts;
+    if (reactionCounts?['comment'] != null) {
+      reactionCounts!['comment'] = reactionCounts['comment']! + 1;
     }
   }
 
@@ -69,15 +91,25 @@ class _CommentsPageState extends State<CommentsPage> {
                       );
                     },
                     child: ListView.separated(
-                      itemCount: reactions.length,
+                      itemCount: _ownComments.length + reactions.length,
                       separatorBuilder: (context, index) => const Divider(),
                       itemBuilder: (context, index) {
-                        bool shouldLoadMore = reactions.length - 3 == index;
+                        // Shift the index to account for the own comments.
+                        if (index < _ownComments.length) {
+                          final ownComment = _ownComments[index];
+                          return CommentListItem(
+                            reaction: ownComment,
+                            isOwnComment: true,
+                          );
+                        }
+
+                        final realIndex = index - _ownComments.length;
+                        bool shouldLoadMore = reactions.length - 3 == realIndex;
                         if (shouldLoadMore) {
                           _loadMore();
                         }
 
-                        final reaction = reactions[index];
+                        final reaction = reactions[realIndex];
                         return CommentListItem(
                           reaction: reaction,
                         );
@@ -88,7 +120,10 @@ class _CommentsPageState extends State<CommentsPage> {
               },
             ),
           ),
-          AddCommentBox(activity: widget.activity)
+          AddCommentBox(
+            activity: widget.activity,
+            onAddComment: (comment) => _addComment(comment),
+          )
         ],
       ),
     );
