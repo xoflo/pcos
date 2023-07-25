@@ -157,6 +157,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
     }
 
     return ListActivityItem(
+      key: Key(activities[index].id!),
       activity: activities[index],
       feedGroup: _feedGroup,
     );
