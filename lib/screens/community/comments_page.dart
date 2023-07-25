@@ -82,13 +82,15 @@ class _CommentsPageState extends State<CommentsPage> {
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
-                : ListView.separated(
-                    itemCount: _reactions.length,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemBuilder: (context, index) => CommentListItem(
-                          reaction: _reactions[index],
-                        )),
+                : _reactions.length == 0
+                    ? Center(child: Text("No available comment"))
+                    : ListView.separated(
+                        itemCount: _reactions.length,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemBuilder: (context, index) => CommentListItem(
+                              reaction: _reactions[index],
+                            )),
           )),
           AddCommentBox(
               activity: widget.activity,
