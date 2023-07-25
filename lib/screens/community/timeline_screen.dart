@@ -36,6 +36,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   static int feedsLimit = 10;
 
   bool _isLoadingMore = false;
+  bool _endOfFeed = false;
   int _feedOffset = 0;
 
   Subscription? _feedSubscription;
@@ -68,9 +69,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
         .getPaginatedEnrichedActivities<User, String, String, String>(
             offset: offset, limit: feedsLimit, flags: _flags);
 
-    _feedOffset = offset;
+    final results = paginated.results ?? [];
+    _feedOffset = _feedOffset + results.length;
+    _endOfFeed = results.length < feedsLimit;
 
-    return paginated.results ?? [];
+    return results;
   }
 
   Future<void> _reloadActivities({bool pullToRefresh = false}) async {
@@ -86,10 +89,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
       _isLoadingMore = true;
 
       try {
-        final paginated = await _loadPaginatedActivities(_feedOffset);
-        _feedOffset = _feedOffset + paginated.length;
+        final pagedInActivities = await _loadPaginatedActivities(_feedOffset);
 
-        setState(() => activities.addAll(paginated));
+        setState(() => activities.addAll(pagedInActivities));
       } finally {
         _isLoadingMore = false;
       }
@@ -150,7 +152,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   Widget _paginatedItemBuilder(int index) {
     final nearEndThreshold = 3;
 
-    if (index >= activities.length - nearEndThreshold) {
+    if (index >= activities.length - nearEndThreshold && !_endOfFeed) {
       _loadMoreActivities();
     }
 
