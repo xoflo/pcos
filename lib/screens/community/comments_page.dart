@@ -45,38 +45,42 @@ class _CommentsPageState extends State<CommentsPage> {
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: AppBar(title: const Text('Comments')),
-        body: RefreshIndicator(
-          onRefresh: () {
-            print("Reactions after refresh List total");
-            print(context.feedBloc.getReactions(widget.activity.id!).length);
+        body: Column(children: [
+          Expanded(
+              child: RefreshIndicator(
+            onRefresh: () {
+              print("Reactions after refresh List total");
+              print(context.feedBloc.getReactions(widget.activity.id!).length);
 
-            reactions = context.feedBloc.getReactions(widget.activity.id!);
+              reactions = context.feedBloc.getReactions(widget.activity.id!);
 
-            print("Reactions after refresh List");
-            print(reactions);
+              print("Reactions after refresh List");
+              print(reactions);
 
-            return context.feedBloc.refreshPaginatedReactions(
-              widget.activity.id!,
-              flags: _flags,
-            );
-          },
-          child: ListView.separated(
-              itemCount: reactions.length,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (context, index) {
-                final reaction = reactions[index];
-                print("Data");
-                print(reaction);
-                return CommentListItem(
-                  reaction: reaction,
-                );
-              }),
-        )
+              return context.feedBloc.refreshPaginatedReactions(
+                widget.activity.id!,
+                flags: _flags,
+              );
+            },
+            child: ListView.separated(
+                itemCount: reactions.length,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  final reaction = reactions[index];
+                  print("Data at index " + index.toString());
+                  print(reaction);
+                  return CommentListItem(
+                    reaction: reaction,
+                  );
+                }),
+          )),
+          AddCommentBox(activity: widget.activity)
+        ])
 
-        //     Column(
-        //   children: [
-        //     Expanded(
+        //   Column(
+        // children: [
+        //   Expanded(
         //       child: ReactionListCore(
         //         lookupValue: widget.activity.id!,
         //         kind: 'comment',
