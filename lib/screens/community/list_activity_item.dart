@@ -4,7 +4,6 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 
 import 'comments_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../../models/activity_details.dart';
 
 /// UI widget to display an activity/post.
 ///
@@ -14,77 +13,34 @@ import '../../models/activity_details.dart';
 
 enum ActivityType { like, comment }
 
-class ActivityItem extends StatefulWidget {
-  const ActivityItem(
-      {Key? key,
-      required this.activityDetail,
-      required this.activity,
-      this.reaction,
-      this.feedGroup})
+class ListActivityItem extends StatefulWidget {
+  const ListActivityItem(
+      {Key? key, required this.activity, required this.feedGroup})
       : super(key: key);
 
-  final ActivityDetail activityDetail;
   final EnrichedActivity activity;
-  final String? feedGroup;
-  final Reaction? reaction;
+  final String feedGroup;
 
   @override
-  _ActivityListState createState() => _ActivityListState();
+  _ListActivityItemState createState() => _ListActivityItemState();
 }
 
-class _ActivityListState extends State<ActivityItem> {
-  // List<Attachment>? attachments = [];
-  int? likeCount;
-  int? commentCount;
+class _ListActivityItemState extends State<ListActivityItem> {
+  List<Attachment>? attachments = [];
+  Map<String, int>? reactionCounts;
   Map<String, List<Reaction>>? ownReactions;
   bool isLikedByUser = false;
-
   Reaction? ownLikeReaction;
-
-  Future<void> _unlikePostFormTimeline(Reaction likeReaction) async {
-    context.feedBloc.onRemoveReaction(
-      kind: 'like',
-      activity: widget.activity,
-      reaction: likeReaction,
-      feedGroup: widget.activityDetail.feedGroup!,
-    );
-  }
-
-  Future<void> _unlikePostFromComment(Reaction likedReaction) async {
-    FeedProvider.of(context).bloc.onRemoveChildReaction(
-          kind: 'like',
-          childReaction: likedReaction,
-          lookupValue: widget.activityDetail.reaction!.id!,
-          parentReaction: widget.activityDetail.reaction!,
-        );
-  }
-
-  Future<void> _likePostFromTimeline() async {
-    context.feedBloc
-        .onAddReaction(
-            kind: 'like',
-            activity: widget.activity,
-            feedGroup: widget.activityDetail.feedGroup!)
-        .then((value) => ownLikeReaction = value);
-  }
-
-  Future<void> _likePostFromComment() async {
-    FeedProvider.of(context)
-        .bloc
-        .onAddChildReaction(
-          kind: 'like',
-          reaction: widget.activityDetail.reaction!,
-          lookupValue: widget.activityDetail.reaction!.id!,
-        )
-        .then((value) => ownLikeReaction = value);
-  }
+  String user = '';
 
   @override
   void initState() {
     super.initState();
-    likeCount = widget.activityDetail.reactionCount?['like'];
-    commentCount = widget.activityDetail.reactionCount?['comment'];
-    ownReactions = widget.activityDetail.ownReaction;
+
+    user = widget.activity.actor?.data?['user_name'].toString() ?? '';
+    attachments = (widget.activity.extraData)?.toAttachments();
+    reactionCounts = widget.activity.reactionCounts;
+    ownReactions = widget.activity.ownReactions;
     isLikedByUser = (ownReactions?['like']?.length ?? 0) > 0;
   }
 
@@ -104,13 +60,13 @@ class _ActivityListState extends State<ActivityItem> {
                 child: Row(
                   children: [
                     Text(
-                      "@" + widget.activityDetail.username,
+                      "@" + user,
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 16),
                     ),
                     Text(
                       '  ${timeago.format(
-                        widget.activityDetail.datePosted!,
+                        widget.activity.time!,
                         allowFromNow: true,
                       )}',
                       style: const TextStyle(
@@ -127,7 +83,7 @@ class _ActivityListState extends State<ActivityItem> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 40,
                         child: Text(
-                          widget.activityDetail.postedMessage ?? '',
+                          '${widget.activity.object}',
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.visible,
                           style: TextStyle(
@@ -136,16 +92,14 @@ class _ActivityListState extends State<ActivityItem> {
                       ))
                 ],
               ),
-              if (widget.activityDetail.attachement != null &&
-                  widget.activityDetail.attachement!.isNotEmpty)
+              if (attachments != null && attachments!.isNotEmpty)
                 Container(
                     width: MediaQuery.of(context).size.width,
                     height: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                            widget.activityDetail.attachement![0].url),
+                        image: NetworkImage(attachments![0].url),
                       ),
                     )),
             ],
@@ -171,32 +125,33 @@ class _ActivityListState extends State<ActivityItem> {
                           likedReactions = [ownLikeReaction!];
                         }
 
-                        if (likedReactions != null &&
-                            likedReactions.isNotEmpty) {
-                          if (widget.activityDetail.activitySource ==
-                              ActivitySource.timeline) {
-                            _unlikePostFormTimeline(likedReactions[0]);
-                          } else {
-                            _unlikePostFromComment(likedReactions[0]);
-                          }
+                        if (likedReactions != null && likedReactions.isNotEmpty) {
+                          context.feedBloc.onRemoveReaction(
+                            kind: 'like',
+                            activity: widget.activity,
+                            reaction: likedReactions[0],
+                            feedGroup: widget.feedGroup,
+                          );
                         }
                       } else {
-                        if (widget.activityDetail.activitySource ==
-                            ActivitySource.timeline) {
-                          _likePostFromTimeline();
-                        } else {
-                          _likePostFromComment();
-                        }
+                        // Add a like reaction to the activity, and keep track of
+                        // the like reaction, so it could be unliked if needed.
+                        context.feedBloc
+                            .onAddReaction(
+                                kind: 'like',
+                                activity: widget.activity,
+                                feedGroup: widget.feedGroup)
+                            .then((value) => ownLikeReaction = value);
                       }
 
                       // Optimistically like or unlike the activity.
                       setState(() {
                         isLikedByUser = !isLikedByUser;
-                        int curLikes = likeCount ?? 0;
+                        int curLikes = reactionCounts?['like']?.toInt() ?? 0;
                         if (!isLikedByUser) {
-                          likeCount = (curLikes - 1);
+                          reactionCounts?['like'] = (curLikes - 1);
                         } else {
-                          likeCount = (curLikes + 1);
+                          reactionCounts?['like'] = (curLikes + 1);
                         }
                       });
                     },
@@ -205,14 +160,14 @@ class _ActivityListState extends State<ActivityItem> {
                         ? const Icon(Icons.favorite)
                         : const Icon(Icons.favorite_border),
                   ),
-                  if (likeCount != null)
+                  if (reactionCounts?['like'] != null)
                     Row(children: [
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 0, top: 0, right: 0, bottom: 0),
                         child: Text(
                           _displayNumberByActivity(
-                              likeCount, ActivityType.like),
+                              reactionCounts?['like'], ActivityType.like),
                           style: Theme.of(context).textTheme.caption,
                           textAlign: TextAlign.left,
                         ),
@@ -220,27 +175,24 @@ class _ActivityListState extends State<ActivityItem> {
                     ]),
                 ],
               ),
-              Visibility(
-                  visible: widget.activityDetail.activitySource ==
-                      ActivitySource.timeline,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        iconSize: 25,
-                        onPressed: () => _navigateToCommentPage(context),
-                        icon: const Icon(
-                          Icons.message_outlined,
-                          color: backgroundColor,
-                        ),
-                      ),
-                      if (commentCount != null)
-                        Text(
-                          _displayNumberByActivity(
-                              commentCount, ActivityType.comment),
-                          style: Theme.of(context).textTheme.caption,
-                        )
-                    ],
-                  ))
+              Row(
+                children: [
+                  IconButton(
+                    iconSize: 25,
+                    onPressed: () => _navigateToCommentPage(context),
+                    icon: const Icon(
+                      Icons.message_outlined,
+                      color: backgroundColor,
+                    ),
+                  ),
+                  if (reactionCounts?['comment'] != null)
+                    Text(
+                      _displayNumberByActivity(
+                          reactionCounts?['comment'], ActivityType.comment),
+                      style: Theme.of(context).textTheme.caption,
+                    )
+                ],
+              )
             ],
           ),
         ],

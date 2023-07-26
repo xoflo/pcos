@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
+import 'package:stream_feed/stream_feed.dart';
+import 'package:thepcosprotocol_app/screens/community/list_activity_item.dart';
 
-import '../../models/activity_details.dart';
 import '../../styles/colors.dart';
 import 'compose_activity_page.dart';
-import 'activity_item.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen({
@@ -125,11 +124,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     ],
                   )
                 : ListView.separated(
-                    itemCount: activities.length,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    separatorBuilder: (_, __) => const Divider(),
-                    itemBuilder: (_, index) => _paginatedItemBuilder(index),
-                  ),
+                  itemCount: activities.length,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  separatorBuilder: (_, __) => const Divider(),
+                  itemBuilder: (_, index) => _paginatedItemBuilder(index),
+                ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: backgroundColor,
@@ -153,23 +152,14 @@ class _TimelineScreenState extends State<TimelineScreen> {
   Widget _paginatedItemBuilder(int index) {
     final nearEndThreshold = 3;
 
-    final activity = ActivityDetail(
-        username: activities[index].actor?.data?['user_name'].toString() ?? '',
-        datePosted: activities[index].time,
-        postedMessage: activities[index].object,
-        attachement: (activities[index].extraData)?.toAttachments(),
-        ownReaction: activities[index].ownReactions,
-        reactionCount: activities[index].reactionCounts,
-        activitySource: ActivitySource.timeline,
-        feedGroup: _feedGroup);
-
     if (index >= activities.length - nearEndThreshold && !_endOfFeed) {
       _loadMoreActivities();
     }
 
-    return ActivityItem(
-      activityDetail: activity,
+    return ListActivityItem(
+      key: Key(activities[index].id!),
       activity: activities[index],
+      feedGroup: _feedGroup,
     );
   }
 

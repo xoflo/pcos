@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
-import '../../models/activity_details.dart';
 
 import 'add_comment_box.dart';
-import 'activity_item.dart';
+import 'comment_list_item.dart';
 
 /// A page that displays all [Reaction]s/comments for a specific
 /// [Activity]/Post.
@@ -51,8 +50,7 @@ class _CommentsPageState extends State<CommentsPage> {
     return fetchedReactions.where((r) => r.kind == 'comment').toList();
   }
 
-  Future<void> _reloadReactions(
-      {bool pullToRefresh = false, bool reloadAfterComment = false}) async {
+  Future<void> _reloadReactions({bool pullToRefresh = false, bool reloadAfterComment = false}) async {
     _isLoading = true;
     if (!pullToRefresh) {
       // No need to show the loading indicator when pull-to-refresh is used.
@@ -94,28 +92,13 @@ class _CommentsPageState extends State<CommentsPage> {
                         itemCount: _reactions.length,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         separatorBuilder: (context, index) => const Divider(),
-                        itemBuilder: (context, index) =>
-                            _configureItemBuilder(index)),
+                        itemBuilder: (context, index) => CommentListItem(
+                              reaction: _reactions[index],
+                            )),
           )),
           AddCommentBox(
               activity: widget.activity,
               onAddComment: () => _reloadReactions(reloadAfterComment: true))
         ]));
-  }
-
-  Widget _configureItemBuilder(int index) {
-    final activity = ActivityDetail(
-        username: _reactions[index].user?.data?['user_name'] as String,
-        datePosted: _reactions[index].updatedAt!,
-        postedMessage: _reactions[index].data?['text'] as String,
-        ownReaction: _reactions[index].ownChildren,
-        reactionCount: _reactions[index].childrenCounts,
-        activitySource: ActivitySource.comment,
-        reaction: _reactions[index]);
-
-    return ActivityItem(
-      activityDetail: activity,
-      activity: widget.activity,
-    );
   }
 }
