@@ -4,33 +4,69 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 
 import 'package:timeago/timeago.dart' as timeago;
 
-class CommentListItem extends StatelessWidget {
+class CommentListItem extends StatefulWidget {
   const CommentListItem({Key? key, required this.reaction}) : super(key: key);
 
   final Reaction reaction;
 
   @override
+  _CommentListItemState createState() => _CommentListItemState();
+}
+
+class _CommentListItemState extends State<CommentListItem> {
+  Map<String, int>? reactionCounts;
+  Map<String, List<Reaction>>? ownReactions;
+  Reaction? ownLikeReaction;
+  bool isLikedByUser = false;
+
+  @override
+  void initState() {
+    super.initState();
+    ownReactions = widget.reaction.ownChildren;
+    reactionCounts = widget.reaction.childrenCounts;
+    isLikedByUser = (widget.reaction.ownChildren?['like']?.length ?? 0) > 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final user = reaction.user?.data?['user_name'] as String;
-    final isLikedByUser = (reaction.ownChildren?['like']?.length ?? 0) > 0;
-    final numberOfLikes = reaction.ownChildren?['like']?.length ?? 0;
+    final user = widget.reaction.user?.data?['user_name'] as String;
 
     Future<void> _addOrRemoveLike(Reaction reaction) async {
-      final isLikedByUser = (reaction.ownChildren?['like']?.length ?? 0) > 0;
       if (isLikedByUser) {
-        FeedProvider.of(context).bloc.onRemoveChildReaction(
-              kind: 'like',
-              childReaction: reaction.ownChildren!['like']![0],
-              lookupValue: reaction.id!,
-              parentReaction: reaction,
-            );
+        List<Reaction>? likedReactions = reaction.ownChildren?['like'];
+
+        if (likedReactions == null && ownLikeReaction != null) {
+          likedReactions = [ownLikeReaction!];
+        }
+
+        if (likedReactions != null && likedReactions.isNotEmpty) {
+          FeedProvider.of(context).bloc.onRemoveChildReaction(
+                kind: 'like',
+                childReaction: likedReactions[0],
+                lookupValue: reaction.id!,
+                parentReaction: reaction,
+              );
+        }
       } else {
-        FeedProvider.of(context).bloc.onAddChildReaction(
+        FeedProvider.of(context)
+            .bloc
+            .onAddChildReaction(
               kind: 'like',
               reaction: reaction,
               lookupValue: reaction.id!,
-            );
+            )
+            .then((value) => ownLikeReaction = value);
       }
+
+      setState(() {
+        isLikedByUser = !isLikedByUser;
+        int curLikes = reactionCounts?['like']?.toInt() ?? 0;
+        if (!isLikedByUser) {
+          reactionCounts?['like'] = (curLikes - 1);
+        } else {
+          reactionCounts?['like'] = (curLikes + 1);
+        }
+      });
     }
 
     return Container(
@@ -53,7 +89,7 @@ class CommentListItem extends StatelessWidget {
                     ),
                     Text(
                       '  ${timeago.format(
-                        reaction.updatedAt!,
+                        widget.reaction.updatedAt!,
                         allowFromNow: true,
                       )}',
                       style: const TextStyle(
@@ -73,7 +109,7 @@ class CommentListItem extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 64,
                         child: Text(
-                          '${reaction.data?['text']}',
+                          '${widget.reaction.data?['text']}',
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.visible,
                           style: TextStyle(
@@ -94,14 +130,14 @@ class CommentListItem extends StatelessWidget {
                   IconButton(
                     iconSize: 20,
                     onPressed: () {
-                      _addOrRemoveLike(reaction);
+                      _addOrRemoveLike(widget.reaction);
                     },
                     color: backgroundColor,
                     icon: isLikedByUser
                         ? const Icon(Icons.favorite)
                         : const Icon(Icons.favorite_border),
                   ),
-                  Text(_displayNumberOfLikes(numberOfLikes),
+                  Text(_displayNumberOfLikes(reactionCounts?['like'] ?? 0),
                       style: Theme.of(context).textTheme.caption)
                 ],
               ),

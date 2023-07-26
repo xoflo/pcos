@@ -8,9 +8,11 @@ class AddCommentBox extends StatefulWidget {
   const AddCommentBox({
     Key? key,
     required this.activity,
+    required this.onAddComment,
   }) : super(key: key);
 
   final EnrichedActivity activity;
+  final Function onAddComment;
 
   @override
   State<AddCommentBox> createState() => _AddCommentBoxState();
@@ -30,12 +32,17 @@ class _AddCommentBoxState extends State<AddCommentBox> {
     textController.clear();
 
     if (value.isNotEmpty) {
-      context.feedBloc.onAddReaction(
+      await context.feedBloc.onAddReaction(
         kind: 'comment',
         activity: widget.activity,
         feedGroup: 'public',
         data: {'text': value},
       );
+
+      // Lose the focus on the text field.
+      FocusScope.of(context).unfocus();
+
+      widget.onAddComment();
     }
   }
 
@@ -49,6 +56,8 @@ class _AddCommentBoxState extends State<AddCommentBox> {
         padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 32),
         child: TextField(
           controller: textController,
+          textCapitalization: TextCapitalization.sentences,
+          autocorrect: true,
           onSubmitted: ((value) {
             _addComment();
           }),

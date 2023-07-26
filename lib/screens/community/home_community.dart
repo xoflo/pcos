@@ -31,27 +31,23 @@ class _HomeCommunityState extends State<HomeCommunity> {
   Widget build(BuildContext context) {
     final feedClient = context.feedClient;
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
+    return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: backgroundColor,
             statusBarIconBrightness: Brightness.light),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-              title: Column(
-                children: const [
-                  Text('Timeline'),
-                ],
-              ),
-            ),
-          body: SafeArea(
-              child: IndexedStack(index: _currentIndex, children: [
-                TimelineScreen(
-                    feedClient: feedClient, currentUser: widget.currentUser)
-              ]),
-            ),
+          title: Column(
+            children: const [
+              Text('Timeline'),
+            ],
+          ),
         ),
-      ),
+      body: SafeArea(
+          child: IndexedStack(index: _currentIndex, children: [
+            TimelineScreen(
+                feedClient: feedClient, currentUser: widget.currentUser)
+          ]),
+        ),
     );
   }
 }

@@ -22,75 +22,83 @@ class CommentsPage extends StatefulWidget {
 }
 
 class _CommentsPageState extends State<CommentsPage> {
-  bool _isPaginating = false;
-
   final EnrichmentFlags _flags = EnrichmentFlags()..withOwnChildren();
 
-  Future<void> _loadMore() async {
-    // Ensure we're not already loading more reactions.
-    if (!_isPaginating) {
-      _isPaginating = true;
-      context.feedBloc
-          .loadMoreReactions(widget.activity.id!, flags: _flags)
-          .whenComplete(() {
-        _isPaginating = false;
-      });
+  bool _isLoading = false;
+
+  List<Reaction> _reactions = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _reloadReactions();
+  }
+
+  Future<List<Reaction>> _fetchReactions() async {
+    await context.feedBloc.refreshPaginatedReactions(
+      widget.activity.id!,
+      flags: _flags,
+    );
+
+    // Delay to allow the refresh to complete, the above refresh is not actually
+    // complete when the Future completes.
+    await Future.delayed(const Duration(seconds: 2));
+
+    final fetchedReactions = context.feedBloc.getReactions(widget.activity.id!);
+    // Only return comments, not likes.
+    return fetchedReactions.where((r) => r.kind == 'comment').toList();
+  }
+
+  Future<void> _reloadReactions({bool pullToRefresh = false, bool reloadAfterComment = false}) async {
+    _isLoading = true;
+    if (!pullToRefresh) {
+      // No need to show the loading indicator when pull-to-refresh is used.
+      setState(() {});
     }
+
+    var reactions = await _fetchReactions();
+    if (reactions.isEmpty && reloadAfterComment) {
+      // It looks like reactions are not immediately available after adding a
+      // new comment, so we wait a bit and retry again.
+      // TODO: Investigate why this is happening.
+      reactions = await _fetchReactions();
+    }
+
+    setState(() {
+      _isLoading = false;
+      _reactions = reactions;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
-      appBar: AppBar(title: const Text('Comments')),
-      body: Column(
-        children: [
+        backgroundColor: primaryColor,
+        appBar: AppBar(title: const Text('Comments')),
+        body: Column(children: [
           Expanded(
-            child: ReactionListCore(
-              lookupValue: widget.activity.id!,
-              kind: 'comment',
-              loadingBuilder: (context) => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              emptyBuilder: (context) =>
-                  const Center(child: Text('No comment reactions')),
-              errorBuilder: (context, error) => Center(
-                child: Text(error.toString()),
-              ),
-              flags: _flags,
-              reactionsBuilder: (context, reactions) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: RefreshIndicator(
-                    onRefresh: () {
-                      return context.feedBloc.refreshPaginatedReactions(
-                        widget.activity.id!,
-                        flags: _flags,
-                      );
-                    },
-                    child: ListView.separated(
-                      itemCount: reactions.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemBuilder: (context, index) {
-                        bool shouldLoadMore = reactions.length - 3 == index;
-                        if (shouldLoadMore) {
-                          _loadMore();
-                        }
-
-                        final reaction = reactions[index];
-                        return CommentListItem(
-                          reaction: reaction,
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          AddCommentBox(activity: widget.activity)
-        ],
-      ),
-    );
+              child: RefreshIndicator(
+            onRefresh: () {
+              return _reloadReactions(pullToRefresh: true);
+            },
+            child: (_isLoading)
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : _reactions.length == 0
+                    ? Center(child: Text("No comments yet, be the first!"))
+                    : ListView.separated(
+                        itemCount: _reactions.length,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemBuilder: (context, index) => CommentListItem(
+                              reaction: _reactions[index],
+                            )),
+          )),
+          AddCommentBox(
+              activity: widget.activity,
+              onAddComment: () => _reloadReactions(reloadAfterComment: true))
+        ]));
   }
 }
