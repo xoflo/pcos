@@ -24,6 +24,7 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
   final TextEditingController _textEditingController = TextEditingController();
 
   bool _isPosting = false;
+  int currentUploadsLength = 0;
 
   @override
   void dispose() {
@@ -52,6 +53,7 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
         to: [FeedId.id('public:all')],
         data: media,
       );
+      currentUploadsLength = 0;
       uploadController.clear();
 
       Navigator.pop(context);
@@ -125,6 +127,16 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                       if (image != null) {
                         await context.feedUploadController
                             .uploadImage(AttachmentFile(path: image.path));
+
+                        final media = context.feedUploadController
+                            .getMediaUris()
+                            ?.toExtraData();
+                        if (media != null &&
+                            media.length != currentUploadsLength) {
+                          setState(() {
+                            currentUploadsLength = media.length;
+                          });
+                        }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Cancelled')));
@@ -141,36 +153,38 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                   ),
                 ],
               ),
-              UploadListCore(
-                uploadController: context.feedUploadController,
-                loadingBuilder: (context) =>
-                    const Center(child: CircularProgressIndicator()),
-                uploadsErrorBuilder: (error) =>
-                    Center(child: Text(error.toString())),
-                uploadsBuilder: (context, uploads) {
-                  return SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: uploads.length,
-                      itemBuilder: (context, index) => FileUploadStateWidget(
-                          fileState: uploads[index],
-                          onRemoveUpload: (attachment) {
-                            return context.feedUploadController
-                                .removeUpload(attachment);
-                          },
-                          onCancelUpload: (attachment) {
-                            return context.feedUploadController
-                                .cancelUpload(attachment);
-                          },
-                          onRetryUpload: (attachment) async {
-                            return context.feedUploadController
-                                .uploadImage(attachment);
-                          }),
-                    ),
-                  );
-                },
-              ),
+              if (currentUploadsLength > 0)
+                UploadListCore(
+                  uploadController: context.feedUploadController,
+                  loadingBuilder: (context) =>
+                      const Center(child: CircularProgressIndicator()),
+                  uploadsErrorBuilder: (error) =>
+                      Center(child: Text(error.toString())),
+                  uploadsBuilder: (context, uploads) {
+                    return SizedBox(
+                      height: 100,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: currentUploadsLength,
+                        itemBuilder: (context, index) => FileUploadStateWidget(
+                            fileState: uploads[index],
+                            onRemoveUpload: (attachment) {
+                              currentUploadsLength = currentUploadsLength - 1;
+                              return context.feedUploadController
+                                  .removeUpload(attachment);
+                            },
+                            onCancelUpload: (attachment) {
+                              return context.feedUploadController
+                                  .cancelUpload(attachment);
+                            },
+                            onRetryUpload: (attachment) async {
+                              return context.feedUploadController
+                                  .uploadImage(attachment);
+                            }),
+                      ),
+                    );
+                  },
+                ),
             ],
           ),
         ),
