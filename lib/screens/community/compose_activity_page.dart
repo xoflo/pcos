@@ -12,7 +12,8 @@ import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 ///
 /// [More information](https://getstream.io/activity-feeds/docs/flutter-dart/adding_activities/?language=dart) on activities.
 class ComposeActivityPage extends StatefulWidget {
-  ComposeActivityPage({Key? key, required this.onAddActivity}) : super(key: key);
+  ComposeActivityPage({Key? key, required this.onAddActivity})
+      : super(key: key);
 
   final Function onAddActivity;
 
@@ -24,7 +25,7 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
   final TextEditingController _textEditingController = TextEditingController();
 
   bool _isPosting = false;
-  int currentUploadsLength = 0;
+  Map<String, Object>? _uploadedMedia;
 
   @override
   void dispose() {
@@ -44,17 +45,16 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
             const SnackBar(content: Text('Cannot post an empty message')));
       }
 
-      final uploadController = context.feedUploadController;
-      final media = uploadController.getMediaUris()?.toExtraData();
       await context.feedBloc.onAddActivity(
         feedGroup: 'public',
         verb: 'post',
         object: _textEditingController.text,
         to: [FeedId.id('public:all')],
-        data: media,
+        data: _uploadedMedia,
       );
-      currentUploadsLength = 0;
-      uploadController.clear();
+
+      _uploadedMedia = null;
+      context.feedUploadController.clear();
 
       Navigator.pop(context);
 
@@ -134,10 +134,9 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                         final media = context.feedUploadController
                             .getMediaUris()
                             ?.toExtraData();
-                        if (media != null &&
-                            media.length != currentUploadsLength) {
+                        if (media != null) {
                           setState(() {
-                            currentUploadsLength = media.length;
+                            _uploadedMedia = media.length;
                           });
                         }
                       } else {
@@ -156,7 +155,7 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                   ),
                 ],
               ),
-              if (currentUploadsLength > 0)
+              if (_uploadedMedia != null)
                 UploadListCore(
                   uploadController: context.feedUploadController,
                   loadingBuilder: (context) =>
@@ -168,11 +167,10 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
                       height: 100,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: currentUploadsLength,
+                        itemCount: uploads.length,
                         itemBuilder: (context, index) => FileUploadStateWidget(
                             fileState: uploads[index],
                             onRemoveUpload: (attachment) {
-                              currentUploadsLength = currentUploadsLength - 1;
                               return context.feedUploadController
                                   .removeUpload(attachment);
                             },
