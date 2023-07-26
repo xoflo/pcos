@@ -98,7 +98,7 @@ class _ListActivityItemState extends State<ListActivityItem> {
                     height: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         image: NetworkImage(attachments![0].url),
                       ),
                     )),
