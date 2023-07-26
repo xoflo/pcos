@@ -62,6 +62,36 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
     }
   }
 
+  // Pick an image from the gallery and upload it to Stream CDN.
+  Future<void> _pickAndUploadMedia() async {
+    // Only allow one media upload
+    if (_uploadedMedia == null) {
+      final picker = ImagePicker();
+      final image = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxHeight: 600,
+        maxWidth: 300,
+        imageQuality: 70,
+      );
+
+      if (image != null) {
+        await context.feedUploadController
+            .uploadImage(AttachmentFile(path: image.path));
+
+        final media =
+            context.feedUploadController.getMediaUris()?.toExtraData();
+        if (media != null) {
+          setState(() {
+            _uploadedMedia = media;
+          });
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Cancelled image selection')));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,35 +148,12 @@ class _ComposeActivityPageState extends State<ComposeActivityPage> {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () async {
-                      final ImagePicker _picker = ImagePicker();
-                      final XFile? image = await _picker.pickImage(
-                        source: ImageSource.gallery,
-                        maxHeight: 600,
-                        maxWidth: 300,
-                        imageQuality: 50,
-                      );
-
-                      if (image != null) {
-                        await context.feedUploadController
-                            .uploadImage(AttachmentFile(path: image.path));
-
-                        final media = context.feedUploadController
-                            .getMediaUris()
-                            ?.toExtraData();
-                        if (media != null) {
-                          setState(() {
-                            _uploadedMedia = media.length;
-                          });
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Cancelled')));
-                      }
-                    },
-                    icon: const Icon(
+                    onPressed: _pickAndUploadMedia,
+                    icon: Icon(
                       Icons.collections,
-                      color: backgroundColor,
+                      color: _uploadedMedia != null
+                          ? Colors.grey
+                          : backgroundColor,
                     ),
                   ),
                   Text(
