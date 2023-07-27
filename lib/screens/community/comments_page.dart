@@ -13,9 +13,11 @@ class CommentsPage extends StatefulWidget {
   const CommentsPage({
     Key? key,
     required this.activity,
+    required this.commentCallback,
   }) : super(key: key);
 
   final EnrichedActivity activity;
+  final Function(int) commentCallback;
 
   @override
   State<CommentsPage> createState() => _CommentsPageState();
@@ -50,7 +52,8 @@ class _CommentsPageState extends State<CommentsPage> {
     return fetchedReactions.where((r) => r.kind == 'comment').toList();
   }
 
-  Future<void> _reloadReactions({bool pullToRefresh = false, bool reloadAfterComment = false}) async {
+  Future<void> _reloadReactions(
+      {bool pullToRefresh = false, bool reloadAfterComment = false}) async {
     _isLoading = true;
     if (!pullToRefresh) {
       // No need to show the loading indicator when pull-to-refresh is used.
@@ -69,6 +72,8 @@ class _CommentsPageState extends State<CommentsPage> {
       _isLoading = false;
       _reactions = reactions;
     });
+
+    widget.commentCallback(reactions.length);
   }
 
   @override

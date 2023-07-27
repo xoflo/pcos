@@ -204,8 +204,12 @@ class _ListActivityItemState extends State<ListActivityItem> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
           builder: (BuildContext context) => CommentsPage(
-                activity: widget.activity,
-              ),
+              activity: widget.activity,
+              commentCallback: (commentsCount) {
+                setState(() {
+                  reactionCounts?['comment'] = commentsCount;
+                });
+              }),
           fullscreenDialog: true),
     );
   }
