@@ -72,8 +72,6 @@ class _CommentsPageState extends State<CommentsPage> {
       _isLoading = false;
       _reactions = reactions;
     });
-
-    widget.commentCallback(reactions.length);
   }
 
   @override
@@ -103,7 +101,14 @@ class _CommentsPageState extends State<CommentsPage> {
           )),
           AddCommentBox(
               activity: widget.activity,
-              onAddComment: () => _reloadReactions(reloadAfterComment: true))
+              onAddComment: (reaction) {
+                if(reaction != null) {
+                  setState(() {
+                    _reactions.insert(0, reaction);
+                  });
+                  widget.commentCallback(_reactions.length);
+                }
+              })
         ]));
   }
 }

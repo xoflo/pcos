@@ -12,7 +12,7 @@ class AddCommentBox extends StatefulWidget {
   }) : super(key: key);
 
   final EnrichedActivity activity;
-  final Function onAddComment;
+  final Function(Reaction?) onAddComment;
 
   @override
   State<AddCommentBox> createState() => _AddCommentBoxState();
@@ -32,7 +32,7 @@ class _AddCommentBoxState extends State<AddCommentBox> {
     textController.clear();
 
     if (value.isNotEmpty) {
-      await context.feedBloc.onAddReaction(
+      final reaction = await context.feedBloc.onAddReaction(
         kind: 'comment',
         activity: widget.activity,
         feedGroup: 'public',
@@ -42,7 +42,9 @@ class _AddCommentBoxState extends State<AddCommentBox> {
       // Lose the focus on the text field.
       FocusScope.of(context).unfocus();
 
-      widget.onAddComment();
+      if(reaction.activityId != null && reaction.createdAt != null) {
+        widget.onAddComment(reaction);
+      }
     }
   }
 
