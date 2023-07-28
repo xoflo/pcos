@@ -205,7 +205,7 @@ class _ListActivityItemState extends State<ListActivityItem> {
       MaterialPageRoute<void>(
           builder: (BuildContext context) => CommentsPage(
               activity: widget.activity,
-              commentCallback: (commentsCount) {
+              onAddComment: (commentsCount) {
                 setState(() {
                   reactionCounts?['comment'] = commentsCount;
                 });

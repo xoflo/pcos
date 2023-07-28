@@ -13,11 +13,11 @@ class CommentsPage extends StatefulWidget {
   const CommentsPage({
     Key? key,
     required this.activity,
-    required this.commentCallback,
+    required this.onAddComment,
   }) : super(key: key);
 
   final EnrichedActivity activity;
-  final Function(int) commentCallback;
+  final Function(int) onAddComment;
 
   @override
   State<CommentsPage> createState() => _CommentsPageState();
@@ -108,7 +108,7 @@ class _CommentsPageState extends State<CommentsPage> {
                   setState(() {
                     _reactions.insert(0, reaction);
                   });
-                  widget.commentCallback(_reactions.length);
+                  widget.onAddComment(_reactions.length);
                 }
               })
         ]));
