@@ -13,7 +13,8 @@ class CommentListItem extends StatefulWidget {
   _CommentListItemState createState() => _CommentListItemState();
 }
 
-class _CommentListItemState extends State<CommentListItem> {
+class _CommentListItemState extends State<CommentListItem>
+    with AutomaticKeepAliveClientMixin {
   Map<String, int>? reactionCounts;
   Map<String, List<Reaction>>? ownReactions;
   Reaction? ownLikeReaction;
@@ -28,7 +29,11 @@ class _CommentListItemState extends State<CommentListItem> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final user = widget.reaction.user?.data?['user_name'] as String;
 
     Future<void> _addOrRemoveLike(Reaction reaction) async {
@@ -134,10 +139,11 @@ class _CommentListItemState extends State<CommentListItem> {
                     },
                     color: backgroundColor,
                     icon: isLikedByUser
-                        ? const Icon(Icons.favorite)
-                        : const Icon(Icons.favorite_border),
+                        ? Icon(Icons.favorite, key: widget.key)
+                        : Icon(Icons.favorite_border, key: widget.key),
                   ),
-                  Text(_displayNumberOfLikes(reactionCounts?['like'] ?? 0),
+                  Text(_displayNumberOfLikes(reactionCounts?['like'] ?? 0,),
+                      key: widget.key,
                       style: Theme.of(context).textTheme.caption)
                 ],
               ),

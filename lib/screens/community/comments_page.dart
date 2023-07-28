@@ -91,13 +91,15 @@ class _CommentsPageState extends State<CommentsPage> {
                   )
                 : _reactions.length == 0
                     ? Center(child: Text("No comments yet, be the first!"))
-                    : ListView.separated(
-                        itemCount: _reactions.length,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemBuilder: (context, index) => CommentListItem(
-                              reaction: _reactions[index],
-                            )),
+                    : ListView(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      children: _reactions.map((e) {
+                        return CommentListItem(
+                          key: ValueKey(e.id),
+                          reaction: e,
+                        );
+                      }).toList(),
+                    )
           )),
           AddCommentBox(
               activity: widget.activity,
