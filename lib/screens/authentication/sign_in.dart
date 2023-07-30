@@ -19,6 +19,9 @@ import 'package:thepcosprotocol_app/constants/analytics.dart' as Analytics;
 import 'package:thepcosprotocol_app/models/member.dart';
 import 'package:thepcosprotocol_app/widgets/shared/loader_overlay_generic.dart';
 
+import '../../config/flavors.dart';
+import '../internal_web_view.dart';
+
 class SignIn extends StatefulWidget {
   static const String id = "sign_in_screen";
 
@@ -76,19 +79,18 @@ class _SignInState extends State<SignIn> {
           } else {
             showAlertDialog(
               context,
-              S.current.signinErrorTitle,
-              "Your account has been created, the Ovie team is in the process of evaluating your conditions and will contact you about the next steps.",
+              S.current.signinSubscriptionErrorTitle,
+              S.current.signinSubscriptionErrorText,
               "",
               "OK",
               (BuildContext context) {
                 setState(() => isSigningIn = false);
-                // TODO: Remove this as this can cause issues with Apple App Store Review about IAP.
-                // Open subscription URL on login
-                // Navigator.pushReplacementNamed(
-                //   context,
-                //   InternalWebView.id,
-                //   arguments: FlavorConfig.instance.values.subscriptionUrl,
-                // );
+
+                Navigator.pushReplacementNamed(
+                  context,
+                  InternalWebView.id,
+                  arguments: FlavorConfig.instance.values.questionnaireUrl,
+                );
               },
               null,
             );
