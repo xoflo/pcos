@@ -139,11 +139,10 @@ class _CommentListItemState extends State<CommentListItem>
                     },
                     color: backgroundColor,
                     icon: isLikedByUser
-                        ? Icon(Icons.favorite, key: widget.key)
-                        : Icon(Icons.favorite_border, key: widget.key),
+                        ? Icon(Icons.favorite)
+                        : Icon(Icons.favorite_border),
                   ),
                   Text(_displayNumberOfLikes(reactionCounts?['like'] ?? 0,),
-                      key: widget.key,
                       style: Theme.of(context).textTheme.caption)
                 ],
               ),
