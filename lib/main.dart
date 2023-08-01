@@ -33,8 +33,8 @@ Future<void> main() async {
         "android_sdk-f983d39f10faf073f30cd86aeef4cbdeeb43f62a",
         "ios_sdk-d261cf50066263428896158291f1ea7a86d2a550",
       ],
-      getStreamIoApiKey: 'h8nbgf9a3vkq',
-      getStreamIoAppId: '1254084'
+      getStreamIoApiKey: 'dd69mrjqdahm',
+      getStreamIoAppId: '1259133'
     ),
   );
 
