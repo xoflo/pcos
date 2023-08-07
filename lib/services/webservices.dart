@@ -28,6 +28,7 @@ import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
 import 'package:thepcosprotocol_app/models/workout_exercise.dart';
 import 'package:thepcosprotocol_app/models/workout_exercise_list.dart';
 
+import '../models/response/getstreamio_token_response.dart';
 import '../models/response/workout_response.dart';
 import '../models/workout.dart';
 
@@ -95,6 +96,22 @@ class WebServices {
       return tokenResponse.token;
     } else {
       throw TOKEN_REFRESH_FAILED;
+    }
+  }
+
+  Future<String> getStreamIOToken() async {
+    final url = Uri.parse(baseUrl + "token/chat");
+    final String? token = await AuthenticationController().getAccessToken();
+    try {
+      final response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      final resp = GetStreamIOResponse.fromJson(jsonDecode(response.body));
+      return resp.payload ?? '';
+    } catch (e) {
+      rethrow;
     }
   }
 

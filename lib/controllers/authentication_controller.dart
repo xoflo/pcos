@@ -118,6 +118,14 @@ class AuthenticationController {
     }
   }
 
+  Future<String> getStreamIOToken() async {
+    try {
+      return await WebServices().getStreamIOToken();
+    } catch (ex) {
+      return '';
+    }
+  }
+
   Future<String?> getUsername() async {
     try {
       final String? username =

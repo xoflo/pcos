@@ -142,6 +142,8 @@ PODS:
   - HLSCachingReverseProxyServer (0.1.0):
     - GCDWebServer (~> 3.5)
     - PINCache (>= 3.0.1-beta.3)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - integration_test (0.0.1):
     - Flutter
   - launch_review (0.0.1):
@@ -206,6 +208,7 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - notification_permissions (from `.symlinks/plugins/notification_permissions/ios`)
@@ -268,6 +271,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_timezone/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
   launch_review:
@@ -318,6 +323,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   HLSCachingReverseProxyServer: 59935e1e0244ad7f3375d75b5ef46e8eb26ab181
+  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
   launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
@@ -339,4 +345,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5079f6bb53f4e0dae5984130261abbebc190bef6
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
