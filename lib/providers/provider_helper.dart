@@ -1011,9 +1011,10 @@ class ProviderHelper {
       final List<CMS>? cmsItems, final String cmsType) {
     List<Question> questionList = [];
 
-    if ((cmsItems?.length ?? 0).isOdd) {
+    final cmsItemsLength = cmsItems?.length ?? 0;
+    if (cmsItemsLength.isOdd) {
       //an odd number of items, so remove the last one as they should be in pairs
-      cmsItems?.removeAt(cmsItems.length);
+      cmsItems?.removeLast();
     }
 
     for (var i = 0; i < (cmsItems?.length ?? 0) - 1; i = i + 2) {
