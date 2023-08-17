@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 import 'comments_page.dart';
@@ -93,15 +94,22 @@ class _ListActivityItemState extends State<ListActivityItem> {
                 ],
               ),
               if (attachments != null && attachments!.isNotEmpty)
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: NetworkImage(attachments![0].url),
-                      ),
-                    )),
+                GestureDetector(
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.contain,
+                          image: NetworkImage(attachments![0].url),
+                        ),
+                      )),
+                  onTap: () {
+                    showImageViewer(
+                        context, Image.network(attachments![0].url).image,
+                        swipeDismissible: false, doubleTapZoomable: true);
+                  },
+                ),
             ],
           ),
           Row(
