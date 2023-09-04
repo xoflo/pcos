@@ -97,7 +97,8 @@ class DashboardLessonCarousel extends StatelessWidget {
                 // in the server, based on the number of hours since the user
                 // completed the very first lesson in the module.
 
-                bool isLessonUnlocked = index == 0;
+                var isLessonUnlocked = index == 0;
+                var isPreviousLessonComplete = false;
 
                 if (index > 0) {
                   final previousLesson =
@@ -110,10 +111,16 @@ class DashboardLessonCarousel extends StatelessWidget {
                           ?.isComplete ??
                       true;
 
-                  isLessonUnlocked = (previousLesson.isComplete &&
-                      isPreviousLessonQuizComplete &&
-                      currentLesson.hoursUntilAvailable == 0);
+                  isPreviousLessonComplete =
+                      previousLesson.isComplete && isPreviousLessonQuizComplete;
+
+                  isLessonUnlocked = isPreviousLessonComplete &&
+                      currentLesson.hoursUntilAvailable == 0;
                 }
+
+                final unlockHint = isPreviousLessonComplete
+                    ? "Unlock in ${currentLesson.hoursUntilAvailable} hours"
+                    : "Lessons unlock daily or after\ncompleting previous";
 
                 final lessonDuration = currentLesson.minsToComplete;
 
@@ -139,8 +146,7 @@ class DashboardLessonCarousel extends StatelessWidget {
                                 ),
                               )
                             else
-                              DashboardLessonLockedComponent(
-                                  title: "Lessons unlock daily or after\ncompleting previous"),
+                              DashboardLessonLockedComponent(title: unlockHint),
                             Opacity(
                               opacity: isLessonUnlocked ? 1 : 0.5,
                               child: Container(
