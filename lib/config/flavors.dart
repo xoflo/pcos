@@ -12,6 +12,8 @@ class FlavorValues {
     required this.imageStorageFolder,
     required this.thumbnailStorageFolder,
     required this.intercomIds,
+    required this.getStreamIoApiKey,
+    required this.getStreamIoAppId,
   });
   final String baseUrl;
   final String subscriptionUrl;
@@ -20,6 +22,8 @@ class FlavorValues {
   final String imageStorageFolder;
   final String thumbnailStorageFolder;
   final List<String> intercomIds;
+  final String getStreamIoApiKey;
+  final String getStreamIoAppId;
   //Add other flavor specific values, e.g database name
 
   final String discordUrl = 'https://discord.gg/U3zQQypbFW';

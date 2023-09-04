@@ -370,6 +370,26 @@ class S {
     );
   }
 
+  /// `Subscription Check Failed`
+  String get signinSubscriptionErrorTitle {
+    return Intl.message(
+      'Account Activation Required',
+      name: 'signinSubErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription Check Failed Text`
+  String get signinSubscriptionErrorText {
+    return Intl.message(
+      'Your account still needs to be activated. Click on the button below to activate this. If you have any troubles, reach out to the Ovie team!',
+      name: 'signinSubErrorText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Your email address has not been verified. Please check your inbox for a new verification email.`
   String get signInEmailNotVerifiedErrorText {
     return Intl.message(
