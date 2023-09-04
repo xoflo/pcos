@@ -66,6 +66,8 @@ dependencies:
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
+  # Fix stream_feed and flutter_localizations compatibility issues
+  intl: any
 
 dev_dependencies:
   integration_test:
