@@ -5,13 +5,13 @@ stages:
 analyze_project:
   stage: analyze
   script:
-    - flutter analyze
+    - fvm flutter analyze
   tags:
     - flutter3
 
 test_project:
   stage: test
   script:
-    - flutter test
+    - fvm flutter test
   tags:
     - flutter3
