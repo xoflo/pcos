@@ -56,4 +56,27 @@ class DeviceUtils {
     final String platformOS = Platform.isIOS ? "ios" : "android";
     return await WebServices().checkVersion(platformOS, versionForChecker);
   }
+
+  static Future<String> getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final String version = packageInfo.version;
+    final String versionForChecker =
+        version.substring(0, version.lastIndexOf("."));
+
+    return versionForChecker;
+  }
+
+  Future<Map<String, String>> getWebServiceHeaders() async {
+    final appVersion = await DeviceUtils.getAppVersion();
+    final majorVersion = appVersion.split(".")[0];
+    final minorVersion = appVersion.split(".")[1];
+
+    return {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'X-APP-PLATFORM': Platform.isIOS ? "IOS" : "ANDROID",
+      'X-APP-MAJOR-VERSION': majorVersion,
+      'X-APP-MINOR-VERSION': minorVersion,
+    };
+  }
 }
