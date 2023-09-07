@@ -82,7 +82,8 @@ class DashboardLessonCarousel extends StatelessWidget {
                   lessonRecipeDuration += element.duration ?? 0;
                 });
 
-                var isLessonUnlocked = currentLesson.hoursUntilAvailable == 0;
+                var isLessonUnlocked = currentLesson.isComplete ||
+                    currentLesson.hoursUntilAvailable <= 0;
                 var isPreviousLessonComplete = true;
 
                 if (index > 0) {
@@ -99,8 +100,9 @@ class DashboardLessonCarousel extends StatelessWidget {
                   isPreviousLessonComplete =
                       previousLesson.isComplete && isPreviousLessonQuizComplete;
 
-                  isLessonUnlocked = isPreviousLessonComplete &&
-                      currentLesson.hoursUntilAvailable == 0;
+                  isLessonUnlocked = currentLesson.isComplete ||
+                      (isPreviousLessonComplete &&
+                          currentLesson.hoursUntilAvailable <= 0);
                 }
 
                 final unlockHint = isPreviousLessonComplete
