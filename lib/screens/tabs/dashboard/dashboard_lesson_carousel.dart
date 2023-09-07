@@ -82,23 +82,8 @@ class DashboardLessonCarousel extends StatelessWidget {
                   lessonRecipeDuration += element.duration ?? 0;
                 });
 
-                // Initially, all lessons in the current module are already
-                // loaded. However, each lesson needs to be checked if
-                // they are already unlocked. The first lesson of the module is
-                // automatically unlocked. But for the rest of the lessons
-                // to be unlocked, the previous one must be completed first.
-                // But the app still needs to check if the lesson is already
-                // available to access for the user. The server determines the
-                // availability of the lesson so that the user will not
-                // be able to simultaneously finish all the lessons and all
-                // the modules in one sitting. This also allows other users
-                // to save the lessons for later and go over them on their
-                // own pace. The computation for this value is already done
-                // in the server, based on the number of hours since the user
-                // completed the very first lesson in the module.
-
-                var isLessonUnlocked = index == 0;
-                var isPreviousLessonComplete = false;
+                var isLessonUnlocked = currentLesson.hoursUntilAvailable == 0;
+                var isPreviousLessonComplete = true;
 
                 if (index > 0) {
                   final previousLesson =
