@@ -34,6 +34,7 @@ import 'package:thepcosprotocol_app/screens/authentication/sign_in.dart';
 import 'package:thepcosprotocol_app/screens/splash_page.dart';
 import 'package:thepcosprotocol_app/screens/tabs/more/settings.dart';
 import 'package:thepcosprotocol_app/screens/zendesk_web_view.dart';
+import 'package:thepcosprotocol_app/services/webservices.dart';
 import 'package:thepcosprotocol_app/styles/app_theme_data.dart';
 import 'package:thepcosprotocol_app/providers/cms_text_provider.dart';
 import 'package:thepcosprotocol_app/providers/modules_provider.dart';
@@ -95,6 +96,8 @@ class _AppState extends State<App> {
     tz.initializeTimeZones();
     final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(timeZoneName));
+
+    WebServices.initHeaders();
 
     initializeFlutterFire();
     initializeOneSignal();

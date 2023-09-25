@@ -1,41 +1,51 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 import 'package:connectivity/connectivity.dart';
+import 'package:http/http.dart' as http;
 import 'package:thepcosprotocol_app/config/flavors.dart';
-import 'package:thepcosprotocol_app/models/message.dart';
-import 'package:thepcosprotocol_app/models/module_export.dart';
-import 'package:thepcosprotocol_app/models/response/lesson_complete_response.dart';
-import 'package:thepcosprotocol_app/models/response/lesson_task_response.dart';
-import 'package:thepcosprotocol_app/models/response/module_export_response.dart';
-import 'package:thepcosprotocol_app/models/response/standard_response.dart';
-import 'package:thepcosprotocol_app/models/response/list_response.dart';
-import 'package:thepcosprotocol_app/models/response/token_response.dart';
-import 'package:thepcosprotocol_app/models/response/recipe_response.dart';
-import 'package:thepcosprotocol_app/models/response/cms_response.dart';
-import 'package:thepcosprotocol_app/models/response/cms_multi_response.dart';
-import 'package:thepcosprotocol_app/models/response/message_response.dart';
-import 'package:thepcosprotocol_app/models/response/module_response.dart';
-import 'package:thepcosprotocol_app/models/response/lesson_response.dart';
-import 'package:thepcosprotocol_app/models/lesson_task.dart';
-import 'package:thepcosprotocol_app/models/token.dart';
-import 'package:thepcosprotocol_app/models/recipe.dart';
-import 'package:thepcosprotocol_app/models/cms.dart';
-import 'package:thepcosprotocol_app/models/member.dart';
-import 'package:thepcosprotocol_app/models/module.dart';
-import 'package:thepcosprotocol_app/models/lesson.dart';
 import 'package:thepcosprotocol_app/constants/exceptions.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
+import 'package:thepcosprotocol_app/models/cms.dart';
+import 'package:thepcosprotocol_app/models/lesson.dart';
+import 'package:thepcosprotocol_app/models/lesson_task.dart';
+import 'package:thepcosprotocol_app/models/member.dart';
+import 'package:thepcosprotocol_app/models/message.dart';
+import 'package:thepcosprotocol_app/models/module.dart';
+import 'package:thepcosprotocol_app/models/module_export.dart';
+import 'package:thepcosprotocol_app/models/recipe.dart';
+import 'package:thepcosprotocol_app/models/response/cms_multi_response.dart';
+import 'package:thepcosprotocol_app/models/response/cms_response.dart';
+import 'package:thepcosprotocol_app/models/response/lesson_complete_response.dart';
+import 'package:thepcosprotocol_app/models/response/lesson_response.dart';
+import 'package:thepcosprotocol_app/models/response/lesson_task_response.dart';
+import 'package:thepcosprotocol_app/models/response/list_response.dart';
+import 'package:thepcosprotocol_app/models/response/message_response.dart';
+import 'package:thepcosprotocol_app/models/response/module_export_response.dart';
+import 'package:thepcosprotocol_app/models/response/module_response.dart';
+import 'package:thepcosprotocol_app/models/response/recipe_response.dart';
+import 'package:thepcosprotocol_app/models/response/standard_response.dart';
+import 'package:thepcosprotocol_app/models/response/token_response.dart';
+import 'package:thepcosprotocol_app/models/token.dart';
 import 'package:thepcosprotocol_app/models/workout_exercise.dart';
 import 'package:thepcosprotocol_app/models/workout_exercise_list.dart';
 
 import '../models/response/getstreamio_token_response.dart';
 import '../models/response/workout_response.dart';
 import '../models/workout.dart';
+import '../utils/device_utils.dart';
 
 class WebServices {
   // ignore: todo
   // TODO: would be better if this is private but right now we need this to be mockable
   String get baseUrl => FlavorConfig.instance.values.baseUrl;
+
+  static Map<String, String> kWebServicesHeaders = {
+    'Content-Type': 'application/json; charset=UTF-8',
+  };
+
+  static Future initHeaders() async {
+    kWebServicesHeaders = await DeviceUtils().getWebServiceHeaders();
+  }
 
   //#region Connectivity
   Future<bool> checkInternetConnectivity() async {
@@ -55,9 +65,7 @@ class WebServices {
     final url = Uri.parse(baseUrl + "Token");
     final response = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: kWebServicesHeaders,
       body: jsonEncode(
         <String, String>{'alias': emailAddress, 'password': password},
       ),
@@ -85,9 +93,7 @@ class WebServices {
         await AuthenticationController().getRefreshToken();
     final response = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: kWebServicesHeaders,
       body: "'$refreshToken'",
     );
 
@@ -103,9 +109,9 @@ class WebServices {
     final url = Uri.parse(baseUrl + "token/chat");
     final String? token = await AuthenticationController().getAccessToken();
     try {
-      final response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+      final response = await http.get(url,
+      headers: {
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       });
       final resp = GetStreamIOResponse.fromJson(jsonDecode(response.body));
@@ -120,9 +126,7 @@ class WebServices {
 
     final response = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: kWebServicesHeaders,
       body: "'$emailAddress'",
     );
 
@@ -181,8 +185,7 @@ class WebServices {
     final String? token = await AuthenticationController().getAccessToken();
     try {
       final response = await http.get(url, headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       });
 
@@ -193,10 +196,7 @@ class WebServices {
   }
 
   Future<dynamic> executeHttpGetWithoutAuth(url) async {
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
+    final response = await http.get(url, headers: kWebServicesHeaders);
 
     return response;
   }
@@ -231,7 +231,7 @@ class WebServices {
     final response = await http.post(
       url,
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       },
       body: encodedMemberDetails,
@@ -252,7 +252,7 @@ class WebServices {
     final response = await http.post(
       url,
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode(
@@ -357,8 +357,7 @@ class WebServices {
     final response = await http.post(
       url,
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       },
       body: moduleId.toString(),
@@ -383,8 +382,7 @@ class WebServices {
     final response = await http.post(
       url,
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       },
       body:
@@ -410,8 +408,7 @@ class WebServices {
     final response = await http.post(
       url,
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       },
       body: "'$value'",
@@ -642,8 +639,8 @@ class WebServices {
 
     final response = await http.post(
       url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+      headers: {
+        ...kWebServicesHeaders,
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode(
@@ -674,8 +671,7 @@ class WebServices {
     final String? token = await AuthenticationController().getAccessToken();
 
     final response = await http.delete(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      ...kWebServicesHeaders,
       'Authorization': 'Bearer $token',
     });
 
