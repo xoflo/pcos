@@ -126,6 +126,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+
+    implementation 'androidx.window:window:1.0.0'
+    implementation 'androidx.window:window-java:1.0.0'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'
