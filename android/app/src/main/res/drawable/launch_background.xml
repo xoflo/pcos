@@ -4,9 +4,5 @@
     <item>
         <color android:color="@color/ovie_green" />
    </item>
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/ic_launcher" />
-    </item>
+
 </layer-list>
