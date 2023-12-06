@@ -13,6 +13,8 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import '../../../controllers/authentication_controller.dart';
 import '../../../screens/community/extension.dart';
 import '../../community/home_community.dart';
+import '../../periodtracker/PeriodTrackerDashboard.dart';
+import '../../periodtracker/PeriodTrackerDashboard.dart';
 
 class DashboardWhyCommunity extends StatefulWidget {
   const DashboardWhyCommunity({Key? key}) : super(key: key);
@@ -102,50 +104,96 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
           ),
           SizedBox(width: 5),
           Expanded(
-            child: Container(
-              height: 125,
-              child: Card(
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                color: backgroundColor,
-                child: GestureDetector(
-                  onTap: () {
-                    final streamUser = this._streamUser;
-                    if (streamUser != null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => HomeCommunity(
-                                    currentUser: streamUser,
-                                  ))));
-                    }
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(12.5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(Icons.group_outlined),
-                        SizedBox(height: 5),
-                        FittedBox(
-                          child: Text("Open \ncommunity",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                  ),
-                              maxLines: 2),
-                        )
-                      ],
+            child: Column(
+              children: [
+                Container(
+                  height: 85,
+                  child: Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    color: backgroundColor,
+                    child: GestureDetector(
+                      onTap: () {
+                        final streamUser = this._streamUser;
+                        if (streamUser != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => HomeCommunity(
+                                        currentUser: streamUser,
+                                      ))));
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12.5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.group_outlined),
+                            SizedBox(height: 5),
+                            FittedBox(
+                              child: Text("Open community",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                  maxLines: 2),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                Container(
+                  height: 55,
+                  child: Card(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    color: secondaryColor,
+                    child: GestureDetector(
+                      onTap: () {
+                        final streamUser = this._streamUser;
+                        if (streamUser != null) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => PeriodTrackerDashboard(
+                                    currentUser: streamUser,
+                                  ))));
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12.5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FittedBox(
+                              child: Text(" Period Tracker ",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 19,
+                                  )),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
