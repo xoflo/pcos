@@ -11,12 +11,11 @@ class PeriodLog {
   int? periodSpotting;
   int? progesterone;
   int? energy;
-  List<int>? symptoms;
-  List<int>? moods;
+  List<int>? symptoms = [];
+  List<int>? moods = [];
   DateTime? timestamp;
 
   List<Map<String, dynamic>> _entries = [];
-  String date = DateTime.now().toString();
 
   PeriodLog(
       this.temperatureToggle,
@@ -33,21 +32,80 @@ class PeriodLog {
       this.timestamp
       );
 
-  factory PeriodLog.fromJSON(dynamic json) {
+  factory PeriodLog.fromJSON(List<Map<String, dynamic>> json) {
+
+    double? tempf;
+    double? tempc;
+    int? cm;
+    int? si;
+    int? prd;
+    int? prds;
+    int? pgs;
+    int? enr;
+    List<int>? symp = [];
+    List<int>? mood = [];
+
+
+
+    for (int i = 0; i < json.length; i++) {
+
+      if (json[i]['trackerName'] == 'TEMPF') {
+        tempf = json[i]['trackerValue'];
+      }
+      if (json[i]['trackerName'] == 'TEMPC') {
+        tempc = json[i]['trackerValue'];
+      }
+      if (json[i]['trackerName'] == 'CM') {
+        double result = json[i]['trackerValue'];
+        cm = result.toInt();
+      }
+      if (json[i]['trackerName'] == 'SI') {
+        double result = json[i]['trackerValue'];
+        si = result.toInt();
+      }
+      if (json[i]['trackerName'] == 'PRD') {
+        double result = json[i]['trackerValue'];
+        prd = result.toInt();
+      }
+      if (json[i]['trackerName'] == 'PRDS') {
+        double result = json[i]['trackerValue'];
+        prds = result.toInt();
+      }
+      if (json[i]['trackerName'] == 'PGS') {
+        double result = json[i]['trackerValue'];
+        pgs = result.toInt();
+      }
+      if (json[i]['trackerName'] == 'ENR') {
+        enr = json[i]['trackerValue'].toInt();
+      }
+      if (json[i]['trackerName'] == 'SYMP') {
+        double result = json[i]['trackerValue'];
+        final toAdd = result.toInt();
+        symp.add(toAdd);
+      }
+      if (json[i]['trackerName'] == 'MOOD') {
+        double result = json[i]['trackerValue'];
+        final toAdd = result.toInt();
+        mood.add(toAdd);
+      }
+
+    }
+
+    final realTimestamp = DateTime.parse(json[0]['trackerDateUTC']);
 
     return PeriodLog(
         null,
-        json[0]['trackerValue'], // TEMPF
-        json[1]['trackerValue'], // TEMPC
-        json[2]['trackerValue'], // CM
-        json[3]['trackerValue'], // SI
-        json[4]['trackerValue'], // PRD
-        json[5]['trackerValue'], // PRDS
-        json[6]['trackerValue'], // PGS
-        json[7]['trackerValue'], // ENR
-        json[8]['trackerValue'], // SYMP
-        json[9]['trackerValue'], // MOOD
-        DateTime.parse(json[0]['trackerDateUTC']) //
+        tempf, // TEMPF
+        tempc, // TEMPC
+        cm, // CM
+        si, // SI
+        prd, // PRD
+        prds, // PRDS
+        pgs, // PGS
+        enr, // ENR
+        symp, // SYMP
+        mood, // MOOD
+        realTimestamp  //
     );
   }
 
@@ -63,7 +121,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "TEMPF",
         "TrackerValue": temperatureF,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -71,7 +129,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "TEMPC",
         "TrackerValue": temperatureC,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -79,7 +137,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "CM",
         "TrackerValue": cervicalMucus,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -87,7 +145,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "SI",
         "TrackerValue": sexualIntercourse,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -95,7 +153,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "PRD",
         "TrackerValue": period,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -103,7 +161,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "PRDS",
         "TrackerValue": periodSpotting,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -111,7 +169,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "PGS",
         "TrackerValue": progesterone,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -119,7 +177,7 @@ class PeriodLog {
       _entries.add({
         "TrackerName": "ENR",
         "TrackerValue": energy,
-        "TrackerDateUTC": "$date"
+        "TrackerDateUTC": "$timestamp"
       });
     }
 
@@ -129,7 +187,7 @@ class PeriodLog {
         _entries.add({
           "TrackerName": "SYMP",
           "TrackerValue": symptoms![i],
-          "TrackerDateUTC": "$date"
+          "TrackerDateUTC": "$timestamp"
         });
 
       }
@@ -141,7 +199,7 @@ class PeriodLog {
         _entries.add({
           "TrackerName": "MOOD",
           "TrackerValue": moods![i],
-          "TrackerDateUTC": "$date"
+          "TrackerDateUTC": "$timestamp"
         });
 
       }

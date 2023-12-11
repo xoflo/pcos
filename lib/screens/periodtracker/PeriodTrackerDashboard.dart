@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stream_feed/stream_feed.dart';
 import 'package:thepcosprotocol_app/screens/periodtracker/GraphScreen.dart';
 import 'package:thepcosprotocol_app/screens/periodtracker/HistoryScreen.dart';
+import 'package:thepcosprotocol_app/screens/periodtracker/LogRequestAPI.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
 import 'DataScreen.dart';
@@ -112,7 +113,7 @@ class _PeriodTrackerDashboardState extends State<PeriodTrackerDashboard> {
                         color: backgroundColor,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => GraphScreen(cycleDate: '', periodDuration: '') ));
+                           // Navigator.push(context, MaterialPageRoute(builder: (_) => GraphScreen(cycleDate: '', periodDuration: '') ));
                           },
                           child: Container(
                             height: 100,
@@ -129,7 +130,21 @@ class _PeriodTrackerDashboardState extends State<PeriodTrackerDashboard> {
                             ),
                           ),
                         ),
+                      ),
+
+                      /*
+                      Container(
+                        width: 200,
+                        height: 100,
+                        child: ElevatedButton(
+                          child: Text("Delete"),
+                          onPressed: () {
+                            LogRequestAPI request = LogRequestAPI();
+                            request.deleteData();
+                          },
+                        ),
                       )
+                       */
                     ],
                   ),
                 ],

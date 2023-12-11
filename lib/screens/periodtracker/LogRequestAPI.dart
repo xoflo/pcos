@@ -4,41 +4,147 @@ import 'dart:convert';
 import '../../controllers/authentication_controller.dart';
 
 class LogRequestAPI {
-  
-  
+  List<PeriodLog> responses = [];
+  List<int> years = [];
+  Map<String, List<PeriodLog>>? responsesByYear;
+  Map<String, dynamic>? responsesInYearByMonth;
+  Map<String, dynamic>? cyclesInAYear;
+  String? token = '';
 
-  final _dateNow = DateTime.now().toString();
-  List<Map<String, dynamic>> _entries = [];
+  String dateNow = DateTime.now().toUtc().toString();
 
+  Future<void> initAPI() async {
+    token = await AuthenticationController().getAccessToken();
+    print(token);
 
-  List<PeriodLog> _responses = [];
+    try {
+      await _retrieveRequest().then((value) async {
+        await _getYears().then((value) async {
+          await _getResponsesByYear().then((value) async {
+            await _getResponsesByMonths().then((value) async {
+              await _getCyclesInAYear();
+            });
+          });
+        });
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
-  retrieveRequest() async {
-
-    final url = 'https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/periodtracker/search';
+  deleteData() async {
+    final url =
+        'https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/periodtracker/2';
     final uri = Uri.parse(url);
 
-    print(_dateNow);
-    _generateRequests();
+    final response = await http.delete(uri, headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json"
+    });
 
+    if (response.statusCode == 200) {
+      print('DELETE Success');
 
-    for (int i = 0; i < _entries.length; i++) {
-      Map<String, dynamic> body = _entries[i];
+      print(jsonDecode(response.body)['payload'][0]);
 
+      print(response.headers);
+      print('Response: ${response.headers}');
+    } else {
+      print("Failed to make DELETE");
+      print(response.body);
+      print(response.headers);
+      print(response.bodyBytes);
+      print(response.reasonPhrase);
+    }
+  }
 
-      try {
-        await AuthenticationController().getAccessToken().then((realToken) async {
-          print(realToken);
+  Future<void> _retrieveRequest() async {
+    List<PeriodLog> responsesHere = [];
+    List<DateTime> datesOfRecord = [];
 
-          final response = await http.post(uri, body: jsonEncode(body), headers: {
-            "Authorization": "Bearer $realToken",
-            "Content-Type" : "application/json"
-          }
-          );
+    try {
+      final url =
+          'https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/periodtracker/search';
+      final uri = Uri.parse(url);
+
+      print('Line1');
+      List<Map<String, dynamic>> _entries = _generateRequests(
+          DateTime.parse("2023-12-08 06:00:00"), DateTime.now());
+
+      print("Line2");
+
+      for (int i = 0; i < _entries.length; i++) {
+        print("first _entries: ${_entries[i]}");
+
+        final response = await http.post(uri,
+            body: jsonEncode(_entries[i]),
+            headers: {
+              "Authorization": "Bearer $token",
+              "Content-Type": "application/json"
+            });
+
+        if (response.statusCode == 200) {
+          print('POST Success');
+
+          final List<dynamic> result =
+              await jsonDecode(response.body)['payload'];
+
+          print(result);
+
+          result.forEach((element) {
+            print(element['trackerDateUTC']);
+            datesOfRecord.add(DateTime.parse(element['trackerDateUTC']));
+          });
+
+          print(await jsonDecode(response.body));
+          print(response.headers);
+          print('Response: ${response.headers}');
+        } else {
+          print("Failed to make POST");
+          print(response.body);
+          print(response.headers);
+          print(response.bodyBytes);
+          print(response.reasonPhrase);
+        }
+      }
+
+      print("Line3");
+
+      print("datesOfRecord: $datesOfRecord");
+
+      List<DateTime> logDates = datesOfRecord.toSet().toList();
+
+      print("logDates: $logDates");
+
+      for (int i = 0; i < logDates.length; i++) {
+        print("inside forLoop logDates: ${logDates[i]}");
+
+        List<Map<String, dynamic>> results = [];
+
+        List<Map<String, dynamic>> _entries =
+            _generateRequests(logDates[i], logDates[i]);
+
+        _entries.forEach((entry) async {
+          print("second_entry $entry");
+
+          final response = await http.post(uri,
+              body: jsonEncode(entry),
+              headers: {
+                "Authorization": "Bearer $token",
+                "Content-Type": "application/json"
+              });
 
           if (response.statusCode == 200) {
             print('POST Success');
-            _responses.add(PeriodLog.fromJSON(jsonDecode(response.body)['payload'][0]));
+
+            List<dynamic> result = await jsonDecode(response.body)['payload'];
+
+            print(result);
+
+            result.forEach((element) {
+              results.add(element);
+            });
+
             print(response.headers);
             print('Response: ${response.headers}');
           } else {
@@ -49,163 +155,133 @@ class LogRequestAPI {
             print(response.reasonPhrase);
           }
         });
-      } catch (e) {
-        print(e);
-        return;
+
+        await Future.delayed(Duration(seconds: 2));
+
+        print("Line4");
+
+        PeriodLog periodLogFromJSON = await PeriodLog.fromJSON(results);
+
+        responsesHere.add(periodLogFromJSON);
       }
+
+      responsesHere.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
+
+      responses = responsesHere;
+
+      print("Line 5");
+
+      print(responses);
+    } catch (e) {
+      print(e);
     }
-
-
-    _responses.sort((a,b) => a.timestamp!.compareTo(b.timestamp!));
-    
-    return _responses;
-
   }
 
+  _generateRequests(DateTime from, DateTime to) {
+    List<Map<String, dynamic>> _entries = [];
 
-  _generateRequests() {
-    _entries.add({
-      "TrackerName" : "TEMPF",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
+    _entries.add(
+        {"TrackerName": "TEMPF", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
+    _entries.add(
+        {"TrackerName": "TEMPC", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
-    _entries.add({
-      "TrackerName" : "TEMPC",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
+    _entries
+        .add({"TrackerName": "CM", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
+    _entries
+        .add({"TrackerName": "SI", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
-    _entries.add({
-      "TrackerName" : "CM",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
+    _entries.add(
+        {"TrackerName": "PRD", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
+    _entries.add(
+        {"TrackerName": "PRDS", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
-    _entries.add({
-      "TrackerName" : "SI",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
+    _entries.add(
+        {"TrackerName": "PGS", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
+    _entries.add(
+        {"TrackerName": "ENR", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
-    _entries.add({
-      "TrackerName" : "PRD",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
+    _entries.add(
+        {"TrackerName": "SYMP", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
-
-    _entries.add({
-      "TrackerName" : "PRDS",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
-
-
-    _entries.add({
-      "TrackerName" : "PGS",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
-
-
-    _entries.add({
-      "TrackerName" : "ENR",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
-
-
-    _entries.add({
-      "TrackerName" : "SYMP",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
-
-
-    _entries.add({
-      "TrackerName" : "MOOD",
-      "DateFromUTC": "2023-11-14 13:00:00",
-      "DateToUTC": "$_dateNow"
-    });
+    _entries.add(
+        {"TrackerName": "MOOD", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
     return _entries;
-
   }
-  
-  
-  
-  getYears() async {
+
+  Future<void> _getYears() async {
+    print("getYearsStart");
 
     List<int> allLogYears = [];
-    List<int> years = [];
 
-    for (int i = 0; i < _responses.length; i++) {
-      allLogYears.add(_responses[i].timestamp!.year);
+    for (int i = 0; i < responses.length; i++) {
+      allLogYears.add(responses[i].timestamp!.year);
     }
 
     years = allLogYears.toSet().toList();
-    await Future.delayed(Duration(seconds: 2));
 
-    return years;
+    return;
   }
 
-  getResponsesByYear() async {
+  Future<void> _getResponsesByYear() async {
+    print("GetResponsesByYearStart");
 
-    List<Map<String, List<PeriodLog>>> responsesByYear = [];
-    List<int> years = await getYears();
-
+    Map<String, List<PeriodLog>> responsesByYearHere = {};
 
     for (int i = 0; i < years.length; i++) {
+      print(years[i]);
 
       List<PeriodLog> results = [];
 
-      _responses.forEach((log) {
-
+      responses.forEach((log) {
         if (log.timestamp!.year == years[i]) {
+          print(log.timestamp!.year);
           results.add(log);
         }
-
       });
 
-      responsesByYear.add({"${years[i]}": results});
+      Map<String, List<PeriodLog>> newYear = {"${years[i]}": results};
+
+      responsesByYearHere.addEntries(newYear.entries);
     }
 
-    await Future.delayed(Duration(seconds: 3));
-    return responsesByYear;
+    print("Line 1");
 
+    responsesByYear = responsesByYearHere;
 
+    print(responsesByYear);
+
+    return;
   }
 
-  getResponsesByMonths() async {
-    List<Map<String,
-        List<PeriodLog>>> responsesByYearFunc = getResponsesByYear();
-    List<int> years = await getYears();
+  Future<void> _getResponsesByMonths() async {
+    print("getResponsesByMonthsStart");
 
-    List<Map<String, dynamic>> responsesInMonthByYear = [];
+    Map<String, dynamic> responsesInYearByMonthHere = {};
+    print("line1");
 
+    print("years: ${years}");
 
     for (int i = 0; i < years.length; i++) {
-      List<PeriodLog> logs = responsesByYearFunc[years[i]].values.first;
+      List<PeriodLog>? logs = responsesByYear!["${years[0]}"];
+      print("line2");
 
-
-      List<Map<String, List<PeriodLog>>> months = [];
-
+      dynamic months = [];
 
       for (int x = 1; x < 13; x++) {
-
-        final dynamic result = logs.where((response) => response.timestamp!.month == x);
+        final dynamic result =
+            logs?.where((response) => response.timestamp!.month == x).toList();
 
         String month = '';
 
         switch (x) {
           case 1:
-          month = 'January';
-          break;
+            month = 'January';
+            break;
           case 2:
             month = 'February';
             break;
@@ -239,46 +315,127 @@ class LogRequestAPI {
           case 12:
             month = 'December';
             break;
-
-        };
-
+        }
 
         months.add({
           '$month': result,
         });
       }
 
-      responsesInMonthByYear.add({
-        '${years[i]}' : months
-      });
+      final newYearWithMonths = {"${years[i]}": months};
 
+      responsesInYearByMonthHere.addEntries(newYearWithMonths.entries);
+
+      print("line3");
     }
 
-    return responsesInMonthByYear;
+    responsesInYearByMonth = responsesInYearByMonthHere;
 
-
+    print(responsesInYearByMonth);
   }
 
+  _getCyclesInAYear() async {
+    print("getCyclesInAYearStart");
 
-  getCyclesInAYear() async {
-    List<Map<String,
-        List<PeriodLog>>> responsesByYearFunc = getResponsesByYear();
-    List<int> years = await getYears();
+    Map<String, List<List<PeriodLog>>> cyclesInAYearHere = {};
 
-
+    print("line1");
     for (int i = 0; i < years.length; i++) {
-      List<PeriodLog> logs = responsesByYearFunc[years[i]].values.first;
+      List<PeriodLog>? logs = responsesByYear?["${years[i]}"];
 
-      for (int x = 0; x < logs.length; x++) {
+      print("logs: $logs");
 
-        if (logs[x].timestamp!.difference(logs[x+1].timestamp!) < Duration(days: 7)) {
+      print("logsLength: ${logs?.length}");
+
+      int? length = logs?.length;
+
+      List<PeriodLog> cycles = [];
+
+      print("line2");
+      print(length);
+
+      for (int z = 0; z < length!; z++) {
+        print("period: ${logs![z].period}");
+        print(z);
+        if (logs[z].period != 0) {
+          print("periodNotZero: ${logs[z].period}");
+          cycles.add(logs[z]);
         }
       }
 
-    }
-  }
+      List<List<PeriodLog>> listOfCycles = [];
 
-  
-  
-  
+      List<PeriodLog>? ongoingCycle = [];
+
+      print("line3");
+      for (int y = 0; y < cycles.length; y++) {
+        print("insideLoop: ${cycles[y].timestamp}");
+
+        try {
+
+          print("Bool: ${cycles[y].timestamp!.compareTo(cycles[y + 1].timestamp!) > 6}");
+
+
+
+          if (cycles[y].timestamp!.compareTo(cycles[y + 1].timestamp!) >= 7) {
+            List<PeriodLog>? newCycle = logs
+                ?.where((log) => log.timestamp!.isBefore(cycles[y].timestamp!))
+                .toList();
+
+
+            newCycle?.add(cycles[y]);
+            listOfCycles.add(newCycle!);
+          } else {
+
+            print("else");
+
+            print("Line1");
+            List<PeriodLog>? ongoingCycleHere = [];
+
+            print("Line2");
+            ongoingCycleHere.add(cycles[y]);
+            print("Line3");
+            ongoingCycleHere = logs
+                ?.where((log) => log.timestamp!.isAfter(cycles[y].timestamp!))
+                .toList();
+
+            print("Line4");
+            ongoingCycle = ongoingCycleHere;
+            print("Line5");
+
+          }
+
+        } catch(e) {
+
+        }
+
+      }
+
+      print("Line6");
+      listOfCycles.add(ongoingCycle!);
+      print("Line7");
+
+      await Future.delayed(Duration(seconds: 4));
+
+      print("ListOfCycles: $listOfCycles");
+
+      Map<String, List<List<PeriodLog>>> newYearWithCycles = {
+        '${years[i]}': listOfCycles
+      };
+
+      print("line4");
+      cyclesInAYearHere.addEntries(newYearWithCycles.entries);
+    }
+
+    print(cyclesInAYearHere);
+
+    cyclesInAYear = cyclesInAYearHere;
+    await Future.delayed(Duration(seconds: 2));
+
+    print("line5");
+
+    print(cyclesInAYear);
+
+    return;
+  }
 }

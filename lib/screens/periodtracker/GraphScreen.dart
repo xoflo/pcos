@@ -6,13 +6,15 @@ import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:thepcosprotocol_app/screens/periodtracker/periodLog.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 
-class GraphScreen extends StatefulWidget {
-  const GraphScreen({required this.cycleDate, required this.periodDuration});
+import 'LogHandler.dart';
 
-  final String cycleDate;
-  final String periodDuration;
+class GraphScreen extends StatefulWidget {
+  GraphScreen({required this.cycle});
+
+   List<PeriodLog>? cycle = [];
 
   @override
   State<GraphScreen> createState() => _GraphScreenState();
@@ -24,6 +26,8 @@ class _GraphScreenState extends State<GraphScreen> {
 
   bool tempToggle = false;
   bool rotateToggle = false;
+
+  int cycleLengthInDays = 0;
 
 
   static const cream = Color(0xFFFCEDE0);
@@ -37,13 +41,11 @@ class _GraphScreenState extends State<GraphScreen> {
   @override
   void initState() {
 
-    final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('dd MMMM yyyy');
-    dateNow = formatter.format(now);
-
+    cycleLengthInDays = widget.cycle!.first.timestamp!.difference(widget.cycle!.last.timestamp!).inDays;
 
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class _GraphScreenState extends State<GraphScreen> {
         leading: GestureDetector(child: Icon(Icons.chevron_left, color: green), onTap: () {
           Navigator.pop(context);
         }),
-        title: Text("Your Cycle", style: TextStyle(color: green)),
+        title: Text("${DateFormat.MMMMd().format(widget.cycle!.first.timestamp!)} - ${DateFormat.MMMMd().format(widget.cycle!.last.timestamp!)}", style: TextStyle(color: green)),
       ),
       body: Container(
         child: Center(
@@ -146,12 +148,7 @@ class _GraphScreenState extends State<GraphScreen> {
         SizedBox(height: 40),
         Column(
           children: [
-            Text(
-              widget.cycleDate != '' ? widget.cycleDate : 'Current Cycle', style: TextStyle(fontSize: 40, color: green),
-            ),
-            Text(
-              widget.cycleDate != '' ? widget.periodDuration : '$dateNow', style: TextStyle(fontSize: 20, color: green),
-            ),
+            Container()
           ],
         )
       ],
@@ -160,17 +157,23 @@ class _GraphScreenState extends State<GraphScreen> {
 
   Widget graph() {
 
-    List<FlSpot> spots = [
-      FlSpot(1, 37),
-      FlSpot(2, 38),
-      FlSpot(3, 36),
-      FlSpot(4, 37),
-      FlSpot(5, 38),
-      FlSpot(6, 38),
-      FlSpot(7, 37),
-      FlSpot(8, 36),
-      FlSpot(9, 36),
-    ];
+    List<FlSpot> spots = [];
+
+    // For each day of the cycle length, check PeriodLog to assign to a day of the cycle length.
+
+    for (int i = 0; i < cycleLengthInDays; i++) {
+      final cycleDayTimestamp = widget.cycle!.first.timestamp!.add(Duration(days: i));
+      widget.cycle!.forEach((log) {
+        if (log.timestamp == cycleDayTimestamp) {
+          spots.add(FlSpot(i.toDouble(), tempToggle == false ? log.temperatureC! : log.temperatureF!));
+        }
+      });
+
+    }
+
+
+
+
 
 
     final border = FlBorderData(show: false);
@@ -266,7 +269,7 @@ class _GraphScreenState extends State<GraphScreen> {
                           gridData: grid,
                           titlesData: titles,
                           minX: 1,
-                          maxX: 32,
+                          maxX: cycleLengthInDays.toDouble(),
                           minY: tempToggle == false ? 36 : 96.8,
                           maxY: tempToggle == false ? 38 : 100.4,
                           lineBarsData: [
@@ -301,25 +304,32 @@ class _GraphScreenState extends State<GraphScreen> {
   }
 
   dataSheet(int forExport) {
+
+    final logHandler = LogHandler();
+
     List<DataColumn> columnTitle = [
       DataColumn(label: Text('Days')),
     ];
 
     List<DataRow> rowTitle = [
+
+      DataRow(cells: [
+        DataCell(Text("Date", textScaleFactor: 0.8,)),
+      ]),
       DataRow(cells: [
         DataCell(Text("Sexual Intercourse", textScaleFactor: 0.8,)),
+      ]),
+      DataRow(cells: [
+        DataCell(Text("Period", textScaleFactor: 0.8)),
+      ]),
+      DataRow(cells: [
+        DataCell(Text("Progesterone", textScaleFactor: 0.8)),
       ]),
       DataRow(cells: [
         DataCell(Text("Moods", textScaleFactor: 0.8)),
       ]),
       DataRow(cells: [
         DataCell(Text("Symptoms", textScaleFactor: 0.8)),
-      ]),
-      DataRow(cells: [
-        DataCell(Text("Period", textScaleFactor: 0.8)),
-      ]),
-      DataRow(cells: [
-        DataCell(Text("Progesterone Supplementation", textScaleFactor: 0.8)),
       ]),
       DataRow(cells: [
         DataCell(Text("Energy Levels", textScaleFactor: 0.8)),
@@ -332,7 +342,7 @@ class _GraphScreenState extends State<GraphScreen> {
 
     List<DataColumn> columnData = [];
 
-    for (int i = 1; i < 32; i++) {
+    for (int i = 1; i < cycleLengthInDays; i++) {
       columnData.add(DataColumn(label: Text('$i', style: TextStyle(fontWeight: FontWeight.w400))));
     }
 
@@ -344,100 +354,99 @@ class _GraphScreenState extends State<GraphScreen> {
       DataRow(cells: []),
       DataRow(cells: []),
       DataRow(cells: []),
+      DataRow(cells: []),
     ];
 
-    for (int i = 1; i < 32; i++) {
-      /*
-       1 Sexual Intercourse
-       2 Moods
-       3 Symptoms
-       4 Period
-       5 Progesterone
-       6 Energy Levels
-       */
-      if (i < 8) {
-        rowData[0].cells.add(DataCell(Container(
-          height: 5,
-          width: 5,
-          child: forExport == 0 ? Tooltip(
-              message: 'Unprotected',
-              child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,)),
-        ));
-      } else {
-        rowData[0].cells.add(DataCell(Text("")));
-      }
 
-      if (i < 3) {
-        rowData[1].cells.add(DataCell(Container(
-          height: 5,
-          width: 5,
-          child: forExport == 0 ? Tooltip(
-              message: 'Unprotected',
-              child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-        )));
-      } else {
-        rowData[1].cells.add(DataCell(Text("")));
-      }
 
-      if (i < 4) {
-        rowData[2].cells.add(DataCell(Container(
-          height: 5,
-          width: 5,
-          child: forExport == 0 ? Tooltip(
-              message: 'Unprotected',
-              child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-        )));
-      } else {
-        rowData[2].cells.add(DataCell(Text("")));
-      }
 
-      if (i < 5) {
-        rowData[3].cells.add(DataCell(Container(
-          height: 5,
-          width: 5,
-          child: forExport == 0 ? Tooltip(
-              message: 'Unprotected',
-              child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-        )));
-      } else {
-        rowData[3].cells.add(DataCell(Text("")));
-      }
+    for (int i = 1; i < cycleLengthInDays; i++) {
 
-      if (i < 2) {
-        rowData[4].cells.add(DataCell(Container(
-          height: 5,
-          width: 5,
-          child: forExport == 0 ? Tooltip(
-              message: 'Unprotected',
-              child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-        )));
-      } else {
-        rowData[4].cells.add(DataCell(Text("")));
-      }
+      final cycleDayTimestamp = widget.cycle!.first.timestamp!.add(Duration(days: i - 1));
+      widget.cycle!.forEach((log) {
+        if (log.timestamp == cycleDayTimestamp) {
 
-      if (i < 3) {
-        rowData[5].cells.add(DataCell(Container(
-          height: 5,
-          width: 5,
-          child: forExport == 0 ? Tooltip(
-              message: 'Unprotected',
-              child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-        )));
-      } else {
-        rowData[5].cells.add(DataCell(Text("")));
-      }
+          // 0 Month & Day
+          rowData[0].cells.add(DataCell(Container(
+              height: 5,
+              width: 5,
+              child: Text('${DateFormat.MMMd().format(log.timestamp!)}'
+                  )),
+          ));
 
-      if (i < 3) {
-        rowData[6].cells.add(DataCell(Container(
-          height: 5,
-          width: 5,
-          child: forExport == 0 ? Tooltip(
-              message: 'Unprotected',
-              child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-        )));
-      } else {
-        rowData[6].cells.add(DataCell(Text("")));
-      }
+          // 1 Cervical Mucus
+          rowData[1].cells.add(DataCell(Container(
+            height: 5,
+            width: 5,
+            child: logHandler.handleCM(forExport, log.cervicalMucus!),
+          )));
+
+          // 2 Sexual Intercourse
+          rowData[2].cells.add(DataCell(Container(
+            height: 5,
+            width: 5,
+            child: logHandler.handleSI(forExport, log.sexualIntercourse!),
+          )));
+
+          // 3 Period
+          rowData[3].cells.add(DataCell(Container(
+            height: 5,
+            width: 5,
+            child: forExport == 0 ? Tooltip(
+                message: 'Unprotected',
+                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
+          )));
+
+          // 4 Progesterone
+          rowData[4].cells.add(DataCell(Container(
+            height: 5,
+            width: 5,
+            child: forExport == 0 ? Tooltip(
+                message: 'Unprotected',
+                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
+          )));
+
+          // 5 Moods
+          rowData[5].cells.add(DataCell(Container(
+            height: 5,
+            width: 5,
+            child: logHandler.handleMood(forExport, log.moods!),
+          )));
+
+          // 6 Symptoms
+          rowData[6].cells.add(DataCell(Container(
+            height: 5,
+            width: 5,
+            child: forExport == 0 ? Tooltip(
+                message: 'Unprotected',
+                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
+          )));
+
+
+
+          // 7 Energy Levels
+          rowData[7].cells.add(DataCell(Container(
+            height: 5,
+            width: 5,
+            child: forExport == 0 ? Tooltip(
+                message: 'Unprotected',
+                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
+          )));
+
+
+        } else {
+          rowData[0].cells.add(DataCell(Text("")));
+          rowData[1].cells.add(DataCell(Text("")));
+          rowData[2].cells.add(DataCell(Text("")));
+          rowData[3].cells.add(DataCell(Text("")));
+          rowData[4].cells.add(DataCell(Text("")));
+          rowData[5].cells.add(DataCell(Text("")));
+          rowData[6].cells.add(DataCell(Text("")));
+          rowData[7].cells.add(DataCell(Text("")));
+        }
+      });
+
+
 
     }
 
@@ -471,7 +480,8 @@ class _GraphScreenState extends State<GraphScreen> {
     );
   }
 
-
-
-
 }
+
+
+
+

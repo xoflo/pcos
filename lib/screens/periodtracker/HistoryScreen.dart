@@ -6,6 +6,7 @@ import 'package:thepcosprotocol_app/styles/colors.dart';
 import '../../controllers/authentication_controller.dart';
 import 'GraphScreen.dart';
 import 'LogRequestAPI.dart';
+import 'package:intl/intl.dart';
 
 
 class HistoryScreen extends StatefulWidget {
@@ -26,21 +27,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
   static const pink = Color(0xFFFFC6C2);
   static const red = Color(0xFFFB4A44);
 
-  final requestAPI = LogRequestAPI();
-
-  List<PeriodLog> responses = [];
-  List<int>? years;
-
-  @override
-  void initState() {
-    initRequestAPI();
-    super.initState();
-  }
+  LogRequestAPI requestAPI = LogRequestAPI();
 
 
-  initRequestAPI() async {
-    responses = await requestAPI.retrieveRequest();
-    years = await requestAPI.getYears();
+  Future<LogRequestAPI> initAPI() async {
+
+    await requestAPI.initAPI();
+    return requestAPI;
   }
 
 
@@ -58,30 +51,50 @@ class _HistoryScreenState extends State<HistoryScreen> {
       ),
       body: Container(
         margin: EdgeInsets.all(20),
-        child: ListView.builder(
-          itemCount: years!.length,
-            itemBuilder: (context, i) {
-              return InkWell(
-                onTap: () {
-                  navigateToScreenDetailList("${years![i]}");
-                },
-                child: Card(
-                  elevation: 5,
-                  child: Container(
-                    color: green,
-                    height: 200,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("${years![i]}", style: TextStyle(fontSize: 50, color: Colors.white)),
-                      ],
+        child: FutureBuilder(
+          future: initAPI(),
+          builder: (context, AsyncSnapshot<LogRequestAPI> snapshot) {
+
+            final api = snapshot.data;
+
+
+            return snapshot.connectionState == ConnectionState.done ? ListView.builder(
+                itemCount: requestAPI.years.length,
+                itemBuilder: (context, i) {
+
+                  print("Test: ${requestAPI.years[i]}");
+
+                  return InkWell(
+                    onTap: () {
+                      navigateToScreenDetailList("${requestAPI.years[i]}", api);
+                    },
+                    child: Card(
+                      elevation: 5,
+                      child: Container(
+                        color: green,
+                        height: 200,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("${requestAPI.years[i]}", style: TextStyle(fontSize: 50, color: Colors.white)),
+                          ],
+                        ),
+                      ),
+
                     ),
-                  ),
+                  );
 
+                }): Center(
+              child: Container(
+                height: 50,
+                width: 50,
+                child: CircularProgressIndicator(
+                  color: green,
                 ),
-              );
-
-            }),
+              ),
+            );
+        }
+        ),
 
       ),
     );
@@ -89,8 +102,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
 
 
-  navigateToScreenDetailList(String year) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryScreenDetailList(year: year)));
+  navigateToScreenDetailList(String year, LogRequestAPI? api) {
+    print("CycleTest: ${requestAPI.cyclesInAYear}");
+
+    Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryScreenDetailList(year: year, cycles: requestAPI.cyclesInAYear)));
   }
 
 
@@ -99,15 +114,30 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
 
 class HistoryScreenDetailList extends StatefulWidget {
-  const HistoryScreenDetailList({required this.year});
+  const HistoryScreenDetailList({required this.year, required this.cycles});
 
   final String year;
+  final Map<String, dynamic>? cycles;
+
 
   @override
   State<HistoryScreenDetailList> createState() => _HistoryScreenDetailListState();
 }
 
 class _HistoryScreenDetailListState extends State<HistoryScreenDetailList> {
+
+  List<List<PeriodLog>>? cyclesNow;
+
+  @override
+  void initState() {
+
+    cyclesNow = widget.cycles!['${widget.year}'];
+
+    super.initState();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,15 +152,15 @@ class _HistoryScreenDetailListState extends State<HistoryScreenDetailList> {
       body: Container(
         margin: EdgeInsets.all(20),
         child: ListView.builder(
-            itemCount: 1,
+            itemCount: cyclesNow!.length,
             itemBuilder: (context, i) {
               return Card(
                 elevation: 2,
                 child: ListTile(
-                  title: Text("October 1 - October 17"),
-                  subtitle: Text("4-Day Period"),
+                  title: Text("${DateFormat.MMMMd().format(cyclesNow![i].first.timestamp!)} - ${DateFormat.MMMMd().format(cyclesNow![i].last.timestamp!)}"),
+                  subtitle: Text("${cyclesNow![i].first.timestamp!.compareTo(cyclesNow![i].last.timestamp!)}-Day Period"),
                   onTap: () {
-                    navigateToHistoryScreenDetail();
+                    navigateToHistoryScreenDetail(cyclesNow![i]);
                   },
                 ),
               );
@@ -141,8 +171,8 @@ class _HistoryScreenDetailListState extends State<HistoryScreenDetailList> {
   }
 
 
-  navigateToHistoryScreenDetail() {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => GraphScreen(cycleDate: 'October 1 - October 17', periodDuration: '4-Day Period',)));
+  navigateToHistoryScreenDetail(List<PeriodLog> cycle) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => GraphScreen(cycle: cycle)));
   }
 
 

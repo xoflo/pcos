@@ -122,7 +122,6 @@ class _DataScreenState extends State<DataScreen> {
                           ),
                         ),
                         onTap: () async {
-                          clearLog();
                           await recordLog();
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -782,11 +781,10 @@ class _DataScreenState extends State<DataScreen> {
   recordLog() async {
     final url =
         'https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/periodtracker/record';
-    final dateNow = DateTime.now().toString();
+    final dateNow = DateTime.now().toUtc();
 
     final uri = Uri.parse(url);
 
-    print(dateNow);
 
     final log = PeriodLog(
         temperatureToggle,
@@ -800,7 +798,7 @@ class _DataScreenState extends State<DataScreen> {
         energyTrackingToggle,
         symptomsToggle,
         moodsToggle,
-        null
+        dateNow
     );
 
     List<Map<String, dynamic>> body = log.toJSON();
@@ -822,6 +820,7 @@ class _DataScreenState extends State<DataScreen> {
           print(response.body);
           print(response.headers);
           print('Response: ${response.headers}');
+          clearLog();
         } else {
           print("Failed to make POST");
           print(response.body);
