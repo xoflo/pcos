@@ -13,6 +13,7 @@ import 'package:thepcosprotocol_app/widgets/shared/pcos_loading_spinner.dart';
 import '../../../controllers/authentication_controller.dart';
 import '../../../screens/community/extension.dart';
 import '../../community/home_community.dart';
+import '../../periodtracker/LogRequestAPI.dart';
 import '../../periodtracker/PeriodTrackerDashboard.dart';
 import '../../periodtracker/PeriodTrackerDashboard.dart';
 
@@ -51,6 +52,10 @@ class _DashboardWhyCommunityState extends State<DashboardWhyCommunity> {
         User(id: decodedToken.payload['user_id'], data: userData),
         Token(streamIoUserToken),
       );
+
+      print("global load");
+      await GlobalPeriodLogAPI.instance.init();
+
     }
   }
 

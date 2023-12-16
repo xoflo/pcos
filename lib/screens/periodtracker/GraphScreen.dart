@@ -27,7 +27,7 @@ class _GraphScreenState extends State<GraphScreen> {
   bool tempToggle = false;
   bool rotateToggle = false;
 
-  int cycleLengthInDays = 0;
+  int lengthInDays = 0;
 
 
   static const cream = Color(0xFFFCEDE0);
@@ -38,11 +38,15 @@ class _GraphScreenState extends State<GraphScreen> {
   static const pink = Color(0xFFFFC6C2);
   static const red = Color(0xFFFB4A44);
 
+
+  buildBody() async {
+
+    await Future.delayed(Duration(seconds: 2));
+  }
+
   @override
   void initState() {
-
-    cycleLengthInDays = widget.cycle!.first.timestamp!.difference(widget.cycle!.last.timestamp!).inDays;
-
+    lengthInDays = widget.cycle!.first.timestamp!.compareTo(widget.cycle!.last.timestamp!).abs();
     super.initState();
   }
 
@@ -58,21 +62,43 @@ class _GraphScreenState extends State<GraphScreen> {
         }),
         title: Text("${DateFormat.MMMMd().format(widget.cycle!.first.timestamp!)} - ${DateFormat.MMMMd().format(widget.cycle!.last.timestamp!)}", style: TextStyle(color: green)),
       ),
-      body: Container(
-        child: Center(
-          child: ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-              PointerDeviceKind.touch,
-              PointerDeviceKind.mouse,
-            }),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [title(), graph(), toggleTemperature(), toggleOrientation(), dataSheet(0), exportGraph()],
+      body: FutureBuilder(
+        future: buildBody(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+
+
+        return snapshot.connectionState == ConnectionState.done ?  Container(
+          child: Center(
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+                PointerDeviceKind.touch,
+                PointerDeviceKind.mouse,
+              }),
+              child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      title(),
+                      graph(),
+                      toggleTemperature(),
+                      toggleOrientation(),
+                      dataSheet(0),
+                      exportGraph()
+                    ],
+                  )
               ),
             ),
           ),
-        ),
+        ) : Center(
+          child: Container(
+            height: 50,
+            width: 50,
+            child: CircularProgressIndicator(
+              color: green,
+            ),
+          ),
+        );
+      },
       )
     );
   }
@@ -100,11 +126,11 @@ class _GraphScreenState extends State<GraphScreen> {
                   graph(),
                   Container(
                     height: 500,
-                    width: 1000,
+                    width: 125 * widget.cycle!.length.toDouble(),
                     child: thisSheet,
                   )
                 ],
-              )), delay: Duration(seconds: 2), pixelRatio: pixelRatio, context: context, targetSize: Size(1100, 1200));
+              )), delay: Duration(seconds: 2), pixelRatio: pixelRatio, context: context, targetSize: Size(125 * widget.cycle!.length.toDouble(), 1200));
           final result = await ImageGallerySaver.saveImage(image);
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Graph saved to Photos')));
@@ -145,11 +171,10 @@ class _GraphScreenState extends State<GraphScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 40),
-        Column(
-          children: [
-            Container()
-          ],
+        SizedBox(height: 30),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+          child: Text("Cycle Graph", style: TextStyle(fontSize: 40, color: green),),
         )
       ],
     );
@@ -161,13 +186,11 @@ class _GraphScreenState extends State<GraphScreen> {
 
     // For each day of the cycle length, check PeriodLog to assign to a day of the cycle length.
 
-    for (int i = 0; i < cycleLengthInDays; i++) {
-      final cycleDayTimestamp = widget.cycle!.first.timestamp!.add(Duration(days: i));
-      widget.cycle!.forEach((log) {
-        if (log.timestamp == cycleDayTimestamp) {
-          spots.add(FlSpot(i.toDouble(), tempToggle == false ? log.temperatureC! : log.temperatureF!));
-        }
-      });
+    for (int i = 0; i < widget.cycle!.length; i++) {
+
+      print("C: ${widget.cycle![i].temperatureC}");
+      print("F: ${widget.cycle![i].temperatureF}");
+      spots.add(FlSpot(i.toDouble() + 1, tempToggle == false ? widget.cycle![i].temperatureC! : widget.cycle![i].temperatureF!));
 
     }
 
@@ -183,34 +206,41 @@ class _GraphScreenState extends State<GraphScreen> {
 
     final titles = FlTitlesData(
         bottomTitles: AxisTitles(
+          axisNameWidget: Text("Cycle Log Days", style: TextStyle(color: green)),
             sideTitles: SideTitles(
                 getTitlesWidget: (double value, TitleMeta meta) {
                   return SideTitleWidget(
                     axisSide: meta.axisSide,
-                    child: Text(
+                    child: meta.formattedValue.contains('.') ? Text(
+                      "",
+                      style: TextStyle(color: Colors.grey),
+                    ) : Text(
                       meta.formattedValue,
                       style: TextStyle(color: Colors.grey),
-                    ),
-                  );
+                    ));
                 },
                 showTitles: true,
                 reservedSize: 25)),
         rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         leftTitles: AxisTitles(
+          axisNameWidget: Text("°C", style: TextStyle(color: green)),
+            axisNameSize: 25,
             sideTitles: SideTitles(
                 getTitlesWidget: (double value, TitleMeta meta) {
                   return SideTitleWidget(
                     fitInside: SideTitleFitInsideData(enabled: true, axisPosition: 1, parentAxisSize: 1, distanceFromEdge: 1),
                     axisSide: meta.axisSide,
-                    child: Text(
-                      meta.formattedValue,
+                    child: meta.formattedValue.contains('.') ? Text(
+                      "",
                       style: TextStyle(color: Colors.grey),
-                    ),
-                  );
+                    ) : Text(
+                  meta.formattedValue,
+                  style: TextStyle(color: Colors.grey),
+                  ));
                 },
                 showTitles: true,
-                reservedSize: 40)));
+                reservedSize: 35)));
 
     /*
     Container(
@@ -259,8 +289,8 @@ class _GraphScreenState extends State<GraphScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Container(
                   margin: EdgeInsets.all(20),
-                  height: 350,
-                  width: 850,
+                  height: 370,
+                  width: widget.cycle!.length.toDouble() * 125,
                   child: LineChart(
                       LineChartData(
 
@@ -269,9 +299,9 @@ class _GraphScreenState extends State<GraphScreen> {
                           gridData: grid,
                           titlesData: titles,
                           minX: 1,
-                          maxX: cycleLengthInDays.toDouble(),
-                          minY: tempToggle == false ? 36 : 96.8,
-                          maxY: tempToggle == false ? 38 : 100.4,
+                          maxX: widget.cycle!.length.toDouble(),
+                          minY: tempToggle == false ? 34 : 93.2,
+                          maxY: tempToggle == false ? 39 : 102.2,
                           lineBarsData: [
                             LineChartBarData(
                                 spots: spots,
@@ -303,12 +333,16 @@ class _GraphScreenState extends State<GraphScreen> {
     );
   }
 
-  dataSheet(int forExport) {
+  Widget dataSheet(int forExport) {
+
+    print("line1");
+
+
 
     final logHandler = LogHandler();
 
     List<DataColumn> columnTitle = [
-      DataColumn(label: Text('Days')),
+      DataColumn(label: Text('Log Days')),
     ];
 
     List<DataRow> rowTitle = [
@@ -342,9 +376,13 @@ class _GraphScreenState extends State<GraphScreen> {
 
     List<DataColumn> columnData = [];
 
-    for (int i = 1; i < cycleLengthInDays; i++) {
-      columnData.add(DataColumn(label: Text('$i', style: TextStyle(fontWeight: FontWeight.w400))));
+    for (int i = 0; i < widget.cycle!.length; i++) {
+
+      print("line2");
+
+      columnData.add(DataColumn(label: Text('${i+1}', style: TextStyle(fontWeight: FontWeight.w400))));
     }
+
 
     List<DataRow> rowData = [
       DataRow(cells: []),
@@ -359,96 +397,116 @@ class _GraphScreenState extends State<GraphScreen> {
 
 
 
+    print("line3");
 
-    for (int i = 1; i < cycleLengthInDays; i++) {
+    for (int x = 0; x < widget.cycle!.length; x++) {
 
-      final cycleDayTimestamp = widget.cycle!.first.timestamp!.add(Duration(days: i - 1));
-      widget.cycle!.forEach((log) {
-        if (log.timestamp == cycleDayTimestamp) {
+      DateTime date = widget.cycle![x].timestamp!;
+      final cycleDayTimestamp = DateFormat('yyyy-MM-dd').format(date);
 
-          // 0 Month & Day
-          rowData[0].cells.add(DataCell(Container(
-              height: 5,
-              width: 5,
-              child: Text('${DateFormat.MMMd().format(log.timestamp!)}'
-                  )),
-          ));
+      PeriodLog log = widget.cycle![x];
 
-          // 1 Cervical Mucus
-          rowData[1].cells.add(DataCell(Container(
+      final logTimestamp = DateFormat('yyyy-MM-dd').format(log.timestamp!);
+
+      print("logTime: ${logTimestamp}");
+      print("cycleDaysTime: $cycleDayTimestamp");
+
+      if (logTimestamp == cycleDayTimestamp) {
+
+
+
+        print("line4");
+        print(DateFormat.MMMd().format(log.timestamp!));
+
+        // 0 Month & Day
+        rowData[0].cells.add(DataCell(Text('${DateFormat.MMMd().format(log.timestamp!)}', style: TextStyle(fontSize: 10),),));
+
+        // 1 Cervical Mucus
+        rowData[7].cells.add(DataCell(Container(
+          height: 5,
+          width: 5,
+          child: logHandler.handleCM(forExport, log.cervicalMucus!),
+        )));
+
+        // 2 Sexual Intercourse
+        rowData[1].cells.add(DataCell(Container(
+          height: 5,
+          width: 5,
+          child: logHandler.handleSI(forExport, log.sexualIntercourse!),
+        )));
+
+        // 3 Period
+        rowData[2].cells.add(DataCell(Container(
+          height: 5,
+          width: 5,
+          child: logHandler.handlePeriod(forExport, log.period!, log.periodSpotting!),
+        )));
+
+        // 4 Progesterone
+        rowData[3].cells.add(DataCell(Container(
+          height: 5,
+          width: 5,
+          child: logHandler.handleProgesterone(forExport, log.progesterone!),
+        )));
+
+        // 5 Moods
+        rowData[4].cells.add(DataCell(Container(
+          height: 5,
+          width: 5,
+          child: logHandler.handleMood(forExport, log.moods!),
+        )));
+
+        // 6 Symptoms
+        rowData[5].cells.add(DataCell(Container(
+          height: 5,
+          width: 5,
+          child: logHandler.handleSymptoms(forExport, log.symptoms!),
+        )));
+
+        // 7 Energy Levels
+        rowData[6].cells.add(DataCell(Container(
+          height: 5,
+          width: 5,
+          child: logHandler.handleEnr(forExport, log.energy!),
+        )));
+
+
+      } else {
+
+
+        rowData[0].cells.add(DataCell(Container(
             height: 5,
             width: 5,
-            child: logHandler.handleCM(forExport, log.cervicalMucus!),
-          )));
-
-          // 2 Sexual Intercourse
-          rowData[2].cells.add(DataCell(Container(
-            height: 5,
-            width: 5,
-            child: logHandler.handleSI(forExport, log.sexualIntercourse!),
-          )));
-
-          // 3 Period
-          rowData[3].cells.add(DataCell(Container(
-            height: 5,
-            width: 5,
-            child: forExport == 0 ? Tooltip(
-                message: 'Unprotected',
-                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-          )));
-
-          // 4 Progesterone
-          rowData[4].cells.add(DataCell(Container(
-            height: 5,
-            width: 5,
-            child: forExport == 0 ? Tooltip(
-                message: 'Unprotected',
-                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-          )));
-
-          // 5 Moods
-          rowData[5].cells.add(DataCell(Container(
-            height: 5,
-            width: 5,
-            child: logHandler.handleMood(forExport, log.moods!),
-          )));
-
-          // 6 Symptoms
-          rowData[6].cells.add(DataCell(Container(
-            height: 5,
-            width: 5,
-            child: forExport == 0 ? Tooltip(
-                message: 'Unprotected',
-                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-          )));
-
-
-
-          // 7 Energy Levels
-          rowData[7].cells.add(DataCell(Container(
-            height: 5,
-            width: 5,
-            child: forExport == 0 ? Tooltip(
-                message: 'Unprotected',
-                child: Icon(Icons.circle, color: green, size: 10,)) : Icon(Icons.circle, color: green, size: 10,),
-          )));
-
-
-        } else {
-          rowData[0].cells.add(DataCell(Text("")));
-          rowData[1].cells.add(DataCell(Text("")));
-          rowData[2].cells.add(DataCell(Text("")));
-          rowData[3].cells.add(DataCell(Text("")));
-          rowData[4].cells.add(DataCell(Text("")));
-          rowData[5].cells.add(DataCell(Text("")));
-          rowData[6].cells.add(DataCell(Text("")));
-          rowData[7].cells.add(DataCell(Text("")));
-        }
-      });
-
-
-
+            child: Text('${DateFormat.MMMd().format(log.timestamp!)}'
+            )),
+        ));
+        rowData[1].cells.add(DataCell(Text("")));
+        rowData[2].cells.add(DataCell(Text("")));
+        rowData[3].cells.add(DataCell(Text("")));
+        rowData[4].cells.add(DataCell(Text("")));
+        rowData[5].cells.add(DataCell(Text("")));
+        rowData[6].cells.add(DataCell(Text("")));
+        rowData[7].cells.add(DataCell(Text("")));
+      }
     }
+
+
+    print("COLUMNDATA:");
+    print(columnData.length);
+
+    print("ROWDATA:");
+    print("1: ${rowData[0].cells.length}");
+    print("2: ${rowData[1].cells.length}");
+    print("3: ${rowData[2].cells.length}");
+    print("4: ${rowData[3].cells.length}");
+    print("5: ${rowData[4].cells.length}");
+    print("6: ${rowData[5].cells.length}");
+    print("7: ${rowData[6].cells.length}");
+    print("8: ${rowData[7].cells.length}");
+
+
+
+    print("line5");
 
     return Padding(
       padding: EdgeInsets.all(20),
@@ -470,7 +528,7 @@ class _GraphScreenState extends State<GraphScreen> {
                 child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: DataTable(
-                        columnSpacing: 5,
+                        columnSpacing: 20,
                         columns: columnData, rows: rowData)),
               )),
 
@@ -478,6 +536,8 @@ class _GraphScreenState extends State<GraphScreen> {
         ],
       ),
     );
+
+
   }
 
 }

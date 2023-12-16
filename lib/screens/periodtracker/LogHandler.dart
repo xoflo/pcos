@@ -22,21 +22,57 @@ class LogHandler {
 
     return forExport == 0 ? si == 0 ? Text("") : Tooltip(
         message: message,
-        child: Icon(Icons.circle, color: green, size: 10,)) : si == 0 ? Text("") : Icon(Icons.circle, color: green, size: 10);
+        child: Icon(Icons.circle, color: green, size: 10)) : si == 0 ? Text("") : Icon(Icons.circle, color: green, size: 10);
   }
 
-  handlePeriod(int forExport, int prd) {
+  Widget handlePeriod(int forExport, int prd, int prds) {
+    String message = "";
+    String spotting = "";
+
+    switch(prds) {
+      case 0:
+        spotting = "Spotting: None";
+        break;
+      case 1:
+        spotting = "Spotting: Yes";
+        break;
+    }
+
+    switch(prd) {
+      case 1:
+        message = "Light";
+        break;
+      case 2:
+        message = "Medium";
+        break;
+      case 3:
+        message = "Heavy";
+        break;
+    }
+
+    return forExport == 0 ? prd != 0 ? Tooltip(
+      message: "$message\n$spotting",
+      child: Icon(Icons.circle, color: green, size: 10),
+    ) : Text("") : prd != 0 ? Icon(Icons.circle, color: green, size: 10) : Text("");
+
+
 
   }
 
 
-  handleProgesterone(int forExport, int pgrs) {
+  Widget handleProgesterone(int forExport, int pgrs) {
+
+
+    return forExport == 0 ? pgrs == 0 ? Text("") : Tooltip(
+      message: 'Yes',
+      child: Icon(Icons.circle, color: green, size: 10),
+    ) : pgrs == 0 ? Text("") : Icon(Icons.circle, color: green, size: 10);
 
   }
 
 
 
-  handleMood(int forExport, List<int> moods) {
+  Widget handleMood(int forExport, List<int> moods) {
 
     List<String> messages = [];
 
@@ -76,19 +112,15 @@ class LogHandler {
     final message = messages.join(", ").toString();
 
 
-    if (forExport == 0) {
-      return Tooltip(
-        message: message,
-        child: Icon(Icons.circle, color: green, size: 10,),
-      );
+    return forExport == 0 ? Tooltip(
+      message: message,
+      child: Icon(Icons.circle, color: green, size: 10,),
+    ): Icon(Icons.circle, color: green, size: 10);
 
-    } else {
-      return Icon(Icons.circle, color: green, size: 10);
-    }
   }
 
 
-  handleSymptoms(int forExport, List<int> symptoms) {
+  Widget handleSymptoms(int forExport, List<int> symptoms) {
 
     List<String> messages = [];
 
@@ -128,18 +160,41 @@ class LogHandler {
     final message = messages.join(", ").toString();
 
 
-    if (forExport == 0) {
-      return Tooltip(
-        message: message,
-        child: Icon(Icons.circle, color: green, size: 10,),
-      );
+    return forExport == 0 ? Tooltip(
+      message: message,
+      child: Icon(Icons.circle, color: green, size: 10)
+    ) : Icon(Icons.circle, color: green, size: 10);
 
-    } else {
-      return Icon(Icons.circle, color: green, size: 10);
-    }
   }
 
-  handleEnr(int forExport, int enr) {
+  Widget handleEnr(int forExport, int enr) {
+    String message = "";
+
+    switch(enr) {
+      case 0:
+        message = "Exhausted";
+        break;
+      case 1:
+        message = "Fatigue";
+        break;
+      case 2:
+        message = "Flat";
+        break;
+      case 3:
+        message = "Mediocre";
+        break;
+      case 4:
+        message = "Reasonably Energetic";
+        break;
+      case 5:
+        message = "Energetic";
+        break;
+    }
+
+    return forExport == 0 ? enr != 0 ? Tooltip(
+      message: message,
+      child: Icon(Icons.circle, color: green, size: 10),
+    ) : Text("") : enr != 0 ? Icon(Icons.circle, color: green, size: 10) : Text("");
 
   }
 

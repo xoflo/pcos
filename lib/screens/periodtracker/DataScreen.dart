@@ -786,10 +786,10 @@ class _DataScreenState extends State<DataScreen> {
     final uri = Uri.parse(url);
 
 
-    final log = PeriodLog(
+    PeriodLog log = PeriodLog(
         temperatureToggle,
-        temperatureToggle == false ? null : tempValue,
-        temperatureToggle == true ? null : tempValue,
+        temperatureToggle == false ? tempValue : null,
+        temperatureToggle == true ? tempValue : null,
         cervicalMucusToggle,
         sexualIntercourseToggle,
         periodTrackingLogToggle,

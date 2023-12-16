@@ -3,6 +3,36 @@ import 'package:thepcosprotocol_app/screens/periodtracker/periodLog.dart';
 import 'dart:convert';
 import '../../controllers/authentication_controller.dart';
 
+
+class GlobalPeriodLogAPI {
+
+  GlobalPeriodLogAPI._init();
+
+  // Singleton instance variable
+  static final GlobalPeriodLogAPI _instance = GlobalPeriodLogAPI._init();
+
+  // Getter to access the instance
+  static GlobalPeriodLogAPI get instance => _instance;
+
+  // Add properties or methods for your Singleton
+  LogRequestAPI logRequestAPI = LogRequestAPI();
+
+  init() async {
+    if (logRequestAPI.initStatus == false) {
+      await logRequestAPI.initAPI();
+    }
+    return;
+
+  }
+
+  Future<bool> getStatus() async {
+    return logRequestAPI.initStatus;
+  }
+}
+
+
+
+
 class LogRequestAPI {
   List<PeriodLog> responses = [];
   List<int> years = [];
@@ -13,6 +43,8 @@ class LogRequestAPI {
 
   String dateNow = DateTime.now().toUtc().toString();
 
+  bool initStatus = false;
+
   Future<void> initAPI() async {
     token = await AuthenticationController().getAccessToken();
     print(token);
@@ -21,9 +53,8 @@ class LogRequestAPI {
       await _retrieveRequest().then((value) async {
         await _getYears().then((value) async {
           await _getResponsesByYear().then((value) async {
-            await _getResponsesByMonths().then((value) async {
-              await _getCyclesInAYear();
-            });
+            await _getCyclesInAYear();
+            initStatus = true;
           });
         });
       });
@@ -69,7 +100,7 @@ class LogRequestAPI {
 
       print('Line1');
       List<Map<String, dynamic>> _entries = _generateRequests(
-          DateTime.parse("2023-12-08 06:00:00"), DateTime.now());
+          DateTime.parse("2023-12-16 00:00:00"), DateTime.now());
 
       print("Line2");
 
@@ -137,13 +168,14 @@ class LogRequestAPI {
           if (response.statusCode == 200) {
             print('POST Success');
 
-            List<dynamic> result = await jsonDecode(response.body)['payload'];
+            final List<dynamic> result = await jsonDecode(response.body)['payload'];
 
             print(result);
 
-            result.forEach((element) {
-              results.add(element);
-            });
+            for (int z = 0; z < result.length; z++) {
+
+              results.add(result[z]);
+            }
 
             print(response.headers);
             print('Response: ${response.headers}');
@@ -185,6 +217,8 @@ class LogRequestAPI {
 
     _entries.add(
         {"TrackerName": "TEMPC", "DateFromUTC": "$from", "DateToUTC": "$to"});
+
+
 
     _entries
         .add({"TrackerName": "CM", "DateFromUTC": "$from", "DateToUTC": "$to"});
@@ -378,6 +412,9 @@ class LogRequestAPI {
 
 
           if (cycles[y].timestamp!.compareTo(cycles[y + 1].timestamp!) >= 7) {
+
+            ongoingCycle.clear();
+
             List<PeriodLog>? newCycle = logs
                 ?.where((log) => log.timestamp!.isBefore(cycles[y].timestamp!))
                 .toList();
@@ -389,30 +426,22 @@ class LogRequestAPI {
 
             print("else");
 
-            print("Line1");
-            List<PeriodLog>? ongoingCycleHere = [];
 
             print("Line2");
-            ongoingCycleHere.add(cycles[y]);
-            print("Line3");
-            ongoingCycleHere = logs
-                ?.where((log) => log.timestamp!.isAfter(cycles[y].timestamp!))
-                .toList();
-
-            print("Line4");
-            ongoingCycle = ongoingCycleHere;
+            ongoingCycle.add(cycles[y]);
             print("Line5");
 
           }
 
         } catch(e) {
 
+          ongoingCycle.add(cycles[y]);
         }
 
       }
 
       print("Line6");
-      listOfCycles.add(ongoingCycle!);
+      listOfCycles.add(ongoingCycle);
       print("Line7");
 
       await Future.delayed(Duration(seconds: 4));

@@ -106,31 +106,6 @@ class _PeriodTrackerDashboardState extends State<PeriodTrackerDashboard> {
                         ),
                       ),
 
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)
-                        ),
-                        color: backgroundColor,
-                        child: GestureDetector(
-                          onTap: () {
-                           // Navigator.push(context, MaterialPageRoute(builder: (_) => GraphScreen(cycleDate: '', periodDuration: '') ));
-                          },
-                          child: Container(
-                            height: 100,
-                            width: 250,
-                            child: Center(
-                              child: Text("Tracker Graph", textAlign: TextAlign.center,style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: onboardingBackground,
-                                fontSize: 30,
-                              ),),
-                            ),
-                          ),
-                        ),
-                      ),
 
                       /*
                       Container(

@@ -27,15 +27,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
   static const pink = Color(0xFFFFC6C2);
   static const red = Color(0xFFFB4A44);
 
-  LogRequestAPI requestAPI = LogRequestAPI();
 
-
-  Future<LogRequestAPI> initAPI() async {
-
-    await requestAPI.initAPI();
-    return requestAPI;
+  loadLogRequestAPI() async {
+    await Future.delayed(Duration(seconds: 2));
+    final result = await GlobalPeriodLogAPI.instance.getStatus();
+    return refresher(result);
   }
 
+  refresher(bool result) async {
+    if (result == false) {
+      return await loadLogRequestAPI();
+    } else {
+      return result;
+    }
+  }
 
 
   @override
@@ -52,13 +57,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
       body: Container(
         margin: EdgeInsets.all(20),
         child: FutureBuilder(
-          future: initAPI(),
-          builder: (context, AsyncSnapshot<LogRequestAPI> snapshot) {
+          future: loadLogRequestAPI(),
+          builder: (context, AsyncSnapshot<dynamic> snapshot) {
 
-            final api = snapshot.data;
+            LogRequestAPI requestAPI = GlobalPeriodLogAPI.instance.logRequestAPI;
 
 
-            return snapshot.connectionState == ConnectionState.done ? ListView.builder(
+            return snapshot.data == true ? ListView.builder(
                 itemCount: requestAPI.years.length,
                 itemBuilder: (context, i) {
 
@@ -66,13 +71,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
                   return InkWell(
                     onTap: () {
-                      navigateToScreenDetailList("${requestAPI.years[i]}", api);
+                      navigateToScreenDetailList("${requestAPI.years[i]}", requestAPI);
                     },
                     child: Card(
                       elevation: 5,
                       child: Container(
                         color: green,
-                        height: 200,
+                        height: 120,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -103,9 +108,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
 
   navigateToScreenDetailList(String year, LogRequestAPI? api) {
-    print("CycleTest: ${requestAPI.cyclesInAYear}");
+    print("CycleTest: ${api!.cyclesInAYear}");
 
-    Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryScreenDetailList(year: year, cycles: requestAPI.cyclesInAYear)));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryScreenDetailList(year: year, cycles: api.cyclesInAYear)));
   }
 
 
@@ -126,20 +131,12 @@ class HistoryScreenDetailList extends StatefulWidget {
 
 class _HistoryScreenDetailListState extends State<HistoryScreenDetailList> {
 
-  List<List<PeriodLog>>? cyclesNow;
-
-  @override
-  void initState() {
-
-    cyclesNow = widget.cycles!['${widget.year}'];
-
-    super.initState();
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       backgroundColor: secondaryColor,
       appBar: AppBar(
@@ -152,21 +149,23 @@ class _HistoryScreenDetailListState extends State<HistoryScreenDetailList> {
       body: Container(
         margin: EdgeInsets.all(20),
         child: ListView.builder(
-            itemCount: cyclesNow!.length,
+            itemCount: widget.cycles!['${widget.year}']!.length,
             itemBuilder: (context, i) {
               return Card(
                 elevation: 2,
                 child: ListTile(
-                  title: Text("${DateFormat.MMMMd().format(cyclesNow![i].first.timestamp!)} - ${DateFormat.MMMMd().format(cyclesNow![i].last.timestamp!)}"),
-                  subtitle: Text("${cyclesNow![i].first.timestamp!.compareTo(cyclesNow![i].last.timestamp!)}-Day Period"),
+                  title: Text("${DateFormat.MMMMd().format(widget.cycles!['${widget.year}']![i].first.timestamp!)} - ${DateFormat.MMMMd().format(widget.cycles!['${widget.year}']![i].last.timestamp!)}"),
+                  subtitle: Text("${widget.cycles!['${widget.year}']![i].first.timestamp!.compareTo(widget.cycles!['${widget.year}']![i].last.timestamp!).abs()}-Day Period"),
                   onTap: () {
-                    navigateToHistoryScreenDetail(cyclesNow![i]);
+                    navigateToHistoryScreenDetail(widget.cycles!['${widget.year}']![i]);
                   },
                 ),
               );
 
             }),
       ),
+
+
     );
   }
 

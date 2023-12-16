@@ -51,9 +51,11 @@ class PeriodLog {
 
       if (json[i]['trackerName'] == 'TEMPF') {
         tempf = json[i]['trackerValue'];
+        print("TempF: $tempf");
       }
       if (json[i]['trackerName'] == 'TEMPC') {
         tempc = json[i]['trackerValue'];
+        print("TempC: $tempc");
       }
       if (json[i]['trackerName'] == 'CM') {
         double result = json[i]['trackerValue'];
@@ -110,12 +112,12 @@ class PeriodLog {
   }
 
   List<Map<String, dynamic>> toJSON() {
+    _generateTemperatureInBothUnits();
     _generatePostRequestBody();
     return _entries;
   }
 
   _generatePostRequestBody() {
-    _generateTemperatureInBothUnits();
 
     if (temperatureF != null) {
       _entries.add({
@@ -209,13 +211,16 @@ class PeriodLog {
 
 
   _generateTemperatureInBothUnits() {
-    if (temperatureToggle == false) {
+    if (temperatureF == null) {
       final c = Temperature(temperatureC!, 'C');
       temperatureF = c.valueIn('F').toDouble();
-    } else {
-      final f = Temperature(temperatureF!, 'F');
-      temperatureF = f.valueIn('C').toDouble();
     }
+
+    if (temperatureC == null) {
+      final f = Temperature(temperatureF!, 'F');
+      temperatureC = f.valueIn('C').toDouble();
+    }
+
   }
 
 }
