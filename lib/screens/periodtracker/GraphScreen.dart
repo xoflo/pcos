@@ -224,7 +224,7 @@ class _GraphScreenState extends State<GraphScreen> {
         rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         leftTitles: AxisTitles(
-          axisNameWidget: Text("°C", style: TextStyle(color: green)),
+          axisNameWidget: Text(tempToggle == false ? "°C" : "°F", style: TextStyle(color: green)),
             axisNameSize: 25,
             sideTitles: SideTitles(
                 getTitlesWidget: (double value, TitleMeta meta) {
