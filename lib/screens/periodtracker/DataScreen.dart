@@ -285,7 +285,7 @@ class _DataScreenState extends State<DataScreen> {
                               backgroundColor: Colors.grey,
                               content: Container(
                                   width: 200,
-                                  height: 100,
+                                  height: 200,
                                   child: Text(
                                       "Cervical fluid is not present, or is thick or creamy for most of your cycle (enter as 'no cervical fluid'). However, just before ovulation,\nor when our body is trying to ovulate this becomes wet, slippery and egg white consistency (enter as 'Have Cervical Fluid').")),
                             ));
