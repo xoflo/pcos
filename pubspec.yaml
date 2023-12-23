@@ -72,6 +72,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   dio: 4.0.1
   converter: ^0.3.6
+  scroll_date_picker: ^3.7.3
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1

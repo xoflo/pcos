@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:ui';
 import 'package:thepcosprotocol_app/constants/secure_storage_keys.dart'
@@ -10,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:thepcosprotocol_app/screens/periodtracker/periodLog.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 class DataScreen extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _DataScreenState extends State<DataScreen> {
   int periodTrackingLogToggle = 0;
   int periodSpottingToggle = 0;
 
-  List<int> symptomsToggle = [9];
+  List<int> symptomsToggle = [10];
   List<int> moodsToggle = [9];
 
   int energyTrackingToggle = 0;
@@ -43,13 +43,15 @@ class _DataScreenState extends State<DataScreen> {
 
   // List<Color> pallete = [orange, sand, blue, red, green];
 
-  String dateNow = '';
+  String dateNowDisplay = '';
+  DateTime? dateSelected;
 
   @override
   void initState() {
     final DateTime now = DateTime.now();
+    dateSelected = now;
     final DateFormat formatter = DateFormat('dd MMMM yyyy');
-    dateNow = formatter.format(now);
+    dateNowDisplay = formatter.format(now);
 
     super.initState();
   }
@@ -134,7 +136,7 @@ class _DataScreenState extends State<DataScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text('$dateNow', style: TextStyle(color: red))
+                    Text('$dateNowDisplay', style: TextStyle(color: red))
                   ],
                 ),
               ),
@@ -154,9 +156,31 @@ class _DataScreenState extends State<DataScreen> {
   }
 
   Widget dateTime() {
-    return Text(
-      '$dateNow',
-      style: TextStyle(color: red, fontWeight: FontWeight.w700),
+    return InkWell(
+      child: Text(
+        '$dateNowDisplay',
+        style: TextStyle(color: red, fontWeight: FontWeight.w700),
+      ),
+      onTap: () {
+        showDialog(context: context, builder: (_) => AlertDialog(
+          content: Container(
+            height: 150,
+            width: 150,
+            child: ScrollDatePicker(
+              selectedDate: DateTime.parse("$dateSelected"),
+              locale: Locale('en'),
+              onDateTimeChanged: (DateTime value) {
+                setState(() {
+                  dateSelected = value;
+                  final DateFormat formatter = DateFormat('dd MMMM yyyy');
+                  dateNowDisplay = formatter.format(value);
+
+                });
+              },
+            ),
+          ),
+        ));
+      },
     );
   }
 
@@ -185,11 +209,13 @@ class _DataScreenState extends State<DataScreen> {
                     },
                     maxLength: 7,
                     decoration: InputDecoration(
+                      counterText: "",
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                         borderSide: BorderSide(width: 1, color: green),
                       ),
-                      hintText: 'ex: 30.00',
+                      hintText:
+                          'ex: ${temperatureToggle == false ? 97.00 : 36.4}',
                     ),
                   ),
                 ),
@@ -568,7 +594,7 @@ class _DataScreenState extends State<DataScreen> {
                     width: 340,
                     child: GridView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: 8,
+                      itemCount: 9,
                       itemBuilder: (context, i) {
                         return Container(
                           height: 200,
@@ -579,12 +605,12 @@ class _DataScreenState extends State<DataScreen> {
                                 if (symptomsToggle.contains(i)) {
                                   symptomsToggle.remove(i);
                                   if (symptomsToggle.isEmpty) {
-                                    symptomsToggle.add(9);
+                                    symptomsToggle.add(10);
                                   }
                                 } else {
                                   symptomsToggle.add(i);
                                   if (symptomsToggle.isNotEmpty) {
-                                    symptomsToggle.remove(9);
+                                    symptomsToggle.remove(10);
                                   }
                                 }
                               });
@@ -610,7 +636,9 @@ class _DataScreenState extends State<DataScreen> {
                                                             ? 'Headache'
                                                             : i == 7
                                                                 ? 'Acne'
-                                                                : 'None',
+                                                                : i == 8
+                                                                    ? 'Bloating'
+                                                                    : 'None',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: symptomsToggle.contains(i)
@@ -785,7 +813,6 @@ class _DataScreenState extends State<DataScreen> {
 
     final uri = Uri.parse(url);
 
-
     PeriodLog log = PeriodLog(
         temperatureToggle,
         temperatureToggle == false ? tempValue : null,
@@ -798,22 +825,18 @@ class _DataScreenState extends State<DataScreen> {
         energyTrackingToggle,
         symptomsToggle,
         moodsToggle,
-        dateNow
-    );
+        dateNow);
 
     List<Map<String, dynamic>> body = log.toJSON();
 
     try {
-
-
       await AuthenticationController().getAccessToken().then((realToken) async {
         print(realToken);
 
         final response = await http.post(uri, body: jsonEncode(body), headers: {
           "Authorization": "Bearer $realToken",
-          "Content-Type" : "application/json"
-        }
-        );
+          "Content-Type": "application/json"
+        });
 
         if (response.statusCode == 200) {
           print('POST Success');

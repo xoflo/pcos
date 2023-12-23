@@ -41,7 +41,12 @@ class _PeriodTrackerDashboardState extends State<PeriodTrackerDashboard> {
       backgroundColor: onboardingBackground,
       appBar: AppBar(
         title: Text("Period Tracker", style: TextStyle(color: backgroundColor)),
-        leading: Icon(Icons.chevron_left, color: backgroundColor),
+        leading: InkWell(
+          child: Icon(Icons.chevron_left, color: backgroundColor),
+          onTap: () {
+            Navigator.pop(context);
+          }
+        ),
         backgroundColor: primaryColor,
       ),
       body: Container(
