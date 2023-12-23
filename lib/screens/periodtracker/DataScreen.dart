@@ -809,7 +809,6 @@ class _DataScreenState extends State<DataScreen> {
   recordLog() async {
     final url =
         'https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/periodtracker/record';
-    final dateNow = DateTime.now().toUtc();
 
     final uri = Uri.parse(url);
 
@@ -825,7 +824,7 @@ class _DataScreenState extends State<DataScreen> {
         energyTrackingToggle,
         symptomsToggle,
         moodsToggle,
-        dateNow);
+        dateSelected);
 
     List<Map<String, dynamic>> body = log.toJSON();
 
