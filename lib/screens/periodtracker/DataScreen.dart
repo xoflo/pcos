@@ -6,6 +6,7 @@ import 'package:emojis/emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:thepcosprotocol_app/screens/periodtracker/LogRequestAPI.dart';
 import 'package:thepcosprotocol_app/screens/periodtracker/periodLog.dart';
 import 'package:thepcosprotocol_app/styles/colors.dart';
 import 'package:thepcosprotocol_app/controllers/authentication_controller.dart';
@@ -45,6 +46,7 @@ class _DataScreenState extends State<DataScreen> {
 
   String dateNowDisplay = '';
   DateTime? dateSelected;
+
 
   @override
   void initState() {
@@ -100,9 +102,22 @@ class _DataScreenState extends State<DataScreen> {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              title: Text(
-                "Confirm Log Today?",
-                style: TextStyle(color: red),
+              title: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Confirm Log Date?",
+                      style: TextStyle(color: red),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Existing log on date will be overwritten",
+                      style: TextStyle(color: Colors.grey),
+                      textScaleFactor: 0.8,
+                    ),
+                  ],
+                ),
               ),
               content: Container(
                 height: 150,
@@ -124,8 +139,44 @@ class _DataScreenState extends State<DataScreen> {
                           ),
                         ),
                         onTap: () async {
-                          await recordLog();
+
                           Navigator.pop(context);
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                content: Container(
+                                  height: 150,
+                                  width: 150,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          child: CircularProgressIndicator(
+                                            color: green,
+                                          ),
+                                        ),
+                                        SizedBox(height: 15),
+                                        Text("Updating Cycles...",
+                                            style: TextStyle(color: green),
+                                            textScaleFactor: 0.9)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ));
+
+                          await clearLogByDate();
+                          print("ClearDate");
+                          await recordLog();
+                          print("RecordDate");
+                          Navigator.pop(context);
+                          GlobalPeriodLogAPI.instance.logRequestAPI.setStatus(false);
+                          GlobalPeriodLogAPI.instance.logRequestAPI.initAPI();
+
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               backgroundColor: red,
                               content: Text(
@@ -136,7 +187,7 @@ class _DataScreenState extends State<DataScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text('$dateNowDisplay', style: TextStyle(color: red))
+                    Text('$dateNowDisplay', style: TextStyle(color: red), textScaleFactor: 1.2)
                   ],
                 ),
               ),
@@ -162,24 +213,37 @@ class _DataScreenState extends State<DataScreen> {
         style: TextStyle(color: red, fontWeight: FontWeight.w700),
       ),
       onTap: () {
-        showDialog(context: context, builder: (_) => AlertDialog(
-          content: Container(
-            height: 150,
-            width: 150,
-            child: ScrollDatePicker(
-              selectedDate: DateTime.parse("$dateSelected"),
-              locale: Locale('en'),
-              onDateTimeChanged: (DateTime value) {
-                setState(() {
-                  dateSelected = value;
-                  final DateFormat formatter = DateFormat('dd MMMM yyyy');
-                  dateNowDisplay = formatter.format(value);
-
-                });
-              },
-            ),
-          ),
-        ));
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  content: Container(
+                    height: 150,
+                    width: 150,
+                    child: StatefulBuilder(builder: (BuildContext context, void Function(void Function()) setState) {
+                      return ScrollDatePicker(
+                        minimumDate: DateTime.utc(2000, 1, 1),
+                        maximumDate: DateTime.utc(2060, 1, 1),
+                        selectedDate: DateTime.parse("$dateSelected"),
+                        locale: Locale('en'),
+                        onDateTimeChanged: (DateTime value) {
+                          setState(() {
+                            dateSelected = value;
+                            print(dateSelected);
+                            final DateFormat formatter =
+                            DateFormat('dd MMMM yyyy');
+                            dateNowDisplay = formatter.format(value);
+                          });
+                        },
+                      );
+                    },),
+                  ),
+              actions: [
+                TextButton(onPressed: () {
+                  this.setState(() {});
+                  Navigator.pop(context);
+                }, child: Text("Done", style: TextStyle(color: green),))
+              ],
+                ));
       },
     );
   }
@@ -205,7 +269,13 @@ class _DataScreenState extends State<DataScreen> {
                   child: TextField(
                     controller: tempController,
                     onChanged: (value) {
-                      tempValue = double.parse(value);
+                      try {
+                        tempValue = double.parse(value);
+                      } catch(e) {
+                        tempValue = 0;
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Value must be number"), backgroundColor: red));
+                      }
+
                     },
                     maxLength: 7,
                     decoration: InputDecoration(
@@ -849,6 +919,66 @@ class _DataScreenState extends State<DataScreen> {
           print(response.headers);
           print(response.bodyBytes);
           print(response.reasonPhrase);
+        }
+      });
+    } catch (e) {
+      print(e);
+      return;
+    }
+  }
+
+  clearLogByDate() async {
+    final from = dateSelected;
+    final to = dateSelected!
+        .add(Duration(hours: 23))
+        .add(Duration(minutes: 59))
+        .add(Duration(seconds: 59));
+
+    print("to: $from");
+    print("to: $to");
+
+    List<Map<String, dynamic>> bodies = [
+      {"TrackerName": "TEMPF", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "TEMPC", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "CM", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "SI", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "PRD", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "PRDS", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "PGS", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "ENR", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "SYMP", "DateFromUTC": "$from", "DateToUTC": "$to"},
+      {"TrackerName": "MOOD", "DateFromUTC": "$from", "DateToUTC": "$to"},
+    ];
+
+    final url =
+        'https://z-pcos-protocol-api-as-ae-pr.azurewebsites.net/api/periodtracker/bydaterange';
+
+    final uri = Uri.parse(url);
+
+    try {
+      await AuthenticationController().getAccessToken().then((realToken) async {
+        print(realToken);
+
+        for (int i = 0; i < bodies.length; i++) {
+          final response = await http.delete(uri,
+              body: jsonEncode(bodies[i]),
+              headers: {
+                "Authorization": "Bearer $realToken",
+                "Content-Type": "application/json"
+              });
+
+          if (response.statusCode == 200) {
+            print('POST Success');
+            print(response.body);
+            print(response.headers);
+            print('Response: ${response.headers}');
+          } else {
+            print("Failed to make POST");
+            print(response.body);
+            print(response.headers);
+            print(response.bodyBytes);
+            print(response.reasonPhrase);
+          }
         }
       });
     } catch (e) {

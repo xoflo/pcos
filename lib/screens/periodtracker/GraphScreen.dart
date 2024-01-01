@@ -190,7 +190,7 @@ class _GraphScreenState extends State<GraphScreen> {
 
       print("C: ${widget.cycle![i].temperatureC}");
       print("F: ${widget.cycle![i].temperatureF}");
-      spots.add(FlSpot(i.toDouble() + 1, tempToggle == false ? widget.cycle![i].temperatureC! : widget.cycle![i].temperatureF!));
+      spots.add(FlSpot(i.toDouble() + 1, tempToggle == false ? (widget.cycle![i].temperatureC! < 34  ? 34 : widget.cycle![i].temperatureC! > 39 ? 39 : widget.cycle![i].temperatureC!) : (widget.cycle![i].temperatureF! < 94  ? 94 : widget.cycle![i].temperatureF! > 102 ? 102 : widget.cycle![i].temperatureF!)));
 
     }
 
@@ -299,7 +299,7 @@ class _GraphScreenState extends State<GraphScreen> {
                           gridData: grid,
                           titlesData: titles,
                           minX: 1,
-                          maxX: widget.cycle!.length.toDouble(),
+                          maxX: widget.cycle!.length.toDouble() == 1 ? 2.0: widget.cycle!.length.toDouble(),
                           minY: tempToggle == false ? 34 : 93.2,
                           maxY: tempToggle == false ? 39 : 102.2,
                           lineBarsData: [

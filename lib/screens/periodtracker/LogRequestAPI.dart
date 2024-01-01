@@ -33,6 +33,8 @@ class GlobalPeriodLogAPI {
 
 
 
+
+
 class LogRequestAPI {
   List<PeriodLog> responses = [];
   List<int> years = [];
@@ -44,6 +46,11 @@ class LogRequestAPI {
   String dateNow = DateTime.now().toUtc().toString();
 
   bool initStatus = false;
+
+
+  void setStatus(bool value) {
+    initStatus = value;
+  }
 
   Future<void> initAPI() async {
     token = await AuthenticationController().getAccessToken();
@@ -100,7 +107,7 @@ class LogRequestAPI {
 
       print('Line1');
       List<Map<String, dynamic>> _entries = _generateRequests(
-          DateTime.parse("2023-12-16 00:00:00"), DateTime.now());
+          DateTime.parse("2024-01-01 00:00:00"), DateTime.now().add(Duration(days: 31)));
 
       print("Line2");
 
@@ -218,8 +225,6 @@ class LogRequestAPI {
     _entries.add(
         {"TrackerName": "TEMPC", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
-
-
     _entries
         .add({"TrackerName": "CM", "DateFromUTC": "$from", "DateToUTC": "$to"});
 
@@ -291,6 +296,146 @@ class LogRequestAPI {
 
     return;
   }
+
+  _getCyclesInAYear() async {
+    print("getCyclesInAYearStart");
+
+    Map<String, List<List<PeriodLog>>> cyclesInAYearHere = {};
+
+    print("line1");
+    for (int i = 0; i < years.length; i++) {
+      List<PeriodLog>? logs = responsesByYear?["${years[i]}"];
+
+
+      logs!.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
+
+      await Future.delayed(Duration(seconds: 2));
+
+      print("logs: $logs");
+
+      print("logsLength: ${logs.length}");
+
+      int? length = logs.length;
+
+      List<PeriodLog> cycles = [];
+      List<PeriodLog> nonPeriod = [];
+
+      print("line2");
+      print(length);
+
+      for (int z = 0; z < length; z++) {
+        print("period: ${logs[z].period}");
+        print(z);
+        if (logs[z].period != 0) {
+          print("periodNotZero: ${logs[z].period}");
+          cycles.add(logs[z]);
+        } else {
+          nonPeriod.add(logs[z]);
+        }
+      }
+
+      List<List<PeriodLog>> listOfCycles = [];
+      List<PeriodLog>? ongoingCycle = [];
+
+
+      if (cycles.isEmpty) {
+        if (nonPeriod.isNotEmpty) {
+          listOfCycles.add(nonPeriod);
+        }
+      } else {
+        for (int y = 0; y < cycles.length; y++) {
+          print("insideLoop: ${cycles[y].timestamp}");
+
+          try {
+
+            if (y == 0) {
+              final toAdd = nonPeriod.where((element) => element.timestamp!.compareTo(cycles[y].timestamp!) == -1).toList();
+
+              if (toAdd.isNotEmpty) {
+                listOfCycles.add(toAdd);
+              }
+            }
+
+            if (y == cycles.length - 1) {
+              final toAdd = nonPeriod.where((element) => element.timestamp!.compareTo(cycles[y].timestamp!) == 1).toList();
+
+              if (toAdd.isNotEmpty) {
+                listOfCycles.add(toAdd);
+              }
+            }
+
+            print("Bool: ${cycles[y].timestamp!.difference(cycles[y + 1].timestamp!).inDays.abs()}");
+
+            if (cycles[y].timestamp!.difference(cycles[y + 1].timestamp!).inDays.abs() >= 7) {
+
+              ongoingCycle.clear();
+
+              List<PeriodLog>? newCycle = logs
+                  .where((log) => log.timestamp!.isBefore(cycles[y].timestamp!))
+                  .toList();
+
+
+              newCycle.add(cycles[y]);
+              listOfCycles.add(newCycle);
+            } else {
+
+              print("else");
+
+
+              print("Line2");
+
+              if (ongoingCycle.isNotEmpty) {
+                ongoingCycle.add(cycles[y]);
+              }
+              print("Line5");
+
+            }
+
+          } catch(e) {
+
+            ongoingCycle.add(cycles[y]);
+          }
+
+        }
+      }
+
+
+      print("Line6");
+      if (ongoingCycle.isNotEmpty) {
+        listOfCycles.add(ongoingCycle);
+      }
+      print("Line7");
+
+      await Future.delayed(Duration(seconds: 2));
+
+      print("ListOfCycles: $listOfCycles");
+
+      Map<String, List<List<PeriodLog>>> newYearWithCycles = {
+        '${years[i]}': listOfCycles
+      };
+
+      print("line4");
+      cyclesInAYearHere.addEntries(newYearWithCycles.entries);
+    }
+
+    print(cyclesInAYearHere);
+
+    cyclesInAYear = cyclesInAYearHere;
+    await Future.delayed(Duration(seconds: 2));
+
+    print("line5");
+
+    print(cyclesInAYear);
+
+    return;
+  }
+}
+
+
+
+
+/*
+
 
   Future<void> _getResponsesByMonths() async {
     print("getResponsesByMonthsStart");
@@ -367,104 +512,4 @@ class LogRequestAPI {
 
     print(responsesInYearByMonth);
   }
-
-  _getCyclesInAYear() async {
-    print("getCyclesInAYearStart");
-
-    Map<String, List<List<PeriodLog>>> cyclesInAYearHere = {};
-
-    print("line1");
-    for (int i = 0; i < years.length; i++) {
-      List<PeriodLog>? logs = responsesByYear?["${years[i]}"];
-
-      print("logs: $logs");
-
-      print("logsLength: ${logs?.length}");
-
-      int? length = logs?.length;
-
-      List<PeriodLog> cycles = [];
-
-      print("line2");
-      print(length);
-
-      for (int z = 0; z < length!; z++) {
-        print("period: ${logs![z].period}");
-        print(z);
-        if (logs[z].period != 0) {
-          print("periodNotZero: ${logs[z].period}");
-          cycles.add(logs[z]);
-        }
-      }
-
-      List<List<PeriodLog>> listOfCycles = [];
-
-      List<PeriodLog>? ongoingCycle = [];
-
-      print("line3");
-      for (int y = 0; y < cycles.length; y++) {
-        print("insideLoop: ${cycles[y].timestamp}");
-
-        try {
-
-          print("Bool: ${cycles[y].timestamp!.compareTo(cycles[y + 1].timestamp!) > 6}");
-
-
-
-          if (cycles[y].timestamp!.compareTo(cycles[y + 1].timestamp!) >= 7) {
-
-            ongoingCycle.clear();
-
-            List<PeriodLog>? newCycle = logs
-                ?.where((log) => log.timestamp!.isBefore(cycles[y].timestamp!))
-                .toList();
-
-
-            newCycle?.add(cycles[y]);
-            listOfCycles.add(newCycle!);
-          } else {
-
-            print("else");
-
-
-            print("Line2");
-            ongoingCycle.add(cycles[y]);
-            print("Line5");
-
-          }
-
-        } catch(e) {
-
-          ongoingCycle.add(cycles[y]);
-        }
-
-      }
-
-      print("Line6");
-      listOfCycles.add(ongoingCycle);
-      print("Line7");
-
-      await Future.delayed(Duration(seconds: 4));
-
-      print("ListOfCycles: $listOfCycles");
-
-      Map<String, List<List<PeriodLog>>> newYearWithCycles = {
-        '${years[i]}': listOfCycles
-      };
-
-      print("line4");
-      cyclesInAYearHere.addEntries(newYearWithCycles.entries);
-    }
-
-    print(cyclesInAYearHere);
-
-    cyclesInAYear = cyclesInAYearHere;
-    await Future.delayed(Duration(seconds: 2));
-
-    print("line5");
-
-    print(cyclesInAYear);
-
-    return;
-  }
-}
+ */

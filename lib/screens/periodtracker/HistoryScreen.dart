@@ -74,6 +74,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       navigateToScreenDetailList("${requestAPI.years[i]}", requestAPI);
                     },
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                       elevation: 5,
                       child: Container(
                         color: green,
@@ -90,12 +93,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   );
 
                 }): Center(
-              child: Container(
-                height: 50,
-                width: 50,
-                child: CircularProgressIndicator(
-                  color: green,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 50,
+                    width: 50,
+                    child: CircularProgressIndicator(
+                      color: green,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text("Retrieving Cycles...", style: TextStyle(color: green),)
+                ],
               ),
             );
         }
@@ -155,7 +165,7 @@ class _HistoryScreenDetailListState extends State<HistoryScreenDetailList> {
                 elevation: 2,
                 child: ListTile(
                   title: Text("${DateFormat.MMMMd().format(widget.cycles!['${widget.year}']![i].first.timestamp!)} - ${DateFormat.MMMMd().format(widget.cycles!['${widget.year}']![i].last.timestamp!)}"),
-                  subtitle: Text("${widget.cycles!['${widget.year}']![i].first.timestamp!.compareTo(widget.cycles!['${widget.year}']![i].last.timestamp!).abs()}-Day Period"),
+                  subtitle: Text("${widget.cycles!['${widget.year}']![i].first.timestamp!.difference(widget.cycles!['${widget.year}']![i].last.timestamp!).inDays.abs()}-Day Cycle"),
                   onTap: () {
                     navigateToHistoryScreenDetail(widget.cycles!['${widget.year}']![i]);
                   },
